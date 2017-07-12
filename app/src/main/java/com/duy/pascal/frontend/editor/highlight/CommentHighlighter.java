@@ -22,7 +22,7 @@ import android.text.Editable;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 
-import com.duy.pascal.frontend.themefont.util.CodeTheme;
+import com.duy.pascal.frontend.themefont.themes.database.CodeTheme;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;

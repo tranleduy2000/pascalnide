@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.themefont.util;
+package com.duy.pascal.frontend.themefont.themes.database;
 
 import android.content.Context;
 
@@ -42,8 +42,6 @@ public class CodeThemeUtils {
             return R.style.CodeTheme_KFT2;
         } else if (name.equals(context.getString(R.string.Modnokai_Coffee))) {
             return R.style.CodeTheme_ModnokaiCoffee;
-        } else if (name.equals("tmp")) {
-            return R.style.CodeTheme_TMP;
         } else {
             return R.style.CodeTheme;
         }

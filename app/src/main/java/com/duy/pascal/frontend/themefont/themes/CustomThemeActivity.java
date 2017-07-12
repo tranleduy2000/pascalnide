@@ -17,17 +17,24 @@
 package com.duy.pascal.frontend.themefont.themes;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v7.app.AlertDialog;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.themefont.util.CodeTheme;
-import com.duy.pascal.frontend.themefont.util.ThemeManager;
+import com.duy.pascal.frontend.themefont.themes.database.CodeTheme;
+import com.duy.pascal.frontend.themefont.themes.database.ThemeDatabase;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
@@ -40,16 +47,90 @@ import java.io.IOException;
 public class CustomThemeActivity extends AbstractAppCompatActivity implements View.OnClickListener {
     private EditorView mEditorView;
     private CodeTheme codeTheme;
+    private ThemeDatabase mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        codeTheme = ThemeManager.getDefault(new PascalPreferences(this));
+        codeTheme = ThemeManager.getDefault(this);
+        mDatabase = new ThemeDatabase(this);
+
         setContentView(R.layout.acitivty_custom_theme);
         setupToolbar();
         setTitle(getString(R.string.custom_theme));
         bindView();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_theme, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                showDialogSave();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showDialogSave() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.dialog_save_theme);
+        builder.setTitle(R.string.custom_theme);
+        final AlertDialog alertDialog = builder.create();
+
+        alertDialog.show();
+        final EditText editText = (EditText) alertDialog.findViewById(R.id.edit_name);
+        View save = alertDialog.findViewById(R.id.btn_save);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (editText.getText().toString().isEmpty()) {
+                    editText.setError(getString(R.string.enter_new_file_name));
+                } else {
+                    String name = editText.getText().toString().trim();
+                    if (mDatabase.hasValue(name)) {
+                        editText.setError("Theme has been exits!");
+                    } else {
+                        mDatabase.insert(codeTheme);
+                        alertDialog.cancel();
+                        finish();
+                    }
+                }
+            }
+        });
+        View apply = alertDialog.findViewById(R.id.btn_apply);
+        apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (editText.getText().toString().isEmpty()) {
+                    editText.setError(getString(R.string.enter_new_file_name));
+                } else {
+                    String name = editText.getText().toString();
+                    if (mDatabase.hasValue(name)) {
+                        editText.setError("Theme has been exits!");
+                    } else {
+                        mDatabase.insert(codeTheme);
+                        PascalPreferences pascalPreferences = new PascalPreferences(CustomThemeActivity.this);
+                        pascalPreferences.setTheme(name);
+                        alertDialog.cancel();
+                        finish();
+                    }
+
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDatabase.close();
     }
 
     private void bindView() {
@@ -99,14 +180,23 @@ public class CustomThemeActivity extends AbstractAppCompatActivity implements Vi
     }
 
     private void setColorForView(@IdRes final int id) {
-        ColorPickerDialogBuilder.with(this).setPositiveButton(android.R.string.ok,
-                new ColorPickerClickListener() {
-                    @Override
-                    public void onClick(DialogInterface d, int lastSelectedColor, Integer[] allColors) {
-                        findViewById(id).setBackgroundColor(lastSelectedColor);
-                        setColor(id, lastSelectedColor);
-                    }
-                })
+        final View view = findViewById(id);
+        int color = Color.WHITE;
+        Drawable background = view.getBackground();
+        if (background instanceof ColorDrawable)
+            color = ((ColorDrawable) background).getColor();
+
+        ColorPickerDialogBuilder.with(this)
+                .showAlphaSlider(false)
+                .initialColor(color)
+                .setPositiveButton(android.R.string.ok,
+                        new ColorPickerClickListener() {
+                            @Override
+                            public void onClick(DialogInterface d, int lastSelectedColor, Integer[] allColors) {
+                                view.setBackgroundColor(lastSelectedColor);
+                                setColor(id, lastSelectedColor);
+                            }
+                        })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

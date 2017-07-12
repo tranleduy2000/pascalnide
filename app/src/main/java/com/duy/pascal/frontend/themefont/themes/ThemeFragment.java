@@ -17,6 +17,7 @@
 package com.duy.pascal.frontend.themefont.themes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -72,8 +73,15 @@ public class ThemeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button btnDonate = view.findViewById(R.id.btn_donate);
-        if (Utils.DONATED) btnDonate.setVisibility(View.GONE);
-        else {
+        if (Utils.DONATED) {
+            btnDonate.setText(R.string.create_new_theme);
+            btnDonate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(getActivity(), CustomThemeActivity.class));
+                }
+            });
+        } else {
             btnDonate.setText(R.string.more_font);
             btnDonate.setOnClickListener(new View.OnClickListener() {
                 @Override

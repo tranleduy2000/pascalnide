@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.themefont.util;
+package com.duy.pascal.frontend.themefont.themes;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,26 +23,46 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.themefont.themes.database.CodeTheme;
+import com.duy.pascal.frontend.themefont.themes.database.CodeThemeUtils;
+import com.duy.pascal.frontend.themefont.themes.database.ThemeDatabase;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 /**
  * Created by Duy on 12-Jul-17.
  */
 
 public class ThemeManager {
-
+    /**
+     * save theme in preferences
+     * "theme.name.attr"
+     */
     private static final String THEME_FILE = "THEME_FILE";
-    private static ArrayList<CodeTheme> customThemes;
-    private static ArrayList<CodeTheme> builtinThemes;
 
-    private static void loadThemeFromPref(String name, @NonNull CodeTheme codeTheme, Context context) {
+    /**
+     * user define theme
+     */
+    private static HashMap<String, CodeTheme> customThemes;
+
+    /**
+     * builtin theme, include theme from asset and theme from xml file
+     */
+    private static HashMap<String, CodeTheme> builtinThemes;
+
+
+    public static HashMap<String, CodeTheme> getAll(Context context) {
+        loadAll(context);
+        HashMap<String, CodeTheme> hm = new HashMap<>(customThemes);
+        hm.putAll(builtinThemes);
+        return hm;
+    }
+
+    private static void loadFromXML(String name, @NonNull CodeTheme codeTheme, Context context) {
         int style = CodeThemeUtils.getCodeTheme(context, name);
         TypedArray typedArray = context.obtainStyledAttributes(style, R.styleable.CodeTheme);
         typedArray.getInteger(R.styleable.CodeTheme_background_color, R.color.color_background_color);
@@ -65,47 +85,16 @@ public class ThemeManager {
                 R.color.color_boolean_color));
         codeTheme.setOptColor(typedArray.getInteger(R.styleable.CodeTheme_opt_color,
                 R.color.color_opt_color));
+        codeTheme.setName(name);
         typedArray.recycle();
     }
 
-    private static void loadCustomTheme(String id, SharedPreferences prefs) {
+    private static void loadBuiltinThemes(Context context) {
+        builtinThemes = new HashMap<>();
+
+        //load from asset
         try {
-            CodeTheme codeTheme = new CodeTheme(id, false);
-            codeTheme.putColor("background_color", loadColor(prefs, id, "background_color"));
-            codeTheme.putColor("normal_text_color", loadColor(prefs, id, "normal_text_color"));
-            codeTheme.putColor("number_color", loadColor(prefs, id, "number_color"));
-            codeTheme.putColor("key_word_color", loadColor(prefs, id, "key_word_color"));
-            codeTheme.putColor("string_color", loadColor(prefs, id, "string_color"));
-            codeTheme.putColor("comment_color", loadColor(prefs, id, "comment_color"));
-            codeTheme.putColor("error_color", loadColor(prefs, id, "error_color"));
-            codeTheme.putColor("opt_color", loadColor(prefs, id, "opt_color"));
-            customThemes.add(codeTheme);
-        } catch (Exception ignored) {
-        }
-    }
-
-    public static void addCustomTheme(CodeTheme codeTheme, Context context, String name) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(THEME_FILE,
-                Context.MODE_PRIVATE);
-        HashMap<String, Integer> colors = codeTheme.getColors();
-        Set<Map.Entry<String, Integer>> entries = colors.entrySet();
-        for (Map.Entry<String, Integer> entry : entries) {
-            sharedPreferences.edit().putInt("theme." + name + "." + entry.getKey(), entry.getValue()).apply();
-        }
-    }
-
-    private static int loadColor(SharedPreferences prefs, String id, String name) {
-        return Color.parseColor(prefs.getString("theme." + id + "." + name, "#FF000000").trim());
-    }
-
-    private static int loadColor(SharedPreferences prefs, String id, String name, String def) {
-        return Color.parseColor(prefs.getString("theme." + id + "." + name, def).trim());
-    }
-
-    private static void loadBuiltinThemes(Context ctx) {
-        builtinThemes = new ArrayList<>();
-        try {
-            InputStream is = ctx.getAssets().open("themes/themes.properties");
+            InputStream is = context.getAssets().open("themes/themes.properties");
             Properties properties = new Properties();
             properties.load(is);
             int id = 1;
@@ -120,7 +109,8 @@ public class ThemeManager {
                     codeTheme.putColor("comment_color", loadColor(properties, id, "comment_color"));
                     codeTheme.putColor("error_color", loadColor(properties, id, "error_color"));
                     codeTheme.putColor("opt_color", loadColor(properties, id, "opt_color"));
-                    builtinThemes.add(codeTheme);
+                    codeTheme.setName(id + "");
+                    builtinThemes.put(Integer.toString(id), codeTheme);
                     id++;
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -129,6 +119,15 @@ public class ThemeManager {
             }
         } catch (IOException ignored) {
         }
+
+        //load from xml
+        String[] names = context.getResources().getStringArray(R.array.code_themes);
+        for (String name : names) {
+            CodeTheme codeTheme = new CodeTheme(true);
+            loadFromXML(name, codeTheme, context);
+            builtinThemes.put(name, codeTheme);
+        }
+
     }
 
     private static Integer loadColor(Properties properties, int id, String name)
@@ -138,70 +137,35 @@ public class ThemeManager {
         return Color.parseColor(color.trim());
     }
 
-    public static String[] getThemes(Context ctx) {
-        int i;
-        if (builtinThemes == null) {
-            loadBuiltinThemes(ctx);
-        }
-        if (customThemes == null) {
-            loadCustomThemes(ctx);
-        }
-        String[] ret = new String[(builtinThemes.size() + customThemes.size())];
-        for (i = 0; i < builtinThemes.size(); i++) {
-            ret[i] = Integer.valueOf(i).toString();
-        }
-        for (i = 0; i < customThemes.size(); i++) {
-            ret[builtinThemes.size() + i] = Integer.valueOf(builtinThemes.size() + i).toString();
-        }
-        return ret;
-    }
 
-    public static CodeTheme getTheme(int themeId, Context context) {
+    public static CodeTheme getTheme(String name, Context context) {
         if (builtinThemes == null) loadBuiltinThemes(context);
-        if (themeId < builtinThemes.size()) return getBuiltinTheme(themeId, context);
-
+        if (builtinThemes.containsKey(name)) return builtinThemes.get(name);
         if (customThemes == null) loadCustomThemes(context);
-        if (themeId - builtinThemes.size() < customThemes.size()) {
-            return getCustomTheme(themeId - builtinThemes.size(), context);
-        }
-        return getBuiltinTheme(0, context);
-    }
+        if (customThemes.containsKey(name)) return customThemes.get(name);
 
-    private static CodeTheme getBuiltinTheme(int themeId, Context ctx) {
-        if (builtinThemes == null) loadBuiltinThemes(ctx);
-        if (builtinThemes.get(themeId) == null)
-            return builtinThemes.get(0);
-        return builtinThemes.get(themeId);
-    }
-
-    public static CodeTheme getCustomTheme(int themeId, Context ctx) {
-        if (customThemes == null) loadCustomThemes(ctx);
-        return customThemes.get(themeId);
+        CodeTheme codeTheme = new CodeTheme(true);
+        loadFromXML(name, codeTheme, context);
+        return codeTheme;
     }
 
     private static void loadCustomThemes(Context context) {
-        customThemes = new ArrayList<>();
-        SharedPreferences prefs = context.getSharedPreferences(THEME_FILE, Context.MODE_PRIVATE);
-        Set<String> keyPrefs = prefs.getAll().keySet();
-        for (String key : keyPrefs) {
-            if (key.startsWith("theme.")) { //theme.12.background_color
-                String id = key.substring(7, key.lastIndexOf(".") - 1);
-                loadCustomTheme(id, prefs);
-            }
+        customThemes = new HashMap<>();
+        ThemeDatabase themeDatabase = new ThemeDatabase(context);
+        ArrayList<CodeTheme> all = themeDatabase.getAll();
+        for (CodeTheme codeTheme : all) {
+            customThemes.put(codeTheme.getName(), codeTheme);
         }
     }
 
     public static CodeTheme getDefault(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(THEME_FILE, Context.MODE_PRIVATE);
         String name = preferences.getString(context.getString(R.string.key_code_theme), "");
-        try {
-            Integer id = Integer.parseInt(name);
-            return getTheme(id, context);
-        } catch (Exception e) {
-            CodeTheme codeTheme = new CodeTheme(true);
-            loadThemeFromPref(name, codeTheme, context);
-            return codeTheme;
-        }
+        return getTheme(name, context);
     }
 
+    public static void loadAll(Context context) {
+        if (builtinThemes == null) loadBuiltinThemes(context);
+        if (customThemes == null) loadCustomThemes(context);
+    }
 }

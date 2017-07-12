@@ -31,28 +31,30 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.setting.PascalPreferences;
+import com.duy.pascal.frontend.themefont.themes.database.CodeTheme;
 import com.duy.pascal.frontend.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<Object> mThemes = new ArrayList<>();
-    private LayoutInflater inflater;
+    private ArrayList<CodeTheme> mThemes = new ArrayList<>();
+    private LayoutInflater mInflater;
     private PascalPreferences mPascalPreferences;
-    private Activity context;
+    private Activity mContext;
 
     @Nullable
     private ThemeFragment.OnThemeSelectListener onThemeSelectListener;
 
     public ThemeAdapter(Activity context) {
-        Collections.addAll(mThemes, context.getResources().getStringArray(R.array.code_themes));
-        for (Integer i = 0; i < 20; i++) {
-            mThemes.add(i);
-        }
-        this.context = context;
-        inflater = LayoutInflater.from(context);
+        ThemeManager.loadAll(context);
+        HashMap<String, CodeTheme> all = ThemeManager.getAll(context);
+        for (Map.Entry<String, CodeTheme> entry : all.entrySet()) mThemes.add(entry.getValue());
+        mContext = context;
+        mInflater = LayoutInflater.from(context);
         mPascalPreferences = new PascalPreferences(context);
+
     }
 
     public void clear() {
@@ -60,13 +62,6 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    public void reload() {
-        Collections.addAll(mThemes, context.getResources().getStringArray(R.array.code_themes));
-        for (Integer i = 0; i < 20; i++) {
-            mThemes.add(i);
-        }
-        notifyDataSetChanged();
-    }
 
     @Override
     public int getItemViewType(int position) {
@@ -84,10 +79,10 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 1) {
-            View view = inflater.inflate(R.layout.list_item_theme, parent, false);
+            View view = mInflater.inflate(R.layout.list_item_theme, parent, false);
             return new CodeThemeHolder(view);
         } else {
-            View view = inflater.inflate(R.layout.list_item_get_pro_theme, parent, false);
+            View view = mInflater.inflate(R.layout.list_item_get_pro_theme, parent, false);
             return new ProHolder(view);
         }
     }
@@ -104,20 +99,16 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (holder instanceof CodeThemeHolder) {
             CodeThemeHolder holder1 = (CodeThemeHolder) holder;
             holder1.editorView.setLineError(new LineInfo(3, 0, ""));
-            if ((mThemes.get(position) instanceof String)) {
-                holder1.editorView.setColorTheme((String) mThemes.get(position));
-            } else {
-                holder1.editorView.setColorTheme((int) mThemes.get(position));
-            }
+            holder1.editorView.setCodeTheme(mThemes.get(pos));
             holder1.editorView.setTextHighlighted(CodeSample.DEMO_THEME);
             holder1.txtTitle.setText(String.valueOf(mThemes.get(position)));
             holder1.btnSelect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPascalPreferences.put(context.getString(R.string.key_code_theme),
+                    mPascalPreferences.put(mContext.getString(R.string.key_code_theme),
                             String.valueOf(mThemes.get(position)));
-                    Toast.makeText(context,
-                            context.getString(R.string.select) + " " + mThemes.get(position),
+                    Toast.makeText(mContext,
+                            mContext.getString(R.string.select) + " " + mThemes.get(position),
                             Toast.LENGTH_SHORT).show();
                     if (onThemeSelectListener != null) {
                         onThemeSelectListener.onThemeSelect(String.valueOf(mThemes.get(position)));

@@ -54,9 +54,9 @@ import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.autofix.AutoFixError;
 import com.duy.pascal.frontend.editor.highlight.CodeHighlighter;
-import com.duy.pascal.frontend.themefont.util.CodeTheme;
-import com.duy.pascal.frontend.themefont.util.CodeThemeUtils;
-import com.duy.pascal.frontend.themefont.util.ThemeManager;
+import com.duy.pascal.frontend.themefont.themes.database.CodeTheme;
+import com.duy.pascal.frontend.themefont.themes.database.CodeThemeUtils;
+import com.duy.pascal.frontend.themefont.themes.ThemeManager;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -203,61 +203,16 @@ public class HighlightEditor extends CodeSuggestsEditText
         mHighlightedLine = mHighlightStart = -1;
         mDrawingRect = new Rect();
         mLineBounds = new Rect();
-
         mGestureDetector = new GestureDetector(getContext(), HighlightEditor.this);
+        mChangeListener = new EditTextChangeListener();
+        mHighlighter = new CodeHighlighter(this);
 
         updateFromSettings();
 
-        mChangeListener = new EditTextChangeListener();
-        mHighlighter = new CodeHighlighter(this);
 
         enableTextChangedListener();
     }
 
-    public void setColorTheme(int id) {
-        codeTheme = ThemeManager.getTheme(id, mContext);
-        setBackgroundColor(codeTheme.getBackground());
-        setTextColor(codeTheme.getTextColor());
-
-        int style = CodeThemeUtils.getCodeTheme(mContext, "");
-        TypedArray typedArray = mContext.obtainStyledAttributes(style,
-                R.styleable.CodeTheme);
-        this.canEdit = typedArray.getBoolean(R.styleable.CodeTheme_can_edit, true);
-        typedArray.recycle();
-    }
-
-    public void setColorTheme(String name) {
-        /*
-          load theme from xml
-         */
-        codeTheme = new CodeTheme(true);
-        int style = CodeThemeUtils.getCodeTheme(mContext, name);
-        TypedArray typedArray = mContext.obtainStyledAttributes(style,
-                R.styleable.CodeTheme);
-        typedArray.getInteger(R.styleable.CodeTheme_background_color,
-                R.color.color_background_color);
-        codeTheme.setErrorColor(typedArray.getInteger(R.styleable.CodeTheme_error_color,
-                R.color.color_error_color));
-        codeTheme.setNumberColor(typedArray.getInteger(R.styleable.CodeTheme_number_color,
-                R.color.color_number_color));
-        codeTheme.setKeyWordColor(typedArray.getInteger(R.styleable.CodeTheme_key_word_color,
-                R.color.color_key_word_color));
-        codeTheme.setCommentColor(typedArray.getInteger(R.styleable.CodeTheme_comment_color,
-                R.color.color_comment_color));
-        codeTheme.setStringColor(typedArray.getInteger(R.styleable.CodeTheme_string_color,
-                R.color.color_string_color));
-        codeTheme.setBooleanColor(typedArray.getInteger(R.styleable.CodeTheme_boolean_color,
-                R.color.color_boolean_color));
-        codeTheme.setOptColor(typedArray.getInteger(R.styleable.CodeTheme_opt_color,
-                R.color.color_opt_color));
-        setBackgroundColor(typedArray.getInteger(R.styleable.CodeTheme_background_color,
-                R.color.color_background_color));
-        setTextColor(typedArray.getInteger(R.styleable.CodeTheme_normal_text_color,
-                R.color.color_normal_text_color));
-
-        this.canEdit = typedArray.getBoolean(R.styleable.CodeTheme_can_edit, true);
-        typedArray.recycle();
-    }
 
     public void setLineError(@NonNull LineInfo lineError) {
         this.lineError = lineError;
@@ -395,12 +350,15 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     public void updateFromSettings() {
         String name = mEditorSetting.getString(mContext.getString(R.string.key_code_theme));
-        try {
-            Integer id = Integer.parseInt(name);
-            setColorTheme(id);
-        } catch (Exception e) {
-            setColorTheme(name);
-        }
+        CodeTheme theme = ThemeManager.getTheme(name, getContext());
+        setCodeTheme(theme);
+
+        int style = CodeThemeUtils.getCodeTheme(mContext, "");
+        TypedArray typedArray = mContext.obtainStyledAttributes(style,
+                R.styleable.CodeTheme);
+        this.canEdit = typedArray.getBoolean(R.styleable.CodeTheme_can_edit, true);
+        typedArray.recycle();
+
         setTypeface(mEditorSetting.getEditorFont());
         setHorizontallyScrolling(!mEditorSetting.isWrapText());
         setOverScrollMode(OVER_SCROLL_ALWAYS);

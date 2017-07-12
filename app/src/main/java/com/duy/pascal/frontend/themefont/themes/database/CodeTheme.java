@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.themefont.util;
+package com.duy.pascal.frontend.themefont.themes.database;
 
 import android.graphics.Color;
 import android.util.Log;
@@ -24,11 +24,23 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class CodeTheme implements Serializable {
-    private static final String TAG = "CodeTheme";
+    public static final String TABLE_NAME = "tbl_theme";
+    public static final String NAME = "theme_name";
+    public static final String BACKGROUND = "background_color";
+    public static final String NORMAL = "normal_text_color";
+    public static final String KEY_WORD = "key_word_color";
+    public static final String BOOLEAN = "boolean_color";
+    public static final String ERROR = "error_color";
+    public static final String NUMBER = "number_color";
+    public static final String OPERATOR = "opt_color";
+    public static final String COMMENT = "comment_color";
+    public static final String STRING = "string_color";
 
+    private static final String TAG = "CodeTheme";
     private final boolean builtin;
     private String id;
     private HashMap<String, Integer> colors = new HashMap<>();
+    private String name;
 
     public CodeTheme(String id, boolean builtin) {
         this.id = id;
@@ -39,21 +51,28 @@ public class CodeTheme implements Serializable {
         this.builtin = builtin;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public HashMap<String, Integer> getColors() {
         return colors;
     }
 
     public int getBackground() {
-        return getColor("background_color");
+        return getColor(BACKGROUND);
     }
 
     public int getTextColor() {
-        return getColor("normal_text_color");
+        return getColor(NORMAL);
     }
 
     public void setTextColor(int integer) {
-        putColor("normal_text_color", integer);
+        putColor(NORMAL, integer);
     }
 
     @Override
@@ -78,55 +97,55 @@ public class CodeTheme implements Serializable {
     }
 
     public void setKeyWordColor(int integer) {
-        putColor("key_word_color", integer);
+        putColor(KEY_WORD, integer);
     }
 
     public void setBooleanColor(int integer) {
-        putColor("boolean_color", integer);
+        putColor(BOOLEAN, integer);
     }
 
     public int getErrorColor() {
-        return getColor("error_color");
+        return getColor(ERROR);
     }
 
     public void setErrorColor(int integer) {
-        putColor("error_color", integer);
+        putColor(ERROR, integer);
     }
 
     public int getNumberColor() {
-        return getColor("number_color");
+        return getColor(NUMBER);
     }
 
     public void setNumberColor(int integer) {
-        putColor("number_color", integer);
+        putColor(NUMBER, integer);
     }
 
     public int getKeywordColor() {
-        return getColor("key_word_color");
+        return getColor(KEY_WORD);
     }
 
     public int getOptColor() {
-        return getColor("opt_color");
+        return getColor(OPERATOR);
     }
 
     public void setOptColor(int integer) {
-        putColor("opt_color", integer);
+        putColor(OPERATOR, integer);
     }
 
     public int getCommentColor() {
-        return getColor("comment_color");
+        return getColor(COMMENT);
     }
 
     public void setCommentColor(int integer) {
-        putColor("comment_color", integer);
+        putColor(COMMENT, integer);
     }
 
     public int getStringColor() {
-        return getColor("string_color");
+        return getColor(STRING);
     }
 
     public void setStringColor(int integer) {
-        putColor("string_color", integer);
+        putColor(STRING, integer);
     }
 
     public int getDebugColor() {

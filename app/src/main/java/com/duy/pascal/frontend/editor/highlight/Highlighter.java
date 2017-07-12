@@ -19,7 +19,7 @@ package com.duy.pascal.frontend.editor.highlight;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 
-import com.duy.pascal.frontend.themefont.util.CodeTheme;
+import com.duy.pascal.frontend.themefont.themes.database.CodeTheme;
 
 /**
  * Created by Duy on 18-Jun-17.

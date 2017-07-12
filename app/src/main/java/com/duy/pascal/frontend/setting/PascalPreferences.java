@@ -337,4 +337,7 @@ public class PascalPreferences {
         return getBoolean("pref_console_anti_alias");
     }
 
+    public void setTheme(String name) {
+        put(context.getString(R.string.key_code_theme), name);
+    }
 }
