@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.themefont.adapter;
+package com.duy.pascal.frontend.themefont.fonts;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -24,13 +24,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.themefont.FontEntry;
-import com.duy.pascal.frontend.themefont.FontManager;
-import com.duy.pascal.frontend.themefont.fragment.FontFragment;
 
 import java.util.LinkedList;
 
@@ -40,7 +36,7 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
     private LinkedList<FontEntry> listFonts = new LinkedList<>();
     private PascalPreferences pascalPreferences;
     @Nullable
-    private FontFragment.OnFontSelectListener onFontSelectListener;
+    private OnFontSelectListener onFontSelectListener;
 
     public FontAdapter(Context context) {
         this.context = context;
@@ -73,14 +69,8 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
         holder.btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pascalPreferences.setFont(fontEntry);
-
-                Toast.makeText(context,
-                        context.getString(R.string.select) + " " + finalName,
-                        Toast.LENGTH_SHORT).show();
-
                 if (onFontSelectListener != null) {
-                    onFontSelectListener.onFontSelected(finalName);
+                    onFontSelectListener.onFontSelected(fontEntry);
                 }
             }
         });
@@ -92,11 +82,11 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
     }
 
     @Nullable
-    public FontFragment.OnFontSelectListener getOnFontSelectListener() {
+    public OnFontSelectListener getOnFontSelectListener() {
         return onFontSelectListener;
     }
 
-    public void setOnFontSelectListener(@Nullable FontFragment.OnFontSelectListener onFontSelectListener) {
+    public void setOnFontSelectListener(@Nullable OnFontSelectListener onFontSelectListener) {
         this.onFontSelectListener = onFontSelectListener;
     }
 

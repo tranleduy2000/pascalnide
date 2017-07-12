@@ -22,7 +22,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.themefont.fragment.FontFragment;
+import com.duy.pascal.frontend.themefont.fonts.ConsoleFontFragment;
+import com.duy.pascal.frontend.themefont.fonts.EditorFontFragment;
 import com.duy.pascal.frontend.themefont.fragment.ThemeFragment;
 
 /**
@@ -42,8 +43,10 @@ public class SectionPageAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return FontFragment.newInstance();
+                return EditorFontFragment.newInstance();
             case 1:
+                return ConsoleFontFragment.newInstance();
+            case 2:
                 return ThemeFragment.newInstance();
             default:
                 return null;
@@ -54,8 +57,10 @@ public class SectionPageAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return context.getString(R.string.font);
+                return context.getString(R.string.editor_font);
             case 1:
+                return context.getString(R.string.console_font);
+            case 2:
                 return context.getString(R.string.theme);
         }
         return super.getPageTitle(position);
@@ -63,7 +68,7 @@ public class SectionPageAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
 

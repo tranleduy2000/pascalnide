@@ -232,5 +232,8 @@
 
     <!--Splash screen-->
     <string name="collection_info">Collection info…</string>
+    <string name="more_font">Get more font</string>
+    <string name="editor_font">Editor font</string>
+    <string name="console_font">Console font</string>
 </resources>
 

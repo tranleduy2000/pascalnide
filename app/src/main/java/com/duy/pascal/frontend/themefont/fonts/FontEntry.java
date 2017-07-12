@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.themefont;
+package com.duy.pascal.frontend.themefont.fonts;
 
 public class FontEntry {
     public boolean fromStorage;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.themefont.fragment;
+package com.duy.pascal.frontend.themefont.fonts;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -28,28 +28,34 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.themefont.adapter.FontAdapter;
+import com.duy.pascal.frontend.setting.PascalPreferences;
+import com.duy.pascal.frontend.utils.StoreUtil;
+import com.duy.pascal.frontend.utils.Utils;
 
 /**
  * Created by Duy on 17-May-17.
  */
 
-public class FontFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class EditorFontFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener, OnFontSelectListener {
 
     public static final int FONT = 0;
     public static final int THEME = 1;
     FontAdapter fontAdapter;
     private RecyclerView mRecyclerView;
     private OnFontSelectListener onFontSelectListener;
+    protected PascalPreferences mPref;
 
-    public static FontFragment newInstance() {
+    public static EditorFontFragment newInstance() {
         Bundle args = new Bundle();
-        FontFragment fragment = new FontFragment();
+        EditorFontFragment fragment = new EditorFontFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public void onResume() {
@@ -61,32 +67,37 @@ public class FontFragment extends Fragment implements SharedPreferences.OnShared
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_font_theme, container, false);
+        return inflater.inflate(R.layout.fragment_font, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Button btnDonate = view.findViewById(R.id.btn_donate);
+        if (Utils.DONATED) btnDonate.setVisibility(View.GONE);
+        else {
+            btnDonate.setText(R.string.more_font);
+            btnDonate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    StoreUtil.gotoPlayStore(getActivity(), Utils.DONATE_PACKAGE);
+                }
+            });
+        }
 
         mRecyclerView = view.findViewById(R.id.recycler_view);
-
         fontAdapter = new FontAdapter(getContext());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(fontAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        fontAdapter.setOnFontSelectListener(onFontSelectListener);
+        fontAdapter.setOnFontSelectListener(this);
     }
-
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        try {
-            onFontSelectListener = (OnFontSelectListener) getActivity();
-        } catch (Exception ignored) {
-
-        }
+        mPref = new PascalPreferences(context);
     }
 
     @Override
@@ -102,7 +113,10 @@ public class FontFragment extends Fragment implements SharedPreferences.OnShared
 
     }
 
-    public interface OnFontSelectListener {
-        void onFontSelected(String name);
+    @Override
+    public void onFontSelected(FontEntry fontEntry) {
+        mPref.setEditorFont(fontEntry);
+        Toast.makeText(getContext(), getString(R.string.select) + " " + fontEntry.name,
+                Toast.LENGTH_SHORT).show();
     }
 }

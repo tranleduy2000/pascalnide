@@ -17,6 +17,7 @@
 package com.duy.pascal.frontend.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,6 +36,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
@@ -54,6 +56,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private static final String TAG = "ActivitySplashScreen";
     private static final int REQUEST_CHECK_LICENSE = 1;
 
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +69,10 @@ public class ActivitySplashScreen extends AppCompatActivity {
                             Manifest.permission.READ_EXTERNAL_STORAGE},
                     MY_PERMISSIONS_REQUEST);
         } else {
+            if (BuildConfig.DEBUG) {
+                Utils.DONATED = false;
+                startMainActivity();
+            }
             if (isDonateInstalled(Utils.DONATE_PACKAGE)) {
                 new CheckTask().execute();
             } else {

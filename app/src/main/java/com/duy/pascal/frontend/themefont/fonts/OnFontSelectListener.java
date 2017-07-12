@@ -14,22 +14,8 @@
  * limitations under the License.
  */
 
-package com.duy.pascal;
+package com.duy.pascal.frontend.themefont.fonts;
 
-import com.duy.pascal.frontend.BuildConfig;
-import com.google.firebase.crash.FirebaseCrash;
-
-/**
- * Created by Duy on 17-May-17.
- */
-
-public class PascalApplication extends BasePascalApplication {
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        if (BuildConfig.DEBUG) {
-            FirebaseCrash.setCrashCollectionEnabled(false);
-        }
-    }
+public interface OnFontSelectListener {
+    void onFontSelected(FontEntry fontEntry);
 }

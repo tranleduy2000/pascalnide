@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-package com.duy.pascal;
+package com.duy.pascal.frontend.themefont.fonts;
 
-import com.duy.pascal.frontend.BuildConfig;
-import com.google.firebase.crash.FirebaseCrash;
+import android.widget.Toast;
+
+import com.duy.pascal.frontend.R;
 
 /**
  * Created by Duy on 17-May-17.
  */
 
-public class PascalApplication extends BasePascalApplication {
+public class ConsoleFontFragment extends EditorFontFragment {
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        if (BuildConfig.DEBUG) {
-            FirebaseCrash.setCrashCollectionEnabled(false);
-        }
+    public void onFontSelected(FontEntry fontEntry) {
+        mPref.setConsoleFont(fontEntry);
+        Toast.makeText(getContext(), getString(R.string.select) + " " + fontEntry.name,
+                Toast.LENGTH_SHORT).show();
     }
 }

@@ -63,13 +63,6 @@
             android:title="@string/font_z"/>
 
         <ListPreference
-            android:defaultValue="@string/font.monospace"
-            android:entries="@array/fonts_arr"
-            android:entryValues="@array/fonts_arr"
-            android:key="@string/key_pref_font"
-            android:title="@string/font"/>
-
-        <ListPreference
             android:defaultValue="@string/default_theme"
             android:entries="@array/code_themes"
             android:entryValues="@array/code_themes"

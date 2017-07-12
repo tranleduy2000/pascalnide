@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.themefont.fragment;
+package com.duy.pascal.frontend.themefont.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.duy.pascal.frontend.themefont.adapter.SectionPageAdapter;
+import com.duy.pascal.frontend.themefont.fragment.ThemeFragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 
@@ -36,7 +37,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 @SuppressWarnings("DefaultFileTemplate")
 public class ThemeFontActivity extends AbstractAppCompatActivity
-        implements ThemeFragment.OnThemeSelectListener, FontFragment.OnFontSelectListener {
+        implements ThemeFragment.OnThemeSelectListener {
 
     private Toolbar toolbar;
     private ViewPager viewPager;
@@ -54,7 +55,7 @@ public class ThemeFontActivity extends AbstractAppCompatActivity
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         adapter = new SectionPageAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(3);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -85,9 +86,5 @@ public class ThemeFontActivity extends AbstractAppCompatActivity
 
     }
 
-    @Override
-    public void onFontSelected(String name) {
-        ThemeFragment item = (ThemeFragment) adapter.getItem(1);
-        item.notifyDataSetChanged();
-    }
+
 }

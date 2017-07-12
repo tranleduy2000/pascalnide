@@ -25,9 +25,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.themefont.adapter.ThemeAdapter;
+import com.duy.pascal.frontend.utils.StoreUtil;
+import com.duy.pascal.frontend.utils.Utils;
 
 /**
  * Created by Duy on 17-May-17.
@@ -69,8 +72,20 @@ public class ThemeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Button btnDonate = view.findViewById(R.id.btn_donate);
+        if (Utils.DONATED) btnDonate.setVisibility(View.GONE);
+        else {
+            btnDonate.setText(R.string.more_font);
+            btnDonate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    StoreUtil.gotoPlayStore(getActivity(), Utils.DONATE_PACKAGE);
+                }
+            });
+        }
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+
+        mRecyclerView = view.findViewById(R.id.recycler_view);
 
         codeThemeAdapter = new ThemeAdapter(getActivity());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

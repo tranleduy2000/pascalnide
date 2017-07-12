@@ -26,8 +26,8 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.themefont.FontEntry;
-import com.duy.pascal.frontend.themefont.FontManager;
+import com.duy.pascal.frontend.themefont.fonts.FontEntry;
+import com.duy.pascal.frontend.themefont.fonts.FontManager;
 import com.duy.pascal.frontend.utils.Utils;
 
 /**
@@ -233,16 +233,27 @@ public class PascalPreferences {
     }
 
     public Typeface getEditorFont() {
-        boolean fromStorage = getBoolean("key_font_from_storage");
-        String name = getString(context.getString(R.string.key_pref_font));
+        boolean fromStorage = getBoolean("key_pref_editor_font_from_storage");
+        String name = getString("key_pref_editor_font");
         return fromStorage && Utils.DONATED ? FontManager.getFontFromStorage(name)
                 : FontManager.getFontFromAsset(context, name);
     }
 
+    public void setEditorFont(FontEntry fontEntry) {
+        put("key_pref_editor_font", fontEntry.name);
+        put("key_pref_editor_font_from_storage", fontEntry.fromStorage);
+    }
 
-    public void setFont(FontEntry fontEntry) {
-        put("key_pref_font", fontEntry.name);
-        put("key_font_from_storage", fontEntry.fromStorage);
+    public Typeface getConsoleFont() {
+        boolean fromStorage = getBoolean("key_pref_console_font_from_storage");
+        String name = getString("key_pref_console_font");
+        return fromStorage && Utils.DONATED ? FontManager.getFontFromStorage(name)
+                : FontManager.getFontFromAsset(context, name);
+    }
+
+    public void setConsoleFont(FontEntry fontEntry) {
+        put("key_pref_console_font", fontEntry.name);
+        put("key_pref_console_font_from_storage", fontEntry.fromStorage);
     }
 
     public boolean isShowLines() {
@@ -325,4 +336,5 @@ public class PascalPreferences {
     public boolean useAntiAlias() {
         return getBoolean("pref_console_anti_alias");
     }
+
 }

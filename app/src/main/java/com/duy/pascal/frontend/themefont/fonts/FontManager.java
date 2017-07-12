@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.themefont;
+package com.duy.pascal.frontend.themefont.fonts;
 
 import android.content.Context;
 import android.graphics.Typeface;

@@ -40,6 +40,6 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:textAllCaps="false"
-        tools:text="Get donate version! Create your custom theme"/>
+        tools:text="Get more fonts"/>
 
 </RelativeLayout>
