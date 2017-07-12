@@ -33,6 +33,7 @@ import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.themefont.themes.database.CodeTheme;
+import com.duy.pascal.frontend.themefont.themes.database.ThemeDatabase;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,12 +49,14 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Nullable
     private ThemeFragment.OnThemeSelectListener onThemeSelectListener;
+    private ThemeDatabase mDatabase;
 
     public ThemeAdapter(Activity context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mPascalPreferences = new PascalPreferences(context);
         loadTheme(context);
+        mDatabase = new ThemeDatabase(context);
     }
 
     private void loadTheme(Context context) {
@@ -81,23 +84,41 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int pos) {
-        CodeThemeHolder holder1 = (CodeThemeHolder) holder;
-        holder1.editorView.setLineError(new LineInfo(3, 0, ""));
-        holder1.editorView.setCodeTheme(mThemes.get(pos));
-        holder1.editorView.setTextHighlighted(CodeSample.DEMO_THEME);
-        holder1.txtTitle.setText(mThemes.get(pos).getName());
-        holder1.btnSelect.setOnClickListener(new View.OnClickListener() {
+        CodeThemeHolder view = (CodeThemeHolder) holder;
+        final CodeTheme entry = mThemes.get(pos);
+        if (entry.isBuiltin()) {
+            view.imgDelete.setVisibility(View.GONE);
+        } else {
+            view.imgDelete.setVisibility(View.VISIBLE);
+            view.imgDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mDatabase.delete(entry);
+                    remove(pos);
+                    Toast.makeText(mContext, R.string.deleted, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        view.editorView.setLineError(new LineInfo(3, 0, ""));
+        view.editorView.setCodeTheme(entry);
+        view.editorView.setTextHighlighted(CodeSample.DEMO_THEME);
+        view.txtTitle.setText(entry.getName());
+        view.btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPascalPreferences.setTheme(mThemes.get(pos).getName());
-                Toast.makeText(mContext,
-                        mContext.getString(R.string.select) + " " + mThemes.get(pos).getName(),
+                mPascalPreferences.setTheme(entry.getName());
+                Toast.makeText(mContext, mContext.getString(R.string.select) + " " + entry.getName(),
                         Toast.LENGTH_SHORT).show();
                 if (onThemeSelectListener != null) {
-                    onThemeSelectListener.onThemeSelect(String.valueOf(mThemes.get(pos)));
+                    onThemeSelectListener.onThemeSelect(String.valueOf(entry));
                 }
             }
         });
+    }
+
+    private void remove(int pos) {
+        mThemes.remove(pos);
+        notifyItemRemoved(pos);
     }
 
     @Override
@@ -121,15 +142,17 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private static class CodeThemeHolder extends RecyclerView.ViewHolder {
+        public View imgDelete;
         EditorView editorView;
         TextView txtTitle;
         Button btnSelect;
 
         CodeThemeHolder(View itemView) {
             super(itemView);
-            editorView = (EditorView) itemView.findViewById(R.id.editor_view);
-            txtTitle = (TextView) itemView.findViewById(R.id.txt_title);
-            btnSelect = (Button) itemView.findViewById(R.id.btn_select);
+            editorView = itemView.findViewById(R.id.editor_view);
+            txtTitle = itemView.findViewById(R.id.txt_title);
+            btnSelect = itemView.findViewById(R.id.btn_select);
+            imgDelete = itemView.findViewById(R.id.img_delete);
         }
     }
 

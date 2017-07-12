@@ -58,8 +58,8 @@ public class ThemeManager {
 
     public static HashMap<String, CodeTheme> getAll(Context context) {
         loadAll(context);
-        HashMap<String, CodeTheme> hm = new HashMap<>(customThemes);
-        if (Utils.DONATED) hm.putAll(builtinThemes);
+        HashMap<String, CodeTheme> hm = new HashMap<>(builtinThemes);
+        if (Utils.DONATED) hm.putAll(customThemes);
         return hm;
     }
 

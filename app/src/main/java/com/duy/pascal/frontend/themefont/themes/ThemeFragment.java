@@ -110,8 +110,8 @@ public class ThemeFragment extends Fragment {
                 @Override
                 public void run() {
                     if (mCodeThemeAdapter != null) {
-                        mCodeThemeAdapter.reload(getContext());
                         ThemeManager.reload(getContext());
+                        mCodeThemeAdapter.reload(getContext());
                     }
                 }
             });

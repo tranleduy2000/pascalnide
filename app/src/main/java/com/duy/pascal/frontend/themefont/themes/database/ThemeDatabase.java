@@ -117,7 +117,7 @@ public class ThemeDatabase extends SQLiteOpenHelper {
 
     public int delete(CodeTheme codeTheme) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_NAME, NAME + " LIKE ?", new String[]{codeTheme.getName()});
+        return db.delete(TABLE_NAME, NAME + "=?", new String[]{codeTheme.getName()});
     }
 
     @Override
