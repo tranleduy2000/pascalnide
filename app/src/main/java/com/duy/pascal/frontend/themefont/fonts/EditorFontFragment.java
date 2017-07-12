@@ -42,12 +42,9 @@ import com.duy.pascal.frontend.utils.Utils;
 
 public class EditorFontFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener, OnFontSelectListener {
 
-    public static final int FONT = 0;
-    public static final int THEME = 1;
-    FontAdapter mFontAdapter;
-    private RecyclerView mRecyclerView;
-    private OnFontSelectListener onFontSelectListener;
     protected PascalPreferences mPref;
+    private FontAdapter mFontAdapter;
+    private RecyclerView mRecyclerView;
 
     public static EditorFontFragment newInstance() {
         Bundle args = new Bundle();
@@ -55,7 +52,6 @@ public class EditorFontFragment extends Fragment implements SharedPreferences.On
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Override
     public void onResume() {

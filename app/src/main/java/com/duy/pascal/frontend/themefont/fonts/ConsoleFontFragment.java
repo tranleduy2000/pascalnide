@@ -46,12 +46,11 @@ public class ConsoleFontFragment extends Fragment implements SharedPreferences.O
     public static final int THEME = 1;
     FontAdapter mFontAdapter;
     private RecyclerView mRecyclerView;
-    private OnFontSelectListener onFontSelectListener;
     protected PascalPreferences mPref;
 
-    public static EditorFontFragment newInstance() {
+    public static ConsoleFontFragment newInstance() {
         Bundle args = new Bundle();
-        EditorFontFragment fragment = new EditorFontFragment();
+        ConsoleFontFragment fragment = new ConsoleFontFragment();
         fragment.setArguments(args);
         return fragment;
     }
