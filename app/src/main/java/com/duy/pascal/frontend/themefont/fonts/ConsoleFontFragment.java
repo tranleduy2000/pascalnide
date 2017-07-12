@@ -33,8 +33,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.utils.StoreUtil;
-import com.duy.pascal.frontend.utils.Utils;
+import com.duy.pascal.frontend.utils.DonateUtils;
 
 /**
  * Created by Duy on 17-May-17.
@@ -73,13 +72,13 @@ public class ConsoleFontFragment extends Fragment implements SharedPreferences.O
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button btnDonate = view.findViewById(R.id.btn_donate);
-        if (Utils.DONATED) btnDonate.setVisibility(View.GONE);
+        if (DonateUtils.DONATED) btnDonate.setVisibility(View.GONE);
         else {
             btnDonate.setText(R.string.more_font);
             btnDonate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    StoreUtil.gotoPlayStore(getActivity(), Utils.DONATE_PACKAGE);
+                    DonateUtils.showDialogDonate(getActivity());
                 }
             });
         }

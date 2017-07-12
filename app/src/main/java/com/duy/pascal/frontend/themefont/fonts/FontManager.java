@@ -21,7 +21,7 @@ import android.graphics.Typeface;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.file.FileManager;
-import com.duy.pascal.frontend.utils.Utils;
+import com.duy.pascal.frontend.utils.DonateUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -109,7 +109,7 @@ public class FontManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (Utils.DONATED) {
+        if (DonateUtils.DONATED) {
             File parent = new File(FileManager.EXTERNAL_DIR_CODE + "fonts");
             if (parent.exists() && parent.isDirectory()) {
                 File[] files = parent.listFiles();

@@ -48,15 +48,12 @@ import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.duy.pascal.frontend.code.CompileManager;
-import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.file.FileActionListener;
+import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.file.FragmentFileManager;
 import com.duy.pascal.frontend.file.TabFileUtils;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.utils.StoreUtil;
-import com.duy.pascal.frontend.utils.Utils;
 import com.duy.pascal.frontend.view.SymbolListView;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;
 import java.io.IOException;
@@ -437,25 +434,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         }
     }
 
-    public void showDialogDonate() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.donate);
-        builder.setMessage(R.string.donate_summary);
-        builder.setPositiveButton(R.string.donate_yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                FirebaseAnalytics.getInstance(BaseEditorActivity.this).logEvent("click_donate", new Bundle());
-                StoreUtil.gotoPlayStore(BaseEditorActivity.this, Utils.DONATE_PACKAGE);
-            }
-        });
-        builder.setNegativeButton(R.string.donate_nope, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-            }
-        });
-        builder.create().show();
-    }
+
 
     private class KeyBoardEventListener implements ViewTreeObserver.OnGlobalLayoutListener {
         BaseEditorActivity activity;

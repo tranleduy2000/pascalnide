@@ -28,7 +28,7 @@ import com.duy.pascal.frontend.R
 import com.duy.pascal.frontend.code.ExceptionManager
 import com.duy.pascal.frontend.editor.EditorActivity
 import com.duy.pascal.frontend.editor.autofix.DefineType
-import com.duy.pascal.frontend.utils.Utils
+import com.duy.pascal.frontend.utils.DonateUtils
 
 /**
  * Created by Duy on 29-Mar-17.
@@ -89,7 +89,7 @@ class DialogManager {
             //set event for button
             dialog.findViewById(R.id.btn_cancel)?.setOnClickListener { dialog.cancel() }
 
-            if (Utils.DONATED) {
+            if (DonateUtils.DONATED) {
                 if (e is ParsingException) {
                     if (e.isAutoFix) {
                         var container: RadioGroup? = null

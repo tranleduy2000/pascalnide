@@ -25,12 +25,12 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -42,7 +42,8 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.editor.EditorActivity;
 import com.duy.pascal.frontend.file.FileManager;
-import com.duy.pascal.frontend.utils.Utils;
+import com.duy.pascal.frontend.utils.DonateUtils;
+import com.duy.pascal.frontend.utils.Installation;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.FileNotFoundException;
@@ -63,17 +64,20 @@ public class ActivitySplashScreen extends AppCompatActivity {
         setContentView(R.layout.splash);
         // Here, this is the current activity
         PreferenceManager.setDefaultValues(this, R.xml.pref_settings, false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             Manifest.permission.READ_EXTERNAL_STORAGE},
                     MY_PERMISSIONS_REQUEST);
         } else {
             if (BuildConfig.DEBUG) {
-                Utils.DONATED = true;
+                DonateUtils.DONATED = false;
                 startMainActivity();
             }
-            if (isDonateInstalled(Utils.DONATE_PACKAGE)) {
+            if (isDonateInstalled(DonateUtils.DONATE_PACKAGE)) {
                 new CheckTask().execute();
             } else {
                 startMainActivity();
@@ -101,9 +105,9 @@ public class ActivitySplashScreen extends AppCompatActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED
                         && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     if (BuildConfig.DEBUG) {
-                        Utils.DONATED = true;
+                        DonateUtils.DONATED = true;
                         startMainActivity();
-                    } else if (isDonateInstalled(Utils.DONATE_PACKAGE)) {
+                    } else if (isDonateInstalled(DonateUtils.DONATE_PACKAGE)) {
                         new CheckTask().execute();
                     } else {
                         startMainActivity();
@@ -121,17 +125,17 @@ public class ActivitySplashScreen extends AppCompatActivity {
         if (requestCode == REQUEST_CHECK_LICENSE) {
             switch (resultCode) {
                 case 0: //donate
-                    Utils.DONATED = true;
+                    DonateUtils.DONATED = true;
                     saveLicence();
                     startMainActivity();
                     break;
                 case 1: //pirate
-                    Utils.DONATED = false;
+                    DonateUtils.DONATED = false;
                     //show dialog crack
                     showDialogPirate();
                     break;
                 case 2: //not connect or ....
-                    Utils.DONATED = false;
+                    DonateUtils.DONATED = false;
                     showDialogCheckFailed();
                     break;
 
@@ -141,7 +145,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
 
     private void showDialogCheckFailed() {
         Bundle bundle = new Bundle();
-        bundle.putString("device_id", Utils.getAndroidId(this));
+        bundle.putString("device_id", Installation.id(this));
         FirebaseAnalytics.getInstance(this).logEvent("check_license_failed", bundle);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.license_invalid);
@@ -156,14 +160,14 @@ public class ActivitySplashScreen extends AppCompatActivity {
 
     private void saveLicence() {
         String path = getApplicationInfo().dataDir + "/license";
-        String content = Utils.encodeString(Utils.getAndroidId(this));
+        String content = DonateUtils.encodeString(Installation.id(this));
         FileManager fileManager = new FileManager(this);
         fileManager.saveFile(path, content);
     }
 
     private void showDialogPirate() {
         Bundle bundle = new Bundle();
-        bundle.putString("device_id", Utils.getAndroidId(this));
+        bundle.putString("device_id", Installation.id(this));
         FirebaseAnalytics.getInstance(this).logEvent("cracked", bundle);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.pirated);
@@ -274,10 +278,10 @@ public class ActivitySplashScreen extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Object... voids) {
             if (mApplicationInfo != null) {
-                if (Utils.existFile(mApplicationInfo.dataDir + "/license")) {
-                    String content = Utils.readFile(mApplicationInfo.dataDir + "/license");
-                    if (!content.isEmpty() && (content = Utils.decodeString(content)) != null) {
-                        if (content.equals(Utils.getAndroidId(ActivitySplashScreen.this))) {
+                if (DonateUtils.existFile(mApplicationInfo.dataDir + "/license")) {
+                    String content = DonateUtils.readFile(mApplicationInfo.dataDir + "/license");
+                    if (!content.isEmpty() && (content = DonateUtils.decodeString(content)) != null) {
+                        if (content.equals(Installation.id(ActivitySplashScreen.this))) {
                             mLicensedCached = true;
                         }
                     }
@@ -291,12 +295,12 @@ public class ActivitySplashScreen extends AppCompatActivity {
         protected void onPostExecute(Boolean donationValid) {
             super.onPostExecute(donationValid);
             if (mLicensedCached) {
-                Utils.DONATED = true;
+                DonateUtils.DONATED = true;
                 startMainActivity();
             } else {
                 Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.setComponent(new ComponentName(Utils.DONATE_PACKAGE,
-                        Utils.DONATE_PACKAGE + ".MainActivity"));
+                intent.setComponent(new ComponentName(DonateUtils.DONATE_PACKAGE,
+                        DonateUtils.DONATE_PACKAGE + ".MainActivity"));
                 startActivityForResult(intent, REQUEST_CHECK_LICENSE);
             }
         }

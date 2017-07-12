@@ -26,7 +26,7 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.themefont.themes.database.CodeTheme;
 import com.duy.pascal.frontend.themefont.themes.database.CodeThemeUtils;
 import com.duy.pascal.frontend.themefont.themes.database.ThemeDatabase;
-import com.duy.pascal.frontend.utils.Utils;
+import com.duy.pascal.frontend.utils.DonateUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,7 +59,7 @@ public class ThemeManager {
     public static HashMap<String, CodeTheme> getAll(Context context) {
         loadAll(context);
         HashMap<String, CodeTheme> hm = new HashMap<>(builtinThemes);
-        if (Utils.DONATED) hm.putAll(customThemes);
+        if (DonateUtils.DONATED) hm.putAll(customThemes);
         return hm;
     }
 
@@ -143,7 +143,7 @@ public class ThemeManager {
         if (builtinThemes == null) loadBuiltinThemes(context);
         if (builtinThemes.containsKey(name)) return builtinThemes.get(name);
 
-        if (Utils.DONATED) {
+        if (DonateUtils.DONATED) {
             if (customThemes == null) loadCustomThemes(context);
             if (customThemes.containsKey(name)) return customThemes.get(name);
         }
@@ -171,7 +171,7 @@ public class ThemeManager {
 
     public synchronized static void loadAll(Context context) {
         if (builtinThemes == null) loadBuiltinThemes(context);
-        if (Utils.DONATED) {
+        if (DonateUtils.DONATED) {
             if (customThemes == null) loadCustomThemes(context);
         }
     }

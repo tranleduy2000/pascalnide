@@ -71,7 +71,7 @@ import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.structure.DialogProgramStructure;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.frontend.themefont.activities.ThemeFontActivity;
-import com.duy.pascal.frontend.utils.Utils;
+import com.duy.pascal.frontend.utils.DonateUtils;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
@@ -105,6 +105,10 @@ public class EditorActivity extends BaseEditorActivity implements
         mDrawerLayout.addDrawerListener(this);
 
         menuEditor = new MenuEditor(this, this);
+        if (DonateUtils.DONATED) {
+            Menu menu = navigationView.getMenu();
+            menu.findItem(R.id.action_donate).setVisible(false);
+        }
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

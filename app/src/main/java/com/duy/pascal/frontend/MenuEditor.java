@@ -37,6 +37,7 @@ import com.duy.pascal.frontend.info.InfoActivity;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.setting.SettingsActivity;
 import com.duy.pascal.frontend.utils.StoreUtil;
+import com.duy.pascal.frontend.utils.DonateUtils;
 
 /**
  * Handler for menu click
@@ -251,7 +252,7 @@ public class MenuEditor {
                 pascalPreferences.setImeMode(menuItem.isChecked());
                 break;
             case R.id.action_donate:
-                activity.showDialogDonate();
+                DonateUtils.showDialogDonate(activity);
                 break;
         }
         return true;

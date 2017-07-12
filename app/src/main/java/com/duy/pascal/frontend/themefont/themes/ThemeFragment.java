@@ -30,8 +30,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.utils.StoreUtil;
-import com.duy.pascal.frontend.utils.Utils;
+import com.duy.pascal.frontend.utils.DonateUtils;
 
 /**
  * Created by Duy on 17-May-17.
@@ -74,7 +73,7 @@ public class ThemeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button btnDonate = view.findViewById(R.id.btn_donate);
-        if (Utils.DONATED) {
+        if (DonateUtils.DONATED) {
             btnDonate.setText(R.string.create_new_theme);
             btnDonate.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -87,7 +86,8 @@ public class ThemeFragment extends Fragment {
             btnDonate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    StoreUtil.gotoPlayStore(getActivity(), Utils.DONATE_PACKAGE);
+                    DonateUtils.showDialogDonate(getActivity());
+
                 }
             });
         }
