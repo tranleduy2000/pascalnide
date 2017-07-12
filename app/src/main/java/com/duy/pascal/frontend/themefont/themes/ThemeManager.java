@@ -100,7 +100,7 @@ public class ThemeManager {
             int id = 1;
             while (true) {
                 try {
-                    CodeTheme codeTheme = new CodeTheme(Integer.toString(id), true);
+                    CodeTheme codeTheme = new CodeTheme(true);
                     codeTheme.putColor("background_color", loadColor(properties, id, "background_color"));
                     codeTheme.putColor("normal_text_color", loadColor(properties, id, "normal_text_color"));
                     codeTheme.putColor("number_color", loadColor(properties, id, "number_color"));
@@ -149,7 +149,7 @@ public class ThemeManager {
         return codeTheme;
     }
 
-    private static void loadCustomThemes(Context context) {
+    private  static void loadCustomThemes(Context context) {
         customThemes = new HashMap<>();
         ThemeDatabase themeDatabase = new ThemeDatabase(context);
         ArrayList<CodeTheme> all = themeDatabase.getAll();
@@ -164,8 +164,14 @@ public class ThemeManager {
         return getTheme(name, context);
     }
 
-    public static void loadAll(Context context) {
+    public synchronized static void loadAll(Context context) {
         if (builtinThemes == null) loadBuiltinThemes(context);
         if (customThemes == null) loadCustomThemes(context);
+    }
+
+    public synchronized static void reload(Context context) {
+        builtinThemes = null;
+        customThemes = null;
+        loadAll(context);
     }
 }

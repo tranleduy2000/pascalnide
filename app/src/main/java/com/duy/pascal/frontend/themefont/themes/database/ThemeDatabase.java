@@ -22,6 +22,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -44,7 +45,7 @@ import static com.duy.pascal.frontend.themefont.themes.database.CodeTheme.TABLE_
 
 public class ThemeDatabase extends SQLiteOpenHelper {
     private static final String DB_NAME = "themes.db";
-    private static final String SQL_CREATE_TABLE = "Create table " + DB_NAME + "(" +
+    private static final String SQL_CREATE_TABLE = "Create table " + TABLE_NAME + "(" +
             NAME + " TEXT PRIMARY KEY, " +
             BACKGROUND + " INTEGER, " +
             NORMAL + " INTEGER, " +
@@ -57,25 +58,28 @@ public class ThemeDatabase extends SQLiteOpenHelper {
             STRING + " INTEGER)";
     private static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     private static final int DB_VERSION = 1;
+    private static final String TAG = "ThemeDatabase";
 
-    public ThemeDatabase(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
-    }
 
     public ThemeDatabase(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
     public long insert(CodeTheme themeEntry) {
+        Log.d(TAG, "insert() called with: themeEntry = [" + themeEntry + "]");
+
         ContentValues contentValues = new ContentValues();
         for (Map.Entry<String, Integer> entry : themeEntry.getColors().entrySet()) {
             contentValues.put(entry.getKey(), entry.getValue());
         }
+        contentValues.put(NAME, themeEntry.getName());
         SQLiteDatabase db = getWritableDatabase();
         return db.insert(TABLE_NAME, null, contentValues);
     }
 
     public boolean hasValue(@NonNull String name) {
+        Log.d(TAG, "hasValue() called with: name = [" + name + "]");
+
         SQLiteDatabase db = getReadableDatabase();
         Cursor query = db.query(TABLE_NAME, new String[]{NAME}, NAME + "=?",
                 new String[]{name}, null, null, null);
@@ -85,6 +89,8 @@ public class ThemeDatabase extends SQLiteOpenHelper {
     }
 
     public ArrayList<CodeTheme> getAll() {
+        Log.d(TAG, "getAll() called");
+
         String[] projection = {NAME, BACKGROUND, NORMAL, KEY_WORD, BOOLEAN,
                 ERROR, NUMBER, OPERATOR, COMMENT, STRING};
         SQLiteDatabase db = getReadableDatabase();
@@ -92,17 +98,20 @@ public class ThemeDatabase extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_NAME, projection, null, null, null, null, null);
         while (cursor.moveToNext()) {
             CodeTheme codeTheme = new CodeTheme(false);
+            codeTheme.setName(cursor.getString(cursor.getColumnIndex(NAME)));
             codeTheme.setBackgroundColor(cursor.getInt(cursor.getColumnIndex(BACKGROUND)));
             codeTheme.setTextColor(cursor.getInt(cursor.getColumnIndex(NORMAL)));
             codeTheme.setKeyWordColor(cursor.getInt(cursor.getColumnIndex(KEY_WORD)));
             codeTheme.setBooleanColor(cursor.getInt(cursor.getColumnIndex(BOOLEAN)));
             codeTheme.setErrorColor(cursor.getInt(cursor.getColumnIndex(ERROR)));
+            codeTheme.setNumberColor(cursor.getInt(cursor.getColumnIndex(NUMBER)));
             codeTheme.setOptColor(cursor.getInt(cursor.getColumnIndex(OPERATOR)));
             codeTheme.setCommentColor(cursor.getInt(cursor.getColumnIndex(COMMENT)));
             codeTheme.setStringColor(cursor.getInt(cursor.getColumnIndex(STRING)));
             codeThemes.add(codeTheme);
         }
         cursor.close();
+        Log.d(TAG, "getAll() returned: " + codeThemes);
         return codeThemes;
     }
 

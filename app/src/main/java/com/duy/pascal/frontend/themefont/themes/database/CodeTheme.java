@@ -38,14 +38,10 @@ public class CodeTheme implements Serializable {
 
     private static final String TAG = "CodeTheme";
     private final boolean builtin;
-    private String id;
     private HashMap<String, Integer> colors = new HashMap<>();
     private String name;
 
-    public CodeTheme(String id, boolean builtin) {
-        this.id = id;
-        this.builtin = builtin;
-    }
+
 
     public CodeTheme(boolean builtin) {
         this.builtin = builtin;
@@ -80,9 +76,6 @@ public class CodeTheme implements Serializable {
         return colors.toString();
     }
 
-    public String getId() {
-        return this.id;
-    }
 
     public boolean isBuiltin() {
         return this.builtin;

@@ -17,6 +17,7 @@
 package com.duy.pascal.frontend.themefont.themes;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,9 +33,10 @@ import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.themefont.themes.database.CodeTheme;
-import com.duy.pascal.frontend.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,13 +50,21 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private ThemeFragment.OnThemeSelectListener onThemeSelectListener;
 
     public ThemeAdapter(Activity context) {
-        ThemeManager.loadAll(context);
-        HashMap<String, CodeTheme> all = ThemeManager.getAll(context);
-        for (Map.Entry<String, CodeTheme> entry : all.entrySet()) mThemes.add(entry.getValue());
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mPascalPreferences = new PascalPreferences(context);
+        loadTheme(context);
+    }
 
+    private void loadTheme(Context context) {
+        HashMap<String, CodeTheme> all = ThemeManager.getAll(context);
+        for (Map.Entry<String, CodeTheme> entry : all.entrySet()) mThemes.add(entry.getValue());
+        Collections.sort(mThemes, new Comparator<CodeTheme>() {
+            @Override
+            public int compare(CodeTheme codeTheme, CodeTheme t1) {
+                return codeTheme.getName().compareTo(t1.getName());
+            }
+        });
     }
 
     public void clear() {
@@ -64,69 +74,35 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
     @Override
-    public int getItemViewType(int position) {
-        if (Utils.DONATED) {
-            return 1;
-        } else {
-            if (position == 0) {
-                return 0;
-            } else {
-                return 1;
-            }
-        }
-    }
-
-    @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == 1) {
-            View view = mInflater.inflate(R.layout.list_item_theme, parent, false);
-            return new CodeThemeHolder(view);
-        } else {
-            View view = mInflater.inflate(R.layout.list_item_get_pro_theme, parent, false);
-            return new ProHolder(view);
-        }
+        View view = mInflater.inflate(R.layout.list_item_theme, parent, false);
+        return new CodeThemeHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int pos) {
-        //free version
-        final int position;
-        if (Utils.DONATED) {
-            position = pos;
-        } else {
-            position = pos - 1;
-        }
-        if (holder instanceof CodeThemeHolder) {
-            CodeThemeHolder holder1 = (CodeThemeHolder) holder;
-            holder1.editorView.setLineError(new LineInfo(3, 0, ""));
-            holder1.editorView.setCodeTheme(mThemes.get(pos));
-            holder1.editorView.setTextHighlighted(CodeSample.DEMO_THEME);
-            holder1.txtTitle.setText(String.valueOf(mThemes.get(position)));
-            holder1.btnSelect.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mPascalPreferences.put(mContext.getString(R.string.key_code_theme),
-                            String.valueOf(mThemes.get(position)));
-                    Toast.makeText(mContext,
-                            mContext.getString(R.string.select) + " " + mThemes.get(position),
-                            Toast.LENGTH_SHORT).show();
-                    if (onThemeSelectListener != null) {
-                        onThemeSelectListener.onThemeSelect(String.valueOf(mThemes.get(position)));
-                    }
+        CodeThemeHolder holder1 = (CodeThemeHolder) holder;
+        holder1.editorView.setLineError(new LineInfo(3, 0, ""));
+        holder1.editorView.setCodeTheme(mThemes.get(pos));
+        holder1.editorView.setTextHighlighted(CodeSample.DEMO_THEME);
+        holder1.txtTitle.setText(mThemes.get(pos).getName());
+        holder1.btnSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPascalPreferences.setTheme(mThemes.get(pos).getName());
+                Toast.makeText(mContext,
+                        mContext.getString(R.string.select) + " " + mThemes.get(pos).getName(),
+                        Toast.LENGTH_SHORT).show();
+                if (onThemeSelectListener != null) {
+                    onThemeSelectListener.onThemeSelect(String.valueOf(mThemes.get(pos)));
                 }
-            });
-        } else if (holder instanceof ProHolder) {
-            ((ProHolder) holder).root.setVisibility(View.GONE);
-        }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        if (Utils.DONATED) {
-            return mThemes.size();
-        } else {
-            return mThemes.size() + 1;
-        }
+        return mThemes.size();
     }
 
     @Nullable
@@ -138,12 +114,18 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.onThemeSelectListener = onThemeSelectListener;
     }
 
-    class CodeThemeHolder extends RecyclerView.ViewHolder {
+    public void reload(Context context) {
+        mThemes.clear();
+        loadTheme(context);
+        notifyDataSetChanged();
+    }
+
+    private static class CodeThemeHolder extends RecyclerView.ViewHolder {
         EditorView editorView;
         TextView txtTitle;
         Button btnSelect;
 
-        public CodeThemeHolder(View itemView) {
+        CodeThemeHolder(View itemView) {
             super(itemView);
             editorView = (EditorView) itemView.findViewById(R.id.editor_view);
             txtTitle = (TextView) itemView.findViewById(R.id.txt_title);
@@ -151,12 +133,4 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    class ProHolder extends RecyclerView.ViewHolder {
-        View root;
-
-        public ProHolder(View itemView) {
-            super(itemView);
-            root = itemView.findViewById(R.id.container);
-        }
-    }
 }

@@ -19,6 +19,7 @@ package com.duy.pascal.frontend.themefont.themes;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,7 +42,7 @@ public class ThemeFragment extends Fragment {
     public static final int FONT = 0;
     public static final int THEME = 1;
     @Nullable
-    private ThemeAdapter codeThemeAdapter;
+    private ThemeAdapter mCodeThemeAdapter;
     private RecyclerView mRecyclerView;
     @Nullable
     private OnThemeSelectListener onThemeSelect;
@@ -78,7 +79,7 @@ public class ThemeFragment extends Fragment {
             btnDonate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(getActivity(), CustomThemeActivity.class));
+                    startActivityForResult(new Intent(getActivity(), CustomThemeActivity.class), 1);
                 }
             });
         } else {
@@ -94,21 +95,36 @@ public class ThemeFragment extends Fragment {
 
         mRecyclerView = view.findViewById(R.id.recycler_view);
 
-        codeThemeAdapter = new ThemeAdapter(getActivity());
+        mCodeThemeAdapter = new ThemeAdapter(getActivity());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setAdapter(codeThemeAdapter);
-        codeThemeAdapter.setOnThemeSelectListener(onThemeSelect);
+        mRecyclerView.setAdapter(mCodeThemeAdapter);
+        mCodeThemeAdapter.setOnThemeSelectListener(onThemeSelect);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    if (mCodeThemeAdapter != null) {
+                        mCodeThemeAdapter.reload(getContext());
+                        ThemeManager.reload(getContext());
+                    }
+                }
+            });
+        }
+    }
 
     public RecyclerView.Adapter getAdapter() {
-        return codeThemeAdapter;
+        return mCodeThemeAdapter;
     }
 
     public void notifyDataSetChanged() {
-        if (codeThemeAdapter != null) {
-            codeThemeAdapter.notifyDataSetChanged();
+        if (mCodeThemeAdapter != null) {
+            mCodeThemeAdapter.notifyDataSetChanged();
         }
     }
 

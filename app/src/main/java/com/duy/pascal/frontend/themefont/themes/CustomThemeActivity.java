@@ -97,6 +97,7 @@ public class CustomThemeActivity extends AbstractAppCompatActivity implements Vi
                     if (mDatabase.hasValue(name)) {
                         editText.setError("Theme has been exits!");
                     } else {
+                        codeTheme.setName(name);
                         mDatabase.insert(codeTheme);
                         alertDialog.cancel();
                         finish();
@@ -115,6 +116,7 @@ public class CustomThemeActivity extends AbstractAppCompatActivity implements Vi
                     if (mDatabase.hasValue(name)) {
                         editText.setError("Theme has been exits!");
                     } else {
+                        codeTheme.setName(name);
                         mDatabase.insert(codeTheme);
                         PascalPreferences pascalPreferences = new PascalPreferences(CustomThemeActivity.this);
                         pascalPreferences.setTheme(name);
