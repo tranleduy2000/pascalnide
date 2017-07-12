@@ -234,5 +234,6 @@
     <string name="editor_font">Editor font</string>
     <string name="console_font">Console font</string>
     <string name="unknown">Unknown</string>
+    <string name="custom_theme">Custom theme</string>
 </resources>
 

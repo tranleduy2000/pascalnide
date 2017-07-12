@@ -98,6 +98,12 @@ public class CodeHighlighter implements Highlighter {
 
     }
 
+
+    @Override
+    public void setCodeTheme(CodeTheme codeTheme) {
+        this.codeTheme = codeTheme;
+    }
+
     private void highlightStringAndOther(@NonNull Editable allText,
                                          @NonNull CharSequence textToHighlight, int start) {
         stringHighlighter.highlight(allText, textToHighlight, start);

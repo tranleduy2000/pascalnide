@@ -55,7 +55,6 @@ public class StringHighlighter implements Highlighter {
     }
 
 
-
     @Override
     public void highlight(@NonNull Editable allText, @NonNull CharSequence textToHighlight, int start) {
         mStringRegion.clear();
@@ -65,6 +64,11 @@ public class StringHighlighter implements Highlighter {
                     start + m.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             mStringRegion.add(new Pair<>(start + m.start(), start + m.end()));
         }
+    }
+
+    @Override
+    public void setCodeTheme(CodeTheme codeTheme) {
+        this.codeTheme = codeTheme;
     }
 
     public ArrayList<Pair<Integer, Integer>> getStringRegion() {

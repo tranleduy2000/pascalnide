@@ -244,15 +244,6 @@ public class MenuEditor {
                         EditorActivity.ACTION_PICK_MEDIA_URL);
 
                 break;
-            case R.id.action_create_shortcut:
-                try {
-                    Intent intent = new Intent(activity,
-                            Class.forName("com.duy.pascal.pro.activities.CreateShortcutActivity"));
-                    activity.startActivityForResult(intent, EditorActivity.ACTION_CREATE_SHORTCUT);
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                break;
             case R.id.action_insert_color:
                 activity.insertColor();
                 break;

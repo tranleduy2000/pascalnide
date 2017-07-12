@@ -92,5 +92,33 @@
     </string-array>
     <string name="key_max_page" translatable="false">key_max_tab</string>
     <string name="key_max_history_edit" translatable="false">key_max_history_edit</string>
+    <string name="code_preview">
+        <![CDATA[
+unit Sample;
 
+interface
+
+uses SysUtils;
+
+type
+  TArr = array[0..100] of Integer;
+
+  TRec = record
+    a : TArr;
+    b : Integer;
+  end;
+
+
+  TAlias = TArr;
+  procedure routine();
+
+implementation
+
+uses unix;
+
+
+procedure routine();
+begin
+end;
+end.]]></string>
 </resources>

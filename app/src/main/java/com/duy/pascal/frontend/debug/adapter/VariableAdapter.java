@@ -31,6 +31,7 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.debug.utils.SpanUtils;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.themefont.util.CodeTheme;
+import com.duy.pascal.frontend.themefont.util.ThemeManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,7 @@ public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.Variab
     public VariableAdapter(Context context) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
-        this.codeTheme = CodeTheme.getDefault(new PascalPreferences(context));
+        this.codeTheme = ThemeManager.getDefault(new PascalPreferences(context));
         this.spanUtils = new SpanUtils(codeTheme);
     }
 

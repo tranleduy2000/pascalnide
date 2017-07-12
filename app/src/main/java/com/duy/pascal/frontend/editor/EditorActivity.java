@@ -125,15 +125,6 @@ public class EditorActivity extends BaseEditorActivity implements
         return menuEditor.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if (Utils.DONATED) {
-            menu.findItem(R.id.action_create_shortcut).setEnabled(true);
-        } else {
-            menu.findItem(R.id.action_create_shortcut).setEnabled(false);
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
 
     @Override
     public void invalidateOptionsMenu() {

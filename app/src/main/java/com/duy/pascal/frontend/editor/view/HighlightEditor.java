@@ -57,6 +57,7 @@ import com.duy.pascal.frontend.editor.highlight.CodeHighlighter;
 import com.duy.pascal.frontend.editor.highlight.Highlighter;
 import com.duy.pascal.frontend.themefont.util.CodeTheme;
 import com.duy.pascal.frontend.themefont.util.CodeThemeUtils;
+import com.duy.pascal.frontend.themefont.util.ThemeManager;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -158,6 +159,12 @@ public class HighlightEditor extends CodeSuggestsEditText
         return codeTheme;
     }
 
+    public void setCodeTheme(CodeTheme codeTheme) {
+        this.codeTheme = codeTheme;
+        this.mHighlighter.setCodeTheme(codeTheme);
+        refresh();
+    }
+
     public AutoFixError getAutoFixError() {
         return mAutoFixError;
     }
@@ -206,7 +213,7 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     public void setColorTheme(int id) {
-        codeTheme = CodeTheme.getTheme(id, mContext);
+        codeTheme = ThemeManager.getTheme(id, mContext);
         setBackgroundColor(codeTheme.getBackground());
         setTextColor(codeTheme.getTextColor());
 

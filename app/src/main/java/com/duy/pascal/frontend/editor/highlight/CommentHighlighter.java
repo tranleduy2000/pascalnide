@@ -73,6 +73,12 @@ public class CommentHighlighter implements Highlighter {
         }
     }
 
+    @Override
+    public void setCodeTheme(CodeTheme codeTheme) {
+        this.codeTheme = codeTheme;
+    }
+
+
     public ArrayList<Pair<Integer, Integer>> getCommentRegion() {
         return mCommentRegion;
     }

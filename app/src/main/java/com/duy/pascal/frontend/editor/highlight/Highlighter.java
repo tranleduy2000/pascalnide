@@ -19,6 +19,8 @@ package com.duy.pascal.frontend.editor.highlight;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 
+import com.duy.pascal.frontend.themefont.util.CodeTheme;
+
 /**
  * Created by Duy on 18-Jun-17.
  */
@@ -26,4 +28,6 @@ import android.text.Editable;
 public interface Highlighter {
     void highlight(@NonNull Editable allText,
                    @NonNull CharSequence textToHighlight, int start);
+
+    void setCodeTheme(CodeTheme codeTheme);
 }
