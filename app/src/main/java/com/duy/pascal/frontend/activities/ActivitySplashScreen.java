@@ -36,12 +36,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.editor.EditorActivity;
 import com.duy.pascal.frontend.file.FileManager;
+import com.duy.pascal.frontend.runnable.ExecuteActivity;
 import com.duy.pascal.frontend.utils.DonateUtils;
 import com.duy.pascal.frontend.utils.Installation;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -73,10 +73,6 @@ public class ActivitySplashScreen extends AppCompatActivity {
                             Manifest.permission.READ_EXTERNAL_STORAGE},
                     MY_PERMISSIONS_REQUEST);
         } else {
-            if (BuildConfig.DEBUG) {
-                DonateUtils.DONATED = false;
-                startMainActivity();
-            }
             if (isDonateInstalled(DonateUtils.DONATE_PACKAGE)) {
                 new CheckTask().execute();
             } else {
@@ -104,10 +100,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED
                         && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    if (BuildConfig.DEBUG) {
-                        DonateUtils.DONATED = true;
-                        startMainActivity();
-                    } else if (isDonateInstalled(DonateUtils.DONATE_PACKAGE)) {
+                   if (isDonateInstalled(DonateUtils.DONATE_PACKAGE)) {
                         new CheckTask().execute();
                     } else {
                         startMainActivity();
@@ -301,6 +294,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.setComponent(new ComponentName(DonateUtils.DONATE_PACKAGE,
                         DonateUtils.DONATE_PACKAGE + ".MainActivity"));
+                intent.putExtra("requestCode", REQUEST_CHECK_LICENSE);
                 startActivityForResult(intent, REQUEST_CHECK_LICENSE);
             }
         }

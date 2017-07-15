@@ -17,7 +17,7 @@
 package com.duy.pascal
 
 import android.support.multidex.MultiDexApplication
-import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTaskExecutor
+import com.duy.pascal.interperter.builtin_libraries.android.activity.PascalActivityTaskExecutor
 
 /**
  * Created by Duy on 12-Mar-17.

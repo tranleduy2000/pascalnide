@@ -40,24 +40,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.duy.pascal.backend.ast.codeunit.CodeUnit;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.io.IOLib;
-import com.duy.pascal.backend.core.PascalCompiler;
-import com.duy.pascal.backend.declaration.lang.function.AbstractFunction;
-import com.duy.pascal.backend.declaration.lang.function.FunctionDeclaration;
-import com.duy.pascal.backend.declaration.lang.value.ConstantDefinition;
-import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
-import com.duy.pascal.backend.declaration.program.PascalProgramDeclaration;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.define.MainProgramNotFoundException;
-import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.source_include.FileScriptSource;
-import com.duy.pascal.backend.source_include.ScriptSource;
+import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
+import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.interperter.builtin_libraries.io.IOLib;
+import com.duy.pascal.interperter.core.PascalCompiler;
+import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
+import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
+import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
+import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
+import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
+import com.duy.pascal.interperter.parse_exception.ParsingException;
+import com.duy.pascal.interperter.parse_exception.define.MainProgramNotFoundException;
+import com.duy.pascal.interperter.parse_exception.syntax.ExpectedTokenException;
+import com.duy.pascal.interperter.source_include.FileScriptSource;
+import com.duy.pascal.interperter.source_include.ScriptSource;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code_sample.activities.DocumentActivity;
 import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
@@ -776,7 +775,7 @@ public class EditorActivity extends BaseEditorActivity implements
         }
     }
 
-    private class ProgramHandler implements IRunnablePascal {
+    private class ProgramHandler implements com.duy.pascal.frontend.runnable.ProgramHandler {
 
         private String programPath;
 

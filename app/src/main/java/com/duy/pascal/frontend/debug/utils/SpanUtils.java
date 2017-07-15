@@ -23,10 +23,10 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 
-import com.duy.pascal.backend.ast.variablecontext.ContainsVariables;
-import com.duy.pascal.backend.declaration.lang.types.Type;
-import com.duy.pascal.backend.declaration.lang.types.set.ArrayType;
-import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
+import com.duy.pascal.interperter.ast.variablecontext.ContainsVariables;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
+import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.frontend.themefont.themes.database.CodeTheme;
 
 import java.util.List;

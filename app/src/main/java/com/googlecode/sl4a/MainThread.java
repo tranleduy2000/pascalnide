@@ -5,7 +5,7 @@ package com.googlecode.sl4a;
 import android.content.Context;
 import android.os.Handler;
 
-import com.duy.pascal.backend.builtin_libraries.android.activity.PascalFutureResult;
+import com.duy.pascal.interperter.builtin_libraries.android.activity.PascalFutureResult;
 
 import java.util.concurrent.Callable;
 

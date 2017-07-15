@@ -47,10 +47,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
 import android.widget.Scroller;
 
-import com.duy.pascal.backend.core.PascalCompiler;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.source_include.ScriptSource;
+import com.duy.pascal.interperter.core.PascalCompiler;
+import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.parse_exception.ParsingException;
+import com.duy.pascal.interperter.source_include.ScriptSource;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.autofix.AutoFixError;
 import com.duy.pascal.frontend.editor.highlight.CodeHighlighter;

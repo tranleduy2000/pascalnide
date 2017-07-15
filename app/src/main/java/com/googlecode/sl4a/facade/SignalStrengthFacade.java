@@ -22,13 +22,13 @@ import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
-import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
-import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
+import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
+import com.duy.pascal.interperter.builtin_libraries.android.AndroidLibraryManager;
+import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
 import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.Map;
 import java.util.concurrent.Callable;

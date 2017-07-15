@@ -19,16 +19,16 @@ package com.duy.pascal;
 import android.app.Activity;
 import android.content.Context;
 
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.declaration.program.PascalProgramDeclaration;
-import com.duy.pascal.backend.builtin_libraries.io.IOLib;
-import com.duy.pascal.backend.core.PascalCompiler;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.source_include.FileScriptSource;
-import com.duy.pascal.backend.source_include.ScriptSource;
+import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
+import com.duy.pascal.interperter.builtin_libraries.io.IOLib;
+import com.duy.pascal.interperter.core.PascalCompiler;
+import com.duy.pascal.interperter.parse_exception.ParsingException;
+import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.source_include.FileScriptSource;
+import com.duy.pascal.interperter.source_include.ScriptSource;
 import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.activities.IRunnablePascal;
+import com.duy.pascal.frontend.runnable.ProgramHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 import java.io.File;
@@ -64,7 +64,7 @@ public class Interperter {
         searchPath.add(new FileScriptSource(new File(programPath).getParent()));
         PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(
                 new File(programPath).getName(), new FileReader(programPath), searchPath,
-                new IRunnablePascal() {
+                new ProgramHandler() {
                     @Override
                     public String getCurrentDirectory() {
                         return programFile.getParent();
@@ -178,7 +178,7 @@ public class Interperter {
         try {
             PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(
                     new File(programPath).getName(), new FileReader(programPath), searchPath,
-                    new IRunnablePascal() {
+                    new ProgramHandler() {
                         @Override
                         public String getCurrentDirectory() {
                             return programFile.getParent();

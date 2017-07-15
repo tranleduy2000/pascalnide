@@ -228,5 +228,9 @@
     <string name="more_font">Get more font</string>
     <string name="editor_font">Editor font</string>
     <string name="console_font">Console font</string>
+    <string name="create_new_theme">Create new theme</string>
+    <string name="more_theme">Get premium version. Create your custom theme!</string>
+    <string name="custom_theme">Custom theme</string>
+    <string name="save_and_apply">Save and apply</string>
 </resources>
 

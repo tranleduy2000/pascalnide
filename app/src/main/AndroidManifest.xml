@@ -97,7 +97,7 @@
             android:name=".editor.EditorActivity"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activities.ExecuteActivity"
+            android:name=".runnable.ExecuteActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan"/>
@@ -110,23 +110,16 @@
             android:name=".debug.activities.DebugActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustPan"/>
-        <activity android:name="com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivity"/>
+        <activity android:name="com.duy.pascal.interperter.builtin_libraries.android.activity.PascalActivity"/>
         <activity android:name=".code_sample.activities.SearchResultSampleActivity"/>
-        <activity android:name=".themefont.themes.CustomThemeActivity">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-
-                <action android:name="android.intent.action.MAIN"/>
-            </intent-filter>
-        </activity>
+        <activity android:name=".themefont.themes.CustomThemeActivity"/>
 
         <!-- Scan bar code activity -->
         <activity
-            android:name="com.duy.pascal.backend.builtin_libraries.android.barcode.ZxingActivity"
+            android:name="com.duy.pascal.interperter.builtin_libraries.android.barcode.ZxingActivity"
             android:label="@string/title_activity_zxing"/>
         <activity
-            android:name="com.duy.pascal.backend.builtin_libraries.android.barcode.ScannerActivity"
+            android:name="com.duy.pascal.interperter.builtin_libraries.android.barcode.ScannerActivity"
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 

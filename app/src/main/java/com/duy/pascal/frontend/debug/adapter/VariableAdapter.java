@@ -26,7 +26,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.TextView;
 
-import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
+import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.debug.utils.SpanUtils;
 import com.duy.pascal.frontend.themefont.themes.database.CodeTheme;

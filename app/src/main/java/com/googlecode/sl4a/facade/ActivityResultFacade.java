@@ -19,12 +19,12 @@ package com.googlecode.sl4a.facade;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
-import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
-import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
-import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
+import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
+import com.duy.pascal.interperter.builtin_libraries.android.AndroidLibraryManager;
+import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
+import com.duy.pascal.interperter.builtin_libraries.annotations.PascalParameter;
 import com.googlecode.sl4a.Constants;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.io.Serializable;
 import java.util.Map;

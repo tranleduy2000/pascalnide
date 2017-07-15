@@ -21,11 +21,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
-import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
-import com.duy.pascal.backend.builtin_libraries.android.activity.PascalFutureResult;
-import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
-import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
+import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
+import com.duy.pascal.interperter.builtin_libraries.android.AndroidLibraryManager;
+import com.duy.pascal.interperter.builtin_libraries.android.activity.PascalFutureResult;
+import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
+import com.duy.pascal.interperter.builtin_libraries.annotations.PascalParameter;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -35,7 +35,7 @@ import com.googlecode.sl4a.jsonrpc.JsonBuilder;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 
 import org.json.JSONException;
 

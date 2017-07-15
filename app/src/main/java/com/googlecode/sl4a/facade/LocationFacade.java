@@ -28,15 +28,15 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
-import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
-import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
-import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
+import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
+import com.duy.pascal.interperter.builtin_libraries.android.AndroidLibraryManager;
+import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
+import com.duy.pascal.interperter.builtin_libraries.annotations.PascalParameter;
 import com.google.common.collect.Maps;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.io.IOException;
 import java.util.HashMap;

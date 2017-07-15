@@ -32,8 +32,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
-import com.duy.pascal.backend.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.debug.CallStack;
 import com.duy.pascal.frontend.debug.adapter.FrameAdapter;

@@ -92,7 +92,7 @@
     </string-array>
     <string name="key_max_page" translatable="false">key_max_tab</string>
     <string name="key_max_history_edit" translatable="false">key_max_history_edit</string>
-    <string name="code_preview">
+    <string name="code_preview" translatable="false">
         <![CDATA[
 unit Sample;
 

@@ -27,7 +27,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.editor.view.EditorView;

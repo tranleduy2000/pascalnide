@@ -21,7 +21,7 @@ import android.content.Intent;
 
 import com.duy.pascal.frontend.debug.activities.DebugActivity;
 import com.duy.pascal.frontend.editor.EditorActivity;
-import com.duy.pascal.frontend.activities.ExecuteActivity;
+import com.duy.pascal.frontend.runnable.ExecuteActivity;
 
 /**
  * Created by Duy on 11-Feb-17.

@@ -32,8 +32,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTask;
-import com.duy.pascal.backend.builtin_libraries.android.view.AndroidDialogLib;
+import com.duy.pascal.interperter.builtin_libraries.android.activity.PascalActivityTask;
+import com.duy.pascal.interperter.builtin_libraries.android.view.AndroidDialogLib;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.SingleThreadExecutor;

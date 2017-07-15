@@ -16,13 +16,13 @@
 
 package com.duy.pascal.frontend.debug;
 
-import com.duy.pascal.backend.declaration.lang.function.AbstractCallableFunction;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.variablecontext.VariableContext;
-import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.debugable.DebugListener;
-import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
+import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
+import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.debugable.DebugListener;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.lang.reflect.Method;
 

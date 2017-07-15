@@ -16,11 +16,11 @@
 
 package com.duy.pascal.lexer;
 
-import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
-import com.duy.pascal.backend.source_include.FileScriptSource;
-import com.duy.pascal.backend.source_include.ScriptSource;
-import com.duy.pascal.backend.tokenizer.NewLexer;
-import com.duy.pascal.backend.tokens.grouping.BaseGrouperToken;
+import com.duy.pascal.interperter.parse_exception.grouping.GroupingException;
+import com.duy.pascal.interperter.source_include.FileScriptSource;
+import com.duy.pascal.interperter.source_include.ScriptSource;
+import com.duy.pascal.interperter.tokenizer.NewLexer;
+import com.duy.pascal.interperter.tokens.grouping.BaseGrouperToken;
 import com.duy.pascal.interpreter.BaseTestCase;
 
 import java.io.File;

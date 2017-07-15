@@ -21,12 +21,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
-import com.duy.pascal.backend.builtin_libraries.android.activity.PascalFutureResult;
-import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
-import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
-import com.duy.pascal.frontend.activities.IRunnablePascal;
+import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
+import com.duy.pascal.interperter.builtin_libraries.android.activity.PascalFutureResult;
+import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
+import com.duy.pascal.interperter.builtin_libraries.annotations.PascalParameter;
+import com.duy.pascal.frontend.runnable.ProgramHandler;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -79,7 +79,7 @@ public class EventFacade implements PascalLibrary {
     private final Context mContext;
     private EventServer mEventServer = null;
 
-    public EventFacade(IRunnablePascal manager) {
+    public EventFacade(ProgramHandler manager) {
         mContext = manager.getApplicationContext();
     }
 
