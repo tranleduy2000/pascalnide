@@ -37,7 +37,7 @@ import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import java.io.File;
 
 
-public class ExecuteActivity extends AbstractExecActivity {
+public class ExecuteActivity extends AbstractExecActivity  {
     public ConsoleView mConsoleView;
     public Toolbar toolbar;
 

@@ -48,6 +48,17 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.code.CompileManager;
+import com.duy.pascal.frontend.code.ExceptionManager;
+import com.duy.pascal.frontend.debug.CallStack;
+import com.duy.pascal.frontend.debug.fragments.FragmentFrame;
+import com.duy.pascal.frontend.dialog.DialogManager;
+import com.duy.pascal.frontend.editor.view.HighlightEditor;
+import com.duy.pascal.frontend.editor.view.LineUtils;
+import com.duy.pascal.frontend.runnable.AbstractExecActivity;
+import com.duy.pascal.frontend.view.LockableScrollView;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.interperter.ast.instructions.Executable;
 import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
@@ -57,17 +68,6 @@ import com.duy.pascal.interperter.config.DebugMode;
 import com.duy.pascal.interperter.debugable.DebugListener;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.runnable.AbstractExecActivity;
-import com.duy.pascal.frontend.code.CompileManager;
-import com.duy.pascal.frontend.code.ExceptionManager;
-import com.duy.pascal.frontend.debug.CallStack;
-import com.duy.pascal.frontend.debug.fragments.FragmentFrame;
-import com.duy.pascal.frontend.dialog.DialogManager;
-import com.duy.pascal.frontend.editor.view.HighlightEditor;
-import com.duy.pascal.frontend.editor.view.LineUtils;
-import com.duy.pascal.frontend.view.LockableScrollView;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;
@@ -77,7 +77,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static android.view.ViewGroup.LayoutParams;
 
 
-public class DebugActivity extends AbstractExecActivity implements DebugListener {
+public class DebugActivity extends AbstractExecActivity implements DebugListener, ProgramHandler {
 
     private ConsoleView mConsoleView;
     private HighlightEditor mCodeView;

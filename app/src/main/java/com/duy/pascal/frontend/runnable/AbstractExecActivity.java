@@ -23,23 +23,24 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
-import com.duy.pascal.interperter.config.DebugMode;
+import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
+import com.duy.pascal.frontend.alogrithm.InputData;
+import com.duy.pascal.frontend.file.FileManager;
+import com.duy.pascal.frontend.utils.StringCompare;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.builtin_libraries.io.IOLib;
+import com.duy.pascal.interperter.config.DebugMode;
 import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.debugable.DebugListener;
+import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.parse_exception.ParsingException;
 import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
 import com.duy.pascal.interperter.runtime_exception.ScriptTerminatedException;
 import com.duy.pascal.interperter.source_include.FileScriptSource;
 import com.duy.pascal.interperter.source_include.ScriptSource;
-import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.alogrithm.InputData;
-import com.duy.pascal.frontend.file.FileManager;
-import com.duy.pascal.frontend.utils.StringCompare;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 import java.io.File;
 import java.io.FileReader;
@@ -48,12 +49,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.duy.pascal.frontend.alogrithm.InputData.MAX_INPUT;
 
-public abstract class AbstractExecActivity extends RunnableActivity {
+public abstract class AbstractExecActivity extends AbstractAppCompatActivity implements ProgramHandler {
     public static final boolean DEBUG = DLog.DEBUG;
     protected static final String TAG = AbstractExecActivity.class.getSimpleName();
     protected static final int COMPLETE = 4;
     protected static final int RUNTIME_ERROR = 5;
     protected static final int SHOW_KEYBOARD = 6;
+
     protected final AtomicBoolean mIsRunning = new AtomicBoolean(true);
     protected final Handler mMessageHandler = new Handler() {
         @Override
@@ -132,12 +134,11 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     protected boolean debugging = false;
     protected RuntimeExecutableCodeUnit program;
     protected String programFile;
+
     private final Runnable runProgram = new Runnable() {
         @Override
         public void run() {
             try {
-                //compile
-                PascalCompiler pascalCompiler = new PascalCompiler(AbstractExecActivity.this);
                 try {
                     ArrayList<ScriptSource> searchPath = new ArrayList<>();
                     searchPath.add(new FileScriptSource(new File(filePath).getParent()));

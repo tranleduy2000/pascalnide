@@ -16,13 +16,11 @@
 
 package com.duy.pascal.frontend.runnable;
 
-import android.support.annotation.Nullable;
-
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 
 public interface ConsoleHandler {
-    @Nullable
+
     ConsoleView getConsoleView();
 
     void clearConsole();
