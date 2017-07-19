@@ -38,9 +38,6 @@ captures/
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
 
-# Google Services (e.g. APIs or Firebase)
-google-services.json
-
 # Freeline
 freeline.py
 freeline/
@@ -51,16 +48,13 @@ apk/pascal_3.9.4_95.apk
 apk/pascal_3.9.5_96.apk
 apk/pascal_3.9.6_97.apk
 apk/pascal_3.9.7_98.apk
-libs/
-src/androidTest/
-/test_pascal/test_issue/
+
 /sample/weird/
 *.o
 *.exe
 *.COM
 
 
-!/libCompiler/libs/
 /sample/Pascal-Labyrinth-Game-master/
 /sample/BlackJack-Pascal-master/
 /sample/terpas/
