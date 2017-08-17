@@ -26,7 +26,6 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
@@ -39,7 +38,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -80,19 +78,19 @@ public class SuggestionProvider {
             //the result
             ArrayList<SuggestItem> suggestItems = new ArrayList<>();
 
-            ArrayListMultimap<Name, AbstractFunction> callableFunctions = exprContext.getCallableFunctions();
-            addFunction(suggestItems, callableFunctions);
-
             ArrayList<VariableDeclaration> variables = exprContext.getVariables();
-            addVariable(suggestItems, variables);
+            suggestItems.addAll(sort(filterVariables(variables)));
 
             Map<Name, ConstantDefinition> constants = exprContext.getConstants();
-            addConstant(suggestItems, constants);
+            suggestItems.addAll(sort(filterConst(constants)));
 
-            HashMap<Name, Type> typedefs = exprContext.getTypedefs();
+            ArrayListMultimap<Name, AbstractFunction> callableFunctions = exprContext.getCallableFunctions();
+            suggestItems.addAll(sort(filterFunctions(callableFunctions)));
+
+//            HashMap<Name, Type> typedefs = exprContext.getTypedefs();
 //            addTypeDef();
 
-            addKeyword(suggestItems);
+            suggestItems.addAll(sort(addKeyword()));
             return sort(suggestItems);
         } catch (ParsingException e) {
             e.printStackTrace();
@@ -102,13 +100,16 @@ public class SuggestionProvider {
         return null;
     }
 
-    private void addKeyword(ArrayList<SuggestItem> suggestItems) {
-        if (incomplete.isEmpty()) return;
+    private ArrayList<SuggestItem> addKeyword() {
+        ArrayList<SuggestItem> suggestItems = new ArrayList<>();
+        if (incomplete.isEmpty()) return suggestItems;
         for (String s : KeyWord.ALL_KEY_WORD) {
-            if (s.toLowerCase().startsWith(incomplete.toLowerCase())) {
+            if (s.toLowerCase().startsWith(incomplete.toLowerCase())
+                    && !s.equalsIgnoreCase(incomplete)) {
                 suggestItems.add(new SuggestItem(SuggestItem.KIND_KEYWORD, s));
             }
         }
+        return suggestItems;
     }
 
     private void calculateIncomplete() {
@@ -120,9 +121,9 @@ public class SuggestionProvider {
 
     }
 
-    private ArrayList<SuggestItem> sort(ArrayList<SuggestItem> suggestItems) {
+    private ArrayList<SuggestItem> sort(ArrayList<SuggestItem> items) {
         //sort by type -> name
-        Collections.sort(suggestItems, new Comparator<SuggestItem>() {
+        Collections.sort(items, new Comparator<SuggestItem>() {
             @Override
             public int compare(SuggestItem o1, SuggestItem o2) {
                 if (!o1.getType().equals(o2.getType())) {
@@ -132,15 +133,16 @@ public class SuggestionProvider {
                 }
             }
         });
-        for (SuggestItem suggestItem : suggestItems) {
+        for (SuggestItem suggestItem : items) {
             System.out.println(suggestItem);
         }
-        return suggestItems;
+        return items;
     }
 
-    private void addConstant(ArrayList<SuggestItem> suggestItems, Map<Name, ConstantDefinition> constants) {
-        if (incomplete.isEmpty()) return;
+    private ArrayList<SuggestItem> filterConst(Map<Name, ConstantDefinition> constants) {
+        if (incomplete.isEmpty()) return new ArrayList<>();
 
+        ArrayList<SuggestItem> suggestItems = new ArrayList<>();
 
         for (Map.Entry<Name, ConstantDefinition> entry : constants.entrySet()) {
             ConstantDefinition constant = entry.getValue();
@@ -152,11 +154,12 @@ public class SuggestionProvider {
                 }
             }
         }
+        return suggestItems;
     }
 
-    private void addVariable(ArrayList<SuggestItem> suggestItems, ArrayList<VariableDeclaration> variables) {
-        if (incomplete.isEmpty()) return;
-
+    private ArrayList<SuggestItem> filterVariables(ArrayList<VariableDeclaration> variables) {
+        if (incomplete.isEmpty()) return new ArrayList<>();
+        ArrayList<SuggestItem> suggestItems = new ArrayList<>();
         for (VariableDeclaration variable : variables) {
             if (variable.getName().isPrefix(incomplete)) {
                 LineInfo line = variable.getLineNumber();
@@ -166,11 +169,14 @@ public class SuggestionProvider {
                 }
             }
         }
+        return suggestItems;
     }
 
-    private void addFunction(ArrayList<SuggestItem> suggestItems,
-                             ArrayListMultimap<Name, AbstractFunction> functions) {
-        if (incomplete.isEmpty()) return;
+    private ArrayList<SuggestItem> filterFunctions(
+            ArrayListMultimap<Name, AbstractFunction> functions) {
+        if (incomplete.isEmpty()) return new ArrayList<>();
+        ArrayList<SuggestItem> suggestItems = new ArrayList<>();
+
         for (Map.Entry<Name, AbstractFunction> entry : functions.entries()) {
             AbstractFunction function = entry.getValue();
             if (function.getName().isPrefix(incomplete)) {
@@ -181,5 +187,6 @@ public class SuggestionProvider {
                 }
             }
         }
+        return suggestItems;
     }
 }
