@@ -155,6 +155,11 @@ public class DonateUtils {
     }
 
     public static void showDialogDonate(final Activity context) {
+        if (true) {
+            StoreUtil.gotoPlayStore(context, DonateUtils.DONATE_PACKAGE, DonateUtils.REQUEST_DONATE);
+            return;
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.donate);
         builder.setMessage(R.string.donate_summary);

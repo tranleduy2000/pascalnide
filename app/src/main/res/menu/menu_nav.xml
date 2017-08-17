@@ -31,10 +31,12 @@
             <item
                 android:enabled="false"
                 android:icon="@drawable/ic_cloud_white_24dp"
-                android:title="@string/cloud_database">
+                android:title="@string/cloud_database"
+                android:visible="false">
 
             </item>
             <item
+
                 android:id="@+id/action_got_to_blog"
                 android:enabled="true"
                 android:icon="@drawable/ic_web_white_24dp"
@@ -47,6 +49,7 @@
                 android:enabled="false"
                 android:icon="@drawable/ic_info_white_24dp"
                 android:title="@string/document"
+                android:visible="false"
                 app:showAsAction="ifRoom"/>
 
             <item

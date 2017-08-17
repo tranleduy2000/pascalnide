@@ -40,12 +40,9 @@ import java.util.ArrayList;
 
 public class InfoActivity extends AbstractAppCompatActivity {
     private static final String TAG = InfoActivity.class.getClass().getSimpleName();
-    //    @BindView(R.id.list_translate)
-    RecyclerView mListTranslate;
-    //    @BindView(R.id.list_license)
-    RecyclerView mListLicense;
-    //    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+  private   RecyclerView mListTranslate;
+  private   RecyclerView mListLicense;
+    private  Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -36,8 +36,8 @@ import com.duy.pascal.frontend.editor.EditorActivity;
 import com.duy.pascal.frontend.info.InfoActivity;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.setting.SettingsActivity;
-import com.duy.pascal.frontend.utils.StoreUtil;
 import com.duy.pascal.frontend.utils.DonateUtils;
+import com.duy.pascal.frontend.utils.StoreUtil;
 
 /**
  * Handler for menu click
@@ -195,7 +195,6 @@ public class MenuEditor {
                 break;
             case R.id.action_translate:
                 showPopupTranslate(activity);
-
                 break;
             case R.id.action_info:
                 activity.startActivity(new Intent(activity, InfoActivity.class));
@@ -259,6 +258,13 @@ public class MenuEditor {
     }
 
     public void showPopupTranslate(final Activity activity) {
+        if (true) {
+            Intent intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://github.com/tranleduy2000/pascalnide/blob/master/wiki/how_to_help_translate.md"));
+            activity.startActivity(intent);
+            return;
+        }
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(R.string.help_me_translate).setView(R.layout.dialog_help_translate)
                 .setIcon(R.drawable.ic_language_white_24dp);

@@ -462,11 +462,13 @@ public class FragmentFileManager extends Fragment implements
                     }
 
                     for (final File f : files) {
-                        if (f.isDirectory() && !f.getName().equalsIgnoreCase("fonts")) {
+                        if (f.isDirectory() && !f.getName().equalsIgnoreCase("fonts")
+                                && !f.isHidden()) {
                             folderDetails.add(new FileDetail(f.getName(), getString(R.string.folder), ""));
                         } else if (f.isFile()
                                 && FilenameUtils.isExtension(f.getName().toLowerCase(), canOpen)
-                                && FileUtils.sizeOf(f) <= Build.MAX_FILE_SIZE * FileUtils.ONE_KB) {
+                                && FileUtils.sizeOf(f) <= Build.MAX_FILE_SIZE * FileUtils.ONE_KB
+                                && !f.isHidden()) {
                             final long fileSize = f.length();
                             SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  hh:mm a", Locale.getDefault());
                             String date = format.format(f.lastModified());
