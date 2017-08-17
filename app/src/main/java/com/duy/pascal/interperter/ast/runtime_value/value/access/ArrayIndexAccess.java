@@ -53,7 +53,7 @@ public class ArrayIndexAccess extends DebuggableAssignableValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         RuntimeType r = (container.getRuntimeType(f));
         return new RuntimeType(((ArrayType<?>) r.declType).elementType,
                 r.writable);
@@ -72,7 +72,7 @@ public class ArrayIndexAccess extends DebuggableAssignableValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         Object cont = container.compileTimeValue(context);
         Object ind = index.compileTimeValue(context);
         if (ind == null || cont == null) {
@@ -122,7 +122,7 @@ public class ArrayIndexAccess extends DebuggableAssignableValue {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return new ArrayIndexAccess(container.compileTimeExpressionFold(context),
                 index.compileTimeExpressionFold(context), offset);
     }

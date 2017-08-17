@@ -63,7 +63,7 @@ public class WordToken extends Token implements NamedEntity {
 
     @NonNull
     @Override
-    public WordToken getWordValue() throws ParsingException {
+    public WordToken getWordValue() throws Exception {
         return this;
     }
 

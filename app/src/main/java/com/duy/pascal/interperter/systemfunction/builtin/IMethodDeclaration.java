@@ -35,11 +35,11 @@ public interface IMethodDeclaration {
     Name getName();
 
     FunctionCall generateCall(LineInfo line, RuntimeValue[] values,
-                              ExpressionContext f) throws ParsingException;
+                              ExpressionContext f) throws Exception;
 
     FunctionCall generatePerfectFitCall(LineInfo line,
                                         RuntimeValue[] values, ExpressionContext f)
-            throws ParsingException;
+            throws Exception;
 
     ArgumentType[] argumentTypes();
 

@@ -70,7 +70,7 @@ public class SetType<T extends Type> extends BaseSetType {
      */
     public static ConstantAccess<LinkedList> getSetConstant(ExpressionContext context, Token token,
                                                             AtomicReference<Type> typeReference)
-            throws ParsingException {
+            throws Exception {
         if (!(token instanceof BracketedToken)) {
             throw new ExpectedTokenException(new BracketedToken(null), token);
         }
@@ -117,7 +117,7 @@ public class SetType<T extends Type> extends BaseSetType {
      */
     public static SetBoxer getSetRuntime(@NonNull ExpressionContext context, Token token,
                                          AtomicReference<Type> typeReference)
-            throws ParsingException {
+            throws Exception {
         if (!(token instanceof BracketedToken)) {
             throw new ExpectedTokenException(new BracketedToken(null), token);
         }
@@ -193,7 +193,7 @@ public class SetType<T extends Type> extends BaseSetType {
     }
 
     @Override
-    public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f) throws ParsingException {
+    public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f) throws Exception {
         RuntimeType other = runtimeValue.getRuntimeType(f);
         if (other.declType instanceof SetType) {
             if (((SetType) other.declType).getElementType().equals(this.getElementType())) {

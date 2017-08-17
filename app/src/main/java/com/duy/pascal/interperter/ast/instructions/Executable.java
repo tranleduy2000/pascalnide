@@ -13,5 +13,5 @@ public interface Executable {
     ExecutionResult execute(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException;
 
-    Executable compileTimeConstantTransform(CompileTimeContext c) throws ParsingException;
+    Executable compileTimeConstantTransform(CompileTimeContext c) throws Exception;
 }

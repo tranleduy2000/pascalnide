@@ -58,7 +58,7 @@ public abstract class VariableContext implements ContainsVariables {
     @Override
     public void setVar(Name name, Object val) {
         if (val instanceof NullValue) {
-            System.err.println("Warning!  Setting null variable!");
+            System.err.println("Warning! Set null variable!");
         }
         if (setLocalVar(name, val)) {
             return;

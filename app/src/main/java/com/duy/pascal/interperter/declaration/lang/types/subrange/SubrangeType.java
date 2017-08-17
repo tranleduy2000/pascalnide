@@ -57,7 +57,7 @@ public abstract class SubrangeType<T extends Comparable> extends TypeInfo implem
     }
 
     public static SubrangeType getRangeType(GrouperToken g, ExpressionContext context,
-                                            Token n) throws ParsingException {
+                                            Token n) throws Exception {
         RuntimeValue first = g.getNextExpression(context, n);
 
         if (!(g.peek() instanceof DotDotToken)) {
@@ -140,7 +140,7 @@ public abstract class SubrangeType<T extends Comparable> extends TypeInfo implem
 
     @Nullable
     @Override
-    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws ParsingException {
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws Exception {
         RuntimeType other_type = other.getRuntimeType(f);
         if (this.equals(other_type.declType)) {
             return cloneValue(other);

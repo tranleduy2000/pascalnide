@@ -27,7 +27,7 @@ public class RepeatInstruction extends DebuggableExecutable {
     LineInfo line;
 
     public RepeatInstruction(ExpressionContext f, GrouperToken grouperToken, LineInfo lineInfo)
-            throws ParsingException {
+            throws Exception {
         Token next = null;
         CompoundStatement command = new CompoundStatement(lineInfo);
 
@@ -85,7 +85,7 @@ public class RepeatInstruction extends DebuggableExecutable {
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+            throws Exception {
         Object o = condition.compileTimeValue(c);
         if (o != null) {
             Boolean b = (Boolean) o;

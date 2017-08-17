@@ -33,7 +33,7 @@ public interface Type extends NamedEntity, Member {
      * byte a = 6 -> integer b = a;
      */
     @Nullable
-    RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws ParsingException;
+    RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws Exception;
 
     boolean equals(Type other);
 

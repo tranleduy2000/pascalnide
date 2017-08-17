@@ -44,7 +44,7 @@ public abstract class AbstractCallableFunction extends AbstractFunction {
     @Override
     public FunctionCall generatePerfectFitCall(LineInfo line,
                                                List<RuntimeValue> values, ExpressionContext f)
-            throws ParsingException {
+            throws Exception {
         RuntimeValue[] args = perfectMatch(values, f);
         if (args == null) {
             return null;
@@ -54,7 +54,7 @@ public abstract class AbstractCallableFunction extends AbstractFunction {
 
     @Override
     public FunctionCall generateCall(LineInfo line, List<RuntimeValue> values,
-                                     ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws Exception {
         RuntimeValue[] args = formatArgs(values, f);
         if (args == null) {
             return null;

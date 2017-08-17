@@ -58,13 +58,13 @@ public class RangeRuntimeValue extends DebuggableReturnValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         return null;
     }
 
     @Nullable
     @Override
-    public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
+    public Object compileTimeValue(CompileTimeContext context) throws Exception {
         Object o = first.compileTimeValue(context);
         if (NullSafety.isNullValue(o)) return NullValue.get();
         Object o1 = last.compileTimeValue(context);
@@ -74,7 +74,7 @@ public class RangeRuntimeValue extends DebuggableReturnValue {
 
     @Nullable
     @Override
-    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
         RuntimeValue o = first.compileTimeExpressionFold(context);
         RuntimeValue o1 = last.compileTimeExpressionFold(context);
         return new RangeRuntimeValue(o, o1);

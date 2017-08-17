@@ -19,15 +19,14 @@ package com.duy.pascal.interperter.systemfunction.builtin;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.util.List;
 
@@ -74,7 +73,7 @@ public class AbstractMethodDeclaration extends AbstractFunction {
     @Override
     public FunctionCall generatePerfectFitCall(LineInfo line,
                                                List<RuntimeValue> values, ExpressionContext f)
-            throws ParsingException {
+            throws Exception {
         RuntimeValue[] args = this.perfectMatch(values, f);
         if (args == null) {
             return null;
@@ -84,7 +83,7 @@ public class AbstractMethodDeclaration extends AbstractFunction {
 
     @Override
     public FunctionCall generateCall(LineInfo line, List<RuntimeValue> values,
-                                     ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws Exception {
         RuntimeValue[] args = this.formatArgs(values, f);
         if (args == null) {
             return null;

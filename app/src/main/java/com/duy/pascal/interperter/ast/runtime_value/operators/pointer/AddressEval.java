@@ -52,7 +52,7 @@ public class AddressEval extends DebuggableReturnValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         return new RuntimeType(new PointerType(target.getRuntimeType(f).declType), false);
     }
 
@@ -67,12 +67,12 @@ public class AddressEval extends DebuggableReturnValue {
     }
 
     @Override
-    public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
+    public Object compileTimeValue(CompileTimeContext context) throws Exception {
         return null;
     }
 
     @Override
-    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
         return this;
     }
 }

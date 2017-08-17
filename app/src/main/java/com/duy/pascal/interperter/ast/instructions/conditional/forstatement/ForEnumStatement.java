@@ -53,7 +53,7 @@ public class ForEnumStatement extends DebuggableExecutable {
     public ForEnumStatement(ExpressionContext f, AssignableValue mTempVar,
                             RuntimeValue first, RuntimeValue last, Executable command,
                             EnumGroupType enumGroupType,
-                            LineInfo line, boolean downto) throws ParsingException {
+                            LineInfo line, boolean downto) throws Exception {
         this.mTempVar = mTempVar;
         this.first = first;
         this.last = last;
@@ -111,7 +111,7 @@ public class ForEnumStatement extends DebuggableExecutable {
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+            throws Exception {
         Executable comm = command.compileTimeConstantTransform(c);
 //        return new ForDowntoStatement(first, comp, inc, comm, line);
         return null;

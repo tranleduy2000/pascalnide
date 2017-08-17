@@ -44,7 +44,7 @@ public class MinusAssignStatement extends DebuggableExecutable implements Assign
     private LineInfo line;
 
     public MinusAssignStatement(@NonNull AssignableValue left, @NonNull RuntimeValue minusOp,
-                                LineInfo line) throws ParsingException {
+                                LineInfo line) throws Exception {
         this.left = left;
         this.minusOp = minusOp;
         this.line = line;
@@ -52,7 +52,7 @@ public class MinusAssignStatement extends DebuggableExecutable implements Assign
 
     public MinusAssignStatement(@NonNull ExpressionContext f,
                                 @NonNull AssignableValue left, RuntimeValue value,
-                                LineInfo line) throws ParsingException {
+                                LineInfo line) throws Exception {
         this.left = left;
         this.line = line;
         this.minusOp = BinaryOperatorEval.generateOp(f, left, value, OperatorTypes.MINUS, line);
@@ -85,7 +85,7 @@ public class MinusAssignStatement extends DebuggableExecutable implements Assign
 
     @Override
     public AssignExecutable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+            throws Exception {
         return new MinusAssignStatement(left, minusOp.compileTimeExpressionFold(c), line);
     }
 }

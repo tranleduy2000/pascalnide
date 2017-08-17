@@ -36,7 +36,7 @@ public class CaseInstruction extends DebuggableExecutable {
     private LineInfo line;
 
     public CaseInstruction(CaseToken token, ExpressionContext context)
-            throws ParsingException {
+            throws Exception {
         this.line = token.getLineNumber();
         mSwitchValue = token.getNextExpression(context);
 
@@ -99,7 +99,7 @@ public class CaseInstruction extends DebuggableExecutable {
 
     //check type
     private void assertType(Type switchValueType, RuntimeValue val,
-                            ExpressionContext context) throws ParsingException {
+                            ExpressionContext context) throws Exception {
         Type valueType = val.getRuntimeType(context).declType;
         RuntimeValue converted = switchValueType.convert(val, context);
         if (converted == null) {
@@ -111,7 +111,7 @@ public class CaseInstruction extends DebuggableExecutable {
     /**
      * check semicolon symbol
      */
-    private void assertNextSemicolon(GrouperToken grouperToken) throws ParsingException {
+    private void assertNextSemicolon(GrouperToken grouperToken) throws Exception {
         if (grouperToken.peek() instanceof ElseToken) return;
         grouperToken.assertNextSemicolon();
     }
@@ -138,7 +138,7 @@ public class CaseInstruction extends DebuggableExecutable {
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+            throws Exception {
       /*  Object value = mSwitchValue.compileTimeValue(c);
         if (value == null) {
             return this;

@@ -42,7 +42,7 @@ public class IntegerSubrangeType extends com.duy.pascal.interperter.declaration.
 
     @Nullable
     @Override
-    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws ParsingException {
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws Exception {
         return BasicType.Integer.convert(other, f);
     }
 

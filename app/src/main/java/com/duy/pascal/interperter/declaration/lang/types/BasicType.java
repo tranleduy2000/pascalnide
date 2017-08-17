@@ -60,7 +60,7 @@ public enum BasicType implements Type {
 
         @Override
         public RuntimeValue convert(RuntimeValue other, ExpressionContext f)
-                throws ParsingException {
+                throws Exception {
             if (other instanceof ConstantAccess) {
                 Name name = ((ConstantAccess) other).getName();
                 if (name != null && name.equals("null")) {
@@ -288,7 +288,7 @@ public enum BasicType implements Type {
 
     @Override
     public RuntimeValue convert(RuntimeValue other, ExpressionContext f)
-            throws ParsingException {
+            throws Exception {
         RuntimeType otherType = other.getRuntimeType(f);
         if (otherType.declType instanceof BasicType) {
             if (this.equals(otherType.declType)) {

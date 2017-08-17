@@ -49,14 +49,14 @@ public class HighFunction implements IMethodDeclaration {
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                     ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws Exception {
         RuntimeValue value = arguments[0];
         this.runtimeType = value.getRuntimeType(f);
         return new HighCall(value, line);
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws ParsingException {
+    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         return generateCall(line, values, f);
     }
 
@@ -94,7 +94,7 @@ public class HighFunction implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+        public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
             return new RuntimeType(HighFunction.this.returnType(), false);
         }
 
@@ -116,13 +116,13 @@ public class HighFunction implements IMethodDeclaration {
 
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-                throws ParsingException {
+                throws Exception {
             return new HighCall(value, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
-                throws ParsingException {
+                throws Exception {
             return new HighCall(value, line);
         }
 

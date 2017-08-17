@@ -44,7 +44,7 @@ public class MulAssignStatement extends DebuggableExecutable implements AssignEx
     private LineInfo line;
 
     public MulAssignStatement(@NonNull AssignableValue left, @NonNull RuntimeValue mulOp,
-                              @NonNull LineInfo line) throws ParsingException {
+                              @NonNull LineInfo line) throws Exception {
         this.left = left;
         this.mulOp = mulOp;
         this.line = line;
@@ -52,7 +52,7 @@ public class MulAssignStatement extends DebuggableExecutable implements AssignEx
 
     public MulAssignStatement(@NonNull ExpressionContext f,
                               @NonNull AssignableValue left, RuntimeValue value,
-                              LineInfo line) throws ParsingException {
+                              LineInfo line) throws Exception {
         this.left = left;
         this.line = line;
         this.mulOp = BinaryOperatorEval.generateOp(f, left, value, OperatorTypes.MULTIPLY, line);
@@ -85,7 +85,7 @@ public class MulAssignStatement extends DebuggableExecutable implements AssignEx
 
     @Override
     public AssignExecutable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+            throws Exception {
         return new MulAssignStatement(left, mulOp.compileTimeExpressionFold(c), line);
     }
 }

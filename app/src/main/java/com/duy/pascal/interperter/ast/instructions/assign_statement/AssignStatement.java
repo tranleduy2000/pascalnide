@@ -67,7 +67,7 @@ public class AssignStatement extends DebuggableExecutable implements AssignExecu
 
     @Override
     public AssignExecutable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+            throws Exception {
         return new AssignStatement(left, value.compileTimeExpressionFold(c), line);
     }
 }

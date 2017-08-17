@@ -79,7 +79,7 @@ public class OutputValue implements RuntimeValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         return new RuntimeType(BasicType.StringBuilder, false);
     }
 
@@ -96,7 +96,7 @@ public class OutputValue implements RuntimeValue {
 
     @Nullable
     @Override
-    public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
+    public Object compileTimeValue(CompileTimeContext context) throws Exception {
         Object value = target.compileTimeValue(context);
         if (NullSafety.isNullValue(value)) return zReturn(value);
         StringBuilder out = new StringBuilder(OutputFormatter.getValueOutput(value));
@@ -122,7 +122,7 @@ public class OutputValue implements RuntimeValue {
 
     @Nullable
     @Override
-    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
         return new OutputValue(target.compileTimeExpressionFold(context), infoOutput);
     }
 

@@ -58,7 +58,7 @@ public class SetLengthFunction implements IMethodDeclaration {
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                     ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws Exception {
         RuntimeValue array = arguments[0];
         RuntimeType type = array.getRuntimeType(f);
         RuntimeValue size = arguments[1];
@@ -66,7 +66,7 @@ public class SetLengthFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws ParsingException {
+    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         return generateCall(line, values, f);
     }
 
@@ -101,7 +101,7 @@ public class SetLengthFunction implements IMethodDeclaration {
 
 
         @Override
-        public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+        public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
             return null;
         }
 
@@ -123,14 +123,14 @@ public class SetLengthFunction implements IMethodDeclaration {
 
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-                throws ParsingException {
+                throws Exception {
             return new SetLengthCall(array.compileTimeExpressionFold(context),
                     runtimeType, size.compileTimeExpressionFold(context), line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
-                throws ParsingException {
+                throws Exception {
             return new SetLengthCall(array.compileTimeExpressionFold(c),
                     runtimeType, size.compileTimeExpressionFold(c), line);
         }

@@ -68,7 +68,7 @@ public class StringIndex extends DebuggableAssignableValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         boolean writable = string.getRuntimeType(f).writable;
         return new RuntimeType(BasicType.Character, writable);
     }
@@ -85,7 +85,7 @@ public class StringIndex extends DebuggableAssignableValue {
     }
 
     @Override
-    public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
+    public Object compileTimeValue(CompileTimeContext context) throws Exception {
         StringBuilder str = (StringBuilder) string.compileTimeValue(context);
         if (str == null) {
             return 0;
@@ -95,7 +95,7 @@ public class StringIndex extends DebuggableAssignableValue {
     }
 
     @Override
-    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
         RuntimeValue cstr = string.compileTimeExpressionFold(context);
         RuntimeValue cind = index.compileTimeExpressionFold(context);
         return new StringIndex(cstr, cind);

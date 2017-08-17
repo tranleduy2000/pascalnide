@@ -24,5 +24,5 @@ public interface AssignExecutable extends Executable {
 
     @Override
     AssignExecutable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException;
+            throws Exception;
 }

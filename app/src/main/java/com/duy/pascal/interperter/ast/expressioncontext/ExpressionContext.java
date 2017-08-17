@@ -12,7 +12,6 @@ import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.define.DuplicateIdentifierException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.Token;
@@ -28,7 +27,7 @@ public interface ExpressionContext extends CompileTimeContext {
     LineInfo getStartLine();
 
     RuntimeValue getIdentifierValue(WordToken name)
-            throws ParsingException;
+           throws Exception;
 
     void verifyNonConflictingSymbol(NamedEntity n) throws DuplicateIdentifierException;
 
@@ -55,10 +54,10 @@ public interface ExpressionContext extends CompileTimeContext {
     CodeUnit root();
 
     Executable handleUnrecognizedStatement(Token next, GrouperToken container)
-            throws ParsingException;
+           throws Exception;
 
     boolean handleUnrecognizedDeclaration(Token next, GrouperToken container)
-            throws ParsingException;
+           throws Exception;
 
     public <T> T getListener(Class<T> c);
 }

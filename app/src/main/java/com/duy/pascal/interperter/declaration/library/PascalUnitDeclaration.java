@@ -19,19 +19,20 @@ package com.duy.pascal.interperter.declaration.library;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.ast.codeunit.RuntimeUnitPascal;
-import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
-import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
+import com.duy.pascal.frontend.runnable.ProgramHandler;
 import com.duy.pascal.interperter.ast.codeunit.ExecutableCodeUnit;
+import com.duy.pascal.interperter.ast.codeunit.RuntimeUnitPascal;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.instructions.Executable;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
+import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.define.MissingBodyFunctionException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.MisplacedDeclarationException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokens.EOFToken;
 import com.duy.pascal.interperter.tokens.Token;
@@ -46,8 +47,6 @@ import com.duy.pascal.interperter.tokens.basic.ProcedureToken;
 import com.duy.pascal.interperter.tokens.closing.EndToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.interperter.tokens.grouping.UnitToken;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
-import com.duy.pascal.frontend.runnable.ProgramHandler;
 import com.google.common.collect.ArrayListMultimap;
 
 import java.io.Reader;
@@ -63,7 +62,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
                                  String sourceName,
                                  List<ScriptSource> includeDirectories,
                                  @Nullable ProgramHandler handler)
-            throws ParsingException {
+            throws Exception {
         super(program, sourceName, includeDirectories, handler, null);
         this.handler = handler;
     }
@@ -169,7 +168,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
 
         @Override
         protected boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken i)
-                throws ParsingException {
+                throws Exception {
 
             if (next instanceof UnitToken) {
                 GrouperToken container = (GrouperToken) next;
@@ -213,7 +212,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
             return false;
         }
 
-        private void declareInterface(GrouperToken i) throws ParsingException {
+        private void declareInterface(GrouperToken i) throws Exception {
             while (!(i.peek() instanceof ImplementationToken ||
                     i.peek() instanceof EndToken || i.peek() instanceof InitializationToken ||
                     i.peek() instanceof FinalizationToken ||
@@ -226,7 +225,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
             }
         }
 
-        private void declareImplementation(GrouperToken i) throws ParsingException {
+        private void declareImplementation(GrouperToken i) throws Exception {
             Token next = i.peek();
             while (!(next instanceof InitializationToken ||
                     next instanceof EndToken || next instanceof FinalizationToken
@@ -248,19 +247,19 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
             }
         }
 
-        private void declareInit(GrouperToken grouperToken) throws ParsingException {
+        private void declareInit(GrouperToken grouperToken) throws Exception {
             this.initInstruction = grouperToken.getNextCommand(this);
             grouperToken.assertNextSemicolon();
         }
 
-        private void declareFinal(GrouperToken grouperToken) throws ParsingException {
+        private void declareFinal(GrouperToken grouperToken) throws Exception {
             this.finalInstruction = grouperToken.getNextCommand(this);
             grouperToken.assertNextSemicolon();
 
         }
 
         @Override
-        public void addNextDeclaration(GrouperToken i) throws ParsingException {
+        public void addNextDeclaration(GrouperToken i) throws Exception {
             Token next = i.peek();
             if (next instanceof ProcedureToken || next instanceof FunctionToken) {
                 i.take();
@@ -280,7 +279,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
         }
 
         @Override
-        public void handleBeginEnd(GrouperToken i) throws ParsingException {
+        public void handleBeginEnd(GrouperToken i) throws Exception {
          /*   if (initInstruction != null) {
                 throw new MultipleDefinitionsMainException(i.getLineNumber());
             } else {

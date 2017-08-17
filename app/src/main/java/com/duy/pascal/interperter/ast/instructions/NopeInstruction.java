@@ -28,7 +28,7 @@ public class NopeInstruction extends DebuggableExecutable {
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+            throws Exception {
         return this;
     }
 

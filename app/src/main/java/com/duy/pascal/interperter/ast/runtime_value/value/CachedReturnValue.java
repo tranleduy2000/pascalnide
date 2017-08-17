@@ -20,7 +20,7 @@ public class CachedReturnValue implements RuntimeValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         return other.getRuntimeType(f);
     }
 
@@ -37,14 +37,14 @@ public class CachedReturnValue implements RuntimeValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         cache = other.compileTimeValue(context);
         return cache;
     }
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return new CachedReturnValue(other);
     }
 

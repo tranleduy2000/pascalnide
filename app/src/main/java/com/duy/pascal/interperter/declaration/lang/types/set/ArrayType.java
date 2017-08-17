@@ -62,10 +62,10 @@ public class ArrayType<ELEMENT extends Type> extends BaseSetType {
      * @param group - parentheses token: the container of array. Example (1, 2, 3)
      * @param type  - element type of array
      * @return - the {@link ConstantAccess} include array object and lineInfo number
-     * @throws ParsingException - some token is not expect
+     * @throws Exception - some token is not expect
      */
     public static ConstantAccess<Object[]> getArrayConstant(ExpressionContext context,
-                                                            Token group, ArrayType type) throws ParsingException {
+                                                            Token group, ArrayType type) throws Exception {
 
 
         if (!(group instanceof ParenthesizedToken)) {
@@ -201,7 +201,7 @@ public class ArrayType<ELEMENT extends Type> extends BaseSetType {
      */
     @Override
     public RuntimeValue convert(RuntimeValue value, ExpressionContext f)
-            throws ParsingException {
+            throws Exception {
         RuntimeType other = value.getRuntimeType(f);
         if (other.declType instanceof ArrayType) {
             return this.superset(other.declType) ? cloneValue(value) : null;

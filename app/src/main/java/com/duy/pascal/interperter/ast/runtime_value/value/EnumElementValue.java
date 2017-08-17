@@ -62,7 +62,7 @@ public class EnumElementValue implements RuntimeValue, Comparable<EnumElementVal
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         return new RuntimeType(type, false);//this is a constant
     }
 
@@ -79,12 +79,12 @@ public class EnumElementValue implements RuntimeValue, Comparable<EnumElementVal
 
     @Nullable
     @Override
-    public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
+    public Object compileTimeValue(CompileTimeContext context) throws Exception {
         return this;//this is a constant
     }
 
     @Override
-    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
         return this;
     }
 

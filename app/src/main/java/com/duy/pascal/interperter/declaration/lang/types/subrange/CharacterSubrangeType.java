@@ -33,7 +33,7 @@ public class CharacterSubrangeType extends SubrangeType<Character> {
 
     @Nullable
     @Override
-    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws ParsingException {
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws Exception {
         return BasicType.Character.convert(other, f);
     }
 

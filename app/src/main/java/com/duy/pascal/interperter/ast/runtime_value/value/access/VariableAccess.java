@@ -89,19 +89,19 @@ public class VariableAccess extends DebuggableAssignableValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         return new RuntimeType(declaration.getVariableDefinition(name).type, true);
     }
 
     @Override
     public Object compileTimeValue(CompileTimeContext declaration)
-            throws ParsingException {
+            throws Exception {
         return null;
     }
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext declaration)
-            throws ParsingException {
+            throws Exception {
         return this;
     }
 }

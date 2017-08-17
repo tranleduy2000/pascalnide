@@ -76,12 +76,12 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     private int modifier = Modifier.PUBLIC;
 
     public FunctionDeclaration(Name name, ExpressionContext parent, GrouperToken grouperToken,
-                               boolean isProcedure) throws ParsingException {
+                               boolean isProcedure) throws Exception {
         parseHeader(name, parent, grouperToken, isProcedure);
     }
 
     public FunctionDeclaration(ExpressionContext parent, GrouperToken grouperToken,
-                               boolean isProcedure) throws ParsingException {
+                               boolean isProcedure) throws Exception {
         Name name = grouperToken.nextWordValue();
         parseHeader(name, parent, grouperToken, isProcedure);
     }
@@ -101,7 +101,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     }
 
     public void parseHeader(Name name, ExpressionContext parent, GrouperToken grouperToken,
-                            boolean isProcedure) throws ParsingException {
+                            boolean isProcedure) throws Exception {
 //        DLog.d(TAG, "parseHeader() called with: name = [" + name + "], parent = [" + parent + "], grouperToken = [" + grouperToken + "], isProcedure = [" + isProcedure + "]");
 
         this.name = name;
@@ -166,7 +166,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         return name;
     }
 
-    public void parseFunctionBody(GrouperToken i) throws ParsingException {
+    public void parseFunctionBody(GrouperToken i) throws Exception {
         Token next = i.peekNoEOF();
         if (next instanceof ForwardToken) {
             Token take = i.take();
@@ -205,7 +205,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     }
 
     private void getArgumentsForDeclaration(GrouperToken i)
-            throws ParsingException { // need
+            throws Exception { // need
         List<WordToken> namesList = new ArrayList<>();
         List<RuntimeType> typesList = new ArrayList<>();
         Token next = i.peek();
@@ -268,7 +268,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         return resultDefinition == null ? null : resultDefinition.type;
     }
 
-    public boolean headerMatches(AbstractFunction other) throws ParsingException {
+    public boolean headerMatches(AbstractFunction other) throws Exception {
         if (name.equals(other.getName())
                 && Arrays.equals(argumentTypes, other.argumentTypes())) {
             if (resultDefinition == null && other.returnType() == null) {
@@ -315,13 +315,13 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
         @Override
         public Executable handleUnrecognizedStatementImpl(Token next, GrouperToken container)
-                throws ParsingException {
+                throws Exception {
             return null;
         }
 
         @Override
         public boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken container)
-                throws ParsingException {
+                throws Exception {
             if (next instanceof ForwardToken) {
                 container.assertNextSemicolon();
                 bodyDeclared = true;
@@ -332,7 +332,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
 
         @Override
-        public void handleBeginEnd(GrouperToken i) throws ParsingException {
+        public void handleBeginEnd(GrouperToken i) throws Exception {
             bodyDeclared = true;
             instructions = i.getNextCommand(this);
             i.assertNextSemicolon();

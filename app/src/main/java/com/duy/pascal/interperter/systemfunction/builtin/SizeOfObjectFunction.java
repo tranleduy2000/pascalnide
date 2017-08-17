@@ -48,14 +48,14 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                     ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws Exception {
         RuntimeValue array = arguments[0];
         DLog.d(TAG, "generateCall: ");
         return new SizeOfObjectCall(array, line);
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws ParsingException {
+    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         DLog.d(TAG, "generatePerfectFitCall: ");
         return generateCall(line, values, f);
     }
@@ -86,7 +86,7 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+        public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
             return new RuntimeType(BasicType.Integer, false);
         }
 
@@ -108,13 +108,13 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
 
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-                throws ParsingException {
+                throws Exception {
             return new SizeOfObjectCall(array.compileTimeExpressionFold(context), line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
-                throws ParsingException {
+                throws Exception {
             return new SizeOfObjectCall(array.compileTimeExpressionFold(c), line);
         }
 

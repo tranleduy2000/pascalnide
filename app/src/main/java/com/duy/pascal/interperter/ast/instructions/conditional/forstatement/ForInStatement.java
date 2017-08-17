@@ -138,7 +138,7 @@ public class ForInStatement extends DebuggableExecutable {
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+            throws Exception {
         return new ForInStatement(item, list, command, line);
     }
 }

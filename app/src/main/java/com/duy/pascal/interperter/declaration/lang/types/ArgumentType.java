@@ -10,10 +10,10 @@ import java.util.Iterator;
 public interface ArgumentType {
 
     RuntimeValue convertArgType(Iterator<RuntimeValue> args,
-                                ExpressionContext f) throws ParsingException;
+                                ExpressionContext f) throws Exception;
 
     RuntimeValue perfectFit(Iterator<RuntimeValue> types,
-                            ExpressionContext e) throws ParsingException;
+                            ExpressionContext e) throws Exception;
 
     Class<?> getRuntimeClass();
 

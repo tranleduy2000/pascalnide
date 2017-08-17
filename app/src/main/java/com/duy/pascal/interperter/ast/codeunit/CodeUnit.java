@@ -11,7 +11,6 @@ import com.duy.pascal.interperter.config.ProgramConfig;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.exceptions.DiagnosticsListener;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokenizer.NewLexer;
@@ -39,7 +38,7 @@ public abstract class CodeUnit {
 
     public CodeUnit(Reader program, String sourceName, List<ScriptSource> includeDirectories,
                     @Nullable ProgramHandler handler, @Nullable DiagnosticCollector diagnosticCollector)
-            throws ParsingException {
+            throws Exception {
         this(handler);
         this.context = getExpressionContextInstance(handler);
         this.context.put(DiagnosticsListener.class, diagnosticCollector);
@@ -77,7 +76,7 @@ public abstract class CodeUnit {
 
     protected abstract ExpressionContextMixin getExpressionContextInstance(ProgramHandler handler);
 
-    private void parseTree(GrouperToken tokens) throws ParsingException {
+    private void parseTree(GrouperToken tokens) throws Exception {
         while (tokens.hasNext()) {
             context.addNextDeclaration(tokens);
         }
@@ -105,13 +104,13 @@ public abstract class CodeUnit {
 
         @Override
         protected Executable handleUnrecognizedStatementImpl(Token next, GrouperToken container)
-                throws ParsingException {
+                throws Exception {
             throw new UnrecognizedTokenException(next);
         }
 
 
         @Override
-        protected void handleBeginEnd(GrouperToken i) throws ParsingException {
+        protected void handleBeginEnd(GrouperToken i) throws Exception {
             i.take();
         }
 

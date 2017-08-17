@@ -2,7 +2,6 @@ package com.duy.pascal.interperter.ast.codeunit;
 
 import com.duy.pascal.frontend.runnable.ProgramHandler;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.source.ScriptSource;
 
 import java.io.Reader;
@@ -12,7 +11,7 @@ public abstract class ExecutableCodeUnit extends CodeUnit {
 
 
     public ExecutableCodeUnit(Reader r, String sourceName, List<ScriptSource> includeDirectories,
-                              ProgramHandler handler, DiagnosticCollector diagnosticCollector) throws ParsingException {
+                              ProgramHandler handler, DiagnosticCollector diagnosticCollector) throws Exception {
         super(r, sourceName, includeDirectories, handler, diagnosticCollector);
     }
 

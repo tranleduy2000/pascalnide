@@ -2,19 +2,18 @@ package com.duy.pascal.interperter.ast.runtime_value.value;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.debugable.DebuggableExecutableReturnValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.exceptions.parsing.define.AmbiguousFunctionCallException;
 import com.duy.pascal.interperter.exceptions.parsing.define.BadFunctionCallException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.WordToken;
 import com.duy.pascal.interperter.utils.ArrayUtil;
 
@@ -28,7 +27,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
 
     public static FunctionCall generateFunctionCall(WordToken name, List<RuntimeValue> arguments,
                                                     ExpressionContext expressionContext)
-            throws ParsingException {
+            throws Exception {
         List<List<AbstractFunction>> possibilities = new ArrayList<>();
         expressionContext.getCallableFunctions(name.name, possibilities);
 
@@ -107,7 +106,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return null;
     }
 
@@ -123,7 +122,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
     }
 
     protected RuntimeValue[] compileTimeExpressionFoldArguments(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         RuntimeValue[] args = new RuntimeValue[arguments.length];
         for (int i = 0; i < arguments.length; i++) {
             args[i] = arguments[i].compileTimeExpressionFold(context);

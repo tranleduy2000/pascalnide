@@ -46,19 +46,19 @@ public class ClassExpressionContext extends ExpressionContextMixin {
 
     @Override
     protected boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken grouperToken)
-            throws ParsingException {
+            throws Exception {
         return false;
     }
 
     @Override
     protected Executable handleUnrecognizedStatementImpl(Token next, GrouperToken container)
-            throws ParsingException {
+            throws Exception {
         throw new UnrecognizedTokenException(next);
     }
 
 
     @Override
-    protected void handleBeginEnd(GrouperToken i) throws ParsingException {
+    protected void handleBeginEnd(GrouperToken i) throws Exception {
         throw new MisplacedDeclarationException(i.peek().getLineNumber(),
                 "main function", this);
     }
@@ -79,7 +79,7 @@ public class ClassExpressionContext extends ExpressionContextMixin {
     }
 
     @Override
-    public RuntimeValue getIdentifierValue(WordToken name) throws ParsingException {
+    public RuntimeValue getIdentifierValue(WordToken name) throws Exception {
         return super.getIdentifierValue(name);
     }
 

@@ -59,7 +59,6 @@ import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.Diagnostic;
 import com.duy.pascal.interperter.exceptions.DiagnosticsListener;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.UnSupportTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
@@ -141,10 +140,10 @@ public abstract class GrouperToken extends Token {
      * @param context      -
      * @param grouperToken
      * @param elementType
-     * @throws ParsingException
+     * @throws Exception
      */
     private static void assertNextCommaForNextConstant(ExpressionContext context, GrouperToken grouperToken,
-                                                       Type elementType) throws ParsingException {
+                                                       Type elementType) throws Exception {
         if (grouperToken.hasNext()) {       //assert next comma token
             Token t = grouperToken.peek();
             if (!(t instanceof CommaToken)) {
@@ -167,7 +166,7 @@ public abstract class GrouperToken extends Token {
      */
     public static ConstantAccess getConstantElement(@NonNull ExpressionContext context,
                                                     @NonNull GrouperToken groupConstant,
-                                                    @Nullable Type elementType) throws ParsingException {
+                                                    @Nullable Type elementType) throws Exception {
 
         if (groupConstant.hasNext()) {
             if (elementType instanceof ArrayType) {
@@ -359,25 +358,25 @@ public abstract class GrouperToken extends Token {
         }
     }
 
-    public Name nextWordValue() throws ParsingException {
+    public Name nextWordValue() throws Exception {
         return take().getWordValue().name;
     }
 
-    public void assertNextSemicolon() throws ParsingException {
+    public void assertNextSemicolon() throws Exception {
         Token t = take();
         if (!(t instanceof SemicolonToken)) {
             throw new ExpectedTokenException(new SemicolonToken(null), t);
         }
     }
 
-    public void assertNextComma() throws ParsingException {
+    public void assertNextComma() throws Exception {
         Token t = take();
         if (!(t instanceof CommaToken)) {
             throw new ExpectedTokenException(new CommaToken(null), t);
         }
     }
 
-    public Type getNextPascalType(ExpressionContext context) throws ParsingException {
+    public Type getNextPascalType(ExpressionContext context) throws Exception {
         Token n = take();
         if (n instanceof ArrayToken) {
             return getArrayType(context);
@@ -437,7 +436,7 @@ public abstract class GrouperToken extends Token {
     }
 
     private Type getSetType(ExpressionContext context, LineInfo lineInfo)
-            throws ParsingException {
+            throws Exception {
         Token n = peekNoEOF();
         if (!(n instanceof OfToken)) {
             throw new ExpectedTokenException(new OfToken(null), n);
@@ -448,7 +447,7 @@ public abstract class GrouperToken extends Token {
         return new SetType<>(elementType, lineInfo);
     }
 
-    private Type getArrayType(ExpressionContext context) throws ParsingException {
+    private Type getArrayType(ExpressionContext context) throws Exception {
         Token n = peekNoEOF();
         if (n instanceof BracketedToken) {
             BracketedToken bracket = (BracketedToken) take();
@@ -463,7 +462,7 @@ public abstract class GrouperToken extends Token {
     }
 
     private Type getArrayType(BracketedToken bounds, ExpressionContext context)
-            throws ParsingException {
+            throws Exception {
         Type pascalType = bounds.getNextPascalType(context);
         if (pascalType instanceof EnumGroupType) {
             pascalType = new EnumSubrangeType((EnumGroupType) pascalType);
@@ -492,7 +491,7 @@ public abstract class GrouperToken extends Token {
 
     @NonNull
     public RuntimeValue getNextExpression(ExpressionContext context, Precedence precedence,
-                                          Token next) throws ParsingException {
+                                          Token next) throws Exception {
 
         RuntimeValue term;
         Token tmp = next;
@@ -600,7 +599,7 @@ public abstract class GrouperToken extends Token {
     }
 
     private RuntimeValue getFunctionFromPascalClass(ExpressionContext context, RuntimeValue container,
-                                                    WordToken methodName) throws ParsingException {
+                                                    WordToken methodName) throws Exception {
         RuntimeType type = container.getRuntimeType(context);
 
         //access method of java class
@@ -622,7 +621,7 @@ public abstract class GrouperToken extends Token {
 
     private RuntimeValue generateArrayAccess(RuntimeValue parent, ExpressionContext f,
                                              BracketedToken b)
-            throws ParsingException {
+            throws Exception {
 
         RuntimeType type = parent.getRuntimeType(f);
         RuntimeValue unconvert = b.getNextExpression(f);
@@ -652,12 +651,12 @@ public abstract class GrouperToken extends Token {
     }
 
     public RuntimeValue getNextExpression(ExpressionContext context,
-                                          Precedence precedence) throws ParsingException {
+                                          Precedence precedence) throws Exception {
         return getNextExpression(context, precedence, take());
     }
 
     public RuntimeValue getNextTerm(ExpressionContext context, Token next)
-            throws ParsingException {
+            throws Exception {
 
         if (next instanceof ParenthesizedToken) {
             return ((ParenthesizedToken) next).getSingleValue(context);
@@ -742,22 +741,22 @@ public abstract class GrouperToken extends Token {
     }
 
     public RuntimeValue getNextTerm(ExpressionContext context)
-            throws ParsingException {
+            throws Exception {
         return getNextTerm(context, take());
     }
 
     public RuntimeValue getNextExpression(ExpressionContext context)
-            throws ParsingException {
+            throws Exception {
         return getNextExpression(context, Precedence.NoPrecedence);
     }
 
     public RuntimeValue getNextExpression(ExpressionContext context, Token first)
-            throws ParsingException {
+            throws Exception {
         return getNextExpression(context, Precedence.NoPrecedence, first);
     }
 
     public ArrayList<VariableDeclaration> getVariableDeclarations(ExpressionContext context)
-            throws ParsingException {
+            throws Exception {
         ArrayList<VariableDeclaration> result = new ArrayList<>();
         /*
          * reusing it, so it is further out of scope than necessary
@@ -816,9 +815,14 @@ public abstract class GrouperToken extends Token {
         return result;
     }
 
-    private void nextStatement() {
+    /**
+     * move to next statement
+     */
+    public void nextStatement() {
         try {
-            while (peek() != null && !(peek() instanceof SemicolonToken) && !(TokenUtil.isStartStatement(peek()))) {
+            while (peek() != null
+                    && !(peek() instanceof SemicolonToken)
+                    && !(TokenUtil.isStartStatement(peek()))) {
                 take();
             }
         } catch (Exception ignored) {
@@ -826,7 +830,7 @@ public abstract class GrouperToken extends Token {
     }
 
     public Object getConstantValue(ExpressionContext context, Type type)
-            throws ParsingException {
+            throws Exception {
         return getConstantValue(context, type, null);
     }
 
@@ -842,7 +846,7 @@ public abstract class GrouperToken extends Token {
      * @return then constant with expect type
      */
     public Object getConstantValue(ExpressionContext context, Type type,
-                                   @Nullable RuntimeValue left) throws ParsingException {
+                                   @Nullable RuntimeValue left) throws Exception {
         Object defValue;
         //set default value for array
         if (type instanceof ArrayType) {
@@ -886,7 +890,7 @@ public abstract class GrouperToken extends Token {
      * example:
      * <code>parentheses token = (1, 2, 3, 4) -> return 1</code>
      */
-    public RuntimeValue getSingleValue(ExpressionContext context) throws ParsingException {
+    public RuntimeValue getSingleValue(ExpressionContext context) throws Exception {
         RuntimeValue result = getNextExpression(context);
         if (hasNext()) {
             Token next = take();
@@ -895,7 +899,7 @@ public abstract class GrouperToken extends Token {
         return result;
     }
 
-    public Executable getNextCommand(ExpressionContext context) throws ParsingException {
+    public Executable getNextCommand(ExpressionContext context) throws Exception {
         Token next = take();
         LineInfo lineNumber = next.getLineNumber();
         if (next instanceof IfToken) {
@@ -946,7 +950,7 @@ public abstract class GrouperToken extends Token {
         } else {
             try {
                 return context.handleUnrecognizedStatement(next, this);
-            } catch (ParsingException ignored) {
+            } catch (Exception ignored) {
             }
 
             RuntimeValue identifier = getNextExpression(context, next);
@@ -1015,7 +1019,7 @@ public abstract class GrouperToken extends Token {
     }
 
     private RuntimeValue getMethodFromJavaClass(ExpressionContext context, RuntimeValue container, Name
-            methodName) throws ParsingException {
+            methodName) throws Exception {
 
         RuntimeType type = container.getRuntimeType(context);
 

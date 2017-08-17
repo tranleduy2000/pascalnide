@@ -68,7 +68,7 @@ public class StringBuilderLimitBoxer implements RuntimeValue {
 
     @Override
     public RuntimeType getRuntimeType(ExpressionContext f)
-            throws ParsingException {
+            throws Exception {
         return new RuntimeType(BasicType.StringBuilder, false);
     }
 
@@ -85,7 +85,7 @@ public class StringBuilderLimitBoxer implements RuntimeValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         StringBuilder string = (StringBuilder) value.compileTimeValue(context);
         if (string != null) {
             int len = (int) length.compileTimeValue(context);
@@ -101,7 +101,7 @@ public class StringBuilderLimitBoxer implements RuntimeValue {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return new StringBuilderLimitBoxer(value.compileTimeExpressionFold(context), length);
     }
 

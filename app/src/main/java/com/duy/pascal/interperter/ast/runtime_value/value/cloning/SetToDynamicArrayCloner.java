@@ -47,7 +47,7 @@ public class SetToDynamicArrayCloner implements RuntimeValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         RuntimeType type = array.getRuntimeType(f);
         SetType setType = (SetType) type.declType;
         return new RuntimeType(new ArrayType<>(setType.getElementType(),
@@ -77,7 +77,7 @@ public class SetToDynamicArrayCloner implements RuntimeValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         LinkedList value = (LinkedList) array.compileTimeValue(context);
         if (value == null) {
             return NullValue.get();
@@ -92,7 +92,7 @@ public class SetToDynamicArrayCloner implements RuntimeValue {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return new SetToDynamicArrayCloner(array.compileTimeExpressionFold(context));
     }
 

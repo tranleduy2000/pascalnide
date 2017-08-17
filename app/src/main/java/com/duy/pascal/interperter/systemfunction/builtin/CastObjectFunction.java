@@ -33,7 +33,6 @@ import com.duy.pascal.interperter.declaration.lang.types.JavaClassBasedType;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
@@ -54,7 +53,7 @@ public class CastObjectFunction implements IMethodDeclaration {
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                     ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws Exception {
         RuntimeValue pointer = arguments[0];
         RuntimeValue value = arguments[1];
         PointerType declType = (PointerType) pointer.getRuntimeType(f).declType;
@@ -63,7 +62,7 @@ public class CastObjectFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws ParsingException {
+    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         return generateCall(line, values, f);
     }
 
@@ -96,7 +95,7 @@ public class CastObjectFunction implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+        public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
             return null;
         }
 
@@ -107,13 +106,13 @@ public class CastObjectFunction implements IMethodDeclaration {
 
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-                throws ParsingException {
+                throws Exception {
             return new InstanceObjectCall(pointer, value, storageClass, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
-                throws ParsingException {
+                throws Exception {
             return new InstanceObjectCall(pointer, value, storageClass, line);
         }
 

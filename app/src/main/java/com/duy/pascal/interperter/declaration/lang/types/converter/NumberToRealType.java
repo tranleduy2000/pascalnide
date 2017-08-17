@@ -37,7 +37,7 @@ public class NumberToRealType implements RuntimeValue {
 
     @Override
     public RuntimeType getRuntimeType(ExpressionContext f)
-            throws ParsingException {
+            throws Exception {
         return new RuntimeType(BasicType.Double, false);
     }
 
@@ -54,7 +54,7 @@ public class NumberToRealType implements RuntimeValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         Object o = other.compileTimeValue(context);
         if (o != null) {
             return ((Number) o).doubleValue();
@@ -65,7 +65,7 @@ public class NumberToRealType implements RuntimeValue {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return new NumberToRealType(other.compileTimeExpressionFold(context));
     }
 

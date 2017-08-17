@@ -22,11 +22,10 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.NameEntityImpl;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.VarargsType;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.utils.ArrayUtil;
 
 import java.util.Iterator;
@@ -57,7 +56,7 @@ public abstract class AbstractFunction extends NameEntityImpl {
      */
     @Nullable
     public RuntimeValue[] formatArgs(List<RuntimeValue> values,
-                                     ExpressionContext expressionContext) throws ParsingException {
+                                     ExpressionContext expressionContext) throws Exception {
         ArgumentType[] accepted_types = argumentTypes();
         RuntimeValue[] result = new RuntimeValue[accepted_types.length];
         Iterator<RuntimeValue> iterator = values.iterator();
@@ -76,7 +75,7 @@ public abstract class AbstractFunction extends NameEntityImpl {
 
     @Nullable
     public RuntimeValue[] perfectMatch(List<RuntimeValue> arguments,
-                                       ExpressionContext context) throws ParsingException {
+                                       ExpressionContext context) throws Exception {
         ArgumentType[] acceptedTypes = argumentTypes();
 
         //check array
@@ -107,11 +106,11 @@ public abstract class AbstractFunction extends NameEntityImpl {
 
     public abstract FunctionCall generatePerfectFitCall(LineInfo line,
                                                         List<RuntimeValue> values, ExpressionContext f)
-            throws ParsingException;
+            throws Exception;
 
     public abstract FunctionCall generateCall(LineInfo line,
                                               List<RuntimeValue> values, ExpressionContext f)
-            throws ParsingException;
+            throws Exception;
 
     @Override
     public Class<?> getDeclaringClass() {

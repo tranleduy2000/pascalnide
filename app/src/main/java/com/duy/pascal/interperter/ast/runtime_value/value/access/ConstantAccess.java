@@ -106,7 +106,7 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return this;
     }
 

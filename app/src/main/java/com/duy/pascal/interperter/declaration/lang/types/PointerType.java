@@ -19,7 +19,7 @@ public class PointerType extends TypeInfo {
 
     @Override
     public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f)
-            throws ParsingException {
+            throws Exception {
         RuntimeType other = runtimeValue.getRuntimeType(f);
         if (this.equals(other.declType)) {
             return runtimeValue;

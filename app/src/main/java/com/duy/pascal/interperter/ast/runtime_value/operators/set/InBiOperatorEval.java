@@ -43,7 +43,7 @@ public class InBiOperatorEval extends BinaryOperatorEval {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         switch (operator_type) {
             case IN:
                 return new RuntimeType(BasicType.Boolean, false);
@@ -71,7 +71,7 @@ public class InBiOperatorEval extends BinaryOperatorEval {
     }
 
     @Override
-    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
         Object val = this.compileTimeValue(context);
         if (val != null) {
             return new ConstantAccess<>(val, line);

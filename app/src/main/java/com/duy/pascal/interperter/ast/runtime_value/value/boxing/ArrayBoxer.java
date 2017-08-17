@@ -46,7 +46,7 @@ public class ArrayBoxer extends DebuggableReturnValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         throw new ParsingException(
                 line,
                 "Attempted to get type of varargs boxer. This should not happen as" +
@@ -71,7 +71,7 @@ public class ArrayBoxer extends DebuggableReturnValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         Object[] result = (Object[]) Array.newInstance(type.getRuntimeClass(), values.length);
         for (int i = 0; i < values.length; i++) {
             Object val = values[i].compileTimeValue(context);
@@ -90,7 +90,7 @@ public class ArrayBoxer extends DebuggableReturnValue {
     }
 
     @Override
-    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
         RuntimeValue[] val = new RuntimeValue[values.length];
         for (int i = 0; i < values.length; i++) {
             val[i] = values[i].compileTimeExpressionFold(context);

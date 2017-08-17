@@ -59,7 +59,7 @@ public class ClassIdentifierAccess extends DebuggableReturnValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         return value.getRuntimeType(f);
     }
 
@@ -71,13 +71,13 @@ public class ClassIdentifierAccess extends DebuggableReturnValue {
 
     @Nullable
     @Override
-    public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
+    public Object compileTimeValue(CompileTimeContext context) throws Exception {
         return value.compileTimeValue(context);
     }
 
     @Nullable
     @Override
-    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
         return null;
     }
 }

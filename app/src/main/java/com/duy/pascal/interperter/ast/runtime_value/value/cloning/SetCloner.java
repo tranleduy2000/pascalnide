@@ -43,7 +43,7 @@ public class SetCloner<T> implements RuntimeValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         return list.getRuntimeType(f);
     }
 
@@ -68,7 +68,7 @@ public class SetCloner<T> implements RuntimeValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         LinkedList linkedList = (LinkedList) list.compileTimeValue(context);
         if (isNullValue(linkedList)) {
             return NullValue.get();
@@ -83,7 +83,7 @@ public class SetCloner<T> implements RuntimeValue {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return new SetCloner(list.compileTimeExpressionFold(context));
     }
 

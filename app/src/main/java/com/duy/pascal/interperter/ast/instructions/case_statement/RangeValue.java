@@ -19,7 +19,7 @@ public class RangeValue implements CaseCondition {
     private BinaryOperatorEval lessThanHigher;
 
     RangeValue(ExpressionContext context, RuntimeValue value, Object lower, Object higher,
-               LineInfo line) throws ParsingException {
+               LineInfo line) throws Exception {
         ConstantAccess<Object> low = new ConstantAccess<>(lower, line);
         ConstantAccess<Object> high = new ConstantAccess<>(higher, line);
         greaterThanLower = BinaryOperatorEval.generateOp(context, value, low, OperatorTypes.GREATEREQ, line);

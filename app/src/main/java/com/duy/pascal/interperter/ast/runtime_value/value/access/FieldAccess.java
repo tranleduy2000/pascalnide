@@ -61,7 +61,7 @@ public class FieldAccess extends DebuggableAssignableValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         RuntimeType r = container.getRuntimeType(f);
         if (r.declType instanceof PascalClassType) {
             return new RuntimeType(((PascalClassType) (r.declType)).getMemberType(name), r.writable);
@@ -88,7 +88,7 @@ public class FieldAccess extends DebuggableAssignableValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         Object value = container.compileTimeValue(context);
         if (value != null) {
             try {
@@ -122,7 +122,7 @@ public class FieldAccess extends DebuggableAssignableValue {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         Object val = this.compileTimeValue(context);
         if (val != null) {
             return new ConstantAccess<>(val, line);

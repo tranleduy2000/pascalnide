@@ -26,12 +26,11 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
 import com.duy.pascal.interperter.declaration.lang.types.set.SetType;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectDoTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.value.UnAssignableTypeException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.OperatorToken;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.AssignmentToken;
@@ -48,7 +47,7 @@ import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 public class ForStatement {
 
     public static Executable generateForStatement(GrouperToken group, ExpressionContext context,
-                                                  LineInfo lineNumber) throws ParsingException {
+                                                  LineInfo lineNumber) throws Exception {
         RuntimeValue identifier = group.getNextTerm(context);
         AssignableValue varAssignable = identifier.asAssignableValue(context);
         RuntimeType varType = identifier.getRuntimeType(context);

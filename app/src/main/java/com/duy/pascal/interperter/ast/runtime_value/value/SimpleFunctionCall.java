@@ -2,24 +2,23 @@ package com.duy.pascal.interperter.ast.runtime_value.value;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
-import com.duy.pascal.interperter.declaration.lang.function.MethodDeclaration;
+import com.duy.pascal.frontend.debug.DebugManager;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.systemfunction.builtin.IMethodDeclaration;
 import com.duy.pascal.interperter.ast.instructions.Executable;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
+import com.duy.pascal.interperter.declaration.lang.function.MethodDeclaration;
+import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
+import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.exceptions.runtime.MethodCallException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.MethodReflectionException;
-import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
-import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.systemfunction.builtin.IMethodDeclaration;
 import com.duy.pascal.interperter.utils.ArrayUtil;
-import com.duy.pascal.frontend.debug.DebugManager;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -107,12 +106,12 @@ public class SimpleFunctionCall extends FunctionCall {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return new SimpleFunctionCall(function, compileTimeExpressionFoldArguments(context), line);
     }
 
     @Override
-    public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
+    public Object compileTimeValue(CompileTimeContext context) throws Exception {
         Object[] args = new Object[arguments.length];
         for (int i = 0; i < arguments.length; i++) {
             args[i] = arguments[i].compileTimeValue(context);
@@ -130,7 +129,7 @@ public class SimpleFunctionCall extends FunctionCall {
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+            throws Exception {
         return new SimpleFunctionCall(function, compileTimeExpressionFoldArguments(c), line);
     }
 }

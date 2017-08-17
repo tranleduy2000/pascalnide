@@ -7,7 +7,7 @@ import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
 public abstract class ObjectType extends TypeInfo {
 
-    public abstract Type getMemberType(Name name) throws ParsingException;
+    public abstract Type getMemberType(Name name) throws Exception;
 
     @NonNull
     public String getEntityType() {

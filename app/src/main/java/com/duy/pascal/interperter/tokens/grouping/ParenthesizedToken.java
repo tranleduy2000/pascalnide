@@ -39,7 +39,7 @@ public class ParenthesizedToken extends GrouperToken {
     }
 
     public List<RuntimeValue> getArgumentsForCall(ExpressionContext context)
-            throws ParsingException {
+            throws Exception {
         List<RuntimeValue> result = new ArrayList<>();
         while (hasNext()) {
             RuntimeValue runtimeValue = getNextExpression(context);
@@ -61,7 +61,7 @@ public class ParenthesizedToken extends GrouperToken {
      * - size is number of floating point if type of variable is double or float
      */
     public List<RuntimeValue> getArgumentsForOutput(ExpressionContext context)
-            throws ParsingException {
+            throws Exception {
         List<RuntimeValue> result = new ArrayList<>();
         while (hasNext()) {
             RuntimeValue value = getNextExpression(context);

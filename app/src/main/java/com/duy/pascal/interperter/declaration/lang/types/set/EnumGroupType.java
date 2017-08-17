@@ -65,7 +65,7 @@ public class EnumGroupType extends TypeInfo implements Containable<EnumElementVa
      * @return the enum constant, I define the enum as {@link LinkedList}
      */
     public static ConstantAccess<EnumElementValue> getEnumConstant(GrouperToken i, ExpressionContext context, Token token,
-                                                                   Type targetType) throws ParsingException {
+                                                                   Type targetType) throws Exception {
         RuntimeValue expression = i.getNextExpression(context, token);
         Object constant = expression.compileTimeValue(context);
         if (constant == null) {
@@ -82,7 +82,7 @@ public class EnumGroupType extends TypeInfo implements Containable<EnumElementVa
 
 
     public static Type getEnumType(ExpressionContext c, ParenthesizedToken group)
-            throws ParsingException {
+            throws Exception {
         LinkedList<EnumElementValue> elements = new LinkedList<>();
         EnumGroupType enumGroupType = new EnumGroupType(elements);
         AtomicInteger index = new AtomicInteger(0);
@@ -184,7 +184,7 @@ public class EnumGroupType extends TypeInfo implements Containable<EnumElementVa
 
 
     @Override
-    public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f) throws ParsingException {
+    public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f) throws Exception {
         RuntimeType other = runtimeValue.getRuntimeType(f);
         if (this.equals(other.declType)) {
             return cloneValue(runtimeValue);

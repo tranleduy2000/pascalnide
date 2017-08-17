@@ -123,18 +123,18 @@ public class ClassConstructorCall extends FunctionCall {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return new ClassConstructorCall(constructor, compileTimeExpressionFoldArguments(context), line);
     }
 
     @Override
-    public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
+    public Object compileTimeValue(CompileTimeContext context) throws Exception {
         return null;
     }
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+            throws Exception {
         return new SimpleFunctionCall(constructor, compileTimeExpressionFoldArguments(c), line);
     }
 }

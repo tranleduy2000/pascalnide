@@ -24,7 +24,7 @@ public interface RuntimeValue {
     /**
      * @return type of variable, function, or constant
      */
-    RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException;
+    RuntimeType getRuntimeType(ExpressionContext f) throws Exception;
 
     /**
      * @return line of code
@@ -37,10 +37,10 @@ public interface RuntimeValue {
      * return null if not a compile-time constant.
      */
     @Nullable
-    Object compileTimeValue(CompileTimeContext context) throws ParsingException;
+    Object compileTimeValue(CompileTimeContext context) throws Exception;
 
     @Nullable
-    RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException;
+    RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception;
 
     /**
      * reference of variable, set and get value

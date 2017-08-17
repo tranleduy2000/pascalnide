@@ -47,7 +47,7 @@ public class SetIndexAccess extends DebuggableAssignableValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         RuntimeType r = (container.getRuntimeType(f));
         return new RuntimeType(((SetType<?>) r.declType).getElementType(), r.writable);
     }
@@ -65,7 +65,7 @@ public class SetIndexAccess extends DebuggableAssignableValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         LinkedList cont = (LinkedList) container.compileTimeValue(context);
         Integer ind = (Integer) index.compileTimeValue(context);
         if (ind == null || cont == null) {
@@ -99,7 +99,7 @@ public class SetIndexAccess extends DebuggableAssignableValue {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return new SetIndexAccess(container.compileTimeExpressionFold(context),
                 index.compileTimeExpressionFold(context));
     }

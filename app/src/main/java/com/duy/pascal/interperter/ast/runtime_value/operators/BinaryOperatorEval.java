@@ -71,7 +71,7 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
     public static BinaryOperatorEval generateOp(@NonNull ExpressionContext context,
                                                 @NonNull RuntimeValue v1, @NonNull RuntimeValue v2,
                                                 @NonNull OperatorTypes operatorTypes,
-                                                @NonNull LineInfo line) throws ParsingException {
+                                                @NonNull LineInfo line) throws Exception {
         Type t1 = v1.getRuntimeType(context).declType;
         Type t2 = v2.getRuntimeType(context).declType;
         if (t1 instanceof JavaClassBasedType
@@ -208,7 +208,7 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         Object value1 = operon1.compileTimeValue(context);
         Object value2 = operon2.compileTimeValue(context);
         if (value1 != null && value2 != null) {

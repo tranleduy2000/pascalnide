@@ -35,7 +35,7 @@ public class WhileStatement extends DebuggableExecutable {
      * <p>
      */
     public WhileStatement(ExpressionContext context, GrouperToken grouperToken, LineInfo lineNumber)
-            throws ParsingException {
+            throws Exception {
 
         //check condition return boolean type
         RuntimeValue condition = grouperToken.getNextExpression(context);
@@ -100,7 +100,7 @@ public class WhileStatement extends DebuggableExecutable {
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+            throws Exception {
         Executable comm = command.compileTimeConstantTransform(c);
         Object cond = condition.compileTimeValue(c);
         if (cond != null) {

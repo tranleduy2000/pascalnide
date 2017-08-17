@@ -47,7 +47,7 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
     public PascalProgramDeclaration(Reader program,
                                     String sourceName, List<ScriptSource> includeDirectories,
                                     ProgramHandler handler, DiagnosticCollector collector)
-            throws ParsingException {
+            throws Exception {
         super(program, sourceName, includeDirectories, handler, collector);
         this.handler = handler;
     }
@@ -76,7 +76,7 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
 
         @Override
         protected boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken grouperToken)
-                throws ParsingException {
+                throws Exception {
             if (next instanceof ProgramToken) {
                 programName = grouperToken.nextWordValue();
                 grouperToken.assertNextSemicolon();
@@ -87,7 +87,7 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
 
 
         @Override
-        public void handleBeginEnd(GrouperToken i) throws ParsingException {
+        public void handleBeginEnd(GrouperToken i) throws Exception {
             if (main != null) {
                 throw new MultipleDefinitionsMainException(i.peek().getLineNumber());
             }

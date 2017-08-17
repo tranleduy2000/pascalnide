@@ -24,7 +24,7 @@ public class ArrayCloner<T> implements RuntimeValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         return r.getRuntimeType(f);
     }
 
@@ -51,7 +51,7 @@ public class ArrayCloner<T> implements RuntimeValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         Object[] value = (Object[]) r.compileTimeValue(context);
         if (isNullValue(value)) {
             return NullValue.get();
@@ -66,7 +66,7 @@ public class ArrayCloner<T> implements RuntimeValue {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return new ArrayCloner(r.compileTimeExpressionFold(context));
     }
 

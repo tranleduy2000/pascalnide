@@ -16,9 +16,8 @@
 
 package com.duy.pascal.asset_data;
 
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 import junit.framework.TestCase;
 
@@ -40,7 +39,7 @@ public class SyntaxAssetDataTest extends TestCase {
         DLog.ANDROID = false;
     }
 
-    public void testSystem() throws ParsingException, RuntimePascalException, FileNotFoundException {
+    public void testSystem() throws Exception, RuntimePascalException, FileNotFoundException {
         File parent = new File(dir + "system");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {

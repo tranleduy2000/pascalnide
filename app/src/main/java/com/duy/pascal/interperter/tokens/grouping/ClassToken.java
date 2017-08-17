@@ -54,7 +54,7 @@ public class ClassToken extends GrouperToken {
         return "end";
     }
 
-    public void addDeclaresTo(PascalClassType classType, ExpressionContextMixin context) throws ParsingException {
+    public void addDeclaresTo(PascalClassType classType, ExpressionContextMixin context) throws Exception {
         while (hasNext()) {
             Token n = take();
             if (n instanceof PrivateToken) {

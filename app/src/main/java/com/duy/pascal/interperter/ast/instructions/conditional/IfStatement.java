@@ -46,7 +46,7 @@ public class IfStatement extends DebuggableExecutable {
      *
      * @param lineNumber - the lineInfo of begin if token
      */
-    public IfStatement(ExpressionContext context, GrouperToken grouperToken, LineInfo lineNumber) throws ParsingException {
+    public IfStatement(ExpressionContext context, GrouperToken grouperToken, LineInfo lineNumber) throws Exception {
 
         //check condition is boolean value
         RuntimeValue condition = grouperToken.getNextExpression(context);
@@ -109,7 +109,7 @@ public class IfStatement extends DebuggableExecutable {
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+            throws Exception {
         Object o = condition.compileTimeValue(c);
         if (o != null) {
             Boolean b = (Boolean) o;

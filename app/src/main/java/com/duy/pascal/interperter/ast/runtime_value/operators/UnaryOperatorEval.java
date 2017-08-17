@@ -60,7 +60,7 @@ public abstract class UnaryOperatorEval extends DebuggableReturnValue {
 
     public static RuntimeValue generateOp(ExpressionContext f,
                                           RuntimeValue v1, OperatorTypes op_type,
-                                          LineInfo line) throws ParsingException {
+                                          LineInfo line) throws Exception {
         Type t1 = v1.getRuntimeType(f).declType;
 
         if (!op_type.canBeUnary) {
@@ -132,13 +132,13 @@ public abstract class UnaryOperatorEval extends DebuggableReturnValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         return operon.getRuntimeType(f);
     }
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         Object value = operon.compileTimeValue(context);
         if (value == null) {
             return null;

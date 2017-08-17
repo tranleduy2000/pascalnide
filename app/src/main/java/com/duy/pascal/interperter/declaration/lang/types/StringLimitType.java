@@ -46,7 +46,7 @@ public class StringLimitType extends TypeInfo {
 
     @Override
     public RuntimeValue convert(RuntimeValue other, ExpressionContext f)
-            throws ParsingException {
+            throws Exception {
         RuntimeType otherType = other.getRuntimeType(f);
         if (this.equals(otherType.declType)) {
             return new StringBuilderLimitBoxer(other, length);

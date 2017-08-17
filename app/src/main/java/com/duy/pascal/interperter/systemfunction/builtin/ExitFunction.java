@@ -48,13 +48,13 @@ public class ExitFunction implements IMethodDeclaration {
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                     ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws Exception {
         RuntimeValue array = arguments[0];
         return new ExitCall(array, line);
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws ParsingException {
+    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         return generateCall(line, values, f);
     }
 
@@ -84,7 +84,7 @@ public class ExitFunction implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+        public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
             return null;
         }
 
@@ -106,13 +106,13 @@ public class ExitFunction implements IMethodDeclaration {
 
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-                throws ParsingException {
+                throws Exception {
             return new ExitCall(value.compileTimeExpressionFold(context), line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
-                throws ParsingException {
+                throws Exception {
             return new ExitCall(value.compileTimeExpressionFold(c), line);
         }
 

@@ -50,7 +50,7 @@ public class ForNumberStatement<T extends Number> extends DebuggableExecutable {
 
     public ForNumberStatement(ExpressionContext f, AssignableValue tempVar,
                               RuntimeValue first, RuntimeValue last, Executable command,
-                              LineInfo line, boolean downto) throws ParsingException {
+                              LineInfo line, boolean downto) throws Exception {
         this.downto = downto;
         this.tempVar = tempVar;
         this.mNumberType = tempVar.getRuntimeType(f).getRawType();
@@ -216,7 +216,7 @@ public class ForNumberStatement<T extends Number> extends DebuggableExecutable {
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+            throws Exception {
         return null;
     }
 }

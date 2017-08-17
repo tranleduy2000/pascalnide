@@ -63,7 +63,7 @@ public class WithCall extends DebuggableExecutableReturnValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return null;
     }
 
@@ -100,13 +100,13 @@ public class WithCall extends DebuggableExecutableReturnValue {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return new WithCall(withStatement, arguments, line);
     }
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+            throws Exception {
         return new WithCall(withStatement, arguments, line);
     }
 }

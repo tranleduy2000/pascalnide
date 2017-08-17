@@ -46,7 +46,7 @@ public class RecordType extends CustomType implements Cloneable {
     }
 
     public static ConstantAccess<RecordValue> getRecordConstant(ExpressionContext context, Token groupConstant,
-                                                                RecordType ztype) throws ParsingException {
+                                                                RecordType ztype) throws Exception {
         if (groupConstant instanceof ParenthesizedToken) {
             ParenthesizedToken group = (ParenthesizedToken) groupConstant;
             RecordType recordType = ztype.clone();

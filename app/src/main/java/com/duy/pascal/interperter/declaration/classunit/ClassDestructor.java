@@ -39,13 +39,13 @@ public class ClassDestructor extends FunctionDeclaration {
 
     public ClassDestructor(PascalClassType classType, Name name, ExpressionContext parent,
                            GrouperToken grouperToken, boolean isProcedure)
-            throws ParsingException {
+            throws Exception {
         super(name, parent, grouperToken, isProcedure);
         this.classType = classType;
     }
 
     public ClassDestructor(PascalClassType classType, ExpressionContext parent,
-                           GrouperToken grouperToken, boolean isProcedure) throws ParsingException {
+                           GrouperToken grouperToken, boolean isProcedure) throws Exception {
         super(parent, grouperToken, isProcedure);
         this.classType = classType;
     }

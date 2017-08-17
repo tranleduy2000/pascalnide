@@ -36,13 +36,13 @@ public class PascalClassType extends ObjectType {
 
     private ArrayListMultimap<Name, ClassConstructor> mConstructors = ArrayListMultimap.create();
 
-    public PascalClassType(CodeUnit root, ExpressionContext parent) throws ParsingException {
+    public PascalClassType(CodeUnit root, ExpressionContext parent) throws Exception {
         this.parent = parent;
         mPascalClassDeclaration = new PascalClassDeclaration(root, parent, null);
         addDefaultConstructor();
     }
 
-    private void addDefaultConstructor() throws ParsingException {
+    private void addDefaultConstructor() throws Exception {
         ClassConstructor def = new ClassConstructor(this, parent);
         addConstructor(def);
     }
@@ -53,7 +53,7 @@ public class PascalClassType extends ObjectType {
 
     public ClassConstructorCall generateConstructor(WordToken name, List<RuntimeValue> arguments,
                                                     ExpressionContext expressionContext)
-            throws ParsingException {
+            throws Exception {
         List<ClassConstructor> classConstructors = mConstructors.get(name.getName());
 
         boolean matching = false;
@@ -102,7 +102,7 @@ public class PascalClassType extends ObjectType {
         }
     }
 
-    public FunctionDeclaration getConstructor(ClassConstructor other) throws ParsingException {
+    public FunctionDeclaration getConstructor(ClassConstructor other) throws Exception {
         List<ClassConstructor> abstractFunctions = mConstructors.get(other.getName());
         for (ClassConstructor constructor : abstractFunctions) {
             if (constructor.headerMatches(other)) {
@@ -145,7 +145,7 @@ public class PascalClassType extends ObjectType {
 
     @Nullable
     @Override
-    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws ParsingException {
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws Exception {
         RuntimeType otherType = other.getRuntimeType(f);
         if (this.equals(otherType.declType)) {
             return other;
@@ -190,7 +190,7 @@ public class PascalClassType extends ObjectType {
     }
 
     @Override
-    public Type getMemberType(Name name) throws ParsingException {
+    public Type getMemberType(Name name) throws Exception {
         ExpressionContextMixin context = mPascalClassDeclaration.getContext();
 
         VariableDeclaration var = context.getVariableDefinitionLocal(name);

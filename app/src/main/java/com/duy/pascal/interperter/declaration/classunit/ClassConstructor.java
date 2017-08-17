@@ -47,13 +47,13 @@ public class ClassConstructor extends FunctionDeclaration {
 
     public ClassConstructor(PascalClassType classType, Name name, ExpressionContext parent,
                             GrouperToken grouperToken, boolean isProcedure)
-            throws ParsingException {
+            throws Exception {
         super(name, parent, grouperToken, isProcedure);
         this.classType = classType;
     }
 
     public ClassConstructor(PascalClassType classType, ExpressionContext parent)
-            throws ParsingException {
+            throws Exception {
         super(parent);
         this.classType = classType;
         this.name = Name.create("create");
@@ -62,7 +62,7 @@ public class ClassConstructor extends FunctionDeclaration {
 
 
     public ClassConstructor(PascalClassType classType, ExpressionContext parent,
-                            GrouperToken grouperToken, boolean isProcedure) throws ParsingException {
+                            GrouperToken grouperToken, boolean isProcedure) throws Exception {
         super(parent, grouperToken, isProcedure);
         this.classType = classType;
     }
@@ -83,7 +83,7 @@ public class ClassConstructor extends FunctionDeclaration {
     }
 
     @Override
-    public ClassConstructorCall generateCall(LineInfo line, List<RuntimeValue> values, ExpressionContext f) throws ParsingException {
+    public ClassConstructorCall generateCall(LineInfo line, List<RuntimeValue> values, ExpressionContext f) throws Exception {
         RuntimeValue[] args = formatArgs(values, f);
         if (args == null) {
             return null;
@@ -92,7 +92,7 @@ public class ClassConstructor extends FunctionDeclaration {
     }
 
     @Override
-    public ClassConstructorCall generatePerfectFitCall(LineInfo line, List<RuntimeValue> values, ExpressionContext f) throws ParsingException {
+    public ClassConstructorCall generatePerfectFitCall(LineInfo line, List<RuntimeValue> values, ExpressionContext f) throws Exception {
         RuntimeValue[] args = perfectMatch(values, f);
         if (args == null) {
             return null;

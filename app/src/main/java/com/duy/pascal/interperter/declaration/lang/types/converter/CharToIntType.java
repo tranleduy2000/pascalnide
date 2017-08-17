@@ -38,7 +38,7 @@ public class CharToIntType implements RuntimeValue {
 
     @Override
     public RuntimeType getRuntimeType(ExpressionContext f)
-            throws ParsingException {
+            throws Exception {
         return new RuntimeType(BasicType.Integer, false);
     }
 
@@ -55,7 +55,7 @@ public class CharToIntType implements RuntimeValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         Object o = other.compileTimeValue(context);
         if (o != null) {
             return (int) (Character) o;
@@ -66,7 +66,7 @@ public class CharToIntType implements RuntimeValue {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return new CharToIntType(other.compileTimeExpressionFold(context));
     }
 

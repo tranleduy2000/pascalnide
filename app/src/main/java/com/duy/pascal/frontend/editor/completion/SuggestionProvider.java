@@ -96,6 +96,8 @@ public class SuggestionProvider {
             return sort(suggestItems);
         } catch (ParsingException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }

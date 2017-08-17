@@ -51,7 +51,7 @@ public class WithStatement {
 
     private ArrayList<FieldAccess> fields = new ArrayList<>();
 
-    public WithStatement(ExpressionContext parent, GrouperToken grouperToken) throws ParsingException {
+    public WithStatement(ExpressionContext parent, GrouperToken grouperToken) throws Exception {
         this.line = grouperToken.peek().getLineNumber();
         getReferenceVariables(grouperToken, parent);
         for (RuntimeValue argument : references) {
@@ -84,7 +84,7 @@ public class WithStatement {
     }
 
     private void getReferenceVariables(GrouperToken grouperToken, ExpressionContext parent)
-            throws ParsingException {
+            throws Exception {
         references = new ArrayList<>();
         Token next;
         do {
@@ -129,18 +129,18 @@ public class WithStatement {
 
         @Override
         public Executable handleUnrecognizedStatementImpl(Token next, GrouperToken container)
-                throws ParsingException {
+                throws Exception {
             return null;
         }
 
         @Override
         public boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken container)
-                throws ParsingException {
+                throws Exception {
             return true;
         }
 
         @Override
-        public void handleBeginEnd(GrouperToken i) throws ParsingException {
+        public void handleBeginEnd(GrouperToken i) throws Exception {
             instructions = i.getNextCommand(withContext);
             i.assertNextSemicolon();
         }
@@ -151,7 +151,7 @@ public class WithStatement {
         }
 
         @Override
-        public RuntimeValue getIdentifierValue(WordToken name) throws ParsingException {
+        public RuntimeValue getIdentifierValue(WordToken name) throws Exception {
             for (FieldAccess field : fields) {
                 if (field.getName().equals(name.getName())) {
                     return field;

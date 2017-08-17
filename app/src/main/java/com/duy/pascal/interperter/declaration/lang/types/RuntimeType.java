@@ -3,10 +3,9 @@ package com.duy.pascal.interperter.declaration.lang.types;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
+import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.boxing.GetAddress;
-import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.interperter.declaration.lang.types.set.SetType;
 import com.duy.pascal.interperter.declaration.lang.types.util.TypeUtils;
@@ -46,7 +45,7 @@ public class RuntimeType implements ArgumentType {
     }
 
     public RuntimeValue convert(RuntimeValue value, ExpressionContext f)
-            throws ParsingException {
+            throws Exception {
         RuntimeType other = value.getRuntimeType(f);
         if (writable) {
             if (this.equals(other)) {
@@ -85,7 +84,7 @@ public class RuntimeType implements ArgumentType {
 
     @Override
     public RuntimeValue convertArgType(Iterator<RuntimeValue> args,
-                                       ExpressionContext f) throws ParsingException {
+                                       ExpressionContext f) throws Exception {
         if (!args.hasNext()) {
             return null;
         }
@@ -94,7 +93,7 @@ public class RuntimeType implements ArgumentType {
 
     @Override
     public RuntimeValue perfectFit(Iterator<RuntimeValue> args,
-                                   ExpressionContext e) throws ParsingException {
+                                   ExpressionContext e) throws Exception {
         if (!args.hasNext()) {
             return null;
         }

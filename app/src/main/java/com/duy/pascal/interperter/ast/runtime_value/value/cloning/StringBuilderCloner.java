@@ -22,7 +22,7 @@ public class StringBuilderCloner implements RuntimeValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         return value.getRuntimeType(f);
     }
 
@@ -55,7 +55,7 @@ public class StringBuilderCloner implements RuntimeValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         Object val = value.compileTimeValue(context);
         if (val != null) {
             return new StringBuilder((StringBuilder) val);
@@ -65,7 +65,7 @@ public class StringBuilderCloner implements RuntimeValue {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return new StringBuilderCloner(value);
     }
 

@@ -22,7 +22,7 @@ public class LongBiOperatorEval extends BinaryOperatorEval {
 
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         switch (operator_type) {
             case EQUALS:
             case GREATEREQ:
@@ -87,7 +87,7 @@ public class LongBiOperatorEval extends BinaryOperatorEval {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         Object val = this.compileTimeValue(context);
         if (val != null) {
             return new ConstantAccess<>(val, line);

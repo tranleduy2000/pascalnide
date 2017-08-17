@@ -64,7 +64,7 @@ public class SetBoxer extends DebuggableReturnValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         SetType<Type> setType = new SetType<>(elementType, line);
         return new RuntimeType(setType, false);
     }
@@ -86,7 +86,7 @@ public class SetBoxer extends DebuggableReturnValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         LinkedList<Object> result = new LinkedList<>();
         for (RuntimeValue value : values) {
             Object o = value.compileTimeValue(context);
@@ -105,7 +105,7 @@ public class SetBoxer extends DebuggableReturnValue {
     }
 
     @Override
-    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
         LinkedList<RuntimeValue> result = new LinkedList<>();
         for (RuntimeValue value : values) {
             result.add(value.compileTimeExpressionFold(context));

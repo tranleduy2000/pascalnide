@@ -40,7 +40,7 @@ class CasePossibility extends DebuggableExecutable {
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+            throws Exception {
         return new CasePossibility(conditions, commands.compileTimeConstantTransform(c));
     }
 }

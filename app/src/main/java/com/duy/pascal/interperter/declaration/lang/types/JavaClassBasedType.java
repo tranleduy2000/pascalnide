@@ -9,7 +9,6 @@ import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.boxing.StringBoxer;
 import com.duy.pascal.interperter.ast.runtime_value.value.cloning.CloneableObjectCloner;
 import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
@@ -54,7 +53,7 @@ public class JavaClassBasedType extends TypeInfo {
     }
 
     @Override
-    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws ParsingException {
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws Exception {
         RuntimeType otherType = other.getRuntimeType(f);
         if (otherType.declType instanceof BasicType) {
             if (this.equals(otherType.declType)) {

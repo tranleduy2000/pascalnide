@@ -20,7 +20,7 @@ public class VarargsType implements ArgumentType {
 
     @Override
     public RuntimeValue convertArgType(Iterator<RuntimeValue> args,
-                                       ExpressionContext f) throws ParsingException {
+                                       ExpressionContext f) throws Exception {
         List<RuntimeValue> convertedArgs = new ArrayList<>();
         LineInfo line = null;
         while (args.hasNext()) {
@@ -47,7 +47,7 @@ public class VarargsType implements ArgumentType {
 
     @Override
     public RuntimeValue perfectFit(Iterator<RuntimeValue> types,
-                                   ExpressionContext e) throws ParsingException {
+                                   ExpressionContext e) throws Exception {
         LineInfo line = null;
         List<RuntimeValue> converted = new ArrayList<>();
         while (types.hasNext()) {

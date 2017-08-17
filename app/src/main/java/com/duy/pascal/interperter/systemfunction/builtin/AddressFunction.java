@@ -52,14 +52,14 @@ public class AddressFunction implements IMethodDeclaration {
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                     ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws Exception {
         RuntimeValue pointer = arguments[0];
         this.pointerType = (PointerType) pointer.getRuntimeType(f).declType;
         return new AddressFunctionCall(pointer, line);
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws ParsingException {
+    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         return generateCall(line, values, f);
     }
 
@@ -95,7 +95,7 @@ public class AddressFunction implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+        public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
             RuntimeType pointertype = pointer.getRuntimeType(f);
             return new RuntimeType(((PointerType) pointertype.declType).pointedToType, true);
         }
@@ -112,12 +112,12 @@ public class AddressFunction implements IMethodDeclaration {
         }
 
         @Override
-        public Executable compileTimeConstantTransform(CompileTimeContext c) throws ParsingException {
+        public Executable compileTimeConstantTransform(CompileTimeContext c) throws Exception {
             return null;
         }
 
         @Override
-        public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
+        public Object compileTimeValue(CompileTimeContext context) throws Exception {
             Reference<?> ref = (Reference<?>) pointer.compileTimeValue(context);
             if (ref != null) {
                 try {
@@ -130,7 +130,7 @@ public class AddressFunction implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+        public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
             Object val = this.compileTimeValue(context);
             if (val != null) {
                 return new ConstantAccess<>(val, line);

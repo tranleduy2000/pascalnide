@@ -57,7 +57,7 @@ public class StringBoxer extends DebuggableReturnValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         Object value = this.value.compileTimeValue(context);
         if (value != null) {
             return value.toString();
@@ -68,7 +68,7 @@ public class StringBoxer extends DebuggableReturnValue {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         Object val = this.compileTimeValue(context);
         if (val != null) {
             return new ConstantAccess<>(val, value.getLineNumber());

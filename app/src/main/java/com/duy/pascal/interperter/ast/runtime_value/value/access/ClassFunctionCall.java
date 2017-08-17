@@ -80,7 +80,7 @@ public class ClassFunctionCall extends DebuggableExecutableReturnValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         return function.getRuntimeType(f);
     }
 
@@ -91,19 +91,19 @@ public class ClassFunctionCall extends DebuggableExecutableReturnValue {
     }
 
     @Override
-    public Executable compileTimeConstantTransform(CompileTimeContext c) throws ParsingException {
+    public Executable compileTimeConstantTransform(CompileTimeContext c) throws Exception {
         return null;
     }
 
     @Nullable
     @Override
-    public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
+    public Object compileTimeValue(CompileTimeContext context) throws Exception {
         return null;
     }
 
     @Nullable
     @Override
-    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
         return null;
     }
 }

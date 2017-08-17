@@ -60,7 +60,7 @@ public class DerefEval extends DebuggableAssignableValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
         RuntimeType pointertype = pointer.getRuntimeType(f);
         return new RuntimeType(((PointerType) pointertype.declType).pointedToType, true);
     }
@@ -77,7 +77,7 @@ public class DerefEval extends DebuggableAssignableValue {
     }
 
     @Override
-    public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
+    public Object compileTimeValue(CompileTimeContext context) throws Exception {
         Reference<?> ref = (Reference<?>) pointer.compileTimeValue(context);
         if (ref != null) {
             try {
@@ -91,7 +91,7 @@ public class DerefEval extends DebuggableAssignableValue {
     }
 
     @Override
-    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
         Object val = this.compileTimeValue(context);
         if (val != null) {
             return new ConstantAccess<>(val, line);

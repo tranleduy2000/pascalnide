@@ -54,7 +54,7 @@ public class NumberToShortType implements RuntimeValue {
 
     @Override
     public RuntimeType getRuntimeType(ExpressionContext f)
-            throws ParsingException {
+            throws Exception {
         return new RuntimeType(BasicType.Short, false);
     }
 
@@ -71,7 +71,7 @@ public class NumberToShortType implements RuntimeValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         Object o = other.compileTimeValue(context);
         if (o != null) {
             return ((Number) o).shortValue();
@@ -82,7 +82,7 @@ public class NumberToShortType implements RuntimeValue {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return new NumberToShortType(other.compileTimeExpressionFold(context));
     }
 

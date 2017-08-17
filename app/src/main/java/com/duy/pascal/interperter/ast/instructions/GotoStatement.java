@@ -50,7 +50,7 @@ public class GotoStatement extends DebuggableExecutable {
         this.command = command;
     }
 
-    public void parseBody(ExpressionContext context, GrouperToken i) throws ParsingException {
+    public void parseBody(ExpressionContext context, GrouperToken i) throws Exception {
         Token next = i.peekNoEOF();
         if (command != null) {
             throw new RuntimeException();
@@ -66,7 +66,7 @@ public class GotoStatement extends DebuggableExecutable {
     }
 
     @Override
-    public Executable compileTimeConstantTransform(CompileTimeContext c) throws ParsingException {
+    public Executable compileTimeConstantTransform(CompileTimeContext c) throws Exception {
         return null;
     }
 

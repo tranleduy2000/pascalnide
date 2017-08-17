@@ -5,7 +5,6 @@ import com.duy.pascal.frontend.runnable.ProgramHandler;
 import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.source.ScriptSource;
 
 import java.io.Reader;
@@ -30,7 +29,7 @@ public class PascalCompiler {
      */
     public static PascalProgramDeclaration loadPascal(String sourcename, Reader in,
                                                       List<ScriptSource> includeSearchPath,
-                                                      ProgramHandler handler) throws ParsingException {
+                                                      ProgramHandler handler) throws Exception {
         return new PascalProgramDeclaration(in, sourcename, includeSearchPath, handler, null);
     }
 
@@ -42,14 +41,14 @@ public class PascalCompiler {
      */
     public static PascalProgramDeclaration loadPascal(String sourcename, Reader in,
                                                       List<ScriptSource> includeSearchPath,
-                                                      ProgramHandler handler, DiagnosticCollector collector) throws ParsingException {
+                                                      ProgramHandler handler, DiagnosticCollector collector) throws Exception {
         return new PascalProgramDeclaration(in, sourcename, includeSearchPath, handler, collector);
     }
 
 
     public static PascalUnitDeclaration loadLibrary(String sourcename, Reader in,
                                                     List<ScriptSource> searchPath,
-                                                    ProgramHandler handler) throws ParsingException {
+                                                    ProgramHandler handler) throws Exception {
         return new PascalUnitDeclaration(in, sourcename, searchPath, handler);
     }
 

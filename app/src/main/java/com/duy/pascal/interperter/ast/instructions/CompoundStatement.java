@@ -60,7 +60,7 @@ public class CompoundStatement extends DebuggableExecutable {
     }
 
     @Override
-    public Executable compileTimeConstantTransform(CompileTimeContext c) throws ParsingException {
+    public Executable compileTimeConstantTransform(CompileTimeContext c) throws Exception {
         CompoundStatement nig = new CompoundStatement(startLine);
         for (Executable e : instructions) {
             Executable transformed = e.compileTimeConstantTransform(c);

@@ -34,7 +34,7 @@ public class DoubleSubrangeType extends SubrangeType<Double> {
 
     @Nullable
     @Override
-    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws ParsingException {
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws Exception {
         return BasicType.Double.convert(other, f);
     }
 

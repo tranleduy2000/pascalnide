@@ -38,7 +38,7 @@ public class NumberToLongType implements RuntimeValue {
 
     @Override
     public RuntimeType getRuntimeType(ExpressionContext f)
-            throws ParsingException {
+            throws Exception {
         return new RuntimeType(BasicType.Long, false);
     }
 
@@ -55,7 +55,7 @@ public class NumberToLongType implements RuntimeValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         Object o = other.compileTimeValue(context);
         if (o != null) {
             return ((Number) o).longValue();
@@ -66,7 +66,7 @@ public class NumberToLongType implements RuntimeValue {
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+            throws Exception {
         return new NumberToLongType(other.compileTimeExpressionFold(context));
     }
 

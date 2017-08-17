@@ -44,7 +44,7 @@ public class PlusAssignStatement extends DebuggableExecutable implements AssignE
     private RuntimeValue plusOp;
 
     public PlusAssignStatement(@NonNull AssignableValue left, @NonNull RuntimeValue plusOp,
-                               LineInfo line) throws ParsingException {
+                               LineInfo line) throws Exception {
         this.left = left;
         this.plusOp = plusOp;
         this.line = line;
@@ -52,7 +52,7 @@ public class PlusAssignStatement extends DebuggableExecutable implements AssignE
 
     public PlusAssignStatement(@NonNull ExpressionContext f,
                                @NonNull AssignableValue left, RuntimeValue value,
-                               LineInfo line) throws ParsingException {
+                               LineInfo line) throws Exception {
         this.left = left;
         this.line = line;
         this.plusOp = BinaryOperatorEval.generateOp(f, left, value, OperatorTypes.PLUS, line);
@@ -85,7 +85,7 @@ public class PlusAssignStatement extends DebuggableExecutable implements AssignE
 
     @Override
     public AssignExecutable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+            throws Exception {
         return new PlusAssignStatement(left, plusOp.compileTimeExpressionFold(c), line);
     }
 }
