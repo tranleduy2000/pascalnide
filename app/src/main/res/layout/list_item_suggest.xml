@@ -44,9 +44,11 @@
             android:gravity="center_vertical"
             android:maxLines="1"
             android:paddingLeft="4dp"
+            android:paddingStart="4dp"
             android:singleLine="true"
             android:text="@string/save"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:typeface="monospace"/>
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/img_info"

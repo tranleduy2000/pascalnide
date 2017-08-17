@@ -159,7 +159,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         h = rect.height();
 
         // 1/2 width of screen
-        setDropDownWidth((int) (w * 0.5f));
+        setDropDownWidth((int) (w * 0.7f));
 
         // 0.5 height of screen
         setDropDownHeight((int) (h * 0.5f));
