@@ -21,6 +21,7 @@ import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -50,6 +51,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 
 
 public class ActivitySplashScreen extends AppCompatActivity {
@@ -100,7 +102,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED
                         && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                   if (isDonateInstalled(DonateUtils.DONATE_PACKAGE)) {
+                    if (isDonateInstalled(DonateUtils.DONATE_PACKAGE)) {
                         new CheckTask().execute();
                     } else {
                         startMainActivity();
@@ -120,6 +122,14 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 case 0: //donate
                     DonateUtils.DONATED = true;
                     saveLicence();
+
+                    //save time
+                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(ActivitySplashScreen.this);
+                    long last = pref.getLong("donate_date", -1);
+                    if (last == -1) {
+                        pref.edit().putLong("donate_date", new Date().getTime()).apply();
+                    }
+
                     startMainActivity();
                     break;
                 case 1: //pirate
@@ -185,16 +195,16 @@ public class ActivitySplashScreen extends AppCompatActivity {
 
         String type = data.getType();
         final Intent intentEdit = new Intent(ActivitySplashScreen.this, EditorActivity.class);
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
+        if (action != null && Intent.ACTION_SEND.equals(action) && type != null) {
             FirebaseAnalytics.getInstance(this).logEvent("open_from_clipboard", new Bundle());
             if (type.equals("text/plain")) {
                 handleActionSend(data, intentEdit);
             }
 
-        } else if (Intent.ACTION_VIEW.equals(action) && type != null) {
+        } else if (action != null && Intent.ACTION_VIEW.equals(action) && type != null) {
             FirebaseAnalytics.getInstance(this).logEvent("open_from_another", new Bundle());
             handleActionView(data, intentEdit);
-        } else if (action.equalsIgnoreCase("run_from_shortcut")) {
+        } else if (action != null && action.equalsIgnoreCase("run_from_shortcut")) {
             FirebaseAnalytics.getInstance(this).logEvent("run_from_shortcut", new Bundle());
             handleRunProgram(data);
             return;
@@ -259,7 +269,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
 
     private class CheckTask extends AsyncTask<Object, Object, Boolean> {
         private ApplicationInfo mApplicationInfo;
-        private boolean mLicensedCached;
+        private boolean mLicensedCached = false;
 
 
         @Override
@@ -273,7 +283,8 @@ public class ActivitySplashScreen extends AppCompatActivity {
             if (mApplicationInfo != null) {
                 if (DonateUtils.existFile(mApplicationInfo.dataDir + "/license")) {
                     String content = DonateUtils.readFile(mApplicationInfo.dataDir + "/license");
-                    if (!content.isEmpty() && (content = DonateUtils.decodeString(content)) != null) {
+                    if (content != null && !content.isEmpty()
+                            && (content = DonateUtils.decodeString(content)) != null) {
                         if (content.equals(Installation.id(ActivitySplashScreen.this))) {
                             mLicensedCached = true;
                         }
@@ -289,13 +300,29 @@ public class ActivitySplashScreen extends AppCompatActivity {
             super.onPostExecute(donationValid);
             if (mLicensedCached) {
                 DonateUtils.DONATED = true;
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(ActivitySplashScreen.this);
+                long last = pref.getLong("donate_date", 0);
+                long current = new Date().getTime();
+                if (current - last <= 60 * 60 * 24) {
+                    try {
+                        getPackageManager().getPackageInfo(DonateUtils.DONATE_PACKAGE, 0);
+                    } catch (Exception e) {
+                        Toast.makeText(ActivitySplashScreen.this, "Please keep donate version one day", Toast.LENGTH_SHORT).show();
+                        DonateUtils.DONATED = false;
+                    }
+                }
                 startMainActivity();
             } else {
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.setComponent(new ComponentName(DonateUtils.DONATE_PACKAGE,
-                        DonateUtils.DONATE_PACKAGE + ".MainActivity"));
-                intent.putExtra("requestCode", REQUEST_CHECK_LICENSE);
-                startActivityForResult(intent, REQUEST_CHECK_LICENSE);
+                try {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.setComponent(new ComponentName(DonateUtils.DONATE_PACKAGE,
+                            DonateUtils.DONATE_PACKAGE + ".MainActivity"));
+                    intent.putExtra("requestCode", REQUEST_CHECK_LICENSE);
+                    startActivityForResult(intent, REQUEST_CHECK_LICENSE);
+                } catch (Exception e) {
+                    Toast.makeText(ActivitySplashScreen.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
             }
         }
     }

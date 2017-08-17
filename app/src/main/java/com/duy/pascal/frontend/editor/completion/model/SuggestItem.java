@@ -26,11 +26,11 @@ import com.duy.pascal.interperter.declaration.Name;
 /**
  * item for suggest adapter of {@link CodeSuggestsEditText}
  */
-public class SuggestItem implements Comparable<Name> {
-    public static final int KIND_FUNCTION = 0;
-    public static final int KIND_VARIABLE = KIND_FUNCTION + 1;
+public class SuggestItem implements Comparable<Name>, Description {
+    public static final int KIND_VARIABLE = 1;
     public static final int KIND_CONST = KIND_VARIABLE + 1;
-    public static final int KIND_TYPE = KIND_CONST + 1;
+    public static final int KIND_FUNCTION = KIND_CONST + 1;
+    public static final int KIND_TYPE = KIND_FUNCTION + 1;
     public static final int KIND_PROCEDURE = KIND_TYPE + 1;
     public static final int KIND_KEYWORD = KIND_PROCEDURE + 1;
 

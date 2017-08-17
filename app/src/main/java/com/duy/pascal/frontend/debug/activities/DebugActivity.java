@@ -84,12 +84,11 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     private HighlightEditor mCodeView;
     private Toolbar toolbar;
     private LockableScrollView mScrollView;
-    private Handler handler = new Handler();
+    private final Handler mHandler = new Handler();
     private AlertDialog alertDialog;
     private PopupWindow popupWindow;
     private AtomicBoolean endEnded = new AtomicBoolean(false);
     private Vibrator vibrator;
-
     private Runnable showDialog = new Runnable() {
         @Override
         public void run() {
@@ -114,7 +113,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         mConsoleView.updateSize();
         mConsoleView.showPrompt();
         mConsoleView.writeString("Enable DEBUG mode\n");
-        handler.postDelayed(new Runnable() {
+        mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 debugProgram();
@@ -152,6 +151,8 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onError(Exception e) {
+        if (isFinishing()) return;
+
         ExceptionManager exceptionManager = new ExceptionManager(this);
         DialogManager.Companion.createFinishDialog(this, "Runtime error",
                 exceptionManager.getMessage(e)).show();
@@ -236,7 +237,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     private void scrollTo(@NonNull final LineInfo lineInfo) {
-        runOnUiThread(new Runnable() {
+        mHandler.post(new Runnable() {
             @Override
             public void run() {
                 mCodeView.pinLine(lineInfo);
@@ -282,7 +283,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @WorkerThread
     private void showPopupAt(final LineInfo lineInfo, final String msg) {
-        runOnUiThread(new Runnable() {
+        mHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (isFinishing()) return;
@@ -308,7 +309,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
                 window.showAtLocation(mCodeView, Gravity.NO_GRAVITY, position.x - windowWidth / 3,
                         position.y + toolbar.getHeight() - windowHeight);
-                TextView txtResult = (TextView) container.findViewById(R.id.txt_result);
+                TextView txtResult = container.findViewById(R.id.txt_result);
                 txtResult.setText(msg);
                 AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.5f);
                 alphaAnimation.setDuration(1000);
@@ -361,7 +362,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     public void onEndProgram() {
         dismissPopup();
         this.endEnded.set(true);
-        runOnUiThread(new Runnable() {
+        mHandler.post(new Runnable() {
             @Override
             public void run() {
                 mCodeView.pinLine(null);
@@ -376,7 +377,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onVariableChange(final CallStack currentFrame) {
-        runOnUiThread(new Runnable() {
+        mHandler.post(new Runnable() {
             @Override
             public void run() {
                 mFameFragment.update(currentFrame);
@@ -469,7 +470,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     private void showDialogInput() {
-        runOnUiThread(new Runnable() {
+        mHandler.post(new Runnable() {
             @Override
             public void run() {
                 AlertDialog.Builder builder = new AlertDialog.Builder(DebugActivity.this);
@@ -490,7 +491,9 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
                 builder.setTitle("Read/readln");
                 alertDialog = builder.create();
                 alertDialog.setCanceledOnTouchOutside(false);
-                alertDialog.show();
+                if (!isFinishing()) {
+                    alertDialog.show();
+                }
             }
         });
     }

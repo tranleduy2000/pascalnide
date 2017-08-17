@@ -17,7 +17,6 @@
 package com.duy.pascal.frontend.editor.view.adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -112,32 +111,44 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         }
 
         final SuggestItem item = getItem(position);
-
-        TextView txtName = convertView.findViewById(R.id.txt_title);
-        txtName.setText(item.snipet() != null ? item.snipet() : item.getName().getOriginName());
-        switch (item.getType()) {
-            case SuggestItem.KIND_KEYWORD:
-                break;
-            case SuggestItem.KIND_VARIABLE:
-                break;
-            case SuggestItem.KIND_CONST:
-
-            default:
-                txtName.setTextColor(colorNormal);
-                txtName.setTypeface(Typeface.DEFAULT);
-                break;
-        }
-        View btnInfo = convertView.findViewById(R.id.img_info);
-        btnInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (item.getDescription() == null) {
-                    Toast.makeText(context, R.string.no_document, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, item.getDescription(), Toast.LENGTH_SHORT).show();
-                }
+        if (item != null) {
+            TextView txtHeader = convertView.findViewById(R.id.txt_header);
+            TextView txtName = convertView.findViewById(R.id.txt_title);
+            txtName.setText(item.snipet() != null ? item.snipet() : item.getName().getOriginName());
+            switch (item.getType()) {
+                case SuggestItem.KIND_KEYWORD:
+                    txtHeader.setVisibility(View.INVISIBLE);
+                    break;
+                case SuggestItem.KIND_VARIABLE:
+                    txtHeader.setText("v");
+                    break;
+                case SuggestItem.KIND_CONST:
+                    txtHeader.setText("c");
+                    break;
+                case SuggestItem.KIND_FUNCTION:
+                    txtHeader.setText("f");
+                    break;
+                case SuggestItem.KIND_PROCEDURE:
+                    txtHeader.setText("p");
+                    break;
+                case SuggestItem.KIND_TYPE:
+                    txtHeader.setText("t");
+                    break;
+                default:
+                    break;
             }
-        });
+            View btnInfo = convertView.findViewById(R.id.img_info);
+            btnInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (item.getDescription() == null) {
+                        Toast.makeText(context, R.string.no_document, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, item.getDescription(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
         return convertView;
     }
 
