@@ -31,18 +31,11 @@ import android.widget.Toast;
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
-import com.duy.pascal.frontend.editor.completion.model.KeyWord;
 import com.duy.pascal.frontend.editor.indention.PascalFormatCode;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.editor.view.LineUtils;
-import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
 import com.duy.pascal.frontend.file.FileManager;
-import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.frontend.view.LockableScrollView;
-import com.duy.pascal.interperter.builtin_libraries.PascalLibraryManager;
-import com.duy.pascal.interperter.builtin_libraries.SystemLibrary;
-import com.duy.pascal.interperter.builtin_libraries.file.FileLib;
-import com.duy.pascal.interperter.builtin_libraries.io.IOLib;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.define.MainProgramNotFoundException;
@@ -57,7 +50,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
 
 /**
  * Created by Duy on 15-Mar-17.
@@ -92,8 +84,8 @@ public class EditorFragment extends Fragment implements EditorListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_editor, container, false);
-        mCodeEditor = (EditorView) view.findViewById(R.id.code_editor);
-        mScrollView = (LockableScrollView) view.findViewById(R.id.vertical_scroll);
+        mCodeEditor = view.findViewById(R.id.code_editor);
+        mScrollView = view.findViewById(R.id.vertical_scroll);
 //        mHorizontalScrollView = (LockableHorizontalScrollView) view.findViewById(R.id.horizontal_scroll);
 
         FileManager fileManager = new FileManager(getContext());
@@ -123,11 +115,11 @@ public class EditorFragment extends Fragment implements EditorListener {
 //                }
 //            });
 //        }
-        ArrayList<SuggestItem> items = PascalLibraryManager.getAllMethodDescription(SystemLibrary.class, IOLib.class, FileLib.class);
-        for (String s : KeyWord.ALL_KEY_WORD) {
-            items.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
-        }
-        mCodeEditor.setSuggestData(items);
+//        ArrayList<SuggestItem> items = PascalLibraryManager.getAllMethodDescription(SystemLibrary.class, IOLib.class, FileLib.class);
+//        for (String s : KeyWord.ALL_KEY_WORD) {
+//            items.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
+//        }
+//        mCodeEditor.setSuggestData(items);
         return view;
     }
 

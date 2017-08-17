@@ -218,15 +218,18 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      * invalidate data for auto suggest
      */
     public void setSuggestData(ArrayList<SuggestItem> data) {
-        if (isPopupShowing()) {
-            dismissDropDown();
-        }
+//        if (isPopupShowing()) {
+//            dismissDropDown();
+//        }
         if (mAdapter != null) {
 //            mAdapter.setListener(null)
             mAdapter.clearAllData();
+            mAdapter.addData(data);
+            mAdapter.notifyDataSetChanged();
+        } else {
+            mAdapter = new CodeSuggestAdapter(getContext(), R.layout.list_item_suggest, data);
+            setAdapter(mAdapter);
         }
-        mAdapter = new CodeSuggestAdapter(getContext(), R.layout.list_item_suggest, data);
-        setAdapter(mAdapter);
         if (data.size() > 0) {
             showDropDown();
             onPopupChangePosition();

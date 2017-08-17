@@ -132,6 +132,9 @@ public class SuggestionProvider {
                 }
             }
         });
+        for (SuggestItem suggestItem : suggestItems) {
+            System.out.println(suggestItem);
+        }
         return suggestItems;
     }
 
