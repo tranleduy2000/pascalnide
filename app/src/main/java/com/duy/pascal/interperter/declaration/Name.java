@@ -44,8 +44,9 @@ public class Name implements Comparable<Name>, Serializable, Cloneable {
         if (obj instanceof String) {
             return obj.equals(originName);
         }
-        return obj == this ||
-                ((obj instanceof CharSequence) && obj.toString().equalsIgnoreCase(originName));
+        return obj == this
+                || (obj instanceof Name && ((Name) obj).getOriginName().equalsIgnoreCase(originName))
+                || ((obj instanceof CharSequence) && obj.toString().equalsIgnoreCase(originName));
     }
 
     @Override

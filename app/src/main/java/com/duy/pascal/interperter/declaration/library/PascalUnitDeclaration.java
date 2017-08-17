@@ -60,7 +60,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
     private ProgramHandler handler;
 
     public PascalUnitDeclaration(Reader program,
-                                 Name sourceName,
+                                 String sourceName,
                                  List<ScriptSource> includeDirectories,
                                  @Nullable ProgramHandler handler)
             throws ParsingException {

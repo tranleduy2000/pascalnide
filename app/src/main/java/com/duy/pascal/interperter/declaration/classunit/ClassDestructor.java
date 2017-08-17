@@ -22,6 +22,7 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimePascalClass;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
@@ -36,7 +37,7 @@ import com.duy.pascal.interperter.declaration.lang.types.PascalClassType;
 public class ClassDestructor extends FunctionDeclaration {
     private PascalClassType classType;
 
-    public ClassDestructor(PascalClassType classType, String name, ExpressionContext parent,
+    public ClassDestructor(PascalClassType classType, Name name, ExpressionContext parent,
                            GrouperToken grouperToken, boolean isProcedure)
             throws ParsingException {
         super(name, parent, grouperToken, isProcedure);

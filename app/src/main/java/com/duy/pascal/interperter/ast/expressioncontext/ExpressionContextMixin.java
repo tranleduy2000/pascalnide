@@ -513,7 +513,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 }
                 if (reader != null) {
                     found.set(true);
-                    PascalUnitDeclaration library = new PascalUnitDeclaration(reader, ((WordToken) next).getName(),
+                    PascalUnitDeclaration library = new PascalUnitDeclaration(reader, ((WordToken) next).getName().getOriginName(),
                             new ArrayList<ScriptSource>(), mHandler);
                     library.declareConstants(this);
                     library.declareTypes(this);

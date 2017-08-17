@@ -17,13 +17,14 @@
 package com.duy.pascal.interperter.ast.runtime_value.references;
 
 import com.duy.pascal.interperter.ast.variablecontext.ContainsVariables;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 public class ContainsVariablesPointer<T> implements Reference<T> {
     private final ContainsVariables container;
-    private final String index;
+    private final Name index;
 
-    public ContainsVariablesPointer(ContainsVariables container, String index) {
+    public ContainsVariablesPointer(ContainsVariables container, Name index) {
         this.container = container;
         this.index = index;
     }

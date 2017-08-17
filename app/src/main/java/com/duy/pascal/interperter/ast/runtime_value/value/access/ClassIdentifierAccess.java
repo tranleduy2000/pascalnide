@@ -25,6 +25,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.debugable.DebuggableReturnValue;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
@@ -36,11 +37,11 @@ import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
 public class ClassIdentifierAccess extends DebuggableReturnValue {
 
-    private final String container;
+    private final Name container;
     private final RuntimeValue value;
     private final LineInfo lineInfo;
 
-    public ClassIdentifierAccess(String container, RuntimeValue value, LineInfo lineInfo) {
+    public ClassIdentifierAccess(Name container, RuntimeValue value, LineInfo lineInfo) {
         this.container = container;
         this.value = value;
         this.lineInfo = lineInfo;

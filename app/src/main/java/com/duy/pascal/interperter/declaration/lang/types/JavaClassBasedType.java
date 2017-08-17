@@ -8,9 +8,10 @@ import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.boxing.StringBoxer;
 import com.duy.pascal.interperter.ast.runtime_value.value.cloning.CloneableObjectCloner;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class JavaClassBasedType extends TypeInfo {
 
@@ -113,13 +114,13 @@ public class JavaClassBasedType extends TypeInfo {
     @NonNull
     @Override
     public String getEntityType() {
-        return "java class type";
+        return "Java class type";
     }
 
     @NonNull
     @Override
-    public String getName() {
-        return null;
+    public Name getName() {
+        return clazz != null ? Name.create(clazz.getSimpleName()) : null;
     }
 
     @Override
