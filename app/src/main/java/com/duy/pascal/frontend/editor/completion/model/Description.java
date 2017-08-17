@@ -16,9 +16,37 @@
 
 package com.duy.pascal.frontend.editor.completion.model;
 
+import android.support.annotation.Nullable;
+
+import com.duy.pascal.interperter.declaration.lang.types.Type;
+
 /**
  * Created by Duy on 17-Aug-17.
  */
 
 public interface Description {
+
+    /**
+     * output when user click suggestion
+     */
+    public String getOutput();
+
+    /**
+     * uses for show in list suggest
+     */
+    public String getHeader();
+
+    public String getDescription();
+
+    /**
+     * @return name of item, uses for compare with input
+     */
+    public String getName();
+
+    @DescriptionImpl.ItemKind
+    public Integer getKind();
+
+    @Nullable
+    public Type getType();
+
 }

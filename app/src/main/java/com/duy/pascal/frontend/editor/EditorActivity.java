@@ -48,14 +48,12 @@ import com.duy.pascal.frontend.code_sample.activities.DocumentActivity;
 import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
 import com.duy.pascal.frontend.dialog.DialogFragmentFixExpectToken;
 import com.duy.pascal.frontend.dialog.DialogManager;
-import com.duy.pascal.frontend.editor.completion.model.KeyWord;
+import com.duy.pascal.frontend.editor.completion.model.DescriptionImpl;
 import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
 import com.duy.pascal.frontend.editor.view.EditorView;
-import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.structure.DialogProgramStructure;
 import com.duy.pascal.frontend.structure.viewholder.StructureItem;
-import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.frontend.themefont.activities.ThemeFontActivity;
 import com.duy.pascal.frontend.utils.DonateUtils;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
@@ -64,10 +62,6 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.builtin_libraries.io.IOLib;
 import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
-import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
-import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
-import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.define.MainProgramNotFoundException;
@@ -76,7 +70,6 @@ import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
-import com.google.common.collect.ArrayListMultimap;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -84,8 +77,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class EditorActivity extends BaseEditorActivity implements
         DrawerLayout.DrawerListener, DialogFragmentFixExpectToken.OnSelectExpectListener {
@@ -313,7 +304,6 @@ public class EditorActivity extends BaseEditorActivity implements
                     }
                 }
             }
-            buildSuggestData(codeUnit);
         } catch (FileNotFoundException e) {
             showErrorDialog(e);
             return false;
@@ -327,44 +317,6 @@ public class EditorActivity extends BaseEditorActivity implements
         }
         Toast.makeText(this, R.string.compile_ok, Toast.LENGTH_SHORT).show();
         return true;
-    }
-
-    private void buildSuggestData(CodeUnit codeUnit) {
-        if (codeUnit != null) {
-            ExpressionContextMixin program = codeUnit.getProgram();
-            EditorFragment fragment = pagerAdapter.getCurrentFragment();
-            if (fragment != null && fragment.getEditor() != null) {
-                ArrayList<SuggestItem> data = new ArrayList<>();
-
-                ArrayListMultimap<Name, AbstractFunction> callableFunctions = program.getCallableFunctions();
-                for (Name name : callableFunctions.keySet()) {
-                    for (AbstractFunction f : callableFunctions.get(name)) {
-                        data.add(new SuggestItem(StructureType.TYPE_FUNCTION,
-                                f.getName(), f.getDescription(), f.toString()));
-                    }
-                }
-
-                data.addAll(program.getListNameConstants());
-                data.addAll(program.getListNameTypes());
-
-                ArrayList<VariableDeclaration> variables = program.getVariables();
-                ArrayList<SuggestItem> listVariables = new ArrayList<>();
-
-                for (VariableDeclaration variableDeclaration : variables) {
-                    listVariables.add(new SuggestItem(StructureType.TYPE_VARIABLE, variableDeclaration.getName()));
-                }
-                data.addAll(listVariables);
-
-
-                EditorView editor = fragment.getEditor();
-                // TODO: 17-Aug-17 add keyword
-                for (String s : KeyWord.ALL_KEY_WORD) {
-                    data.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
-                }
-                editor.setSuggestData(data);
-            }
-
-        }
     }
 
     private void showErrorDialog(Exception e) {
@@ -409,7 +361,7 @@ public class EditorActivity extends BaseEditorActivity implements
             EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
             if (editorFragment != null) {
                 EditorView editor = editorFragment.getEditor();
-                editor.setSuggestData(new ArrayList<SuggestItem>());
+                editor.setSuggestData(new ArrayList<DescriptionImpl>());
             }
         }
         //toggle ime/no suggest mode
@@ -678,7 +630,8 @@ public class EditorActivity extends BaseEditorActivity implements
             }
             ExpressionContextMixin program = pascalProgram.getProgram();
 
-            StructureItem node = getNode(program, pascalProgram.getProgramName(), StructureType.TYPE_PROGRAM, 0);
+            StructureItem node = null;
+//            node = getNode(program, pascalProgram.getProgramName(), StructureType.TYPE_PROGRAM, 0);
 
             DialogProgramStructure dialog = DialogProgramStructure.newInstance(node);
             dialog.show(getSupportFragmentManager(), DialogProgramStructure.TAG);
@@ -688,47 +641,48 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     private StructureItem getNode(ExpressionContextMixin context, Name nameOfNode, int type, int depth) {
-        StructureItem node = new StructureItem(type, nameOfNode.getOriginName());
-        String tab = "";
-        for (int i = 0; i < depth; i++) tab += "\t";
-        Map<Name, ConstantDefinition> constants = context.getConstants();
-        ArrayList<SuggestItem> listNameConstants = context.getListNameConstants();
-        for (SuggestItem name : listNameConstants) {
-            node.addNode(new StructureItem(StructureType.TYPE_CONST,
-                    name + " = " + constants.get(name.getName()).getValue()));
-        }
-
-        ArrayList<Name> libraries = context.getLibrariesNames();
-        for (Name name : libraries) {
-            DLog.d(TAG, tab + "showProgramStructure: library " + name);
-            node.addNode(new StructureItem(StructureType.TYPE_LIBRARY, name.getOriginName()));
-        }
-
-        List<VariableDeclaration> variables = context.getVariables();
-        for (VariableDeclaration variableDeclaration : variables) {
-            DLog.d(TAG, tab + "showProgramStructure: var " + variableDeclaration.getName() + " = "
-                    + variableDeclaration.getInitialValue() + " " + variableDeclaration.getType());
-            node.addNode(new StructureItem(StructureType.TYPE_VARIABLE,
-                    variableDeclaration.getName() + ": " + variableDeclaration.getType()));
-        }
-
-        ArrayListMultimap<Name, AbstractFunction> callableFunctions = context.getCallableFunctions();
-        ArrayList<SuggestItem> listNameFunctions = context.getListNameFunctions();
-        for (SuggestItem name : listNameFunctions) {
-            List<AbstractFunction> abstractFunctions = callableFunctions.get(name.getName());
-            for (AbstractFunction function : abstractFunctions) {
-                if (function instanceof FunctionDeclaration) {
-                    FunctionDeclaration functionInPascal = (FunctionDeclaration) function;
-                    StructureItem child = getNode(
-                            functionInPascal.declaration,
-                            ((FunctionDeclaration) function).name,
-                            functionInPascal.isProcedure() ? StructureType.TYPE_PROCEDURE : StructureType.TYPE_FUNCTION,
-                            depth + 1);
-                    node.addNode(child);
-                }
-            }
-        }
-        return node;
+//        StructureItem node = new StructureItem(type, nameOfNode.getOriginName());
+//        String tab = "";
+//        for (int i = 0; i < depth; i++) tab += "\t";
+//        Map<Name, ConstantDefinition> constants = context.getConstants();
+//        ArrayList<DescriptionImpl> listNameConstants = context.getListNameConstants();
+//        for (DescriptionImpl name : listNameConstants) {
+//            node.addNode(new StructureItem(StructureType.TYPE_CONST,
+//                    name + " = " + constants.get(name.getName()).getValue()));
+//        }
+//
+//        ArrayList<Name> libraries = context.getLibrariesNames();
+//        for (Name name : libraries) {
+//            DLog.d(TAG, tab + "showProgramStructure: library " + name);
+//            node.addNode(new StructureItem(StructureType.TYPE_LIBRARY, name.getOriginName()));
+//        }
+//
+//        List<VariableDeclaration> variables = context.getVariables();
+//        for (VariableDeclaration variableDeclaration : variables) {
+//            DLog.d(TAG, tab + "showProgramStructure: var " + variableDeclaration.getName() + " = "
+//                    + variableDeclaration.getInitialValue() + " " + variableDeclaration.getType());
+//            node.addNode(new StructureItem(StructureType.TYPE_VARIABLE,
+//                    variableDeclaration.getName() + ": " + variableDeclaration.getType()));
+//        }
+//
+//        ArrayListMultimap<Name, AbstractFunction> callableFunctions = context.getCallableFunctions();
+//        ArrayList<DescriptionImpl> listNameFunctions = context.getListNameFunctions();
+//        for (DescriptionImpl name : listNameFunctions) {
+//            List<AbstractFunction> abstractFunctions = callableFunctions.get(name.getName());
+//            for (AbstractFunction function : abstractFunctions) {
+//                if (function instanceof FunctionDeclaration) {
+//                    FunctionDeclaration functionInPascal = (FunctionDeclaration) function;
+//                    StructureItem child = getNode(
+//                            functionInPascal.declaration,
+//                            ((FunctionDeclaration) function).name,
+//                            functionInPascal.isProcedure() ? StructureType.TYPE_PROCEDURE : StructureType.TYPE_FUNCTION,
+//                            depth + 1);
+//                    node.addNode(child);
+//                }
+//            }
+//        }
+//        return node;
+        return null;
     }
 
     public void startDebug() {

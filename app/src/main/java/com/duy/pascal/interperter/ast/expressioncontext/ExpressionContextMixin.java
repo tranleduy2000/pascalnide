@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
+import com.duy.pascal.frontend.editor.completion.model.DescriptionImpl;
 import com.duy.pascal.frontend.runnable.ProgramHandler;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
@@ -104,8 +104,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
      * list function and procedure pascal, support overload function
      */
     private ArrayListMultimap<Name, AbstractFunction> callableFunctions = ArrayListMultimap.create();
-    //name of function in map callableFunctions, uses for get all function
-    private ArrayList<SuggestItem> mListNameFunctions = new ArrayList<>();
     /*defined constants*/
     private HashMap<Name, ConstantDefinition> mConstants = new HashMap<>();
     /*defined libraries*/
@@ -117,14 +115,8 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
      * define labels
      */
     private HashMap<Name, LabelDeclaration> labelsMap = new HashMap<>();
-    //list name of constant map,  use for get all constants
-    private ArrayList<SuggestItem> mListNameConstants = new ArrayList<>();
     /*user define type*/
     private HashMap<Name, Type> typedefs = new HashMap<>();
-    /**
-     * uses for get all type in map typedefs
-     */
-    private ArrayList<SuggestItem> mListNameTypes = new ArrayList<>();
     /**
      * List name library which program are in use
      */
@@ -166,10 +158,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         }
     }
 
-    public ArrayList<Name> getLibrariesNames() {
-        return mLibrariesNames;
-    }
-
     public ArrayListMultimap<Name, AbstractFunction> getCallableFunctions() {
         return callableFunctions;
     }
@@ -197,7 +185,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             }
         }
         callableFunctions.put(f.getName(), f);
-        mListNameFunctions.add(new SuggestItem(StructureType.TYPE_FUNCTION, f.getName()));
         return f;
     }
 
@@ -593,7 +580,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
      */
     public void declareTypedef(Name name, Type type) {
         typedefs.put(name, type);
-        mListNameTypes.add(new SuggestItem(StructureType.TYPE_DEF, name));
     }
 
     /**
@@ -615,13 +601,10 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     public void declareFunction(AbstractFunction f) {
         callableFunctions.put(f.getName(), f);
-        SuggestItem e = new SuggestItem(StructureType.TYPE_FUNCTION, f.getName(), f.getDescription(), f.toString());
-        mListNameFunctions.add(e);
     }
 
     public void declareConst(ConstantDefinition c) {
         mConstants.put(c.getName(), c);
-        mListNameConstants.add(new SuggestItem(StructureType.TYPE_CONST, c.getName()));
     }
 
     public void addDeclareConsts(GrouperToken grouperToken) throws Exception {
@@ -739,18 +722,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         return true;
     }
 
-
-    public ArrayList<SuggestItem> getListNameFunctions() {
-        return mListNameFunctions;
-    }
-
-    public ArrayList<SuggestItem> getListNameConstants() {
-        return mListNameConstants;
-    }
-
-    public ArrayList<SuggestItem> getListNameTypes() {
-        return mListNameTypes;
-    }
 
     public HashMap<PascalUnitDeclaration, RuntimeUnitPascal> getRuntimeUnitMap() {
         return mRuntimeUnitMap;

@@ -30,9 +30,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
+import com.duy.pascal.frontend.editor.completion.model.Description;
+import com.duy.pascal.frontend.editor.completion.model.DescriptionImpl;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.interperter.declaration.Name;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,15 +40,15 @@ import java.util.Collection;
 /**
  * Created by Duy on 26-Apr-17.
  */
-public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
+public class CodeSuggestAdapter extends ArrayAdapter<Description> {
     private static final String TAG = "CodeSuggestAdapter";
     private final Context context;
     private final int colorKeyWord;
     private final int colorNormal;
     private final int colorVariable = 0xffFFB74D;
     private LayoutInflater inflater;
-    private ArrayList<SuggestItem> clone;
-    private ArrayList<SuggestItem> suggestion;
+    private ArrayList<Description> clone;
+    private ArrayList<Description> suggestion;
     private int resourceID;
     private PascalPreferences mSetting;
     private Filter codeFilter = new Filter() {
@@ -57,7 +57,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
             if (resultValue == null) {
                 return "";
             }
-            return ((SuggestItem) resultValue).getName().getOriginName();
+            return ((DescriptionImpl) resultValue).getOutput();
         }
 
         @Override
@@ -65,8 +65,8 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
             FilterResults filterResults = new FilterResults();
             suggestion.clear();
             if (constraint != null) {
-                for (SuggestItem item : clone) {
-                    if (item.compareTo(Name.create(constraint.toString())) == 0) {
+                for (Description item : clone) {
+                    if (item.getName().toLowerCase().compareTo(constraint.toString().toLowerCase()) == 0) {
                         suggestion.add(item);
                     }
                 }
@@ -80,7 +80,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         @SuppressWarnings("unchecked")
 
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            ArrayList<SuggestItem> filteredList = (ArrayList<SuggestItem>) results.values;
+            ArrayList<DescriptionImpl> filteredList = (ArrayList<DescriptionImpl>) results.values;
             clear();
             if (filteredList != null && filteredList.size() > 0) {
                 addAll(filteredList);
@@ -90,11 +90,11 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
     };
 
     @SuppressWarnings("unchecked")
-    public CodeSuggestAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<SuggestItem> objects) {
+    public CodeSuggestAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<Description> objects) {
         super(context, resource, objects);
         this.inflater = LayoutInflater.from(context);
         this.context = context;
-        this.clone = (ArrayList<SuggestItem>) objects.clone();
+        this.clone = (ArrayList<Description>) objects.clone();
         this.suggestion = new ArrayList<>();
         this.resourceID = resource;
         colorKeyWord = context.getResources().getColor(R.color.color_key_word_color);
@@ -102,7 +102,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         mSetting = new PascalPreferences(context);
     }
 
-    public ArrayList<SuggestItem> getAllItems() {
+    public ArrayList<Description> getAllItems() {
         return clone;
     }
 
@@ -114,7 +114,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
             convertView = inflater.inflate(resourceID, null);
         }
 
-        final SuggestItem item = getItem(position);
+        final Description item = getItem(position);
         if (item != null) {
             TextView txtHeader = convertView.findViewById(R.id.txt_header);
             txtHeader.setVisibility(View.VISIBLE);
@@ -124,24 +124,24 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
             TextView txtName = convertView.findViewById(R.id.txt_name);
             txtName.setTypeface(Typeface.MONOSPACE);
             txtName.setTextSize(mSetting.getEditorTextSize());
-            txtName.setText(item.snipet() != null ? item.snipet() : item.getName().getOriginName());
-            switch (item.getType()) {
-                case SuggestItem.KIND_KEYWORD:
+            txtName.setText(item.getHeader());
+            switch (item.getKind()) {
+                case DescriptionImpl.KIND_KEYWORD:
                     txtHeader.setVisibility(View.INVISIBLE);
                     break;
-                case SuggestItem.KIND_VARIABLE:
+                case DescriptionImpl.KIND_VARIABLE:
                     txtHeader.setText("v");
                     break;
-                case SuggestItem.KIND_CONST:
+                case DescriptionImpl.KIND_CONST:
                     txtHeader.setText("c");
                     break;
-                case SuggestItem.KIND_FUNCTION:
+                case DescriptionImpl.KIND_FUNCTION:
                     txtHeader.setText("f");
                     break;
-                case SuggestItem.KIND_PROCEDURE:
+                case DescriptionImpl.KIND_PROCEDURE:
                     txtHeader.setText("p");
                     break;
-                case SuggestItem.KIND_TYPE:
+                case DescriptionImpl.KIND_TYPE:
                     txtHeader.setText("t");
                     break;
                 default:
@@ -168,7 +168,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         clone.clear();
     }
 
-    public void addData(@NonNull Collection<? extends SuggestItem> collection) {
+    public void addData(@NonNull Collection<? extends DescriptionImpl> collection) {
         addAll(collection);
         clone.addAll(collection);
     }

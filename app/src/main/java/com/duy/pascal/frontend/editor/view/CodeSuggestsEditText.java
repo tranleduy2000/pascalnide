@@ -32,7 +32,7 @@ import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.completion.SuggestionProvider;
 import com.duy.pascal.frontend.editor.completion.model.KeyWord;
-import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
+import com.duy.pascal.frontend.editor.completion.model.DescriptionImpl;
 import com.duy.pascal.frontend.editor.view.adapters.CodeSuggestAdapter;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 
@@ -74,9 +74,9 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      * slipt string in edittext and put it to list keyword
      */
     public void setDefaultKeyword() {
-        ArrayList<SuggestItem> data = new ArrayList<>();
+        ArrayList<DescriptionImpl> data = new ArrayList<>();
         for (String s : KeyWord.ALL_KEY_WORD) {
-            data.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
+            data.add(new DescriptionImpl(StructureType.TYPE_KEY_WORD, s));
         }
         setSuggestData(data);
     }
@@ -126,9 +126,9 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      * invalidate data for auto suggest
      */
     public void setSuggestData(String[] data) {
-        ArrayList<SuggestItem> items = new ArrayList<>();
+        ArrayList<DescriptionImpl> items = new ArrayList<>();
         for (String s : data) {
-            items.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
+            items.add(new DescriptionImpl(StructureType.TYPE_KEY_WORD, s));
         }
         setSuggestData(items);
     }
@@ -186,7 +186,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     }
 
     public void restoreAfterClick(final String[] data) {
-        final ArrayList<SuggestItem> suggestData = (ArrayList<SuggestItem>) getSuggestData().clone();
+        final ArrayList<DescriptionImpl> suggestData = (ArrayList<DescriptionImpl>) getSuggestData().clone();
         setSuggestData(data);
         postDelayed(new Runnable() {
             @Override
@@ -210,14 +210,14 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         }, 50);
     }
 
-    public ArrayList<SuggestItem> getSuggestData() {
+    public ArrayList<DescriptionImpl> getSuggestData() {
         return mAdapter.getAllItems();
     }
 
     /**
      * invalidate data for auto suggest
      */
-    public void setSuggestData(ArrayList<SuggestItem> data) {
+    public void setSuggestData(ArrayList<DescriptionImpl> data) {
 //        if (isPopupShowing()) {
 //            dismissDropDown();
 //        }
@@ -238,11 +238,11 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     }
 
     public void addKeywords(String[] allKeyWord) {
-        ArrayList<SuggestItem> newData = new ArrayList<>();
+        ArrayList<DescriptionImpl> newData = new ArrayList<>();
         for (String s : allKeyWord) {
-            newData.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
+            newData.add(new DescriptionImpl(StructureType.TYPE_KEY_WORD, s));
         }
-        ArrayList<SuggestItem> oldItems = mAdapter.getAllItems();
+        ArrayList<DescriptionImpl> oldItems = mAdapter.getAllItems();
         oldItems.addAll(newData);
         setSuggestData(oldItems);
     }
@@ -287,7 +287,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         }
     }
 
-    private class ParseTask extends AsyncTask<Object, Object, ArrayList<SuggestItem>> {
+    private class ParseTask extends AsyncTask<Object, Object, ArrayList<DescriptionImpl>> {
         private Context context;
         private EditText editText;
         private String source;
@@ -313,20 +313,20 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         }
 
         @Override
-        protected ArrayList<SuggestItem> doInBackground(Object... params) {
-            return pascalParserHelper.getSuggestion(context, srcPath, source,
+        protected ArrayList<DescriptionImpl> doInBackground(Object... params) {
+            return pascalParserHelper.getSuggestion(srcPath, source,
                     cursorPos, cursorLine, cursorCol);
         }
 
         @Override
-        protected void onPostExecute(ArrayList<SuggestItem> result) {
+        protected void onPostExecute(ArrayList<DescriptionImpl> result) {
             super.onPostExecute(result);
             if (isCancelled()) {
                 Log.d(TAG, "onPostExecute: cancel");
                 return;
             }
             if (result == null) {
-                setSuggestData(new ArrayList<SuggestItem>());
+                setSuggestData(new ArrayList<DescriptionImpl>());
             } else {
                 setSuggestData(result);
             }

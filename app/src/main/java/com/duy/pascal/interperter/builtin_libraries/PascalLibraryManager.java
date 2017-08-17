@@ -22,7 +22,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 
 import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
+import com.duy.pascal.frontend.editor.completion.model.DescriptionImpl;
 import com.duy.pascal.frontend.runnable.ConsoleHandler;
 import com.duy.pascal.frontend.runnable.ProgramHandler;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
@@ -151,8 +151,8 @@ public class PascalLibraryManager {
         MAP_LIBRARIES.put(Name.create(name), claszz);
     }
 
-    public static ArrayList<SuggestItem> getAllMethodDescription(Class<?>... classes) {
-        ArrayList<SuggestItem> suggestItems = new ArrayList<>();
+    public static ArrayList<DescriptionImpl> getAllMethodDescription(Class<?>... classes) {
+        ArrayList<DescriptionImpl> suggestItems = new ArrayList<>();
         for (Class<?> aClass : classes) {
             Method[] methods = aClass.getDeclaredMethods();
             for (Method method : methods) {
@@ -160,12 +160,12 @@ public class PascalLibraryManager {
                     if (method.getAnnotation(PascalMethod.class) != null) {
                         PascalMethod annotation = method.getAnnotation(PascalMethod.class);
                         String description = annotation.description();
-                        suggestItems.add(new SuggestItem(StructureType.TYPE_FUNCTION,
+                        suggestItems.add(new DescriptionImpl(StructureType.TYPE_FUNCTION,
                                 Name.create(method.getName()), description));
                     }
                 } else {
                     if (Modifier.isPublic(method.getModifiers())) {
-                        suggestItems.add(new SuggestItem(StructureType.TYPE_FUNCTION, method.getName()));
+                        suggestItems.add(new DescriptionImpl(StructureType.TYPE_FUNCTION, method.getName()));
                     }
                 }
             }

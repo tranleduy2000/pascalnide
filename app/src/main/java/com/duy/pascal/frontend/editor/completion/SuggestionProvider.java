@@ -16,11 +16,12 @@
 
 package com.duy.pascal.frontend.editor.completion;
 
-import android.content.Context;
 import android.util.Log;
 
+import com.duy.pascal.frontend.editor.completion.model.Description;
+import com.duy.pascal.frontend.editor.completion.model.DescriptionImpl;
+import com.duy.pascal.frontend.editor.completion.model.FunctionDescription;
 import com.duy.pascal.frontend.editor.completion.model.KeyWord;
-import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
 import com.duy.pascal.frontend.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.core.PascalCompiler;
@@ -48,7 +49,6 @@ import java.util.Map;
 
 public class SuggestionProvider {
     private static final String TAG = "SuggestionProvider";
-    private Context context;
     private String srcPath;
     private String source;
     private int cursorPos;
@@ -62,9 +62,8 @@ public class SuggestionProvider {
         incomplete = "";
     }
 
-    public ArrayList<SuggestItem> getSuggestion(Context context, String srcPath, String source,
+    public ArrayList<Description> getSuggestion(String srcPath, String source,
                                                 int cursorPos, int cursorLine, int cursorCol) {
-        this.context = context;
         this.srcPath = srcPath;
         this.source = source;
         this.cursorPos = cursorPos;
@@ -73,7 +72,7 @@ public class SuggestionProvider {
         try {
             calculateIncomplete();
             //the result
-            ArrayList<SuggestItem> suggestItems = new ArrayList<>();
+            ArrayList<Description> suggestItems = new ArrayList<>();
             try {
                 DiagnosticCollector diagnosticCollector = new DiagnosticCollector();
                 PascalProgramDeclaration pascalProgram =
@@ -102,13 +101,13 @@ public class SuggestionProvider {
         return null;
     }
 
-    private ArrayList<SuggestItem> addKeyword() {
-        ArrayList<SuggestItem> suggestItems = new ArrayList<>();
+    private ArrayList<Description> addKeyword() {
+        ArrayList<Description> suggestItems = new ArrayList<>();
         if (incomplete.isEmpty()) return suggestItems;
         for (String s : KeyWord.ALL_KEY_WORD) {
             if (s.toLowerCase().startsWith(incomplete.toLowerCase())
                     && !s.equalsIgnoreCase(incomplete)) {
-                suggestItems.add(new SuggestItem(SuggestItem.KIND_KEYWORD, s));
+                suggestItems.add(new DescriptionImpl(DescriptionImpl.KIND_KEYWORD, s));
             }
         }
         return suggestItems;
@@ -123,28 +122,25 @@ public class SuggestionProvider {
 
     }
 
-    private ArrayList<SuggestItem> sort(ArrayList<SuggestItem> items) {
+    private ArrayList<Description> sort(ArrayList<Description> items) {
         //sort by type -> name
-        Collections.sort(items, new Comparator<SuggestItem>() {
+        Collections.sort(items, new Comparator<Description>() {
             @Override
-            public int compare(SuggestItem o1, SuggestItem o2) {
-                if (!o1.getType().equals(o2.getType())) {
-                    return o1.getType().compareTo(o2.getType());
+            public int compare(Description o1, Description o2) {
+                if (!o1.getKind().equals(o2.getKind())) {
+                    return o1.getKind().compareTo(o2.getKind());
                 } else {
-                    return o1.getName().compareTo(o2.getName());
+                    return o1.getHeader().compareTo(o2.getHeader());
                 }
             }
         });
-        for (SuggestItem suggestItem : items) {
-            System.out.println(suggestItem);
-        }
         return items;
     }
 
-    private ArrayList<SuggestItem> filterConst(Map<Name, ConstantDefinition> constants) {
+    private ArrayList<Description> filterConst(Map<Name, ConstantDefinition> constants) {
         if (incomplete.isEmpty()) return new ArrayList<>();
 
-        ArrayList<SuggestItem> suggestItems = new ArrayList<>();
+        ArrayList<Description> suggestItems = new ArrayList<>();
 
         for (Map.Entry<Name, ConstantDefinition> entry : constants.entrySet()) {
             ConstantDefinition constant = entry.getValue();
@@ -152,32 +148,34 @@ public class SuggestionProvider {
             if (constant.getName().isPrefix(incomplete)) {
                 if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
                     Name name = constant.getName();
-                    suggestItems.add(new SuggestItem(SuggestItem.KIND_VARIABLE, name, constant.getDescription()));
+                    suggestItems.add(new DescriptionImpl(DescriptionImpl.KIND_CONST,
+                            name, constant.getDescription(), constant.getType()));
                 }
             }
         }
         return suggestItems;
     }
 
-    private ArrayList<SuggestItem> filterVariables(ArrayList<VariableDeclaration> variables) {
+    private ArrayList<Description> filterVariables(ArrayList<VariableDeclaration> variables) {
         if (incomplete.isEmpty()) return new ArrayList<>();
-        ArrayList<SuggestItem> suggestItems = new ArrayList<>();
+        ArrayList<Description> suggestItems = new ArrayList<>();
         for (VariableDeclaration variable : variables) {
             if (variable.getName().isPrefix(incomplete)) {
                 LineInfo line = variable.getLineNumber();
                 if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
                     Name name = variable.getName();
-                    suggestItems.add(new SuggestItem(SuggestItem.KIND_VARIABLE, name, variable.getDescription()));
+                    suggestItems.add(new DescriptionImpl(DescriptionImpl.KIND_VARIABLE, name,
+                            variable.getDescription(), variable.getType()));
                 }
             }
         }
         return suggestItems;
     }
 
-    private ArrayList<SuggestItem> filterFunctions(
+    private ArrayList<Description> filterFunctions(
             ArrayListMultimap<Name, AbstractFunction> functions) {
         if (incomplete.isEmpty()) return new ArrayList<>();
-        ArrayList<SuggestItem> suggestItems = new ArrayList<>();
+        ArrayList<Description> suggestItems = new ArrayList<>();
 
         for (Map.Entry<Name, AbstractFunction> entry : functions.entries()) {
             AbstractCallableFunction function = (AbstractCallableFunction) entry.getValue();
@@ -187,7 +185,7 @@ public class SuggestionProvider {
                     Name name = function.getName();
                     ArgumentType[] args = function.argumentTypes();
                     Type type = function.returnType();
-
+                    suggestItems.add(new FunctionDescription(name, args, type));
                 }
             }
         }
