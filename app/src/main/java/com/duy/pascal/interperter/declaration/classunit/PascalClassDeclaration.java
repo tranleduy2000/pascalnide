@@ -40,7 +40,6 @@ public class PascalClassDeclaration extends CodeUnit implements Cloneable {
 
     public PascalClassDeclaration(CodeUnit root, @NonNull ExpressionContext parent,
                                   ProgramHandler handler) throws ParsingException {
-        super(handler);
         this.root = root;
         this.parent = parent;
         this.handler = handler;

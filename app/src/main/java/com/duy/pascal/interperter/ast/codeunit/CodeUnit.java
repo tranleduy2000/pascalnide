@@ -29,6 +29,10 @@ public abstract class CodeUnit {
     private String sourceName;
     private List<ScriptSource> includeDirectories;
 
+    public CodeUnit() {
+
+    }
+
     public CodeUnit(@Nullable ProgramHandler handler) {
         this.context = getExpressionContextInstance(handler);
     }

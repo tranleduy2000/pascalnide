@@ -48,6 +48,7 @@ import com.duy.pascal.frontend.code_sample.activities.DocumentActivity;
 import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
 import com.duy.pascal.frontend.dialog.DialogFragmentFixExpectToken;
 import com.duy.pascal.frontend.dialog.DialogManager;
+import com.duy.pascal.frontend.editor.completion.KeyWord;
 import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
@@ -357,9 +358,9 @@ public class EditorActivity extends BaseEditorActivity implements
 
                 EditorView editor = fragment.getEditor();
                 // TODO: 17-Aug-17 add keyword
-//                for (String s : KeyWord.ALL_KEY_WORD) {
-//                    data.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
-//                }
+                for (String s : KeyWord.ALL_KEY_WORD) {
+                    data.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
+                }
                 editor.setSuggestData(data);
             }
 

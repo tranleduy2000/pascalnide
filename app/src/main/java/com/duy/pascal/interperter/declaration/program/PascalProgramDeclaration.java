@@ -23,6 +23,7 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.instructions.Executable;
 import com.duy.pascal.interperter.ast.variablecontext.FunctionOnStack;
 import com.duy.pascal.interperter.ast.codeunit.RuntimePascalProgram;
+import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.define.MultipleDefinitionsMainException;
@@ -45,9 +46,9 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
 
     public PascalProgramDeclaration(Reader program,
                                     String sourceName, List<ScriptSource> includeDirectories,
-                                    ProgramHandler handler)
+                                    ProgramHandler handler, DiagnosticCollector collector)
             throws ParsingException {
-        super(program, sourceName, includeDirectories, handler, null);
+        super(program, sourceName, includeDirectories, handler, collector);
         this.handler = handler;
     }
 

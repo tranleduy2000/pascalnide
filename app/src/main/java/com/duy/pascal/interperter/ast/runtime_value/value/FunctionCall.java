@@ -58,8 +58,10 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
                         ambiguous = chosen;
                     }
                     chosen = function;
-                    if (runtimeValue == null)
+                    if (runtimeValue == null) {
                         runtimeValue = result;
+                    }
+                    break;
                 }
                 if (function.argumentTypes().length == arguments.size()) {
                     matching = true;

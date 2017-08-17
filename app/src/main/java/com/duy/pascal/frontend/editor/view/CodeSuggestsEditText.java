@@ -217,7 +217,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         mAdapter = new CodeSuggestAdapter(getContext(), R.layout.list_item_suggest, data);
 
         setAdapter(mAdapter);
-//        onDropdownChangeSize(getWidth(), getHeight());
+        onDropdownChangeSize(getWidth(), getHeight());
     }
 
     public void addKeywords(String[] allKeyWord) {

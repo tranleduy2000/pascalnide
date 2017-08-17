@@ -31,7 +31,7 @@ public class PascalCompiler {
     public static PascalProgramDeclaration loadPascal(String sourcename, Reader in,
                                                       List<ScriptSource> includeSearchPath,
                                                       ProgramHandler handler) throws ParsingException {
-        return new PascalProgramDeclaration(in, sourcename, includeSearchPath, handler);
+        return new PascalProgramDeclaration(in, sourcename, includeSearchPath, handler, null);
     }
 
     /**
@@ -43,7 +43,7 @@ public class PascalCompiler {
     public static PascalProgramDeclaration loadPascal(String sourcename, Reader in,
                                                       List<ScriptSource> includeSearchPath,
                                                       ProgramHandler handler, DiagnosticCollector collector) throws ParsingException {
-        return new PascalProgramDeclaration(in, sourcename, includeSearchPath, handler);
+        return new PascalProgramDeclaration(in, sourcename, includeSearchPath, handler, collector);
     }
 
 

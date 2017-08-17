@@ -143,7 +143,8 @@ public class Interpreter {
 
         } else {
             for (Diagnostic diagnostic : diagnosticCollector.getDiagnostics()) {
-                diagnostic.getCause().printStackTrace();
+                ParsingException cause = (ParsingException) diagnostic.getCause();
+                System.err.println(cause.getLineInfo() + " " + cause.getMessage());
             }
             return false;
         }
