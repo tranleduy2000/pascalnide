@@ -17,6 +17,7 @@
 package com.duy.pascal.frontend.editor.completion;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
 import com.duy.pascal.frontend.editor.view.CodeSuggestsEditText;
@@ -45,6 +46,7 @@ import java.util.Map;
  */
 
 public class SuggestionProvider {
+    private static final String TAG = "SuggestionProvider";
     private Context context;
     private String srcPath;
     private String source;
@@ -89,7 +91,7 @@ public class SuggestionProvider {
             HashMap<Name, Type> typedefs = exprContext.getTypedefs();
 //            addTypeDef();
 
-
+            addKeyword(suggestItems);
             return sort(suggestItems);
         } catch (ParsingException e) {
             e.printStackTrace();
@@ -97,11 +99,19 @@ public class SuggestionProvider {
         return null;
     }
 
+    private void addKeyword(ArrayList<SuggestItem> suggestItems) {
+        for (String s : KeyWord.ALL_KEY_WORD) {
+            suggestItems.add(new SuggestItem(SuggestItem.KIND_KEYWORD, s));
+        }
+    }
+
     private void calculateIncomplete() {
         incomplete = "";
         int start = symbolsTokenizer.findTokenStart(source, cursorPos);
         incomplete = source.substring(start, cursorPos);
         incomplete = incomplete.trim();
+        Log.d(TAG, "calculateIncomplete start = " + start);
+
     }
 
     private ArrayList<SuggestItem> sort(ArrayList<SuggestItem> suggestItems) {
@@ -123,19 +133,23 @@ public class SuggestionProvider {
         for (Map.Entry<Name, ConstantDefinition> entry : constants.entrySet()) {
             ConstantDefinition constant = entry.getValue();
             LineInfo line = constant.getLineNumber();
-            if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
-                Name name = constant.getName();
-                suggestItems.add(new SuggestItem(SuggestItem.KIND_VARIABLE, name, constant.getDescription()));
+            if (constant.getName().startsWith(incomplete)) {
+                if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
+                    Name name = constant.getName();
+                    suggestItems.add(new SuggestItem(SuggestItem.KIND_VARIABLE, name, constant.getDescription()));
+                }
             }
         }
     }
 
     private void addVariable(ArrayList<SuggestItem> suggestItems, ArrayList<VariableDeclaration> variables) {
         for (VariableDeclaration variable : variables) {
-            LineInfo line = variable.getLineNumber();
-            if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
-                Name name = variable.getName();
-                suggestItems.add(new SuggestItem(SuggestItem.KIND_VARIABLE, name, variable.getDescription()));
+            if (variable.getName().startsWith(incomplete)) {
+                LineInfo line = variable.getLineNumber();
+                if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
+                    Name name = variable.getName();
+                    suggestItems.add(new SuggestItem(SuggestItem.KIND_VARIABLE, name, variable.getDescription()));
+                }
             }
         }
     }
@@ -144,10 +158,12 @@ public class SuggestionProvider {
                              ArrayListMultimap<Name, AbstractFunction> functions) {
         for (Map.Entry<Name, AbstractFunction> entry : functions.entries()) {
             AbstractFunction function = entry.getValue();
-            LineInfo line = function.getLineNumber();
-            if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
-                Name name = function.getName();
-                suggestItems.add(new SuggestItem(SuggestItem.KIND_FUNCTION, name, function.getDescription()));
+            if (function.getName().startsWith(incomplete)) {
+                LineInfo line = function.getLineNumber();
+                if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
+                    Name name = function.getName();
+                    suggestItems.add(new SuggestItem(SuggestItem.KIND_FUNCTION, name, function.getDescription()));
+                }
             }
         }
     }

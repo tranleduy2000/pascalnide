@@ -61,6 +61,9 @@ public class Name implements Comparable<Name>, Serializable, Cloneable {
         return originName;
     }
 
+    public boolean startsWith(String other) {
+        return originName.toLowerCase().startsWith(other.toLowerCase());
+    }
 
     @Override
     public int hashCode() {

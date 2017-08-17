@@ -102,4 +102,6 @@ public class ConstantDefinition implements NamedEntity {
     public String getDescription() {
         return null;
     }
+
+
 }
