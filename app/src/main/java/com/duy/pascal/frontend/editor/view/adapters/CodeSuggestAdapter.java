@@ -117,13 +117,11 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         txtName.setText(item.snipet() != null ? item.snipet() : item.getName().getOriginName());
         switch (item.getType()) {
             case SuggestItem.KIND_KEYWORD:
-                txtName.setTextColor(colorKeyWord);
-                txtName.setTypeface(Typeface.DEFAULT_BOLD);
                 break;
             case SuggestItem.KIND_VARIABLE:
-                txtName.setTextColor(colorVariable);
-                txtName.setTypeface(Typeface.DEFAULT);
                 break;
+            case SuggestItem.KIND_CONST:
+
             default:
                 txtName.setTextColor(colorNormal);
                 txtName.setTypeface(Typeface.DEFAULT);

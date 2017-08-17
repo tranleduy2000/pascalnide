@@ -30,8 +30,8 @@ import android.widget.MultiAutoCompleteTextView;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.editor.completion.model.KeyWord;
 import com.duy.pascal.frontend.editor.completion.SuggestionProvider;
+import com.duy.pascal.frontend.editor.completion.model.KeyWord;
 import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
 import com.duy.pascal.frontend.editor.view.adapters.CodeSuggestAdapter;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
@@ -45,30 +45,29 @@ import java.util.ArrayList;
  */
 
 public abstract class CodeSuggestsEditText extends AutoIndentEditText {
-    protected static final String TAG = CodeSuggestsEditText.class.getSimpleName();
+    private static final String TAG = "CodeSuggestsEditText";
 
     public int mCharHeight = 0;
     public int mCharWidth = 0;
     protected EditorSetting mEditorSetting;
     protected SymbolsTokenizer mTokenizer;
     private CodeSuggestAdapter mAdapter;
-    private boolean enoughToFilter = false;
     private SuggestionProvider pascalParserHelper;
     private ParseTask parseTask;
 
     public CodeSuggestsEditText(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public CodeSuggestsEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public CodeSuggestsEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
 
     /**
@@ -82,9 +81,9 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         setSuggestData(data);
     }
 
-    private void init() {
-        mEditorSetting = new EditorSetting(getContext());
-        setDefaultKeyword();
+    private void init(Context context) {
+        mEditorSetting = new EditorSetting(context);
+//        setDefaultKeyword();
         mTokenizer = new SymbolsTokenizer();
         setTokenizer(mTokenizer);
         setThreshold(1);
@@ -178,16 +177,12 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         }
     }
 
-    public void setEnoughToFilter(boolean enoughToFilter) {
-        this.enoughToFilter = enoughToFilter;
+    public void setEnoughToFilter() {
     }
 
     @Override
     public boolean enoughToFilter() {
-        if (enoughToFilter) {
-            return true;
-        }
-        return super.enoughToFilter();
+        return true;
     }
 
     public void restoreAfterClick(final String[] data) {
@@ -196,9 +191,9 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                setEnoughToFilter(true);
+                setEnoughToFilter();
                 showDropDown();
-                setEnoughToFilter(false);
+                setEnoughToFilter();
 
                 //when user click item, restore data
                 setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -223,11 +218,20 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      * invalidate data for auto suggest
      */
     public void setSuggestData(ArrayList<SuggestItem> data) {
-        DLog.d(TAG, "setSuggestData: ");
+        if (isPopupShowing()) {
+            dismissDropDown();
+        }
+        if (mAdapter != null) {
+//            mAdapter.setListener(null)
+            mAdapter.clearAllData();
+        }
         mAdapter = new CodeSuggestAdapter(getContext(), R.layout.list_item_suggest, data);
-
         setAdapter(mAdapter);
-        onDropdownChangeSize(getWidth(), getHeight());
+        if (data.size() > 0) {
+            showDropDown();
+            onPopupChangePosition();
+            onDropdownChangeSize(getWidth(), getHeight());
+        }
     }
 
     public void addKeywords(String[] allKeyWord) {
@@ -314,12 +318,15 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         @Override
         protected void onPostExecute(ArrayList<SuggestItem> result) {
             super.onPostExecute(result);
-            if (!isCancelled()) {
-                Log.d(TAG, "onPostExecute() called with: aVoid = [" + result + "]");
+            if (isCancelled()) {
+                Log.d(TAG, "onPostExecute: cancel");
                 return;
             }
-            Log.d(TAG, "onPostExecute() called with: aVoid = [" + result + "]");
-            setSuggestData(result);
+            if (result == null) {
+                setSuggestData(new ArrayList<SuggestItem>());
+            } else {
+                setSuggestData(result);
+            }
         }
     }
 }

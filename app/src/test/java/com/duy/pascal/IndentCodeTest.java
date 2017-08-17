@@ -17,7 +17,7 @@
 package com.duy.pascal;
 
 import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.editor.indention.IndentCode;
+import com.duy.pascal.frontend.editor.indention.PascalFormatCode;
 import com.duy.pascal.interpreter.BaseTestCase;
 
 import java.io.File;
@@ -112,9 +112,9 @@ public class IndentCodeTest extends BaseTestCase {
         File parent = new File("C:\\github\\pascalnide-public\\test_pascal\\test_declare");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
-                IndentCode indentCode = null;
+                PascalFormatCode indentCode = null;
                 try {
-                    indentCode = new IndentCode(new FileReader(file));
+                    indentCode = new PascalFormatCode(new FileReader(file));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -130,9 +130,9 @@ public class IndentCodeTest extends BaseTestCase {
         File parent = new File("C:\\github\\pascalnide-public\\app\\src\\main\\assets\\code_sample\\android");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
-                IndentCode indentCode = null;
+                PascalFormatCode indentCode = null;
                 try {
-                    indentCode = new IndentCode(new FileReader(file));
+                    indentCode = new PascalFormatCode(new FileReader(file));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -148,9 +148,9 @@ public class IndentCodeTest extends BaseTestCase {
         File parent = new File("C:\\github\\pascalnide-public\\test_pascal\\data");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
-                IndentCode indentCode = null;
+                PascalFormatCode indentCode = null;
                 try {
-                    indentCode = new IndentCode(new FileReader(file));
+                    indentCode = new PascalFormatCode(new FileReader(file));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -177,13 +177,13 @@ public class IndentCodeTest extends BaseTestCase {
     }
 
     public void run(String fileName) {
-        IndentCode indentCode = null;
+        PascalFormatCode indentCode = null;
         try {
             File file = new File(fileName);
             if (file.exists()) {
-                indentCode = new IndentCode(new FileReader(fileName));
+                indentCode = new PascalFormatCode(new FileReader(fileName));
             } else {
-                indentCode = new IndentCode(new FileReader(new File(dir, fileName)));
+                indentCode = new PascalFormatCode(new FileReader(new File(dir, fileName)));
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -101,6 +101,7 @@ public class SuggestionProvider {
     }
 
     private void addKeyword(ArrayList<SuggestItem> suggestItems) {
+        if (incomplete.isEmpty()) return;
         for (String s : KeyWord.ALL_KEY_WORD) {
             if (s.toLowerCase().startsWith(incomplete.toLowerCase())) {
                 suggestItems.add(new SuggestItem(SuggestItem.KIND_KEYWORD, s));
@@ -135,10 +136,11 @@ public class SuggestionProvider {
     private void addConstant(ArrayList<SuggestItem> suggestItems, Map<Name, ConstantDefinition> constants) {
         if (incomplete.isEmpty()) return;
 
+
         for (Map.Entry<Name, ConstantDefinition> entry : constants.entrySet()) {
             ConstantDefinition constant = entry.getValue();
             LineInfo line = constant.getLineNumber();
-            if (constant.getName().startsWith(incomplete)) {
+            if (constant.getName().isPrefix(incomplete)) {
                 if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
                     Name name = constant.getName();
                     suggestItems.add(new SuggestItem(SuggestItem.KIND_VARIABLE, name, constant.getDescription()));
@@ -151,7 +153,7 @@ public class SuggestionProvider {
         if (incomplete.isEmpty()) return;
 
         for (VariableDeclaration variable : variables) {
-            if (variable.getName().startsWith(incomplete)) {
+            if (variable.getName().isPrefix(incomplete)) {
                 LineInfo line = variable.getLineNumber();
                 if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
                     Name name = variable.getName();
@@ -166,7 +168,7 @@ public class SuggestionProvider {
         if (incomplete.isEmpty()) return;
         for (Map.Entry<Name, AbstractFunction> entry : functions.entries()) {
             AbstractFunction function = entry.getValue();
-            if (function.getName().startsWith(incomplete)) {
+            if (function.getName().isPrefix(incomplete)) {
                 LineInfo line = function.getLineNumber();
                 if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
                     Name name = function.getName();

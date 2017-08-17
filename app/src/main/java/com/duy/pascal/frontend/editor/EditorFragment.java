@@ -32,7 +32,7 @@ import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.editor.completion.model.KeyWord;
-import com.duy.pascal.frontend.editor.indention.IndentCode;
+import com.duy.pascal.frontend.editor.indention.PascalFormatCode;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.editor.view.LineUtils;
 import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
@@ -226,8 +226,8 @@ public class EditorFragment extends Fragment implements EditorListener {
     public void formatCode() {
         String text = getCode();
         try {
-            IndentCode autoIndentCode;
-            autoIndentCode = new IndentCode(new StringReader(text));
+            PascalFormatCode autoIndentCode;
+            autoIndentCode = new PascalFormatCode(new StringReader(text));
             StringBuilder result = autoIndentCode.getResult();
             mCodeEditor.setTextHighlighted(result);
             mCodeEditor.applyTabWidth(mCodeEditor.getText(), 0, mCodeEditor.getText().length());

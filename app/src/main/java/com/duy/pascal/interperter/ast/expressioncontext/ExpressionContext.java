@@ -60,4 +60,5 @@ public interface ExpressionContext extends CompileTimeContext {
     boolean handleUnrecognizedDeclaration(Token next, GrouperToken container)
             throws ParsingException;
 
+    public <T> T getListener(Class<T> c);
 }

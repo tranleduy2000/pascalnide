@@ -57,6 +57,8 @@ import com.duy.pascal.interperter.declaration.lang.types.subrange.IntegerRange;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.SubrangeType;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
+import com.duy.pascal.interperter.exceptions.Diagnostic;
+import com.duy.pascal.interperter.exceptions.DiagnosticsListener;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.UnSupportTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
@@ -80,6 +82,7 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.EOFToken;
 import com.duy.pascal.interperter.tokens.OperatorToken;
 import com.duy.pascal.interperter.tokens.Token;
+import com.duy.pascal.interperter.tokens.TokenUtil;
 import com.duy.pascal.interperter.tokens.WordToken;
 import com.duy.pascal.interperter.tokens.basic.ArrayToken;
 import com.duy.pascal.interperter.tokens.basic.AssignmentToken;
@@ -374,8 +377,7 @@ public abstract class GrouperToken extends Token {
         }
     }
 
-    public Type getNextPascalType(ExpressionContext context)
-            throws ParsingException {
+    public Type getNextPascalType(ExpressionContext context) throws ParsingException {
         Token n = take();
         if (n instanceof ArrayToken) {
             return getArrayType(context);
@@ -778,32 +780,49 @@ public abstract class GrouperToken extends Token {
                 throw new ExpectedTokenException(":", next);
             }
 
-            //type of list variable
-            Type type = getNextPascalType(context);
+            try {
+                //type of list variable
+                Type type = getNextPascalType(context);
 
-            //default value
-            Object defValue = null;
-            if (peek() instanceof OperatorToken) {
-                if (((OperatorToken) peek()).type == OperatorTypes.EQUALS) {
-                    take(); //ignore equal token
-                    defValue = getConstantValue(context, type);
+                //default value
+                Object defValue = null;
+                if (peek() instanceof OperatorToken) {
+                    if (((OperatorToken) peek()).type == OperatorTypes.EQUALS) {
+                        take(); //ignore equal token
+                        defValue = getConstantValue(context, type);
+                    }
                 }
-            }
 
-            if (hasNext()) {
-                assertNextSemicolon();
-            }
+                if (hasNext()) {
+                    assertNextSemicolon();
+                }
 
-            for (WordToken s : names) {
-                VariableDeclaration v = new VariableDeclaration(s.name, type, defValue, s.getLineNumber());
-                //check duplicate name
-                checkDuplicateVariableIdentifier(context, result, v);
-                result.add(v);
+                for (WordToken s : names) {
+                    VariableDeclaration v = new VariableDeclaration(s.name, type, defValue, s.getLineNumber());
+                    //check duplicate name
+                    checkDuplicateVariableIdentifier(context, result, v);
+                    result.add(v);
+                }
+            } catch (Exception e) { //not found variable
+                DiagnosticsListener listener = context.getListener(DiagnosticsListener.class);
+                if (listener != null) {
+                    listener.add(new Diagnostic(e));
+                    nextStatement();
+                }
             }
             names.clear(); // reusing the list object
             next = peek();
         } while (next instanceof WordToken);
         return result;
+    }
+
+    private void nextStatement() {
+        try {
+            while (peek() != null && !(peek() instanceof SemicolonToken) && !(TokenUtil.isStartStatement(peek()))) {
+                take();
+            }
+        } catch (Exception ignored) {
+        }
     }
 
     public Object getConstantValue(ExpressionContext context, Type type)
