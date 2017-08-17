@@ -30,8 +30,15 @@ public class FileTest extends BaseTestCase {
         run("test_write_file.pas");
     }
 
+    public void testWriteFile2() {
+        run("file_writer.pas");
+    }
+
     public void testRead() {
         run("test_read.pas");
+    }
+    public void testRead2() {
+        run("file_reader.pas");
     }
 
     public void testFileInSubProgram() {

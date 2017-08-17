@@ -35,7 +35,7 @@ import com.duy.pascal.frontend.editor.completion.KeyWord;
 import com.duy.pascal.frontend.editor.indention.IndentCode;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.editor.view.LineUtils;
-import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
+import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
 import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.frontend.view.LockableScrollView;
@@ -123,9 +123,9 @@ public class EditorFragment extends Fragment implements EditorListener {
 //                }
 //            });
 //        }
-        ArrayList<InfoItem> items = PascalLibraryManager.getAllMethodDescription(SystemLibrary.class, IOLib.class, FileLib.class);
+        ArrayList<SuggestItem> items = PascalLibraryManager.getAllMethodDescription(SystemLibrary.class, IOLib.class, FileLib.class);
         for (String s : KeyWord.ALL_KEY_WORD) {
-            items.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
+            items.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
         }
         mCodeEditor.setSuggestData(items);
         return view;

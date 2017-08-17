@@ -47,9 +47,11 @@ public abstract class CodeUnit {
         this.sourceName = sourceName;
         this.includeDirectories = includeDirectories;
 
+        long time = System.currentTimeMillis();
         NewLexer lexer = new NewLexer(program, sourceName, includeDirectories);
         lexer.parse();
         parseTree(lexer.getTokenQueue());
+        System.out.println("parse time " + (System.currentTimeMillis() - time));
     }
 
     @Override

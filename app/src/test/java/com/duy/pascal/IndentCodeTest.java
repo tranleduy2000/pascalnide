@@ -163,7 +163,7 @@ public class IndentCodeTest extends BaseTestCase {
     }
 
     public void test5() {
-        run("C:\\github\\pascalnide-public-public\\test_pascal\\autofix\\grouping\\missing_end.pas");
+        run("C:\\github\\pascalnide-public\\test_pascal\\autofix\\grouping\\missing_end.pas");
     }
 
     public void atestAll() throws IOException, InterruptedException {

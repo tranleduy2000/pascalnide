@@ -80,13 +80,17 @@ public abstract class AbstractFunction extends NameEntityImpl {
         ArgumentType[] acceptedTypes = argumentTypes();
 
         //check array
-        boolean isArray = false;
+        boolean isArgs = false;
         if (acceptedTypes.length > 0) {
-            if (acceptedTypes[0] instanceof VarargsType)
-                isArray = true;
+            for (int i = 0; i < acceptedTypes.length; i++) {
+                if (acceptedTypes[i] instanceof VarargsType) {
+                    isArgs = true;
+                    break;
+                }
+            }
         }
 
-        if (!isArray && (acceptedTypes.length != arguments.size())) {
+        if (!isArgs && (acceptedTypes.length != arguments.size())) {
             return null;
         }
 

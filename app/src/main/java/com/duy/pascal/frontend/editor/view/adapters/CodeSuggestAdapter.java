@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.interperter.declaration.Name;
 
@@ -39,15 +40,15 @@ import java.util.Collection;
 /**
  * Created by Duy on 26-Apr-17.
  */
-public class CodeSuggestAdapter extends ArrayAdapter<InfoItem> {
+public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
     private static final String TAG = "CodeSuggestAdapter";
     private final Context context;
     private final int colorKeyWord;
     private final int colorNormal;
     private final int colorVariable = 0xffFFB74D;
     private LayoutInflater inflater;
-    private ArrayList<InfoItem> clone;
-    private ArrayList<InfoItem> suggestion;
+    private ArrayList<SuggestItem> clone;
+    private ArrayList<SuggestItem> suggestion;
     private int resourceID;
     private Filter codeFilter = new Filter() {
         @Override
@@ -55,7 +56,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<InfoItem> {
             if (resultValue == null) {
                 return "";
             }
-            return ((InfoItem) resultValue).getName().getOriginName();
+            return ((SuggestItem) resultValue).getName().getOriginName();
         }
 
         @Override
@@ -63,7 +64,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<InfoItem> {
             FilterResults filterResults = new FilterResults();
             suggestion.clear();
             if (constraint != null) {
-                for (InfoItem item : clone) {
+                for (SuggestItem item : clone) {
                     if (item.compareTo(Name.create(constraint.toString())) == 0) {
                         suggestion.add(item);
                     }
@@ -78,7 +79,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<InfoItem> {
         @SuppressWarnings("unchecked")
 
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            ArrayList<InfoItem> filteredList = (ArrayList<InfoItem>) results.values;
+            ArrayList<SuggestItem> filteredList = (ArrayList<SuggestItem>) results.values;
             clear();
             if (filteredList != null && filteredList.size() > 0) {
                 addAll(filteredList);
@@ -88,18 +89,18 @@ public class CodeSuggestAdapter extends ArrayAdapter<InfoItem> {
     };
 
     @SuppressWarnings("unchecked")
-    public CodeSuggestAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<InfoItem> objects) {
+    public CodeSuggestAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<SuggestItem> objects) {
         super(context, resource, objects);
         this.inflater = LayoutInflater.from(context);
         this.context = context;
-        this.clone = (ArrayList<InfoItem>) objects.clone();
+        this.clone = (ArrayList<SuggestItem>) objects.clone();
         this.suggestion = new ArrayList<>();
         this.resourceID = resource;
         colorKeyWord = context.getResources().getColor(R.color.color_key_word_color);
         colorNormal = context.getResources().getColor(android.R.color.primary_text_dark);
     }
 
-    public ArrayList<InfoItem> getAllItems() {
+    public ArrayList<SuggestItem> getAllItems() {
         return clone;
     }
 
@@ -111,7 +112,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<InfoItem> {
             convertView = inflater.inflate(resourceID, null);
         }
 
-        final InfoItem item = getItem(position);
+        final SuggestItem item = getItem(position);
 
         TextView txtName = convertView.findViewById(R.id.txt_title);
         txtName.setText(item.snipet() != null ? item.snipet() : item.getName().getOriginName());
@@ -149,7 +150,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<InfoItem> {
         clone.clear();
     }
 
-    public void addData(@NonNull Collection<? extends InfoItem> collection) {
+    public void addData(@NonNull Collection<? extends SuggestItem> collection) {
         addAll(collection);
         clone.addAll(collection);
     }

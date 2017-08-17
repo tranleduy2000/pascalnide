@@ -17,6 +17,7 @@
 package com.duy.pascal.frontend.editor.view;
 
 import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.widget.EditText;
@@ -61,6 +62,23 @@ public class LineUtils {
             }
         }
         return line;
+    }
+
+    /**
+     * Gets the lineInfo from the index of the letter in the text
+     */
+    public static Pair<Integer, Integer> getLineColFromIndex(int index, int lineCount, Layout layout) {
+        int line;
+        int currentIndex = 0, oldIndex = 0;
+
+        for (line = 0; line < lineCount; line++) {
+            oldIndex = currentIndex;
+            currentIndex += layout.getLineEnd(line) - layout.getLineStart(line);
+            if (currentIndex > index) {
+                break;
+            }
+        }
+        return new Pair<>(line, index - oldIndex);
     }
 
     public static int getStartIndexAtLine(EditText editable, int line) {

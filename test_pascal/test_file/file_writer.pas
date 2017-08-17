@@ -7,9 +7,9 @@ begin
   rewrite(f);
 
   //write data
-  for i := 1 to 1000 do
+  for i := 1 to 10 do
   begin
-    write(f, random(i), ' ');
+    write(f, i, ' ');
     writeln(f);
   end;
 

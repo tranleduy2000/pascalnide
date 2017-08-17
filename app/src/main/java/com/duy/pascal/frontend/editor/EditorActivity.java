@@ -51,7 +51,7 @@ import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.editor.completion.KeyWord;
 import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
 import com.duy.pascal.frontend.editor.view.EditorView;
-import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
+import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.structure.DialogProgramStructure;
 import com.duy.pascal.frontend.structure.viewholder.StructureItem;
@@ -334,12 +334,12 @@ public class EditorActivity extends BaseEditorActivity implements
             ExpressionContextMixin program = codeUnit.getProgram();
             EditorFragment fragment = pagerAdapter.getCurrentFragment();
             if (fragment != null && fragment.getEditor() != null) {
-                ArrayList<InfoItem> data = new ArrayList<>();
+                ArrayList<SuggestItem> data = new ArrayList<>();
 
                 ArrayListMultimap<Name, AbstractFunction> callableFunctions = program.getCallableFunctions();
                 for (Name name : callableFunctions.keySet()) {
                     for (AbstractFunction f : callableFunctions.get(name)) {
-                        data.add(new InfoItem(StructureType.TYPE_FUNCTION,
+                        data.add(new SuggestItem(StructureType.TYPE_FUNCTION,
                                 f.getName(), f.getDescription(), f.toString()));
                     }
                 }
@@ -348,10 +348,10 @@ public class EditorActivity extends BaseEditorActivity implements
                 data.addAll(program.getListNameTypes());
 
                 ArrayList<VariableDeclaration> variables = program.getVariables();
-                ArrayList<InfoItem> listVariables = new ArrayList<>();
+                ArrayList<SuggestItem> listVariables = new ArrayList<>();
 
                 for (VariableDeclaration variableDeclaration : variables) {
-                    listVariables.add(new InfoItem(StructureType.TYPE_VARIABLE, variableDeclaration.getName()));
+                    listVariables.add(new SuggestItem(StructureType.TYPE_VARIABLE, variableDeclaration.getName()));
                 }
                 data.addAll(listVariables);
 
@@ -359,7 +359,7 @@ public class EditorActivity extends BaseEditorActivity implements
                 EditorView editor = fragment.getEditor();
                 // TODO: 17-Aug-17 add keyword
                 for (String s : KeyWord.ALL_KEY_WORD) {
-                    data.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
+                    data.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
                 }
                 editor.setSuggestData(data);
             }
@@ -409,7 +409,7 @@ public class EditorActivity extends BaseEditorActivity implements
             EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
             if (editorFragment != null) {
                 EditorView editor = editorFragment.getEditor();
-                editor.setSuggestData(new ArrayList<InfoItem>());
+                editor.setSuggestData(new ArrayList<SuggestItem>());
             }
         }
         //toggle ime/no suggest mode
@@ -692,8 +692,8 @@ public class EditorActivity extends BaseEditorActivity implements
         String tab = "";
         for (int i = 0; i < depth; i++) tab += "\t";
         Map<Name, ConstantDefinition> constants = context.getConstants();
-        ArrayList<InfoItem> listNameConstants = context.getListNameConstants();
-        for (InfoItem name : listNameConstants) {
+        ArrayList<SuggestItem> listNameConstants = context.getListNameConstants();
+        for (SuggestItem name : listNameConstants) {
             node.addNode(new StructureItem(StructureType.TYPE_CONST,
                     name + " = " + constants.get(name.getName()).getValue()));
         }
@@ -713,8 +713,8 @@ public class EditorActivity extends BaseEditorActivity implements
         }
 
         ArrayListMultimap<Name, AbstractFunction> callableFunctions = context.getCallableFunctions();
-        ArrayList<InfoItem> listNameFunctions = context.getListNameFunctions();
-        for (InfoItem name : listNameFunctions) {
+        ArrayList<SuggestItem> listNameFunctions = context.getListNameFunctions();
+        for (SuggestItem name : listNameFunctions) {
             List<AbstractFunction> abstractFunctions = callableFunctions.get(name.getName());
             for (AbstractFunction function : abstractFunctions) {
                 if (function instanceof FunctionDeclaration) {

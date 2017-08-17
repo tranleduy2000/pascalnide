@@ -46,15 +46,15 @@ public class ForStatementTest extends BaseTestCase {
         run("test3.pas");
     }
 
-    public void testForInEnum() {
-        try {
-            run("test_for_in_enum.pas");
-            assertTrue("result ", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue("result ", false);
-        }
-    }
+//    public void testForInEnum() {
+//        try {
+//            run("test_for_in_enum.pas");
+//            assertTrue("result ", true);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            assertTrue("result ", false);
+//        }
+//    }
 
     public void testForInSet() {
         run("test_for_in_set.pas");

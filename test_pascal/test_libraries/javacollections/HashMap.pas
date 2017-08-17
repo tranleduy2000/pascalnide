@@ -36,5 +36,5 @@ begin
    
    cast(balance, map.get('Zara'));
    map.put('Zara', (balance + 1000));
-   writeln('Zara''s new balance : ' + map.get('Zara'));
+   writeln('Zara''s new balance : ' , map.get('Zara'));
 end.

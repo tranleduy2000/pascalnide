@@ -29,7 +29,6 @@ import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.Diagnostic;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.source.ScriptSource;
 
@@ -48,8 +47,7 @@ import java.util.Scanner;
 public class Interpreter {
     private static Scanner input;
 
-    public static boolean runProgram(String programPath)
-            throws RuntimePascalException, ParsingException, java.io.FileNotFoundException {
+    public static boolean runProgram(String programPath) throws Exception {
         DLog.d("Program path = " + programPath);
         final File programFile = new File(programPath);
         String pathIn = programFile.getParent() + File.separatorChar
@@ -143,10 +141,12 @@ public class Interpreter {
 
         } else {
             for (Diagnostic diagnostic : diagnosticCollector.getDiagnostics()) {
-                ParsingException cause = (ParsingException) diagnostic.getCause();
-                System.err.println(cause.getLineInfo() + " " + cause.getMessage());
+                if (diagnostic.getCause() instanceof ParsingException) {
+                    ParsingException cause = (ParsingException) diagnostic.getCause();
+                    System.err.println(cause.getLineInfo() + " " + cause.getMessage());
+                }
             }
-            return false;
+            throw diagnosticCollector.getDiagnostics().get(0).getCause();
         }
 
         RuntimeExecutableCodeUnit<PascalProgramDeclaration> program = pascalProgram.generate();

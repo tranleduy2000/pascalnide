@@ -19,6 +19,7 @@ package com.duy.pascal.frontend.editor.view;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.AsyncTask;
+import android.support.v4.util.Pair;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -30,9 +31,9 @@ import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.completion.KeyWord;
-import com.duy.pascal.frontend.editor.completion.PascalParserHelper;
+import com.duy.pascal.frontend.editor.completion.SuggestionProvider;
+import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
 import com.duy.pascal.frontend.editor.view.adapters.CodeSuggestAdapter;
-import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     protected SymbolsTokenizer mTokenizer;
     private CodeSuggestAdapter mAdapter;
     private boolean enoughToFilter = false;
-    private PascalParserHelper pascalParserHelper;
+    private SuggestionProvider pascalParserHelper;
 
     public CodeSuggestsEditText(Context context) {
         super(context);
@@ -73,9 +74,9 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      * slipt string in edittext and put it to list keyword
      */
     public void setDefaultKeyword() {
-        ArrayList<InfoItem> data = new ArrayList<>();
+        ArrayList<SuggestItem> data = new ArrayList<>();
         for (String s : KeyWord.ALL_KEY_WORD) {
-            data.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
+            data.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
         }
         setSuggestData(data);
     }
@@ -117,9 +118,9 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      * invalidate data for auto suggest
      */
     public void setSuggestData(String[] data) {
-        ArrayList<InfoItem> items = new ArrayList<>();
+        ArrayList<SuggestItem> items = new ArrayList<>();
         for (String s : data) {
-            items.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
+            items.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
         }
         setSuggestData(items);
     }
@@ -181,7 +182,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     }
 
     public void restoreAfterClick(final String[] data) {
-        final ArrayList<InfoItem> suggestData = (ArrayList<InfoItem>) getSuggestData().clone();
+        final ArrayList<SuggestItem> suggestData = (ArrayList<SuggestItem>) getSuggestData().clone();
         setSuggestData(data);
         postDelayed(new Runnable() {
             @Override
@@ -205,14 +206,14 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         }, 50);
     }
 
-    public ArrayList<InfoItem> getSuggestData() {
+    public ArrayList<SuggestItem> getSuggestData() {
         return mAdapter.getAllItems();
     }
 
     /**
      * invalidate data for auto suggest
      */
-    public void setSuggestData(ArrayList<InfoItem> data) {
+    public void setSuggestData(ArrayList<SuggestItem> data) {
         DLog.d(TAG, "setSuggestData: ");
         mAdapter = new CodeSuggestAdapter(getContext(), R.layout.list_item_suggest, data);
 
@@ -221,43 +222,16 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     }
 
     public void addKeywords(String[] allKeyWord) {
-        ArrayList<InfoItem> newData = new ArrayList<>();
+        ArrayList<SuggestItem> newData = new ArrayList<>();
         for (String s : allKeyWord) {
-            newData.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
+            newData.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
         }
-        ArrayList<InfoItem> oldItems = mAdapter.getAllItems();
+        ArrayList<SuggestItem> oldItems = mAdapter.getAllItems();
         oldItems.addAll(newData);
         setSuggestData(oldItems);
     }
 
-    private class ParseTask extends AsyncTask<Void, Void, Void> {
-        private EditText editText;
-        private String source;
-        private int cursor;
-        private PascalParserHelper pascalParserHelper;
-
-        private ParseTask(EditText editText) {
-            this.editText = editText;
-            this.source = editText.getText().toString();
-            this.cursor = editText.getSelectionStart();
-            this.pascalParserHelper = new PascalParserHelper();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            pascalParserHelper.parse(source, cursor);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-//            pascalParserHelper.getError();
-//            pascalParserHelper.getSuggestData();
-        }
-    }
-
-    private class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
+    public static class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
         static final String TOKEN = "!@#$%^&*()_+-={}|[]:;'<>/<.? \r\n\t";
 
         @Override
@@ -294,6 +268,49 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
                 i--;
             }
             return text;
+        }
+    }
+
+    private class ParseTask extends AsyncTask<Object, Object, ArrayList<SuggestItem>> {
+        private Context context;
+        private EditText editText;
+        private String source;
+        private String srcPath;
+        private SuggestionProvider pascalParserHelper;
+        private int cursorPos, cursorLine, cursorCol;
+
+        private ParseTask(Context context, EditText editText, String srcPath) {
+            this.context = context;
+            this.editText = editText;
+            this.source = editText.getText().toString();
+            this.srcPath = srcPath;
+            this.pascalParserHelper = new SuggestionProvider();
+            calculateCursor(editText);
+        }
+
+        private void calculateCursor(EditText editText) {
+            this.cursorPos = editText.getSelectionStart();
+            Pair<Integer, Integer> lineColFromIndex = LineUtils.getLineColFromIndex(cursorPos,
+                    editText.getLayout().getLineCount(), editText.getLayout());
+            this.cursorLine = lineColFromIndex.first;
+            this.cursorCol = lineColFromIndex.second;
+        }
+
+        @Override
+        protected ArrayList<SuggestItem> doInBackground(Object... params) {
+            return pascalParserHelper.getSuggestion(context, srcPath, source,
+                    cursorPos, cursorLine, cursorCol);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<SuggestItem> result) {
+            super.onPostExecute(result);
+            if (!isCancelled()) {
+                Log.d(TAG, "onPostExecute() called with: aVoid = [" + result + "]");
+                return;
+            }
+            Log.d(TAG, "onPostExecute() called with: aVoid = [" + result + "]");
+            setSuggestData(result);
         }
     }
 }
