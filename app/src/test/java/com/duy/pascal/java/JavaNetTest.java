@@ -18,6 +18,9 @@ package com.duy.pascal.java;
 
 import com.duy.pascal.interpreter.BaseTestCase;
 
+import java.net.URL;
+import java.net.URLConnection;
+
 /**
  * Created by Duy on 12-Jun-17.
  */

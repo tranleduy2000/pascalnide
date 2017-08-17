@@ -16,9 +16,9 @@ var
    a : integer;
 begin
    write('pop -> ');
-   cast(a, st.pop();
+   cast(a, st.pop());
    writeln(a);
-   writeln('stack : ' + st);
+   writeln('stack : ', st);
 end;
 
 

@@ -226,7 +226,6 @@ public class MethodDeclaration extends AbstractCallableFunction {
 
     @Override
     public Type returnType() {
-        if (returnType == null) {
             Class<?> result = method.getReturnType();
             if (result == PascalReference.class) {
                 result = (Class<?>) ((ParameterizedType) method
@@ -235,9 +234,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
             if (result.isPrimitive()) {
                 result = TypeUtils.getClassForType(result);
             }
-            this.returnType = BasicType.create(result);
-        }
-        return returnType;
+           return  BasicType.create(result);
     }
 
     @NonNull

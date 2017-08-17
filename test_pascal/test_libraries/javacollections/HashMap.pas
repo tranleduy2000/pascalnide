@@ -27,7 +27,7 @@ begin
    while(i.hasNext()) do
    begin
       cast(entry, i.next());
-      write(entry.getKey() + ' : ');
+      write(entry.getKey(), ' : ');
       writeln(entry.getValue());
    end;
    

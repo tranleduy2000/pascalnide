@@ -94,6 +94,7 @@ public class JavaCollectionsAPI extends PascalLibraryImpl {
         parentContext.declareTypedef("JSet", new JavaClassBasedType(Set.class));
         parentContext.declareTypedef("JIterator", new JavaClassBasedType(Iterator.class));
         parentContext.declareTypedef("JEntry", new JavaClassBasedType(Map.Entry.class));
+        parentContext.declareTypedef("JEntrySet", new JavaClassBasedType(Set.class));
     }
 
     @Override

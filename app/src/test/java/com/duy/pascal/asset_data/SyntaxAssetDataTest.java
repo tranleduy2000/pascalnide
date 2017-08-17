@@ -32,7 +32,7 @@ import static com.duy.pascal.Interperter.checkSyntax;
  */
 
 public class SyntaxAssetDataTest extends TestCase {
-    String dir = "C:\\github\\pascalnide\\app\\src\\main\\assets\\code_sample\\";
+    String dir = "C:\\github\\pascalnide-public\\app\\src\\main\\assets\\code_sample\\";
 
     @Override
     protected void setUp() throws Exception {
@@ -101,6 +101,10 @@ public class SyntaxAssetDataTest extends TestCase {
                 assertTrue(checkSyntax(file.getPath()));
             }
         }
+    }
+
+    public void test_generateTone(){
+        checkSyntax("C:\\github\\pascalnide-public\\app\\src\\main\\assets\\code_sample\\android\\generate_tone.pas");
     }
 
     public void testandroid_dialog() {

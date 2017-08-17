@@ -722,7 +722,7 @@ public abstract class GrouperToken extends Token {
                 }
                 RuntimeValue identifier = context.getIdentifierValue(name);
                 //uses for show line error
-                if (identifier.getLineNumber()!=null) {
+                if (identifier.getLineNumber() != null) {
                     identifier.getLineNumber().setLength(name.name.getLength());
                 }
                 if (peek() instanceof OperatorToken && ((OperatorToken) peek()).type == OperatorTypes.DEREF) {
@@ -1007,7 +1007,6 @@ public abstract class GrouperToken extends Token {
             Class<?> clazz = javaType.getStorageClass();
             String className = clazz.getSimpleName();
             while (true) {
-
                 //get arguments
                 List<RuntimeValue> argumentsForCall = new ArrayList<>();
                 if (hasNext()) {
@@ -1018,7 +1017,7 @@ public abstract class GrouperToken extends Token {
                 }
 
                 //get method, ignore case
-                Method[] declaredMethods = clazz.getDeclaredMethods();
+                Method[] declaredMethods = clazz.getMethods();
                 for (Method declaredMethod : declaredMethods) {
                     if (declaredMethod.getName().equalsIgnoreCase(methodName.getOriginName())) {
                         MethodDeclaration methodDeclaration =
@@ -1030,9 +1029,7 @@ public abstract class GrouperToken extends Token {
                         }
                     }
                 }
-                Class<?>[] interfaces = clazz.getInterfaces();
-                clazz = clazz.getSuperclass();
-                if (clazz == null) break;
+                break;
             }
             throw new MethodNotFoundException(container.getLineNumber(), methodName, className);
         } else {

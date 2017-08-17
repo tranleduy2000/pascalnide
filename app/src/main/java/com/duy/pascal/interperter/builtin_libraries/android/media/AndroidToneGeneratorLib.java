@@ -35,11 +35,11 @@ import java.util.Map;
  */
 public class AndroidToneGeneratorLib implements PascalLibrary {
 
-    public static final String NAME = "aTone".toLowerCase();
-    private final ToneGenerator mToneGenerator;
+    public static final String NAME = "ATone";
+    private  ToneGenerator mToneGenerator;
 
     public AndroidToneGeneratorLib(AndroidLibraryManager manager) {
-        mToneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+//        mToneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
     }
 
     public static void playSound(double frequency, int duration) {

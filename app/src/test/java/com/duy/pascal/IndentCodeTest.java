@@ -29,7 +29,7 @@ import java.io.IOException;
  */
 
 public class IndentCodeTest extends BaseTestCase {
-    private static final String dir = "C:\\github\\pascalnide\\test_pascal\\test_indent\\";
+    private static final String dir = "C:\\github\\pascalnide-public\\test_pascal\\test_indent\\";
 
     @Override
     public String getDirTest() {
@@ -109,7 +109,7 @@ public class IndentCodeTest extends BaseTestCase {
     }
 
     public void testAllDeclare() throws InterruptedException {
-        File parent = new File("C:\\github\\pascalnide\\test_pascal\\test_declare");
+        File parent = new File("C:\\github\\pascalnide-public\\test_pascal\\test_declare");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 IndentCode indentCode = null;
@@ -127,7 +127,7 @@ public class IndentCodeTest extends BaseTestCase {
     }
 
     public void testAll2() throws InterruptedException {
-        File parent = new File("C:\\github\\pascalnide\\libCompiler\\src\\main\\assets\\code_sample\\android");
+        File parent = new File("C:\\github\\pascalnide-public\\app\\src\\main\\assets\\code_sample\\android");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 IndentCode indentCode = null;
@@ -145,7 +145,7 @@ public class IndentCodeTest extends BaseTestCase {
     }
 
     public void testAll3() throws InterruptedException {
-        File parent = new File("C:\\github\\pascalnide\\test_pascal\\data");
+        File parent = new File("C:\\github\\pascalnide-public\\test_pascal\\data");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 IndentCode indentCode = null;
@@ -163,7 +163,7 @@ public class IndentCodeTest extends BaseTestCase {
     }
 
     public void test5() {
-        run("C:\\github\\pascalnide\\test_pascal\\autofix\\grouping\\missing_end.pas");
+        run("C:\\github\\pascalnide-public-public\\test_pascal\\autofix\\grouping\\missing_end.pas");
     }
 
     public void atestAll() throws IOException, InterruptedException {
