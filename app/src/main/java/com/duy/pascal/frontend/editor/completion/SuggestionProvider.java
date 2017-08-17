@@ -19,6 +19,7 @@ package com.duy.pascal.frontend.editor.completion;
 import android.content.Context;
 import android.util.Log;
 
+import com.duy.pascal.frontend.editor.completion.model.KeyWord;
 import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
 import com.duy.pascal.frontend.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
@@ -101,7 +102,9 @@ public class SuggestionProvider {
 
     private void addKeyword(ArrayList<SuggestItem> suggestItems) {
         for (String s : KeyWord.ALL_KEY_WORD) {
-            suggestItems.add(new SuggestItem(SuggestItem.KIND_KEYWORD, s));
+            if (s.toLowerCase().startsWith(incomplete.toLowerCase())) {
+                suggestItems.add(new SuggestItem(SuggestItem.KIND_KEYWORD, s));
+            }
         }
     }
 
@@ -110,7 +113,7 @@ public class SuggestionProvider {
         int start = symbolsTokenizer.findTokenStart(source, cursorPos);
         incomplete = source.substring(start, cursorPos);
         incomplete = incomplete.trim();
-        Log.d(TAG, "calculateIncomplete start = " + start);
+        Log.d(TAG, "calculateIncomplete incomplete = " + incomplete);
 
     }
 
@@ -130,6 +133,8 @@ public class SuggestionProvider {
     }
 
     private void addConstant(ArrayList<SuggestItem> suggestItems, Map<Name, ConstantDefinition> constants) {
+        if (incomplete.isEmpty()) return;
+
         for (Map.Entry<Name, ConstantDefinition> entry : constants.entrySet()) {
             ConstantDefinition constant = entry.getValue();
             LineInfo line = constant.getLineNumber();
@@ -143,6 +148,8 @@ public class SuggestionProvider {
     }
 
     private void addVariable(ArrayList<SuggestItem> suggestItems, ArrayList<VariableDeclaration> variables) {
+        if (incomplete.isEmpty()) return;
+
         for (VariableDeclaration variable : variables) {
             if (variable.getName().startsWith(incomplete)) {
                 LineInfo line = variable.getLineNumber();
@@ -156,6 +163,7 @@ public class SuggestionProvider {
 
     private void addFunction(ArrayList<SuggestItem> suggestItems,
                              ArrayListMultimap<Name, AbstractFunction> functions) {
+        if (incomplete.isEmpty()) return;
         for (Map.Entry<Name, AbstractFunction> entry : functions.entries()) {
             AbstractFunction function = entry.getValue();
             if (function.getName().startsWith(incomplete)) {

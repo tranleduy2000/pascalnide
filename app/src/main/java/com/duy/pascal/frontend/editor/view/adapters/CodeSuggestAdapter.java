@@ -31,7 +31,6 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
-import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.interperter.declaration.Name;
 
 import java.util.ArrayList;
@@ -117,11 +116,11 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         TextView txtName = convertView.findViewById(R.id.txt_title);
         txtName.setText(item.snipet() != null ? item.snipet() : item.getName().getOriginName());
         switch (item.getType()) {
-            case StructureType.TYPE_KEY_WORD:
+            case SuggestItem.KIND_KEYWORD:
                 txtName.setTextColor(colorKeyWord);
                 txtName.setTypeface(Typeface.DEFAULT_BOLD);
                 break;
-            case StructureType.TYPE_VARIABLE:
+            case SuggestItem.KIND_VARIABLE:
                 txtName.setTextColor(colorVariable);
                 txtName.setTypeface(Typeface.DEFAULT);
                 break;

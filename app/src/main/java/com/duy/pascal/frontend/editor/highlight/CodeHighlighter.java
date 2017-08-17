@@ -32,12 +32,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.regex.Matcher;
 
-import static com.duy.pascal.frontend.editor.completion.Patterns.ARGB_FUNCTION;
-import static com.duy.pascal.frontend.editor.completion.Patterns.BUILTIN_FUNCTIONS;
-import static com.duy.pascal.frontend.editor.completion.Patterns.KEYWORDS;
-import static com.duy.pascal.frontend.editor.completion.Patterns.NUMBERS;
-import static com.duy.pascal.frontend.editor.completion.Patterns.RGB_FUNCTION;
-import static com.duy.pascal.frontend.editor.completion.Patterns.SYMBOLS;
+import static com.duy.pascal.frontend.editor.completion.model.Patterns.ARGB_FUNCTION;
+import static com.duy.pascal.frontend.editor.completion.model.Patterns.BUILTIN_FUNCTIONS;
+import static com.duy.pascal.frontend.editor.completion.model.Patterns.KEYWORDS;
+import static com.duy.pascal.frontend.editor.completion.model.Patterns.NUMBERS;
+import static com.duy.pascal.frontend.editor.completion.model.Patterns.RGB_FUNCTION;
+import static com.duy.pascal.frontend.editor.completion.model.Patterns.SYMBOLS;
 
 /**
  * Created by Duy on 18-Jun-17.

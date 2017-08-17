@@ -30,7 +30,7 @@ import android.widget.MultiAutoCompleteTextView;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.editor.completion.KeyWord;
+import com.duy.pascal.frontend.editor.completion.model.KeyWord;
 import com.duy.pascal.frontend.editor.completion.SuggestionProvider;
 import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
 import com.duy.pascal.frontend.editor.view.adapters.CodeSuggestAdapter;
@@ -54,6 +54,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     private CodeSuggestAdapter mAdapter;
     private boolean enoughToFilter = false;
     private SuggestionProvider pascalParserHelper;
+    private ParseTask parseTask;
 
     public CodeSuggestsEditText(Context context) {
         super(context);
@@ -109,6 +110,14 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     @Override
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
+        try {
+            if (parseTask != null) {
+                parseTask.cancel(true);
+            }
+            parseTask = new ParseTask(getContext(), this, "");
+            parseTask.execute();
+        } catch (Exception e) {
+        }
         onPopupChangePosition();
     }
 

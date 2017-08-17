@@ -22,8 +22,8 @@ import android.text.Editable;
 import android.text.Layout;
 
 import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.editor.completion.KeyWord;
-import com.duy.pascal.frontend.editor.completion.Patterns;
+import com.duy.pascal.frontend.editor.completion.model.KeyWord;
+import com.duy.pascal.frontend.editor.completion.model.Patterns;
 import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
 import com.duy.pascal.frontend.editor.view.HighlightEditor;
 import com.duy.pascal.frontend.editor.view.LineUtils;

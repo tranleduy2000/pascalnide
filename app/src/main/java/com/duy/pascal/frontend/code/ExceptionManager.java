@@ -68,7 +68,7 @@ import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.StackOverflowException;
 import com.duy.pascal.interperter.utils.ArrayUtil;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.editor.completion.Patterns;
+import com.duy.pascal.frontend.editor.completion.model.Patterns;
 
 import java.util.List;
 import java.util.regex.Matcher;
