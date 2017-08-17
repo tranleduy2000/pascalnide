@@ -101,7 +101,11 @@ public class RuntimeType implements ArgumentType {
         RuntimeType otherType = otherValue.getRuntimeType(e);
         if (this.declType.equals(otherType.declType)) {
             if (writable) {
-                return new GetAddress((AssignableValue) otherValue);
+                if (otherType instanceof AssignableValue) {
+                    return new GetAddress((AssignableValue) otherValue);
+                } else {
+                    return null;
+                }
             } else {
                 return otherType.declType.cloneValue(otherValue);
             }
