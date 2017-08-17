@@ -1,6 +1,8 @@
 package com.duy.pascal.interperter.linenumber
 
-open class LineInfo {
+import java.io.Serializable
+
+open class LineInfo : Serializable, Cloneable {
     /**
      * line in code
      */

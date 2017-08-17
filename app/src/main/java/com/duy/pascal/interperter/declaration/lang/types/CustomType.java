@@ -6,6 +6,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.cloning.CloneableObjectCloner;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
@@ -88,7 +89,7 @@ public class CustomType extends ObjectType {
     }
 
     @Override
-    public Type getMemberType(String name) {
+    public Type getMemberType(Name name) {
         for (VariableDeclaration v : variableDeclarations) {
             if (v.name.equals(name)) {
                 return v.type;

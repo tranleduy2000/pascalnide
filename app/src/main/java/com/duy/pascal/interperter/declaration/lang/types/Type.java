@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.Member;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.NamedEntity;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
@@ -55,9 +56,9 @@ public interface Type extends NamedEntity, Member {
 
     @Override
     @NonNull
-    String getName();
+    Name getName();
 
-    void setName(@Nullable String name);
+    void setName(@Nullable Name name);
 
     @Override
     @Nullable

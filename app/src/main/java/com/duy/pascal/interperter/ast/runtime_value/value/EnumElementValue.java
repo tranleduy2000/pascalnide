@@ -23,6 +23,7 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
@@ -34,14 +35,14 @@ import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
  */
 
 public class EnumElementValue implements RuntimeValue, Comparable<EnumElementValue> {
-    private String name;
+    private Name name;
     private EnumGroupType type;
     private Integer value;
 
     private Integer index;
     private LineInfo lineInfo;
 
-    public EnumElementValue(String name, @NonNull EnumGroupType type,
+    public EnumElementValue(Name name, @NonNull EnumGroupType type,
                             @NonNull Integer index, @NonNull LineInfo lineInfo) {
         this.name = name;
         this.type = type;
@@ -92,11 +93,11 @@ public class EnumElementValue implements RuntimeValue, Comparable<EnumElementVal
         return null;
     }
 
-    public String getName() {
+    public Name getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Name name) {
         this.name = name;
     }
 
@@ -113,7 +114,7 @@ public class EnumElementValue implements RuntimeValue, Comparable<EnumElementVal
      */
     @Override
     public String toString() {
-        return name;
+        return name.toString();
     }
 
     public Integer getValue() {

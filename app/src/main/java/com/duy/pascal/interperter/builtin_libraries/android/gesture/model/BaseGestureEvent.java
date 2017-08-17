@@ -25,6 +25,6 @@ import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
 public abstract class BaseGestureEvent extends RecordValue {
 
     public BaseGestureEvent(GestureType type) {
-        variableMap.put("type", type.intValue());
+//        variableMap.put("type", type.intValue());
     }
 }

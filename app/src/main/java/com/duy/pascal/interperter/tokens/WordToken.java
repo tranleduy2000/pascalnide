@@ -2,39 +2,40 @@ package com.duy.pascal.interperter.tokens;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.interperter.declaration.NamedEntity;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.parsing.define.TypeIdentifierExpectException;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.NamedEntity;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.JavaClassBasedType;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.parsing.define.TypeIdentifierExpectException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 
 public class WordToken extends Token implements NamedEntity {
 
-    //always first case
-    public String name;
+    public Name name;
 
     private String originalName;
 
     public WordToken(LineInfo line, String s) {
         super(line);
-        this.name = s.toLowerCase();
+        this.name = Name.create(s);
         this.originalName = s;
-        this.line.setLength(name.length());
+        this.line.setLength(name.getLength());
     }
 
     @NonNull
     @Override
     public String getEntityType() {
-        return null;
+        return "name";
     }
 
+    @NonNull
     @Override
-    public String getName() {
+    public Name getName() {
         return name;
     }
 
@@ -53,7 +54,7 @@ public class WordToken extends Token implements NamedEntity {
 
     @Override
     public String toString() {
-        return name;
+        return name.toString();
     }
 
     public String getCode() {
@@ -69,60 +70,59 @@ public class WordToken extends Token implements NamedEntity {
     public Type toBasicType(ExpressionContext context)
             throws TypeIdentifierExpectException {
         Type returnType = null;
-        String name = this.name.toLowerCase().intern();
-        if (name.equalsIgnoreCase("integer")
-                || name.equalsIgnoreCase("byte")
-                || name.equalsIgnoreCase("word")
-                || name.equalsIgnoreCase("shortint")
-                || name.equalsIgnoreCase("smallint")
-                || name.equalsIgnoreCase("cardinal")) {
+        if (name.equals("integer")
+                || name.equals("byte")
+                || name.equals("word")
+                || name.equals("shortint")
+                || name.equals("smallint")
+                || name.equals("cardinal")) {
             returnType = BasicType.Integer;
-        } else if (name.equalsIgnoreCase("string")
-                || name.equalsIgnoreCase("ansistring")
-                || name.equalsIgnoreCase("shortstring")
-                || name.equalsIgnoreCase("UnicodeString")
-                || name.equalsIgnoreCase("OpenString")
-                || name.equalsIgnoreCase("WideString")) {
+        } else if (name.equals("string")
+                || name.equals("ansistring")
+                || name.equals("shortstring")
+                || name.equals("UnicodeString")
+                || name.equals("OpenString")
+                || name.equals("WideString")) {
             returnType = BasicType.StringBuilder;
-        } else if (name.equalsIgnoreCase("single")
-                || name.equalsIgnoreCase("extended")
-                || name.equalsIgnoreCase("real")
-                || name.equalsIgnoreCase("comp")
-                || name.equalsIgnoreCase("curreny")
-                || name.equalsIgnoreCase("double")) {
+        } else if (name.equals("single")
+                || name.equals("extended")
+                || name.equals("real")
+                || name.equals("comp")
+                || name.equals("curreny")
+                || name.equals("double")) {
             returnType = BasicType.Double;
-        } else if (name.equalsIgnoreCase("longint")
-                || name.equalsIgnoreCase("int64")
-                || name.equalsIgnoreCase("qword")
-                || name.equalsIgnoreCase("longword")
-                || name.equalsIgnoreCase("dword")
-                || name.equalsIgnoreCase("uint64")) {
+        } else if (name.equals("longint")
+                || name.equals("int64")
+                || name.equals("qword")
+                || name.equals("longword")
+                || name.equals("dword")
+                || name.equals("uint64")) {
             returnType = BasicType.Long;
-        } else if (name.equalsIgnoreCase("boolean")
-                || name.equalsIgnoreCase("boolean16")
-                || name.equalsIgnoreCase("boolean32")
-                || name.equalsIgnoreCase("boolean64")
-                || name.equalsIgnoreCase("ByteBool")
-                || name.equalsIgnoreCase("WordBool")
-                || name.equalsIgnoreCase("LongBool")
+        } else if (name.equals("boolean")
+                || name.equals("boolean16")
+                || name.equals("boolean32")
+                || name.equals("boolean64")
+                || name.equals("ByteBool")
+                || name.equals("WordBool")
+                || name.equals("LongBool")
                 ) {
             returnType = BasicType.Boolean;
-        } else if (name.equalsIgnoreCase("char")
-                || name.equalsIgnoreCase("AnsiChar")
-                || name.equalsIgnoreCase("char")) {
+        } else if (name.equals("char")
+                || name.equals("AnsiChar")
+                || name.equals("char")) {
             returnType = BasicType.Character;
-        } else if (name.equalsIgnoreCase("text")
-                || name.equalsIgnoreCase("textfile")) {
+        } else if (name.equals("text")
+                || name.equals("textfile")) {
             returnType = BasicType.Text;
-        } else if (name.equalsIgnoreCase("pointer")) {
+        } else if (name.equals("pointer")) {
             returnType = new PointerType(BasicType.create(Object.class));
-        } else if (name.equalsIgnoreCase("pchar")
-                || name.equalsIgnoreCase("PAnsiChar")) {
+        } else if (name.equals("pchar")
+                || name.equals("PAnsiChar")) {
             returnType = new PointerType(BasicType.create(Character.class));
-        } else if (name.equalsIgnoreCase("PShortString")) {
+        } else if (name.equals("PShortString")) {
             returnType = new PointerType(BasicType.create(StringBuilder.class));
         } else {
-            Type type = context.getTypeDef(name);
+            Type type = context.getTypeDef(this.name);
             if (type != null) {
                 returnType = type;
             } else {
@@ -134,7 +134,7 @@ public class WordToken extends Token implements NamedEntity {
                     System.err.println("Can not find type " + name);
                 }
                 if (returnType == null) {
-                    Object constVal = context.getConstantDefinition(name);
+                    Object constVal = context.getConstantDefinition(this.name);
                     if (constVal == null) {
                         throw new TypeIdentifierExpectException(line, name, context);
                     }

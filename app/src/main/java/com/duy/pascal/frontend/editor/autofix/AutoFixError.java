@@ -21,23 +21,24 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.Layout;
 
-import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
-import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.interperter.ast.runtime_value.value.access.VariableAccess;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
-import com.duy.pascal.interperter.exceptions.parsing.define.TypeIdentifierExpectException;
-import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
-import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
-import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenException;
-import com.duy.pascal.interperter.exceptions.parsing.value.ChangeValueConstantException;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.editor.completion.KeyWord;
 import com.duy.pascal.frontend.editor.completion.Patterns;
 import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
 import com.duy.pascal.frontend.editor.view.HighlightEditor;
 import com.duy.pascal.frontend.editor.view.LineUtils;
+import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
+import com.duy.pascal.interperter.ast.runtime_value.value.access.VariableAccess;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
+import com.duy.pascal.interperter.exceptions.parsing.define.TypeIdentifierExpectException;
+import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
+import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
+import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenException;
+import com.duy.pascal.interperter.exceptions.parsing.value.ChangeValueConstantException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.regex.Matcher;
@@ -83,7 +84,7 @@ public class AutoFixError {
         //sub string from 0 to postion error
         TextData text = getText(e.getScope().getStartLine(), e.getLineInfo());
 
-        String type = e.getMissingType();
+        Name type = e.getMissingType();
         String textToInsert;
         Matcher matcher = Patterns.TYPE.matcher(text.getText());
         int insertPosition = 0;
@@ -172,7 +173,7 @@ public class AutoFixError {
 
         String textToInsert = "";
         int insertPosition = 0;
-        String name = e.getName();
+        Name name = e.getName();
 
         Matcher matcher = Patterns.CONST.matcher(text.getText());
         if (matcher.find()) {
@@ -217,13 +218,13 @@ public class AutoFixError {
     }
 
 
-    private boolean declareVar(LineInfo[] lines, String name, String type, String initValue) {
+    private boolean declareVar(LineInfo[] lines, Name name, String type, String initValue) {
         if (lines.length != 2) throw new RuntimeException("The length line array must be 2");
         TextData text = getText(lines[0], lines[1]);
         return declareVar(text, name, type, initValue);
     }
 
-    private boolean declareVar(TextData text, String name, String type, String initValue) {
+    private boolean declareVar(TextData text, Name name, String type, String initValue) {
         String textToInsert = "";
         int insertPosition = 0;
         int startSelect;
@@ -290,9 +291,9 @@ public class AutoFixError {
         TextData text = getText(e.getScope().getStartLine(), e.getLineInfo());
         if (e.getIdentifier() instanceof VariableAccess) {
             if (e.getScope() instanceof FunctionDeclaration.FunctionExpressionContext) {
-                String name = ((FunctionDeclaration.FunctionExpressionContext) e.getScope()).function.getName();
+                Name name = ((FunctionDeclaration.FunctionExpressionContext) e.getScope()).function.getName();
                 //this is function name
-                if (name.equalsIgnoreCase(((VariableAccess) e.getIdentifier()).getName())) {
+                if (name.equals(((VariableAccess) e.getIdentifier()).getName())) {
                     changeTypeFunction(name, text, e.getValueType());
                 } else {
                     changeTypeVar(text, (VariableAccess) e.getIdentifier(), e.getValueType());
@@ -305,9 +306,9 @@ public class AutoFixError {
 
         } else if (e.getValue() instanceof VariableAccess) {
             if (e.getScope() instanceof FunctionDeclaration.FunctionExpressionContext) {
-                String name = ((FunctionDeclaration.FunctionExpressionContext) e.getScope()).function.getName();
+                Name name = ((FunctionDeclaration.FunctionExpressionContext) e.getScope()).function.getName();
                 //this is function name
-                if (name.equalsIgnoreCase(((VariableAccess) e.getValue()).getName())) {
+                if (name.equals(((VariableAccess) e.getValue()).getName())) {
                     changeTypeFunction(name, text, e.getTargetType());
                 } else {
                     changeTypeVar(text, (VariableAccess) e.getValue(), e.getTargetType());
@@ -336,7 +337,7 @@ public class AutoFixError {
             return;
         }
 
-        String name = identifier.getName();
+        Name name = identifier.getName();
         Pattern pattern = Pattern.compile("(^const\\s+|\\s+const\\s+)" + //match "const"  //1
                         "(.*?)" + //other const                                  //2
                         "(" + name + ")" + //name of const                       //3
@@ -370,7 +371,7 @@ public class AutoFixError {
      * @param name - name of function
      * @param text - a part text of the edit start at 0 and end at lineInfo where then function place
      */
-    private void changeTypeFunction(final String name, TextData text, Type valueType) {
+    private void changeTypeFunction(final Name name, TextData text, Type valueType) {
         Pattern pattern = Pattern.compile(
                 "(^function\\s+|\\s+function\\s+)" + //function token //1
                         "(" + name + ")" + //name of function         //2
@@ -400,7 +401,7 @@ public class AutoFixError {
 
     private void changeTypeVar(TextData text, VariableAccess identifier, Type valueType) {
         DLog.d(TAG, "fixUnConvertType: variable");
-        final String name = identifier.getName();
+        final Name name = identifier.getName();
         Pattern pattern = Pattern.compile("(^var\\s+|\\s+var\\s+)" + //match "var"  //1
                         "(.*?)" + //other variable                                  //2
                         "(" + name + ")" + //name of variable                       //3

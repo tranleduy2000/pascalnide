@@ -27,6 +27,7 @@ import com.duy.pascal.interperter.ast.runtime_value.references.Reference;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.ContainsVariables;
 import com.duy.pascal.interperter.debugable.DebuggableAssignableValue;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.operator.ConstantCalculationException;
@@ -41,10 +42,10 @@ import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 public class FieldAccess extends DebuggableAssignableValue {
     private static final String TAG = "FieldAccess";
     private RuntimeValue container;
-    private String name;
+    private Name name;
     private LineInfo line;
 
-    public FieldAccess(RuntimeValue container, String name, LineInfo line) {
+    public FieldAccess(RuntimeValue container, Name name, LineInfo line) {
         this.container = container;
         this.name = name;
         this.line = line;
@@ -134,7 +135,7 @@ public class FieldAccess extends DebuggableAssignableValue {
         return container;
     }
 
-    public String getName() {
+    public Name getName() {
         return name;
     }
 }

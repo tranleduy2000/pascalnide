@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeUnitPascal;
 import com.duy.pascal.interperter.ast.codeunit.RuntimePascalProgram;
@@ -62,7 +63,7 @@ public class CallStack {
         return null;
     }
 
-    public List<String> getDefineVariableNames() {
+    public ArrayList<Name> getDefineVariableNames() {
         return currentContext.getUserDefineVariableNames();
     }
 
@@ -85,7 +86,7 @@ public class CallStack {
                 result.add(clone);
             }
 
-            String[] argumentNames = f.getPrototype().getArgumentNames();
+            Name[] argumentNames = f.getPrototype().getArgumentNames();
             RuntimeType[] argumentTypes = f.getPrototype().getArgumentTypes();
             for (int i = 0; i < argumentNames.length; i++) {
                 try {
@@ -128,11 +129,11 @@ public class CallStack {
         return result;
     }
 
-    public HashMap<String, ?> getMapVars() {
+    public HashMap<Name, ?> getMapVars() {
         return currentContext.getMapVars();
     }
 
-    public Object getValue(String name) {
+    public Object getValue(Name name) {
         try {
             return currentContext.getLocalVar(name);
         } catch (RuntimePascalException e) {

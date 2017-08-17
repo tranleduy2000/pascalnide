@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeUnitPascal;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.interperter.ast.codeunit.ExecutableCodeUnit;
@@ -51,6 +52,7 @@ import com.google.common.collect.ArrayListMultimap;
 
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +60,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
     private ProgramHandler handler;
 
     public PascalUnitDeclaration(Reader program,
-                                 String sourceName,
+                                 Name sourceName,
                                  List<ScriptSource> includeDirectories,
                                  @Nullable ProgramHandler handler)
             throws ParsingException {
@@ -101,8 +103,8 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
 
     @Override
     public void declareTypes(ExpressionContextMixin parentContext) {
-        Map<String, Type> typedefs = context.getTypedefs();
-        for (Map.Entry<String, Type> type : typedefs.entrySet()) {
+        HashMap<Name, Type> typedefs = context.getTypedefs();
+        for (Map.Entry<Name, Type> type : typedefs.entrySet()) {
             parentContext.declareTypedef(type.getKey(), type.getValue());
         }
     }
@@ -124,10 +126,10 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
         // get list name interface instead of get map function
         // because I don't want to add built in function twice,
         //this is bad performance when match argument and leak memory
-        ArrayList<String> forwardFunctions = ((UnitExpressionContext) context).getForwardFunctions();
+        ArrayList<Name> forwardFunctions = ((UnitExpressionContext) context).getForwardFunctions();
 
-        ArrayListMultimap<String, AbstractFunction> callableFunctions = context.getCallableFunctions();
-        for (String name : forwardFunctions) {
+        ArrayListMultimap<Name, AbstractFunction> callableFunctions = context.getCallableFunctions();
+        for (Name name : forwardFunctions) {
             List<AbstractFunction> abstractFunctions = callableFunctions.get(name);
             for (AbstractFunction function : abstractFunctions) {
                 parentContext.declareFunction(function);
@@ -142,9 +144,9 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
         private Executable initInstruction;
         @Nullable
         private Executable finalInstruction;
-        private ArrayList<String> publicVariables = new ArrayList<>();
-        private ArrayList<String> publicConstants = new ArrayList<>();
-        private ArrayList<String> forwardFunctions = new ArrayList<>();
+        private ArrayList<Name> publicVariables = new ArrayList<>();
+        private ArrayList<Name> publicConstants = new ArrayList<>();
+        private ArrayList<Name> forwardFunctions = new ArrayList<>();
 
         @Nullable
         private LineInfo startLine;
@@ -160,7 +162,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
             return startLine;
         }
 
-        public ArrayList<String> getForwardFunctions() {
+        public ArrayList<Name> getForwardFunctions() {
             return forwardFunctions;
         }
 
@@ -233,14 +235,13 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
                 next = i.peek();
             }
 
-            ArrayListMultimap<String, AbstractFunction> callableFunctions = getCallableFunctions();
-            for (String name : forwardFunctions) {
+            ArrayListMultimap<Name, AbstractFunction> callableFunctions = getCallableFunctions();
+            for (Name name : forwardFunctions) {
                 List<AbstractFunction> abstractFunctions = callableFunctions.get(name);
                 for (AbstractFunction f : abstractFunctions) {
                     if (f instanceof FunctionDeclaration) {
                         if (((FunctionDeclaration) f).instructions == null) {
-                            throw new MissingBodyFunctionException(f.getName(),
-                                    ((FunctionDeclaration) f).line);
+                            throw new MissingBodyFunctionException(f.getName(), ((FunctionDeclaration) f).line);
                         }
                     }
                 }

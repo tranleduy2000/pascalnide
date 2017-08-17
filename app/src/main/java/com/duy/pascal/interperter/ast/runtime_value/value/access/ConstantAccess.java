@@ -22,21 +22,22 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.debugable.DebuggableReturnValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class ConstantAccess<T> extends DebuggableReturnValue {
     private T value;
     private Type type;
     private LineInfo mLineNumber;
     @Nullable
-    private String name = null;
+    private Name name = null;
 
     public ConstantAccess(@Nullable T o, @Nullable LineInfo mLineNumber) {
         this.value = o;
@@ -86,7 +87,7 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
         if (name == null) {
             return String.valueOf(value);
         } else {
-            return name;
+            return name.toString();
         }
     }
 
@@ -110,11 +111,11 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
     }
 
     @Nullable
-    public String getName() {
+    public Name getName() {
         return name;
     }
 
-    public void setName(@Nullable String name) {
+    public void setName(@Nullable Name name) {
         this.name = name;
     }
 

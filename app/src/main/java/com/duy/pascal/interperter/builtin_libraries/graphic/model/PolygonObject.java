@@ -20,6 +20,7 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 
 import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
+import com.duy.pascal.interperter.declaration.Name;
 
 /**
  * Created by Duy on 09-Jun-17.
@@ -38,12 +39,12 @@ public class PolygonObject extends GraphObject {
     @Override
     public void draw(Canvas canvas) {
         Path path = new Path();
-        int x = (int) point[0].getVar("x");
-        int y = (int) point[0].getVar("y");
+        int x = (int) point[0].getVar(Name.create("x"));
+        int y = (int) point[0].getVar(Name.create("y"));
         path.moveTo(x, y);
         for (int i = 1; i < numPoint; i++) {
-            x = (int) point[i].getVar("x");
-            y = (int) point[i].getVar("y");
+            x = (int) point[i].getVar(Name.create("x"));
+            y = (int) point[i].getVar(Name.create("y"));
             path.lineTo(x, y);
         }
         canvas.drawPath(path, fillPaint);

@@ -16,16 +16,17 @@
 
 package com.duy.pascal.interperter.ast.codeunit;
 
-import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
-import com.duy.pascal.interperter.declaration.lang.function.MethodDeclaration;
-import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.ast.runtime_value.ScriptControl;
 import com.duy.pascal.interperter.config.DebugMode;
 import com.duy.pascal.interperter.debugable.DebugListener;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
+import com.duy.pascal.interperter.declaration.lang.function.MethodDeclaration;
+import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.ScriptTerminatedException;
 import com.duy.pascal.interperter.exceptions.runtime.StackOverflowException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -62,14 +63,14 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
         return unitsMap.get(l);
     }
 
-    public RuntimePascalClass getRuntimePascalClassContext(String identifier) {
-        Map<String, RuntimePascalClass> classMap
+    public RuntimePascalClass getRuntimePascalClassContext(Name identifier) {
+        Map<Name, RuntimePascalClass> classMap
                 = declaration.getContext().getRuntimePascalClassMap();
         return classMap.get(identifier);
     }
 
-    public void addPascalClassContext(String id, RuntimePascalClass runtimePascalClass) {
-        Map<String, RuntimePascalClass> classMap
+    public void addPascalClassContext(Name id, RuntimePascalClass runtimePascalClass) {
+        Map<Name, RuntimePascalClass> classMap
                 = declaration.getContext().getRuntimePascalClassMap();
         classMap.put(id, runtimePascalClass);
     }
@@ -145,7 +146,8 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
                 return;
             }
             if (runMode == ControlMode.TERMINATED) {
-                List<AbstractFunction> shutdown = this.getDeclaration().getProgram().getCallableFunctionsLocal("shutdown");
+                List<AbstractFunction> shutdown =
+                        getDeclaration().getProgram().getCallableFunctionsLocal(Name.create("shutdown"));
                 for (AbstractFunction function : shutdown) {
                     if (function instanceof MethodDeclaration) {
                         try {

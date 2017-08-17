@@ -23,17 +23,18 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.instructions.Executable;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class SizeOfArrayFunction implements IMethodDeclaration {
 
@@ -42,8 +43,8 @@ public class SizeOfArrayFunction implements IMethodDeclaration {
             new RuntimeType(new ArrayType<>(BasicType.create(Object.class), null), false)};
 
     @Override
-    public String getName() {
-        return "sizeof";
+    public Name getName() {
+        return Name.create("SizeOf");
     }
 
     @Override
@@ -73,7 +74,7 @@ public class SizeOfArrayFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class SizeOfArrayCall extends FunctionCall {
+    private class SizeOfArrayCall extends BuiltinFunctionCall {
 
         private LineInfo line;
         private RuntimeValue array;
@@ -117,7 +118,7 @@ public class SizeOfArrayFunction implements IMethodDeclaration {
         }
 
         @Override
-        protected String getFunctionName() {
+        protected String getFunctionNameImpl() {
             return "sizeof";
         }
 

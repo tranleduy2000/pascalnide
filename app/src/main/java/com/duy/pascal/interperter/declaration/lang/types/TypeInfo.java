@@ -18,6 +18,7 @@ package com.duy.pascal.interperter.declaration.lang.types;
 
 import android.support.annotation.NonNull;
 
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.lang.reflect.Modifier;
@@ -26,7 +27,7 @@ public abstract class TypeInfo implements Type {
     /**
      * the name of type, variable, function, ...
      */
-    protected String name = null; //anonymous
+    protected Name name = null; //anonymous
     protected int modifier = Modifier.STATIC | Modifier.PUBLIC;
     protected LineInfo lineInfo;
 
@@ -52,11 +53,11 @@ public abstract class TypeInfo implements Type {
 
     @NonNull
     @Override
-    public String getName() {
+    public Name getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Name name) {
         this.name = name;
     }
 

@@ -32,8 +32,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.debug.CallStack;
 import com.duy.pascal.frontend.debug.adapter.FrameAdapter;
@@ -41,6 +39,8 @@ import com.duy.pascal.frontend.debug.adapter.VariableAdapter;
 import com.duy.pascal.frontend.debug.utils.SpanUtils;
 import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.view.MonospaceRadioButton;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,7 +116,7 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
             ArrayList<VariableDeclaration> old = mVariableAdapter.getVariableItems();
             for (int i = 0; i < vars.size(); i++) {
                 VariableDeclaration var = vars.get(i);
-                if (var.getName().equalsIgnoreCase(old.get(i).getName())) {
+                if (var.getName().equals(old.get(i).getName())) {
                     if (var.getInitialValue() == null) {
                         if (old.get(i).getInitialValue() == null) {
                             updateList.set(i, true);
@@ -168,7 +168,8 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
     public void onExpand(VariableDeclaration var) {
         SpanUtils spanUtils = new SpanUtils(mVariableAdapter.getCodeTheme());
         spanUtils.setMaxLengthArray(-1);
-        AlertDialog msgDialog = DialogManager.Companion.createMsgDialog(getActivity(), var.getName(),
+        AlertDialog msgDialog = DialogManager.Companion.createMsgDialog(getActivity(),
+                var.getName().getOriginName(),
                 spanUtils.createVarSpan(var));
         msgDialog.show();
         this.dialog = msgDialog;
@@ -177,16 +178,16 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
     private final class OnFrameChangeListener implements CompoundButton.OnCheckedChangeListener {
         private CallStack callStack;
 
+        public OnFrameChangeListener(VariableContext callStack) {
+            this.callStack = new CallStack(callStack);
+        }
+
         public CallStack getCallStack() {
             return callStack;
         }
 
         public void setCallStack(CallStack callStack) {
             this.callStack = callStack;
-        }
-
-        public OnFrameChangeListener(VariableContext callStack) {
-            this.callStack = new CallStack(callStack);
         }
 
         @Override

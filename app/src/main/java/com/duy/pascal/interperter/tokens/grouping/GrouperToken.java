@@ -38,6 +38,7 @@ import com.duy.pascal.interperter.ast.runtime_value.value.access.ClassVariableAc
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.FieldAccess;
 import com.duy.pascal.interperter.declaration.LabelDeclaration;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.MethodDeclaration;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.JavaClassBasedType;
@@ -56,7 +57,6 @@ import com.duy.pascal.interperter.declaration.lang.types.subrange.IntegerRange;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.SubrangeType;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
-import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.UnSupportTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
@@ -76,6 +76,7 @@ import com.duy.pascal.interperter.exceptions.parsing.value.ChangeValueConstantEx
 import com.duy.pascal.interperter.exceptions.parsing.value.NonConstantExpressionException;
 import com.duy.pascal.interperter.exceptions.parsing.value.NonIntegerException;
 import com.duy.pascal.interperter.exceptions.parsing.value.UnAssignableTypeException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.EOFToken;
 import com.duy.pascal.interperter.tokens.OperatorToken;
 import com.duy.pascal.interperter.tokens.Token;
@@ -248,7 +249,7 @@ public abstract class GrouperToken extends Token {
                                                          VariableDeclaration var) throws DuplicateIdentifierException {
         for (VariableDeclaration variableDeclaration : result) {
             context.verifyNonConflictingSymbol(var);
-            if (variableDeclaration.getName().equalsIgnoreCase(var.getName())) {
+            if (variableDeclaration.getName().equals(var.getName())) {
                 throw new DuplicateIdentifierException(variableDeclaration, var);
             }
         }
@@ -355,7 +356,7 @@ public abstract class GrouperToken extends Token {
         }
     }
 
-    public String nextWordValue() throws ParsingException {
+    public Name nextWordValue() throws ParsingException {
         return take().getWordValue().name;
     }
 
@@ -546,7 +547,7 @@ public abstract class GrouperToken extends Token {
                     try {
                         term = getFunctionFromPascalClass(context, term, (WordToken) next);
                     } catch (Exception e) {
-                        String name = term.toString();
+                        Name name = Name.create(term.toString());
                         if (classContext.getVariableDefinitionLocal(((WordToken) next).getName()) != null) {
                             term = new ClassVariableAccess(name, ((WordToken) next).getName(),
                                     next.getLineNumber(), classContext);
@@ -613,7 +614,7 @@ public abstract class GrouperToken extends Token {
         }
         ClassExpressionContext classContext = classType.getClassContext();
         FunctionCall functionCall = FunctionCall.generateFunctionCall(methodName, args, classContext);
-        return new ClassFunctionCall(container.toString(),
+        return new ClassFunctionCall(Name.create(container.toString()),
                 functionCall, methodName.getLineNumber(), classContext);
     }
 
@@ -672,7 +673,7 @@ public abstract class GrouperToken extends Token {
 
             if (next instanceof ParenthesizedToken) {
                 List<RuntimeValue> arguments;
-                if (name.name.equalsIgnoreCase("writeln") || name.name.equalsIgnoreCase("write")) {
+                if (name.name.equals("writeln") || name.name.equals("write")) {
                     arguments = ((ParenthesizedToken) take()).getArgumentsForOutput(context);
                 } else {
                     arguments = ((ParenthesizedToken) take()).getArgumentsForCall(context);
@@ -721,7 +722,7 @@ public abstract class GrouperToken extends Token {
                 }
                 RuntimeValue identifier = context.getIdentifierValue(name);
                 //uses for show line error
-                identifier.getLineNumber().setLength(name.name.length());
+                identifier.getLineNumber().setLength(name.name.getLength());
                 if (peek() instanceof OperatorToken && ((OperatorToken) peek()).type == OperatorTypes.DEREF) {
                     take();
                     identifier = new DerefEval(identifier, identifier.getLineNumber());
@@ -943,7 +944,7 @@ public abstract class GrouperToken extends Token {
                 }
                 RuntimeValue value = getNextExpression(context);
                 if (value instanceof ClassConstructorCall) {
-                    ((ClassConstructorCall) value).setIdName(left.toString());
+                    ((ClassConstructorCall) value).setIdName(Name.create(left.toString()));
                 }
                 Type valueType = value.getRuntimeType(context).declType;
                 Type leftType = left.getRuntimeType(context).declType;
@@ -992,7 +993,7 @@ public abstract class GrouperToken extends Token {
         }
     }
 
-    private RuntimeValue getMethodFromJavaClass(ExpressionContext context, RuntimeValue container, String
+    private RuntimeValue getMethodFromJavaClass(ExpressionContext context, RuntimeValue container, Name
             methodName) throws ParsingException {
 
         RuntimeType type = container.getRuntimeType(context);
@@ -1017,7 +1018,7 @@ public abstract class GrouperToken extends Token {
                 //get method, ignore case
                 Method[] declaredMethods = clazz.getDeclaredMethods();
                 for (Method declaredMethod : declaredMethods) {
-                    if (declaredMethod.getName().equalsIgnoreCase(methodName)) {
+                    if (declaredMethod.getName().equalsIgnoreCase(methodName.getOriginName())) {
                         MethodDeclaration methodDeclaration =
                                 new MethodDeclaration(container, declaredMethod, javaType);
                         FunctionCall functionCall = methodDeclaration.generateCall(getLineNumber(),

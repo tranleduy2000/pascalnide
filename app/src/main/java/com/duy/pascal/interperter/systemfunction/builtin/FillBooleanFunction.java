@@ -23,16 +23,17 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.instructions.Executable;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class FillBooleanFunction implements IMethodDeclaration {
 
@@ -42,8 +43,8 @@ public class FillBooleanFunction implements IMethodDeclaration {
 
 
     @Override
-    public String getName() {
-        return "fillchar";
+    public Name getName() {
+        return Name.create("FillChar");
     }
 
     @Override
@@ -72,7 +73,7 @@ public class FillBooleanFunction implements IMethodDeclaration {
         return null;
     }
 
-    private static class FillCharCall extends FunctionCall {
+    private static class FillCharCall extends BuiltinFunctionCall {
 
         private final RuntimeValue[] arguments;
         private LineInfo line;
@@ -116,7 +117,7 @@ public class FillBooleanFunction implements IMethodDeclaration {
         }
 
         @Override
-        protected String getFunctionName() {
+        protected String getFunctionNameImpl() {
             return "fillchar";
         }
 

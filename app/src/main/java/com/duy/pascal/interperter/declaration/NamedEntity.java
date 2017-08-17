@@ -28,8 +28,8 @@ public interface NamedEntity {
     @NonNull
     String getEntityType();
 
-    @Nullable
-    String getName();
+    @NonNull
+    Name getName();
 
     @Nullable
     String getDescription();

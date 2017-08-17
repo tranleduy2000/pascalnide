@@ -17,11 +17,12 @@
 package com.duy.pascal.interperter.exceptions.parsing.define
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext
-import com.duy.pascal.interperter.linenumber.LineInfo
+import com.duy.pascal.interperter.declaration.Name
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException
+import com.duy.pascal.interperter.linenumber.LineInfo
 
 
-class TypeIdentifierExpectException(line: LineInfo?, var missingType: String, var scope: ExpressionContext)
+class TypeIdentifierExpectException(line: LineInfo?,var missingType: Name,var scope: ExpressionContext)
     : ParsingException(line, "Type $missingType is not define") {
 
     override val isAutoFix: Boolean

@@ -17,15 +17,16 @@
 package com.duy.pascal.interperter.exceptions.parsing.define
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext
-import com.duy.pascal.interperter.linenumber.LineInfo
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException
+import com.duy.pascal.interperter.declaration.Name
 import com.duy.pascal.interperter.declaration.lang.types.RecordType
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException
+import com.duy.pascal.interperter.linenumber.LineInfo
 
 /**
  * Created by Duy on 03-Jun-17.
  */
 
-class UnknownFieldException(line: LineInfo?, var container: RecordType, var name: String,
+class UnknownFieldException(line: LineInfo?, var container: RecordType, var name: Name,
                             var scope: ExpressionContext)
     : ParsingException(line) {
     override val message: String?

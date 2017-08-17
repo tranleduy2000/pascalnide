@@ -23,19 +23,20 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.instructions.Executable;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 /**
  * Check if a pointer is valid
@@ -46,8 +47,8 @@ public class FreeAndNilFunction implements IMethodDeclaration {
             new PointerType(BasicType.create(Object.class)), true)};
 
     @Override
-    public String getName() {
-        return NAME;
+    public Name getName() {
+        return Name.create(NAME);
     }
 
     @Override
@@ -78,7 +79,7 @@ public class FreeAndNilFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class AssignedCall extends FunctionCall {
+    private class AssignedCall extends BuiltinFunctionCall {
 
         private RuntimeValue value;
         private RuntimeType type;
@@ -124,7 +125,7 @@ public class FreeAndNilFunction implements IMethodDeclaration {
         }
 
         @Override
-        protected String getFunctionName() {
+        protected String getFunctionNameImpl() {
             return NAME;
         }
 

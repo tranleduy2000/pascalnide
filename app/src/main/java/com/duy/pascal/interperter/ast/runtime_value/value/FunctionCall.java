@@ -2,6 +2,7 @@ package com.duy.pascal.interperter.ast.runtime_value.value;
 
 import android.support.annotation.NonNull;
 
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
@@ -29,7 +30,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
                                                     ExpressionContext expressionContext)
             throws ParsingException {
         List<List<AbstractFunction>> possibilities = new ArrayList<>();
-        expressionContext.getCallableFunctions(name.name.toLowerCase(), possibilities);
+        expressionContext.getCallableFunctions(name.name, possibilities);
 
         boolean matching = false;
         boolean perfectFit = false;
@@ -90,7 +91,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
         return getFunctionName() + ArrayUtil.argToString(arguments);
     }
 
-    protected abstract String getFunctionName();
+    protected abstract Name getFunctionName();
 
     @Override
     public ExecutionResult executeImpl(VariableContext f,

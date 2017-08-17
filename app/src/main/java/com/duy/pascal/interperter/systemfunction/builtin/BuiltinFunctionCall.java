@@ -14,11 +14,20 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interperter.exceptions.parsing.io
+package com.duy.pascal.interperter.systemfunction.builtin;
 
+import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
+import com.duy.pascal.interperter.declaration.Name;
 
-import com.duy.pascal.interperter.declaration.Name
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException
-import com.duy.pascal.interperter.linenumber.LineInfo
+/**
+ * Created by Duy on 17-Aug-17.
+ */
 
-class LibraryNotFoundException(lineInfo: LineInfo,var name: Name) : ParsingException(lineInfo)
+public abstract class BuiltinFunctionCall extends FunctionCall {
+    @Override
+    protected Name getFunctionName() {
+        return Name.create(getFunctionNameImpl());
+    }
+
+    protected abstract String getFunctionNameImpl();
+}

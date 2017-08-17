@@ -18,11 +18,12 @@ package com.duy.pascal.interperter.exceptions.parsing.define
 
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext
-import com.duy.pascal.interperter.linenumber.LineInfo
+import com.duy.pascal.interperter.declaration.Name
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException
+import com.duy.pascal.interperter.linenumber.LineInfo
 
 class BadFunctionCallException(line: LineInfo, //the line at code editor
-                               var functionName: String, //name of function
+                               var functionName: Name, //name of function
                                var functionExists: Boolean, //function is exist?
                                numargsMatch: Boolean, //if function is exits,
                                args: ArrayList<String>,

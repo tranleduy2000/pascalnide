@@ -164,7 +164,7 @@ public class EnumGroupType extends TypeInfo implements Containable<EnumElementVa
     @Nullable
     public EnumElementValue get(String element) {
         for (EnumElementValue pair : list) {
-            if (pair.getName().equalsIgnoreCase(element)) {
+            if (pair.getName().equals(element)) {
                 return pair;
             }
         }
@@ -194,7 +194,7 @@ public class EnumGroupType extends TypeInfo implements Containable<EnumElementVa
 
     @Override
     public String toString() {
-        return name;
+        return name.toString();
     }
 
     @Override

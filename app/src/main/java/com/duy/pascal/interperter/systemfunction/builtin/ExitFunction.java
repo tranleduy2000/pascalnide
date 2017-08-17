@@ -28,6 +28,7 @@ import com.duy.pascal.interperter.ast.variablecontext.FunctionOnStack;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
@@ -41,8 +42,8 @@ public class ExitFunction implements IMethodDeclaration {
     private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), false)};
 
     @Override
-    public String getName() {
-        return "exit";
+    public Name getName() {
+        return Name.create("Exit");
     }
 
     @Override
@@ -72,7 +73,7 @@ public class ExitFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class ExitCall extends FunctionCall {
+    private class ExitCall extends BuiltinFunctionCall {
 
         private LineInfo line;
         private RuntimeValue value;
@@ -116,7 +117,7 @@ public class ExitFunction implements IMethodDeclaration {
         }
 
         @Override
-        protected String getFunctionName() {
+        protected String getFunctionNameImpl() {
             return "exit";
         }
 
@@ -127,7 +128,7 @@ public class ExitFunction implements IMethodDeclaration {
                 if (((FunctionOnStack) f).isProcedure()) {
                     throw new RuntimeException();
                 } else {
-                    String name = ((FunctionOnStack) f).getPrototype().name;
+                    Name name = ((FunctionOnStack) f).getPrototype().name;
                     Object value = this.value.getValue(f, main);
                     f.setLocalVar(name, value);
                 }

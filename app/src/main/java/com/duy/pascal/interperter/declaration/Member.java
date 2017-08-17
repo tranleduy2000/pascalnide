@@ -16,6 +16,8 @@
 
 package com.duy.pascal.interperter.declaration;
 
+import android.support.annotation.NonNull;
+
 /**
  * Member is an interface that reflects identifying information about
  * a single member (a field or a method) or a constructor.
@@ -45,7 +47,8 @@ interface Member {
      *
      * @return the simple name of the underlying member
      */
-    public String getName();
+    @NonNull
+    public Name getName();
 
     /**
      * Returns the Java language modifiers for the member or

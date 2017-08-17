@@ -22,21 +22,22 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.interperter.ast.instructions.Executable;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-public class LabelDeclaration implements NamedEntity, Cloneable {
+public class LabelDeclaration implements NamedEntity, Cloneable{
 
     /**
      * name of variable, always first case
      */
-    public String name;
+    public Name name;
     private LineInfo line;
     private Executable command;
 
-    public LabelDeclaration(@NonNull String name, @Nullable LineInfo line) {
+    public LabelDeclaration(@NonNull Name name, @Nullable LineInfo line) {
         this.name = name;
         this.line = line;
     }
 
-    public String getName() {
+    @NonNull
+    public Name getName() {
         return name;
     }
 
@@ -57,7 +58,7 @@ public class LabelDeclaration implements NamedEntity, Cloneable {
 
     @Override
     public String toString() {
-        return name;
+        return name.getOriginName();
     }
 
     @Override

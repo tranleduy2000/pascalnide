@@ -23,30 +23,31 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.instructions.Executable;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.utils.NullSafety;
 
 /**
  * Check if a pointer is valid
  */
 public class AssignedPointerFunction implements IMethodDeclaration {
-    private final static String NAME = "assigned";
+    private final static String NAME = "Assigned";
     private ArgumentType[] argumentTypes = {new RuntimeType(
             new PointerType(BasicType.create(Object.class)), false)};
 
     @Override
-    public String getName() {
-        return NAME;
+     public Name getName() {
+        return Name.create("Assigned");
     }
 
     @Override
@@ -77,7 +78,7 @@ public class AssignedPointerFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class AssignedCall extends FunctionCall {
+    private class AssignedCall extends BuiltinFunctionCall {
 
         private RuntimeValue value;
         private RuntimeType type;
@@ -123,7 +124,7 @@ public class AssignedPointerFunction implements IMethodDeclaration {
         }
 
         @Override
-        protected String getFunctionName() {
+        protected String getFunctionNameImpl() {
             return NAME;
         }
 

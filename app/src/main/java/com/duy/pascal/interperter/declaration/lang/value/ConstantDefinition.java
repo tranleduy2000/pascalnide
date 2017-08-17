@@ -18,33 +18,42 @@ package com.duy.pascal.interperter.declaration.lang.value;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.NamedEntity;
-import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class ConstantDefinition implements NamedEntity {
     public Type type;
-    private String name;
+    private Name name;
     private Object value;
     private LineInfo line;
 
+    public ConstantDefinition(@NonNull Name name, @NonNull Object value, LineInfo line) {
+        this(name, null, value, line);
+    }
+
     public ConstantDefinition(@NonNull String name, @NonNull Object value, LineInfo line) {
-        this.name = name;
-        this.value = value;
-        this.line = line;
+        this(Name.create(name), null, value, line);
+    }
+
+    /**
+     * constructor use for system constant
+     */
+    public ConstantDefinition(@NonNull Name name, @NonNull Object value) {
+        this(name, null, value, null);
     }
 
     /**
      * constructor use for system constant
      */
     public ConstantDefinition(@NonNull String name, @NonNull Object value) {
-        this.name = name;
-        this.value = value;
-        this.line = new LineInfo(-1, name);//null lineInfo
+        this(Name.create(name), null, value, null);
     }
 
-    public ConstantDefinition(@NonNull String name, @NonNull Type type,
+    public ConstantDefinition(@NonNull Name name, @Nullable Type type,
                               @NonNull Object init, LineInfo line) {
         this.name = name;
         this.type = type;
@@ -52,13 +61,13 @@ public class ConstantDefinition implements NamedEntity {
         this.line = line;
     }
 
-    /**
-     * constructor used for enum
-     */
-    public ConstantDefinition(@NonNull String name, @NonNull Type type, LineInfo line) {
-        this.name = name;
-        this.type = type;
-        this.line = line;
+    public ConstantDefinition(@NonNull String name, @Nullable Type type, @NonNull Object init, LineInfo line) {
+        this(Name.create(name), type, init, line);
+    }
+
+    /*enum*/
+    public ConstantDefinition(@NonNull Name name, @Nullable Type type, LineInfo line) {
+        this(name, type, null, line);
     }
 
     public Type getType() {
@@ -83,8 +92,9 @@ public class ConstantDefinition implements NamedEntity {
         return "constant";
     }
 
+    @NonNull
     @Override
-    public String getName() {
+    public Name getName() {
         return name;
     }
 

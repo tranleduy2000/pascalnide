@@ -19,22 +19,27 @@ package com.duy.pascal.interperter.declaration.lang.function;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.frontend.debug.CallStack;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.interperter.declaration.NamedEntity;
-import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
-import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.instructions.Executable;
 import com.duy.pascal.interperter.ast.variablecontext.FunctionOnStack;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.config.ProgramMode;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.NamedEntity;
+import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
+import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
+import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.define.DuplicateIdentifierException;
 import com.duy.pascal.interperter.exceptions.parsing.define.OverridingFunctionBodyException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.WordToken;
 import com.duy.pascal.interperter.tokens.basic.ColonToken;
@@ -44,10 +49,6 @@ import com.duy.pascal.interperter.tokens.basic.SemicolonToken;
 import com.duy.pascal.interperter.tokens.basic.VarToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.interperter.tokens.grouping.ParenthesizedToken;
-import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
-import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
-import com.duy.pascal.frontend.debug.CallStack;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -60,35 +61,34 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     /**
      * name of function or procedure
      */
-    public String name;
+    public Name name;
     public Executable instructions;
-    /**
-     * this is the store value of function
-     */
-    protected VariableDeclaration resultDefinition;
     public LineInfo line;
     public LineInfo endPositionHeader;
-    public String[] argumentNames;
+    public Name[] argumentNames;
     public RuntimeType[] argumentTypes;
+
+    /*field store value of function*/
+    private VariableDeclaration resultDefinition;
     private boolean isProcedure = false;
     private boolean bodyDeclared;
 
     private int modifier = Modifier.PUBLIC;
 
-    public FunctionDeclaration(String name, ExpressionContext parent, GrouperToken grouperToken,
+    public FunctionDeclaration(Name name, ExpressionContext parent, GrouperToken grouperToken,
                                boolean isProcedure) throws ParsingException {
         parseHeader(name, parent, grouperToken, isProcedure);
     }
 
     public FunctionDeclaration(ExpressionContext parent, GrouperToken grouperToken,
                                boolean isProcedure) throws ParsingException {
-        String name = grouperToken.nextWordValue();
+        Name name = grouperToken.nextWordValue();
         parseHeader(name, parent, grouperToken, isProcedure);
     }
 
     public FunctionDeclaration(ExpressionContext p) {
         this.declaration = new FunctionExpressionContext(this, p);
-        this.argumentNames = new String[0];
+        this.argumentNames = new Name[0];
         this.argumentTypes = new RuntimeType[0];
     }
 
@@ -100,7 +100,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         this.modifier = modifier;
     }
 
-    public void parseHeader(String name, ExpressionContext parent, GrouperToken grouperToken,
+    public void parseHeader(Name name, ExpressionContext parent, GrouperToken grouperToken,
                             boolean isProcedure) throws ParsingException {
 //        DLog.d(TAG, "parseHeader() called with: name = [" + name + "], parent = [" + parent + "], grouperToken = [" + grouperToken + "], isProcedure = [" + isProcedure + "]");
 
@@ -122,7 +122,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             }
             //define variable result of function, the name of variable same as name function
             if (parent.root().getConfig().getMode() == ProgramMode.DELPHI) {
-                resultDefinition = new VariableDeclaration("result",
+                resultDefinition = new VariableDeclaration(Name.create("result"),
                         grouperToken.getNextPascalType(parent), line);
             } else {
                 resultDefinition = new VariableDeclaration(name,
@@ -149,7 +149,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         }
     }
 
-    public String[] getArgumentNames() {
+    public Name[] getArgumentNames() {
         return argumentNames;
     }
 
@@ -161,7 +161,8 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         return declaration;
     }
 
-    public String getName() {
+    @NonNull
+    public Name getName() {
         return name;
     }
 
@@ -248,12 +249,10 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             }
         }
         argumentTypes = typesList.toArray(new RuntimeType[typesList.size()]);
-        argumentNames = new String[namesList.size()];
+        argumentNames = new Name[namesList.size()];
         for (int j = 0; j < argumentNames.length; j++) {
             WordToken n = namesList.get(j);
             argumentNames[j] = n.name;
-            // TODO: 30-Apr-17
-//            scopeWithStatement.declareVariable(new VariableDeclaration(n.name, argumentTypes[j].declType, n.line));
         }
 
     }
@@ -340,7 +339,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         }
 
         @Override
-        public VariableDeclaration getVariableDefinitionLocal(String ident) {
+        public VariableDeclaration getVariableDefinitionLocal(Name ident) {
             VariableDeclaration unitVariableDecl = super.getVariableDefinitionLocal(ident);
             if (unitVariableDecl != null) {
                 return unitVariableDecl;

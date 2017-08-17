@@ -23,19 +23,20 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.instructions.Executable;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
+import com.duy.pascal.interperter.declaration.lang.types.BasicType;
+import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
+import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.TypeMismatchException;
-import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
-import com.duy.pascal.interperter.declaration.lang.types.BasicType;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
-import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
-import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
-import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 /**
  * length of one dimension array
@@ -46,8 +47,8 @@ public class LengthFunction implements IMethodDeclaration {
             new RuntimeType(BasicType.create(Object.class), false)};
 
     @Override
-    public String getName() {
-        return "length";
+    public Name getName() {
+        return Name.create("Length");
     }
 
     @Override
@@ -78,7 +79,7 @@ public class LengthFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class LengthCall extends FunctionCall {
+    private class LengthCall extends BuiltinFunctionCall {
 
         private Type type;
         private LineInfo line;
@@ -124,7 +125,7 @@ public class LengthFunction implements IMethodDeclaration {
         }
 
         @Override
-        protected String getFunctionName() {
+        protected String getFunctionNameImpl() {
             return "length";
         }
 

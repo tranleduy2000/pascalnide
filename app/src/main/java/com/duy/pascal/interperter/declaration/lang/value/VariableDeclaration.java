@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.NameEntityImpl;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.linenumber.LineInfo;
@@ -27,31 +28,28 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 import java.util.Map;
 
 public class VariableDeclaration extends NameEntityImpl implements Cloneable {
-
-    /**
-     * name of variable, always first case
-     */
-    public String name;
+    @NonNull
+    public Name name;
+    @NonNull
     public Type type;
     private Object initialValue;
     @Nullable
     private LineInfo line;
-
     @Nullable
     private ExpressionContext context;
 
-    public VariableDeclaration(@NonNull String name,
-                               @NonNull Type type,
-                               @Nullable Object initialValue,
+    public VariableDeclaration(@NonNull Name name, @NonNull Type type, @Nullable Object initialValue,
                                @Nullable LineInfo line) {
         this(name, type, initialValue, line, null);
     }
 
-    public VariableDeclaration(@NonNull String name,
-                               @NonNull Type type,
-                               @Nullable Object initialValue,
-                               @Nullable LineInfo line,
-                               @Nullable ExpressionContext f) {
+    public VariableDeclaration(@NonNull String name, @NonNull Type type, @Nullable Object initialValue,
+                               @Nullable LineInfo line) {
+        this(Name.create(name), type, initialValue, line, null);
+    }
+
+    public VariableDeclaration(@NonNull Name name, @NonNull Type type, @Nullable Object initialValue,
+                               @Nullable LineInfo line, @Nullable ExpressionContext f) {
         this.name = name;
         this.type = type;
         this.line = line;
@@ -59,18 +57,21 @@ public class VariableDeclaration extends NameEntityImpl implements Cloneable {
         this.context = f;
     }
 
-    public VariableDeclaration(@NonNull String name, @NonNull Type type, @Nullable LineInfo line) {
+    public VariableDeclaration(@NonNull Name name, @NonNull Type type, @Nullable LineInfo line) {
         this(name, type, null, line, null);
     }
 
+    public VariableDeclaration(@NonNull Name name, @NonNull Type type) {
+        this(name, type, null, null, null);
+    }
+
     public VariableDeclaration(@NonNull String name, @NonNull Type type) {
-        this.name = name;
-        this.type = type;
-        this.line = new LineInfo(-1, "system");
+        this(Name.create(name), type, null, null, null);
     }
 
 
-    public String getName() {
+    @NonNull
+    public Name getName() {
         return name;
     }
 
@@ -97,7 +98,7 @@ public class VariableDeclaration extends NameEntityImpl implements Cloneable {
     }
 
 
-    public Object initialize(Map<String, Object> map) {
+    public Object initialize(Map<Name, Object> map) {
         Object value = initialValue == null ? type.initialize() : initialValue;
         map.put(name, value);
         return value;

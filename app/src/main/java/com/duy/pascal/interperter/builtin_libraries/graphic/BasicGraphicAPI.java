@@ -23,12 +23,14 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
-import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
+import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.runnable.ConsoleHandler;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
-import com.duy.pascal.interperter.ast.variablecontext.ContainsVariables;
 import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
+import com.duy.pascal.interperter.ast.variablecontext.ContainsVariables;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.builtin_libraries.crt.ColorUtils;
@@ -54,15 +56,14 @@ import com.duy.pascal.interperter.builtin_libraries.graphic.style.LineWidth;
 import com.duy.pascal.interperter.builtin_libraries.graphic.style.TextDirection;
 import com.duy.pascal.interperter.builtin_libraries.graphic.style.TextFont;
 import com.duy.pascal.interperter.builtin_libraries.graphic.style.TextJustify;
-import com.duy.pascal.interperter.imageprocessing.FloodFill;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RecordType;
-import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.runnable.ConsoleHandler;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
+import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
+import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.imageprocessing.FloodFill;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -104,7 +105,7 @@ public class BasicGraphicAPI implements PascalLibrary {
 
     @Override
     public void declareConstants(ExpressionContextMixin parentContext) {
-        Map<String, ConstantDefinition> constants = parentContext.getConstants();
+        Map<Name, ConstantDefinition> constants = parentContext.getConstants();
         ConstantDefinition constant;
         constant = new ConstantDefinition("grok".toLowerCase(), 1, new LineInfo(-1, "grok = 1;".toLowerCase()));
         constants.put(constant.getName(), constant);

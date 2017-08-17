@@ -19,6 +19,7 @@ package com.duy.pascal.interperter.ast.runtime_value.value;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.variablecontext.ContainsVariables;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 
@@ -31,7 +32,7 @@ import java.util.Set;
  * Created by Duy on 17-Apr-17.
  */
 public class RecordValue implements ContainsVariables {
-    protected HashMap<String, Object> variableMap = new HashMap<>();
+    protected HashMap<Name, Object> variableMap = new HashMap<>();
     protected ArrayList<VariableDeclaration> variables = new ArrayList<>();
 
     public RecordValue(ArrayList<VariableDeclaration> variables) {
@@ -39,7 +40,7 @@ public class RecordValue implements ContainsVariables {
         for (VariableDeclaration declaration : variables) {
             Type returnType = declaration.getType();
             if (declaration.getInitialValue() != null) {
-                variableMap.put(declaration.name.toLowerCase(), declaration.getInitialValue());
+                variableMap.put(declaration.name, declaration.getInitialValue());
             } else {
                 variableMap.put(declaration.name, returnType.initialize());
             }
@@ -54,22 +55,22 @@ public class RecordValue implements ContainsVariables {
         return variables;
     }
 
-    public Map<String, Object> getVariableMap() {
+    public HashMap<Name, Object> getVariableMap() {
         return variableMap;
     }
 
     @NonNull
     @Override
-    public Object getVar(String name) {
-        return variableMap.get(name.toLowerCase());
+    public Object getVar(Name name) {
+        return variableMap.get(name);
     }
 
     @Override
     public String toString() {
-        Set<Map.Entry<String, Object>> entries = variableMap.entrySet();
+        Set<Map.Entry<Name, Object>> entries = variableMap.entrySet();
         StringBuilder res = new StringBuilder();
         res.append("(");
-        for (Map.Entry<String, Object> entry : entries) {
+        for (Map.Entry<Name, Object> entry : entries) {
             res.append(entry.getKey()).append(":").append(entry.getValue()).append(";");
         }
         res.append(")");
@@ -77,8 +78,8 @@ public class RecordValue implements ContainsVariables {
     }
 
     @Override
-    public void setVar(String name, Object val) {
-        variableMap.put(name.toLowerCase(), val);
+    public void setVar(Name name, Object val) {
+        variableMap.put(name, val);
     }
 
     @NonNull
@@ -87,7 +88,7 @@ public class RecordValue implements ContainsVariables {
         ArrayList<VariableDeclaration> vars = new ArrayList<>();
         for (VariableDeclaration mVariable : variables) {
             vars.add(new VariableDeclaration(mVariable.getName(), mVariable.getType(),
-                    variableMap.get(mVariable.getName().toLowerCase()), mVariable.getLineNumber()));
+                    variableMap.get(mVariable.getName()), mVariable.getLineNumber()));
         }
         return new RecordValue(vars);
     }

@@ -24,6 +24,7 @@ import com.duy.pascal.interperter.ast.instructions.FieldReference;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.FieldAccess;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.frontend.debug.CallStack;
 
@@ -38,7 +39,7 @@ public class WithOnStack extends VariableContext {
     private VariableContext parentContext;
     private RuntimeExecutableCodeUnit<?> main;
     @SuppressWarnings("rawtypes")
-    private HashMap<String, FieldAccess> fieldsMap;
+    private HashMap<Name, FieldAccess> fieldsMap;
 
     @SuppressWarnings("rawtypes")
     WithOnStack(@NonNull VariableContext parentContext,
@@ -49,7 +50,7 @@ public class WithOnStack extends VariableContext {
 
         fieldsMap = new HashMap<>();
         for (FieldAccess fieldAccess : declaration.getFields()) {
-            fieldsMap.put(fieldAccess.getName().toLowerCase(), fieldAccess);
+            fieldsMap.put(fieldAccess.getName(), fieldAccess);
         }
         this.parentContext = parentContext;
         this.declaration = declaration;
@@ -59,7 +60,7 @@ public class WithOnStack extends VariableContext {
         return declaration;
     }
 
-    public HashMap<String, FieldAccess> getFieldsMap() {
+    public HashMap<Name, FieldAccess> getFieldsMap() {
         return fieldsMap;
     }
 
@@ -77,7 +78,7 @@ public class WithOnStack extends VariableContext {
      */
     @NonNull
     @Override
-    public Object getLocalVar(String name) throws RuntimePascalException {
+    public Object getLocalVar(Name name) throws RuntimePascalException {
         if (fieldsMap.containsKey(name)) {
             return fieldsMap.get(name).getReferenceImpl(parentContext, main);
         } else {
@@ -87,7 +88,7 @@ public class WithOnStack extends VariableContext {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean setLocalVar(String name, Object val) {
+    public boolean setLocalVar(Name name, Object val) {
         if (fieldsMap.containsKey(name)) {
             try {
                 FieldReference fieldReference = (FieldReference)
@@ -104,8 +105,8 @@ public class WithOnStack extends VariableContext {
     }
 
     @Override
-    public List<String> getUserDefineVariableNames() {
-        Set<String> names = fieldsMap.keySet();
+    public ArrayList<Name> getUserDefineVariableNames() {
+        Set<Name> names = fieldsMap.keySet();
         return new ArrayList<>(names);
     }
 
@@ -115,7 +116,7 @@ public class WithOnStack extends VariableContext {
     }
 
     @Override
-    public HashMap<String, ? extends Object> getMapVars() {
+    public HashMap<Name, ?> getMapVars() {
         return fieldsMap;
     }
 

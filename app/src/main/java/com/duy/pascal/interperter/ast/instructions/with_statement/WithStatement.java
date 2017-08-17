@@ -23,14 +23,15 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.instructions.Executable;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.FieldAccess;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.CustomType;
 import com.duy.pascal.interperter.declaration.lang.types.RecordType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
-import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.define.TypeIdentifierExpectException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.WordToken;
 import com.duy.pascal.interperter.tokens.basic.DoToken;
@@ -87,8 +88,7 @@ public class WithStatement {
                 RuntimeValue runtimeValue = grouperToken.getNextExpression(parent);
                 Type type = runtimeValue.getRuntimeType(parent).declType;
                 if (!(type instanceof RecordType)) {
-                    throw new TypeIdentifierExpectException(runtimeValue.getLineNumber(),
-                            "record", parent);
+                    throw new TypeIdentifierExpectException(runtimeValue.getLineNumber(), Name.create("record"), parent);
                 }
                 references.add(runtimeValue);
             } else {
@@ -143,7 +143,7 @@ public class WithStatement {
         @Override
         public RuntimeValue getIdentifierValue(WordToken name) throws ParsingException {
             for (FieldAccess field : fields) {
-                if (field.getName().equalsIgnoreCase(name.getName())) {
+                if (field.getName().equals(name.getName())) {
                     return field;
                 }
             }
@@ -151,7 +151,7 @@ public class WithStatement {
         }
 
         @Override
-        public VariableDeclaration getVariableDefinitionLocal(String ident) {
+        public VariableDeclaration getVariableDefinitionLocal(Name ident) {
             return super.getVariableDefinitionLocal(ident);
         }
     }

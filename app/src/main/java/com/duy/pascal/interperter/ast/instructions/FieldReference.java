@@ -2,21 +2,22 @@ package com.duy.pascal.interperter.ast.instructions;
 
 import com.duy.pascal.interperter.ast.runtime_value.references.Reference;
 import com.duy.pascal.interperter.ast.variablecontext.ContainsVariables;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 public class FieldReference implements Reference {
     private ContainsVariables container;
-    private String name;
+    private Name name;
     private static final String TAG = "FieldReference";
 
-    public FieldReference(ContainsVariables container, String name) {
+    public FieldReference(ContainsVariables container, Name name) {
         this.container = container;
         this.name = name;
     }
 
     @Override
     public String toString() {
-        return name;
+        return name.toString();
     }
 
     @Override

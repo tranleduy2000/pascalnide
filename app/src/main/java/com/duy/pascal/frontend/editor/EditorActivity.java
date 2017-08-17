@@ -40,10 +40,29 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.MenuEditor;
+import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.code.CompileManager;
+import com.duy.pascal.frontend.code_sample.activities.DocumentActivity;
+import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
+import com.duy.pascal.frontend.dialog.DialogFragmentFixExpectToken;
+import com.duy.pascal.frontend.dialog.DialogManager;
+import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
+import com.duy.pascal.frontend.editor.view.EditorView;
+import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
+import com.duy.pascal.frontend.setting.PascalPreferences;
+import com.duy.pascal.frontend.structure.DialogProgramStructure;
+import com.duy.pascal.frontend.structure.viewholder.StructureItem;
+import com.duy.pascal.frontend.structure.viewholder.StructureType;
+import com.duy.pascal.frontend.themefont.activities.ThemeFontActivity;
+import com.duy.pascal.frontend.utils.DonateUtils;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.builtin_libraries.io.IOLib;
 import com.duy.pascal.interperter.core.PascalCompiler;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
@@ -54,28 +73,9 @@ import com.duy.pascal.interperter.exceptions.parsing.define.MainProgramNotFoundE
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.source.ScriptSource;
-import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.MenuEditor;
-import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.code.CompileManager;
-import com.duy.pascal.frontend.code_sample.activities.DocumentActivity;
-import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
-import com.duy.pascal.frontend.dialog.DialogFragmentFixExpectToken;
-import com.duy.pascal.frontend.dialog.DialogManager;
-import com.duy.pascal.frontend.editor.completion.KeyWord;
-import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
-import com.duy.pascal.frontend.editor.view.EditorView;
-import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
-import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.structure.DialogProgramStructure;
-import com.duy.pascal.frontend.structure.viewholder.StructureType;
-import com.duy.pascal.frontend.themefont.activities.ThemeFontActivity;
-import com.duy.pascal.frontend.utils.DonateUtils;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -335,8 +335,8 @@ public class EditorActivity extends BaseEditorActivity implements
             if (fragment != null && fragment.getEditor() != null) {
                 ArrayList<InfoItem> data = new ArrayList<>();
 
-                ArrayListMultimap<String, AbstractFunction> callableFunctions = program.getCallableFunctions();
-                for (String name : callableFunctions.keySet()) {
+                ArrayListMultimap<Name, AbstractFunction> callableFunctions = program.getCallableFunctions();
+                for (Name name : callableFunctions.keySet()) {
                     for (AbstractFunction f : callableFunctions.get(name)) {
                         data.add(new InfoItem(StructureType.TYPE_FUNCTION,
                                 f.getName(), f.getDescription(), f.toString()));
@@ -356,9 +356,10 @@ public class EditorActivity extends BaseEditorActivity implements
 
 
                 EditorView editor = fragment.getEditor();
-                for (String s : KeyWord.ALL_KEY_WORD) {
-                    data.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
-                }
+                // TODO: 17-Aug-17 add keyword
+//                for (String s : KeyWord.ALL_KEY_WORD) {
+//                    data.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
+//                }
                 editor.setSuggestData(data);
             }
 
@@ -676,7 +677,7 @@ public class EditorActivity extends BaseEditorActivity implements
             }
             ExpressionContextMixin program = pascalProgram.getProgram();
 
-            com.duy.pascal.frontend.structure.viewholder.StructureItem node = getNode(program, pascalProgram.getProgramName(), StructureType.TYPE_PROGRAM, 0);
+            StructureItem node = getNode(program, pascalProgram.getProgramName(), StructureType.TYPE_PROGRAM, 0);
 
             DialogProgramStructure dialog = DialogProgramStructure.newInstance(node);
             dialog.show(getSupportFragmentManager(), DialogProgramStructure.TAG);
@@ -685,39 +686,39 @@ public class EditorActivity extends BaseEditorActivity implements
         }
     }
 
-    private com.duy.pascal.frontend.structure.viewholder.StructureItem getNode(ExpressionContextMixin context, String nameOfNode, int type, int depth) {
-        com.duy.pascal.frontend.structure.viewholder.StructureItem node = new com.duy.pascal.frontend.structure.viewholder.StructureItem(type, nameOfNode);
+    private StructureItem getNode(ExpressionContextMixin context, Name nameOfNode, int type, int depth) {
+        StructureItem node = new StructureItem(type, nameOfNode.getOriginName());
         String tab = "";
         for (int i = 0; i < depth; i++) tab += "\t";
-        Map<String, ConstantDefinition> constants = context.getConstants();
+        Map<Name, ConstantDefinition> constants = context.getConstants();
         ArrayList<InfoItem> listNameConstants = context.getListNameConstants();
         for (InfoItem name : listNameConstants) {
-            node.addNode(new com.duy.pascal.frontend.structure.viewholder.StructureItem(StructureType.TYPE_CONST,
-                    name + " = " + constants.get(name.getName().toLowerCase()).getValue()));
+            node.addNode(new StructureItem(StructureType.TYPE_CONST,
+                    name + " = " + constants.get(name.getName()).getValue()));
         }
 
-        ArrayList<String> libraries = context.getLibrariesNames();
-        for (String name : libraries) {
+        ArrayList<Name> libraries = context.getLibrariesNames();
+        for (Name name : libraries) {
             DLog.d(TAG, tab + "showProgramStructure: library " + name);
-            node.addNode(new com.duy.pascal.frontend.structure.viewholder.StructureItem(StructureType.TYPE_LIBRARY, name));
+            node.addNode(new StructureItem(StructureType.TYPE_LIBRARY, name.getOriginName()));
         }
 
         List<VariableDeclaration> variables = context.getVariables();
         for (VariableDeclaration variableDeclaration : variables) {
             DLog.d(TAG, tab + "showProgramStructure: var " + variableDeclaration.getName() + " = "
                     + variableDeclaration.getInitialValue() + " " + variableDeclaration.getType());
-            node.addNode(new com.duy.pascal.frontend.structure.viewholder.StructureItem(StructureType.TYPE_VARIABLE,
+            node.addNode(new StructureItem(StructureType.TYPE_VARIABLE,
                     variableDeclaration.getName() + ": " + variableDeclaration.getType()));
         }
 
-        ListMultimap<String, AbstractFunction> callableFunctions = context.getCallableFunctions();
+        ArrayListMultimap<Name, AbstractFunction> callableFunctions = context.getCallableFunctions();
         ArrayList<InfoItem> listNameFunctions = context.getListNameFunctions();
         for (InfoItem name : listNameFunctions) {
-            List<AbstractFunction> abstractFunctions = callableFunctions.get(name.getName().toLowerCase());
+            List<AbstractFunction> abstractFunctions = callableFunctions.get(name.getName());
             for (AbstractFunction function : abstractFunctions) {
                 if (function instanceof FunctionDeclaration) {
                     FunctionDeclaration functionInPascal = (FunctionDeclaration) function;
-                    com.duy.pascal.frontend.structure.viewholder.StructureItem child = getNode(
+                    StructureItem child = getNode(
                             functionInPascal.declaration,
                             ((FunctionDeclaration) function).name,
                             functionInPascal.isProcedure() ? StructureType.TYPE_PROCEDURE : StructureType.TYPE_FUNCTION,

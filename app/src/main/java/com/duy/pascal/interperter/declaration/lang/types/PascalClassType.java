@@ -3,20 +3,21 @@ package com.duy.pascal.interperter.declaration.lang.types;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
-import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
-import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
-import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
-import com.duy.pascal.interperter.declaration.classunit.ClassConstructor;
-import com.duy.pascal.interperter.ast.runtime_value.value.ClassConstructorCall;
-import com.duy.pascal.interperter.ast.expressioncontext.ClassExpressionContext;
-import com.duy.pascal.interperter.declaration.classunit.PascalClassDeclaration;
 import com.duy.pascal.interperter.ast.codeunit.RuntimePascalClass;
+import com.duy.pascal.interperter.ast.expressioncontext.ClassExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.interperter.ast.runtime_value.value.ClassConstructorCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.classunit.ClassConstructor;
+import com.duy.pascal.interperter.declaration.classunit.PascalClassDeclaration;
+import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
+import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
+import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
+import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.define.AmbiguousFunctionCallException;
 import com.duy.pascal.interperter.exceptions.parsing.define.BadFunctionCallException;
@@ -33,7 +34,7 @@ public class PascalClassType extends ObjectType {
     private PascalClassDeclaration mPascalClassDeclaration;
     private ExpressionContext parent;
 
-    private ArrayListMultimap<String, ClassConstructor> mConstructors = ArrayListMultimap.create();
+    private ArrayListMultimap<Name, ClassConstructor> mConstructors = ArrayListMultimap.create();
 
     public PascalClassType(CodeUnit root, ExpressionContext parent) throws ParsingException {
         this.parent = parent;
@@ -46,14 +47,14 @@ public class PascalClassType extends ObjectType {
         addConstructor(def);
     }
 
-    public ArrayListMultimap<String, ClassConstructor> getConstructors() {
+    public ArrayListMultimap<Name, ClassConstructor> getConstructors() {
         return mConstructors;
     }
 
     public ClassConstructorCall generateConstructor(WordToken name, List<RuntimeValue> arguments,
                                                     ExpressionContext expressionContext)
             throws ParsingException {
-        List<ClassConstructor> classConstructors = mConstructors.get(name.getName().toLowerCase());
+        List<ClassConstructor> classConstructors = mConstructors.get(name.getName());
 
         boolean matching = false;
 
@@ -121,12 +122,12 @@ public class PascalClassType extends ObjectType {
 
     @NonNull
     @Override
-    public String getName() {
+    public Name getName() {
         return super.getName();
     }
 
     @Override
-    public void setName(String name) {
+    public void setName(Name name) {
         super.setName(name);
     }
 
@@ -189,7 +190,7 @@ public class PascalClassType extends ObjectType {
     }
 
     @Override
-    public Type getMemberType(String name) throws ParsingException {
+    public Type getMemberType(Name name) throws ParsingException {
         ExpressionContextMixin context = mPascalClassDeclaration.getContext();
 
         VariableDeclaration var = context.getVariableDefinitionLocal(name);

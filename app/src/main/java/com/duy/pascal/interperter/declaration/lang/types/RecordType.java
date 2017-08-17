@@ -22,6 +22,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
@@ -107,9 +108,9 @@ public class RecordType extends CustomType implements Cloneable {
      * @param name - name of field
      * @return index of field in list variable of record type
      */
-    public VariableDeclaration findField(String name) {
+    public VariableDeclaration findField(Name name) {
         for (VariableDeclaration variableDeclaration : variableDeclarations) {
-            if (variableDeclaration.getName().equalsIgnoreCase(name)) return variableDeclaration;
+            if (variableDeclaration.getName().equals(name)) return variableDeclaration;
         }
         return null;
 
@@ -121,9 +122,9 @@ public class RecordType extends CustomType implements Cloneable {
         return super.initialize();
     }
 
-    public boolean setFieldValue(String name, Object o) {
+    public boolean setFieldValue(Name name, Object o) {
         for (VariableDeclaration variableDeclaration : variableDeclarations) {
-            if (variableDeclaration.getName().equalsIgnoreCase(name)) {
+            if (variableDeclaration.getName().equals(name)) {
                 variableDeclaration.setInitialValue(o);
                 return true;
             }

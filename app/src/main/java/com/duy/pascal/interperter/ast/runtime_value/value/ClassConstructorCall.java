@@ -18,20 +18,21 @@ package com.duy.pascal.interperter.ast.runtime_value.value;
 
 import android.support.annotation.NonNull;
 
+import com.duy.pascal.frontend.debug.DebugManager;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.interperter.declaration.classunit.ClassConstructor;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.instructions.Executable;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.classunit.ClassConstructor;
+import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
+import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.MethodReflectionException;
-import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
-import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.utils.ArrayUtil;
-import com.duy.pascal.frontend.debug.DebugManager;
 
 /**
  * Created by Duy on 17-Jun-17.
@@ -39,7 +40,7 @@ import com.duy.pascal.frontend.debug.DebugManager;
 
 public class ClassConstructorCall extends FunctionCall {
     private ClassConstructor constructor;
-    private String idName;
+    private Name idName;
     private LineInfo line;
 
     public ClassConstructorCall(ClassConstructor constructor,
@@ -52,11 +53,7 @@ public class ClassConstructorCall extends FunctionCall {
         this.line = line;
     }
 
-    public String getIdName() {
-        return idName;
-    }
-
-    public void setIdName(String idName) {
+    public void setIdName(Name idName) {
         this.idName = idName;
     }
 
@@ -120,7 +117,7 @@ public class ClassConstructorCall extends FunctionCall {
     }
 
     @Override
-    protected String getFunctionName() {
+    protected Name getFunctionName() {
         return constructor.getName();
     }
 

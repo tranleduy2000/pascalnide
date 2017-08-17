@@ -29,6 +29,7 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.debugable.DebuggableExecutableReturnValue;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
@@ -38,13 +39,13 @@ import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
  * Created by Duy on 16-Jun-17.
  */
 public class ClassFunctionCall extends DebuggableExecutableReturnValue {
-    private String container;
+    private Name container;
     private FunctionCall function;
     private LineInfo lineInfo;
     private ClassExpressionContext declaration;
     private VariableContext classVarContext;
 
-    public ClassFunctionCall(String container, FunctionCall function,
+    public ClassFunctionCall(Name container, FunctionCall function,
                              LineInfo lineInfo, ClassExpressionContext declaration) {
         this.container = container;
         this.function = function;

@@ -19,6 +19,7 @@ package com.duy.pascal.interperter.systemfunction.builtin;
 
 import android.support.annotation.NonNull;
 
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
@@ -49,8 +50,9 @@ public class AbstractMethodDeclaration extends AbstractFunction {
         return "Template Plugin";
     }
 
+    @NonNull
     @Override
-    public String getName() {
+    public Name getName() {
         return t.getName();
     }
 

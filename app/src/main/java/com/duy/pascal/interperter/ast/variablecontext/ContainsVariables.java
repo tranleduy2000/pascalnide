@@ -19,13 +19,14 @@ package com.duy.pascal.interperter.ast.variablecontext;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 public interface ContainsVariables extends Cloneable {
     @NonNull
-    Object getVar(String name) throws RuntimePascalException;
+    Object getVar(Name name) throws RuntimePascalException;
 
-    void setVar(String name, Object val);
+    void setVar(Name name, Object val);
 
     @Nullable
     ContainsVariables clone();

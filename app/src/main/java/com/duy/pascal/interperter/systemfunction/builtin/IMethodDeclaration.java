@@ -21,6 +21,7 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
@@ -31,7 +32,7 @@ public interface IMethodDeclaration {
     /**
      * @return simple name of method;
      */
-    String getName();
+    Name getName();
 
     FunctionCall generateCall(LineInfo line, RuntimeValue[] values,
                               ExpressionContext f) throws ParsingException;

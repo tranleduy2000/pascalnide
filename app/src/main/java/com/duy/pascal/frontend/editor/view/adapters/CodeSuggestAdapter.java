@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
+import com.duy.pascal.interperter.declaration.Name;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,7 +55,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<InfoItem> {
             if (resultValue == null) {
                 return "";
             }
-            return ((InfoItem) resultValue).getName();
+            return ((InfoItem) resultValue).getName().getOriginName();
         }
 
         @Override
@@ -63,7 +64,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<InfoItem> {
             suggestion.clear();
             if (constraint != null) {
                 for (InfoItem item : clone) {
-                    if (item.compareTo(constraint.toString()) == 0) {
+                    if (item.compareTo(Name.create(constraint.toString())) == 0) {
                         suggestion.add(item);
                     }
                 }
@@ -112,8 +113,8 @@ public class CodeSuggestAdapter extends ArrayAdapter<InfoItem> {
 
         final InfoItem item = getItem(position);
 
-        TextView txtName = (TextView) convertView.findViewById(R.id.txt_title);
-        txtName.setText(item.getShow() != null ? item.getShow() : item.getName());
+        TextView txtName = convertView.findViewById(R.id.txt_title);
+        txtName.setText(item.snipet() != null ? item.snipet() : item.getName().getOriginName());
         switch (item.getType()) {
             case StructureType.TYPE_KEY_WORD:
                 txtName.setTextColor(colorKeyWord);

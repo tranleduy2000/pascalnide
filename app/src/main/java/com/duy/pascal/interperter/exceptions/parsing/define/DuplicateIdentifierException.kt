@@ -17,6 +17,7 @@
 package com.duy.pascal.interperter.exceptions.parsing.define
 
 import com.duy.pascal.interperter.declaration.NamedEntity
+import com.duy.pascal.interperter.declaration.Name
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException
 
 class DuplicateIdentifierException(previous: NamedEntity, current: NamedEntity) :
@@ -24,7 +25,7 @@ class DuplicateIdentifierException(previous: NamedEntity, current: NamedEntity) 
                 "${current.entityType} ${current.name} conflicts with previously defined " +
                         "${previous.entityType} with the same name defined at ${previous.lineNumber}") {
     var type: String
-    var name: String? = null
+    var name: Name? = null
     var preType: String
     var preLine: String
 

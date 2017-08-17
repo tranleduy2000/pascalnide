@@ -18,18 +18,19 @@ package com.duy.pascal.interperter.builtin_libraries.crt;
 
 import android.graphics.Color;
 
-import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
-import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
-import com.duy.pascal.interperter.builtin_libraries.android.media.AndroidToneGeneratorLib;
-import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.runtime.WrongArgsException;
 import com.duy.pascal.frontend.runnable.ConsoleHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleScreen;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.frontend.view.exec_screen.console.TextRenderer;
+import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
+import com.duy.pascal.interperter.builtin_libraries.android.media.AndroidToneGeneratorLib;
+import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
+import com.duy.pascal.interperter.exceptions.runtime.WrongArgsException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -108,48 +109,48 @@ public class CrtLib implements PascalLibrary {
 
     @Override
     public void declareConstants(ExpressionContextMixin parentContext) {
-        Map<String, ConstantDefinition> constants = parentContext.getConstants();
+        Map<Name, ConstantDefinition> constants = parentContext.getConstants();
         ConstantDefinition colorConst;
-        colorConst = new ConstantDefinition("black".toLowerCase(), 0, new LineInfo(-1, "black = 0".toLowerCase()));
+        colorConst = new ConstantDefinition("Black", 0, new LineInfo(-1, "black = 0"));
         constants.put(colorConst.getName(), colorConst);
-        colorConst = new ConstantDefinition("Blue".toLowerCase(), 1, new LineInfo(-1, "Blue = 1".toLowerCase()));
+        colorConst = new ConstantDefinition("Blue", 1, new LineInfo(-1, "Blue = 1"));
         constants.put(colorConst.getName(), colorConst);
-        colorConst = new ConstantDefinition("Green".toLowerCase(), 2, new LineInfo(-1, "Green = 2".toLowerCase()));
+        colorConst = new ConstantDefinition("Green", 2, new LineInfo(-1, "Green = 2"));
         constants.put(colorConst.getName(), colorConst);
-        colorConst = new ConstantDefinition("Cyan".toLowerCase(), 3, new LineInfo(-1, "Cyan = 3".toLowerCase()));
+        colorConst = new ConstantDefinition("Cyan", 3, new LineInfo(-1, "Cyan = 3"));
         constants.put(colorConst.getName(), colorConst);
-        colorConst = new ConstantDefinition("Red".toLowerCase(), 4, new LineInfo(-1, "Red = 4".toLowerCase()));
+        colorConst = new ConstantDefinition("Red", 4, new LineInfo(-1, "Red = 4"));
         constants.put(colorConst.getName(), colorConst);
-        colorConst = new ConstantDefinition("Magenta".toLowerCase(), 5, new LineInfo(-1, "Magenta = 5".toLowerCase()));
+        colorConst = new ConstantDefinition("Magenta", 5, new LineInfo(-1, "Magenta = 5"));
         constants.put(colorConst.getName(), colorConst);
-        colorConst = new ConstantDefinition("Brown".toLowerCase(), 6, new LineInfo(-1, "Brown = 6".toLowerCase()));
+        colorConst = new ConstantDefinition("Brown", 6, new LineInfo(-1, "Brown = 6"));
         constants.put(colorConst.getName(), colorConst);
-        colorConst = new ConstantDefinition("LightGray".toLowerCase(), 7, new LineInfo(-1, "LightGray  = 7".toLowerCase()));
+        colorConst = new ConstantDefinition("LightGray", 7, new LineInfo(-1, "LightGray  = 7"));
         constants.put(colorConst.getName(), colorConst);
-        colorConst = new ConstantDefinition("DarkGray".toLowerCase(), 8, new LineInfo(-1, "DarkGray = 8".toLowerCase()));
+        colorConst = new ConstantDefinition("DarkGray", 8, new LineInfo(-1, "DarkGray = 8"));
         constants.put(colorConst.getName(), colorConst);
-        colorConst = new ConstantDefinition("LightBlue".toLowerCase(), 9, new LineInfo(-1, "LightBlue = 9".toLowerCase()));
+        colorConst = new ConstantDefinition("LightBlue", 9, new LineInfo(-1, "LightBlue = 9"));
         constants.put(colorConst.getName(), colorConst);
-        colorConst = new ConstantDefinition("LightGreen".toLowerCase(), 10, new LineInfo(-1, "LightGreen = 10".toLowerCase()));
+        colorConst = new ConstantDefinition("LightGreen", 10, new LineInfo(-1, "LightGreen = 10"));
         constants.put(colorConst.getName(), colorConst);
-        colorConst = new ConstantDefinition("LightCyan".toLowerCase(), 11, new LineInfo(-1, "LightCyan = 11".toLowerCase()));
+        colorConst = new ConstantDefinition("LightCyan", 11, new LineInfo(-1, "LightCyan = 11"));
         constants.put(colorConst.getName(), colorConst);
-        colorConst = new ConstantDefinition("LightRed".toLowerCase(), 12, new LineInfo(-1, "LightRed = 12".toLowerCase()));
+        colorConst = new ConstantDefinition("LightRed", 12, new LineInfo(-1, "LightRed = 12"));
         constants.put(colorConst.getName(), colorConst);
-        colorConst = new ConstantDefinition("LightMagenta".toLowerCase(), 13, new LineInfo(-1, "LightMagenta = 13".toLowerCase()));
+        colorConst = new ConstantDefinition("LightMagenta", 13, new LineInfo(-1, "LightMagenta = 13"));
         constants.put(colorConst.getName(), colorConst);
-        colorConst = new ConstantDefinition("Yellow".toLowerCase(), 14, new LineInfo(-1, " Yellow = 14".toLowerCase()));
+        colorConst = new ConstantDefinition("Yellow", 14, new LineInfo(-1, " Yellow = 14"));
         constants.put(colorConst.getName(), colorConst);
-        colorConst = new ConstantDefinition("White".toLowerCase(), 15, new LineInfo(-1, "White = 15".toLowerCase()));
+        colorConst = new ConstantDefinition("White", 15, new LineInfo(-1, "White = 15"));
         constants.put(colorConst.getName(), colorConst);
 
-        constants.put("pi", new ConstantDefinition("pi", Math.PI));
-        constants.put("bw40", new ConstantDefinition("bw40", 0));
-        constants.put("bw80", new ConstantDefinition("bw80", 2));
-        constants.put("co40", new ConstantDefinition("co40", 1));
-        constants.put("co80", new ConstantDefinition("co80", 3));
-        constants.put("c80", new ConstantDefinition("c80", 3));
-        constants.put("mono", new ConstantDefinition("mono", 7));
+        constants.put(Name.create("pi"), new ConstantDefinition("Pi", Math.PI));
+        constants.put(Name.create("bw40"), new ConstantDefinition("bw40", 0));
+        constants.put(Name.create("bw80"), new ConstantDefinition("bw80", 2));
+        constants.put(Name.create("co40"), new ConstantDefinition("co40", 1));
+        constants.put(Name.create("co80"), new ConstantDefinition("co80", 3));
+        constants.put(Name.create("c80"), new ConstantDefinition("c80", 3));
+        constants.put(Name.create("mono"), new ConstantDefinition("mono", 7));
     }
 
     @Override

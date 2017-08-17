@@ -22,6 +22,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RecordType;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
@@ -107,7 +108,7 @@ public class DosLib implements PascalLibrary {
         listVar.add(new VariableDeclaration("day", BasicType.Integer));
         listVar.add(new VariableDeclaration("hour", BasicType.Integer));
         listVar.add(new VariableDeclaration("min", BasicType.Integer));
-        listVar.add(new VariableDeclaration("sec", BasicType.Integer));
+        listVar.add(new VariableDeclaration("sec  ", BasicType.Integer));
         RecordType recordType = new RecordType(listVar);
         parentContext.declareTypedef("DateTime", recordType);
     }
@@ -138,24 +139,24 @@ public class DosLib implements PascalLibrary {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date(time));
         RecordValue v = pack.get();
-        v.setVar("year", calendar.get(Calendar.YEAR));
-        v.setVar("month", calendar.get(Calendar.MONTH));
-        v.setVar("day", calendar.get(Calendar.DAY_OF_MONTH));
-        v.setVar("hour", calendar.get(Calendar.HOUR));
-        v.setVar("min", calendar.get(Calendar.MINUTE));
-        v.setVar("sec", calendar.get(Calendar.SECOND));
+        v.setVar(Name.create("year"), calendar.get(Calendar.YEAR));
+        v.setVar(Name.create("month"), calendar.get(Calendar.MONTH));
+        v.setVar(Name.create("day"), calendar.get(Calendar.DAY_OF_MONTH));
+        v.setVar(Name.create("hour"), calendar.get(Calendar.HOUR));
+        v.setVar(Name.create("min"), calendar.get(Calendar.MINUTE));
+        v.setVar(Name.create("sec"), calendar.get(Calendar.SECOND));
         pack.set(v);
     }
 
     @PascalMethod(description = "Pack DateTime value to a packed-time format.")
     public void packTime(PascalReference<RecordValue> datetime, PascalReference<Long> p) throws RuntimePascalException {
         RecordValue v = datetime.get();
-        int year = (int) v.getVar("year");
-        int month = (int) v.getVar("month");
-        int day = (int) v.getVar("day");
-        int hour = (int) v.getVar("hour");
-        int minus = (int) v.getVar("min");
-        int sec = (int) v.getVar("sec");
+        int year = (int) v.getVar(Name.create("year"));
+        int month = (int) v.getVar(Name.create("month"));
+        int day = (int) v.getVar(Name.create("day"));
+        int hour = (int) v.getVar(Name.create("hour"));
+        int minus = (int) v.getVar(Name.create("min"));
+        int sec = (int) v.getVar(Name.create("sec"));
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day, hour, minus, sec);
         long time = calendar.getTime().getTime();

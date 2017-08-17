@@ -19,25 +19,26 @@ package com.duy.pascal.interperter.declaration.lang.function;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalPointer;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.builtin_libraries.annotations.ArrayBoundsInfo;
 import com.duy.pascal.interperter.builtin_libraries.annotations.MethodTypeData;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.VarargsType;
 import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.IntegerSubrangeType;
 import com.duy.pascal.interperter.declaration.lang.types.util.TypeUtils;
-import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.InvocationTargetException;
@@ -70,7 +71,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
      */
     public MethodDeclaration(@NonNull Object owner, @NonNull Method m, Type returnType) {
         this.owner = owner;
-        method = m;
+        this.method = m;
         this.returnType = returnType;
     }
 
@@ -88,19 +89,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
         this.listParams = listParams;
     }
 
-    @Override
-    public Object call(VariableContext f,
-                       RuntimeExecutableCodeUnit<?> main, Object[] arguments)
-            throws IllegalArgumentException, IllegalAccessException,
-            InvocationTargetException,
-            RuntimePascalException {
-        if (owner instanceof RuntimeValue) {
-            owner = ((RuntimeValue) owner).getValue(f, main);
-        }
-        return method.invoke(owner, arguments);
-    }
-
-    private java.lang.reflect.Type getFirstGenericType(java.lang.reflect.Type t) {
+    private static java.lang.reflect.Type getFirstGenericType(java.lang.reflect.Type t) {
         if (!(t instanceof ParameterizedType)) {
             return Object.class;
         }
@@ -112,7 +101,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
         return parameters[0];
     }
 
-    private Type convertBasicType(java.lang.reflect.Type javatype) {
+    private static Type convertBasicType(java.lang.reflect.Type javatype) {
         if (javatype == PascalPointer.class
                 || (javatype instanceof ParameterizedType && ((ParameterizedType) javatype)
                 .getRawType() == PascalPointer.class)) {
@@ -131,7 +120,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
         }
     }
 
-    private Type convertArrayType(java.lang.reflect.Type javatype, Iterator<IntegerSubrangeType> arraysizes) {
+    private static Type convertArrayType(java.lang.reflect.Type javatype, Iterator<IntegerSubrangeType> arraysizes) {
         java.lang.reflect.Type subtype;
         IntegerSubrangeType arrayinfo = null;
         boolean isArray = false;
@@ -155,8 +144,8 @@ public class MethodDeclaration extends AbstractCallableFunction {
         }
     }
 
-    private RuntimeType convertReferenceType(java.lang.reflect.Type javatype,
-                                             Iterator<IntegerSubrangeType> arraysizes) {
+    private static RuntimeType convertReferenceType(java.lang.reflect.Type javatype,
+                                                    Iterator<IntegerSubrangeType> arraysizes) {
         java.lang.reflect.Type subtype = javatype;
         boolean reference_argument = javatype == PascalReference.class
                 || (javatype instanceof ParameterizedType && ((ParameterizedType) javatype)
@@ -168,8 +157,8 @@ public class MethodDeclaration extends AbstractCallableFunction {
         return new RuntimeType(arraytype, reference_argument);
     }
 
-    private RuntimeType deducePascalTypeFromJavaTypeAndAnnotations(java.lang.reflect.Type javatype,
-                                                                   ArrayBoundsInfo annotation) {
+    private static RuntimeType deducePascalTypeFromJavaTypeAndAnnotations(java.lang.reflect.Type javatype,
+                                                                          ArrayBoundsInfo annotation) {
 
 
         List<IntegerSubrangeType> arrayinfo = new ArrayList<>();
@@ -185,6 +174,18 @@ public class MethodDeclaration extends AbstractCallableFunction {
         Iterator<IntegerSubrangeType> iterator = arrayinfo.iterator();
 
         return convertReferenceType(javatype, iterator);
+    }
+
+    @Override
+    public Object call(VariableContext f,
+                       RuntimeExecutableCodeUnit<?> main, Object[] arguments)
+            throws IllegalArgumentException, IllegalAccessException,
+            InvocationTargetException,
+            RuntimePascalException {
+        if (owner instanceof RuntimeValue) {
+            owner = ((RuntimeValue) owner).getValue(f, main);
+        }
+        return method.invoke(owner, arguments);
     }
 
     @Override
@@ -211,9 +212,10 @@ public class MethodDeclaration extends AbstractCallableFunction {
         return result;
     }
 
+    @NonNull
     @Override
-    public String getName() {
-        return method.getName();
+    public Name getName() {
+        return Name.create(method.getName());
     }
 
 
@@ -224,15 +226,18 @@ public class MethodDeclaration extends AbstractCallableFunction {
 
     @Override
     public Type returnType() {
-        Class<?> result = method.getReturnType();
-        if (result == PascalReference.class) {
-            result = (Class<?>) ((ParameterizedType) method
-                    .getGenericReturnType()).getActualTypeArguments()[0];
+        if (returnType == null) {
+            Class<?> result = method.getReturnType();
+            if (result == PascalReference.class) {
+                result = (Class<?>) ((ParameterizedType) method
+                        .getGenericReturnType()).getActualTypeArguments()[0];
+            }
+            if (result.isPrimitive()) {
+                result = TypeUtils.getClassForType(result);
+            }
+            this.returnType = BasicType.create(result);
         }
-        if (result.isPrimitive()) {
-            result = TypeUtils.getClassForType(result);
-        }
-        return BasicType.create(result);
+        return returnType;
     }
 
     @NonNull

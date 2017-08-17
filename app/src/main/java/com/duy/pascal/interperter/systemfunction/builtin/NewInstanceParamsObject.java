@@ -27,6 +27,7 @@ import com.duy.pascal.interperter.ast.instructions.FieldReference;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
@@ -48,8 +49,9 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
                     new VarargsType(new RuntimeType(BasicType.create(Object.class), false))};
 
     @Override
-    public String getName() {
-        return "new".toLowerCase();
+     public Name getName() {
+        return Name.create("New");
+
     }
 
     @Override
@@ -79,7 +81,7 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
         return null;
     }
 
-    private class InstanceObjectCall extends FunctionCall {
+    private class InstanceObjectCall extends BuiltinFunctionCall {
 
         private RuntimeValue pointer;
         private RuntimeType runtimeType;
@@ -128,7 +130,7 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
         }
 
         @Override
-        protected String getFunctionName() {
+        protected String getFunctionNameImpl() {
             return "new";
         }
 

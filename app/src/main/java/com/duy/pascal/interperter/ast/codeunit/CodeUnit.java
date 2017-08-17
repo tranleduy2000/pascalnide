@@ -7,6 +7,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.instructions.Executable;
 import com.duy.pascal.interperter.config.ProgramConfig;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
 import com.duy.pascal.interperter.source.ScriptSource;
@@ -21,7 +22,7 @@ import java.util.List;
 public abstract class CodeUnit {
     public ExpressionContextMixin context;
     @Nullable
-    protected String programName;
+    protected Name programName;
     protected ProgramConfig config = new ProgramConfig();
     private String sourceName;
     private List<ScriptSource> includeDirectories;
@@ -78,7 +79,7 @@ public abstract class CodeUnit {
     public abstract RuntimeCodeUnit<? extends CodeUnit> generate();
 
     @Nullable
-    public String getProgramName() {
+    public Name getProgramName() {
         return programName;
     }
 

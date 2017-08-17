@@ -211,6 +211,7 @@ class FileEntry {
         for (Object o : objects) {
             try {
                 mWriter.write(o.toString());
+                mWriter.flush();
             } catch (IOException e) {
                 throw new PascalIOException(e);
             }

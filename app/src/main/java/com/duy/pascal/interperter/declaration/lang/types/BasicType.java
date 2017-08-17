@@ -11,6 +11,7 @@ import com.duy.pascal.interperter.ast.runtime_value.value.boxing.StringBoxer;
 import com.duy.pascal.interperter.ast.runtime_value.value.boxing.StringBuilderBoxer;
 import com.duy.pascal.interperter.ast.runtime_value.value.cloning.StringBuilderCloner;
 import com.duy.pascal.interperter.declaration.Modifier;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.converter.StringBuilderLimitBoxer;
 import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.SubrangeType;
@@ -61,8 +62,8 @@ public enum BasicType implements Type {
         public RuntimeValue convert(RuntimeValue other, ExpressionContext f)
                 throws ParsingException {
             if (other instanceof ConstantAccess) {
-                String name = ((ConstantAccess) other).getName();
-                if (name != null && name.equalsIgnoreCase("null")) {
+                Name name = ((ConstantAccess) other).getName();
+                if (name != null && name.equals("null")) {
                     return other;
                 }
             }
@@ -212,7 +213,7 @@ public enum BasicType implements Type {
 
     public Class clazz;
     private LineInfo lineInfo;
-    private String name;
+    private Name name;
 
     BasicType(Class name) {
         clazz = name;
@@ -346,12 +347,12 @@ public enum BasicType implements Type {
 
     @NonNull
     @Override
-    public String getName() {
+    public Name getName() {
         return name;
     }
 
     @Override
-    public void setName(String name) {
+    public void setName(Name name) {
         this.name = name;
     }
 

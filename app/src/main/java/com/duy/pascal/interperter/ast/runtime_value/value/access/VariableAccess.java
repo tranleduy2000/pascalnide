@@ -22,22 +22,23 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.instructions.FieldReference;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.references.Reference;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.debugable.DebuggableAssignableValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class VariableAccess extends DebuggableAssignableValue {
-    private String name;
+    private Name name;
     private LineInfo line;
     @NonNull
     private ExpressionContext declaration;
 
-    public VariableAccess(String name, LineInfo line, @NonNull ExpressionContext f) {
+    public VariableAccess(Name name, LineInfo line, @NonNull ExpressionContext f) {
         this.name = name;
         this.line = line;
         this.declaration = f;
@@ -48,7 +49,7 @@ public class VariableAccess extends DebuggableAssignableValue {
         return declaration;
     }
 
-    public String getName() {
+    public Name getName() {
         return name;
     }
 
@@ -84,7 +85,7 @@ public class VariableAccess extends DebuggableAssignableValue {
 
     @Override
     public String toString() {
-        return name;
+        return name.toString();
     }
 
     @Override

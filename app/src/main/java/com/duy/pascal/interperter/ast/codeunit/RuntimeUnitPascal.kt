@@ -51,7 +51,7 @@ class RuntimeUnitPascal : RuntimeExecutableCodeUnit<PascalUnitDeclaration> {
     }
 
     override fun toString(): String {
-        return declaration.programName!!
+        return declaration.programName!!.toString()
     }
 
 }

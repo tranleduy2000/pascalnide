@@ -23,18 +23,19 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.instructions.Executable;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.JavaClassBasedType;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 /**
  * Casts an object to the class or the interface represented
@@ -46,8 +47,9 @@ public class CastObjectFunction implements IMethodDeclaration {
                     new RuntimeType(new JavaClassBasedType(Object.class), false)}; //other
 
     @Override
-    public String getName() {
-        return "cast";
+    public Name getName() {
+        return Name.create("Cast");
+
     }
 
     @Override
@@ -80,7 +82,7 @@ public class CastObjectFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class InstanceObjectCall extends FunctionCall {
+    private class InstanceObjectCall extends BuiltinFunctionCall {
         private RuntimeValue value;
         private Class<?> storageClass;
         private LineInfo line;
@@ -116,8 +118,8 @@ public class CastObjectFunction implements IMethodDeclaration {
         }
 
         @Override
-        protected String getFunctionName() {
-            return "cast";
+        protected String getFunctionNameImpl() {
+            return "Cast";
         }
 
         @Override

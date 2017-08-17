@@ -19,6 +19,7 @@ package com.duy.pascal.interperter.ast.variablecontext;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
@@ -32,11 +33,11 @@ import java.util.List;
 
 public class FunctionOnStack extends VariableContext {
 
-    private HashMap<String, Object> mapVars = new HashMap<>();
-    private HashMap<String, PascalReference> mapReferences = new HashMap<>();
+    private HashMap<Name, Object> mapVars = new HashMap<>();
+    private HashMap<Name, PascalReference> mapReferences = new HashMap<>();
 
-    private ArrayList<String> localVarsName = new ArrayList<>();
-    private ArrayList<String> paramsName = new ArrayList<>();
+    private ArrayList<Name> localVarsName = new ArrayList<>();
+    private ArrayList<Name> paramsName = new ArrayList<>();
 
     private FunctionDeclaration prototype;
 
@@ -76,7 +77,7 @@ public class FunctionOnStack extends VariableContext {
         return main;
     }
 
-    public ArrayList<String> getLocalVarsName() {
+    public ArrayList<Name> getLocalVarsName() {
         return localVarsName;
     }
 
@@ -95,7 +96,7 @@ public class FunctionOnStack extends VariableContext {
      */
     @NonNull
     @Override
-    public Object getLocalVar(String name) throws RuntimePascalException {
+    public Object getLocalVar(Name name) throws RuntimePascalException {
         if (mapVars.containsKey(name)) {
             return mapVars.get(name);
         } else if (mapReferences.containsKey(name)) {
@@ -107,7 +108,7 @@ public class FunctionOnStack extends VariableContext {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean setLocalVar(String name, Object val) {
+    public boolean setLocalVar(Name name, Object val) {
         if (mapVars.containsKey(name)) {
             mapVars.put(name, val);
         } else if (mapReferences.containsKey(name)) {
@@ -119,8 +120,8 @@ public class FunctionOnStack extends VariableContext {
     }
 
     @Override
-    public List<String> getUserDefineVariableNames() {
-        List<String> vars = new ArrayList<>(paramsName);
+    public ArrayList<Name> getUserDefineVariableNames() {
+        ArrayList<Name> vars = new ArrayList<>(paramsName);
         vars.addAll(localVarsName);
         return vars;
     }
@@ -131,8 +132,8 @@ public class FunctionOnStack extends VariableContext {
     }
 
     @Override
-    public HashMap<String, Object> getMapVars() {
-        HashMap<String, Object> hashMap = new HashMap<>(mapVars);
+    public HashMap<Name, Object> getMapVars() {
+        HashMap<Name, Object> hashMap = new HashMap<>(mapVars);
         hashMap.putAll(mapReferences);
         return hashMap;
     }
@@ -153,6 +154,6 @@ public class FunctionOnStack extends VariableContext {
 
     @Override
     public String toString() {
-        return prototype.getName();
+        return prototype.getName().getOriginName();
     }
 }

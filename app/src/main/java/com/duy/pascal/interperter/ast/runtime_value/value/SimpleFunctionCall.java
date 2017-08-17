@@ -2,6 +2,7 @@ package com.duy.pascal.interperter.ast.runtime_value.value;
 
 import android.support.annotation.NonNull;
 
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
 import com.duy.pascal.interperter.declaration.lang.function.MethodDeclaration;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
@@ -100,7 +101,7 @@ public class SimpleFunctionCall extends FunctionCall {
     }
 
     @Override
-    protected String getFunctionName() {
+    protected Name getFunctionName() {
         return function.getName();
     }
 

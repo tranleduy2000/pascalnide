@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.systemfunction.builtin.IMethodDeclaration;
 import com.duy.pascal.interperter.ast.instructions.Executable;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
@@ -51,8 +52,9 @@ public class WritelnFileFunction implements IMethodDeclaration {
                     new VarargsType(new RuntimeType(BasicType.create(Object.class), false))};
 
     @Override
-    public String getName() {
-        return "writeln";
+    public Name getName() {
+        return Name.create("WriteLn");
+
     }
 
     @Override
@@ -126,8 +128,8 @@ public class WritelnFileFunction implements IMethodDeclaration {
         }
 
         @Override
-        protected String getFunctionName() {
-            return "writeln";
+        protected Name getFunctionName() {
+            return Name.create("WriteLn");
         }
 
         @Override

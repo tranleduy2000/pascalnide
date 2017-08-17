@@ -16,12 +16,13 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.define
 
-import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext
-import com.duy.pascal.interperter.linenumber.LineInfo
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException
 import com.duy.pascal.frontend.editor.autofix.DefineType
+import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext
+import com.duy.pascal.interperter.declaration.Name
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException
+import com.duy.pascal.interperter.linenumber.LineInfo
 
-class UnknownIdentifierException(line: LineInfo?, var name: String, var scope: ExpressionContext)
+class UnknownIdentifierException(line: LineInfo?,var name: Name,var scope: ExpressionContext)
     : ParsingException(line, "Unknown identifier $name") {
 
     var token: String? = null

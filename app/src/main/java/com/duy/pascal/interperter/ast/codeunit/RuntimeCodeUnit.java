@@ -19,9 +19,10 @@ package com.duy.pascal.interperter.ast.codeunit;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.config.RunMode;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
-import com.duy.pascal.interperter.config.RunMode;
 import com.duy.pascal.interperter.utils.NullSafety;
 
 import java.util.ArrayList;
@@ -32,8 +33,8 @@ import java.util.Map;
 public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableContext {
     public volatile RunMode mode;
     parent declaration;
-    private HashMap<String, Object> unitVariables = new HashMap<>();
-    private HashMap<String, RuntimePascalClass> mRuntimePascalClassMap = new HashMap<>();
+    private HashMap<Name, Object> unitVariables = new HashMap<>();
+    private HashMap<Name, RuntimePascalClass> mRuntimePascalClassMap = new HashMap<>();
     private HashMap<PascalUnitDeclaration, RuntimeUnitPascal> mRuntimeUnitMap = new HashMap<>();
 
     public RuntimeCodeUnit(parent declaration) {
@@ -45,7 +46,7 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
         return mRuntimeUnitMap;
     }
 
-    public Map<String, RuntimePascalClass> getRuntimePascalClassMap() {
+    public Map<Name, RuntimePascalClass> getRuntimePascalClassMap() {
         return mRuntimePascalClassMap;
     }
 
@@ -55,20 +56,20 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
 
     @NonNull
     @Override
-    public Object getLocalVar(String name) {
+    public Object getLocalVar(Name name) {
         Object o = unitVariables.get(name);
         return NullSafety.zReturn(o);
     }
 
     @Override
-    public boolean setLocalVar(String name, Object val) {
+    public boolean setLocalVar(Name name, Object val) {
         return unitVariables.put(name, val) != null;
     }
 
     @Override
-    public List<String> getUserDefineVariableNames() {
+    public ArrayList<Name> getUserDefineVariableNames() {
         ArrayList<VariableDeclaration> variables = declaration.context.variables;
-        ArrayList<String> varNames = new ArrayList<>();
+        ArrayList<Name> varNames = new ArrayList<>();
         for (VariableDeclaration variable : variables) {
             varNames.add(variable.getName());
         }
@@ -81,7 +82,7 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
     }
 
     @Override
-    public HashMap<String, Object> getMapVars() {
+    public HashMap<Name, Object> getMapVars() {
         return unitVariables;
     }
 }

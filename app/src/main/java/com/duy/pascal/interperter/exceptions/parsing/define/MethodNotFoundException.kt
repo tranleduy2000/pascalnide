@@ -16,14 +16,15 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.define
 
-import com.duy.pascal.interperter.linenumber.LineInfo
+import com.duy.pascal.interperter.declaration.Name
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException
+import com.duy.pascal.interperter.linenumber.LineInfo
 
 /**
  * Created by Duy on 10-May-17.
  */
 
-class MethodNotFoundException(lineNumber: LineInfo, private val name: String, private val className: String) : ParsingException(lineNumber) {
+class MethodNotFoundException(lineNumber: LineInfo, val name: Name, val className: String) : ParsingException(lineNumber) {
 
     override val message: String?
         get() = "Can not find method \"$name\" in class $className"

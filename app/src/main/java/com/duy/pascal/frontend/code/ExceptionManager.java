@@ -228,14 +228,12 @@ public class ExceptionManager {
         if (e instanceof ParsingException) {
             stringBuilder.append(((ParsingException) e).getLineInfo().toString());
             stringBuilder.append("\n").append("\n");
-            String format = String.format(context.getString(resourceID), arg);
-            stringBuilder.append(format);
+            stringBuilder.append(context.getString(resourceID, arg));
             return highlight(stringBuilder);
         } else if (e instanceof RuntimePascalException) {
             stringBuilder.append(((RuntimePascalException) e).line.toString());
             stringBuilder.append("\n").append("\n");
-            String format = String.format(context.getString(resourceID), arg);
-            stringBuilder.append(format);
+            stringBuilder.append(context.getString(resourceID, arg));
             return highlight(stringBuilder);
         }
         return new SpannableString(e.getLocalizedMessage());

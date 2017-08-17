@@ -14,17 +14,25 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interperter.declaration.lang;
+package com.duy.pascal.interperter.declaration;
+
+import android.support.annotation.NonNull;
+
+import java.io.Serializable;
 
 /**
  * Created by Duy on 17-Aug-17.
  */
 
-public class Name {
+public class Name implements Comparable<Name>, Serializable, Cloneable {
     private String originName;
 
-    public Name(String originName) {
+    private Name(String originName) {
         this.originName = originName;
+    }
+
+    public static Name create(String name) {
+        return new Name(name);
     }
 
     public String getOriginName() {
@@ -33,7 +41,30 @@ public class Name {
 
     @Override
     public boolean equals(Object obj) {
+        if (obj instanceof String) {
+            return obj.equals(originName);
+        }
         return obj == this ||
                 ((obj instanceof CharSequence) && obj.toString().equalsIgnoreCase(originName));
+    }
+
+    @Override
+    public int compareTo(@NonNull Name o) {
+        return originName.toLowerCase().compareTo(o.getOriginName().toLowerCase());
+    }
+
+    public int getLength() {
+        return originName.length();
+    }
+
+    @Override
+    public String toString() {
+        return originName;
+    }
+
+
+    @Override
+    public int hashCode() {
+        return originName.toLowerCase().hashCode();
     }
 }

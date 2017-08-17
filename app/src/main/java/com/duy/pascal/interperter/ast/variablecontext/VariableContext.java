@@ -20,8 +20,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,20 +33,20 @@ import static com.duy.pascal.interperter.utils.NullSafety.isNullValue;
 public abstract class VariableContext implements ContainsVariables {
 
     @NonNull
-    public abstract Object getLocalVar(String name)
+    public abstract Object getLocalVar(Name name)
             throws RuntimePascalException;
 
-    public abstract boolean setLocalVar(String name, Object val);
+    public abstract boolean setLocalVar(Name name, Object val);
 
-    public abstract List<String> getUserDefineVariableNames();
+    public abstract ArrayList<Name> getUserDefineVariableNames();
 
     public abstract List<String> getAllVariableNames();
 
-    public abstract HashMap<String, ? extends Object> getMapVars();
+    public abstract HashMap<Name, ?> getMapVars();
 
     @NonNull
     @Override
-    public Object getVar(String name) throws RuntimePascalException {
+    public Object getVar(Name name) throws RuntimePascalException {
         Object result = this.getLocalVar(name);
         VariableContext parentContext = getParentContext();
         if (isNullValue(result) && parentContext != null) {
@@ -54,7 +56,7 @@ public abstract class VariableContext implements ContainsVariables {
     }
 
     @Override
-    public void setVar(String name, Object val) {
+    public void setVar(Name name, Object val) {
         if (val instanceof NullValue) {
             System.err.println("Warning!  Setting null variable!");
         }

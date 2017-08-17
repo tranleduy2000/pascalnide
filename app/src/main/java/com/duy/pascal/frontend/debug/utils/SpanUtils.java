@@ -183,7 +183,7 @@ public class SpanUtils {
     public SpannableStringBuilder createVarSpan(VariableDeclaration var) {
 
         SpannableStringBuilder text = new SpannableStringBuilder();
-        text.append(generateNameSpan(var.getName()));
+        text.append(generateNameSpan(var.getName().getOriginName()));
         text.append(generateTypeSpan(var.getType(), true));
         text.append(" = ");
         text.append(generateValueSpan(var.getInitialValue()));

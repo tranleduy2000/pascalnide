@@ -28,11 +28,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.duy.pascal.frontend.EditorControl;
+import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.code.CompileManager;
+import com.duy.pascal.frontend.editor.indention.IndentCode;
+import com.duy.pascal.frontend.editor.view.EditorView;
+import com.duy.pascal.frontend.editor.view.LineUtils;
+import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
+import com.duy.pascal.frontend.file.FileManager;
+import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibraryManager;
 import com.duy.pascal.interperter.builtin_libraries.SystemLibrary;
 import com.duy.pascal.interperter.builtin_libraries.file.FileLib;
 import com.duy.pascal.interperter.builtin_libraries.io.IOLib;
-import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.define.MainProgramNotFoundException;
@@ -41,17 +49,7 @@ import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierExc
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
 import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.value.ChangeValueConstantException;
-import com.duy.pascal.frontend.editor.indention.IndentCode;
-import com.duy.pascal.frontend.EditorControl;
-import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.code.CompileManager;
-import com.duy.pascal.frontend.editor.completion.KeyWord;
-import com.duy.pascal.frontend.editor.view.EditorView;
-import com.duy.pascal.frontend.editor.view.LineUtils;
-import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
-import com.duy.pascal.frontend.file.FileManager;
-import com.duy.pascal.frontend.structure.viewholder.StructureType;
-import com.duy.pascal.frontend.view.LockableScrollView;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;
@@ -124,9 +122,10 @@ public class EditorFragment extends Fragment implements EditorListener {
 //            });
 //        }
         ArrayList<InfoItem> items = PascalLibraryManager.getAllMethodDescription(SystemLibrary.class, IOLib.class, FileLib.class);
-        for (String s : KeyWord.ALL_KEY_WORD) {
-            items.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
-        }
+        // TODO: 17-Aug-17 add keyword
+//        for (String s : KeyWord.ALL_KEY_WORD) {
+//            items.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
+//        }
         mCodeEditor.setSuggestData(items);
         return view;
     }

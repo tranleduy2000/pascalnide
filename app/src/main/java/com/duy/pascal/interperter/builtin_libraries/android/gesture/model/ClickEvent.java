@@ -24,7 +24,7 @@ public class ClickEvent extends BaseGestureEvent {
 
     public ClickEvent(Integer x, Integer y) {
         super(GestureType.CLICK);
-        variableMap.put("x", x);
-        variableMap.put("y", y);
+//        variableMap.put("x", x);
+//        variableMap.put("y", y);
     }
 }

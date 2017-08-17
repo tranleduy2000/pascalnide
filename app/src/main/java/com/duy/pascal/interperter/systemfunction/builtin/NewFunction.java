@@ -24,18 +24,19 @@ import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.instructions.Executable;
 import com.duy.pascal.interperter.ast.runtime_value.ObjectBasedPointer;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalPointer;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class NewFunction implements IMethodDeclaration {
 
@@ -43,8 +44,8 @@ public class NewFunction implements IMethodDeclaration {
             {new RuntimeType(new PointerType(BasicType.create(Object.class)), true)};
 
     @Override
-    public String getName() {
-        return "new";
+    public Name getName() {
+        return Name.create("New");
     }
 
     @Override
@@ -75,7 +76,7 @@ public class NewFunction implements IMethodDeclaration {
         return "Dynamically allocate memory for variable";
     }
 
-    private class NewCall extends FunctionCall {
+    private class NewCall extends BuiltinFunctionCall {
 
         private RuntimeValue value;
         private RuntimeType type;
@@ -121,7 +122,7 @@ public class NewFunction implements IMethodDeclaration {
         }
 
         @Override
-        protected String getFunctionName() {
+        protected String getFunctionNameImpl() {
             return "new";
         }
 

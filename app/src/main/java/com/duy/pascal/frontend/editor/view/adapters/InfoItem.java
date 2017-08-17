@@ -20,35 +20,37 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.frontend.editor.view.CodeSuggestsEditText;
+import com.duy.pascal.interperter.declaration.Name;
 
 /**
  * item for suggest adapter of {@link CodeSuggestsEditText}
  */
-public class InfoItem implements Comparable<String> {
+public class InfoItem implements Comparable<Name> {
     private int type;
     @NonNull
-    private String name = "";
+    private Name name;
     @Nullable
     private String description = null;
     @Nullable
     private CharSequence show = null;
-    private String compare = "";
 
-    public InfoItem(int type, @NonNull String name, @Nullable String description, @Nullable String show) {
+    public InfoItem(int type, @NonNull Name name, @Nullable String description, @Nullable String show) {
         this(type, name, description);
         this.show = show;
     }
 
-    public InfoItem(int type, @NonNull String name, @Nullable String description) {
+    public InfoItem(int type, @NonNull Name name, @Nullable String description) {
         this(type, name);
         this.description = description;
-        this.compare = name.toLowerCase();
+    }
+
+    public InfoItem(int type, @NonNull Name name) {
+        this.name = name;
+        this.type = type;
     }
 
     public InfoItem(int type, @NonNull String name) {
-        this.name = name;
-        this.type = type;
-        this.compare = name.toLowerCase();
+        this(type, Name.create(name));
     }
 
     public int getType() {
@@ -60,12 +62,8 @@ public class InfoItem implements Comparable<String> {
     }
 
     @NonNull
-    public String getName() {
+    public Name getName() {
         return name;
-    }
-
-    public void setName(@NonNull String name) {
-        this.name = name;
     }
 
     @Nullable
@@ -78,7 +76,7 @@ public class InfoItem implements Comparable<String> {
     }
 
     @Nullable
-    public CharSequence getShow() {
+    public CharSequence snipet() {
         return show;
     }
 
@@ -87,9 +85,8 @@ public class InfoItem implements Comparable<String> {
     }
 
     @Override
-    public int compareTo(@NonNull String o) {
-        String s = o.toLowerCase();
-        return compare.startsWith(s) ? 0 : -1;
+    public int compareTo(@NonNull Name o) {
+        return name.compareTo(o);
     }
 
     @Override

@@ -1,14 +1,15 @@
 package com.duy.pascal.interperter.ast.expressioncontext;
 
-import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
-import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
-import com.duy.pascal.interperter.declaration.NamedEntity;
-import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeUnitPascal;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.NamedEntity;
+import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
+import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.define.DuplicateIdentifierException;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
 
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public abstract class HierarchicalExpressionContext implements ExpressionContext
             throws DuplicateIdentifierException;
 
     @Override
-    public ConstantDefinition getConstantDefinition(String identifier) {
+    public ConstantDefinition getConstantDefinition(Name identifier) {
         ConstantDefinition result = getConstantDefinitionLocal(identifier);
         if (result == null && parent != null) {
             result = parent.getConstantDefinition(identifier);
@@ -44,7 +45,7 @@ public abstract class HierarchicalExpressionContext implements ExpressionContext
 
 
     @Override
-    public Type getTypeDef(String identifier) {
+    public Type getTypeDef(Name identifier) {
         Type result = getTypedefTypeLocal(identifier);
         if (result == null && parent != null) {
             result = parent.getTypeDef(identifier);
@@ -60,7 +61,7 @@ public abstract class HierarchicalExpressionContext implements ExpressionContext
     }
 
     @Override
-    public VariableDeclaration getVariableDefinition(String indent) {
+    public VariableDeclaration getVariableDefinition(Name indent) {
 
         VariableDeclaration result = getVariableDefinitionLocal(indent);
         if (result != null) return result;
@@ -84,7 +85,7 @@ public abstract class HierarchicalExpressionContext implements ExpressionContext
 
 
     @Override
-    public void getCallableFunctions(String name,
+    public void getCallableFunctions(Name name,
                                      List<List<AbstractFunction>> sofar) {
         List<AbstractFunction> mine = getCallableFunctionsLocal(name);
         if (mine.size() != 0) {
@@ -97,7 +98,7 @@ public abstract class HierarchicalExpressionContext implements ExpressionContext
 
 
     @Override
-    public boolean functionExists(String name) {
+    public boolean functionExists(Name name) {
         return functionExistsLocal(name)
                 || (parent != null && parent.functionExists(name));
     }

@@ -21,8 +21,11 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 
-import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
-import com.duy.pascal.interperter.declaration.lang.function.MethodDeclaration;
+import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
+import com.duy.pascal.frontend.runnable.ConsoleHandler;
+import com.duy.pascal.frontend.runnable.ProgramHandler;
+import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
 import com.duy.pascal.interperter.builtin_libraries.android.AndroidLibraryManager;
@@ -51,9 +54,15 @@ import com.duy.pascal.interperter.builtin_libraries.graphic.BasicGraphicAPI;
 import com.duy.pascal.interperter.builtin_libraries.io.InOutListener;
 import com.duy.pascal.interperter.builtin_libraries.java.data.JavaCollectionsAPI;
 import com.duy.pascal.interperter.builtin_libraries.math.MathLib;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.lang.function.MethodDeclaration;
+import com.duy.pascal.interperter.declaration.lang.types.BasicType;
+import com.duy.pascal.interperter.declaration.lang.types.JavaClassBasedType;
+import com.duy.pascal.interperter.declaration.lang.types.PointerType;
+import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.exceptions.parsing.PermissionDeniedException;
 import com.duy.pascal.interperter.exceptions.parsing.io.LibraryNotFoundException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.systemfunction.builtin.AbstractMethodDeclaration;
 import com.duy.pascal.interperter.systemfunction.builtin.AddressFunction;
 import com.duy.pascal.interperter.systemfunction.builtin.AssignedPointerFunction;
@@ -78,14 +87,6 @@ import com.duy.pascal.interperter.systemfunction.io.WriteFileFunction;
 import com.duy.pascal.interperter.systemfunction.io.WriteFunction;
 import com.duy.pascal.interperter.systemfunction.io.WriteLineFunction;
 import com.duy.pascal.interperter.systemfunction.io.WritelnFileFunction;
-import com.duy.pascal.interperter.declaration.lang.types.BasicType;
-import com.duy.pascal.interperter.declaration.lang.types.JavaClassBasedType;
-import com.duy.pascal.interperter.declaration.lang.types.PointerType;
-import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.runnable.ConsoleHandler;
-import com.duy.pascal.frontend.runnable.ProgramHandler;
-import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
-import com.duy.pascal.frontend.structure.viewholder.StructureType;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -98,41 +99,39 @@ import java.util.Map;
  * Created by Duy on 08-Apr-17.
  */
 public class PascalLibraryManager {
-    public static final Map<String, Class<? extends PascalLibrary>> MAP_LIBRARIES = new Hashtable<>();
+    public static final Map<Name, Class<? extends PascalLibrary>> MAP_LIBRARIES = new Hashtable<>();
 
     static {
-        MAP_LIBRARIES.put(CrtLib.NAME, CrtLib.class);
-        MAP_LIBRARIES.put(WinCrt.NAME, WinCrt.class);
-        MAP_LIBRARIES.put(DosLib.NAME, DosLib.class);
-        MAP_LIBRARIES.put(MathLib.NAME, MathLib.class);
-        MAP_LIBRARIES.put(BasicGraphicAPI.NAME, BasicGraphicAPI.class);
-        MAP_LIBRARIES.put(StrUtilsLibrary.NAME, StrUtilsLibrary.class);
-        MAP_LIBRARIES.put(SysUtilsLibrary.NAME, SysUtilsLibrary.class);
+        put(CrtLib.NAME, CrtLib.class);
+        put(WinCrt.NAME, WinCrt.class);
+        put(DosLib.NAME, DosLib.class);
+        put(MathLib.NAME, MathLib.class);
+        put(BasicGraphicAPI.NAME, BasicGraphicAPI.class);
+        put(StrUtilsLibrary.NAME, StrUtilsLibrary.class);
+        put(SysUtilsLibrary.NAME, SysUtilsLibrary.class);
 
-        MAP_LIBRARIES.put(AndroidMediaPlayerLib.NAME, AndroidMediaPlayerLib.class);
-        MAP_LIBRARIES.put(AndroidUtilsLib.NAME, AndroidUtilsLib.class);
-        MAP_LIBRARIES.put(AndroidToneGeneratorLib.NAME, AndroidToneGeneratorLib.class);
-        MAP_LIBRARIES.put(AndroidWifiLib.NAME, AndroidWifiLib.class);
-        MAP_LIBRARIES.put(AndroidSettingLib.NAME, AndroidSettingLib.class);
-        MAP_LIBRARIES.put(AndroidBluetoothLib.NAME, AndroidBluetoothLib.class);
+        put(AndroidMediaPlayerLib.NAME, AndroidMediaPlayerLib.class);
+        put(AndroidUtilsLib.NAME, AndroidUtilsLib.class);
+        put(AndroidToneGeneratorLib.NAME, AndroidToneGeneratorLib.class);
+        put(AndroidWifiLib.NAME, AndroidWifiLib.class);
+        put(AndroidSettingLib.NAME, AndroidSettingLib.class);
+        put(AndroidBluetoothLib.NAME, AndroidBluetoothLib.class);
 
-        MAP_LIBRARIES.put(AndroidBatteryLib.NAME, AndroidBatteryLib.class);
-        MAP_LIBRARIES.put(AndroidTextToSpeechLib.NAME, AndroidTextToSpeechLib.class);
-        MAP_LIBRARIES.put(AndroidSensorLib.NAME, AndroidSensorLib.class);
-        MAP_LIBRARIES.put(AndroidClipboardLib.NAME, AndroidClipboardLib.class);
-        MAP_LIBRARIES.put(AndroidNotifyLib.NAME, AndroidNotifyLib.class);
-        MAP_LIBRARIES.put(AndroidVibrateLib.NAME, AndroidVibrateLib.class);
-        MAP_LIBRARIES.put(AndroidSpeechRecognitionLib.NAME, AndroidSpeechRecognitionLib.class);
-        MAP_LIBRARIES.put(ZXingAPI.NAME, ZXingAPI.class);
-        MAP_LIBRARIES.put(AndroidMediaPlayerLib.NAME, AndroidMediaPlayerLib.class);
-        MAP_LIBRARIES.put(HtmlLib.NAME, HtmlLib.class);
-        MAP_LIBRARIES.put(AndroidLocationLib.NAME, AndroidLocationLib.class);
-        MAP_LIBRARIES.put(JavaCollectionsAPI.NAME, JavaCollectionsAPI.class);
+        put(AndroidBatteryLib.NAME, AndroidBatteryLib.class);
+        put(AndroidTextToSpeechLib.NAME, AndroidTextToSpeechLib.class);
+        put(AndroidSensorLib.NAME, AndroidSensorLib.class);
+        put(AndroidClipboardLib.NAME, AndroidClipboardLib.class);
+        put(AndroidNotifyLib.NAME, AndroidNotifyLib.class);
+        put(AndroidVibrateLib.NAME, AndroidVibrateLib.class);
+        put(AndroidSpeechRecognitionLib.NAME, AndroidSpeechRecognitionLib.class);
+        put(ZXingAPI.NAME, ZXingAPI.class);
+        put(AndroidMediaPlayerLib.NAME, AndroidMediaPlayerLib.class);
+        put(HtmlLib.NAME, HtmlLib.class);
+        put(AndroidLocationLib.NAME, AndroidLocationLib.class);
+        put(JavaCollectionsAPI.NAME, JavaCollectionsAPI.class);
 
-        //socket library
-        MAP_LIBRARIES.put(SocketIOLib.NAME, SocketIOLib.class);
-
-        MAP_LIBRARIES.put(AndroidDialogLib.NAME, AndroidDialogLib.class);
+        put(SocketIOLib.NAME, SocketIOLib.class);
+        put(AndroidDialogLib.NAME, AndroidDialogLib.class);
     }
 
     @NonNull
@@ -148,16 +147,21 @@ public class PascalLibraryManager {
         facadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkVersion(), handler);
     }
 
+    private static void put(String name, Class<? extends PascalLibrary> claszz) {
+        MAP_LIBRARIES.put(Name.create(name), claszz);
+    }
+
     public static ArrayList<InfoItem> getAllMethodDescription(Class<?>... classes) {
         ArrayList<InfoItem> suggestItems = new ArrayList<>();
         for (Class<?> aClass : classes) {
             Method[] methods = aClass.getDeclaredMethods();
             for (Method method : methods) {
                 if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                    if (method.isAnnotationPresent(PascalMethod.class)) {
+                    if (method.getAnnotation(PascalMethod.class) != null) {
                         PascalMethod annotation = method.getAnnotation(PascalMethod.class);
                         String description = annotation.description();
-                        suggestItems.add(new InfoItem(StructureType.TYPE_FUNCTION, method.getName(), description));
+                        suggestItems.add(new InfoItem(StructureType.TYPE_FUNCTION,
+                                Name.create(method.getName()), description));
                     }
                 } else {
                     if (Modifier.isPublic(method.getModifiers())) {
@@ -207,7 +211,7 @@ public class PascalLibraryManager {
         if (parent != null) {
             addMethodFromLibrary(parent, lineNumber);
         } else {
-            throw new LibraryNotFoundException(lineNumber, t.getName());
+            throw new LibraryNotFoundException(lineNumber, Name.create(t.getName()));
         }
 
     }
@@ -277,7 +281,7 @@ public class PascalLibraryManager {
         ((PascalLibrary) o).declareVariables(program);
         for (Method method : o.getClass().getDeclaredMethods()) {
             if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                if (method.isAnnotationPresent(PascalMethod.class)) {
+                if (method.getAnnotation(PascalMethod.class) != null) {
                     PascalMethod annotation = method.getAnnotation(PascalMethod.class);
                     String description = annotation.description();
                     MethodDeclaration methodDeclaration = new MethodDeclaration(o, method, description);

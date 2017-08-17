@@ -20,26 +20,27 @@ package com.duy.pascal.interperter.systemfunction.builtin;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.frontend.debug.CallStack;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.instructions.Executable;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.VarargsType;
 import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.IntegerSubrangeType;
-import com.duy.pascal.frontend.debug.CallStack;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -51,8 +52,8 @@ public class SetLengthFunction implements IMethodDeclaration {
             new VarargsType(new RuntimeType(BasicType.Integer, false))};
 
     @Override
-    public String getName() {
-        return "setlength";
+    public Name getName() {
+        return Name.create("SetLength");
     }
 
     @Override
@@ -84,7 +85,7 @@ public class SetLengthFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class SetLengthCall extends FunctionCall {
+    private class SetLengthCall extends BuiltinFunctionCall {
 
         private RuntimeValue array;
         private RuntimeType runtimeType;
@@ -135,7 +136,7 @@ public class SetLengthFunction implements IMethodDeclaration {
         }
 
         @Override
-        protected String getFunctionName() {
+        protected String getFunctionNameImpl() {
             return "setlength";
         }
 
