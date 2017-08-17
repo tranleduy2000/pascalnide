@@ -18,7 +18,7 @@ package com.duy.pascal.interperter.ast.instructions.assign_statement;
 
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.instructions.Executable;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
 public interface AssignExecutable extends Executable {
 

@@ -16,8 +16,8 @@
 
 package com.duy.pascal.asset_data;
 
-import com.duy.pascal.interperter.parse_exception.ParsingException;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.frontend.DLog;
 
 import junit.framework.TestCase;

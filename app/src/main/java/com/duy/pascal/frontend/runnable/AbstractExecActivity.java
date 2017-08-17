@@ -36,11 +36,11 @@ import com.duy.pascal.interperter.config.DebugMode;
 import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.debugable.DebugListener;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
-import com.duy.pascal.interperter.runtime_exception.ScriptTerminatedException;
-import com.duy.pascal.interperter.source_include.FileScriptSource;
-import com.duy.pascal.interperter.source_include.ScriptSource;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.ScriptTerminatedException;
+import com.duy.pascal.interperter.source.FileScriptSource;
+import com.duy.pascal.interperter.source.ScriptSource;
 
 import java.io.File;
 import java.io.FileReader;

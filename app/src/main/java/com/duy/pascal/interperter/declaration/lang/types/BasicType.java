@@ -15,8 +15,8 @@ import com.duy.pascal.interperter.declaration.lang.types.converter.StringBuilder
 import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.SubrangeType;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
-import com.duy.pascal.interperter.parse_exception.index.NonArrayIndexed;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
 
 import java.io.File;
 

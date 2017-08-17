@@ -3,9 +3,9 @@
 package com.duy.pascal.interperter.tokenizer;
 
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.parse_exception.grouping.GroupingException;
-import com.duy.pascal.interperter.parse_exception.grouping.StrayCharacterException;
-import com.duy.pascal.interperter.source_include.ScriptSource;
+import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
+import com.duy.pascal.interperter.exceptions.parsing.grouping.StrayCharacterException;
+import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokens.EOFToken;
 import com.duy.pascal.interperter.tokens.OperatorToken;
 import com.duy.pascal.interperter.tokens.Token;

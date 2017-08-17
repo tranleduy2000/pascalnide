@@ -30,7 +30,7 @@ import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotOpenE
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotOpenForInputException;
 import com.duy.pascal.interperter.builtin_libraries.io.InOutListener;
 import com.duy.pascal.interperter.builtin_libraries.runtime_exceptions.CanNotReadVariableException;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.frontend.DLog;
 
 import java.io.File;

@@ -21,7 +21,7 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 /**
  * Created by Duy on 25-May-17.

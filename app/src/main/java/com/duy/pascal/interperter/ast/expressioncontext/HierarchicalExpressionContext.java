@@ -7,7 +7,7 @@ import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeUnitPascal;
 import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
-import com.duy.pascal.interperter.parse_exception.define.DuplicateIdentifierException;
+import com.duy.pascal.interperter.exceptions.parsing.define.DuplicateIdentifierException;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 
 import java.util.List;

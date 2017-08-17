@@ -7,8 +7,8 @@ import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.cloning.CloneableObjectCloner;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
-import com.duy.pascal.interperter.parse_exception.index.NonArrayIndexed;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
 
 import java.util.ArrayList;
 

@@ -4,7 +4,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.boxing.ArrayBoxer;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
 import java.util.ArrayList;
 import java.util.Iterator;

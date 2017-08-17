@@ -49,8 +49,8 @@ import android.widget.Scroller;
 
 import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
-import com.duy.pascal.interperter.source_include.ScriptSource;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.autofix.AutoFixError;
 import com.duy.pascal.frontend.editor.highlight.CodeHighlighter;

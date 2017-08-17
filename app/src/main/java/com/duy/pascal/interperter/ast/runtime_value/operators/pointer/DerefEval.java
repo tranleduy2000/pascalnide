@@ -27,9 +27,9 @@ import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.interperter.debugable.DebuggableAssignableValue;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
-import com.duy.pascal.interperter.parse_exception.operator.ConstantCalculationException;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.parsing.operator.ConstantCalculationException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 

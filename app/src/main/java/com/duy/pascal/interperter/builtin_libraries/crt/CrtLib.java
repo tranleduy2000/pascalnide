@@ -24,7 +24,7 @@ import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.android.media.AndroidToneGeneratorLib;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.runtime_exception.WrongArgsException;
+import com.duy.pascal.interperter.exceptions.runtime.WrongArgsException;
 import com.duy.pascal.frontend.runnable.ConsoleHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleScreen;

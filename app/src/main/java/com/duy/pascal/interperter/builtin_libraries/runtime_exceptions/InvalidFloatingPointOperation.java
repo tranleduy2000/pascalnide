@@ -16,7 +16,7 @@
 
 package com.duy.pascal.interperter.builtin_libraries.runtime_exceptions;
 
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 /**
  * Can occur if you try to calculate the square root or logarithm of a negative number.

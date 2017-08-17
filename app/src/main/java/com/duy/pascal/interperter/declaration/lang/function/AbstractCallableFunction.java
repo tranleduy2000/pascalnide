@@ -23,8 +23,8 @@ import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.SimpleFunctionCall;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;

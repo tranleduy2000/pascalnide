@@ -56,7 +56,7 @@ import com.duy.pascal.interperter.builtin_libraries.graphic.style.TextFont;
 import com.duy.pascal.interperter.builtin_libraries.graphic.style.TextJustify;
 import com.duy.pascal.interperter.imageprocessing.FloodFill;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RecordType;
 import com.duy.pascal.frontend.DLog;

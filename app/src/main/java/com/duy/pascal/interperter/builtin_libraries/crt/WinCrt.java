@@ -5,7 +5,7 @@ import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.builtin_libraries.io.IOLib;
 import com.duy.pascal.interperter.builtin_libraries.io.InOutListener;
-import com.duy.pascal.interperter.runtime_exception.WrongArgsException;
+import com.duy.pascal.interperter.exceptions.runtime.WrongArgsException;
 import com.duy.pascal.frontend.runnable.ConsoleHandler;
 
 import java.util.Map;

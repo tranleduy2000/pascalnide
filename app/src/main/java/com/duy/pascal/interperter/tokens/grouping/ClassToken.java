@@ -6,7 +6,7 @@ import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.classunit.ClassConstructor;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.WordToken;
 import com.duy.pascal.interperter.tokens.basic.ConstToken;

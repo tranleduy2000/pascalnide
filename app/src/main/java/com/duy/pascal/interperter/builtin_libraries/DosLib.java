@@ -25,7 +25,7 @@ import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RecordType;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 import java.util.ArrayList;
 import java.util.Calendar;

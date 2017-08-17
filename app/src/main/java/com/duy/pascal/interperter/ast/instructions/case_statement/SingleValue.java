@@ -3,7 +3,7 @@ package com.duy.pascal.interperter.ast.instructions.case_statement;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 class SingleValue implements CaseCondition {
     private Object mValue;

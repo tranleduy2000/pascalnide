@@ -10,9 +10,9 @@ import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
-import com.duy.pascal.interperter.runtime_exception.PascalArithmeticException;
-import com.duy.pascal.interperter.runtime_exception.internal.InternalInterpreterException;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
+import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 
 public class CharBiOperatorEval extends BinaryOperatorEval {
 

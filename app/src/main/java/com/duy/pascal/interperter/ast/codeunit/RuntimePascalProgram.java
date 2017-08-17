@@ -20,7 +20,7 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.config.RunMode;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.frontend.debug.CallStack;
 
 import java.util.HashMap;

@@ -3,8 +3,8 @@ package com.duy.pascal.interperter.core;
 
 import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
-import com.duy.pascal.interperter.source_include.ScriptSource;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.frontend.runnable.ProgramHandler;
 
 import java.io.Reader;

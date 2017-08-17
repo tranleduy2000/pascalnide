@@ -6,7 +6,7 @@ import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.boxing.GetAddress;
 import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.interperter.declaration.lang.types.set.SetType;
 import com.duy.pascal.interperter.declaration.lang.types.util.TypeUtils;

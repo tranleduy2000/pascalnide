@@ -17,7 +17,7 @@
 package com.duy.pascal.interperter.builtin_libraries.file.exceptions;
 
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 /**
  * Created by Duy on 09-Jun-17.

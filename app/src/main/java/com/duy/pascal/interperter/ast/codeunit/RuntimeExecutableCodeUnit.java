@@ -23,9 +23,9 @@ import com.duy.pascal.interperter.ast.runtime_value.ScriptControl;
 import com.duy.pascal.interperter.config.DebugMode;
 import com.duy.pascal.interperter.debugable.DebugListener;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
-import com.duy.pascal.interperter.runtime_exception.ScriptTerminatedException;
-import com.duy.pascal.interperter.runtime_exception.StackOverflowException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.ScriptTerminatedException;
+import com.duy.pascal.interperter.exceptions.runtime.StackOverflowException;
 
 import java.util.HashMap;
 import java.util.List;

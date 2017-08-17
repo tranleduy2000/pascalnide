@@ -2,7 +2,7 @@ package com.duy.pascal.interperter.declaration.lang.types;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.interperter.parse_exception.ParsingException;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
 public abstract class ObjectType extends TypeInfo {
 

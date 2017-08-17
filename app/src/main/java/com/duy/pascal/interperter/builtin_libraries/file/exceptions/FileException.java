@@ -18,7 +18,7 @@ package com.duy.pascal.interperter.builtin_libraries.file.exceptions;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 import java.io.File;
 

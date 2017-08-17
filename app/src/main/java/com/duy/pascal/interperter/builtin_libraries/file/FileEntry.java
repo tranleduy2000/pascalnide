@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.builtin_libraries.file;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.DiskReadErrorException;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotOpenException;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.PascalIOException;
-import com.duy.pascal.interperter.runtime_exception.InvalidNumericFormatException;
+import com.duy.pascal.interperter.exceptions.runtime.InvalidNumericFormatException;
 
 import java.io.BufferedWriter;
 import java.io.File;

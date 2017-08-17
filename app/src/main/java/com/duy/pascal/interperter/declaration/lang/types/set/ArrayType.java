@@ -30,8 +30,8 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.IntegerRange;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.IntegerSubrangeType;
 import com.duy.pascal.interperter.declaration.lang.types.util.TypeUtils;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
-import com.duy.pascal.interperter.parse_exception.syntax.ExpectedTokenException;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.grouping.ParenthesizedToken;
 

@@ -2,7 +2,7 @@ package com.duy.pascal.interperter.ast.instructions;
 
 import com.duy.pascal.interperter.ast.runtime_value.references.Reference;
 import com.duy.pascal.interperter.ast.variablecontext.ContainsVariables;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 public class FieldReference implements Reference {
     private ContainsVariables container;

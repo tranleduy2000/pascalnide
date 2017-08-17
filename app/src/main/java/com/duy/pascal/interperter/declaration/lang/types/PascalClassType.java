@@ -17,10 +17,10 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
-import com.duy.pascal.interperter.parse_exception.define.AmbiguousFunctionCallException;
-import com.duy.pascal.interperter.parse_exception.define.BadFunctionCallException;
-import com.duy.pascal.interperter.parse_exception.index.NonArrayIndexed;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.parsing.define.AmbiguousFunctionCallException;
+import com.duy.pascal.interperter.exceptions.parsing.define.BadFunctionCallException;
+import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
 import com.duy.pascal.interperter.tokens.WordToken;
 import com.google.common.collect.ArrayListMultimap;
 

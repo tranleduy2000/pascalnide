@@ -26,7 +26,7 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimePascalProgram;
 import com.duy.pascal.interperter.ast.instructions.with_statement.WithOnStack;
 import com.duy.pascal.interperter.ast.variablecontext.FunctionOnStack;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
 import java.util.ArrayList;

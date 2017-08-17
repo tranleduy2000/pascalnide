@@ -3,8 +3,8 @@ package com.duy.pascal.interperter.tokens.closing;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.parse_exception.grouping.GroupingException;
-import com.duy.pascal.interperter.parse_exception.grouping.GroupingException.Type;
+import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
+import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException.Type;
 import com.duy.pascal.interperter.tokens.grouping.BeginEndToken;
 import com.duy.pascal.interperter.tokens.grouping.CaseToken;
 import com.duy.pascal.interperter.tokens.grouping.ClassToken;

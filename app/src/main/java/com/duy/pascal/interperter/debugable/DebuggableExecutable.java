@@ -5,8 +5,8 @@ import com.duy.pascal.interperter.ast.instructions.Executable;
 import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.config.DebugMode;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
-import com.duy.pascal.interperter.runtime_exception.UnhandledPascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.UnhandledPascalException;
 
 public abstract class DebuggableExecutable implements Executable {
 

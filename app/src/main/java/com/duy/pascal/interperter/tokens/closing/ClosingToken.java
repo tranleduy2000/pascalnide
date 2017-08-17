@@ -1,7 +1,7 @@
 package com.duy.pascal.interperter.tokens.closing;
 
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.parse_exception.grouping.GroupingException;
+import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 

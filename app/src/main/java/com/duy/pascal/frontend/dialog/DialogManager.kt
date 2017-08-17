@@ -22,8 +22,8 @@ import android.content.Intent
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.*
-import com.duy.pascal.interperter.parse_exception.ParsingException
-import com.duy.pascal.interperter.parse_exception.define.UnknownIdentifierException
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException
+import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException
 import com.duy.pascal.frontend.R
 import com.duy.pascal.frontend.code.ExceptionManager
 import com.duy.pascal.frontend.editor.EditorActivity

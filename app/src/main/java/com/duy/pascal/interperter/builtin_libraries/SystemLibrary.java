@@ -23,10 +23,10 @@ import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.builtin_libraries.runtime_exceptions.InvalidFloatingPointOperation;
 import com.duy.pascal.interperter.builtin_libraries.runtime_exceptions.RangeCheckError;
-import com.duy.pascal.interperter.parse_exception.value.OrdinalExpressionExpectedException;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
-import com.duy.pascal.interperter.runtime_exception.ScriptTerminatedException;
-import com.duy.pascal.interperter.runtime_exception.WrongArgsException;
+import com.duy.pascal.interperter.exceptions.parsing.value.OrdinalExpressionExpectedException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.ScriptTerminatedException;
+import com.duy.pascal.interperter.exceptions.runtime.WrongArgsException;
 
 import java.util.Map;
 import java.util.Random;

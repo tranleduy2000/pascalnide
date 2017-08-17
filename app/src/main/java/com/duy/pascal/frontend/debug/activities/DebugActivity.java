@@ -57,6 +57,7 @@ import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.editor.view.HighlightEditor;
 import com.duy.pascal.frontend.editor.view.LineUtils;
 import com.duy.pascal.frontend.runnable.AbstractExecActivity;
+import com.duy.pascal.frontend.runnable.ProgramHandler;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.interperter.ast.instructions.Executable;

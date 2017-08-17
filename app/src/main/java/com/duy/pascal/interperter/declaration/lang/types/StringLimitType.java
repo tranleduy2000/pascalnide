@@ -25,8 +25,8 @@ import com.duy.pascal.interperter.ast.runtime_value.value.access.StringIndex;
 import com.duy.pascal.interperter.ast.runtime_value.value.boxing.CharacterBoxer;
 import com.duy.pascal.interperter.ast.runtime_value.value.boxing.StringBoxer;
 import com.duy.pascal.interperter.ast.runtime_value.value.cloning.StringBuilderCloner;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
-import com.duy.pascal.interperter.parse_exception.index.NonArrayIndexed;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
 import com.duy.pascal.interperter.declaration.lang.types.converter.StringBuilderLimitBoxer;
 import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter;
 

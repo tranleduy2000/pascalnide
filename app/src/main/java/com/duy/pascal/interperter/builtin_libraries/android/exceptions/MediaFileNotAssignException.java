@@ -1,6 +1,6 @@
 package com.duy.pascal.interperter.builtin_libraries.android.exceptions;
 
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 /**
  * Created by Duy on 08-May-17.

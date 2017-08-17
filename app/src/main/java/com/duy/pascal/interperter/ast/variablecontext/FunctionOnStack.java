@@ -24,7 +24,7 @@ import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
 import com.duy.pascal.interperter.config.ProgramMode;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 import java.util.ArrayList;
 import java.util.HashMap;

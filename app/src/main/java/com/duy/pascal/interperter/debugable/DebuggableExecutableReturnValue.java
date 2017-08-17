@@ -11,8 +11,8 @@ import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.config.DebugMode;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
-import com.duy.pascal.interperter.runtime_exception.UnhandledPascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.UnhandledPascalException;
 import com.duy.pascal.interperter.utils.NullSafety;
 
 public abstract class DebuggableExecutableReturnValue implements Executable,

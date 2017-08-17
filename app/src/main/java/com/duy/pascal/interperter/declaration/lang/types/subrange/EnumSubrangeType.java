@@ -21,8 +21,8 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.EnumElementValue;
-import com.duy.pascal.interperter.parse_exception.index.LowerGreaterUpperBoundException;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.parsing.index.LowerGreaterUpperBoundException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
 

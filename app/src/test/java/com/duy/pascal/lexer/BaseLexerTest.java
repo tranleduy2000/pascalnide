@@ -16,9 +16,9 @@
 
 package com.duy.pascal.lexer;
 
-import com.duy.pascal.interperter.parse_exception.grouping.GroupingException;
-import com.duy.pascal.interperter.source_include.FileScriptSource;
-import com.duy.pascal.interperter.source_include.ScriptSource;
+import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
+import com.duy.pascal.interperter.source.FileScriptSource;
+import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokenizer.NewLexer;
 import com.duy.pascal.interperter.tokens.grouping.BaseGrouperToken;
 import com.duy.pascal.interpreter.BaseTestCase;

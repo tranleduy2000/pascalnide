@@ -16,8 +16,8 @@
 
 package com.duy.pascal.interperter.declaration.lang.types;
 
-import com.duy.pascal.interperter.parse_exception.operator.BadOperationTypeException;
-import com.duy.pascal.interperter.parse_exception.operator.OperationNotSupportedException;
+import com.duy.pascal.interperter.exceptions.parsing.operator.BadOperationTypeException;
+import com.duy.pascal.interperter.exceptions.parsing.operator.OperationNotSupportedException;
 import com.duy.pascal.interperter.tokens.Token.Precedence;
 import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.interperter.declaration.lang.types.set.SetType;

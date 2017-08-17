@@ -21,7 +21,7 @@ import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.builtin_libraries.runtime_exceptions.EConvertError;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;

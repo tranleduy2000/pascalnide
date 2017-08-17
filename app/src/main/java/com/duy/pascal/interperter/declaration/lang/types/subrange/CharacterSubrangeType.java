@@ -20,8 +20,8 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
-import com.duy.pascal.interperter.parse_exception.index.LowerGreaterUpperBoundException;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.parsing.index.LowerGreaterUpperBoundException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 
 public class CharacterSubrangeType extends SubrangeType<Character> {

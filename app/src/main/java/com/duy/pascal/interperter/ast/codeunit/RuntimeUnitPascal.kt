@@ -18,7 +18,7 @@ package com.duy.pascal.interperter.ast.codeunit
 
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext
 import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException
 
 class RuntimeUnitPascal : RuntimeExecutableCodeUnit<PascalUnitDeclaration> {
     constructor(unitPascal: PascalUnitDeclaration) : super(unitPascal)

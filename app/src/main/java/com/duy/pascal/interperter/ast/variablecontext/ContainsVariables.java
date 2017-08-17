@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.ast.variablecontext;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 public interface ContainsVariables extends Cloneable {
     @NonNull

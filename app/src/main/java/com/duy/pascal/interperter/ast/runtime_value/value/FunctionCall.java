@@ -10,10 +10,10 @@ import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.debugable.DebuggableExecutableReturnValue;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.parse_exception.ParsingException;
-import com.duy.pascal.interperter.parse_exception.define.AmbiguousFunctionCallException;
-import com.duy.pascal.interperter.parse_exception.define.BadFunctionCallException;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.parsing.define.AmbiguousFunctionCallException;
+import com.duy.pascal.interperter.exceptions.parsing.define.BadFunctionCallException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.tokens.WordToken;
 import com.duy.pascal.interperter.utils.ArrayUtil;
 

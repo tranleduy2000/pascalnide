@@ -25,9 +25,9 @@ import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.builtin_libraries.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.interperter.core.PascalCompiler;
-import com.duy.pascal.interperter.parse_exception.io.InputStreamNotFoundException;
-import com.duy.pascal.interperter.runtime_exception.InvalidNumericFormatException;
-import com.duy.pascal.interperter.runtime_exception.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.parsing.io.InputStreamNotFoundException;
+import com.duy.pascal.interperter.exceptions.runtime.InvalidNumericFormatException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.frontend.DLog;
 
 import java.io.PrintStream;
