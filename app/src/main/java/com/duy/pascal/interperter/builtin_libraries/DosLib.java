@@ -51,7 +51,7 @@ public class DosLib implements PascalLibrary {
      * return system time
      */
     @PascalMethod(description = "Dos library")
-    public static void getTime(PascalReference<Object> hour,
+    public static void GetTime(PascalReference<Object> hour,
                                PascalReference<Object> minute,
                                PascalReference<Object> second,
                                PascalReference<Object> sec100) {
@@ -66,7 +66,7 @@ public class DosLib implements PascalLibrary {
      * return system date
      */
     @PascalMethod(description = "Dos library")
-    public static void getDate(PascalReference<Integer> year,
+    public static void GetDate(PascalReference<Integer> year,
                                PascalReference<Integer> month,
                                PascalReference<Integer> mday,
                                PascalReference<Integer> wday) {
@@ -124,18 +124,18 @@ public class DosLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "Dos library")
-    public int dosVersion() {
+    public int DosVersion() {
         return Build.VERSION.SDK_INT;
     }
 
     @PascalMethod(description = "Return the day of the week")
-    public int weekday(int y, int m, int d) {
+    public int Weekday(int y, int m, int d) {
         Calendar calendar = new GregorianCalendar(y, m, d);
         return calendar.get(Calendar.DAY_OF_WEEK);
     }
 
     @PascalMethod(description = "Unpack packed file time to a DateTime value")
-    public void unpackTime(Long time, PascalReference<RecordValue> pack) throws RuntimePascalException {
+    public void UnpackTime(Long time, PascalReference<RecordValue> pack) throws RuntimePascalException {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date(time));
         RecordValue v = pack.get();
@@ -149,7 +149,7 @@ public class DosLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "Pack DateTime value to a packed-time format.")
-    public void packTime(PascalReference<RecordValue> datetime, PascalReference<Long> p) throws RuntimePascalException {
+    public void PackTime(PascalReference<RecordValue> datetime, PascalReference<Long> p) throws RuntimePascalException {
         RecordValue v = datetime.get();
         int year = (int) v.getVar(Name.create("year"));
         int month = (int) v.getVar(Name.create("month"));

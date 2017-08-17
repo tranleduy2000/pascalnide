@@ -88,27 +88,27 @@ public class SystemLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Generate random number")
-    public long random(long range) {
+    public long Random(long range) {
         return (long) (random.nextDouble() * range);
     }
 
     @PascalMethod(description = "Generate random number")
-    public double random() {
+    public double Random() {
         return random.nextDouble();
     }
 
     @PascalMethod(description = "Initialize random number generator")
-    public void randomize() {
+    public void Randomize() {
         random = new Random(System.currentTimeMillis());
     }
 
     @PascalMethod(description = "Increase value of integer variable")
-    public void inc(PascalReference<Object> boxer) throws RuntimePascalException {
-        inc(boxer, 1);
+    public void Inc(PascalReference<Object> boxer) throws RuntimePascalException {
+        Inc(boxer, 1);
     }
 
     @PascalMethod(description = "Increase value of integer variable")
-    public void inc(PascalReference<Object> boxer, Object increment) throws RuntimePascalException {
+    public void Inc(PascalReference<Object> boxer, Object increment) throws RuntimePascalException {
         if (boxer.get() instanceof Long) {
             long count;
             if (increment instanceof Integer) {
@@ -156,12 +156,12 @@ public class SystemLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Decrease value of variable")
-    public void dec(PascalReference<Object> boxer) throws RuntimePascalException {
-        dec(boxer, 1);
+    public void Dec(PascalReference<Object> boxer) throws RuntimePascalException {
+        Dec(boxer, 1);
     }
 
     @PascalMethod(description = "Decrease value of variable")
-    public void dec(PascalReference<Object> boxer, Object increment) throws RuntimePascalException {
+    public void Dec(PascalReference<Object> boxer, Object increment) throws RuntimePascalException {
         if (boxer.get() instanceof Long) {
             long count;
             if (increment instanceof Integer) {
@@ -209,62 +209,62 @@ public class SystemLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Truncate a floating point value.")
-    public long trunc(double d) {
-        return (long) (d - frac(d));
+    public long Trunc(double d) {
+        return (long) (d - Frac(d));
     }
 
     @PascalMethod(description = "Return fractional part of floating point value.")
-    public double frac(double d) {
+    public double Frac(double d) {
         return d - ((long) d);
     }
 
     @PascalMethod(description = "Calculate absolute value")
-    public int abs(int d) {
+    public int Abs(int d) {
         return Math.abs(d);
     }
 
     @PascalMethod(description = "Calculate absolute value")
-    public long abs(long d) {
+    public long Abs(long d) {
         return Math.abs(d);
     }
 
     @PascalMethod(description = "Calculate absolute value")
-    public double abs(double d) {
+    public double Abs(double d) {
         return Math.abs(d);
     }
 
     @PascalMethod(description = "Round floating point value to nearest integer number.")
-    public long round(double d) {
+    public long Round(double d) {
         return Math.round(d);
     }
 
     @PascalMethod(description = "Calculate sine of angle")
-    public double sin(double d) {
+    public double Sin(double d) {
         return Math.sin(d);
     }
 
     @PascalMethod(description = "Calculate cosine of angle")
-    public double cos(double d) {
+    public double Cos(double d) {
         return Math.cos(d);
     }
 
     @PascalMethod(description = "Calculate the square of a value.")
-    public int sqr(int d) {
+    public int Sqr(int d) {
         return d * d;
     }
 
     @PascalMethod(description = "Calculate the square of a value.")
-    public long sqr(long d) {
+    public long Sqr(long d) {
         return d * d;
     }
 
     @PascalMethod(description = "Calculate the square of a value.")
-    public double sqr(double d) {
+    public double Sqr(double d) {
         return d * d;
     }
 
     @PascalMethod(description = "Calculate the square root of a value")
-    public double sqrt(double d) throws InvalidFloatingPointOperation {
+    public double Sqrt(double d) throws InvalidFloatingPointOperation {
         if (d < 0) {
             throw new InvalidFloatingPointOperation(d);
         }
@@ -272,12 +272,12 @@ public class SystemLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Return previous element for an ordinal type")
-    public int pred(int d) {
+    public int Pred(int d) {
         return d - 1;
     }
 
     @PascalMethod(description = "system lib")
-    public int succ(int d) {
+    public int Succ(int d) {
         return d + 1;
     }
 
@@ -293,12 +293,12 @@ public class SystemLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Calculate inverse tangent")
-    public double arctan(double a) {
+    public double ArcTan(double a) {
         return Math.atan(a);
     }
 
     @PascalMethod(description = "Exponentiate")
-    public double exp(double a) {
+    public double Exp(double a) {
         return Math.exp(a);
     }
 
@@ -309,33 +309,33 @@ public class SystemLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Is a value odd or even ?")
-    public boolean odd(long x) {
+    public boolean Odd(long x) {
         return x % 2 == 0;
     }
 
     @PascalMethod(description = "Stop program execution")
-    public void halt(long value) throws ScriptTerminatedException {
+    public void Halt(long value) throws ScriptTerminatedException {
         throw new ScriptTerminatedException(null);
     }
 
     @PascalMethod(description = "")
-    public void halt() throws ScriptTerminatedException {
+    public void Halt() throws ScriptTerminatedException {
         throw new ScriptTerminatedException(null);
     }
 
     @PascalMethod(description = "Is a value odd or even ?")
-    public boolean odd(int i) {
+    public boolean Odd(int i) {
         return i % 2 == 1;
     }
 
     @PascalMethod(description = "Convert ascii to character")
-    public char chr(int i) {
+    public char Chr(int i) {
         return (char) i;
     }
 
 
     @PascalMethod(description = "Convert character to ascii code")
-    public int ord(char c) {
+    public int Ord(char c) {
         return (int) c;
     }
 
@@ -346,18 +346,18 @@ public class SystemLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Convert a numerical or enumeration value to a string")
-    public void str(Long num, PascalReference<StringBuilder> s) {
+    public void Str(Long num, PascalReference<StringBuilder> s) {
         s.set(new StringBuilder(String.valueOf(num)));
     }
 
     @PascalMethod(description = "Convert a numerical or enumeration value to a string")
-    public void str(Double num, PascalReference<StringBuilder> s) {
+    public void Str(Double num, PascalReference<StringBuilder> s) {
         s.set(new StringBuilder(String.valueOf(num)));
     }
 
 
     @PascalMethod(description = " Calculate numerical/enumerated value of a string.")
-    public void val(StringBuilder zinput, PascalReference<Object> output, PascalReference<Integer> resultCode) throws RuntimePascalException {
+    public void Val(StringBuilder zinput, PascalReference<Object> output, PascalReference<Integer> resultCode) throws RuntimePascalException {
         try {
             String input;
             input = zinput.toString().trim(); //remove white space in start and end postion
@@ -382,24 +382,24 @@ public class SystemLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Convert a string to all uppercase.")
-    public char upCase(char s) {
+    public char UpCase(char s) {
         return Character.toUpperCase(s);
     }
 
     @PascalMethod(description = "Convert a string to all uppercase.")
-    public StringBuilder upCase(StringBuilder s) {
+    public StringBuilder UpCase(StringBuilder s) {
         return new StringBuilder(s.toString().toUpperCase());
     }
 
     @PascalMethod(description = "Append one string to another")
-    public StringBuilder concat(StringBuilder... agrs) {
+    public StringBuilder Concat(StringBuilder... agrs) {
         StringBuilder stringBuilder = new StringBuilder();
         for (StringBuilder s1 : agrs) stringBuilder.append(s1);
         return stringBuilder;
     }
 
     @PascalMethod(description = "Search for substring in a string")
-    public int pos(StringBuilder substring, StringBuilder s) {
+    public int Pos(StringBuilder substring, StringBuilder s) {
         return s.indexOf(substring.toString()) + 1;
     }
 
@@ -409,7 +409,7 @@ public class SystemLibrary implements PascalLibrary {
 //    }
 
     @PascalMethod(description = "Set length of a string.")
-    public void setlength(PascalReference<StringBuilder> s, int length)
+    public void SetLength(PascalReference<StringBuilder> s, int length)
             throws RuntimePascalException {
         String filler = "!@#$%";
         StringBuilder old = s.get();
@@ -430,14 +430,14 @@ public class SystemLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Insert one string in another.")
-    public void insert(StringBuilder s, PascalReference<StringBuilder> s1, int pos)
+    public void Insert(StringBuilder s, PascalReference<StringBuilder> s1, int pos)
             throws RuntimePascalException {
         System.out.println("s = [" + s + "], s1 = [" + s1 + "], pos = [" + pos + "]");
         s1.set(new StringBuilder(s1.get()).insert(pos - 1, s));
     }
 
     @PascalMethod(description = "Copy part of a string")
-    public StringBuilder copy(StringBuilder s, int from, int count) {
+    public StringBuilder Copy(StringBuilder s, int from, int count) {
         System.out.println("s = [" + s + "], from = [" + from + "], count = [" + count + "]");
         if (from - 1 + count > s.length()) {
             return new StringBuilder(s.substring(from - 1, s.length()));
@@ -447,29 +447,29 @@ public class SystemLibrary implements PascalLibrary {
 
 
     @PascalMethod(description = "Delete part of a string")
-    public void delete(PascalReference<StringBuilder> s, int start, int count)
+    public void Delete(PascalReference<StringBuilder> s, int start, int count)
             throws RuntimePascalException {
         System.out.println("s = [" + s + "], start = [" + start + "], count = [" + count + "]");
         s.set(s.get().delete(start - 1, start + count - 1));
     }
 
     @PascalMethod(description = "Free dynamically allocated memory")
-    public void dispose(PascalPointer<?> pascalPointer) {
+    public void Dispose(PascalPointer<?> pascalPointer) {
         pascalPointer.set(null);
     }
 
     @PascalMethod(description = "Allocate new memory on the heap")
-    public void getMem(PascalPointer pascalPointer, long size) {
+    public void GetMem(PascalPointer pascalPointer, long size) {
 
     }
 
     @PascalMethod(description = "Allocate new memory on the heap")
     @SuppressWarnings("unchecked")
-    public PascalPointer getMem(long size) {
+    public PascalPointer GetMem(long size) {
         return new ObjectBasedPointer(new Object());
     }
 
-    public StringBuilder createNull() {
+    public StringBuilder CreateNull() {
         return null;
     }
 }

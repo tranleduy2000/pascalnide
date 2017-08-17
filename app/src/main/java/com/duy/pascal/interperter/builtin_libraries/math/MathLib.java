@@ -36,58 +36,58 @@ public class MathLib implements PascalLibrary {
     private Random random = new Random();
 
     @PascalMethod(description = "Return inverse cosine")
-    public double arccos(double x) {
+    public double ArcCos(double x) {
         return Math.acos(x);
     }
 
     @PascalMethod(description = "Return inverse hyperbolic cosine")
-    public double arccosh(double d) {
+    public double ArcCosh(double d) {
         return MoreMath.acosh(d);
     }
 
     @PascalMethod(description = "Return inverse hyperbolic cosine")
-    public double arcosh(double d) {
+    public double Arcosh(double d) {
         return MoreMath.acosh(d);
     }
 
     @PascalMethod(description = "Return inverse sine")
-    public double arcsin(double d) {
+    public double ArcSin(double d) {
         return Math.asin(d);
     }
 
     @PascalMethod(description = "Return inverse hyperbolic sine")
-    public double arcsinh(double d) {
+    public double ArcSinh(double d) {
         return MoreMath.asinh(d);
     }
 
     @PascalMethod(description = "Return inverse hyperbolic sine")
-    public double arsinh(double d) {
+    public double Arsinh(double d) {
         return MoreMath.asinh(d);
     }
 
-    @PascalMethod(description = "Return arctangent of (y/x)")
-    public double arctan2(double y, double x) {
+    @PascalMethod(description = "Return Arctangent of (y/x)")
+    public double ArcTan2(double y, double x) {
         return Math.atan2(y, x);
     }
 
     @PascalMethod(description = "Return inverse hyperbolic tangent")
-    public double arctanh(double d) {
+    public double ArcTanh(double d) {
         return MoreMath.atanh(d);
     }
 
     @PascalMethod(description = "Return inverse hyperbolic tangent")
-    public double artanh(double d) {
+    public double Artanh(double d) {
         return MoreMath.atanh(d);
     }
 
     @PascalMethod(description = "Return the lowest integer number greater than or equal to argument")
-    public int ceil(double d) {
+    public int Ceil(double d) {
         return (int) Math.ceil(d);
     }
 
 
     @PascalMethod(description = "Round to the nearest bigger int64 value")
-    public long ceil64(double d) {
+    public long Ceil64(double d) {
         return (long) Math.ceil(d);
     }
 
@@ -117,14 +117,14 @@ public class MathLib implements PascalLibrary {
 
 
     @PascalMethod(description = "")
-    public double cosh(double d) {
+    public double Cosh(double d) {
         return Math.cosh(d);
     }
 
     //Convert cycle angle to radians angle
 
     @PascalMethod(description = "")
-    public double cycletorad(double cycle) {
+    public double CycleToRad(double cycle) {
         double degree = cycle * 360;
         return Math.toRadians(degree);
     }
@@ -132,13 +132,13 @@ public class MathLib implements PascalLibrary {
     //Convert degree angle to grads angle
 
     @PascalMethod(description = "")
-    public double degtograd(double deg) {
+    public double DegToGrad(double deg) {
         return 1.1111111111111 * deg;
     }
 
 
     @PascalMethod(description = "")
-    public double degtorad(double deg) {
+    public double DegToRad(double deg) {
         return Math.toRadians(deg);
     }
 
@@ -185,19 +185,19 @@ public class MathLib implements PascalLibrary {
 
 
     @PascalMethod(description = "Return the largest integer smaller than or equal to argument")
-    public int floor(double d) {
+    public int Floor(double d) {
         return (int) Math.floor(d);
     }
 
 
     @PascalMethod(description = "Round to the nearest smaller int64 value")
-    public long floor64(double d) {
+    public long Floor64(double d) {
         return (int) Math.floor(d);
     }
 
 
     @PascalMethod(description = "")
-    public double radtodeg(double d) {
+    public double RadToDeg(double d) {
         return Math.toDegrees(d);
     }
 
@@ -240,19 +240,19 @@ public class MathLib implements PascalLibrary {
 
 
     @PascalMethod(description = "")
-    public int max(int a, int b) {
+    public int Max(int a, int b) {
         return a > b ? a : b;
     }
 
 
     @PascalMethod(description = "")
-    public long max(long a, long b) {
+    public long Max(long a, long b) {
         return Math.max(a, b);
     }
 
 
     @PascalMethod(description = "")
-    public double max(double a, double b) {
+    public double Max(double a, double b) {
         return Math.max(a, b);
     }
 
@@ -282,13 +282,13 @@ public class MathLib implements PascalLibrary {
 
 
     @PascalMethod(description = "")
-    public double tanh(double d) {
+    public double Tanh(double d) {
         return Math.tanh(d);
     }
 
 
     @PascalMethod(description = "")
-    public double sumofsquares(double... arr) {
+    public double SumOfSquares(double... arr) {
         double res = 0;
         for (double v : arr) {
             res += power(v, 2);
@@ -298,7 +298,7 @@ public class MathLib implements PascalLibrary {
 
 
     @PascalMethod(description = "")
-    public double sum(double... arr) {
+    public double Sum(double... arr) {
         double res = 0;
         for (double v : arr) {
             res += v;
@@ -308,7 +308,7 @@ public class MathLib implements PascalLibrary {
 
 
     @PascalMethod(description = "")
-    public int sumInt(int... arr) {
+    public int SumInt(int... arr) {
         int res = 0;
         for (int v : arr) {
             res += v;
@@ -318,7 +318,7 @@ public class MathLib implements PascalLibrary {
 
 
     @PascalMethod(description = "")
-    public long sumInt(long... arr) {
+    public long SumInt(long... arr) {
         int res = 0;
         for (long v : arr) {
             res += v;
@@ -328,14 +328,14 @@ public class MathLib implements PascalLibrary {
 
 
     @PascalMethod(description = "")
-    public double stddev(double... arr) {
+    public double Stddev(double... arr) {
         Statistics statistics = new Statistics(arr);
         return statistics.getStdDev();
     }
 
 
     @PascalMethod(description = "")
-    public int sign(double val) {
+    public int Sign(double val) {
         if (val > 0) return 1;
         if (val < 0) return -1;
         return 0;
@@ -343,7 +343,7 @@ public class MathLib implements PascalLibrary {
 
 
     @PascalMethod(description = "")
-    public int sign(long val) {
+    public int Sign(long val) {
         if (val > 0) return 1;
         if (val < 0) return -1;
         return 0;
@@ -351,7 +351,7 @@ public class MathLib implements PascalLibrary {
 
 
     @PascalMethod(description = "")
-    public int sign(int val) {
+    public int Sign(int val) {
         if (val > 0) return 1;
         if (val < 0) return -1;
         return 0;
@@ -359,13 +359,13 @@ public class MathLib implements PascalLibrary {
 
 
     @PascalMethod(description = "")
-    public double secant(double x) {
+    public double Secant(double x) {
         return 1 / Math.cos(x);
     }
 
 
     @PascalMethod(description = "")
-    public double sec(double x) {
+    public double Sec(double x) {
         return 1 / Math.cos(x);
     }
 
@@ -384,7 +384,7 @@ public class MathLib implements PascalLibrary {
 
 
     @PascalMethod(description = "")
-    public double mean(double... arr) {
+    public double Mean(double... arr) {
         DescriptiveStatistics descriptiveStatistics1 = new DescriptiveStatistics(arr);
         return descriptiveStatistics1.getMean();
     }
@@ -392,35 +392,35 @@ public class MathLib implements PascalLibrary {
     //Return total varians of values
 
     @PascalMethod(description = "")
-    public double totalvariance(double... arr) {
+    public double TotalVariance(double... arr) {
         DescriptiveStatistics descriptiveStatistics1 = new DescriptiveStatistics(arr);
         return descriptiveStatistics1.getVariance();
     }
 
 
     @PascalMethod(description = "")
-    public double maxvalue(double... arr) {
+    public double MaxValue(double... arr) {
         DescriptiveStatistics descriptiveStatistics1 = new DescriptiveStatistics(arr);
         return descriptiveStatistics1.getMax();
     }
 
 
     @PascalMethod(description = "")
-    public double popnvariance(double... arr) {
+    public double PopNVariance(double... arr) {
         DescriptiveStatistics descriptiveStatistics1 = new DescriptiveStatistics(arr);
         return descriptiveStatistics1.getPopulationVariance();
     }
 
 
     @PascalMethod(description = "")
-    public double popnstddev(double... arr) {
+    public double Popstddev(double... arr) {
         DescriptiveStatistics descriptiveStatistics1 = new DescriptiveStatistics(arr);
         return descriptiveStatistics1.getPopulationVariance();
     }
 
 
     @PascalMethod(description = "")
-    public double minvalue(double... arr) {
+    public double MinValue(double... arr) {
         DescriptiveStatistics descriptiveStatistics1 = new DescriptiveStatistics(arr);
         return descriptiveStatistics1.getMin();
     }
@@ -449,38 +449,38 @@ public class MathLib implements PascalLibrary {
 
 
     @PascalMethod(description = "")
-    public int min(int a, int b) {
+    public int Min(int a, int b) {
         return a < b ? a : b;
     }
 
 
     @PascalMethod(description = "")
-    public long min(long a, long b) {
+    public long Min(long a, long b) {
         return a < b ? a : b;
     }
 
 
     @PascalMethod(description = "")
-    public double min(double a, double b) {
+    public double Min(double a, double b) {
         return a < b ? a : b;
     }
 
     //Return N-based logarithm.
 
     @PascalMethod(description = "")
-    public double logn(double x, double n) {
+    public double Logn(double x, double n) {
         return FastMath.log(x, n);
     }
 
 
     @PascalMethod(description = "")
-    public double log2(double x) {
+    public double Log2(double x) {
         return FastMath.log(x, 2);
     }
 
 
     @PascalMethod(description = "")
-    public double log10(double x) {
+    public double Log10(double x) {
         return FastMath.log10(x);
     }
 

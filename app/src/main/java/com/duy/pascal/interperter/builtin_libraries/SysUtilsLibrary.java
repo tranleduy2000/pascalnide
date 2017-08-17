@@ -193,12 +193,12 @@ public class SysUtilsLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Trim whitespace from the ends of a string.", returns = "void")
-    public StringBuilder trim(StringBuilder s) {
+    public StringBuilder Trim(StringBuilder s) {
         return new StringBuilder(s.toString().trim());
     }
 
     @PascalMethod(description = "Suspend execution of a program for a certain time.", returns = "void")
-    public void sleep(int time) {
+    public void Sleep(int time) {
         try {
             Thread.sleep(time);
         } catch (InterruptedException e) {
@@ -209,12 +209,12 @@ public class SysUtilsLibrary implements PascalLibrary {
 
     //Convert null-TERMINATED string to all-uppercase
     @PascalMethod(description = "sys utis library", returns = "void")
-    public StringBuilder strupper(StringBuilder stringBuilder) {
+    public StringBuilder StrUpper(StringBuilder stringBuilder) {
         return new StringBuilder(stringBuilder.toString().toUpperCase());
     }
 
     @PascalMethod(description = "sys utis library", returns = "void")
-    public StringBuilder strupper(Character stringBuilder) {
+    public StringBuilder StrUpper(Character stringBuilder) {
         return new StringBuilder(stringBuilder.toString().toUpperCase());
     }
 
@@ -286,12 +286,12 @@ public class SysUtilsLibrary implements PascalLibrary {
 
 
     @PascalMethod(description = "Format a string with given arguments. (Java)")
-    public StringBuilder format(StringBuilder format, Object[] arg) {
+    public StringBuilder Format(StringBuilder format, Object[] arg) {
         return new StringBuilder(String.format(format.toString(), arg));
     }
 
     @PascalMethod(description = "Convert a TDateTime time to a string using a predefined format")
-    public StringBuilder timeToStr(Long time) {
+    public StringBuilder TimeToStr(Long time) {
         Date date = new Date(time);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
         String format = simpleDateFormat.format(date);
@@ -299,7 +299,7 @@ public class SysUtilsLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Convert a TDateTime time to a string using a predefined format")
-    public StringBuilder dateToStr(Long time) {
+    public StringBuilder DateToStr(Long time) {
         Date date = new Date(time);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         String format = simpleDateFormat.format(date);
@@ -307,17 +307,17 @@ public class SysUtilsLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Returns the current time.")
-    public Long time() {
+    public Long Time() {
         return System.currentTimeMillis();
     }
 
     @PascalMethod(description = "Return the current date.")
-    public Long date() {
+    public Long Date() {
         return System.currentTimeMillis();
     }
 
     @PascalMethod(description = "Decode a TDateTime to a year,month,day triplet")
-    public void decodeDate(Long time, PascalReference<Integer> y,
+    public void DecodeDate(Long time, PascalReference<Integer> y,
                            PascalReference<Integer> m, PascalReference<Integer> d) {
         Date date = new Date(time);
         Calendar calendar = new GregorianCalendar();
@@ -333,7 +333,7 @@ public class SysUtilsLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Convert a boolean value to a string.")
-    public StringBuilder boolToStr(Boolean b, StringBuilder sTrue, StringBuilder sFalse) {
+    public StringBuilder BoolToStr(Boolean b, StringBuilder sTrue, StringBuilder sFalse) {
         return b ? sTrue : sFalse;
     }
 }
