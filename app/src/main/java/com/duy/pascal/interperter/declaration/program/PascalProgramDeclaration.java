@@ -47,7 +47,7 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
                                     String sourceName, List<ScriptSource> includeDirectories,
                                     ProgramHandler handler)
             throws ParsingException {
-        super(program, sourceName, includeDirectories, handler);
+        super(program, sourceName, includeDirectories, handler, null);
         this.handler = handler;
     }
 

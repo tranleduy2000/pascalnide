@@ -1,5 +1,7 @@
 package com.duy.pascal.interperter.ast.expressioncontext;
 
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeUnitPascal;
 import com.duy.pascal.interperter.declaration.Name;
@@ -9,23 +11,25 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
+import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.exceptions.parsing.define.DuplicateIdentifierException;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public abstract class HierarchicalExpressionContext implements ExpressionContext {
     protected ExpressionContext parent;
-
-    public ExpressionContext getParentContext() {
-        return parent;
-    }
-
     protected CodeUnit root;
+    protected HashMap<Class, Object> parsingListener = new HashMap<>();
 
     public HierarchicalExpressionContext(CodeUnit root, ExpressionContext parent) {
         this.parent = parent;
         this.root = root;
+    }
+
+    public ExpressionContext getParentContext() {
+        return parent;
     }
 
     /**
@@ -42,7 +46,6 @@ public abstract class HierarchicalExpressionContext implements ExpressionContext
         }
         return result;
     }
-
 
     @Override
     public Type getTypeDef(Name identifier) {
@@ -83,7 +86,6 @@ public abstract class HierarchicalExpressionContext implements ExpressionContext
         return result;
     }
 
-
     @Override
     public void getCallableFunctions(Name name,
                                      List<List<AbstractFunction>> sofar) {
@@ -96,10 +98,22 @@ public abstract class HierarchicalExpressionContext implements ExpressionContext
         }
     }
 
-
     @Override
     public boolean functionExists(Name name) {
         return functionExistsLocal(name)
                 || (parent != null && parent.functionExists(name));
+    }
+
+    public void put(Class<?> clazz, DiagnosticCollector object) {
+        this.parsingListener.put(clazz, object);
+    }
+
+    @Nullable
+    public <T> T getListener(Class<T> c) {
+        try {
+            return (T) parsingListener.get(c);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

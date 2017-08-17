@@ -64,7 +64,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
                                  List<ScriptSource> includeDirectories,
                                  @Nullable ProgramHandler handler)
             throws ParsingException {
-        super(program, sourceName, includeDirectories, handler);
+        super(program, sourceName, includeDirectories, handler, null);
         this.handler = handler;
     }
 

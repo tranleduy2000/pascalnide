@@ -33,6 +33,7 @@ import com.duy.pascal.interperter.declaration.lang.types.util.TypeUtils;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.tokens.Token;
+import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.interperter.tokens.grouping.ParenthesizedToken;
 
 import java.lang.reflect.Array;
@@ -53,6 +54,40 @@ public class ArrayType<ELEMENT extends Type> extends BaseSetType {
         this.elementType = elementType;
         this.bound = bound;
         this.dynamic = bound == null;
+    }
+
+    /**
+     * parse array constant
+     *
+     * @param group - parentheses token: the container of array. Example (1, 2, 3)
+     * @param type  - element type of array
+     * @return - the {@link ConstantAccess} include array object and lineInfo number
+     * @throws ParsingException - some token is not expect
+     */
+    public static ConstantAccess<Object[]> getArrayConstant(ExpressionContext context,
+                                                            Token group, ArrayType type) throws ParsingException {
+
+
+        if (!(group instanceof ParenthesizedToken)) {
+            throw new ExpectedTokenException("(", group);
+        }
+
+        Type elementType = type.elementType;
+        ParenthesizedToken container = (ParenthesizedToken) group;
+
+        //size of array
+        int size = type.getBound().getSize();
+        //create new array
+//        Object[] objects = new Object[size];
+        Class<?> elementClass = elementType.getStorageClass();
+        Object[] objects = (Object[]) Array.newInstance(elementClass, size);
+        for (int i = 0; i < size; i++) {
+            if (!container.hasNext()) {
+                throw new ExpectedTokenException(",", container.peek());
+            }
+            objects[i] = GrouperToken.getConstantElement(context, container, elementType).getValue();
+        }
+        return new ConstantAccess<>(objects, type, container.getLineNumber());
     }
 
     public boolean isDynamic() {
@@ -184,7 +219,6 @@ public class ArrayType<ELEMENT extends Type> extends BaseSetType {
         return new ArrayCloner<ELEMENT>(r);
     }
 
-
     @NonNull
     @Override
     public RuntimeValue generateArrayAccess(RuntimeValue array,
@@ -226,41 +260,6 @@ public class ArrayType<ELEMENT extends Type> extends BaseSetType {
     @Override
     public String getEntityType() {
         return "array type";
-    }
-
-
-    /**
-     * parse array constant
-     *
-     * @param group - parentheses token: the container of array. Example (1, 2, 3)
-     * @param type  - element type of array
-     * @return - the {@link ConstantAccess} include array object and lineInfo number
-     * @throws ParsingException - some token is not expect
-     */
-    public static ConstantAccess<Object[]> getArrayConstant(ExpressionContext context,
-                                                            Token group, ArrayType type) throws ParsingException {
-
-
-        if (!(group instanceof ParenthesizedToken)) {
-            throw new ExpectedTokenException("(", group);
-        }
-
-        Type elementType = type.elementType;
-        ParenthesizedToken container = (ParenthesizedToken) group;
-
-        //size of array
-        int size = type.getBound().getSize();
-        //create new array
-//        Object[] objects = new Object[size];
-        Class<?> elementClass = elementType.getStorageClass();
-        Object[] objects = (Object[]) Array.newInstance(elementClass, size);
-        for (int i = 0; i < size; i++) {
-            if (!container.hasNext()) {
-                throw new ExpectedTokenException(",", container.peek());
-            }
-            objects[i] = container.getConstantElement(context, container, elementType).getValue();
-        }
-        return new ConstantAccess<>(objects, type, container.getLineNumber());
     }
 
 }

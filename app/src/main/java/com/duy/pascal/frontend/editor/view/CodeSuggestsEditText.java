@@ -18,16 +18,19 @@ package com.duy.pascal.frontend.editor.view;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.completion.KeyWord;
+import com.duy.pascal.frontend.editor.completion.PascalParserHelper;
 import com.duy.pascal.frontend.editor.view.adapters.CodeSuggestAdapter;
 import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
@@ -49,7 +52,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     protected SymbolsTokenizer mTokenizer;
     private CodeSuggestAdapter mAdapter;
     private boolean enoughToFilter = false;
-
+    private PascalParserHelper pascalParserHelper;
 
     public CodeSuggestsEditText(Context context) {
         super(context);
@@ -156,7 +159,6 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         onPopupChangePosition();
     }
 
-
     @Override
     public void showDropDown() {
         if (!isPopupShowing()) {
@@ -226,6 +228,33 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         ArrayList<InfoItem> oldItems = mAdapter.getAllItems();
         oldItems.addAll(newData);
         setSuggestData(oldItems);
+    }
+
+    private class ParseTask extends AsyncTask<Void, Void, Void> {
+        private EditText editText;
+        private String source;
+        private int cursor;
+        private PascalParserHelper pascalParserHelper;
+
+        private ParseTask(EditText editText) {
+            this.editText = editText;
+            this.source = editText.getText().toString();
+            this.cursor = editText.getSelectionStart();
+            this.pascalParserHelper = new PascalParserHelper();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            pascalParserHelper.parse(source, cursor);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+//            pascalParserHelper.getError();
+//            pascalParserHelper.getSuggestData();
+        }
     }
 
     private class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {

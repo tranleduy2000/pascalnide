@@ -19,6 +19,7 @@ package com.duy.pascal.interperter.declaration.classunit;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.frontend.runnable.ProgramHandler;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.ExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
@@ -26,20 +27,20 @@ import com.duy.pascal.interperter.ast.expressioncontext.ClassExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.frontend.runnable.ProgramHandler;
 
 /**
  * Created by Duy on 16-Jun-17.
  */
 public class PascalClassDeclaration extends CodeUnit implements Cloneable {
 
-    private final CodeUnit root;
-    private final ProgramHandler handler;
+    private CodeUnit root;
+    private ProgramHandler handler;
     @NonNull
     private ExpressionContext parent;
 
     public PascalClassDeclaration(CodeUnit root, @NonNull ExpressionContext parent,
                                   ProgramHandler handler) throws ParsingException {
+        super(handler);
         this.root = root;
         this.parent = parent;
         this.handler = handler;

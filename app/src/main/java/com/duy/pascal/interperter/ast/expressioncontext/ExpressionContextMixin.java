@@ -35,6 +35,8 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
+import com.duy.pascal.interperter.exceptions.Diagnostic;
+import com.duy.pascal.interperter.exceptions.DiagnosticsListener;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.PermissionDeniedException;
 import com.duy.pascal.interperter.exceptions.parsing.UnSupportTokenException;
@@ -259,127 +261,137 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     }
 
     public void addNextDeclaration(GrouperToken i) throws ParsingException {
-        Token next = i.peek();
-        if (next instanceof ProcedureToken || next instanceof FunctionToken) {
-            i.take();
-            boolean isProcedure = next instanceof ProcedureToken;
-            Name name = i.nextWordValue();
-            if (i.peek() instanceof PeriodToken) {
-                Type typedefType = getTypeDef(name);
-                if (typedefType instanceof PascalClassType) {
-
-                } else {
-                    throw new ExpectedTokenException(";", i.peek());
-                }
-                PascalClassType classType = (PascalClassType) typedefType;
-
+        try {
+            Token next = i.peek();
+            if (next instanceof ProcedureToken || next instanceof FunctionToken) {
                 i.take();
-                name = i.nextWordValue();
-                Type typeInClass = classType.getDeclaration().getContext().getTypedefTypeLocal(name);
-                while (typeInClass != null && typeInClass instanceof PascalClassType) {
-                    classType = (PascalClassType) typeInClass;
-                    if (i.peek() instanceof PeriodToken) {
-                        i.take();
+                boolean isProcedure = next instanceof ProcedureToken;
+                Name name = i.nextWordValue();
+                if (i.peek() instanceof PeriodToken) {
+                    Type typedefType = getTypeDef(name);
+                    if (typedefType instanceof PascalClassType) {
+                        // TODO: 17-Aug-17 implement
                     } else {
+
+                        throw new ExpectedTokenException(";", i.peek());
                     }
+                    PascalClassType classType = (PascalClassType) typedefType;
+
+                    i.take();
                     name = i.nextWordValue();
-                    typeInClass = classType.getDeclaration().getContext().getTypedefTypeLocal(name);
+                    Type typeInClass = classType.getDeclaration().getContext().getTypedefTypeLocal(name);
+                    while (typeInClass != null && typeInClass instanceof PascalClassType) {
+                        classType = (PascalClassType) typeInClass;
+                        if (i.peek() instanceof PeriodToken) {
+                            i.take();
+                        } else {
+                        }
+                        name = i.nextWordValue();
+                        typeInClass = classType.getDeclaration().getContext().getTypedefTypeLocal(name);
+                    }
+                    FunctionDeclaration declaration = new FunctionDeclaration(name,
+                            classType.getClassContext(), i, isProcedure);
+                    FunctionDeclaration function = classType.getClassContext().getExistFunction(declaration);
+                    function.parseFunctionBody(i);
+                } else {
+                    FunctionDeclaration function = new FunctionDeclaration(name, this, i, isProcedure);
+                    function = getExistFunction(function);
+                    function.parseFunctionBody(i);
                 }
-                FunctionDeclaration declaration = new FunctionDeclaration(name,
-                        classType.getClassContext(), i, isProcedure);
-                FunctionDeclaration function = classType.getClassContext().getExistFunction(declaration);
-                function.parseFunctionBody(i);
-            } else {
-                FunctionDeclaration function = new FunctionDeclaration(name, this, i, isProcedure);
-                function = getExistFunction(function);
-                function.parseFunctionBody(i);
-            }
 
-        } else if (next instanceof BeginEndToken) {
-            handleBeginEnd(i);
+            } else if (next instanceof BeginEndToken) {
+                handleBeginEnd(i);
 
-        } else if (next instanceof VarToken) {
-            i.take();
-            List<VariableDeclaration> d = i.getVariableDeclarations(this);
-            for (VariableDeclaration dec : d) {
-                declareVariable(dec);
-            }
+            } else if (next instanceof VarToken) {
+                i.take();
+                List<VariableDeclaration> d = i.getVariableDeclarations(this);
+                for (VariableDeclaration dec : d) {
+                    declareVariable(dec);
+                }
 
-        } else if (next instanceof ConstToken) {
-            i.take();
-            addDeclareConsts(i);
-        } else if (next instanceof UsesToken) {
-            i.take();
-            importLibraries(i);
-            i.assertNextSemicolon();
-        } else if (next instanceof TypeToken) {
-            i.take();
-            addDeclareTypes(i);
-        } else if (next instanceof LabelToken) {
+            } else if (next instanceof ConstToken) {
+                i.take();
+                addDeclareConsts(i);
+            } else if (next instanceof UsesToken) {
+                i.take();
+                importLibraries(i);
+                i.assertNextSemicolon();
+            } else if (next instanceof TypeToken) {
+                i.take();
+                addDeclareTypes(i);
+            } else if (next instanceof LabelToken) {
 //            declareLabels(i);
-            throw new UnSupportTokenException(next);
-        } else if (next instanceof CompileDirectiveToken) {
-            CompileDirectiveToken compileDirectiveToken = (CompileDirectiveToken) i.take();
-            String[] message = compileDirectiveToken.getMessage();
-            root().getConfig().process(message);
-        } else if (next instanceof ConstructorToken) {
-            i.take();
-            Name name = i.nextWordValue();
-            if (i.peek() instanceof PeriodToken) {
-                Type typedefType = getTypeDef(name);
-                if (typedefType instanceof PascalClassType) {
-
-                } else {
-                    throw new ExpectedTokenException(";", i.peek());
-                }
-                PascalClassType classType = (PascalClassType) typedefType;
-
+                throw new UnSupportTokenException(next);
+            } else if (next instanceof CompileDirectiveToken) {
+                CompileDirectiveToken compileDirectiveToken = (CompileDirectiveToken) i.take();
+                String[] message = compileDirectiveToken.getMessage();
+                root().getConfig().process(message);
+            } else if (next instanceof ConstructorToken) {
                 i.take();
-                Name funcName = i.nextWordValue();
-                ClassConstructor declaration = new ClassConstructor(classType, funcName,
-                        classType.getClassContext(), i, true);
-                FunctionDeclaration constructor = classType.getConstructor(declaration);
-                if (constructor != null) {
-                    constructor.parseFunctionBody(i);
+                Name name = i.nextWordValue();
+                if (i.peek() instanceof PeriodToken) {
+                    Type typedefType = getTypeDef(name);
+                    if (typedefType instanceof PascalClassType) {
+
+                    } else {
+                        throw new ExpectedTokenException(";", i.peek());
+                    }
+                    PascalClassType classType = (PascalClassType) typedefType;
+
+                    i.take();
+                    Name funcName = i.nextWordValue();
+                    ClassConstructor declaration = new ClassConstructor(classType, funcName,
+                            classType.getClassContext(), i, true);
+                    FunctionDeclaration constructor = classType.getConstructor(declaration);
+                    if (constructor != null) {
+                        constructor.parseFunctionBody(i);
+                    } else {
+                        throw new RuntimeException();
+                    }
                 } else {
-                    throw new RuntimeException();
+                    FunctionDeclaration function = new FunctionDeclaration(name, this, i, true);
+                    function = getExistFunction(function);
+                    function.parseFunctionBody(i);
+                }
+            } else if (next instanceof DestructorToken) {
+                i.take();
+
+                Name name = i.nextWordValue();
+                if (i.peek() instanceof PeriodToken) {
+                    Type typedefType = getTypeDef(name);
+                    if (typedefType instanceof PascalClassType) {
+
+                    } else {
+                        throw new ExpectedTokenException(";", i.peek());
+                    }
+                    PascalClassType classType = (PascalClassType) typedefType;
+
+                    i.take();
+                    Name funcName = i.nextWordValue();
+                    FunctionDeclaration declaration = new FunctionDeclaration(funcName,
+                            classType.getClassContext(), i, true);
+                    FunctionDeclaration destructor = classType.getClassContext().getDestructor();
+                    if (destructor.headerMatches(declaration)) {
+                        destructor.parseFunctionBody(i);
+                    } else {
+                        throw new RuntimeException();
+                    }
+                } else {
+                    FunctionDeclaration function = new FunctionDeclaration(name, this, i, true);
+                    function = getExistFunction(function);
+                    function.parseFunctionBody(i);
                 }
             } else {
-                FunctionDeclaration function = new FunctionDeclaration(name, this, i, true);
-                function = getExistFunction(function);
-                function.parseFunctionBody(i);
+                Token token = i.take();
+                handleUnrecognizedDeclaration(token, i);
             }
-        } else if (next instanceof DestructorToken) {
-            i.take();
-
-            Name name = i.nextWordValue();
-            if (i.peek() instanceof PeriodToken) {
-                Type typedefType = getTypeDef(name);
-                if (typedefType instanceof PascalClassType) {
-
-                } else {
-                    throw new ExpectedTokenException(";", i.peek());
-                }
-                PascalClassType classType = (PascalClassType) typedefType;
-
-                i.take();
-                Name funcName = i.nextWordValue();
-                FunctionDeclaration declaration = new FunctionDeclaration(funcName,
-                        classType.getClassContext(), i, true);
-                FunctionDeclaration destructor = classType.getClassContext().getDestructor();
-                if (destructor.headerMatches(declaration)) {
-                    destructor.parseFunctionBody(i);
-                } else {
-                    throw new RuntimeException();
-                }
+        } catch (Exception e) {
+            DiagnosticsListener listener = getListener(DiagnosticsListener.class);
+            if (listener != null) {
+                listener.add(new Diagnostic(e));
             } else {
-                FunctionDeclaration function = new FunctionDeclaration(name, this, i, true);
-                function = getExistFunction(function);
-                function.parseFunctionBody(i);
+                throw e;
             }
-        } else {
-            Token token = i.take();
-            handleUnrecognizedDeclaration(token, i);
         }
     }
 
@@ -726,4 +738,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         super.clone();
         return null;
     }
+
+
 }

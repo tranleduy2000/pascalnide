@@ -25,18 +25,16 @@ import android.text.Layout;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-
-import com.duy.pascal.frontend.editor.indention.IndentCode;
-import com.duy.pascal.frontend.editor.completion.Patterns;
-
-import java.util.regex.Matcher;
+import android.util.Log;
 
 /**
  * Created by Duy on 12-May-17.
  */
 
 public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
-    public static final String TAB_CHARACTER = "    ";
+    public static final String TAB_CHARACTER = "  ";
+    public static final String TAB = "  "; //2 space
+    public static final String CURSOR = "\u2622";
     private static final String TAG = "AutoIndentEditText";
 
     public AutoIndentEditText(Context context) {
@@ -95,14 +93,14 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
                             char c = source.charAt(start);
                             if (c == '\n') {
                                 return indentLine(source, start, end, dest, dstart, dend);
+                            } else {
+                                return addBracket(source, start, end, dest, dstart, dend);
                             }
                         }
                         return source;
                     }
                 }
-        });
-
-        //auto add bracket
+        });//auto add bracket
         addTextChangedListener(new TextWatcher() {
             private int start;
             private int count;
@@ -119,19 +117,33 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() > start && count == 1) {
-                    char textToInsert = getCloseBracket(s.charAt(start), start);
-                    if (textToInsert != 0) {
-                        try {
-                            s.insert(start + 1, Character.toString(textToInsert));
-                            setSelection(start);
-                        } catch (Exception ignored) {
-                        }
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > start && count > 1) {
+                    CharSequence newText = editable.subSequence(start, start + count);
+                    int i = newText.toString().indexOf(CURSOR);
+                    if (i > -1) {
+                        editable.delete(start + i, start + i + 1);
+                        setSelection(start);
                     }
                 }
             }
         });
+    }
+
+    private CharSequence addBracket(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+        switch (source.charAt(start)) {
+            case '"':
+                return "\"" + CURSOR + "\"";
+            case '\'':
+                return "'" + CURSOR + "'";
+            case '(':
+                return "(" + CURSOR + ")";
+            case '{':
+                return "{" + CURSOR + "}";
+            case '[':
+                return "[" + CURSOR + "]";
+        }
+        return source;
     }
 
     /**
@@ -165,18 +177,9 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
         return editableText.subSequence(start, end);
     }
 
-    /**
-     * This method will be called when the character which user have just input is \n
-     * First, get the text of the previous lineInfo. Then we will uses pattern matching for check some
-     * key word: if the text of the previous lineInfo is 'OPEN_PATTERN', we will return <code>source</code>
-     * with a new tab "\t", and so on...
-     * example
-     * source is "OPEN_PATTERN \n"
-     * >> return "OPEN_PATTERN \n \t"
-     */
+
     private CharSequence indentLine(CharSequence source, int start, int end, Spanned dest,
                                     int dstart, int dend) {
-
         String indent = "";
         int indexStart = dstart - 1;
         int indexEnd;
@@ -221,20 +224,28 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
             }
             indent += dest.subSequence(indexStart, indexEnd);
         }
-        if (parenthesesCount < 0)
+        if (parenthesesCount < 0) {
             indent += TAB_CHARACTER;
-
-
-        start = dstart - 1; //because charAt(dstart) always is '\n'
-        while (start > 0 && dest.charAt(start) != '\n') {
-            start--;
         }
-        if (start < 0) return source + indent;
+        Log.d(TAG, "indentLine: " + dest.charAt(dend) + " " + dest.charAt(dstart));
 
-        String prev = dest.subSequence(start, dstart).toString().trim();
-        Matcher matcher = Patterns.OPEN_PATTERN.matcher(prev);
-        if (matcher.find()) {
-            indent += IndentCode.TAB;
+
+        //new line in bracket
+        if (dest.charAt(dend) == '}' && dstart - 1 >= 0 && dest.charAt(dstart - 1) == '{') {
+            int mstart = dstart - 2;
+            while (mstart >= 0 && dest.charAt(mstart) != '\n') {
+                mstart--;
+            }
+            String closeIndent = "";
+            if (mstart >= 0) {
+                mstart++;
+                int zstart = mstart;
+                while (zstart < dest.length() && dest.charAt(zstart) == ' ') {
+                    zstart++;
+                }
+                closeIndent = dest.toString().substring(mstart, zstart);
+            }
+            return source + indent + CURSOR + "\n" + closeIndent;
         }
         return source + indent;
     }

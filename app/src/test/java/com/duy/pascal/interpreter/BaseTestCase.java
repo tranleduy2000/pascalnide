@@ -22,8 +22,8 @@ import junit.framework.TestCase;
 
 import java.io.File;
 
-import static com.duy.pascal.Interperter.checkSyntax;
-import static com.duy.pascal.Interperter.runProgram;
+import static com.duy.pascal.Interpreter.checkSyntax;
+import static com.duy.pascal.Interpreter.runProgram;
 
 /**
  * Created by Duy on 29-May-17.
