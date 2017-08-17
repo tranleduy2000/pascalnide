@@ -160,8 +160,9 @@ public class PascalLibraryManager {
                     if (method.getAnnotation(PascalMethod.class) != null) {
                         PascalMethod annotation = method.getAnnotation(PascalMethod.class);
                         String description = annotation.description();
-                        suggestItems.add(new DescriptionImpl(StructureType.TYPE_FUNCTION,
-                                Name.create(method.getName()), description));
+                        // TODO: 17-Aug-17
+//                        suggestItems.add(new FunctionDescription(StructureType.TYPE_FUNCTION,
+//                                Name.create(method.getName()), description, method.));
                     }
                 } else {
                     if (Modifier.isPublic(method.getModifiers())) {

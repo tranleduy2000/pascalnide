@@ -48,6 +48,7 @@ import com.duy.pascal.frontend.code_sample.activities.DocumentActivity;
 import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
 import com.duy.pascal.frontend.dialog.DialogFragmentFixExpectToken;
 import com.duy.pascal.frontend.dialog.DialogManager;
+import com.duy.pascal.frontend.editor.completion.model.Description;
 import com.duy.pascal.frontend.editor.completion.model.DescriptionImpl;
 import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
 import com.duy.pascal.frontend.editor.view.EditorView;
@@ -361,7 +362,7 @@ public class EditorActivity extends BaseEditorActivity implements
             EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
             if (editorFragment != null) {
                 EditorView editor = editorFragment.getEditor();
-                editor.setSuggestData(new ArrayList<DescriptionImpl>());
+                editor.setSuggestData(new ArrayList<Description>());
             }
         }
         //toggle ime/no suggest mode

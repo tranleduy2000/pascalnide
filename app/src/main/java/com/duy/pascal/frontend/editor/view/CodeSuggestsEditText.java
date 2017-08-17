@@ -31,8 +31,9 @@ import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.completion.SuggestionProvider;
-import com.duy.pascal.frontend.editor.completion.model.KeyWord;
+import com.duy.pascal.frontend.editor.completion.model.Description;
 import com.duy.pascal.frontend.editor.completion.model.DescriptionImpl;
+import com.duy.pascal.frontend.editor.completion.model.KeyWord;
 import com.duy.pascal.frontend.editor.view.adapters.CodeSuggestAdapter;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 
@@ -74,7 +75,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      * slipt string in edittext and put it to list keyword
      */
     public void setDefaultKeyword() {
-        ArrayList<DescriptionImpl> data = new ArrayList<>();
+        ArrayList<Description> data = new ArrayList<>();
         for (String s : KeyWord.ALL_KEY_WORD) {
             data.add(new DescriptionImpl(StructureType.TYPE_KEY_WORD, s));
         }
@@ -110,11 +111,13 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
         try {
-            if (parseTask != null) {
-                parseTask.cancel(true);
+            if (mEditorSetting.isShowSuggestPopup()) {
+                if (parseTask != null) {
+                    parseTask.cancel(true);
+                }
+                parseTask = new ParseTask(getContext(), this, "");
+                parseTask.execute();
             }
-            parseTask = new ParseTask(getContext(), this, "");
-            parseTask.execute();
         } catch (Exception e) {
         }
         onPopupChangePosition();
@@ -126,7 +129,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      * invalidate data for auto suggest
      */
     public void setSuggestData(String[] data) {
-        ArrayList<DescriptionImpl> items = new ArrayList<>();
+        ArrayList<Description> items = new ArrayList<>();
         for (String s : data) {
             items.add(new DescriptionImpl(StructureType.TYPE_KEY_WORD, s));
         }
@@ -186,7 +189,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     }
 
     public void restoreAfterClick(final String[] data) {
-        final ArrayList<DescriptionImpl> suggestData = (ArrayList<DescriptionImpl>) getSuggestData().clone();
+        final ArrayList<Description> suggestData = (ArrayList<Description>) getSuggestData().clone();
         setSuggestData(data);
         postDelayed(new Runnable() {
             @Override
@@ -210,19 +213,15 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         }, 50);
     }
 
-    public ArrayList<DescriptionImpl> getSuggestData() {
+    public ArrayList<Description> getSuggestData() {
         return mAdapter.getAllItems();
     }
 
     /**
      * invalidate data for auto suggest
      */
-    public void setSuggestData(ArrayList<DescriptionImpl> data) {
-//        if (isPopupShowing()) {
-//            dismissDropDown();
-//        }
+    public void setSuggestData(ArrayList<Description> data) {
         if (mAdapter != null) {
-//            mAdapter.setListener(null)
             mAdapter.clearAllData();
             mAdapter.addData(data);
             mAdapter.notifyDataSetChanged();
@@ -235,16 +234,6 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
             onPopupChangePosition();
             onDropdownChangeSize(getWidth(), getHeight());
         }
-    }
-
-    public void addKeywords(String[] allKeyWord) {
-        ArrayList<DescriptionImpl> newData = new ArrayList<>();
-        for (String s : allKeyWord) {
-            newData.add(new DescriptionImpl(StructureType.TYPE_KEY_WORD, s));
-        }
-        ArrayList<DescriptionImpl> oldItems = mAdapter.getAllItems();
-        oldItems.addAll(newData);
-        setSuggestData(oldItems);
     }
 
     public static class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
@@ -287,7 +276,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         }
     }
 
-    private class ParseTask extends AsyncTask<Object, Object, ArrayList<DescriptionImpl>> {
+    private class ParseTask extends AsyncTask<Object, Object, ArrayList<Description>> {
         private Context context;
         private EditText editText;
         private String source;
@@ -313,20 +302,20 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         }
 
         @Override
-        protected ArrayList<DescriptionImpl> doInBackground(Object... params) {
+        protected ArrayList<Description> doInBackground(Object... params) {
             return pascalParserHelper.getSuggestion(srcPath, source,
                     cursorPos, cursorLine, cursorCol);
         }
 
         @Override
-        protected void onPostExecute(ArrayList<DescriptionImpl> result) {
+        protected void onPostExecute(ArrayList<Description> result) {
             super.onPostExecute(result);
             if (isCancelled()) {
                 Log.d(TAG, "onPostExecute: cancel");
                 return;
             }
             if (result == null) {
-                setSuggestData(new ArrayList<DescriptionImpl>());
+                setSuggestData(new ArrayList<Description>());
             } else {
                 setSuggestData(result);
             }

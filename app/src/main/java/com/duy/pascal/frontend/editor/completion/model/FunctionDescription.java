@@ -41,23 +41,26 @@ public class FunctionDescription implements Description {
 
     @Override
     public String getOutput() {
-        return name.getOriginName() + "(" + (args != null && args.length > 0 ?
-                AutoIndentEditText.CURSOR + ")" : ")" + AutoIndentEditText.CURSOR);
+        return name.getOriginName() + "(" +
+                (args != null && args.length > 0 ? AutoIndentEditText.CURSOR + ")" : ")" + AutoIndentEditText.CURSOR);
     }
 
     @Override
     public String getHeader() {
         String out = name.getOriginName() + "(";
         if (args != null && args.length > 0) {
-            for (ArgumentType arg : args) {
+            for (int i = 0; i < args.length; i++) {
+                ArgumentType arg = args[i];
                 if (arg instanceof RuntimeType) {
                     Type rawType = ((RuntimeType) arg).getRawType();
                     out += rawType.toString();
                 } else if (arg instanceof VarargsType) {
                     out += "...";
                 }
+                if (i != args.length - 1) out += ",";
             }
         }
+        out += ")";
         return out;
     }
 

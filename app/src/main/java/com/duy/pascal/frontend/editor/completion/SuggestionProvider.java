@@ -26,7 +26,6 @@ import com.duy.pascal.frontend.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
@@ -39,6 +38,7 @@ import com.google.common.collect.ArrayListMultimap;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
@@ -173,12 +173,11 @@ public class SuggestionProvider {
     }
 
     private ArrayList<Description> filterFunctions(
-            ArrayListMultimap<Name, AbstractFunction> functions) {
+            ArrayListMultimap<Name, AbstractFunction> allFunctions) {
         if (incomplete.isEmpty()) return new ArrayList<>();
         ArrayList<Description> suggestItems = new ArrayList<>();
-
-        for (Map.Entry<Name, AbstractFunction> entry : functions.entries()) {
-            AbstractCallableFunction function = (AbstractCallableFunction) entry.getValue();
+        Collection<AbstractFunction> values = allFunctions.values();
+        for (AbstractFunction function : values) {
             if (function.getName().isPrefix(incomplete)) {
                 LineInfo line = function.getLineNumber();
                 if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {

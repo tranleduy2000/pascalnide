@@ -57,7 +57,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<Description> {
             if (resultValue == null) {
                 return "";
             }
-            return ((DescriptionImpl) resultValue).getOutput();
+            return ((Description) resultValue).getOutput();
         }
 
         @Override
@@ -168,7 +168,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<Description> {
         clone.clear();
     }
 
-    public void addData(@NonNull Collection<? extends DescriptionImpl> collection) {
+    public void addData(@NonNull Collection<? extends Description> collection) {
         addAll(collection);
         clone.addAll(collection);
     }
