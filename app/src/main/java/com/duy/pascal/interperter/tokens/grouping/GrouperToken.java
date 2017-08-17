@@ -681,7 +681,7 @@ public abstract class GrouperToken extends Token {
                 return FunctionCall.generateFunctionCall(name, arguments, context);
             } else {
                 Type typedefType = context.getTypeDef(name.getName());
-                if (typedefType != null) {
+                if (typedefType != null) { //check class instance
                     if (typedefType instanceof PascalClassType) {
                         PascalClassType classType = (PascalClassType) typedefType;
                         if (next instanceof PeriodToken) {
@@ -722,7 +722,9 @@ public abstract class GrouperToken extends Token {
                 }
                 RuntimeValue identifier = context.getIdentifierValue(name);
                 //uses for show line error
-                identifier.getLineNumber().setLength(name.name.getLength());
+                if (identifier.getLineNumber()!=null) {
+                    identifier.getLineNumber().setLength(name.name.getLength());
+                }
                 if (peek() instanceof OperatorToken && ((OperatorToken) peek()).type == OperatorTypes.DEREF) {
                     take();
                     identifier = new DerefEval(identifier, identifier.getLineNumber());

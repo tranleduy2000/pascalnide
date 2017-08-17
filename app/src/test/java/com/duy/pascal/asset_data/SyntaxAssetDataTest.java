@@ -32,7 +32,7 @@ import static com.duy.pascal.Interperter.checkSyntax;
  */
 
 public class SyntaxAssetDataTest extends TestCase {
-    String dir = "C:\\github\\pascalnide\\libCompiler\\src\\main\\assets\\code_sample\\";
+    String dir = "C:\\github\\pascalnide\\app\\src\\main\\assets\\code_sample\\";
 
     @Override
     protected void setUp() throws Exception {

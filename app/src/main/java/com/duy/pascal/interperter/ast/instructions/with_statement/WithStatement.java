@@ -27,6 +27,7 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.CustomType;
 import com.duy.pascal.interperter.declaration.lang.types.RecordType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.define.TypeIdentifierExpectException;
@@ -67,6 +68,10 @@ public class WithStatement {
             grouperToken.take();
         }
         this.withContext = new WithExpressionContext(parent, fields);
+//        for (FieldAccess field : fields) {
+//            Type type = field.getRuntimeType(parent).getRawType();
+//            withContext.declareTypedef(type.getName(), type);
+//        }
         instructions = grouperToken.getNextCommand(withContext);
     }
 
@@ -138,6 +143,11 @@ public class WithStatement {
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
             instructions = i.getNextCommand(withContext);
             i.assertNextSemicolon();
+        }
+
+        @Override
+        public ConstantDefinition getConstantDefinitionLocal(Name identifier) {
+            return super.getConstantDefinitionLocal(identifier);
         }
 
         @Override

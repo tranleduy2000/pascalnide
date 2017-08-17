@@ -38,7 +38,7 @@ import java.util.Map;
  * Created by Duy on 01-Mar-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+@SuppressWarnings("unused")
 public class DosLib implements PascalLibrary {
 
     public static final String NAME = "dos";
@@ -108,7 +108,7 @@ public class DosLib implements PascalLibrary {
         listVar.add(new VariableDeclaration("day", BasicType.Integer));
         listVar.add(new VariableDeclaration("hour", BasicType.Integer));
         listVar.add(new VariableDeclaration("min", BasicType.Integer));
-        listVar.add(new VariableDeclaration("sec  ", BasicType.Integer));
+        listVar.add(new VariableDeclaration("sec", BasicType.Integer));
         RecordType recordType = new RecordType(listVar);
         parentContext.declareTypedef("DateTime", recordType);
     }

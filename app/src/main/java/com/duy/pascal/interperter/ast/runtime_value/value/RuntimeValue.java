@@ -29,7 +29,6 @@ public interface RuntimeValue {
     /**
      * @return line of code
      */
-    @NonNull
     LineInfo getLineNumber();
 
     void setLineNumber(LineInfo lineNumber);

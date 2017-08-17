@@ -16,10 +16,9 @@
 
 package com.duy.pascal;
 
-import com.duy.pascal.frontend.editor.indention.IndentCode;
 import com.duy.pascal.frontend.DLog;
-
-import junit.framework.TestCase;
+import com.duy.pascal.frontend.editor.indention.IndentCode;
+import com.duy.pascal.interpreter.BaseTestCase;
 
 import java.io.File;
 import java.io.FileReader;
@@ -29,8 +28,13 @@ import java.io.IOException;
  * Created by Duy on 30-May-17.
  */
 
-public class IndentCodeTest extends TestCase {
+public class IndentCodeTest extends BaseTestCase {
     private static final String dir = "C:\\github\\pascalnide\\test_pascal\\test_indent\\";
+
+    @Override
+    public String getDirTest() {
+        return "test_indent";
+    }
 
     @Override
     protected void setUp() throws Exception {
@@ -199,7 +203,7 @@ public class IndentCodeTest extends TestCase {
         run("test_repeat_else.pas");
     }
 
-    public void testFormatComment(){
+    public void testFormatComment() {
         run("test_comment.pas");
     }
 }
