@@ -17,6 +17,7 @@
 package com.duy.pascal.frontend.editor.view.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.completion.model.SuggestItem;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.interperter.declaration.Name;
 
 import java.util.ArrayList;
@@ -48,6 +50,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
     private ArrayList<SuggestItem> clone;
     private ArrayList<SuggestItem> suggestion;
     private int resourceID;
+    private PascalPreferences mSetting;
     private Filter codeFilter = new Filter() {
         @Override
         public CharSequence convertResultToString(Object resultValue) {
@@ -96,6 +99,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         this.resourceID = resource;
         colorKeyWord = context.getResources().getColor(R.color.color_key_word_color);
         colorNormal = context.getResources().getColor(android.R.color.primary_text_dark);
+        mSetting = new PascalPreferences(context);
     }
 
     public ArrayList<SuggestItem> getAllItems() {
@@ -113,7 +117,13 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         final SuggestItem item = getItem(position);
         if (item != null) {
             TextView txtHeader = convertView.findViewById(R.id.txt_header);
-            TextView txtName = convertView.findViewById(R.id.txt_title);
+            txtHeader.setVisibility(View.VISIBLE);
+            txtHeader.setTypeface(Typeface.MONOSPACE);
+            txtHeader.setTextSize(mSetting.getEditorTextSize());
+
+            TextView txtName = convertView.findViewById(R.id.txt_name);
+            txtName.setTypeface(Typeface.MONOSPACE);
+            txtName.setTextSize(mSetting.getEditorTextSize());
             txtName.setText(item.snipet() != null ? item.snipet() : item.getName().getOriginName());
             switch (item.getType()) {
                 case SuggestItem.KIND_KEYWORD:

@@ -150,7 +150,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         CodeThemeHolder(View itemView) {
             super(itemView);
             editorView = itemView.findViewById(R.id.editor_view);
-            txtTitle = itemView.findViewById(R.id.txt_title);
+            txtTitle = itemView.findViewById(R.id.txt_name);
             btnSelect = itemView.findViewById(R.id.btn_select);
             imgDelete = itemView.findViewById(R.id.img_delete);
         }

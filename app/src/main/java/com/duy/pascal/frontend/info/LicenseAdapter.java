@@ -81,7 +81,7 @@ public class LicenseAdapter extends RecyclerView.Adapter<LicenseAdapter.ViewHold
         public ViewHolder(View itemView) {
             super(itemView);
 //            ButterKnife.bind(this, itemView);
-            txtTitle = (TextView) itemView.findViewById(R.id.txt_title);
+            txtTitle = (TextView) itemView.findViewById(R.id.txt_name);
             txtDesc = (TextView) itemView.findViewById(R.id.txt_desc);
             root = itemView.findViewById(R.id.container);
         }

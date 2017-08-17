@@ -81,7 +81,7 @@ class DialogManager {
             dialog.show()
 
             //set title and message for dialog
-            val txtTitle = dialog.findViewById(R.id.txt_title) as TextView?
+            val txtTitle = dialog.findViewById(R.id.txt_name) as TextView?
             txtTitle?.text = title
             val txtMsg = dialog.findViewById(R.id.txt_message) as TextView?
             txtMsg?.text = msg

@@ -16,11 +16,13 @@
 
 package com.duy.pascal.interperter.config;
 
+import java.io.Serializable;
+
 /**
  * Created by Duy on 14-Jun-17.
  */
 
-public class ProgramConfig {
+public class ProgramConfig implements Serializable, Cloneable {
     private static final String MODE = "$MODE";
     private boolean library;
     private byte mode = ProgramMode.FPC;

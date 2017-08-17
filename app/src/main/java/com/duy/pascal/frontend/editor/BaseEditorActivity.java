@@ -165,7 +165,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
                         removePage(position);
                     }
                 });
-                TextView txtTitle = (TextView) view.findViewById(R.id.txt_title);
+                TextView txtTitle = (TextView) view.findViewById(R.id.txt_name);
                 txtTitle.setText(pagerAdapter.getPageTitle(i));
                 txtTitle.setOnClickListener(new View.OnClickListener() {
                     @Override

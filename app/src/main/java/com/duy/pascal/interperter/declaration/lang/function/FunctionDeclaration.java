@@ -102,7 +102,6 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
     public void parseHeader(Name name, ExpressionContext parent, GrouperToken grouperToken,
                             boolean isProcedure) throws Exception {
-//        DLog.d(TAG, "parseHeader() called with: name = [" + name + "], parent = [" + parent + "], grouperToken = [" + grouperToken + "], isProcedure = [" + isProcedure + "]");
 
         this.name = name;
         this.declaration = new FunctionExpressionContext(this, parent);

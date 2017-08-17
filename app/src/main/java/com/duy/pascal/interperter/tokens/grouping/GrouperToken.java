@@ -1044,7 +1044,7 @@ public abstract class GrouperToken extends Token {
                 for (Method declaredMethod : declaredMethods) {
                     if (declaredMethod.getName().equalsIgnoreCase(methodName.getOriginName())) {
                         MethodDeclaration methodDeclaration =
-                                new MethodDeclaration(container, declaredMethod, javaType);
+                                new MethodDeclaration(container, declaredMethod);
                         FunctionCall functionCall = methodDeclaration.generateCall(getLineNumber(),
                                 argumentsForCall, context);
                         if (functionCall != null) {

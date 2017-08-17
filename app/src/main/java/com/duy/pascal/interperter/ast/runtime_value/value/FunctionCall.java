@@ -59,6 +59,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
                     chosen = function;
                     if (runtimeValue == null) {
                         runtimeValue = result;
+                        break;
                     }
                 }
                 if (function.argumentTypes().length == arguments.size()) {

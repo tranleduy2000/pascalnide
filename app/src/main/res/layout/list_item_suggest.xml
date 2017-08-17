@@ -23,8 +23,8 @@
     android:orientation="horizontal">
 
     <TextView
-        android:layout_width="24dp"
         android:id="@+id/txt_header"
+        android:layout_width="24dp"
         android:layout_height="match_parent"
         android:background="#3d5afe"
         android:gravity="center"
@@ -37,19 +37,19 @@
         android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/txt_title"
+            android:id="@+id/txt_name"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:ellipsize="middle"
-            android:gravity="center_vertical"
+            android:gravity="center|start"
             android:maxLines="1"
-            android:paddingLeft="4dp"
-            android:paddingStart="4dp"
+            android:paddingLeft="2dp"
             android:singleLine="true"
             android:text="@string/save"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-   />
+            android:textColor="?android:textColorPrimary"
+            android:typeface="monospace"/>
+
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/img_info"

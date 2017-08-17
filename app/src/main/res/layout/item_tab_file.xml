@@ -22,7 +22,7 @@
     android:orientation="horizontal">
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/txt_title"
+        android:id="@+id/txt_name"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:clickable="true"

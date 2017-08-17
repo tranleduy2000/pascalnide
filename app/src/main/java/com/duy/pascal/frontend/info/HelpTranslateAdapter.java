@@ -78,7 +78,7 @@ public class HelpTranslateAdapter extends RecyclerView.Adapter<HelpTranslateAdap
 
         public ViewHolder(View itemView) {
             super(itemView);
-            txtTitle = (TextView) itemView.findViewById(R.id.txt_title);
+            txtTitle = (TextView) itemView.findViewById(R.id.txt_name);
             txtDesc = (TextView) itemView.findViewById(R.id.txt_desc);
             root = itemView.findViewById(R.id.container);
         }

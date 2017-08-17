@@ -52,27 +52,17 @@ public class MethodDeclaration extends AbstractCallableFunction {
     private static final String TAG = MethodDeclaration.class.getSimpleName();
     private Object owner;
     private Method method;
-    private Type returnType = null;
     private ArgumentType[] argCache = null;
     private String description = "";
-    private ArrayList<String> listParams;
-
-    public MethodDeclaration(@NonNull Object owner, @NonNull Method m) {
-        this.owner = owner;
-        method = m;
-    }
+    private Type returnType;
 
     /**
-     * Constructor
-     *
-     * @param owner      - parent class
-     * @param m          - method of class
-     * @param returnType - return type
+     * @param owner - parent class
+     * @param m     - method of class
      */
-    public MethodDeclaration(@NonNull Object owner, @NonNull Method m, Type returnType) {
+    public MethodDeclaration(@NonNull Object owner, @NonNull Method m) {
         this.owner = owner;
         this.method = m;
-        this.returnType = returnType;
     }
 
     public MethodDeclaration(@NonNull Object owner, @NonNull Method m, @Nullable String description) {
@@ -86,7 +76,6 @@ public class MethodDeclaration extends AbstractCallableFunction {
         this.owner = owner;
         method = m;
         this.description = description;
-        this.listParams = listParams;
     }
 
     private static java.lang.reflect.Type getFirstGenericType(java.lang.reflect.Type t) {
@@ -218,7 +207,6 @@ public class MethodDeclaration extends AbstractCallableFunction {
         return Name.create(method.getName());
     }
 
-
     @Override
     public String getDescription() {
         return description;
@@ -226,6 +214,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
 
     @Override
     public Type returnType() {
+        if (returnType == null) {
             Class<?> result = method.getReturnType();
             if (result == PascalReference.class) {
                 result = (Class<?>) ((ParameterizedType) method
@@ -234,7 +223,9 @@ public class MethodDeclaration extends AbstractCallableFunction {
             if (result.isPrimitive()) {
                 result = TypeUtils.getClassForType(result);
             }
-           return  BasicType.create(result);
+            returnType = BasicType.create(result);
+        }
+        return returnType;
     }
 
     @NonNull

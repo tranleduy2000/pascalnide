@@ -120,7 +120,7 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
 
         public CodeHolder(View view) {
             super(view);
-            txtTitle = (TextView) view.findViewById(R.id.txt_title);
+            txtTitle = (TextView) view.findViewById(R.id.txt_name);
             btnPlay = view.findViewById(R.id.img_play);
             btnEdit = view.findViewById(R.id.img_edit);
             btnCopy = view.findViewById(R.id.img_copy);

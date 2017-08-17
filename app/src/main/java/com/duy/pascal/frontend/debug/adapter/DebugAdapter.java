@@ -87,7 +87,7 @@ public class DebugAdapter extends RecyclerView.Adapter<DebugAdapter.ViewHolder> 
 
         ViewHolder(View view) {
             super(view);
-            txtName = (TextView) view.findViewById(R.id.txt_title);
+            txtName = (TextView) view.findViewById(R.id.txt_name);
             txtValue = (TextView) view.findViewById(R.id.txt_value);
             this.background = view.findViewById(R.id.background);
 //            ButterKnife.bind(this, background);

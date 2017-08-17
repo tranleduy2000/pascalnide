@@ -25,12 +25,14 @@ import com.duy.pascal.frontend.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
+import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.google.common.collect.ArrayListMultimap;
 
@@ -70,30 +72,30 @@ public class SuggestionProvider {
         this.cursorCol = cursorCol;
         try {
             calculateIncomplete();
-            DiagnosticCollector diagnosticCollector = new DiagnosticCollector();
-            PascalProgramDeclaration pascalProgram =
-                    PascalCompiler.loadPascal(srcPath, new StringReader(source), null, null, diagnosticCollector);
-            ExpressionContextMixin exprContext = pascalProgram.getContext();
-
             //the result
             ArrayList<SuggestItem> suggestItems = new ArrayList<>();
+            try {
+                DiagnosticCollector diagnosticCollector = new DiagnosticCollector();
+                PascalProgramDeclaration pascalProgram =
+                        PascalCompiler.loadPascal(srcPath, new StringReader(source), null, null, diagnosticCollector);
+                ExpressionContextMixin exprContext = pascalProgram.getContext();
 
-            ArrayList<VariableDeclaration> variables = exprContext.getVariables();
-            suggestItems.addAll(sort(filterVariables(variables)));
+                ArrayList<VariableDeclaration> variables = exprContext.getVariables();
+                suggestItems.addAll(sort(filterVariables(variables)));
 
-            Map<Name, ConstantDefinition> constants = exprContext.getConstants();
-            suggestItems.addAll(sort(filterConst(constants)));
+                Map<Name, ConstantDefinition> constants = exprContext.getConstants();
+                suggestItems.addAll(sort(filterConst(constants)));
 
-            ArrayListMultimap<Name, AbstractFunction> callableFunctions = exprContext.getCallableFunctions();
-            suggestItems.addAll(sort(filterFunctions(callableFunctions)));
+                ArrayListMultimap<Name, AbstractFunction> callableFunctions = exprContext.getCallableFunctions();
+                suggestItems.addAll(sort(filterFunctions(callableFunctions)));
+            } catch (Exception e) { //parsing error
+            }
 
 //            HashMap<Name, Type> typedefs = exprContext.getTypedefs();
 //            addTypeDef();
 
             suggestItems.addAll(sort(addKeyword()));
-            return sort(suggestItems);
-        } catch (ParsingException e) {
-            e.printStackTrace();
+            return suggestItems;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -178,12 +180,14 @@ public class SuggestionProvider {
         ArrayList<SuggestItem> suggestItems = new ArrayList<>();
 
         for (Map.Entry<Name, AbstractFunction> entry : functions.entries()) {
-            AbstractFunction function = entry.getValue();
+            AbstractCallableFunction function = (AbstractCallableFunction) entry.getValue();
             if (function.getName().isPrefix(incomplete)) {
                 LineInfo line = function.getLineNumber();
                 if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
                     Name name = function.getName();
-                    suggestItems.add(new SuggestItem(SuggestItem.KIND_FUNCTION, name, function.getDescription()));
+                    ArgumentType[] args = function.argumentTypes();
+                    Type type = function.returnType();
+
                 }
             }
         }

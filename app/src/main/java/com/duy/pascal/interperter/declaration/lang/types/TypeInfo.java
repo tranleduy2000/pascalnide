@@ -21,9 +21,10 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
+import java.io.Serializable;
 import java.lang.reflect.Modifier;
 
-public abstract class TypeInfo implements Type {
+public abstract class TypeInfo implements Type, Serializable {
     /**
      * the name of type, variable, function, ...
      */

@@ -75,6 +75,7 @@ import com.duy.pascal.interperter.tokens.ignore.CompileDirectiveToken;
 import com.google.common.collect.ArrayListMultimap;
 
 import java.io.Reader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -84,7 +85,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.duy.pascal.interperter.builtin_libraries.PascalLibraryManager.MAP_LIBRARIES;
 
-public abstract class ExpressionContextMixin extends HierarchicalExpressionContext implements Cloneable {
+public abstract class ExpressionContextMixin extends HierarchicalExpressionContext
+        implements Cloneable, Serializable {
     private static final String TAG = "ExpressionContextMixin";
 
     /**
