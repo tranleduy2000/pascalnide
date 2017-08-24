@@ -55,7 +55,7 @@ import com.duy.pascal.interperter.tokens.basic.VarToken;
 import com.duy.pascal.interperter.tokens.basic.WhileToken;
 import com.duy.pascal.interperter.tokens.closing.ClosingToken;
 import com.duy.pascal.interperter.tokens.closing.EndBracketToken;
-import com.duy.pascal.interperter.tokens.closing.EndParenToken;
+import com.duy.pascal.interperter.tokens.closing.CloseParenToken;
 import com.duy.pascal.interperter.tokens.closing.EndToken;
 import com.duy.pascal.interperter.tokens.grouping.BeginEndToken;
 import com.duy.pascal.interperter.tokens.grouping.BracketedToken;
@@ -89,7 +89,7 @@ public class PascalFormatCode {
             DotDotToken.class, PeriodToken.class, /*AssignmentToken.class,*/
             ColonToken.class, CommaToken.class, SemicolonToken.class, BracketedToken.class,
             ParenthesizedToken.class, /*OperatorToken.class,*/ EndBracketToken.class,
-            EndParenToken.class};
+            CloseParenToken.class};
 
     public static final Class[] STATEMENTS = new Class[]{
             BeginEndToken.class, IfToken.class, ThenToken.class, DoToken.class, ForToken.class,
@@ -311,7 +311,7 @@ public class PascalFormatCode {
 
     private boolean isCloseToken(Token token) {
         return token instanceof EndToken ||
-                token instanceof EndParenToken ||
+                token instanceof CloseParenToken ||
                 token instanceof EndBracketToken;
     }
 

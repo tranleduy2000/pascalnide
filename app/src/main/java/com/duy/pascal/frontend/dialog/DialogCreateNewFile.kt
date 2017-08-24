@@ -25,11 +25,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
-
 import com.duy.pascal.frontend.R
 import com.duy.pascal.frontend.editor.completion.Template
+import com.duy.pascal.frontend.editor.completion.model.Patterns
 import com.duy.pascal.frontend.file.FileManager
-
 import java.io.File
 
 /**
@@ -108,6 +107,11 @@ class DialogCreateNewFile : AppCompatDialogFragment() {
         if (fileName.isEmpty()) {
             mEditFileName!!.error = getString(R.string.enter_new_file_name)
             return null
+        }
+        if (!(Patterns.FILE_NAME.matcher(fileName).find()
+                && !Patterns.KEYWORDS.matcher(fileName).find())) {
+            mEditFileName!!.error = "Invalid file name";
+            return null;
         }
         if (checkBoxInp!!.isChecked && !fileName.contains(".")) {
             fileName += ".inp"

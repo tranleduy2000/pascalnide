@@ -22,8 +22,10 @@ public class EndToken extends ClosingToken {
     @Nullable
     public GroupingException getClosingException(GrouperToken t) {
         if (t instanceof BeginEndToken
-                || t instanceof CaseToken || t instanceof RecordToken
-                || t instanceof UnitToken || t instanceof ClassToken) {
+                || t instanceof CaseToken
+                || t instanceof RecordToken
+                || t instanceof UnitToken
+                || t instanceof ClassToken) {
             return null;
         } else {
             return new GroupingException(getLineNumber(), Type.EXTRA_END);

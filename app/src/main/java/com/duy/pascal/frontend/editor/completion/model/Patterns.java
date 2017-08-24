@@ -118,4 +118,7 @@ public class Patterns {
             "([0-9]+)" +
             "(\\))");
 
+    public static final Pattern IDENTIFIER = Pattern.compile("[a-zA-Z_][A-Za-z0-9_]*");
+    public static final Pattern FILE_NAME = Pattern.compile(IDENTIFIER + "(\\." + IDENTIFIER + ")?");
+
 }

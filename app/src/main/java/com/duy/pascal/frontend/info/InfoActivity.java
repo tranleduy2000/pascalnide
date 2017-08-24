@@ -53,18 +53,18 @@ public class InfoActivity extends AbstractAppCompatActivity {
         mListTranslate = (RecyclerView) findViewById(R.id.list_translate);
         mListLicense = (RecyclerView) findViewById(R.id.list_license);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        findViewById(R.id.gotoNcalcApp).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickCalc(v);
-            }
-        });
-        findViewById(R.id.gotoSortApp).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickSort(v);
-            }
-        });
+//        findViewById(R.id.gotoNcalcApp).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                clickCalc(v);
+//            }
+//        });
+//        findViewById(R.id.gotoSortApp).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                clickSort(v);
+//            }
+//        });
 //        ButterKnife.bind(InfoActivity.this);
         setupToolbar();
         initContent();

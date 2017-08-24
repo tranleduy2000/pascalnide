@@ -53,7 +53,7 @@ import com.duy.pascal.interperter.tokens.basic.VarToken;
 import com.duy.pascal.interperter.tokens.basic.WhileToken;
 import com.duy.pascal.interperter.tokens.basic.WithToken;
 import com.duy.pascal.interperter.tokens.closing.EndBracketToken;
-import com.duy.pascal.interperter.tokens.closing.EndParenToken;
+import com.duy.pascal.interperter.tokens.closing.CloseParenToken;
 import com.duy.pascal.interperter.tokens.closing.EndToken;
 import com.duy.pascal.interperter.tokens.grouping.BeginEndToken;
 import com.duy.pascal.interperter.tokens.grouping.BracketedToken;
@@ -1326,7 +1326,7 @@ public class Lexer {
           }
         case 118: break;
         case 11: 
-          { return new EndParenToken(getLine());
+          { return new CloseParenToken(getLine());
           }
         case 119: break;
         case 42: 
