@@ -47,16 +47,17 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
 import android.widget.Scroller;
 
-import com.duy.pascal.interperter.core.PascalCompiler;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.autofix.AutoFixError;
+import com.duy.pascal.frontend.editor.highlight.BracketHighlighter;
 import com.duy.pascal.frontend.editor.highlight.CodeHighlighter;
+import com.duy.pascal.frontend.themefont.themes.ThemeManager;
 import com.duy.pascal.frontend.themefont.themes.database.CodeTheme;
 import com.duy.pascal.frontend.themefont.themes.database.CodeThemeUtils;
-import com.duy.pascal.frontend.themefont.themes.ThemeManager;
+import com.duy.pascal.interperter.core.PascalCompiler;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.source.ScriptSource;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -123,7 +124,7 @@ public class HighlightEditor extends CodeSuggestsEditText
     private EditTextChangeListener mChangeListener;
     private int numberWidth = 0;
     private AutoFixError mAutoFixError;
-    private CodeHighlighter mHighlighter;
+    private CodeHighlighter mCodeHighlighter;
     private final Runnable colorRunnable_duringEditing =
             new Runnable() {
                 @Override
@@ -138,6 +139,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                     highlightText();
                 }
             };
+    private BracketHighlighter mBracketHighlighter;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -160,7 +162,8 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     public void setCodeTheme(CodeTheme codeTheme) {
         this.codeTheme = codeTheme;
-        this.mHighlighter.setCodeTheme(codeTheme);
+        this.mCodeHighlighter.setCodeTheme(codeTheme);
+        mBracketHighlighter.setCodeTheme(codeTheme);
         setTextColor(codeTheme.getTextColor());
         setBackgroundColor(codeTheme.getBackground());
         mPaintNumbers.setColor(codeTheme.getNumberColor());
@@ -205,7 +208,8 @@ public class HighlightEditor extends CodeSuggestsEditText
         mLineBounds = new Rect();
         mGestureDetector = new GestureDetector(getContext(), HighlightEditor.this);
         mChangeListener = new EditTextChangeListener();
-        mHighlighter = new CodeHighlighter(this);
+        mCodeHighlighter = new CodeHighlighter(this);
+        mBracketHighlighter = new BracketHighlighter(this, codeTheme);
 
         updateFromSettings();
 
@@ -801,7 +805,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         clearSpans(editable, firstVisibleIndex, lastVisibleIndex);
 
         CharSequence textToHighlight = editable.subSequence(firstVisibleIndex, lastVisibleIndex);
-        mHighlighter.highlight(editable, textToHighlight, firstVisibleIndex);
+        mCodeHighlighter.highlight(editable, textToHighlight, firstVisibleIndex);
         applyTabWidth(editable, firstVisibleIndex, lastVisibleIndex);
     }
 
@@ -833,7 +837,13 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     public void highlightAll() {
-        mHighlighter.highlight(getText(), getText(), 0);
+        mCodeHighlighter.highlight(getText(), getText(), 0);
+    }
+
+    @Override
+    protected void onSelectionChanged(int selStart, int selEnd) {
+        super.onSelectionChanged(selStart, selEnd);
+        mBracketHighlighter.onSelectChange(selStart, selEnd);
     }
 
     /**
@@ -895,7 +905,5 @@ public class HighlightEditor extends CodeSuggestsEditText
             } catch (Exception ignored) {
             }
         }
-
-
     }
 }

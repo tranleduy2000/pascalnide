@@ -42,7 +42,6 @@ public class CodeTheme implements Serializable {
     private String name;
 
 
-
     public CodeTheme(boolean builtin) {
         this.builtin = builtin;
     }
@@ -153,4 +152,9 @@ public class CodeTheme implements Serializable {
     public void setBackgroundColor(int integer) {
         putColor("background_color", integer);
     }
+
+    public int getBracketColor() {
+        return getKeywordColor();
+    }
+
 }
