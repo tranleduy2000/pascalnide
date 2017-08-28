@@ -16,6 +16,8 @@
 
 package com.duy.pascal.frontend.editor.completion;
 
+import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
+
 /**
  * Created by Duy on 22-May-17.
  */
@@ -25,7 +27,7 @@ public class Template {
             "program %s;\n" +
                     "uses crt;\n" +
                     "begin\n" +
-                    "    " +
+                    "    \n" + AutoIndentEditText.CURSOR +
                     "    readln;\n" +
                     "end.";
 

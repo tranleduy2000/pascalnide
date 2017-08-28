@@ -38,7 +38,7 @@ open class DialogFragmentFixExpectToken : BottomSheetDialogFragment() {
             val dialog = DialogFragmentFixExpectToken();
             val bundle = Bundle();
             bundle.putString("current", e.current);
-            bundle.putInt("lineInfo", e.lineInfo?.line!!)
+            bundle.putInt("line", e.lineInfo?.line!!)
             bundle.putInt("column", e.lineInfo?.column!!)
             bundle.putStringArray("expect", e.expected);
             dialog.arguments = bundle;
@@ -62,7 +62,7 @@ open class DialogFragmentFixExpectToken : BottomSheetDialogFragment() {
 
 
         val current = arguments.getString("current")
-        val line = arguments.getInt("lineInfo");
+        val line = arguments.getInt("line");
         val col = arguments.getInt("column");
         val radInsert: RadioButton = view.findViewById(R.id.radio_insert)
 

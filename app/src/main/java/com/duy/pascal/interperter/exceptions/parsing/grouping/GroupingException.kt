@@ -1,7 +1,8 @@
 package com.duy.pascal.interperter.exceptions.parsing.grouping
 
-import com.duy.pascal.interperter.linenumber.LineInfo
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException
+import com.duy.pascal.interperter.linenumber.LineInfo
+import com.duy.pascal.interperter.tokens.Token
 
 
 open class GroupingException : ParsingException {
@@ -11,9 +12,19 @@ open class GroupingException : ParsingException {
     constructor(line: LineInfo?) : super(line) {}
 
     var exceptionTypes: Type? = null
+    var openToken: Token? = null
+    var closeToken: Token? = null
+
+    constructor(line: LineInfo?, exceptionTypes: Type, openToken: Token, closeToken: Token) : super(line) {
+        this.exceptionTypes = exceptionTypes
+        this.openToken = openToken
+        this.closeToken = closeToken
+    }
 
     constructor(line: LineInfo?, exceptionTypes: Type) : super(line) {
         this.exceptionTypes = exceptionTypes
+        this.openToken = openToken
+        this.closeToken = closeToken
     }
 
     var caused: Exception? = null
@@ -35,7 +46,7 @@ open class GroupingException : ParsingException {
         IO_EXCEPTION("IOException occurred while reading the input"),
         INCOMPLETE_CHAR("Incomplete character literal"),
         MISSING_INCLUDE("Missing file to include"),
-        NEWLINE_IN_QUOTES("You must close your quotes before starting a new lineInfo");
+        NEWLINE_IN_QUOTES("You must close your quotes before starting a new line");
     }
 
     override val isAutoFix: Boolean

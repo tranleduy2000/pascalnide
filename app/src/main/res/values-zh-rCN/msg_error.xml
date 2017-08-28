@@ -25,7 +25,7 @@
     <string name="UNFINISHED_BEGIN_END">未定义begin - end构造</string>
     <string name="UNFINISHED_PARENTHESES">您忘记闭合圆括号</string>
     <string name="UNFINISHED_BRACKETS">您忘记闭合括号</string>
-    <string name="EXTRA_END">程序中包含多余的\'end\' 代码段</string>
+    <string name="unbalance_end">Open and close are unbalanced, one token \"%1$s\" in position (%2$s:%3$s) and one token \"%4$s\" in position (%5$s:%6$s)</string>
     <string name="IO_EXCEPTION">读取输入值时出现IOException</string>
     <string name="INCOMPLETE_CHAR">字符常值不完整</string>
     <string name="MISSING_INCLUDE">包括缺失文件</string>

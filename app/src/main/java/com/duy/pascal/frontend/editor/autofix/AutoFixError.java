@@ -443,7 +443,7 @@ public class AutoFixError {
      * @param column  - start at column of @lineInfo
      */
     public void fixExpectToken(String current, String expect, boolean insert, int line, int column) {
-        DLog.d(TAG, "fixExpectToken() called with: current = [" + current + "], expect = [" + expect + "], insert = [" + insert + "], lineInfo = [" + line + "], column = [" + column + "]");
+        DLog.d(TAG, "fixExpectToken() called with: current = [" + current + "], expect = [" + expect + "], insert = [" + insert + "], line = [" + line + "], column = [" + column + "]");
         //get text in lineInfo
         CharSequence textInLine = getTextInLine(line, column);
 

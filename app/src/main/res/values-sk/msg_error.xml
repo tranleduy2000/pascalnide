@@ -20,7 +20,7 @@
     <string name="BadFunctionCallException_2">Funkcii bolo odovzdaných príliš málo alebo príliš ve¾a argumentov \"%1$s\"</string>
     <string name="BadFunctionCallException_3">Nemožno vola  funkciu \"%1$s\" , ktorá nie je definovaná.</string>
     <string name="multi_define_main">Viacero definícii hlavnej</string>
-    <string name="EXTRA_END">Vo Vašom programe sa nachádza jedno prebytoèné \'end\' </string>
+    <string name="unbalance_end">Open and close are unbalanced, one token \"%1$s\" in position (%2$s:%3$s) and one token \"%4$s\" in position (%5$s:%6$s)</string>
     <string name="IO_EXCEPTION">Pri èítaní vstupu sa vyskytla IOException </string>
     <string name="INCOMPLETE_CHAR">Incomplete character literal</string>
     <string name="token_not_belong">"Nasledujúci názov sem nepatrí: "</string>
@@ -61,8 +61,7 @@
     <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
     One has type \"%4$s\" and the other has type \"%5$s\"</string>
     <string name="PluginCallException">When calling Function or Procedure \"%1$s\", the following java exception: \"%2$s\"</string>
-    <string name="SubRangeException">Upper bound of range is less than lower bound.\n
-        Current lower is \"%1$s\" and upper is \"%2$s\"</string>
+    <string name="SubRangeException">Upper bound of range is less than lower bound.\nCurrent lower is \"%1$s\" and upper is \"%2$s\"</string>
     <string name="MissingSemicolonTokenException">Missing semicolon (;) token near line \"%1$s\"</string>
     <string name="MissingCommaTokenException">Missing comma (,) token near line \"%1$s\"</string>
     <string name="StrayCharacterException">Stray character in program: \"%1$s\"</string>    <string name="StackOverflowException">Stack overflow error.</string>
