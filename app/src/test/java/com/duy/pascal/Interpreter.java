@@ -129,7 +129,7 @@ public class Interpreter {
 
                     @Override
                     public boolean keyPressed() {
-                        return false;
+                        return true;
                     }
 
                     @Override

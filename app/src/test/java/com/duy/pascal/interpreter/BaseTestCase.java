@@ -43,6 +43,9 @@ public abstract class BaseTestCase extends TestCase {
         dir = System.getProperty("user.dir");
         System.out.println("current dir = " + dir);
         dir += File.separator + "test_pascal" + File.separator + getDirTest() + File.separator;
+        if (!(new File(dir).exists())) {
+            dir = getDirTest() + File.separator;
+        }
     }
 
     /**
@@ -65,7 +68,7 @@ public abstract class BaseTestCase extends TestCase {
         if (!file1.exists()) {
             fileName = dir + fileName;
         }
-         return checkSyntax(fileName);
+        return checkSyntax(fileName);
     }
 
     /**
@@ -89,7 +92,8 @@ public abstract class BaseTestCase extends TestCase {
         File parent = new File(dir);
         for (File file : parent.listFiles()) {
             try {
-                if (file.getName().endsWith(".pas")) {
+                if (file.getName().endsWith(".pas")
+                        && !file.getName().equalsIgnoreCase("readkey.pas")) {
                     run(file.getName());
                     System.out.println("complete test " + file.getName());
                 }

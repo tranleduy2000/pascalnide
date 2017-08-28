@@ -4,14 +4,14 @@
 }
 program byte;
 var
-    b: Boolean;
+  b : Boolean;
 begin
-    b := false;
-    WriteLn(b, ' ', byte(b));
-    b := true;
-    WriteLn(b, ' ', byte(b));
-    {pause screen}
-    readln;
+  b := false;
+  WriteLn(b, ' ', byte(b));
+  b := true;
+  WriteLn(b, ' ', byte(b));
+  {pause screen}
+  readln;
 end.
 
 {if you want to improve this code, please send code to me
