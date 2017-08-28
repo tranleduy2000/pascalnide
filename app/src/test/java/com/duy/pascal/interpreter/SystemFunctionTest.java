@@ -28,4 +28,8 @@ public class SystemFunctionTest extends BaseTestCase {
     public void testAll(){
         runAll();
     }
+
+    public void testSqr(){
+        run("Sqr.pas");
+    }
 }
