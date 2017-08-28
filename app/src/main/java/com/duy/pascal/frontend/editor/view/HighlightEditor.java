@@ -843,7 +843,9 @@ public class HighlightEditor extends CodeSuggestsEditText
     @Override
     protected void onSelectionChanged(int selStart, int selEnd) {
         super.onSelectionChanged(selStart, selEnd);
-        mBracketHighlighter.onSelectChange(selStart, selEnd);
+        if (mBracketHighlighter != null) {
+            mBracketHighlighter.onSelectChange(selStart, selEnd);
+        }
     }
 
     /**
