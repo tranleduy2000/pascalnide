@@ -23,7 +23,7 @@ package com.duy.pascal.interpreter;
 public class SystemFunctionTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return System.getProperty("user.dir") + "\\app\\src\\main\\assets\\code_sample\\system";
+        return System.getProperty("user.dir") + "\\app\\src\\main\\assets\\CodeSample\\system";
     }
 
     public void testbyte() {

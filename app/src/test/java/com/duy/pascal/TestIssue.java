@@ -49,7 +49,4 @@ public class TestIssue extends BaseTestCase {
         run("test7.pas");
     }
 
-    public void test8(){
-        run("test8.pas");
-    }
 }

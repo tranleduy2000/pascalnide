@@ -71,9 +71,12 @@ public class ForStatementTest extends BaseTestCase {
     public void testForRange() {
         run("test_for_in_range.pas");
     }
+
     public void testConvert() {
         run("test_convert.pas");
-    } public void testConvert2() {
+    }
+
+    public void testConvert2() {
         run("test_convert2.pas");
     }
 }

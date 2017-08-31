@@ -19,6 +19,7 @@ package com.duy.pascal.interperter.declaration.lang.types.set;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.interperter.ast.instructions.conditional.forstatement.ForStatement;
 import com.duy.pascal.interperter.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
@@ -35,6 +36,7 @@ import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.value.DuplicateElementException;
 import com.duy.pascal.interperter.tokens.Token;
+import com.duy.pascal.interperter.tokens.basic.DotDotToken;
 import com.duy.pascal.interperter.tokens.grouping.BracketedToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 
@@ -98,7 +100,7 @@ public class SetType<T extends Type> extends BaseSetType {
                     if (convert == null) temp = BasicType.create(Object.class);
                 }
             } else {
-                element = bracketedToken.getConstantElement(context, bracketedToken, typeReference.get());
+                element = GrouperToken.getConstantElement(context, bracketedToken, typeReference.get());
             }
             for (Object o : linkedList) {
                 if (o.equals(element.getValue())) {
@@ -122,37 +124,61 @@ public class SetType<T extends Type> extends BaseSetType {
             throw new ExpectedTokenException(new BracketedToken(null), token);
         }
 
-        BracketedToken bracketedToken = (BracketedToken) token;
+        BracketedToken bracket = (BracketedToken) token;
         LinkedList<RuntimeValue> linkedList = new LinkedList<>();
         Type temp = null;
-        while (bracketedToken.hasNext()) {
+        while (bracket.hasNext()) {
             RuntimeValue element;
             if (typeReference.get() == null) {
-                element = bracketedToken.getNextExpression(context);
+                element = bracket.getNextExpression(context);
                 if (temp == null) {
                     temp = element.getRuntimeType(context).declType;
                 } else if (!(temp.getStorageClass() == Object.class)) {
-                    RuntimeValue convert;
-                    convert = temp.convert(element, context);
+                    RuntimeValue convert = temp.convert(element, context);
                     if (convert == null) temp = BasicType.create(Object.class);
                 }
             } else {
-                element = bracketedToken.getNextExpression(context);
-                RuntimeValue convert;
-                convert = typeReference.get().convert(element, context);
+                element = bracket.getNextExpression(context);
+                RuntimeValue convert = typeReference.get().convert(element, context);
                 if (convert == null) {
                     throw new UnConvertibleTypeException(element,
                             typeReference.get(), element.getRuntimeType(context).declType, context);
                 }
                 element = convert;
             }
-            if (bracketedToken.hasNext()){
-                bracketedToken.assertNextComma();
+
+            if (bracket.hasNext()) {
+                if (bracket.peek() instanceof DotDotToken) { //range
+                    if (linkedList.size() != 0) {
+                        bracket.assertNextComma(); //throw exception
+                    }
+                    bracket.take(); //dot dot
+
+                    //check first type
+                    RuntimeValue firstValue = element;
+                    Type firstType = firstValue.getRuntimeType(context).declType;
+                    if (BasicType.Long.convert(firstValue, context) == null) {
+                        throw new UnConvertibleTypeException(firstValue, BasicType.Long, firstType, context);
+                    }
+
+                    //check two type
+                    RuntimeValue lastValue = bracket.getNextExpression(context);
+                    Type lastType = lastValue.getRuntimeType(context).declType;
+                    if (firstType.convert(lastValue, context) == null) {
+                        throw new UnConvertibleTypeException(lastValue, firstType, lastType, context);
+                    }
+
+                    if (bracket.hasNext()){
+                        throw new ExpectedTokenException("EOF", bracket.take());
+                    }
+                } else {
+                    bracket.assertNextComma();
+                }
             }
             linkedList.add(element);
         }
         if (typeReference.get() == null) typeReference.set(temp);
-        return new SetBoxer(linkedList, typeReference.get(), bracketedToken.getLineNumber());
+        return new SetBoxer(linkedList, typeReference.get(), bracket.getLineNumber());
     }
 
     @SuppressWarnings("unchecked")

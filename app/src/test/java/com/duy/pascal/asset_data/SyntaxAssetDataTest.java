@@ -31,7 +31,7 @@ import static com.duy.pascal.Interpreter.checkSyntax;
  */
 
 public class SyntaxAssetDataTest extends TestCase {
-    String dir = "C:\\github\\pascalnide-public\\app\\src\\main\\assets\\code_sample\\";
+    String dir = System.getProperty("user.dir") + "\\app\\src\\main\\assets\\CodeSample\\";
 
     @Override
     protected void setUp() throws Exception {
@@ -39,7 +39,7 @@ public class SyntaxAssetDataTest extends TestCase {
         DLog.ANDROID = false;
     }
 
-    public void testSystem() throws Exception, RuntimePascalException, FileNotFoundException {
+    public void testSystem() throws Exception {
         File parent = new File(dir + "system");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
@@ -102,8 +102,8 @@ public class SyntaxAssetDataTest extends TestCase {
         }
     }
 
-    public void test_generateTone(){
-        checkSyntax("C:\\github\\pascalnide-public\\app\\src\\main\\assets\\code_sample\\android\\generate_tone.pas");
+    public void test_generateTone() {
+        checkSyntax(System.getProperty("user.dir") + "\\app\\src\\main\\assets\\code_sample\\android\\generate_tone.pas");
     }
 
     public void testandroid_dialog() {
@@ -131,28 +131,36 @@ public class SyntaxAssetDataTest extends TestCase {
                 assertTrue(checkSyntax(file.getPath()));
             }
         }
-    }  public void testgraph() {
+    }
+
+    public void testgraph() {
         File parent = new File(dir + "graph");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 assertTrue(checkSyntax(file.getPath()));
             }
         }
-    } public void testCompleteProgram() {
-        File parent = new File(dir + "complete_program");
+    }
+
+    public void testCompleteProgram() {
+        File parent = new File(dir + "CompleteProgram");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 assertTrue(checkSyntax(file.getPath()));
             }
         }
-    }public void testsysutils() {
+    }
+
+    public void testsysutils() {
         File parent = new File(dir + "sysutils");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 assertTrue(checkSyntax(file.getPath()));
             }
         }
-    }public void testtemp() {
+    }
+
+    public void testtemp() {
         File parent = new File(dir + "temp");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {

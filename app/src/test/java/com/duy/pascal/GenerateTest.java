@@ -30,7 +30,7 @@ import java.io.IOException;
  */
 
 public class GenerateTest extends TestCase {
-    public void testGenerateSystem() throws IOException {
+    public void ztestGenerateSystem() throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("/*\n" +
                 " *  Copyright (c) 2017 Tran Le Duy\n" +
