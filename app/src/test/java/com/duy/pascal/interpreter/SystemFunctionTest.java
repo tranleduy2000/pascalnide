@@ -27,7 +27,7 @@ public class SystemFunctionTest extends BaseTestCase {
     }
 
     public void testbyte() {
-        run("byte.pas");
+        run("Byte.pas");
     }
 
     public void testCharToAscii() {
@@ -148,5 +148,9 @@ public class SystemFunctionTest extends BaseTestCase {
 
     public void testUpCase() {
         run("UpCase.pas");
+    }
+
+    public void testStr2() {
+        run("Str2.pas");
     }
 }

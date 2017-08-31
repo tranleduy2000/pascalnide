@@ -5,8 +5,8 @@ var
   s : string;
 begin
   str(number, s);
-  writeln('number is ', number);
-  writeln('string is ', s);
+  writeln('Number is ', number);
+  writeln('String is ', s);
   readln;
 end.
 

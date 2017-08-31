@@ -59,7 +59,7 @@ public class OutputValue implements RuntimeValue {
 
     @NonNull
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+    public StringBuilder getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Object value = target.getValue(f, main);
         StringBuilder out = new StringBuilder(OutputFormatter.getValueOutput(value));
         if (infoOutput != null) {

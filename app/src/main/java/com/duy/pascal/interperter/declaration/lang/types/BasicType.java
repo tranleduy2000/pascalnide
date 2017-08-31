@@ -142,7 +142,7 @@ public enum BasicType implements Type {
         }
     },
     //integer in pascal is 2byte
-    Integer(Short.class) {
+    Integer(Integer.class) {
         @Override
         Object getDefaultValue() {
             return 0;
