@@ -27,43 +27,31 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.duy.pascal.frontend.EditorSetting;
+
 /**
  * Created by Duy on 12-May-17.
  */
 
 public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
     public static final String TAB_CHARACTER = "  ";
-    public static final String TAB = "  "; //2 space
     public static final String CURSOR = "\u2622";
     private static final String TAG = "AutoIndentEditText";
+    protected EditorSetting mEditorSetting;
 
     public AutoIndentEditText(Context context) {
         super(context);
-        init();
-
+        init(context);
     }
 
     public AutoIndentEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
-
+        init(context);
     }
 
     public AutoIndentEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    public static char getCloseBracket(char open, int index) {
-        switch (open) {
-            case '(':
-                return ')';
-            case '{':
-                return '}';
-            case '[':
-                return ']';
-        }
-        return 0;
+        init(context);
     }
 
     public void applyTabWidth(Editable text, int start, int end) {
@@ -83,54 +71,61 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
         applyTabWidth(getText(), 0, getText().length());
     }
 
-    private void init() {
-        setFilters(new InputFilter[]{
-                new InputFilter() {
-                    @Override
-                    public CharSequence filter(CharSequence source, int start,
-                                               int end, Spanned dest, int dstart, int dend) {
-                        if (end - start == 1 && start < source.length() && dstart < dest.length()) {
-                            char c = source.charAt(start);
-                            if (c == '\n') {
-                                return indentLine(source, start, end, dest, dstart, dend);
-                            } else {
-                                return addBracket(source, start, end, dest, dstart, dend);
-                            }
-                        }
-                        return source;
-                    }
-                }
-        });//auto add bracket
-        addTextChangedListener(new TextWatcher() {
-            private int start;
-            private int count;
+    private TextWatcher mBracketWatcher = new TextWatcher() {
+        private int start;
+        private int count;
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
+        }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                this.start = start;
-                this.count = count;
-            }
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            this.start = start;
+            this.count = count;
+        }
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.length() > start && count > 1) {
-                    CharSequence newText = editable.subSequence(start, start + count);
-                    int i = newText.toString().indexOf(CURSOR);
-                    if (i > -1) {
-                        editable.delete(start + i, start + i + 1);
-                        setSelection(start);
-                    }
+        @Override
+        public void afterTextChanged(Editable editable) {
+            if (editable.length() > start && count > 1) {
+                CharSequence newText = editable.subSequence(start, start + count);
+                int i = newText.toString().indexOf(CURSOR);
+                if (i > -1) {
+                    editable.delete(start + i, start + i + 1);
+                    setSelection(start);
                 }
             }
-        });
+        }
+    };
+    private InputFilter mInputFilter = new InputFilter() {
+        @Override
+        public CharSequence filter(CharSequence source, int start,
+                                   int end, Spanned dest, int dstart, int dend) {
+            if (end - start == 1 && start < source.length() && dstart < dest.length()) {
+                char c = source.charAt(start);
+                if (c == '\n') {
+                    return indentLine(source, start, end, dest, dstart, dend);
+                } else {
+                    return addBracket(source, start, end, dest, dstart, dend);
+                }
+            }
+            return source;
+        }
+    };
+
+    private void init(Context context) {
+        mEditorSetting = new EditorSetting(context);
+
+        setFilters(new InputFilter[]{mInputFilter});
+        addTextChangedListener(mBracketWatcher);
     }
 
     private CharSequence addBracket(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+        if (!mEditorSetting.useAutoInsert()) {
+            return source;
+        }
+
         switch (source.charAt(start)) {
             case '"':
                 return "\"" + CURSOR + "\"";

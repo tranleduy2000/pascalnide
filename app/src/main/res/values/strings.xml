@@ -238,5 +238,8 @@
     <string name="save_and_apply">Save and apply</string>
     <string name="create_new_theme">Create new theme</string>
     <string name="more_theme">Get premium version. Create your custom theme!</string>
+    <string name="key_auto_insert_bracket">key_auto_insert_bracket</string>
+    <string name="auto_insert_bracket_summary">Insert ) when type (, ] when type [...</string>
+    <string name="auto_insert_bracket">Auto insert bracket</string>
 </resources>
 

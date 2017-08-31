@@ -340,4 +340,8 @@ public class PascalPreferences {
     public void setTheme(String name) {
         put(context.getString(R.string.key_code_theme), name);
     }
+
+    public boolean useAutoInsert() {
+        return getBoolean(context.getString(R.string.key_auto_insert_bracket), false);
+    }
 }

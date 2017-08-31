@@ -55,7 +55,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
 
     public CodeSampleActivity() {
         categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math",
-                "Complete_Program", "Android",
+                "CompleteProgram", "Android",
                 "Android_Dialog", "Android_ZXing", "Android_Location"};
     }
 

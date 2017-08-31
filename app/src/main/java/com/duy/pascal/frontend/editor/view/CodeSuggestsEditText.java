@@ -50,7 +50,6 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
 
     public int mCharHeight = 0;
     public int mCharWidth = 0;
-    protected EditorSetting mEditorSetting;
     protected SymbolsTokenizer mTokenizer;
     private CodeSuggestAdapter mAdapter;
     private SuggestionProvider pascalParserHelper;
@@ -83,7 +82,6 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     }
 
     private void init(Context context) {
-        mEditorSetting = new EditorSetting(context);
 //        setDefaultKeyword();
         mTokenizer = new SymbolsTokenizer();
         setTokenizer(mTokenizer);
