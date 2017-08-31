@@ -22,7 +22,7 @@ import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
 import java.io.File;
 
 public enum BasicType implements Type {
-    Boolean(Character.class) {
+    Boolean(Boolean.class) {
         @Override
         Object getDefaultValue() {
             return false;
@@ -136,15 +136,13 @@ public enum BasicType implements Type {
             return 0;
         }
 
-
         @Override
         public String toString() {
             return "Shortint";
         }
-
-
     },
-    Integer(Integer.class) {
+    //integer in pascal is 2byte
+    Integer(Short.class) {
         @Override
         Object getDefaultValue() {
             return 0;
@@ -155,15 +153,12 @@ public enum BasicType implements Type {
         public String toString() {
             return "Integer";
         }
-
-
     },
     Long(Long.class) {
         @Override
         Object getDefaultValue() {
             return 0L;
         }
-
 
         @Override
         public String toString() {
@@ -181,8 +176,6 @@ public enum BasicType implements Type {
         public String toString() {
             return "Real";
         }
-
-
     },
     Double(Double.class) {
         @Override
