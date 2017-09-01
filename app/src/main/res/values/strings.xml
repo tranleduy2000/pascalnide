@@ -229,7 +229,6 @@
     <string name="donate_nope">I won\'t fall for this scam!</string>
     <string name="donate_yes">I love this app. Must donate!</string>
 
-    <!--Splash screen-->
     <string name="more_font">Get more font</string>
     <string name="editor_font">Editor font</string>
     <string name="console_font">Console font</string>
@@ -238,8 +237,7 @@
     <string name="save_and_apply">Save and apply</string>
     <string name="create_new_theme">Create new theme</string>
     <string name="more_theme">Get premium version. Create your custom theme!</string>
-    <string name="key_auto_insert_bracket">key_auto_insert_bracket</string>
-    <string name="auto_insert_bracket_summary">Insert ) when type (, ] when type [...</string>
+    <string name="auto_insert_bracket_summary">Insert ) when type (, ] when type […</string>
     <string name="auto_insert_bracket">Auto insert bracket</string>
 </resources>
 

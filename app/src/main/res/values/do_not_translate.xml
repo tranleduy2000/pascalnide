@@ -121,4 +121,6 @@ procedure routine();
 begin
 end;
 end.]]></string>
+
+    <string name="key_auto_insert_bracket" translatable="false">key_auto_insert_bracket</string>
 </resources>

@@ -228,4 +228,7 @@
     <string name="custom_theme">Custom theme</string>
     <string name="more_theme">Get premium version. Create your custom theme!</string>
     <string name="save_and_apply">Save and apply</string>
+    <string name="auto_insert_bracket">Tự động chèn</string>
+    <string name="auto_insert_bracket_summary">Tự động chèn dấu đóng ngoặc</string>
+    <string name="missing_token_exception">Có thể thiếu \"%1$s\"</string>
 </resources>

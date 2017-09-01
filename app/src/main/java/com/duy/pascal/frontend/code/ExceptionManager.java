@@ -53,6 +53,7 @@ import com.duy.pascal.interperter.exceptions.parsing.index.NonIntegerIndexExcept
 import com.duy.pascal.interperter.exceptions.parsing.io.LibraryNotFoundException;
 import com.duy.pascal.interperter.exceptions.parsing.missing.MissingCommaTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.missing.MissingSemicolonTokenException;
+import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.operator.BadOperationTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.operator.ConstantCalculationException;
 import com.duy.pascal.interperter.exceptions.parsing.operator.DivisionByZeroException;
@@ -99,13 +100,16 @@ public class ExceptionManager {
             if (e instanceof StackOverflowException)
                 return getMessageResource(e, R.string.StackOverflowException);
 
-            if (e instanceof MissingSemicolonTokenException)
+            if (e instanceof MissingSemicolonTokenException) {
                 return getMessageResource(e, R.string.MissingSemicolonTokenException,
                         ((MissingSemicolonTokenException) e).getLineInfo().getLine());
-
-            if (e instanceof MissingCommaTokenException)
+            } else if (e instanceof MissingCommaTokenException) {
                 return getMessageResource(e, R.string.MissingCommaTokenException,
                         ((MissingCommaTokenException) e).getLineInfo().getLine());
+            } else if (e instanceof MissingTokenException) {
+                return getMessageResource(e, R.string.missing_token_exception,
+                        ((MissingTokenException) e).getMissingToken());
+            }
 
             if (e instanceof StrayCharacterException)
                 return getMessageResource(e, R.string.StrayCharacterException,
@@ -146,8 +150,9 @@ public class ExceptionManager {
             if (e instanceof MethodCallException) return getPluginCallException(e);
             if (e instanceof NonIntegerIndexException) return getNonIntegerIndexException(e);
             if (e instanceof NonIntegerException) return getNonIntegerException(e);
-            if (e instanceof ConstantCalculationException)
+            if (e instanceof ConstantCalculationException) {
                 return getConstantCalculationException(e);
+            }
 
             if (e instanceof ChangeValueConstantException) {
                 return getMessageResource(e, R.string.ChangeValueConstantException);
@@ -228,7 +233,6 @@ public class ExceptionManager {
             }
             return new SpannableString(e.getLocalizedMessage());
         } catch (Exception err) {
-//            FirebaseCrash.report(new Throwable("Error when get exception msg"));
             return new SpannableString(err.toString());
         }
     }
