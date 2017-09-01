@@ -34,8 +34,24 @@ public class StoreUtil {
         try {
             context.startActivity(goToMarket);
         } catch (ActivityNotFoundException e) {
-            context.startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("http://play.google.com/store/apps/details?id=" + APP_ID)));
+            Uri link = Uri.parse("http://play.google.com/store/apps/details?id=" + APP_ID);
+            Intent intent = new Intent(Intent.ACTION_VIEW, link);
+            context.startActivity(intent);
+        }
+    }
+
+    public static void gotoPlayStore(Activity context, String APP_ID, int request) {
+        Uri uri = Uri.parse("market://details?id=" + APP_ID);
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        // To count with Play market backstack, After pressing back button,
+        // to taken back to our application, we need to add following flags to intent.
+        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        try {
+            context.startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            Uri link = Uri.parse("http://play.google.com/store/apps/details?id=" + APP_ID);
+            Intent intent = new Intent(Intent.ACTION_VIEW, link);
+            context.startActivityForResult(intent, request);
         }
     }
 
