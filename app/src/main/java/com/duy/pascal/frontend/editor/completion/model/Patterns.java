@@ -32,7 +32,7 @@ public class Patterns {
      * match reserved keyword
      */
     public static final Pattern KEYWORDS = Pattern.compile(
-            "\\b(uses|const|do|for|while|if|else|in|case|and|array|begin|div" +
+            "(^|([^\\w]+))(uses|const|do|for|while|if|else|in|case|and|array|begin|div" +
                     "|downto|to|mod|of" +
                     "|procedure|program|repeat|until|shl|shr" +
                     "|then|type|var|end|function" +
@@ -46,7 +46,7 @@ public class Patterns {
                     "|char|text" +
                     "|record|continue" +
                     "|unit|interface|initialization|finalization|implementation|with" +
-                    "|null|nil|set|new)\\b",
+                    "|null|nil|set|new)([^\\w]+|$)",
             Pattern.CASE_INSENSITIVE);
     /**
      * match builtin pascal function

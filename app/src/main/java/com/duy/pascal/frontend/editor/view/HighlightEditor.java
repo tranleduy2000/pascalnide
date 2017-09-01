@@ -212,8 +212,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         mBracketHighlighter = new BracketHighlighter(this, codeTheme);
 
         updateFromSettings();
-
-
         enableTextChangedListener();
     }
 

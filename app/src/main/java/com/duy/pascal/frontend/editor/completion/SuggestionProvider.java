@@ -49,7 +49,6 @@ import java.util.Map;
 
 public class SuggestionProvider {
     private static final String TAG = "SuggestionProvider";
-    private String srcPath;
     private String source;
     private int cursorPos;
     private int cursorLine;
@@ -64,20 +63,21 @@ public class SuggestionProvider {
 
     public ArrayList<Description> getSuggestion(String srcPath, String source,
                                                 int cursorPos, int cursorLine, int cursorCol) {
-        this.srcPath = srcPath;
         this.source = source;
         this.cursorPos = cursorPos;
         this.cursorLine = cursorLine;
         this.cursorCol = cursorCol;
         try {
-            calculateIncomplete();
-            //the result
             ArrayList<Description> suggestItems = new ArrayList<>();
+
             try {
                 DiagnosticCollector diagnosticCollector = new DiagnosticCollector();
                 PascalProgramDeclaration pascalProgram =
                         PascalCompiler.loadPascal(srcPath, new StringReader(source), null, null, diagnosticCollector);
                 ExpressionContextMixin exprContext = pascalProgram.getContext();
+
+                calculateIncomplete();
+                //the result
 
                 ArrayList<VariableDeclaration> variables = exprContext.getVariables();
                 suggestItems.addAll(sort(filterVariables(variables)));
@@ -89,9 +89,6 @@ public class SuggestionProvider {
                 suggestItems.addAll(sort(filterFunctions(callableFunctions)));
             } catch (Exception e) { //parsing error
             }
-
-//            HashMap<Name, Type> typedefs = exprContext.getTypedefs();
-//            addTypeDef();
 
             suggestItems.addAll(sort(addKeyword()));
             return suggestItems;
@@ -119,7 +116,6 @@ public class SuggestionProvider {
         incomplete = source.substring(start, cursorPos);
         incomplete = incomplete.trim();
         Log.d(TAG, "calculateIncomplete incomplete = " + incomplete);
-
     }
 
     private ArrayList<Description> sort(ArrayList<Description> items) {

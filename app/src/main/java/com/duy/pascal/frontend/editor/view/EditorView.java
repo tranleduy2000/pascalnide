@@ -24,7 +24,6 @@ import android.util.AttributeSet;
  */
 
 public class EditorView extends UndoRedoSupportEditText {
-    private static final String TAG = EditorView.class.getSimpleName();
 
     public EditorView(Context context, AttributeSet attrs) {
         super(context, attrs);
