@@ -110,7 +110,7 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
     }
 
 
-    public static class CodeHolder extends RecyclerView.ViewHolder {
+    static class CodeHolder extends RecyclerView.ViewHolder {
         TextView txtTitle;
         View btnPlay;
         View btnEdit;
@@ -118,18 +118,18 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
         EditorView editorView;
 
 
-        public CodeHolder(View view) {
+        CodeHolder(View view) {
             super(view);
-            txtTitle = (TextView) view.findViewById(R.id.txt_name);
+            txtTitle = view.findViewById(R.id.txt_name);
             btnPlay = view.findViewById(R.id.img_play);
             btnEdit = view.findViewById(R.id.img_edit);
             btnCopy = view.findViewById(R.id.img_copy);
-            editorView = (EditorView) view.findViewById(R.id.editor_view);
+            editorView = view.findViewById(R.id.editor_view);
         }
 
-        public void bind(CodeSampleEntry codeSampleEntry,
-                         final OnCodeClickListener listener,
-                         final ClipboardManagerCompat clipboardManagerCompat) {
+        void bind(CodeSampleEntry codeSampleEntry,
+                  final OnCodeClickListener listener,
+                  final ClipboardManagerCompat clipboardManagerCompat) {
             //set code
             final String content = codeSampleEntry.getContent();
 
