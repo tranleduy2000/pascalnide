@@ -146,7 +146,7 @@ public class FragmentFileManager extends Fragment implements
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        currentFolder = FileManager.getApplicationPath();
+        currentFolder = FileManager.getFilePath();
         wantAFile = true; //action == Actions.SelectFile;
 
         bindView(view);

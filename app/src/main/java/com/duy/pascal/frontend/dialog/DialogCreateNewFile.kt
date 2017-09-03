@@ -118,13 +118,13 @@ class DialogCreateNewFile : AppCompatDialogFragment() {
         } else if ((checkBoxPas!!.isChecked || checkBoxUnit!!.isChecked) && !fileName.contains(".")) {
             fileName += ".pas"
         }
-        var file = File(FileManager.getApplicationPath() + fileName)
+        var file = File(FileManager.getFilePath() + fileName)
         if (file.exists()) {
             mEditFileName!!.error = getString(R.string.file_exist)
             return null
         }
         //create new file
-        val filePath = mFileManager!!.createNewFile(FileManager.getApplicationPath() + fileName)
+        val filePath = mFileManager!!.createNewFile(FileManager.getFilePath() + fileName)
         file = File(filePath)
         if (checkBoxPas!!.isChecked) {
             mFileManager!!.saveFile(file,

@@ -16,12 +16,16 @@
 
 package com.duy.pascal.frontend.file;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.ActivitySplashScreen;
@@ -48,20 +52,16 @@ import java.util.ArrayList;
  */
 
 public class FileManager {
-    /**
-     * storage path for saveFile code
-     */
-    public static final String EXTERNAL_DIR_CODE = Environment.getExternalStorageDirectory().getPath()
-            + "/PascalCompiler/";
-    private final String TAG = FileManager.class.getSimpleName();
-    private final String FILE_TEMP_NAME = "tmp.pas";
-    private int mode = SAVE_MODE.EXTERNAL;
-    private Context context;
+    /*storage path for save code*/
+    private static final String EXTERNAL_DIR_CODE = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/";
+    private static final String FILE_TEMP_NAME = "tmp.pas";
+
+    private Context mContext;
     private Database mDatabase;
     private PascalPreferences mPascalPreferences;
 
     public FileManager(Context context) {
-        this.context = context;
+        this.mContext = context;
         mDatabase = new Database(context);
         mPascalPreferences = new PascalPreferences(context);
     }
@@ -69,11 +69,9 @@ public class FileManager {
     /**
      * @return path of application
      */
-    public static String getApplicationPath() {
+    public static String getFilePath() {
         File file = new File(EXTERNAL_DIR_CODE);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
+        if (!file.exists()) file.mkdirs();
         return EXTERNAL_DIR_CODE;
     }
 
@@ -102,11 +100,6 @@ public class FileManager {
 
     /**
      * get path from uri
-     *
-     * @param context
-     * @param uri
-     * @return
-     * @throws URISyntaxException
      */
     public String getPath(Context context, Uri uri) throws URISyntaxException {
         if ("content".equalsIgnoreCase(uri.getScheme())) {
@@ -154,14 +147,6 @@ public class FileManager {
         return "";
     }
 
-    public boolean createDirectory() {
-        File dir = new File(EXTERNAL_DIR_CODE);
-        if (dir.exists()) {
-            if (dir.isDirectory()) return true;
-            if (!dir.delete()) return false;
-        }
-        return dir.mkdir();
-    }
 
     public StringBuilder fileToString(String path) {
         File file = new File(path);
@@ -256,7 +241,7 @@ public class FileManager {
     }
 
     /**
-     * saveFile current project
+     * save current project
      *
      * @param file
      */
@@ -270,7 +255,7 @@ public class FileManager {
     }
 
     /**
-     * saveFile file
+     * save file
      *
      * @param filePath - name of file
      * @param text     - content of file
@@ -362,7 +347,7 @@ public class FileManager {
         File file = new File(path);
         try {
             if (!file.exists()) {
-                new File(file.getParent()).mkdirs();
+                file.getParentFile().mkdirs();
                 file.createNewFile();
             }
             return path;
@@ -393,21 +378,21 @@ public class FileManager {
      *
      * @param content - Content of file, string
      */
+    @Nullable
     public String setContentFileTemp(String content) {
-        String name = getCurrentPath(SAVE_MODE.INTERNAL) + FILE_TEMP_NAME;
-//        Dlog.d(TAG, "setContentFileTemp: " + name);
-//        Dlog.d(TAG, "setContentFileTemp: " + content);
-        File file = new File(name);
+        File file = new File(getCurrentPath(), FILE_TEMP_NAME);
         FileOutputStream outputStream;
         try {
             if (!file.exists()) {
-                createNewFile(name);
+                file.getParentFile().mkdirs();
+                file.createNewFile();
             }
-            outputStream = new FileOutputStream(new File(name));
+            outputStream = new FileOutputStream(file);
             outputStream.write(content.getBytes());
             outputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
         return file.getPath();
     }
@@ -418,8 +403,7 @@ public class FileManager {
      * @return - pascal file
      */
     public File getTempFile() {
-        String name = getCurrentPath(SAVE_MODE.INTERNAL) + File.separatorChar + FILE_TEMP_NAME;
-//        Dlog.d(TAG, "getTempFile: " + name);
+        String name = getCurrentPath() + File.separatorChar + FILE_TEMP_NAME;
         File file = new File(name);
         if (!file.exists()) {
             createNewFileInMode(name);
@@ -427,21 +411,19 @@ public class FileManager {
         return file;
     }
 
-    public String getCurrentPath() {
-        if (mode == SAVE_MODE.INTERNAL) {
-            return context.getFilesDir().getPath() + File.separatorChar;
+    private String getCurrentPath() {
+        if (!permissionGranted()) {
+            return mContext.getFilesDir().getPath() + File.separatorChar;
         } else {
             return Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/";
         }
     }
 
-    private String getCurrentPath(int mode) {
-        if (mode == SAVE_MODE.INTERNAL) {
-            return context.getFilesDir().getPath() + File.separatorChar;
-        } else {
-            return Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/";
-        }
+    private boolean permissionGranted() {
+        return ActivityCompat.checkSelfPermission(mContext,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
+
 
     public void addNewPath(String path) {
         mDatabase.addNewFile(new File(path));
@@ -449,8 +431,6 @@ public class FileManager {
 
     /**
      * set working file path
-     *
-     * @param path
      */
     public void setWorkingFilePath(String path) {
         mPascalPreferences.put(PascalPreferences.FILE_PATH, path);
@@ -462,7 +442,7 @@ public class FileManager {
 
     public String createRandomFile() {
         String filePath;
-        filePath = getApplicationPath() + Integer.toHexString((int) System.currentTimeMillis())
+        filePath = getFilePath() + Integer.toHexString((int) System.currentTimeMillis())
                 + ".pas";
         return createNewFile(filePath);
     }
@@ -518,8 +498,4 @@ public class FileManager {
         return intent;
     }
 
-    public static class SAVE_MODE {
-        static final int INTERNAL = 1;
-        static final int EXTERNAL = 2;
-    }
 }

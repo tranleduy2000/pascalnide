@@ -257,7 +257,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
 
         FileManager fileManager = new FileManager(this);
         //create new temp file
-        String filePath = fileManager.createNewFile(FileManager.getApplicationPath() +
+        String filePath = fileManager.createNewFile(FileManager.getFilePath() +
                 "new_" + Integer.toHexString((int) System.currentTimeMillis()) + ".pas");
         fileManager.saveFile(filePath, text);
         to.putExtra(CompileManager.FILE_PATH, filePath);
