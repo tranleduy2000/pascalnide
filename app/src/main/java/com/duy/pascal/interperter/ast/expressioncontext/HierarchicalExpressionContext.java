@@ -110,11 +110,10 @@ public abstract class HierarchicalExpressionContext implements ExpressionContext
 
     @Nullable
     public <T> T getListener(Class<T> c) {
-//        try {
-//            return (T) parsingListener.get(c);
-//        } catch (Exception e) {
-//            return null;
-//        }
-        return null;
+        try {
+            return (T) parsingListener.get(c);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
