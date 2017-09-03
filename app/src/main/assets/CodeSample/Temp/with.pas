@@ -1,11 +1,11 @@
 type
-    point = record
-        x, y: longint;
-    end;
+  point = record
+    x, y : longint;
+  end;
 var
-    p: point;
+  p : point;
 begin
-    with p do
-    begin
-    end;
+  with p do
+  begin
+  end;
 end.

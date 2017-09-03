@@ -1,12 +1,13 @@
 Uses
-    aDialog;
+  aDialog;
+
 Var
-    title, hint, msg: string;
+  title, hint, msg : string;
 Begin
-    title := 'Hello';
-    msg := 'This is Pascal NIDE';
+  title := 'Hello';
+  msg := 'This is Pascal NIDE';
 
-    DialogAlert(title, msg, true); //<==
+  DialogAlert(title, msg, true); //<==
 
-    Readln;
+  Readln;
 End.

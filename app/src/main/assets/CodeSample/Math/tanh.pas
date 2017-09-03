@@ -5,8 +5,8 @@ Program Example48;
 Uses math;
 
 begin
-    writeln(tanh(0));
-    writeln(tanh(1));
-    writeln(tanh(-1));
+  writeln(tanh(0));
+  writeln(tanh(1));
+  writeln(tanh(-1));
 end.
 {http://www.freepascal.org/docs-html/rtl/math/tanh.html}

@@ -19,6 +19,7 @@ package com.duy.pascal.frontend.code_sample.adapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
  * Created by Duy on 08-Apr-17.
  */
 public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.CodeHolder> {
+    private static final String TAG = "CodeSampleAdapter";
     private final ClipboardManagerCompat clipboardManagerCompat;
     private ArrayList<CodeSampleEntry> codeSampleEntries = new ArrayList<>();
     private ArrayList<CodeSampleEntry> originalData = new ArrayList<>();
@@ -69,6 +71,8 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
     }
 
     public void addCodes(ArrayList<CodeSampleEntry> listCodeCategories) {
+        Log.d(TAG, "addCodes() called with: listCodeCategories = [" + listCodeCategories + "]");
+
         this.originalData.addAll(listCodeCategories);
         this.codeSampleEntries.addAll(listCodeCategories);
     }

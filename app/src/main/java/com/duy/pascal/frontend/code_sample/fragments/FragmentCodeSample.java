@@ -24,6 +24,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,10 @@ import com.duy.pascal.frontend.code_sample.model.CodeCategory;
 import com.duy.pascal.frontend.code_sample.model.CodeSampleEntry;
 import com.duy.pascal.frontend.file.FileManager;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Duy on 28-Apr-17.
@@ -94,7 +97,7 @@ public class FragmentCodeSample extends Fragment {
                 String category = getArguments().getString(TAG);
                 CodeCategory codeCategory = new CodeCategory(category, "");
                 String[] list;
-                String path = "CodeSample/" + getArguments().getString(TAG);
+                String path = "CodeSample" + File.separator + getArguments().getString(TAG);
                 try {
                     Context context = getContext();
                     if (category == null) {
@@ -102,10 +105,11 @@ public class FragmentCodeSample extends Fragment {
                     }
                     AssetManager assets = context.getAssets();
                     list = assets.list(path);
+                    Log.d(TAG, "doInBackground: " + Arrays.toString(list));
                     for (String fileName : list) {
                         if (fileName.endsWith(".pas")) {
                             StringBuilder content =
-                                    FileManager.streamToString(assets.open(path + "/" + fileName));
+                                    FileManager.streamToString(assets.open(path +File.separator + fileName));
                             codeCategory.addCodeItem(new CodeSampleEntry(fileName, content));
                         }
                     }
@@ -113,7 +117,7 @@ public class FragmentCodeSample extends Fragment {
                     DLog.e(ignored);
                 }
                 codeSampleEntries.addAll(codeCategory.getCodeSampleEntries());
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
             return null;
         }

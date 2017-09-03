@@ -1,8 +1,8 @@
 var
-    number: longint;
-    s: string;
+  number : longint;
+  s : string;
 begin
-    number := 7;
-    Str(number, s);
-    Writeln(s);
+  number := 7;
+  Str(number, s);
+  Writeln(s);
 end.

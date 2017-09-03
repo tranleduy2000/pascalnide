@@ -1,7 +1,7 @@
 program Ball;
 uses  CRT, GRAPH;
 
-  { Mini-Game | Мини-Игра }
+    { Mini-Game | Мини-Игра }
 
 VAR
   X, Y, F : INTEGER;

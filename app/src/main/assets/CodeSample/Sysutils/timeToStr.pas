@@ -5,5 +5,5 @@ Program Example25;
 Uses sysutils;
 
 Begin
-   Writeln ('The current time is : ',TimeToStr(Time));
+  Writeln ('The current time is : ', TimeToStr(Time));
 End.

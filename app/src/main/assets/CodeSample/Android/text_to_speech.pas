@@ -1,17 +1,18 @@
 uses aTTSpeech;
+
 var
-    input: String;
+  input : String;
 begin
-    {Please enable network, audio permission, speaker ...}
+  {Please enable network, audio permission, speaker ...}
 
-    writeln('Enter your text: ');
-    readln(input);
+  writeln('Enter your text: ');
+  readln(input);
 
-    {Text to speech, wait....}
-    speak(input);
+  {Text to speech, wait....}
+  speak(input);
 
-    readln;
+  readln;
 
-    {Stop the speak}
-    stopSpeak();
+  {Stop the speak}
+  stopSpeak();
 end.

@@ -5,5 +5,5 @@ Program Example7;
 Uses sysutils;
 
 Begin
-   Writeln(Format ('Today is: %s', [DateToStr(Date)]));
+  Writeln(Format ('Today is: %s', [DateToStr(Date)]));
 End.

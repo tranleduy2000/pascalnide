@@ -1,13 +1,14 @@
 Uses
-    aDialog;
+  aDialog;
+
 Var
-    title, hint, result: string;
+  title, hint, result : string;
 Begin
-    title := 'What is your password?';
-    hint := 'enter here';
+  title := 'What is your password?';
+  hint := 'enter here';
 
-    result := dialogGetPassword(title, hint);
+  result := dialogGetPassword(title, hint);
 
-    Writeln('Your password is', result);
-    Readln;
+  Writeln('Your password is', result);
+  Readln;
 End.

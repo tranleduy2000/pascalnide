@@ -1,14 +1,15 @@
 program moveToExample;
 Uses Graph;
+
 Var
-    Gd, Gm : Integer;
+  Gd, Gm : Integer;
 Begin
-    Gd := Detect;
-    InitGraph(Gd, Gm, '');
+  Gd := Detect;
+  InitGraph(Gd, Gm, '');
 
-    MoveTo(0, 0);
-    LineTo(GetMaxX, GetMaxY);
+  MoveTo(0, 0);
+  LineTo(GetMaxX, GetMaxY);
 
-    ReadLn;
-    CloseGraph;
+  ReadLn;
+  CloseGraph;
 End.

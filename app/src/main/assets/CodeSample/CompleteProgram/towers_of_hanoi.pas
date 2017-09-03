@@ -33,21 +33,22 @@ begin
     (* First, move all discs except the bottom disc
        to TempPeg, using NewPeg as the temporary peg
        for this transfer *)
-    DoTowers (NumDiscs-1, OrigPeg, TempPeg, NewPeg);
+    DoTowers (NumDiscs - 1, OrigPeg, TempPeg, NewPeg);
     (* Now, move the bottommost disc from OrigPeg
        to NewPeg *)
     writeln (OrigPeg, ' ---> ', NewPeg);
     (* Finally, move the discs which are currently on
        TempPeg to NewPeg, using OrigPeg as the temporary
        peg for this transfer *)
-    DoTowers (NumDiscs-1, TempPeg, NewPeg, OrigPeg)
+    DoTowers (NumDiscs - 1, TempPeg, NewPeg, OrigPeg)
   end
 end;
 
 (********************************************************)
 
 
-begin    (* Main *)
+begin
+  (* Main *)
   write ('Please enter the number of discs in the tower ===> ');
   readln (numdiscs);
   writeln;

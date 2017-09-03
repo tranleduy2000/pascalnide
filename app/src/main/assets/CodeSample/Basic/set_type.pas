@@ -1,5 +1,5 @@
 var
-    a: set of Char ;
+  a : set of Char;
 begin
-    a := ['a', 'v', 's'];
+  a := ['a', 'v', 's'];
 end.

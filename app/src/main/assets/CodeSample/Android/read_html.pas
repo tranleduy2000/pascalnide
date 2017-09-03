@@ -1,8 +1,9 @@
 uses
-    aHtml;
+  aHtml;
+
 var
-    result: string;
+  result : string;
 begin
-    result := getContentHtml('https://www.google.com.vn/');
-    writeln(result);
+  result := getContentHtml('https://www.google.com.vn/');
+  writeln(result);
 end.

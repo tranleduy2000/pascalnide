@@ -1,16 +1,17 @@
 uses aMedia, crt;
+
 var
-    key: string;
+  key : string;
 begin
-    key := 'myMusic';
+  key := 'myMusic';
 
-    {open a media file, replace url of your media}
-    assignMedia('path to file media', key);
+  {open a media file, replace url of your media}
+  assignMedia('path to file media', key);
 
-    playMedia(key);
+  playMedia(key);
 
-    {pause 10 second}
-    delay(10000);
+  {pause 10 second}
+  delay(10000);
 
-    closeMedia(key);
+  closeMedia(key);
 end.

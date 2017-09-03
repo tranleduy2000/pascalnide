@@ -1,13 +1,13 @@
 program test_procedure;
 
-procedure print(s: string);
+procedure print(s : string);
 begin
-    writeln('> ', s);
+  writeln('> ', s);
 end;
 
 begin
-    print('test procedure');
-    readln;
+  print('test procedure');
+  readln;
 end.
 
 {if you want to improve this code, please send code to me

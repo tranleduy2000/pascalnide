@@ -5,9 +5,9 @@ Program Example10;
 Uses math;
 
 begin
-    // Should print 1/2
-    writeln(cos(cycletorad(1 / 6)));
-    // should be sqrt(2)/2
-    writeln(cos(cycletorad(1 / 8)));
+  // Should print 1/2
+  writeln(cos(cycletorad(1 / 6)));
+  // should be sqrt(2)/2
+  writeln(cos(cycletorad(1 / 8)));
 end.
 {http://www.freepascal.org/docs-html/rtl/math/cycletorad.html}

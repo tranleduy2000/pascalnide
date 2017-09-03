@@ -1,16 +1,17 @@
 Program draw_fill_ellipse;
-Uses Crt,Graph;
+Uses Crt, Graph;
+
 Var
-    graphicsDriver, graphicsMode: integer;
+  graphicsDriver, graphicsMode : integer;
 Begin
-    graphicsDriver := Detect;
-    InitGraph(graphicsDriver, graphicsMode,'');
+  graphicsDriver := Detect;
+  InitGraph(graphicsDriver, graphicsMode, '');
 
-    Randomize;
-    SetColor(Random(15) + 1); {Set paint color}
+  Randomize;
+  SetColor(Random(15) + 1); {Set paint color}
 
-    fillEllipse(200, 200, 150, 50);
+  fillEllipse(200, 200, 150, 50);
 
-    ReadLn;
-    CloseGraph;
+  ReadLn;
+  CloseGraph;
 End.

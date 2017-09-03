@@ -1,13 +1,14 @@
 uses aRecognition;
+
 var
-    result: string ;
+  result : string;
 begin
-    writeln('Hello, please speak something: ');
+  writeln('Hello, please speak something: ');
 
-    {Wait...}
-    result := speechToText;
+  {Wait...}
+  result := speechToText;
 
-    {Print to console}
-    writeln(result);
-    readln;
+  {Print to console}
+  writeln(result);
+  readln;
 end.
