@@ -18,22 +18,21 @@ package com.duy.pascal.interperter.declaration.program;
 
 import android.support.annotation.NonNull;
 
+import com.duy.pascal.frontend.runnable.ProgramHandler;
 import com.duy.pascal.interperter.ast.codeunit.ExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.interperter.ast.codeunit.RuntimePascalProgram;
 import com.duy.pascal.interperter.ast.instructions.Executable;
 import com.duy.pascal.interperter.ast.variablecontext.FunctionOnStack;
-import com.duy.pascal.interperter.ast.codeunit.RuntimePascalProgram;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.define.MultipleDefinitionsMainException;
 import com.duy.pascal.interperter.exceptions.parsing.missing.MissingDotTokenException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.PeriodToken;
 import com.duy.pascal.interperter.tokens.basic.ProgramToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
-import com.duy.pascal.frontend.runnable.ProgramHandler;
 
 import java.io.Reader;
 import java.util.List;
@@ -93,7 +92,7 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
             }
             main = i.getNextCommand(this);
             if (!(i.peek() instanceof PeriodToken)) {
-                throw new MissingDotTokenException(i.peek().getLineNumber());
+                throw new MissingDotTokenException(i.take().getLineNumber());
             }
             i.take();
         }

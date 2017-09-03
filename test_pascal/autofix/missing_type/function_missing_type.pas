@@ -1,5 +1,6 @@
-function a(): casdad ; //error
+function a() : casdad; //error
 begin
 end;
+
 begin
 end.

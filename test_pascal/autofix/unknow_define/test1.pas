@@ -1,9 +1,10 @@
 var
-    i: integer;
+  i : integer;
 procedure a;
 begin
-    c := 2;
+  c := 2;
 end;
+
 begin
 
 end.

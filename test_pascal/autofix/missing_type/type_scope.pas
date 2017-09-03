@@ -1,6 +1,6 @@
-function cc: strings;
+function cc : strings;
 var
-    a: strt;
+  a : strt;
 begin
 end;
 

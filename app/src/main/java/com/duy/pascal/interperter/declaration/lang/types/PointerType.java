@@ -34,6 +34,7 @@ public class PointerType extends TypeInfo {
         return new ObjectBasedPointer(null);
     }
 
+    @NonNull
     @Override
     public Class<?> getTransferClass() {
         return PascalReference.class;
@@ -60,6 +61,7 @@ public class PointerType extends TypeInfo {
         throw new NonArrayIndexed(array.getLineNumber(), this);
     }
 
+    @NonNull
     @Override
     public Class<?> getStorageClass() {
         return getTransferClass();

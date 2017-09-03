@@ -25,6 +25,7 @@ import com.duy.pascal.frontend.editor.completion.model.KeyWord;
 import com.duy.pascal.frontend.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.core.PascalCompiler;
+import com.duy.pascal.interperter.datastructure.ArrayListMultimap;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
@@ -34,7 +35,6 @@ import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.google.common.collect.ArrayListMultimap;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -172,15 +172,17 @@ public class SuggestionProvider {
             ArrayListMultimap<Name, AbstractFunction> allFunctions) {
         if (incomplete.isEmpty()) return new ArrayList<>();
         ArrayList<Description> suggestItems = new ArrayList<>();
-        Collection<AbstractFunction> values = allFunctions.values();
-        for (AbstractFunction function : values) {
-            if (function.getName().isPrefix(incomplete)) {
-                LineInfo line = function.getLineNumber();
-                if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
-                    Name name = function.getName();
-                    ArgumentType[] args = function.argumentTypes();
-                    Type type = function.returnType();
-                    suggestItems.add(new FunctionDescription(name, args, type));
+        Collection<ArrayList<AbstractFunction>> values = allFunctions.values();
+        for (ArrayList<AbstractFunction> list : values) {
+            for (AbstractFunction function : list) {
+                if (function.getName().isPrefix(incomplete)) {
+                    LineInfo line = function.getLineNumber();
+                    if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
+                        Name name = function.getName();
+                        ArgumentType[] args = function.argumentTypes();
+                        Type type = function.returnType();
+                        suggestItems.add(new FunctionDescription(name, args, type));
+                    }
                 }
             }
         }

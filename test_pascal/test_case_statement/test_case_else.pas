@@ -1,17 +1,16 @@
 program checkCase;
 var
-    grade: char;
+  grade : char;
 
 begin
-    grade := 'F';
-    case (grade) of
-    'A' : writeln('Excellent!' );
-    'B', 'C': writeln('Well done' );
-    'D' : writeln('You passed' );
+  grade := 'F';
+  case (grade) of
+    'A' : writeln('Excellent!');
+    'B', 'C' : writeln('Well done');
+    'D' : writeln('You passed');
+  else
+    writeln('You really did not study right!');
+  end;
 
-    else
-        writeln('You really did not study right!' );
-    end;
-
-    writeln('Your grade is ', grade );
+  writeln('Your grade is ', grade);
 end.

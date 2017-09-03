@@ -19,7 +19,6 @@ package com.duy.pascal.interperter.declaration.lang.types.set;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.conditional.forstatement.ForStatement;
 import com.duy.pascal.interperter.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
@@ -29,12 +28,12 @@ import com.duy.pascal.interperter.ast.runtime_value.value.cloning.SetCloner;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.value.DuplicateElementException;
+import com.duy.pascal.interperter.exceptions.parsing.value.NonConstantExpressionException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.DotDotToken;
 import com.duy.pascal.interperter.tokens.grouping.BracketedToken;
@@ -125,8 +124,9 @@ public class SetType<T extends Type> extends BaseSetType {
         }
 
         BracketedToken bracket = (BracketedToken) token;
-        LinkedList<RuntimeValue> linkedList = new LinkedList<>();
+        LinkedList<RuntimeValue> set = new LinkedList<>();
         Type temp = null;
+        whileLoop:
         while (bracket.hasNext()) {
             RuntimeValue element;
             if (typeReference.get() == null) {
@@ -149,7 +149,7 @@ public class SetType<T extends Type> extends BaseSetType {
 
             if (bracket.hasNext()) {
                 if (bracket.peek() instanceof DotDotToken) { //range
-                    if (linkedList.size() != 0) {
+                    if (set.size() != 0) {
                         bracket.assertNextComma(); //throw exception
                     }
                     bracket.take(); //dot dot
@@ -157,28 +157,44 @@ public class SetType<T extends Type> extends BaseSetType {
                     //check first type
                     RuntimeValue firstValue = element;
                     Type firstType = firstValue.getRuntimeType(context).declType;
-                    if (BasicType.Long.convert(firstValue, context) == null) {
+                    RuntimeValue convertedFirst = BasicType.Long.convert(firstValue, context);
+                    if (convertedFirst == null) {
                         throw new UnConvertibleTypeException(firstValue, BasicType.Long, firstType, context);
+                    }
+                    Object firstConstant = firstValue.compileTimeValue(context);
+                    if (firstConstant == null) {
+                        throw new NonConstantExpressionException(firstValue);
                     }
 
                     //check two type
                     RuntimeValue lastValue = bracket.getNextExpression(context);
                     Type lastType = lastValue.getRuntimeType(context).declType;
-                    if (firstType.convert(lastValue, context) == null) {
-                        throw new UnConvertibleTypeException(lastValue, firstType, lastType, context);
+                    RuntimeValue convertedLast = lastType.convert(lastValue, context);
+                    if (convertedLast == null) {
+                        throw new UnConvertibleTypeException(lastValue, lastType, firstType, context);
+                    }
+                    Object lastConstant = lastValue.compileTimeValue(context);
+                    if (lastConstant == null) {
+                        throw new NonConstantExpressionException(firstValue);
                     }
 
-                    if (bracket.hasNext()){
+                    if (bracket.hasNext()) {
                         throw new ExpectedTokenException("EOF", bracket.take());
                     }
+                    Number start = (Number) firstConstant;
+                    Number end = (Number) lastConstant;
+                    for (int z = start.intValue(); z <= end.intValue(); z++) {
+                        set.add(new ConstantAccess<>(z, firstValue.getLineNumber()));
+                    }
+                    break whileLoop;
                 } else {
                     bracket.assertNextComma();
                 }
             }
-            linkedList.add(element);
+            set.add(element);
         }
         if (typeReference.get() == null) typeReference.set(temp);
-        return new SetBoxer(linkedList, typeReference.get(), bracket.getLineNumber());
+        return new SetBoxer(set, typeReference.get(), bracket.getLineNumber());
     }
 
     @SuppressWarnings("unchecked")
@@ -190,13 +206,6 @@ public class SetType<T extends Type> extends BaseSetType {
         return list.remove(element);
     }
 
-    public Object peek() {
-        return list.peek();
-    }
-
-    public Object pop() {
-        return list.pop();
-    }
 
     public T getElementType() {
         return elementType;
@@ -213,6 +222,7 @@ public class SetType<T extends Type> extends BaseSetType {
         return this.list;
     }
 
+    @NonNull
     @Override
     public Class getTransferClass() {
         return LinkedList.class;
@@ -266,6 +276,7 @@ public class SetType<T extends Type> extends BaseSetType {
         return new SetIndexAccess(array, index);
     }
 
+    @NonNull
     @Override
     public Class<?> getStorageClass() {
         return LinkedList.class;

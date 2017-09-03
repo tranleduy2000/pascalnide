@@ -1,5 +1,5 @@
 begin
-    repeat
+  repeat
 end
 
 ;

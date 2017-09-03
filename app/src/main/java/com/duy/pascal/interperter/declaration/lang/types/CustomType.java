@@ -68,6 +68,7 @@ public class CustomType extends ObjectType {
         return equals((Object) obj);
     }
 
+    @NonNull
     @Override
     public Class getTransferClass() {
         if (recordValue != null) {
@@ -110,6 +111,7 @@ public class CustomType extends ObjectType {
         return new CloneableObjectCloner(r);
     }
 
+    @NonNull
     @Override
     public Class<?> getStorageClass() {
         return getTransferClass();

@@ -1,5 +1,5 @@
 uses
-   crt, aDisplay;
+  crt, aDisplay;
 
 {$MODE ANDROID}
 procedure processClick(v : TGestureEvent);
@@ -18,7 +18,7 @@ end;
 
 
 begin
-   aDisplay.onClick(processClick());
-   aDisplay.onLongClick(processLongClick());
-   aDisplay.onDoubleClick(processDoubleClick());
+  aDisplay.onClick(processClick());
+  aDisplay.onLongClick(processLongClick());
+  aDisplay.onDoubleClick(processDoubleClick());
 end.

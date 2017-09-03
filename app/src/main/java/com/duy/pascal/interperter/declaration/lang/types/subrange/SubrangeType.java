@@ -132,7 +132,7 @@ public abstract class SubrangeType<T extends Comparable> extends TypeInfo implem
         return first;
     }
 
-    @Nullable
+    @NonNull
     @Override
     public Class getTransferClass() {
         return getStorageClass();

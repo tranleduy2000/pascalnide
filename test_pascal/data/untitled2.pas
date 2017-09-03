@@ -1,9 +1,10 @@
-function a: integer;
+function a : integer;
 var
-    a: integer;
+  a : integer;
 begin
-    b := 2;
+  b := 2;
 end;
+
 begin
 
 end.

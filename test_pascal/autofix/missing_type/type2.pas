@@ -1,8 +1,8 @@
 program asdasd;
 type
-    strv = string;
+  strv = string;
 var
-    c: customint ;
+  c : customint;
 begin
 end.
 

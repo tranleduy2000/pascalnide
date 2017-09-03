@@ -1,8 +1,8 @@
 var
-    c: string;
+  c : string;
 begin
-    case c of
-    1: WriteLn();
-    2: WriteLn();
-    end;
+  case c of
+    1 : WriteLn();
+    2 : WriteLn();
+  end;
 end.

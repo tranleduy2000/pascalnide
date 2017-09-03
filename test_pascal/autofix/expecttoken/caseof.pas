@@ -1,5 +1,5 @@
 begin
-    case 1 then
+  case 1 then
 
-    end
+  end
 end.

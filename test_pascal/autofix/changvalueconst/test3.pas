@@ -1,5 +1,5 @@
 const
-    a : longint = 2;
+  a : longint = 2;
 begin
-    a := 3;
+  a := 3;
 end.

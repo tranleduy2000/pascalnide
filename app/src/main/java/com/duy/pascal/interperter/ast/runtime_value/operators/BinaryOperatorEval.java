@@ -44,13 +44,13 @@ import com.duy.pascal.interperter.declaration.lang.types.converter.AnyToStringTy
 import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
 import com.duy.pascal.interperter.declaration.lang.types.set.SetType;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.operator.BadOperationTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.operator.ConstantCalculationException;
+import com.duy.pascal.interperter.exceptions.runtime.CompileException;
 import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 
 public abstract class BinaryOperatorEval extends DebuggableReturnValue {
@@ -106,7 +106,9 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
         }
         if (t2 instanceof SetType) {
             if (operatorTypes == OperatorTypes.IN) {
-                if (t1.equals(((SetType) t2).getElementType())) {
+                if (t1.equals(((SetType) t2).getElementType())
+                        || TypeConverter.isLowerPrecedence(t1.getStorageClass(),
+                        ((SetType) t2).getElementType().getStorageClass())) {
                     return new InBiOperatorEval(v1, v2, operatorTypes, line);
                 }
             }
@@ -199,7 +201,7 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
     }
 
     public abstract Object operate(Object value1, Object value2)
-            throws PascalArithmeticException, InternalInterpreterException;
+            throws PascalArithmeticException, InternalInterpreterException, CompileException;
 
     @Override
     public String toString() {

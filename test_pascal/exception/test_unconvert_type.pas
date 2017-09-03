@@ -1,5 +1,5 @@
 var
-    s: String ;
+  s : String;
 begin
-    s := 10;
+  s := 10;
 end.

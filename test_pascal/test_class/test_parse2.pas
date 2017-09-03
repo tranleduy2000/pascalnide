@@ -3,38 +3,38 @@
 
 program exClass;
 type
-   Rectangle = class
-   private
-      length, width : integer;
-   
-   public
-      constructor create(l, w : integer);
-      
-      function getlength(x, y, z : integer) : integer;
-      
-      function getwidth() : integer;
-   
-   end;
+  Rectangle = class
+  private
+    length, width : integer;
+
+  public
+    constructor create(l, w : integer);
+
+    function getlength(x, y, z : integer) : integer;
+
+    function getwidth() : integer;
+
+  end;
 var
-   r1 : Rectangle;
+  r1 : Rectangle;
 
 constructor Rectangle.create(l, w : integer);
 begin
-   length := l;
-   width := w;
+  length := l;
+  width := w;
 end;
 
 function Rectangle.getlength(x, y, z : Integer) : integer;
 begin
-   getlength := length;
+  getlength := length;
 end;
 
 function Rectangle.getwidth() : integer;
 begin
-   getwidth := width;
+  getwidth := width;
 end;
 
 
 begin
-   writeln(' Draw Rectangle: ', r1.getlength(1, 2, 3), ' by ', r1.getwidth());
+  writeln(' Draw Rectangle: ', r1.getlength(1, 2, 3), ' by ', r1.getwidth());
 end.

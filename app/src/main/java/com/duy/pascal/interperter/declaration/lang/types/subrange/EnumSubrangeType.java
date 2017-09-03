@@ -16,15 +16,15 @@
 
 package com.duy.pascal.interperter.declaration.lang.types.subrange;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.EnumElementValue;
-import com.duy.pascal.interperter.exceptions.parsing.index.LowerGreaterUpperBoundException;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
+import com.duy.pascal.interperter.exceptions.parsing.index.LowerGreaterUpperBoundException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 /**
  * Created by Duy on 25-May-17.
@@ -45,7 +45,7 @@ public class EnumSubrangeType extends SubrangeType<EnumElementValue> implements 
         this.enumGroupType = pascalType;
     }
 
-    @Nullable
+    @NonNull
     @Override
     public Class<?> getStorageClass() {
         return EnumElementValue.class;

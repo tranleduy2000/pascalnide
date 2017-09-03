@@ -8,9 +8,8 @@ import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.Member;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.NamedEntity;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public interface Type extends NamedEntity, Member {
 
@@ -21,10 +20,10 @@ public interface Type extends NamedEntity, Member {
     @NonNull
     Object initialize();
 
-    @Nullable
+    @NonNull
     Class getTransferClass();
 
-    @Nullable
+    @NonNull
     Class<?> getStorageClass();
 
     /**

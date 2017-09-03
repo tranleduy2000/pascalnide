@@ -47,6 +47,7 @@ public class JavaClassBasedType extends TypeInfo {
         }
     }
 
+    @NonNull
     @Override
     public Class getTransferClass() {
         return clazz;
@@ -95,6 +96,7 @@ public class JavaClassBasedType extends TypeInfo {
         throw new NonArrayIndexed(array.getLineNumber(), this);
     }
 
+    @NonNull
     @Override
     public Class<?> getStorageClass() {
         return clazz;

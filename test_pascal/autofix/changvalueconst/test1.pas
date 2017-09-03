@@ -1,5 +1,5 @@
 const
-    a = 2;
+  a = 2;
 begin
-    a := 'sadasd';
+  a := 'sadasd';
 end.

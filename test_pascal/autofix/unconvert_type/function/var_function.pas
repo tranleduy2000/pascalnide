@@ -1,10 +1,10 @@
 var
-    c: integer;
+  c : integer;
 
-function  get: string;
+function  get : string;
 begin
 end;
 
 begin
-    c := get();
+  c := get();
 end.

@@ -5,5 +5,5 @@ Program Time;
 Uses sysutils;
 
 Begin
-   Writeln ('The time is : ', TimeToStr(Time));
+  Writeln ('The time is : ', TimeToStr(Time));
 End.

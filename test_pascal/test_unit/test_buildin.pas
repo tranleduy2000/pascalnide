@@ -1,14 +1,15 @@
 Program Calculate_Area (input, output);
 uses crt;
+
 var
-    a, b, c, s, area: real;
+  a, b, c, s, area : real;
 
 begin
-    textbackground(white); (* gives a white background *)
-    clrscr; (*clears the screen *)
+  textbackground(white); (* gives a white background *)
+  clrscr; (*clears the screen *)
 
-    textcolor(green); (* text color is green *)
-    gotoxy(30, 4); (* takes the pointer to the 4th line and 30th column)
+  textcolor(green); (* text color is green *)
+  gotoxy(30, 4); (* takes the pointer to the 4th line and 30th column)
 
    writeln('This program calculates area of a triangle:');
    writeln('Area = area = sqrt(s(s-a)(s-b)(s-c))');

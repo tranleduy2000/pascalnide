@@ -1,3 +1,3 @@
 begin
-	writeln('NO');
+  writeln('NO');
 end.

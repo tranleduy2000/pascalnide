@@ -1,4 +1,4 @@
 type
-    month = (asdas, adsads, asd, asdasd, aafsd, hg);
+  month = (asdas, adsads, asd, asdasd, aafsd, hg);
 begin
 end.

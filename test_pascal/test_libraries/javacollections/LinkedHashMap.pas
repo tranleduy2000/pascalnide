@@ -1,7 +1,7 @@
 uses JavaCollections;
 
 var
-  // Create a linked hash map
+    // Create a linked hash map
   linkedHashMap : JLinkedHashMap;
   entrySet : JSet;
   i : JIterator;

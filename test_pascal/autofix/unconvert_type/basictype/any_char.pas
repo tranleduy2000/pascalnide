@@ -1,5 +1,5 @@
 var
-    c: integer;
+  c : integer;
 begin
-    c := 'a'; //accept
+  c := 'a'; //accept
 end.

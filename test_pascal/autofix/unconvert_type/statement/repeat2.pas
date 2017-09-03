@@ -1,6 +1,6 @@
 var
-    a: Integer;
+  a : Integer;
 begin
-    repeat
-    until 1;
+  repeat
+  until 1;
 end.

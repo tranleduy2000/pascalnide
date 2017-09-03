@@ -12,9 +12,10 @@ begin
       a[i, j] := i * j;
   setlength(a, 6, 6)
   for i:=0 to 5 do
-  begin
-    for j:= 0 to 5 do
-      write(a[i, j]: 2, ' ');
-    writeln;
-  end;
+
+begin
+for j:= 0 to 5 do
+write(a[i, j] : 2, ' ');
+writeln;
+end;
 end.

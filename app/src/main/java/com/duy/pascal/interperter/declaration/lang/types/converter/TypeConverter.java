@@ -1,5 +1,7 @@
 package com.duy.pascal.interperter.declaration.lang.types.converter;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
@@ -54,6 +56,17 @@ public class TypeConverter {
             return forceConvert(outType, target, inType);
         }
         return null;
+    }
+
+    public static boolean isLowerPrecedence(@NonNull Class first, @NonNull Class second) {
+        Integer inPrecedence = precedence.get(first);
+        Integer outPrecedence = precedence.get(second);
+        if (inPrecedence != null && outPrecedence != null) {
+            if (inPrecedence <= outPrecedence) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static RuntimeValue autoConvertRequired(BasicType outType, RuntimeValue target,

@@ -174,6 +174,7 @@ public class ArrayType<ELEMENT extends Type> extends BaseSetType {
         return result;
     }
 
+    @NonNull
     @Override
     public Class<?> getTransferClass() {
         String s = elementType.getTransferClass().getName();
@@ -230,6 +231,7 @@ public class ArrayType<ELEMENT extends Type> extends BaseSetType {
         }
     }
 
+    @NonNull
     @Override
     public Class<?> getStorageClass() {
         Class c = elementType.getStorageClass();

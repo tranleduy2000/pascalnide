@@ -1,10 +1,10 @@
 program exEnumeration;
 type
-    beverage = (coffee, tea, milk, water, coke, limejuice);
+  beverage = (coffee, tea, milk, water, coke, limejuice);
 
 var
-    drink: beverage;
-    c: integer;
+  drink : beverage;
+  c : integer;
 begin
-    c := drink;
+  c := drink;
 end.

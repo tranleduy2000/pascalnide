@@ -31,51 +31,51 @@ public class GenerateTest extends TestCase {
     }
 
     public void testGenerateIfElse() throws IOException {
-        String className = "IfElseTest";
-        String outPath = System.getProperty("user.dir")
-                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
-        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_if";
-        createTest(className, dataPath, outPath);
+//        String className = "IfElseTest";
+//        String outPath = System.getProperty("user.dir")
+//                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
+//        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_if";
+//        createTest(className, dataPath, outPath);
     }
 
     public void testGenerateCaseStatement() throws IOException {
-        String className = "CaseStatementTest";
-        String outPath = System.getProperty("user.dir")
-                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
-        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_case_statement";
-        createTest(className, dataPath, outPath);
+//        String className = "CaseStatementTest";
+//        String outPath = System.getProperty("user.dir")
+//                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
+//        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_case_statement";
+//        createTest(className, dataPath, outPath);
     }
 
     public void testGenerateBoolean() throws IOException {
-        String className = "BooleanTest";
-        String outPath = System.getProperty("user.dir")
-                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
-        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_boolean";
-        createTest(className, dataPath, outPath);
+//        String className = "BooleanTest";
+//        String outPath = System.getProperty("user.dir")
+//                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
+//        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_boolean";
+//        createTest(className, dataPath, outPath);
     }
 
     public void testGenerateConst() throws IOException {
-        String className = "ConstTest";
-        String outPath = System.getProperty("user.dir")
-                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
-        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_const";
-        createTest(className, dataPath, outPath);
+//        String className = "ConstTest";
+//        String outPath = System.getProperty("user.dir")
+//                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
+//        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_const";
+//        createTest(className, dataPath, outPath);
     }
 
     public void testGenerateFunction() throws IOException {
-        String className = "FunctionTest";
-        String outPath = System.getProperty("user.dir")
-                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
-        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_function";
-        createTest(className, dataPath, outPath);
+//        String className = "FunctionTest";
+//        String outPath = System.getProperty("user.dir")
+//                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
+//        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_function";
+//        createTest(className, dataPath, outPath);
     }
 
     public void testGenerateScope() throws IOException {
-        String className = "ScopeTest";
-        String outPath = System.getProperty("user.dir")
-                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
-        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_scope";
-        createTest(className, dataPath, outPath);
+//        String className = "ScopeTest";
+//        String outPath = System.getProperty("user.dir")
+//                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
+//        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_scope";
+//        createTest(className, dataPath, outPath);
     }
 
     private void createTest(String className, String dataPath, String outPath) throws IOException {

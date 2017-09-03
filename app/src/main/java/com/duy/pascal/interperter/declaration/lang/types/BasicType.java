@@ -15,9 +15,8 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.converter.StringBuilderLimitBoxer;
 import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.SubrangeType;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.io.File;
 
@@ -99,7 +98,7 @@ public enum BasicType implements Type {
         }
 
         @Override
-        public boolean equals(Type obj) {
+        public boolean equals(@NonNull Type obj) {
             return super.equals(obj) || obj instanceof StringLimitType;
         }
 
@@ -168,7 +167,7 @@ public enum BasicType implements Type {
     Float(Float.class) {
         @Override
         Object getDefaultValue() {
-            return 0d;
+            return 0f;
         }
 
 
@@ -240,7 +239,7 @@ public enum BasicType implements Type {
     abstract Object getDefaultValue();
 
     @Override
-    public boolean equals(Type obj) {
+    public boolean equals(@NonNull Type obj) {
         if (this == obj) {
             return true;
         }
@@ -271,6 +270,7 @@ public enum BasicType implements Type {
         }
     }
 
+    @NonNull
     @Override
     public Class getTransferClass() {
         return clazz;
@@ -308,6 +308,7 @@ public enum BasicType implements Type {
         throw new NonArrayIndexed(array.getLineNumber(), this);
     }
 
+    @NonNull
     @Override
     public Class<?> getStorageClass() {
         return clazz;

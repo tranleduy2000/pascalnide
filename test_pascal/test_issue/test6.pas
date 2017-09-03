@@ -5,6 +5,6 @@ var
   b : integer;
 begin
   a[0, 0] := 1;
-  b := a[0,0] * 10;
+  b := a[0, 0] * 10;
   writeln(b);
 end.

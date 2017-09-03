@@ -21,20 +21,18 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.operators.BinaryOperatorEval;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.set.SetType;
+import com.duy.pascal.interperter.exceptions.runtime.CompileException;
+import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.util.LinkedList;
 
 
 public class SetBiOperatorEval extends BinaryOperatorEval {
-
-    private static final String TAG = "SetBiOperatorEval";
 
 
     public SetBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
@@ -68,7 +66,7 @@ public class SetBiOperatorEval extends BinaryOperatorEval {
     @Override
     @SuppressWarnings("unchecked")
     public Object operate(Object value1, Object value2)
-            throws PascalArithmeticException {
+            throws PascalArithmeticException, CompileException {
         LinkedList v1 = (LinkedList) value1;
         LinkedList v2 = (LinkedList) value2;
 
@@ -135,7 +133,7 @@ public class SetBiOperatorEval extends BinaryOperatorEval {
                 return true;
 
             default:
-                return null;
+                throw new CompileException();
         }
     }
 

@@ -1,3 +1,3 @@
 begin
-    if true do writeln;
+  if true do writeln;
 end.

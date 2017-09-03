@@ -5,6 +5,6 @@ Program Example3;
 Uses math;
 
 begin
-  Writeln(arcosh(1) : 0: 6);
-  Writeln(arcosh(2) : 0: 6);
+  Writeln(arcosh(1) : 0 : 6);
+  Writeln(arcosh(2) : 0 : 6);
 end.

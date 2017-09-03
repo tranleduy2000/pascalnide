@@ -1,4 +1,4 @@
 var
-    c: customint ;
+  c : customint;
 begin
 end.
