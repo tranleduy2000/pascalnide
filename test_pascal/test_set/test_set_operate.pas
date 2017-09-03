@@ -34,7 +34,7 @@ begin
   Result := S2 > S1; { True }
   writeln(Result);
 
-  Result := S2 > = S1; { True }
+  Result := S2 >= S1; { True }
   writeln(s3);
 
 end.
