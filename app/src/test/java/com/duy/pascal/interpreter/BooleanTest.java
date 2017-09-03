@@ -17,16 +17,20 @@
 package com.duy.pascal.interpreter;
 
 /**
- * Created by Duy on 29-May-17.
+ * Created by Duy on 28-Aug-17.
  */
 
 public class BooleanTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "test_boolean";
+        return "C:\\github\\pascalnide\\test_pascal\\test_boolean";
     }
 
-    public void testAll() {
-        super.runAll();
+    public void testtest1() {
+        run("test1.pas");
+    }
+
+    public void testTestIfInRange() {
+        run("TestIfInRange.pas");
     }
 }

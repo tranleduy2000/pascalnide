@@ -16,9 +16,6 @@
 
 package com.duy.pascal;
 
-import com.duy.pascal.interperter.ast.variablecontext.FunctionOnStack;
-import com.duy.pascal.interpreter.BaseTestCase;
-
 import junit.framework.TestCase;
 
 import java.io.File;
@@ -30,7 +27,58 @@ import java.io.IOException;
  */
 
 public class GenerateTest extends TestCase {
-    public void ztestGenerateSystem() throws IOException {
+    public void testGenerateSystem() throws IOException {
+    }
+
+    public void testGenerateIfElse() throws IOException {
+        String className = "IfElseTest";
+        String outPath = System.getProperty("user.dir")
+                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
+        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_if";
+        createTest(className, dataPath, outPath);
+    }
+
+    public void testGenerateCaseStatement() throws IOException {
+        String className = "CaseStatementTest";
+        String outPath = System.getProperty("user.dir")
+                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
+        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_case_statement";
+        createTest(className, dataPath, outPath);
+    }
+
+    public void testGenerateBoolean() throws IOException {
+        String className = "BooleanTest";
+        String outPath = System.getProperty("user.dir")
+                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
+        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_boolean";
+        createTest(className, dataPath, outPath);
+    }
+
+    public void testGenerateConst() throws IOException {
+        String className = "ConstTest";
+        String outPath = System.getProperty("user.dir")
+                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
+        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_const";
+        createTest(className, dataPath, outPath);
+    }
+
+    public void testGenerateFunction() throws IOException {
+        String className = "FunctionTest";
+        String outPath = System.getProperty("user.dir")
+                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
+        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_function";
+        createTest(className, dataPath, outPath);
+    }
+
+    public void testGenerateScope() throws IOException {
+        String className = "ScopeTest";
+        String outPath = System.getProperty("user.dir")
+                + "\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\" + className + ".java";
+        String dataPath = System.getProperty("user.dir") + "\\test_pascal\\test_scope";
+        createTest(className, dataPath, outPath);
+    }
+
+    private void createTest(String className, String dataPath, String outPath) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("/*\n" +
                 " *  Copyright (c) 2017 Tran Le Duy\n" +
@@ -54,12 +102,12 @@ public class GenerateTest extends TestCase {
                 " * Created by Duy on 28-Aug-17.\n" +
                 " */\n" +
                 "\n" +
-                "public class SystemFunctionTest extends BaseTestCase {\n" +
+                "public class " + className + " extends BaseTestCase {\n" +
                 "    @Override\n" +
                 "    public String getDirTest() {\n" +
-                "        return \"C:\\\\github\\\\pascalnide-public\\\\app\\\\src\\\\main\\\\assets\\\\code_sample\\\\system\";\n" +
+                "        return \"" + dataPath + "\";\n" +
                 "    }");
-        File file = new File("C:\\github\\pascalnide\\app\\src\\main\\assets\\code_sample\\system");
+        File file = new File(dataPath);
         for (File f : file.listFiles()) {
             if (f.getName().endsWith(".pas")) {
                 stringBuilder.append("public void test").append(f.getName().substring(0, f.getName().lastIndexOf(".")));
@@ -71,10 +119,11 @@ public class GenerateTest extends TestCase {
             }
         }
         stringBuilder.append("}");
-        File out = new File("C:\\github\\pascalnide\\app\\src\\test\\java\\com\\duy\\pascal\\interpreter\\SystemFunctionTest.java");
+        File out = new File(outPath);
         FileOutputStream fileOutputStream = new FileOutputStream(out);
         fileOutputStream.write(stringBuilder.toString().getBytes());
         fileOutputStream.flush();
         fileOutputStream.close();
     }
+
 }

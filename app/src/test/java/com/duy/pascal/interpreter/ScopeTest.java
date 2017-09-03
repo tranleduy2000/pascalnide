@@ -17,17 +17,28 @@
 package com.duy.pascal.interpreter;
 
 /**
- * Created by Duy on 29-May-17.
+ * Created by Duy on 28-Aug-17.
  */
 
 public class ScopeTest extends BaseTestCase {
-
     @Override
     public String getDirTest() {
-        return "test_scope";
+        return "C:\\github\\pascalnide\\test_pascal\\test_scope";
     }
 
-    public void testAll() {
-        runAll();
+    public void testtest_gobal() {
+        run("test_gobal.pas");
+    }
+
+    public void testtest_gobal1() {
+        run("test_gobal1.pas");
+    }
+
+    public void testtest_local() {
+        run("test_local.pas");
+    }
+
+    public void testtest_local1() {
+        run("test_local1.pas");
     }
 }
