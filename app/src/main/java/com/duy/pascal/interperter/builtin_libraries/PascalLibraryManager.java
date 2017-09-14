@@ -276,10 +276,11 @@ public class PascalLibraryManager {
 
         }
 
-        ((PascalLibrary) o).declareConstants(program);
-        ((PascalLibrary) o).declareFunctions(program);
-        ((PascalLibrary) o).declareTypes(program);
-        ((PascalLibrary) o).declareVariables(program);
+        PascalLibrary library = (PascalLibrary) o;
+        library.declareConstants(program);
+        library.declareFunctions(program);
+        library.declareTypes(program);
+        library.declareVariables(program);
         for (Method method : o.getClass().getDeclaredMethods()) {
             if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                 if (method.getAnnotation(PascalMethod.class) != null) {

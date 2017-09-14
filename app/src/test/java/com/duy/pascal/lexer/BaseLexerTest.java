@@ -19,7 +19,7 @@ package com.duy.pascal.lexer;
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
 import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.source.ScriptSource;
-import com.duy.pascal.interperter.tokenizer.NewLexer;
+import com.duy.pascal.interperter.tokenizer.GroupParser;
 import com.duy.pascal.interperter.tokens.grouping.BaseGrouperToken;
 import com.duy.pascal.interpreter.BaseTestCase;
 
@@ -40,7 +40,7 @@ public abstract class BaseLexerTest extends BaseTestCase {
         searchPath.add(new FileScriptSource(new File(programPath).getParent()));
 
         try {
-            NewLexer lexer = new NewLexer(new FileReader(dir + fileName), fileName, searchPath);
+            GroupParser lexer = new GroupParser(new FileReader(dir + fileName), fileName, searchPath);
             lexer.parse();
             BaseGrouperToken tokenQueue = lexer.getTokenQueue();
             System.out.println(tokenQueue.toCode());
@@ -60,7 +60,7 @@ public abstract class BaseLexerTest extends BaseTestCase {
         searchPath.add(new FileScriptSource(new File(programPath).getParent()));
 
         try {
-            NewLexer lexer = new NewLexer(new FileReader(dir + fileName), fileName, searchPath);
+            GroupParser lexer = new GroupParser(new FileReader(dir + fileName), fileName, searchPath);
             lexer.parse();
             System.out.println(lexer.getTokenQueue());
         } catch (GroupingException e) {

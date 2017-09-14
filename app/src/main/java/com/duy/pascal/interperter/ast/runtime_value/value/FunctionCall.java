@@ -39,9 +39,12 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
         FunctionCall result;
         FunctionCall runtimeValue = null;
 
-        for (List<AbstractFunction> l : possibilities) {
-            for (AbstractFunction function : l) {
+        for (List<AbstractFunction> overloadFunction : possibilities) {
+            for (AbstractFunction function : overloadFunction) {
                 result = function.generatePerfectFitCall(name.getLineNumber(), arguments, expressionContext);
+                if (function.argumentTypes().length == arguments.size()) {
+                    matching = true;
+                }
                 if (result != null) {
                     if (perfectFit) {
                         throw new AmbiguousFunctionCallException(name.getLineNumber(), chosen, function);
@@ -61,9 +64,6 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
                         runtimeValue = result;
                         break;
                     }
-                }
-                if (function.argumentTypes().length == arguments.size()) {
-                    matching = true;
                 }
             }
         }

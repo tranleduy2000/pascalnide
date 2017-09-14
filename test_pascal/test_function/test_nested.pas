@@ -4,17 +4,17 @@ procedure b();
 
 procedure c();
 begin
-   WriteLn();
+  WriteLn();
 end;
 
 begin
-   c();
+  c();
 end;
 
 begin
-   b();
+  b();
 end;
 
 begin
-   a();
+  a();
 end.

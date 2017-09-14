@@ -25,6 +25,7 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeUnitPascal;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.instructions.Executable;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
+import com.duy.pascal.interperter.datastructure.ArrayListMultimap;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
@@ -47,7 +48,6 @@ import com.duy.pascal.interperter.tokens.basic.ProcedureToken;
 import com.duy.pascal.interperter.tokens.closing.EndToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.interperter.tokens.grouping.UnitToken;
-import com.google.common.collect.ArrayListMultimap;
 
 import java.io.Reader;
 import java.util.ArrayList;

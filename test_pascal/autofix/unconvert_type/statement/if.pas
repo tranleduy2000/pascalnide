@@ -1,5 +1,5 @@
 var
-    a: Integer;
+  a : Integer;
 begin
-    if a then writeln();
+  if a then writeln();
 end.

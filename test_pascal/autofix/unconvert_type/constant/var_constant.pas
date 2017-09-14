@@ -1,7 +1,7 @@
 const
-    a = 1;
+  a = 1;
 var
-    b: string; //integer expect
+  b : string; //integer expect
 begin
-    b := a ; //<= change to integer
+  b := a; //<= change to integer
 end.

@@ -22,13 +22,13 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.operators.BinaryOperatorEval;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
-import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.exceptions.runtime.CompileException;
+import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
+import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.util.LinkedList;
 
@@ -53,11 +53,24 @@ public class InBiOperatorEval extends BinaryOperatorEval {
 
     @Override
     public Object operate(Object value1, Object value2)
-            throws PascalArithmeticException, InternalInterpreterException {
+            throws PascalArithmeticException, InternalInterpreterException, CompileException {
         //if the type of value2 is enum or set
         if (value2 instanceof LinkedList) {
             LinkedList v2 = (LinkedList) value2;
-            return v2.contains(value1);
+            for (Object o : v2) {
+                if (o instanceof Number) {
+                    if (value1 instanceof Number) {
+                        if (((Number) o).longValue() == ((Number) value1).longValue()){
+                            return true;
+                        }
+                    }
+                } else {
+                    if (o.equals(value1)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
 
         }
         //array type
@@ -66,6 +79,8 @@ public class InBiOperatorEval extends BinaryOperatorEval {
             for (Object object : objects) {
                 if (value1.equals(object)) return true;
             }
+        } else {
+            throw new CompileException();
         }
         return false;
     }

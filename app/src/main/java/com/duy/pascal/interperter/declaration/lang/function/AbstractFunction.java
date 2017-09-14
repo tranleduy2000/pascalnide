@@ -57,11 +57,11 @@ public abstract class AbstractFunction extends NameEntityImpl {
     @Nullable
     public RuntimeValue[] formatArgs(List<RuntimeValue> values,
                                      ExpressionContext expressionContext) throws Exception {
-        ArgumentType[] accepted_types = argumentTypes();
-        RuntimeValue[] result = new RuntimeValue[accepted_types.length];
+        ArgumentType[] acceptedTypes = argumentTypes();
+        RuntimeValue[] result = new RuntimeValue[acceptedTypes.length];
         Iterator<RuntimeValue> iterator = values.iterator();
-        for (int i = 0; i < accepted_types.length; i++) {
-            result[i] = accepted_types[i].convertArgType(iterator, expressionContext);
+        for (int i = 0; i < acceptedTypes.length; i++) {
+            result[i] = acceptedTypes[i].convertArgType(iterator, expressionContext);
             if (result[i] == null) {
                 //This indicates that it cannot fit.
                 return null;

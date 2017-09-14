@@ -1,5 +1,5 @@
 var
-    s: String ;
+  s : String;
 begin
-    if 1 then WriteLn();
+  if 1 then WriteLn();
 end.

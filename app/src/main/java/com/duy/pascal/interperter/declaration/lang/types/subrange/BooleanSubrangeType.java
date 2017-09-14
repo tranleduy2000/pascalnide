@@ -16,6 +16,7 @@
 
 package com.duy.pascal.interperter.declaration.lang.types.subrange;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
@@ -59,7 +60,7 @@ public class BooleanSubrangeType extends SubrangeType<Boolean> {
         return null;
     }
 
-    @Nullable
+    @NonNull
     @Override
     public Class<?> getStorageClass() {
         return Boolean.class;

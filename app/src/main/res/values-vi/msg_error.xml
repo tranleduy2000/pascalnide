@@ -19,7 +19,7 @@
     <string name="BadFunctionCallException_2">Có quá ít hoặc quá nhiều tham số khi gọi hàm \"%1$s\"</string>
     <string name="BadFunctionCallException_3">Không thể gọi hàm \"%1$s\" , hàm chưa được khai báo.</string>
     <string name="multi_define_main">Quá nhiều chương trình chính được định nghĩa</string>
-    <string name="EXTRA_END">Dư từ khóa \'end\' trong chương trình của bạn</string>
+    <string name="unbalance_end">Các nhóm đóng và mở không cân đối, một token \"%1$s\" ở vị trí (%2$s:%3$s) và một token \"%4$s\" ở vị trí (%5$s:%6$s)</string>
     <string name="token_not_belong">"Từ khóa không thể đặt ở đây"</string>
     <string name="main_program_not_define">Không tìm thấy chương trình chính</string>
 

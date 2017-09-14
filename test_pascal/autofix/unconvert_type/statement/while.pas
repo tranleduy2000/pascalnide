@@ -1,7 +1,7 @@
 var
-    a: Integer;
+  a : Integer;
 begin
-    while a do
-    begin
-    end;
+  while a do
+  begin
+  end;
 end.

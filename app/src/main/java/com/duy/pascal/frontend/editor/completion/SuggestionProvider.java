@@ -25,6 +25,7 @@ import com.duy.pascal.frontend.editor.completion.model.KeyWord;
 import com.duy.pascal.frontend.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.core.PascalCompiler;
+import com.duy.pascal.interperter.datastructure.ArrayListMultimap;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
@@ -34,7 +35,6 @@ import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.google.common.collect.ArrayListMultimap;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -49,7 +49,6 @@ import java.util.Map;
 
 public class SuggestionProvider {
     private static final String TAG = "SuggestionProvider";
-    private String srcPath;
     private String source;
     private int cursorPos;
     private int cursorLine;
@@ -64,20 +63,21 @@ public class SuggestionProvider {
 
     public ArrayList<Description> getSuggestion(String srcPath, String source,
                                                 int cursorPos, int cursorLine, int cursorCol) {
-        this.srcPath = srcPath;
         this.source = source;
         this.cursorPos = cursorPos;
         this.cursorLine = cursorLine;
         this.cursorCol = cursorCol;
         try {
-            calculateIncomplete();
-            //the result
             ArrayList<Description> suggestItems = new ArrayList<>();
+
             try {
                 DiagnosticCollector diagnosticCollector = new DiagnosticCollector();
                 PascalProgramDeclaration pascalProgram =
                         PascalCompiler.loadPascal(srcPath, new StringReader(source), null, null, diagnosticCollector);
                 ExpressionContextMixin exprContext = pascalProgram.getContext();
+
+                calculateIncomplete();
+                //the result
 
                 ArrayList<VariableDeclaration> variables = exprContext.getVariables();
                 suggestItems.addAll(sort(filterVariables(variables)));
@@ -89,9 +89,6 @@ public class SuggestionProvider {
                 suggestItems.addAll(sort(filterFunctions(callableFunctions)));
             } catch (Exception e) { //parsing error
             }
-
-//            HashMap<Name, Type> typedefs = exprContext.getTypedefs();
-//            addTypeDef();
 
             suggestItems.addAll(sort(addKeyword()));
             return suggestItems;
@@ -119,7 +116,6 @@ public class SuggestionProvider {
         incomplete = source.substring(start, cursorPos);
         incomplete = incomplete.trim();
         Log.d(TAG, "calculateIncomplete incomplete = " + incomplete);
-
     }
 
     private ArrayList<Description> sort(ArrayList<Description> items) {
@@ -176,15 +172,17 @@ public class SuggestionProvider {
             ArrayListMultimap<Name, AbstractFunction> allFunctions) {
         if (incomplete.isEmpty()) return new ArrayList<>();
         ArrayList<Description> suggestItems = new ArrayList<>();
-        Collection<AbstractFunction> values = allFunctions.values();
-        for (AbstractFunction function : values) {
-            if (function.getName().isPrefix(incomplete)) {
-                LineInfo line = function.getLineNumber();
-                if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
-                    Name name = function.getName();
-                    ArgumentType[] args = function.argumentTypes();
-                    Type type = function.returnType();
-                    suggestItems.add(new FunctionDescription(name, args, type));
+        Collection<ArrayList<AbstractFunction>> values = allFunctions.values();
+        for (ArrayList<AbstractFunction> list : values) {
+            for (AbstractFunction function : list) {
+                if (function.getName().isPrefix(incomplete)) {
+                    LineInfo line = function.getLineNumber();
+                    if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
+                        Name name = function.getName();
+                        ArgumentType[] args = function.argumentTypes();
+                        Type type = function.returnType();
+                        suggestItems.add(new FunctionDescription(name, args, type));
+                    }
                 }
             }
         }

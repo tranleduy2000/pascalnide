@@ -20,18 +20,17 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.instructions.Executable;
 import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.references.Reference;
 import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.debugable.DebuggableExecutable;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
+import com.duy.pascal.interperter.exceptions.runtime.CompileException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * For ... in ... do loop
@@ -87,8 +86,8 @@ public class ForInStatement extends DebuggableExecutable {
 
         //get value of enum
         Object value = this.list.getValue(context, main);
-        if (value instanceof List) {
-            List list = (List) value;
+        if (value instanceof LinkedList) {
+            LinkedList list = (LinkedList) value;
             //get reference if variable
             Reference reference = this.item.getReference(context, main);
             //for each all item in list
@@ -106,7 +105,7 @@ public class ForInStatement extends DebuggableExecutable {
                         return ExecutionResult.EXIT;
                 }
             }
-        } else { //array
+        } else if (value instanceof Object[]) { //array
             Object[] list = (Object[]) value;
             //get reference if variable
             Reference reference = this.item.getReference(context, main);
@@ -126,6 +125,8 @@ public class ForInStatement extends DebuggableExecutable {
 
                 }
             }
+        } else {
+            throw new CompileException();
         }
 
         return ExecutionResult.NOPE;

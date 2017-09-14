@@ -330,7 +330,7 @@ public class AndroidPhoneLibrary implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
-    @PascalMethod(description = "Returns the phone number string for lineInfo 1, for example, the MSISDN for a GSM phone. Return null if it is unavailable.")
+    @PascalMethod(description = "Returns the phone number string for line 1, for example, the MSISDN for a GSM phone. Return null if it is unavailable.")
     public String getLine1Number() {
         return mTelephonyManager.getLine1Number();
     }

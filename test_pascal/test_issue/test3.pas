@@ -68,8 +68,8 @@ begin
     if getpixel(x, y + t) = snake_color then ending;
   end;
 
-  if (x <= 10 + k) or (x >= 630 - k) or
-  (y <= 40 + k) or (y >= 470 - k) then ending;
+  if (x <= 10 + k) or (x > = 630 - k) or
+  (y <= 40 + k) or (y > = 470 - k) then ending;
 end;
 
 procedure point;

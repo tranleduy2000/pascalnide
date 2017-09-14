@@ -1,5 +1,5 @@
 var
-    c: integer;
+  c : integer;
 begin
-    c := [1,3, 4];
+  c := [1, 3, 4];
 end.

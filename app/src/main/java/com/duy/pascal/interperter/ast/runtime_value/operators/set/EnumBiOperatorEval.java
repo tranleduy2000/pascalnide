@@ -22,13 +22,13 @@ import com.duy.pascal.interperter.ast.runtime_value.operators.BinaryOperatorEval
 import com.duy.pascal.interperter.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
+import com.duy.pascal.interperter.exceptions.runtime.CompileException;
+import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.utils.NullSafety;
 
 
@@ -55,13 +55,14 @@ public class EnumBiOperatorEval extends BinaryOperatorEval {
                 EnumGroupType type = (EnumGroupType) operon1;
                 return new RuntimeType(type, false);
             default:
-                return null;
+                throw new CompileException();
+
         }
     }
 
     @Override
     public Object operate(Object value1, Object value2)
-            throws PascalArithmeticException {
+            throws PascalArithmeticException, CompileException {
         EnumElementValue v1 = (EnumElementValue) value1;
         EnumElementValue v2 = (EnumElementValue) value2;
         switch (operator_type) {
@@ -88,7 +89,7 @@ public class EnumBiOperatorEval extends BinaryOperatorEval {
                 return v1.getIndex() < v2.getIndex();
 
             default:
-                return null;
+                throw new CompileException();
         }
     }
 

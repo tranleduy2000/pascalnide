@@ -1,4 +1,4 @@
 begin
-		write('hello');
-		readln;
+  write('hello');
+  readln;
 end.

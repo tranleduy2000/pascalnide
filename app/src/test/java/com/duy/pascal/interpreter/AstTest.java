@@ -25,7 +25,8 @@ public class AstTest extends BaseTestCase {
     public String getDirTest() {
         return "test_ast";
     }
-    public void testCConstruct(){
+
+    public void testCConstruct() {
         run("c_construct.pas");
     }
 }

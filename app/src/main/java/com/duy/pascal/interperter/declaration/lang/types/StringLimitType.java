@@ -107,13 +107,13 @@ public class StringLimitType extends TypeInfo {
         return new StringBuilder("");
     }
 
-    @Nullable
+    @NonNull
     @Override
     public Class getTransferClass() {
         return clazz;
     }
 
-    @Nullable
+    @NonNull
     @Override
     public Class<?> getStorageClass() {
         return clazz;

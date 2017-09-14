@@ -1,6 +1,6 @@
 var
-    b: longint;
-    c: char;
+  b : longint;
+  c : char;
 begin
-    c := b; //accept
+  c := b; //accept
 end.

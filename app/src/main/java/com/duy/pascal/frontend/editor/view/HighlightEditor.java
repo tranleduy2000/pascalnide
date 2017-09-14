@@ -212,8 +212,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         mBracketHighlighter = new BracketHighlighter(this, codeTheme);
 
         updateFromSettings();
-
-
         enableTextChangedListener();
     }
 
@@ -843,7 +841,9 @@ public class HighlightEditor extends CodeSuggestsEditText
     @Override
     protected void onSelectionChanged(int selStart, int selEnd) {
         super.onSelectionChanged(selStart, selEnd);
-        mBracketHighlighter.onSelectChange(selStart, selEnd);
+        if (mBracketHighlighter != null) {
+            mBracketHighlighter.onSelectChange(selStart, selEnd);
+        }
     }
 
     /**
@@ -874,17 +874,6 @@ public class HighlightEditor extends CodeSuggestsEditText
                 lineError = null;
             }
             startCompile(200);
-            if (s.length() > start && count == 1) {
-                char textToInsert = getCloseBracket(s.charAt(start), start);
-                if (textToInsert != 0) {
-                    try {
-                        s.insert(start + 1, Character.toString(textToInsert));
-                        setSelection(start);
-                    } catch (Exception ignored) {
-                    }
-                }
-            }
-
         }
     }
 

@@ -28,13 +28,13 @@ import com.commonsware.cwac.pager.PageDescriptor;
 import com.commonsware.cwac.pager.SimplePageDescriptor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
-import com.duy.pascal.frontend.runnable.ExecuteActivity;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code_sample.adapters.CodePagerAdapter;
 import com.duy.pascal.frontend.code_sample.adapters.CodeSampleAdapter;
 import com.duy.pascal.frontend.code_sample.fragments.FragmentCodeSample;
 import com.duy.pascal.frontend.editor.EditorActivity;
 import com.duy.pascal.frontend.file.FileManager;
+import com.duy.pascal.frontend.runnable.ExecuteActivity;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -42,8 +42,6 @@ import java.util.ArrayList;
 
 
 public class CodeSampleActivity extends AbstractAppCompatActivity implements CodeSampleAdapter.OnCodeClickListener {
-
-    final String TAG = getClass().getSimpleName();
 
     private final String[] categories;
     ViewPager viewPager;
@@ -55,8 +53,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
 
     public CodeSampleActivity() {
         categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math",
-                "Complete_Program", "Android",
-                "Android_Dialog", "Android_ZXing", "Android_Location"};
+                "CompleteProgram", "Android", "AndroidDialog", "AndroidZXing", "AndroidLocation"};
     }
 
     @Override
@@ -128,7 +125,6 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
             this.finish();
         }
         return super.onOptionsItemSelected(item);
-
     }
 
     @Override

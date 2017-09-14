@@ -69,7 +69,7 @@
     <string name="MISMATCHED_PARENTHESES">Paréntesis no coincidentes</string>
     <string name="MISMATCHED_BRACKETS">Corchetes no coincidentes</string>
     <string name="MISMATCHED_BEGIN_END">Error en la construcción de la estructura begin - end.</string>
-    <string name="EXTRA_END">Tienes un \'end\' extra en tu programa</string>
+    <string name="unbalance_end">Open and close are unbalanced, one token \"%1$s\" in position (%2$s:%3$s) and one token \"%4$s\" in position (%5$s:%6$s)</string>
     <string name="IO_EXCEPTION">Ocurrio un problema IOException mientras se leía la entrada</string>
     <string name="PluginCallException">Cuando se llama a la funcion o procedimiento \"%1$s\", ocurre la siguiente excepción de Java: \"%2$s\"</string>
     <string name="StackOverflowException">Error por desbordamiento de pila.</string>

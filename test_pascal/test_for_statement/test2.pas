@@ -1,6 +1,6 @@
 var
-    i, j: integer;
+  i, j : integer;
 begin
-    readln(j);
-    for i := j  + 1 to j +3 do writeln(i);
+  readln(j);
+  for i := j + 1 to j + 3 do writeln(i);
 end.

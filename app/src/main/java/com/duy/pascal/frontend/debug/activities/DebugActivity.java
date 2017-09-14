@@ -227,7 +227,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onLine(Executable executable, @Nullable final LineInfo lineInfo) {
-        Log.d(TAG, "onLine() called with: runtimeValue = [" + executable + "], lineInfo = [" + lineInfo + "]");
+        Log.d(TAG, "onLine() called with: runtimeValue = [" + executable + "], line = [" + lineInfo + "]");
         if (lineInfo == null) {
             return;
         }
@@ -255,14 +255,14 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     @Override
     public void onLine(RuntimeValue executable, final LineInfo lineInfo) {
         Log.d(TAG, "onLine() called with: executable = [" + executable.getClass() +
-                "], lineInfo = [" + lineInfo + "]");
+                "], line = [" + lineInfo + "]");
         if (lineInfo == null) return;
         scrollTo(lineInfo);
     }
 
     @Override
     public void onEvaluatingExpr(LineInfo lineInfo, String expression) {
-        Log.d(TAG, "onEvaluatingExpr() called with: lineInfo = [" + lineInfo + "], " +
+        Log.d(TAG, "onEvaluatingExpr() called with: line = [" + lineInfo + "], " +
                 "expression = [" + expression + "]");
 
     }
@@ -276,7 +276,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
      */
     @Override
     public void onEvaluatedExpr(final LineInfo lineInfo, final String expr, final String result) {
-        Log.d(TAG, "onEvaluatedExpr() called with: lineInfo = [" + lineInfo + "], expr = [" +
+        Log.d(TAG, "onEvaluatedExpr() called with: line = [" + lineInfo + "], expr = [" +
                 expr + "], result = [" + result + "]");
         showPopupAt(lineInfo, expr + " = " + result);
     }

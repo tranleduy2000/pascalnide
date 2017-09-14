@@ -1,4 +1,3 @@
-
 var
   obj : java_lang_Object;
 begin

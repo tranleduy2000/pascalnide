@@ -15,14 +15,13 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.converter.StringBuilderLimitBoxer;
 import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.SubrangeType;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.io.File;
 
 public enum BasicType implements Type {
-    Boolean(Character.class) {
+    Boolean(Boolean.class) {
         @Override
         Object getDefaultValue() {
             return false;
@@ -99,7 +98,7 @@ public enum BasicType implements Type {
         }
 
         @Override
-        public boolean equals(Type obj) {
+        public boolean equals(@NonNull Type obj) {
             return super.equals(obj) || obj instanceof StringLimitType;
         }
 
@@ -136,14 +135,12 @@ public enum BasicType implements Type {
             return 0;
         }
 
-
         @Override
         public String toString() {
             return "Shortint";
         }
-
-
     },
+    //integer in pascal is 2byte
     Integer(Integer.class) {
         @Override
         Object getDefaultValue() {
@@ -155,15 +152,12 @@ public enum BasicType implements Type {
         public String toString() {
             return "Integer";
         }
-
-
     },
     Long(Long.class) {
         @Override
         Object getDefaultValue() {
             return 0L;
         }
-
 
         @Override
         public String toString() {
@@ -173,7 +167,7 @@ public enum BasicType implements Type {
     Float(Float.class) {
         @Override
         Object getDefaultValue() {
-            return 0d;
+            return 0f;
         }
 
 
@@ -181,8 +175,6 @@ public enum BasicType implements Type {
         public String toString() {
             return "Real";
         }
-
-
     },
     Double(Double.class) {
         @Override
@@ -247,7 +239,7 @@ public enum BasicType implements Type {
     abstract Object getDefaultValue();
 
     @Override
-    public boolean equals(Type obj) {
+    public boolean equals(@NonNull Type obj) {
         if (this == obj) {
             return true;
         }
@@ -278,6 +270,7 @@ public enum BasicType implements Type {
         }
     }
 
+    @NonNull
     @Override
     public Class getTransferClass() {
         return clazz;
@@ -315,6 +308,7 @@ public enum BasicType implements Type {
         throw new NonArrayIndexed(array.getLineNumber(), this);
     }
 
+    @NonNull
     @Override
     public Class<?> getStorageClass() {
         return clazz;

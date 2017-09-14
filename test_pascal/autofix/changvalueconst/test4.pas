@@ -1,5 +1,5 @@
 const
-    a : string = 'asdasdasd';
+  a : string = 'asdasdasd';
 begin
-    a := 3;
+  a := 3;
 end.

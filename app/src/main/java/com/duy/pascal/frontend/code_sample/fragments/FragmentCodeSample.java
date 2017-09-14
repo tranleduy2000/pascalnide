@@ -94,7 +94,7 @@ public class FragmentCodeSample extends Fragment {
                 String category = getArguments().getString(TAG);
                 CodeCategory codeCategory = new CodeCategory(category, "");
                 String[] list;
-                String path = "code_sample/" + getArguments().getString(TAG).toLowerCase();
+                String path = "CodeSample/" + getArguments().getString(TAG);
                 try {
                     Context context = getContext();
                     if (category == null) {

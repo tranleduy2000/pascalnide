@@ -13,7 +13,7 @@ import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.exceptions.DiagnosticsListener;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
 import com.duy.pascal.interperter.source.ScriptSource;
-import com.duy.pascal.interperter.tokenizer.NewLexer;
+import com.duy.pascal.interperter.tokenizer.GroupParser;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 
@@ -47,7 +47,7 @@ public abstract class CodeUnit {
         this.includeDirectories = includeDirectories;
 
         long time = System.currentTimeMillis();
-        NewLexer lexer = new NewLexer(program, sourceName, includeDirectories);
+        GroupParser lexer = new GroupParser(program, sourceName, includeDirectories);
         lexer.parse();
         parseTree(lexer.getTokenQueue());
         System.out.println("parse time " + (System.currentTimeMillis() - time));

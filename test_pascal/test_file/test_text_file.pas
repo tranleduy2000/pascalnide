@@ -1,19 +1,19 @@
 program exText;
 var
-    filename, data: string;
-    myfile: text;
+  filename, data : string;
+  myfile : text;
 
 begin
-    writeln('Enter the file name: ');
-    readln(filename);
+  writeln('Enter the file name: ');
+  readln(filename);
 
-    assign(myfile, filename);
-    rewrite(myfile);
+  assign(myfile, filename);
+  rewrite(myfile);
 
-    writeln(myfile, 'Note to Students: ');
-    writeln(myfile, 'For details information on Pascal Programming');
-    writeln(myfile, 'Contact: Tutorials Point');
-    writeln('Completed writing');
+  writeln(myfile, 'Note to Students: ');
+  writeln(myfile, 'For details information on Pascal Programming');
+  writeln(myfile, 'Contact: Tutorials Point');
+  writeln('Completed writing');
 
-    close(myfile);
+  close(myfile);
 end.

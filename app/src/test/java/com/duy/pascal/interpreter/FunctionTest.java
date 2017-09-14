@@ -16,38 +16,21 @@
 
 package com.duy.pascal.interpreter;
 
-import java.io.File;
-
-import static com.duy.pascal.Interpreter.runProgram;
-
 /**
- * Created by Duy on 29-May-17.
+ * Created by Duy on 28-Aug-17.
  */
 
 public class FunctionTest extends BaseTestCase {
-
-    public void testAllFunction() throws Exception {
-        File parent = new File(dir);
-        for (File file : parent.listFiles()) {
-            if (file.getName().endsWith(".pas")) {
-                try {
-                    runProgram(file.getPath());
-                    assertTrue(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    assertTrue(false);
-                }
-            }
-        }
-    }
-
-    public void testNested(){
-        run("test_nested.pas");
-    }
-
-
     @Override
     public String getDirTest() {
-        return "test_function";
+        return "C:\\github\\pascalnide\\test_pascal\\test_function";
+    }
+
+    public void testtest_function() {
+        run("test_function.pas");
+    }
+
+    public void testtest_nested() {
+        run("test_nested.pas");
     }
 }

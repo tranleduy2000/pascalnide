@@ -39,6 +39,7 @@ import java.util.Random;
  * <p>
  * Created by Duy on 07-Mar-17.
  */
+@SuppressWarnings("unused")
 public class SystemLibrary implements PascalLibrary {
 
     private Random random = new Random();
@@ -341,17 +342,17 @@ public class SystemLibrary implements PascalLibrary {
 
 
     @PascalMethod(description = "Convert a numerical or enumeration value to a string")
-    public void str(Integer num, PascalReference<StringBuilder> s) {
+    public void Str(int num, PascalReference<StringBuilder> s) {
         s.set(new StringBuilder(String.valueOf(num)));
     }
 
     @PascalMethod(description = "Convert a numerical or enumeration value to a string")
-    public void Str(Long num, PascalReference<StringBuilder> s) {
+    public void Str(long num, PascalReference<StringBuilder> s) {
         s.set(new StringBuilder(String.valueOf(num)));
     }
 
     @PascalMethod(description = "Convert a numerical or enumeration value to a string")
-    public void Str(Double num, PascalReference<StringBuilder> s) {
+    public void Str(double num, PascalReference<StringBuilder> s) {
         s.set(new StringBuilder(String.valueOf(num)));
     }
 

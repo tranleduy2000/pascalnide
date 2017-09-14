@@ -1,7 +1,7 @@
 begin
-    if true do
+  if true do
 
-        //wrong statement
+    //wrong statement
 begin
 end;
 end.

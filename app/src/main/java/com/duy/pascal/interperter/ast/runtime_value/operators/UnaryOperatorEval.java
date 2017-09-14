@@ -22,7 +22,6 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.operators.number.BoolUniOperatorEval;
 import com.duy.pascal.interperter.ast.runtime_value.operators.number.DoubleUniOperatorEval;
 import com.duy.pascal.interperter.ast.runtime_value.operators.number.IntegerUniOperatorEval;
@@ -31,19 +30,19 @@ import com.duy.pascal.interperter.ast.runtime_value.operators.pointer.AddressEva
 import com.duy.pascal.interperter.ast.runtime_value.operators.pointer.DerefEval;
 import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.debugable.DebuggableReturnValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.declaration.lang.types.BasicType;
+import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
+import com.duy.pascal.interperter.declaration.lang.types.PointerType;
+import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.operator.BadOperationTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.operator.ConstantCalculationException;
 import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
-import com.duy.pascal.interperter.declaration.lang.types.BasicType;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
-import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
-import com.duy.pascal.interperter.declaration.lang.types.PointerType;
-import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public abstract class UnaryOperatorEval extends DebuggableReturnValue {
     public OperatorTypes operator;
@@ -59,38 +58,37 @@ public abstract class UnaryOperatorEval extends DebuggableReturnValue {
     }
 
     public static RuntimeValue generateOp(ExpressionContext f,
-                                          RuntimeValue v1, OperatorTypes op_type,
+                                          RuntimeValue v1, OperatorTypes opType,
                                           LineInfo line) throws Exception {
         Type t1 = v1.getRuntimeType(f).declType;
 
-        if (!op_type.canBeUnary) {
-            throw new BadOperationTypeException(line, t1, v1, op_type);
+        if (!opType.canBeUnary) {
+            throw new BadOperationTypeException(line, t1, v1, opType);
         }
-        if (op_type == OperatorTypes.ADDRESS) {
+        if (opType == OperatorTypes.ADDRESS) {
             AssignableValue target = v1.asAssignableValue(f);
             if (target != null) {
                 return new AddressEval(target, line);
             }
         }
-        if (op_type == OperatorTypes.DEREF) {
+        if (opType == OperatorTypes.DEREF) {
             if (t1 instanceof PointerType) {
                 return new DerefEval(v1, line);
             }
         }
-        if (op_type == OperatorTypes.NOT && t1.equals(BasicType.Boolean)) {
-            return new BoolUniOperatorEval(v1, op_type, line);
-        }
-        if (t1.equals(BasicType.Integer)) {
-            return new IntegerUniOperatorEval(v1, op_type, line);
-        }
-        if (t1.equals(BasicType.Long)) {
-            return new LongUniOperatorEval(v1, op_type, line);
+        if (opType == OperatorTypes.NOT && t1.equals(BasicType.Boolean)) {
+            return new BoolUniOperatorEval(v1, opType, line);
         }
         if (t1 == BasicType.Double) {
-            return new DoubleUniOperatorEval(v1, op_type, line);
+            return new DoubleUniOperatorEval(v1, opType, line);
         }
-
-        throw new BadOperationTypeException(line, t1, v1, op_type);
+        if (t1.equals(BasicType.Long)) {
+            return new LongUniOperatorEval(v1, opType, line);
+        }
+        if (t1.equals(BasicType.Integer)) {
+            return new IntegerUniOperatorEval(v1, opType, line);
+        }
+        throw new BadOperationTypeException(line, t1, v1, opType);
     }
 
     @NonNull

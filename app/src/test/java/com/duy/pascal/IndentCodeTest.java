@@ -29,19 +29,10 @@ import java.io.IOException;
  */
 
 public class IndentCodeTest extends BaseTestCase {
-    private static final String dir = "C:\\github\\pascalnide-public\\test_pascal\\test_indent\\";
 
     @Override
     public String getDirTest() {
         return "test_indent";
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        DLog.ANDROID = false;
-        DLog.DEBUG = false;
-
     }
 
 
@@ -109,7 +100,7 @@ public class IndentCodeTest extends BaseTestCase {
     }
 
     public void testAllDeclare() throws InterruptedException {
-        File parent = new File("C:\\github\\pascalnide-public\\test_pascal\\test_declare");
+        File parent = new File(System.getProperty("user.dir") + "\\test_pascal\\test_declare");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 PascalFormatCode indentCode = null;
@@ -127,7 +118,7 @@ public class IndentCodeTest extends BaseTestCase {
     }
 
     public void testAll2() throws InterruptedException {
-        File parent = new File("C:\\github\\pascalnide-public\\app\\src\\main\\assets\\code_sample\\android");
+        File parent = new File(System.getProperty("user.dir") + "\\app\\src\\main\\assets\\CodeSample\\android");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 PascalFormatCode indentCode = null;
@@ -145,7 +136,7 @@ public class IndentCodeTest extends BaseTestCase {
     }
 
     public void testAll3() throws InterruptedException {
-        File parent = new File("C:\\github\\pascalnide-public\\test_pascal\\data");
+        File parent = new File(System.getProperty("user.dir") + "\\test_pascal\\data");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 PascalFormatCode indentCode = null;
@@ -163,7 +154,7 @@ public class IndentCodeTest extends BaseTestCase {
     }
 
     public void test5() {
-        run("C:\\github\\pascalnide-public\\test_pascal\\autofix\\grouping\\missing_end.pas");
+        run(System.getProperty("user.dir") + "\\test_pascal\\autofix\\grouping\\missing_end.pas");
     }
 
     public void atestAll() throws IOException, InterruptedException {

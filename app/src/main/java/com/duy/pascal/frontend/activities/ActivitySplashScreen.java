@@ -17,7 +17,6 @@
 package com.duy.pascal.frontend.activities;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -59,21 +58,18 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private static final String TAG = "ActivitySplashScreen";
     private static final int REQUEST_CHECK_LICENSE = 1;
 
-    @SuppressLint("ObsoleteSdkInt")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.splash);
+        setContentView(R.layout.activity_splash);
         // Here, this is the current activity
         PreferenceManager.setDefaultValues(this, R.xml.pref_settings, false);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.READ_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST);
+            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+            ActivityCompat.requestPermissions(this, permissions, MY_PERMISSIONS_REQUEST);
         } else {
             if (isDonateInstalled(DonateUtils.DONATE_PACKAGE)) {
                 new CheckTask().execute();
@@ -218,7 +214,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 startActivity(intentEdit);
                 finish();
             }
-        }, 400);
+        }, 3000);
     }
 
     private void handleRunProgram(Intent data) {
@@ -261,7 +257,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
 
         FileManager fileManager = new FileManager(this);
         //create new temp file
-        String filePath = fileManager.createNewFile(FileManager.getApplicationPath() +
+        String filePath = fileManager.createNewFile(FileManager.getFilePath() +
                 "new_" + Integer.toHexString((int) System.currentTimeMillis()) + ".pas");
         fileManager.saveFile(filePath, text);
         to.putExtra(CompileManager.FILE_PATH, filePath);

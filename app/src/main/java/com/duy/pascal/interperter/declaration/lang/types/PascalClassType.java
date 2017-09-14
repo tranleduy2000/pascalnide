@@ -137,7 +137,7 @@ public class PascalClassType extends ObjectType {
         return NullValue.get();
     }
 
-    @Nullable
+    @NonNull
     @Override
     public Class getTransferClass() {
         return RuntimePascalClass.class;
@@ -175,7 +175,7 @@ public class PascalClassType extends ObjectType {
         throw new NonArrayIndexed(lineInfo, this);
     }
 
-    @Nullable
+    @NonNull
     @Override
     public Class<?> getStorageClass() {
         return RuntimePascalClass.class;

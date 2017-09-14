@@ -1,6 +1,6 @@
 var
-    a: array[1..10] of integer;
-    c: string;
+  a : array[1..10] of integer;
+  c : string;
 begin
-    c := a;
+  c := a;
 end.

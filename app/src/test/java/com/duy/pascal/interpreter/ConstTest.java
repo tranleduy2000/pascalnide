@@ -17,16 +17,16 @@
 package com.duy.pascal.interpreter;
 
 /**
- * Created by Duy on 29-May-17.
+ * Created by Duy on 28-Aug-17.
  */
 
 public class ConstTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "test_const";
+        return "C:\\github\\pascalnide\\test_pascal\\test_const";
     }
 
-    public void testAll() {
-        runAll();
+    public void testtest_declare() {
+        run("test_declare.pas");
     }
 }

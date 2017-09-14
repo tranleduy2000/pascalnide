@@ -5,13 +5,12 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.operators.UnaryOperatorEval;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
-import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
+import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class DoubleUniOperatorEval extends UnaryOperatorEval {
 
@@ -43,8 +42,7 @@ public class DoubleUniOperatorEval extends UnaryOperatorEval {
             return new ConstantAccess<>(val, line);
 
         } else {
-            return new DoubleUniOperatorEval(operon.compileTimeExpressionFold(context), operator,
-                    line);
+            return new DoubleUniOperatorEval(operon.compileTimeExpressionFold(context), operator, line);
         }
     }
 

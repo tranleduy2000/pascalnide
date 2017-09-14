@@ -5,5 +5,5 @@ Program Example21;
 Uses math;
 
 Begin
-  writeln(cycletorad(1):2:3);
+  writeln(cycletorad(1): 2 : 3);
 End.

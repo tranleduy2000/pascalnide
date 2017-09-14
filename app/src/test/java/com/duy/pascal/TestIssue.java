@@ -33,10 +33,6 @@ public class TestIssue extends BaseTestCase {
         run("test2.pas");
     }
 
-    public void test3() {
-        run("test3.pas");
-    }
-
     public void test4() {
         run("test4.pas");
     }
@@ -52,4 +48,5 @@ public class TestIssue extends BaseTestCase {
     public void test7() {
         run("test7.pas");
     }
+
 }

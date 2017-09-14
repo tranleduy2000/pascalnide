@@ -2,15 +2,15 @@
 uses JavaCollections;
 
 var
-   // create a tree set
-   ts : JTreeSet;
+    // create a tree set
+  ts : JTreeSet;
 begin
-   // add elements to the hash set
-   ts.add('B');
-   ts.add('A');
-   ts.add('D');
-   ts.add('E');
-   ts.add('C');
-   ts.add('F');
-   writeln(ts);
+  // add elements to the hash set
+  ts.add('B');
+  ts.add('A');
+  ts.add('D');
+  ts.add('E');
+  ts.add('C');
+  ts.add('F');
+  writeln(ts);
 end.

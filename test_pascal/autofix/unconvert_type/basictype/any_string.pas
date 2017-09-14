@@ -1,5 +1,5 @@
 var
-    c: integer ;
+  c : integer;
 begin
-    c := 'asdasdasd';
+  c := 'asdasdasd';
 end.

@@ -45,7 +45,9 @@ import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
  */
 
 public class ForStatement {
-
+    /**
+     * create executable for statement
+     */
     public static Executable generateForStatement(GrouperToken group, ExpressionContext context,
                                                   LineInfo lineNumber) throws Exception {
         RuntimeValue identifier = group.getNextTerm(context);
@@ -61,6 +63,7 @@ public class ForStatement {
             throw new ExpectedTokenException(next, ":=", "in");
         }
         Executable result;
+        //case: for i :=
         if (next instanceof AssignmentToken) {
             RuntimeValue firstValue = group.getNextExpression(context);
             RuntimeValue convert = varType.getRawType().convert(firstValue, context);
@@ -72,6 +75,7 @@ public class ForStatement {
 
             next = group.take();
             boolean downto = false;
+            //case: for i := ... to[downto] ..
             if (next instanceof DowntoToken) {
                 downto = true;
             } else if (!(next instanceof ToToken)) {
@@ -103,14 +107,15 @@ public class ForStatement {
                         lastValue, group.getNextCommand(context), lineNumber, downto);
             }
         } else {
-            //for in statement
+            //case: for <var> in <range>
             if (((OperatorToken) next).type == OperatorTypes.IN) {
                 //assign value
                 RuntimeValue enumList = group.getNextExpression(context);
                 Type enumType = enumList.getRuntimeType(context).declType; //type of var
 
                 //accept foreach : enum, set, array
-                if (!(enumType instanceof EnumGroupType || enumType instanceof ArrayType
+                if (!(enumType instanceof EnumGroupType
+                        || enumType instanceof ArrayType
                         || enumType instanceof SetType)) {
                     throw new UnConvertibleTypeException(enumList, varType.declType, enumType, context);
                 }

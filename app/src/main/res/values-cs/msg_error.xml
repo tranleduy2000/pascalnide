@@ -52,7 +52,7 @@
     <string name="MISMATCHED_PARENTHESES">Nesprávně zadané kulaté závorky</string>
     <string name="MISMATCHED_BRACKETS">Nesprávně zadané závorky</string>
     <string name="MISMATCHED_BEGIN_END">Nesprávně zadaná kontrukce begin - end </string>
-    <string name="EXTRA_END">Ve Vašem programu se nachází jedno přebytečné \'end\' </string>
+    <string name="unbalance_end">Open and close are unbalanced, one token \"%1$s\" in position (%2$s:%3$s) and one token \"%4$s\" in position (%5$s:%6$s)</string>
     <string name="IO_EXCEPTION">Při čtení vstupu se vyskytla IOException </string>
 
     <string name="INCOMPLETE_CHAR">Incomplete character literal</string>

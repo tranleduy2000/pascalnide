@@ -1,8 +1,8 @@
 procedure a();
 const
-    b = 3;
+  b = 3;
 begin
-    b := 4; //error
+  b := 4; //error
 end;
 
 begin

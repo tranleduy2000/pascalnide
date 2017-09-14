@@ -1,5 +1,5 @@
 var
-    c: integer;
+  c : integer;
 begin
-    c := 3.21312;
+  c := 3.21312;
 end.

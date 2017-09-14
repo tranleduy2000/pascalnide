@@ -33,7 +33,6 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.TypeInfo;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.Containable;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
@@ -177,6 +176,7 @@ public class EnumGroupType extends TypeInfo implements Containable<EnumElementVa
         return new LinkedList<>();
     }
 
+    @NonNull
     @Override
     public Class getTransferClass() {
         return LinkedList.class;
@@ -229,6 +229,7 @@ public class EnumGroupType extends TypeInfo implements Containable<EnumElementVa
         throw new NonArrayIndexed(lineInfo, this);
     }
 
+    @NonNull
     @Override
     public Class<?> getStorageClass() {
         return LinkedList.class;

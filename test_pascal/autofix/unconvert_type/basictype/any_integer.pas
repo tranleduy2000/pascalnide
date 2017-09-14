@@ -1,5 +1,5 @@
 var
-    c: string;
+  c : string;
 begin
-    c := 2;
+  c := 2;
 end.

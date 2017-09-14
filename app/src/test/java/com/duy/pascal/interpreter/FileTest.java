@@ -37,6 +37,7 @@ public class FileTest extends BaseTestCase {
     public void testRead() {
         run("test_read.pas");
     }
+
     public void testRead2() {
         run("file_reader.pas");
     }

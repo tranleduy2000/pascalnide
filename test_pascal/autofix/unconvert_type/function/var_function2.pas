@@ -1,6 +1,6 @@
-function  get: string;
+function  get : string;
 begin
-    get := 1213;
+  get := 1213;
 end;
 
 begin

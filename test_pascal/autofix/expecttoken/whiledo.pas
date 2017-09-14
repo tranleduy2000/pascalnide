@@ -1,3 +1,3 @@
 begin
-    while true then writeln ;
+  while true then writeln;
 end.

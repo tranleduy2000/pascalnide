@@ -27,7 +27,7 @@
     <string name="UNFINISHED_BEGIN_END">Structură begin - end neterminată</string>
     <string name="UNFINISHED_PARENTHESES">Ați uitat să închideți parantezele</string>
     <string name="UNFINISHED_BRACKETS">Ați uitat să închideți parantezele pătrate sau acoladele</string>
-    <string name="EXTRA_END">Aveți un \'end\' în plus în programul dumneavoastră</string>
+    <string name="unbalance_end">Open and close are unbalanced, one token \"%1$s\" in position (%2$s:%3$s) and one token \"%4$s\" in position (%5$s:%6$s)</string>
     <string name="IO_EXCEPTION">Excepție IO apărută în timpul citirii datelor: </string>
     <string name="INCOMPLETE_CHAR">Caracter literal incomplet</string>
     <string name="MISSING_INCLUDE">Lipsește un fișier care trebuie inclus</string>

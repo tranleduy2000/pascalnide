@@ -28,7 +28,6 @@ import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.completion.SuggestionProvider;
 import com.duy.pascal.frontend.editor.completion.model.Description;
@@ -50,7 +49,6 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
 
     public int mCharHeight = 0;
     public int mCharWidth = 0;
-    protected EditorSetting mEditorSetting;
     protected SymbolsTokenizer mTokenizer;
     private CodeSuggestAdapter mAdapter;
     private SuggestionProvider pascalParserHelper;
@@ -83,8 +81,6 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     }
 
     private void init(Context context) {
-        mEditorSetting = new EditorSetting(context);
-//        setDefaultKeyword();
         mTokenizer = new SymbolsTokenizer();
         setTokenizer(mTokenizer);
         setThreshold(1);
@@ -115,10 +111,10 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
                 if (parseTask != null) {
                     parseTask.cancel(true);
                 }
-                parseTask = new ParseTask(getContext(), this, "");
+                parseTask = new ParseTask(this, "");
                 parseTask.execute();
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         onPopupChangePosition();
     }
@@ -148,9 +144,6 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
 
     /**
      * this method will be change size of popup window
-     *
-     * @param w
-     * @param h
      */
     protected void onDropdownChangeSize(int w, int h) {
 
@@ -277,16 +270,12 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     }
 
     private class ParseTask extends AsyncTask<Object, Object, ArrayList<Description>> {
-        private Context context;
-        private EditText editText;
         private String source;
         private String srcPath;
         private SuggestionProvider pascalParserHelper;
         private int cursorPos, cursorLine, cursorCol;
 
-        private ParseTask(Context context, EditText editText, String srcPath) {
-            this.context = context;
-            this.editText = editText;
+        private ParseTask(EditText editText, String srcPath) {
             this.source = editText.getText().toString();
             this.srcPath = srcPath;
             this.pascalParserHelper = new SuggestionProvider();

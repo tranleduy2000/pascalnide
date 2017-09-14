@@ -26,7 +26,7 @@
     <string name="UNFINISHED_BEGIN_END">Unfinished begin - end construct</string>
     <string name="UNFINISHED_PARENTHESES">You forgot to close your parentheses</string>
     <string name="UNFINISHED_BRACKETS">You forgot to close your brackets</string>
-    <string name="EXTRA_END">You have an extra \'end\' in your program</string>
+    <string name="unbalance_end">Open and close are unbalanced, one token \"%1$s\" in position (%2$s:%3$s) and one token \"%4$s\" in position (%5$s:%6$s)</string>
     <string name="IO_EXCEPTION">IOException occurred while reading the input</string>
     <string name="INCOMPLETE_CHAR">Incomplete character literal</string>
     <string name="MISSING_INCLUDE">Missing file to include</string>
@@ -78,5 +78,5 @@
         Syntax: "if condition then S1 else S2;" \n\n
         Where, S1 and S2 are different statements. Please note that the statement S1 is not followed by a "semicolon" (;).</string>
     <string name="UnConvertibleTypeException2">The expression or variable \"%1$s\" is of type \"%2$s\" which cannot be convert to the type \"%3$s\" of expression or variable \"%4$s\"</string>
-
+    <string name="missing_token_exception">Missing token \"%1$s\"</string>
 </resources>

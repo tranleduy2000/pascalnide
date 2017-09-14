@@ -316,7 +316,7 @@ public abstract class AbstractExecActivity extends AbstractAppCompatActivity imp
 
                 //increase stack size in API 25 or above with thread group,
                 // if API < 25, it will be throw stack overflow error
-                long stackSize = 10000 * 1024; //10.240.000
+                long stackSize = 10000 * 1024; //10 240 000
                 new Thread(group, runProgram, path, stackSize).start();
             }
         }, 100);

@@ -17,6 +17,7 @@
 package com.duy.pascal.interperter.declaration.lang.types.subrange;
 
 import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
@@ -70,7 +71,7 @@ public class IntegerSubrangeType extends com.duy.pascal.interperter.declaration.
         return first + ".." + last;
     }
 
-    @Nullable
+    @NonNull
     @Override
     public Class<?> getStorageClass() {
         return Integer.class;

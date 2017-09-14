@@ -109,7 +109,8 @@ public class RuntimeType implements ArgumentType {
             } else {
                 return otherType.declType.cloneValue(otherValue);
             }
-        } else if (this.declType instanceof ArrayType && ((ArrayType) this.declType).isDynamic()
+        } else if (this.declType instanceof ArrayType
+                && ((ArrayType) this.declType).isDynamic()
                 && otherType.declType instanceof SetType) { //dynamic array
             if (writable) {
                 return null;

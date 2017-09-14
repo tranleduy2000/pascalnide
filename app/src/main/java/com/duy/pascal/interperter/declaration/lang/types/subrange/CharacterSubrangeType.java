@@ -16,6 +16,7 @@
 
 package com.duy.pascal.interperter.declaration.lang.types.subrange;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
@@ -47,7 +48,7 @@ public class CharacterSubrangeType extends SubrangeType<Character> {
         return null;
     }
 
-    @Nullable
+    @NonNull
     @Override
     public Class<?> getStorageClass() {
         return Character.class;
