@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.googlecode.sl4a.Constants;
 
 public class PascalActivity extends AbstractAppCompatActivity {

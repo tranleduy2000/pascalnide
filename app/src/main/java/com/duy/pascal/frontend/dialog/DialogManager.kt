@@ -19,6 +19,7 @@ package com.duy.pascal.frontend.dialog
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.support.v7.app
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.*
@@ -41,33 +42,12 @@ class DialogManager {
     }
 
     companion object {
-        fun createFinishDialog(activity: Activity,
-                               title: CharSequence, msg: CharSequence): android.support.v7.app.AlertDialog {
-            val builder = AlertDialog.Builder(activity)
-            builder.setTitle(title)
-            builder.setMessage(msg)
-            builder.setPositiveButton(activity.getString(R.string.cancel)) { dialog, _ ->
-                dialog.dismiss()
-                activity.finish()
-            }
-            return builder.create()
-
-        }
-
-        fun createMsgDialog(activity: Activity,
-                            title: CharSequence, msg: CharSequence): android.support.v7.app.AlertDialog {
-            val builder = AlertDialog.Builder(activity)
-            builder.setTitle(title)
-            builder.setMessage(msg)
-            builder.setPositiveButton(activity.getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
-            return builder.create()
-        }
 
         /**
          * create and set event for error dialog
          */
         fun createErrorDialog(activity: EditorActivity,
-                              e: Exception): android.support.v7.app.AlertDialog {
+                              e: Exception): AlertDialog {
             val exceptionManager = ExceptionManager(activity)
             val title = activity.getString(R.string.compile_error)
             val msg = exceptionManager.getMessage(e)
@@ -120,7 +100,7 @@ class DialogManager {
 
         fun createFinishDialog(activity: Activity,
                                title: CharSequence, msg: CharSequence,
-                               resourceIcon: Int): android.support.v7.app.AlertDialog {
+                               resourceIcon: Int): AlertDialog {
             val builder = AlertDialog.Builder(activity)
             builder.setTitle(title)
             builder.setMessage(msg)

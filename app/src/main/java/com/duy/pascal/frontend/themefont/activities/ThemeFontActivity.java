@@ -25,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.duy.pascal.frontend.themefont.adapter.SectionPageAdapter;
 import com.duy.pascal.frontend.themefont.themes.ThemeFragment;
 import com.google.firebase.analytics.FirebaseAnalytics;

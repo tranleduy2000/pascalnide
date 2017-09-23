@@ -37,7 +37,7 @@ import com.duy.pascal.frontend.debug.CallStack;
 import com.duy.pascal.frontend.debug.adapter.FrameAdapter;
 import com.duy.pascal.frontend.debug.adapter.VariableAdapter;
 import com.duy.pascal.frontend.debug.utils.SpanUtils;
-import com.duy.pascal.frontend.dialog.DialogManager;
+import com.duy.pascal.frontend.dialog.DialogHelper;
 import com.duy.pascal.frontend.view.MonospaceRadioButton;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
@@ -168,7 +168,7 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
     public void onExpand(VariableDeclaration var) {
         SpanUtils spanUtils = new SpanUtils(mVariableAdapter.getCodeTheme());
         spanUtils.setMaxLengthArray(-1);
-        AlertDialog msgDialog = DialogManager.Companion.createMsgDialog(getActivity(),
+        AlertDialog msgDialog = DialogHelper.createMsgDialog(getActivity(),
                 var.getName().getOriginName(),
                 spanUtils.createVarSpan(var));
         msgDialog.show();

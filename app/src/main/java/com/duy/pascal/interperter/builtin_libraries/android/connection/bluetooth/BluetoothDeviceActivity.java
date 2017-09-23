@@ -31,7 +31,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.googlecode.sl4a.Constants;
 
 import java.util.ArrayList;

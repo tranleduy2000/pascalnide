@@ -53,7 +53,7 @@ import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.debug.CallStack;
 import com.duy.pascal.frontend.debug.fragments.FragmentFrame;
-import com.duy.pascal.frontend.dialog.DialogManager;
+import com.duy.pascal.frontend.dialog.DialogHelper;
 import com.duy.pascal.frontend.editor.view.HighlightEditor;
 import com.duy.pascal.frontend.editor.view.LineUtils;
 import com.duy.pascal.frontend.runnable.AbstractExecActivity;
@@ -80,11 +80,11 @@ import static android.view.ViewGroup.LayoutParams;
 
 public class DebugActivity extends AbstractExecActivity implements DebugListener, ProgramHandler {
 
+    private final Handler mHandler = new Handler();
     private ConsoleView mConsoleView;
     private HighlightEditor mCodeView;
     private Toolbar toolbar;
     private LockableScrollView mScrollView;
-    private final Handler mHandler = new Handler();
     private AlertDialog alertDialog;
     private PopupWindow popupWindow;
     private AtomicBoolean endEnded = new AtomicBoolean(false);
@@ -154,9 +154,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         if (isFinishing()) return;
 
         ExceptionManager exceptionManager = new ExceptionManager(this);
-        DialogManager.Companion.createFinishDialog(this, "Runtime error",
-                exceptionManager.getMessage(e)).show();
-        //DEBUG
+        DialogHelper.createFinishDialog(this, R.string.runtime_error, exceptionManager.getMessage(e)).show();
         if (DEBUG) e.printStackTrace();
     }
 

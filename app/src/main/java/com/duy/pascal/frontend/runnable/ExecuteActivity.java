@@ -17,6 +17,7 @@
 package com.duy.pascal.frontend.runnable;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -31,13 +32,13 @@ import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
-import com.duy.pascal.frontend.dialog.DialogManager;
+import com.duy.pascal.frontend.dialog.DialogHelper;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 import java.io.File;
 
 
-public class ExecuteActivity extends AbstractExecActivity  {
+public class ExecuteActivity extends AbstractExecActivity {
     public ConsoleView mConsoleView;
     public Toolbar toolbar;
 
@@ -175,11 +176,9 @@ public class ExecuteActivity extends AbstractExecActivity  {
     @Override
     public void onError(Exception e) {
         ExceptionManager exceptionManager = new ExceptionManager(this);
-        DialogManager.Companion.createFinishDialog(this, "Runtime error", exceptionManager.getMessage(e)).show();
-
-        if (DLog.DEBUG) {
-            Log.e(TAG, "onError: ", e);
-        }
+        Dialog dialog = DialogHelper.createFinishDialog(this, getString(R.string.runtime_error), exceptionManager.getMessage(e));
+        showDialog(dialog);
+        if (DLog.DEBUG) Log.e(TAG, "onError: ", e);
     }
 
 

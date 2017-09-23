@@ -21,7 +21,6 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 
 /**
  * Created by Duy on 18-Jun-17.

@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/colorpicker" />
+            <option value="$PROJECT_DIR$/file_explorer" />
             <option value="$PROJECT_DIR$/pager" />
             <option value="$PROJECT_DIR$/splitview" />
           </set>

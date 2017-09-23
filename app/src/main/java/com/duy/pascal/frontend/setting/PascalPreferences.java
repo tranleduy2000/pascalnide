@@ -146,12 +146,15 @@ public class PascalPreferences {
     }
 
     public String getString(String key) {
-        String s = "";
+        return getString(key, "");
+    }
+
+    public String getString(String key, String def) {
         try {
-            s = sharedPreferences.getString(key, "");
+            return sharedPreferences.getString(key, def);
         } catch (Exception ignored) {
         }
-        return s;
+        return def;
     }
 
     public boolean getBoolean(String key) {

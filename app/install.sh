@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+cd app
 //uninstall command
 adb uninstall com.duy.pascal.compiler
 

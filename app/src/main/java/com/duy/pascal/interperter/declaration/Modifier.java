@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.declaration;
 /**
  * The Modifier class provides {@code static} methods and
  * constants to decode class and member access modifiers.  The sets of
- * modifiers are represented as integers with distinct bit positions
+ * modifiers are represented s with distinct bit positions
  * representing different modifiers.  The values for the constants
  * representing the modifiers are taken from the tables in sections 4.1, 4.4, 4.5, and 4.7 of
  * <cite>The Java&trade; Virtual Machine Specification</cite>.

@@ -30,7 +30,6 @@ import android.view.View;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 
 import java.util.ArrayList;
 

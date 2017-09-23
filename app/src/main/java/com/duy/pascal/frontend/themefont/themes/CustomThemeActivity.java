@@ -29,7 +29,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.setting.PascalPreferences;

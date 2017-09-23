@@ -18,10 +18,8 @@ package com.duy.pascal.frontend.setting;
 
 
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 
 
 public class SettingsActivity extends AbstractAppCompatActivity {
