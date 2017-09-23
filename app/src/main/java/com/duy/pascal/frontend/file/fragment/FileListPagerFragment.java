@@ -35,6 +35,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.common.listeners.OnItemClickListener;
+import com.duy.pascal.frontend.common.task.JecAsyncTask;
+import com.duy.pascal.frontend.common.task.TaskListener;
+import com.duy.pascal.frontend.common.task.TaskResult;
+import com.duy.pascal.frontend.common.utils.UIUtils;
+import com.duy.pascal.frontend.databinding.FileExplorerFragmentBinding;
 import com.duy.pascal.frontend.file.ExplorerContext;
 import com.duy.pascal.frontend.file.FileActionCallback;
 import com.duy.pascal.frontend.file.FileClipboard;
@@ -49,12 +56,6 @@ import com.duy.pascal.frontend.file.io.RootFile;
 import com.duy.pascal.frontend.file.listener.FileListResultListener;
 import com.duy.pascal.frontend.file.listener.OnClipboardPasteFinishListener;
 import com.duy.pascal.frontend.file.util.FileListSorter;
-import com.jecelyin.android.file_explorer.databinding.FileExplorerFragmentBinding;
-import com.jecelyin.common.listeners.OnItemClickListener;
-import com.jecelyin.common.task.JecAsyncTask;
-import com.jecelyin.common.task.TaskListener;
-import com.jecelyin.common.task.TaskResult;
-import com.jecelyin.common.utils.UIUtils;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.io.File;
@@ -67,7 +68,9 @@ import java.util.List;
  * @author Jecelyin Peng <jecelyin@gmail.com>
  */
 public class FileListPagerFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, OnItemClickListener, FileExplorerView, ExplorerContext, SharedPreferences.OnSharedPreferenceChangeListener {
+    public static final String TAG = "FileListPagerFragment";
     private FileListItemAdapter adapter;
+    @Nullable
     private JecFile path;
     private FileExplorerFragmentBinding binding;
     private PathButtonAdapter pathAdapter;
@@ -83,11 +86,12 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
         return f;
     }
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         path = getArguments().getParcelable("path");
-        binding = DataBindingUtil.inflate(inflater, com.jecelyin.android.file_explorer.R.layout.file_explorer_fragment, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.file_explorer_fragment, container, false);
         return binding.getRoot();
     }
 

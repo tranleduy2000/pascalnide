@@ -27,6 +27,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,6 +44,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.file.FileActionCallback;
+import com.duy.pascal.frontend.file.FileExplorerView;
 import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.file.PreferenceHelper;
 import com.duy.pascal.frontend.file.adapter.FileAdapterListener;
@@ -72,7 +74,7 @@ import java.util.Locale;
 public class FragmentFileManager extends Fragment implements
         View.OnClickListener, View.OnLongClickListener,
         SwipeRefreshLayout.OnRefreshListener, FileAdapterListener, SearchView.OnQueryTextListener,
-        FileExplorerController {
+        FileExplorerView {
 
     private static final int SORT_BY_NAME = 1;
     private static final int SORT_BY_SIZE = 2;
@@ -370,8 +372,23 @@ public class FragmentFileManager extends Fragment implements
     }
 
     @Override
+    public ActionMode startActionMode(ActionMode.Callback callback) {
+        return null;
+    }
+
+    @Override
+    public void setSelectAll(boolean checked) {
+
+    }
+
+    @Override
     public void refresh() {
         new UpdateList(mCurrentFolder).execute();
+    }
+
+    @Override
+    public void finish() {
+
     }
 
     @Override

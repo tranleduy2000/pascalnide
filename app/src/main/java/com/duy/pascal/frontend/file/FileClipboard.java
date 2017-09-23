@@ -23,10 +23,10 @@ import com.duy.pascal.frontend.file.io.JecFile;
 import com.duy.pascal.frontend.file.listener.OnClipboardDataChangedListener;
 import com.duy.pascal.frontend.file.listener.OnClipboardPasteFinishListener;
 import com.duy.pascal.frontend.file.util.FileUtils;
-import com.jecelyin.common.app.ProgressDialog;
-import com.jecelyin.common.task.JecAsyncTask;
-import com.jecelyin.common.task.TaskResult;
-import com.jecelyin.common.utils.UIUtils;
+import com.duy.pascal.frontend.common.app.ProgressDialog;
+import com.duy.pascal.frontend.common.task.JecAsyncTask;
+import com.duy.pascal.frontend.common.task.TaskResult;
+import com.duy.pascal.frontend.common.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;

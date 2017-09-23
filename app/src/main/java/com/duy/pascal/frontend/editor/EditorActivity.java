@@ -98,10 +98,10 @@ public class EditorActivity extends BaseEditorActivity implements
 
         mMenuEditor = new MenuEditor(this, this);
         if (DonateUtils.DONATED) {
-            Menu menu = navigationView.getMenu();
+            Menu menu = mNavigationView.getMenu();
             menu.findItem(R.id.action_donate).setVisible(false);
         }
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 mDrawerLayout.closeDrawers();

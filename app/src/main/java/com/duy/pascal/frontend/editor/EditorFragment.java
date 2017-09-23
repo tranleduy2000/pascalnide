@@ -55,7 +55,7 @@ import java.io.StringReader;
  * Created by Duy on 15-Mar-17.
  * Editor fragment
  */
-public class EditorFragment extends Fragment implements EditorListener {
+public class EditorFragment extends Fragment implements EditorController {
     private static final String TAG = "EditorFragment";
     private EditorView mCodeEditor;
     @Nullable

@@ -32,7 +32,7 @@ import com.duy.pascal.frontend.file.listener.BoolResultListener;
 import com.duy.pascal.frontend.file.listener.OnClipboardPasteFinishListener;
 import com.duy.pascal.frontend.file.util.MimeTypes;
 import com.duy.pascal.frontend.file.util.OnCheckedChangeListener;
-import com.jecelyin.common.utils.UIUtils;
+import com.duy.pascal.frontend.common.utils.UIUtils;
 
 import java.io.File;
 import java.util.ArrayList;

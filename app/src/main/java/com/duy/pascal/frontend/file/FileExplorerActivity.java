@@ -29,14 +29,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.common.utils.IOUtils;
+import com.duy.pascal.frontend.common.utils.UIUtils;
+import com.duy.pascal.frontend.databinding.FileExplorerActivityBinding;
 import com.duy.pascal.frontend.file.adapter.FileListPagerAdapter;
 import com.duy.pascal.frontend.file.io.JecFile;
 import com.duy.pascal.frontend.file.io.LocalFile;
 import com.duy.pascal.frontend.file.listener.OnClipboardDataChangedListener;
 import com.duy.pascal.frontend.file.util.FileListSorter;
-import com.jecelyin.android.file_explorer.databinding.FileExplorerActivityBinding;
-import com.jecelyin.common.utils.IOUtils;
-import com.jecelyin.common.utils.UIUtils;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -92,14 +93,14 @@ public class FileExplorerActivity extends FullScreenActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this, com.jecelyin.android.file_explorer.R.layout.file_explorer_activity);
+        binding = DataBindingUtil.setContentView(this, R.layout.file_explorer_activity);
 
         Intent it = getIntent();
         mode = it.getIntExtra("mode", MODE_PICK_FILE);
 
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(mode == MODE_PICK_FILE ? com.jecelyin.android.file_explorer.R.string.open_file : com.jecelyin.android.file_explorer.R.string.save_file);
+        getSupportActionBar().setTitle(mode == MODE_PICK_FILE ? R.string.open_file : R.string.save_file);
 
         lastPath = Pref.getInstance(this).getLastOpenPath();
         if (TextUtils.isEmpty(lastPath)) {
@@ -113,7 +114,7 @@ public class FileExplorerActivity extends FullScreenActivity implements View.OnC
             lastPath = dest.isFile() ? dest.getParent() : dest.getPath();
             binding.filenameEditText.setText(dest.getName());
         } else {
-            binding.filenameEditText.setText(getString(com.jecelyin.android.file_explorer.R.string.untitled_file_name));
+            binding.filenameEditText.setText(getString(R.string.untitled_file_name));
         }
 
         initPager();
@@ -123,7 +124,7 @@ public class FileExplorerActivity extends FullScreenActivity implements View.OnC
         String encoding = it.getStringExtra("encoding");
         fileEncoding = encoding;
         if (TextUtils.isEmpty(encoding)) {
-            encoding = getString(com.jecelyin.android.file_explorer.R.string.auto_detection_encoding);
+            encoding = getString(R.string.auto_detection_encoding);
         }
         binding.fileEncodingTextView.setText(encoding);
 
@@ -142,25 +143,25 @@ public class FileExplorerActivity extends FullScreenActivity implements View.OnC
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(com.jecelyin.android.file_explorer.R.menu.explorer_menu, menu);
+        getMenuInflater().inflate(R.menu.explorer_menu, menu);
 
         Pref pref = Pref.getInstance(this);
-        menu.findItem(com.jecelyin.android.file_explorer.R.id.show_hidden_files_menu).setChecked(pref.isShowHiddenFiles());
-        pasteMenu = menu.findItem(com.jecelyin.android.file_explorer.R.id.paste_menu);
+        menu.findItem(R.id.show_hidden_files_menu).setChecked(pref.isShowHiddenFiles());
+        pasteMenu = menu.findItem(R.id.paste_menu);
 
         int sortId;
         switch (pref.getFileSortType()) {
             case FileListSorter.SORT_DATE:
-                sortId = com.jecelyin.android.file_explorer.R.id.sort_by_datetime_menu;
+                sortId = R.id.sort_by_datetime_menu;
                 break;
             case FileListSorter.SORT_SIZE:
-                sortId = com.jecelyin.android.file_explorer.R.id.sort_by_size_menu;
+                sortId = R.id.sort_by_size_menu;
                 break;
             case FileListSorter.SORT_TYPE:
-                sortId = com.jecelyin.android.file_explorer.R.id.sort_by_type_menu;
+                sortId = R.id.sort_by_type_menu;
                 break;
             default:
-                sortId = com.jecelyin.android.file_explorer.R.id.sort_by_name_menu;
+                sortId = R.id.sort_by_name_menu;
                 break;
         }
 
@@ -173,19 +174,19 @@ public class FileExplorerActivity extends FullScreenActivity implements View.OnC
     public boolean onOptionsItemSelected(MenuItem item) {
         Pref pref = Pref.getInstance(this);
         int id = item.getItemId();
-        if (id == com.jecelyin.android.file_explorer.R.id.show_hidden_files_menu) {
+        if (id == R.id.show_hidden_files_menu) {
             item.setChecked(!item.isChecked());
             pref.setShowHiddenFiles(item.isChecked());
-        } else if (id == com.jecelyin.android.file_explorer.R.id.sort_by_name_menu) {
+        } else if (id == R.id.sort_by_name_menu) {
             item.setChecked(true);
             pref.setFileSortType(FileListSorter.SORT_NAME);
-        } else if (id == com.jecelyin.android.file_explorer.R.id.sort_by_datetime_menu) {
+        } else if (id == R.id.sort_by_datetime_menu) {
             item.setChecked(true);
             pref.setFileSortType(FileListSorter.SORT_DATE);
-        } else if (id == com.jecelyin.android.file_explorer.R.id.sort_by_size_menu) {
+        } else if (id == R.id.sort_by_size_menu) {
             item.setChecked(true);
             pref.setFileSortType(FileListSorter.SORT_SIZE);
-        } else if (id == com.jecelyin.android.file_explorer.R.id.sort_by_type_menu) {
+        } else if (id == R.id.sort_by_type_menu) {
             item.setChecked(true);
             pref.setFileSortType(FileListSorter.SORT_TYPE);
         }
@@ -214,9 +215,9 @@ public class FileExplorerActivity extends FullScreenActivity implements View.OnC
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == com.jecelyin.android.file_explorer.R.id.save_btn) {
+        if (id == R.id.save_btn) {
             onSave();
-        } else if (id == com.jecelyin.android.file_explorer.R.id.file_encoding_textView) {
+        } else if (id == R.id.file_encoding_textView) {
             onShowEncodingList();
         }
     }
@@ -227,7 +228,7 @@ public class FileExplorerActivity extends FullScreenActivity implements View.OnC
 
         int selected = 0;
         String[] names = new String[m.size() + 1];
-        names[0] = getString(com.jecelyin.android.file_explorer.R.string.auto_detection_encoding);
+        names[0] = getString(R.string.auto_detection_encoding);
         Iterator iterator = k.iterator();
         int i = 1;
         while (iterator.hasNext()) {
@@ -254,15 +255,15 @@ public class FileExplorerActivity extends FullScreenActivity implements View.OnC
     private void onSave() {
         String fileName = binding.filenameEditText.getText().toString().trim();
         if (TextUtils.isEmpty(fileName)) {
-            binding.filenameEditText.setError(getString(com.jecelyin.android.file_explorer.R.string.can_not_be_empty));
+            binding.filenameEditText.setError(getString(R.string.can_not_be_empty));
             return;
         }
         if (IOUtils.isInvalidFilename(fileName)) {
-            binding.filenameEditText.setError(getString(com.jecelyin.android.file_explorer.R.string.illegal_filename));
+            binding.filenameEditText.setError(getString(R.string.illegal_filename));
             return;
         }
         if (TextUtils.isEmpty(lastPath)) {
-            binding.filenameEditText.setError(getString(com.jecelyin.android.file_explorer.R.string.unknown_path));
+            binding.filenameEditText.setError(getString(R.string.unknown_path));
             return;
         }
 
@@ -273,7 +274,7 @@ public class FileExplorerActivity extends FullScreenActivity implements View.OnC
 
         final File newFile = new File(f, fileName);
         if (newFile.exists()) {
-            UIUtils.showConfirmDialog(getContext(), getString(com.jecelyin.android.file_explorer.R.string.override_file_prompt, fileName), new UIUtils.OnClickCallback() {
+            UIUtils.showConfirmDialog(getContext(), getString(R.string.override_file_prompt, fileName), new UIUtils.OnClickCallback() {
                 @Override
                 public void onOkClick() {
                     saveAndFinish(newFile);

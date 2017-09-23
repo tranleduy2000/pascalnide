@@ -19,13 +19,7 @@
     android:layout_height="match_parent"
     android:background="?android:windowBackground"
     android:fitsSystemWindows="true"
+    android:id="@+id/file_explorer"
     android:orientation="vertical">
 
-    <fragment
-        android:id="@+id/file_view"
-        class="com.duy.pascal.frontend.file.fragment.FileListPagerFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:minWidth="200dp"
-        android:tag="fragment_file_view" />
 </FrameLayout>

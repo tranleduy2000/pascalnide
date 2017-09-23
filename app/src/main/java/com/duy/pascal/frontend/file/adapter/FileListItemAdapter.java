@@ -26,15 +26,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jecelyin.android.file_explorer.R;
-import com.jecelyin.android.file_explorer.databinding.FileListItemBinding;
+import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.common.adapter.BindingViewHolder;
+import com.duy.pascal.frontend.common.listeners.OnItemClickListener;
+import com.duy.pascal.frontend.common.utils.StringUtils;
+import com.duy.pascal.frontend.databinding.FileListItemBinding;
 import com.duy.pascal.frontend.file.io.JecFile;
 import com.duy.pascal.frontend.file.model.FileItemModel;
 import com.duy.pascal.frontend.file.util.MimeTypes;
 import com.duy.pascal.frontend.file.util.OnCheckedChangeListener;
-import com.jecelyin.common.adapter.BindingViewHolder;
-import com.jecelyin.common.listeners.OnItemClickListener;
-import com.jecelyin.common.utils.StringUtils;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.text.SimpleDateFormat;
@@ -44,9 +44,9 @@ import java.util.Calendar;
  * @author Jecelyin Peng <jecelyin@gmail.com>
  */
 public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<FileListItemBinding>> implements FastScrollRecyclerView.SectionedAdapter {
-    private JecFile[] data;
     private final String year;
     private final SparseIntArray checkedArray;
+    private JecFile[] data;
     private OnCheckedChangeListener onCheckedChangeListener;
     private OnItemClickListener onItemClickListener;
     private JecFile[] mOriginalValues;
@@ -80,7 +80,7 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
 
         filterText = filterText.toString().toLowerCase();
         int index = 0;
-        for(JecFile path : mOriginalValues) {
+        for (JecFile path : mOriginalValues) {
             if (path.getName().toLowerCase().contains(filterText)) {
                 data[index++] = path;
             }
@@ -95,9 +95,9 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
         JecFile file = getItem(position);
         char c = file.getName().charAt(0);
 
-        if ( (c >= '0' && c <= '9')
-            || (c >= 'a' && c <= 'z')
-            || (c >= 'A' && c <= 'Z')
+        if ((c >= '0' && c <= '9')
+                || (c >= 'a' && c <= 'z')
+                || (c >= 'A' && c <= 'Z')
                 ) {
             return String.valueOf(c);
         }
@@ -216,7 +216,7 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
     private void setViewCheckedStatus(boolean isChecked, FileListItemBinding binding) {
         binding.iconImageView.setChecked(isChecked);
 
-        if(!isChecked) {
+        if (!isChecked) {
             binding.getRoot().setSelected(false);
             binding.extTextView.setVisibility(View.VISIBLE);
         } else {
@@ -227,7 +227,7 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
 
     private void toggleChecked(int position, FileListItemBinding binding) {
         boolean isChecked = isChecked(position);
-        if(isChecked) {
+        if (isChecked) {
             checkedArray.delete(position);
         } else {
             checkedArray.put(position, 1);
@@ -235,7 +235,7 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
 
         setViewCheckedStatus(!isChecked, binding);
 
-        if(onCheckedChangeListener != null) {
+        if (onCheckedChangeListener != null) {
             onCheckedChangeListener.onCheckedChanged(getItem(position), position, !isChecked);
             onCheckedChangeListener.onCheckedChanged(checkedArray.size());
         }
