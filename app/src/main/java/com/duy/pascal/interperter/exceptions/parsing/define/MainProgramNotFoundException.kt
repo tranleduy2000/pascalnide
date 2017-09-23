@@ -32,6 +32,6 @@ class MainProgramNotFoundException()
     override val message: String?
         get() = "main program not found";
 
-    override val isAutoFix: Boolean
+    val canAutoFix: Boolean
         get() = true
 }

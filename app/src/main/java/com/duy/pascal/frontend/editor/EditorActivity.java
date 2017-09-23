@@ -47,9 +47,8 @@ import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code_sample.activities.DocumentActivity;
 import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
 import com.duy.pascal.frontend.dialog.DialogFragmentFixExpectToken;
-import com.duy.pascal.frontend.dialog.DialogManager;
+import com.duy.pascal.frontend.dialog.DialogHelper;
 import com.duy.pascal.frontend.editor.completion.model.Description;
-import com.duy.pascal.frontend.editor.completion.model.DescriptionImpl;
 import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.setting.PascalPreferences;
@@ -321,8 +320,7 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     private void showErrorDialog(Exception e) {
-        this.mDialog = DialogManager.Companion.createErrorDialog(this, e);
-        this.mDialog.show();
+        this.mDialog = DialogHelper.showErrorDialog(this, e);
         DLog.e(e);
     }
 
@@ -471,7 +469,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void reportBug() {
-        DialogManager.Companion.createDialogReportBug(this, getCode());
+        DialogHelper.createDialogReportBug(this, getCode());
     }
 
     @Override

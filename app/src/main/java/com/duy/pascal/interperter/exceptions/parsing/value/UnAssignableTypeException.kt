@@ -28,6 +28,6 @@ class UnAssignableTypeException : ParsingException {
         this.runtimeValue = runtimeValue
     }
 
-    override val isAutoFix: Boolean
+    val canAutoFix: Boolean
         get() = true
 }

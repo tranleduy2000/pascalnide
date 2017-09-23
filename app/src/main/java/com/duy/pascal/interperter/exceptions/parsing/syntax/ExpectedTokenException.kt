@@ -46,6 +46,6 @@ class ExpectedTokenException : ParsingException {
         return "Syntax error, \"${Arrays.toString(expected)}\" expected but \"$current\" found"
     }
 
-    override val isAutoFix: Boolean
+    val canAutoFix: Boolean
         get() = true
 }

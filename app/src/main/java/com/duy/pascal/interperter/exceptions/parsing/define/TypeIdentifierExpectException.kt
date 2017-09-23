@@ -25,6 +25,6 @@ import com.duy.pascal.interperter.linenumber.LineInfo
 class TypeIdentifierExpectException(line: LineInfo?,var missingType: Name,var scope: ExpressionContext)
     : ParsingException(line, "Type $missingType is not define") {
 
-    override val isAutoFix: Boolean
+    val canAutoFix: Boolean
         get() = true
 }

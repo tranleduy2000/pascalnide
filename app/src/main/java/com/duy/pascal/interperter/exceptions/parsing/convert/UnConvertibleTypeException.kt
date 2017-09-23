@@ -78,7 +78,7 @@ class UnConvertibleTypeException : ParsingException {
         this.scope = scope
     }
 
-    override val isAutoFix: Boolean
+    val canAutoFix: Boolean
         get() = identifier is VariableAccess || value is VariableAccess
                 || identifier is ConstantAccess<*> && (identifier as ConstantAccess<*>).name != null ||
                 value is ConstantAccess<*> && (value as ConstantAccess<*>).name != null

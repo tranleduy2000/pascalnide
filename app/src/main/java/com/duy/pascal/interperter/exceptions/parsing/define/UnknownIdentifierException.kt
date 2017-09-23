@@ -28,7 +28,7 @@ class UnknownIdentifierException(line: LineInfo?,var name: Name,var scope: Expre
     var token: String? = null
     var fitType: DefineType?
 
-    override val isAutoFix: Boolean
+    val canAutoFix: Boolean
         get() = true
 
     init {

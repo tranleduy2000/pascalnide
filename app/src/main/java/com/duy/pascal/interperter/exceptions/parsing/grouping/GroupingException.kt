@@ -49,7 +49,7 @@ open class GroupingException : ParsingException {
         NEWLINE_IN_QUOTES("You must close your quotes before starting a new line");
     }
 
-    override val isAutoFix: Boolean
+    val canAutoFix: Boolean
         get() {
             if (exceptionTypes == Type.UNFINISHED_BEGIN_END) {
                 return true;

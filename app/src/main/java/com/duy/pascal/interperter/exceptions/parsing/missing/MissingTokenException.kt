@@ -26,7 +26,7 @@ import com.duy.pascal.interperter.exceptions.parsing.ParsingException
 abstract class MissingTokenException(line: LineInfo?) : ParsingException(line) {
 
 
-    override val isAutoFix: Boolean
+    val canAutoFix: Boolean
         get() = true
 
     abstract fun getMissingToken(): String
