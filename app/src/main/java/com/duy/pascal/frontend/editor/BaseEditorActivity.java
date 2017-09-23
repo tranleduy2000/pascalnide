@@ -46,11 +46,10 @@ import com.commonsware.cwac.pager.SimplePageDescriptor;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
+import com.duy.pascal.frontend.activities.BaseActivity;
 import com.duy.pascal.frontend.code.CompileManager;
-import com.duy.pascal.frontend.file.FileActionListener;
+import com.duy.pascal.frontend.file.FileActionCallback;
 import com.duy.pascal.frontend.file.FileManager;
-import com.duy.pascal.frontend.file.FragmentFileManager;
 import com.duy.pascal.frontend.file.TabFileUtils;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.SymbolListView;
@@ -64,9 +63,9 @@ import java.util.ArrayList;
  */
 
 @SuppressWarnings("DefaultFileTemplate")
-public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for debug
+public abstract class BaseEditorActivity extends BaseActivity //for debug
         implements SymbolListView.OnKeyListener,
-        EditorControl, FileActionListener {
+        EditorControl, FileActionCallback {
     protected final static String TAG = BaseEditorActivity.class.getSimpleName();
     protected final boolean SELECT = true;
     protected final boolean SAVE_LAST_FILE = true;
@@ -113,13 +112,13 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
 
         setContentView(R.layout.activity_editor);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mKeyList = (SymbolListView) findViewById(R.id.recycler_view);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mKeyList = findViewById(R.id.recycler_view);
         mFileManager = new FileManager(this);
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        navigationView = findViewById(R.id.navigation_view);
+        tabLayout = findViewById(R.id.tab_layout);
         mContainerSymbol = findViewById(R.id.container_symbol);
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager = findViewById(R.id.view_pager);
         setupToolbar();
         setupPageView();
     }
@@ -165,7 +164,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
                         removePage(position);
                     }
                 });
-                TextView txtTitle = (TextView) view.findViewById(R.id.txt_name);
+                TextView txtTitle = view.findViewById(R.id.txt_name);
                 txtTitle.setText(pagerAdapter.getPageTitle(i));
                 txtTitle.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -186,8 +185,8 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
 
     protected void setupToolbar() {
         //setup action bar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
+        toolbar = findViewById(R.id.toolbar);
+        appBarLayout = findViewById(R.id.app_bar);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -340,10 +339,9 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
                     Toast.makeText(getApplicationContext(), R.string.failed, Toast.LENGTH_SHORT).show();
 
                 //reload file
-                FragmentFileManager fragmentSelectFile =
-                        (FragmentFileManager) getSupportFragmentManager().findFragmentByTag("fragment_file_view");
-                if (fragmentSelectFile != null) {
-                    fragmentSelectFile.refresh();
+                FileExplorerController controller = (FileExplorerController) getSupportFragmentManager().findFragmentByTag("fragment_file_view");
+                if (controller != null) {
+                    controller.refresh();
                 } else {
                     DLog.d(TAG, "onClick: Fragment file is null");
                 }
@@ -433,7 +431,6 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
             inputManager.hideSoftInputFromWindow(windowToken, hideType);
         }
     }
-
 
 
     private class KeyBoardEventListener implements ViewTreeObserver.OnGlobalLayoutListener {

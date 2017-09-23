@@ -86,16 +86,17 @@ public class EditorActivity extends BaseEditorActivity implements
     public static final int ACTION_CREATE_SHORTCUT = 1014;
 
     private CompileManager mCompileManager;
-    private MenuEditor menuEditor;
+    private MenuEditor mMenuEditor;
     private Dialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mCompileManager = new CompileManager(this);
         mDrawerLayout.addDrawerListener(this);
 
-        menuEditor = new MenuEditor(this, this);
+        mMenuEditor = new MenuEditor(this, this);
         if (DonateUtils.DONATED) {
             Menu menu = navigationView.getMenu();
             menu.findItem(R.id.action_donate).setVisible(false);
@@ -104,7 +105,7 @@ public class EditorActivity extends BaseEditorActivity implements
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 mDrawerLayout.closeDrawers();
-                return menuEditor.onOptionsItemSelected(item);
+                return mMenuEditor.onOptionsItemSelected(item);
             }
         });
         findViewById(R.id.img_tab).setOnClickListener(new View.OnClickListener() {
@@ -117,7 +118,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return menuEditor.onOptionsItemSelected(item);
+        return mMenuEditor.onOptionsItemSelected(item);
     }
 
 
@@ -148,7 +149,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return menuEditor.onCreateOptionsMenu(menu);
+        return mMenuEditor.onCreateOptionsMenu(menu);
     }
 
     /**
@@ -198,7 +199,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public boolean isAutoSave() {
-        return menuEditor.getChecked(R.id.action_auto_save);
+        return mMenuEditor.getChecked(R.id.action_auto_save);
     }
 
     /**
@@ -376,16 +377,18 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     @Override
-    public void onFileClick(File file) {
+    public boolean onSelectFile(File file) {
         //save current file
         addNewPageEditor(file, SELECT);
         //close drawer
         mDrawerLayout.closeDrawers();
+        return true;
     }
 
     @Override
-    public void onFileLongClick(File file) {
+    public boolean onFileLongClick(File file) {
         showFileInfo(file);
+        return false;
     }
 
 

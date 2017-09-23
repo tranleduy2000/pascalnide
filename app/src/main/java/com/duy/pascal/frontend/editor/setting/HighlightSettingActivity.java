@@ -21,12 +21,13 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.activities.BaseActivity;
 
 /**
  * Created by Duy on 18-Jun-17.
  */
 
-public class HighlightSettingActivity extends AbstractAppCompatActivity {
+public class HighlightSettingActivity extends BaseActivity {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {

@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.activities.BaseActivity;
 import com.duy.pascal.frontend.themefont.adapter.SectionPageAdapter;
 import com.duy.pascal.frontend.themefont.themes.ThemeFragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -35,32 +36,32 @@ import com.google.firebase.analytics.FirebaseAnalytics;
  */
 
 @SuppressWarnings("DefaultFileTemplate")
-public class ThemeFontActivity extends AbstractAppCompatActivity
+public class ThemeFontActivity extends BaseActivity
         implements ThemeFragment.OnThemeSelectListener {
 
-    private Toolbar toolbar;
-    private ViewPager viewPager;
-    private SectionPageAdapter adapter;
+    private Toolbar mToolbar;
+    private ViewPager mViewPager;
+    private SectionPageAdapter mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_theme_font);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
         setupToolbar();
 
         FirebaseAnalytics.getInstance(this).logEvent("open_choose_font_theme", new Bundle());
 
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        adapter = new SectionPageAdapter(getSupportFragmentManager(), this);
-        viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(3);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.setupWithViewPager(viewPager);
+        mViewPager = findViewById(R.id.view_pager);
+        mAdapter = new SectionPageAdapter(getSupportFragmentManager(), this);
+        mViewPager.setAdapter(mAdapter);
+        mViewPager.setOffscreenPageLimit(3);
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(mViewPager);
     }
 
     protected void setupToolbar() {
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         setTitle(R.string.theme);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

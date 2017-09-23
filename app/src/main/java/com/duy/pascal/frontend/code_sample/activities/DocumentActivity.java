@@ -20,12 +20,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.activities.BaseActivity;
 
 /**
  * Created by Duy on 27-Feb-17.
  */
 
-public class DocumentActivity extends AbstractAppCompatActivity {
+public class DocumentActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

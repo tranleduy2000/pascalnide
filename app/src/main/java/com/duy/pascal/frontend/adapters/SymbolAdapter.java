@@ -37,7 +37,7 @@ public class SymbolAdapter extends RecyclerView.Adapter<SymbolAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_key, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_symbol, parent, false);
         return new ViewHolder(view);
     }
 

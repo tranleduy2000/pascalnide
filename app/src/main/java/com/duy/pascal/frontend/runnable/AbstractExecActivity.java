@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
+import com.duy.pascal.frontend.activities.BaseActivity;
 import com.duy.pascal.frontend.alogrithm.InputData;
 import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.utils.StringCompare;
@@ -49,7 +49,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.duy.pascal.frontend.alogrithm.InputData.MAX_INPUT;
 
-public abstract class AbstractExecActivity extends AbstractAppCompatActivity implements ProgramHandler {
+public abstract class AbstractExecActivity extends BaseActivity implements ProgramHandler {
     public static final boolean DEBUG = DLog.DEBUG;
     protected static final String TAG = AbstractExecActivity.class.getSimpleName();
     protected static final int COMPLETE = 4;

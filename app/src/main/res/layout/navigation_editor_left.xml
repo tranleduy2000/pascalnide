@@ -23,9 +23,9 @@
 
     <fragment
         android:id="@+id/file_view"
-        class="com.duy.pascal.frontend.file.FragmentFileManager"
-        android:layout_width="wrap_content"
-        android:minWidth="200dp"
+        class="com.duy.pascal.frontend.file.fragment.FileListPagerFragment"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:minWidth="200dp"
         android:tag="fragment_file_view" />
 </FrameLayout>

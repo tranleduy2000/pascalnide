@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.activities.BaseActivity;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.setting.PascalPreferences;
@@ -43,7 +44,7 @@ import java.io.IOException;
  * Created by Duy on 12-Jul-17.
  */
 
-public class CustomThemeActivity extends AbstractAppCompatActivity implements View.OnClickListener {
+public class CustomThemeActivity extends BaseActivity implements View.OnClickListener {
     private EditorView mEditorView;
     private CodeTheme codeTheme;
     private ThemeDatabase mDatabase;

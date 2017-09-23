@@ -70,7 +70,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.FileVi
 
     @Override
     public FileViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_file_list, parent, false);
+        View view = inflater.inflate(R.layout.list_item_file, parent, false);
         return new FileViewHolder(view);
     }
 

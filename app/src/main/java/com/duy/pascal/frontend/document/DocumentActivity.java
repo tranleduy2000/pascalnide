@@ -19,14 +19,14 @@ package com.duy.pascal.frontend.document;
 import android.os.Bundle;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
+import com.duy.pascal.frontend.activities.BaseActivity;
 
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Duy on 12-Jun-17.
  */
-public class DocumentActivity extends AbstractAppCompatActivity {
+public class DocumentActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

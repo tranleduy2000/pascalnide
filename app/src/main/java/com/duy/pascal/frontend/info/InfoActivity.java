@@ -30,6 +30,7 @@ import android.view.View;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.activities.BaseActivity;
 
 import java.util.ArrayList;
 
@@ -37,11 +38,11 @@ import java.util.ArrayList;
 //import butterknife.OnClick;
 
 
-public class InfoActivity extends AbstractAppCompatActivity {
+public class InfoActivity extends BaseActivity {
     private static final String TAG = InfoActivity.class.getClass().getSimpleName();
-  private   RecyclerView mListTranslate;
-  private   RecyclerView mListLicense;
-    private  Toolbar toolbar;
+    private RecyclerView mListTranslate;
+    private RecyclerView mListLicense;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

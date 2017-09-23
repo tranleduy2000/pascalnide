@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import com.commonsware.cwac.pager.PageDescriptor;
 import com.commonsware.cwac.pager.SimplePageDescriptor;
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.activities.BaseActivity;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code_sample.adapters.CodePagerAdapter;
 import com.duy.pascal.frontend.code_sample.adapters.CodeSampleAdapter;
@@ -40,7 +41,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import java.util.ArrayList;
 
 
-public class CodeSampleActivity extends AbstractAppCompatActivity implements CodeSampleAdapter.OnCodeClickListener {
+public class CodeSampleActivity extends BaseActivity implements CodeSampleAdapter.OnCodeClickListener {
 
     private final String[] categories;
     ViewPager viewPager;
