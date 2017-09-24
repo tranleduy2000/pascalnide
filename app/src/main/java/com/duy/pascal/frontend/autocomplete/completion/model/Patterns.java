@@ -27,7 +27,7 @@ public class Patterns {
      * match reserved keyword
      */
     public static final Pattern KEYWORDS = Pattern.compile(
-            "(^|\\W+)(uses|const|do|for|while|if|else|in|case|and|array|begin|div" +
+            "(^|\\W)(uses|const|do|for|while|if|else|in|case|and|array|begin|div" +
                     "|downto|to|mod|of" +
                     "|procedure|program|repeat|until|shl|shr" +
                     "|then|type|var|end|function" +
@@ -41,8 +41,10 @@ public class Patterns {
                     "|char|text" +
                     "|record|continue" +
                     "|unit|interface|initialization|finalization|implementation|with" +
-                    "|null|nil|set|new)(\\W+|$)",
+                    "|null|nil|set|new)(\\W|$)",
             Pattern.CASE_INSENSITIVE);
+    public static final Pattern NON_WORD = Pattern.compile("\\W+");
+
     /**
      * match builtin pascal function
      */

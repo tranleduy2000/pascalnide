@@ -17,12 +17,11 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/code_editor">
-
         <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/key_pref_auto_compile"
-            android:summary="@string/auto_compile_summary"
-            android:title="@string/auto_compile" />
+            android:defaultValue="true"
+            android:key="@string/key_show_suggest_popup"
+            android:summary="@string/show_hint_desc"
+            android:title="@string/show_suggest_popup" />
 
         <EditTextPreference
             android:contentDescription="@string/max_history_edit_desc"
@@ -53,11 +52,7 @@
             android:key="@string/key_auto_insert_bracket"
             android:summary="@string/auto_insert_bracket_summary"
             android:title="@string/auto_insert_bracket" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/key_show_suggest_popup"
-            android:summary="@string/show_hint_desc"
-            android:title="@string/show_suggest_popup" />
+
 
         <ListPreference
             android:defaultValue="12"

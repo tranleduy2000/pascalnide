@@ -52,25 +52,11 @@ public class ForStatement {
      */
     public static Executable generateForStatement(GrouperToken group, ExpressionContext context,
                                                   LineInfo lineNumber) throws Exception {
-        RuntimeValue identifier;
+        RuntimeValue identifier = null;
         try {
             identifier = group.getNextTerm(context);
         } catch (Exception e) {
-            VariableIdentifierExpectException exception;
-            if (e instanceof UnknownIdentifierException) {
-                exception = new VariableIdentifierExpectException((UnknownIdentifierException) e);
-                try {
-                    Token next = group.take();
-                    if ((next instanceof AssignmentToken || next instanceof OperatorToken)) {
-                        RuntimeValue firstValue = group.getNextExpression(context);
-                        Type declType = firstValue.getRuntimeType(context).declType;
-                        exception.setExpectedType(declType);
-                    }
-                } catch (Exception other) {
-                }
-                throw exception;
-            }
-            throw e;
+            reportErr(e, group, context);
         }
         AssignableValue varAssignable = identifier.asAssignableValue(context);
         RuntimeType varType = identifier.getRuntimeType(context);
@@ -174,6 +160,25 @@ public class ForStatement {
         }
 
         return result;
+    }
+
+    private static void reportErr(Exception e, GrouperToken group, ExpressionContext context) throws Exception {
+        VariableIdentifierExpectException exception;
+        if (e instanceof UnknownIdentifierException) {
+            exception = new VariableIdentifierExpectException((UnknownIdentifierException) e);
+            try {
+                Token next = group.take();
+                if ((next instanceof AssignmentToken || next instanceof OperatorToken)) {
+                    RuntimeValue firstValue = group.getNextExpression(context);
+                    Type declType = firstValue.getRuntimeType(context).declType;
+                    exception.setExpectedType(declType);
+                    throw exception;
+                }
+            } catch (Exception ignored) {
+            }
+            throw exception;
+        }
+        throw e;
     }
 
 }

@@ -23,7 +23,6 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
 
 
 public class VariableIdentifierExpectException extends ParsingException {
@@ -32,12 +31,6 @@ public class VariableIdentifierExpectException extends ParsingException {
     @NonNull
     private ExpressionContext scope;
     private Type expectedType;
-
-    public VariableIdentifierExpectException(@NonNull LineInfo line, @NonNull Name name, @NonNull ExpressionContext scope) {
-        super(line);
-        this.name = name;
-        this.scope = scope;
-    }
 
     public VariableIdentifierExpectException(UnknownIdentifierException e) {
         super(e.getLineInfo());

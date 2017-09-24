@@ -101,7 +101,7 @@ public class CodeHighlighter implements Highlighter {
 
     @Override
     public void setCodeTheme(CodeTheme codeTheme) {
-        this.codeTheme = codeTheme;
+        codeTheme = codeTheme;
         commentHighlighter.setCodeTheme(codeTheme);
         stringHighlighter.setCodeTheme(codeTheme);
     }
@@ -151,25 +151,25 @@ public class CodeHighlighter implements Highlighter {
             allText.setSpan(new ForegroundColorSpan(codeTheme.getNumberColor()),
                     start + m.start(),
                     start + m.end(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         }
         for (Matcher m = KEYWORDS.matcher(textToHighlight); m.find(); ) {
             allText.setSpan(new ForegroundColorSpan(codeTheme.getKeywordColor()),
                     start + m.start(),
                     start + m.end(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         }
         for (Matcher m = BUILTIN_FUNCTIONS.matcher(textToHighlight); m.find(); ) {
             allText.setSpan(new ForegroundColorSpan(codeTheme.getKeywordColor()),
                     start + m.start(),
                     start + m.end(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         }
         for (Matcher m = SYMBOLS.matcher(textToHighlight); m.find(); ) {
             allText.setSpan(new ForegroundColorSpan(codeTheme.getOptColor()),
                     start + m.start(),
                     start + m.end(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         }
 
 
@@ -184,11 +184,11 @@ public class CodeHighlighter implements Highlighter {
                 allText.setSpan(new BackgroundColorSpan(back),
                         start + m.start(1),
                         start + m.end(1),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 allText.setSpan(new ForegroundColorSpan(fore),
                         start + m.start(1),
                         start + m.end(1),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             } catch (Exception e) {
 
             }
@@ -204,11 +204,11 @@ public class CodeHighlighter implements Highlighter {
                 allText.setSpan(new BackgroundColorSpan(back),
                         start + m.start(1),
                         start + m.end(1),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 allText.setSpan(new ForegroundColorSpan(fore),
                         start + m.start(1),
                         start + m.end(1),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             } catch (Exception e) {
 
             }
