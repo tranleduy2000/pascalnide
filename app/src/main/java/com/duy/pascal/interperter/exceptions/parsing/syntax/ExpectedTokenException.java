@@ -19,52 +19,52 @@ package com.duy.pascal.interperter.exceptions.parsing.syntax;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.tokens.Token;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.Arrays;
 
 
 public class ExpectedTokenException extends ParsingException {
-    @NotNull
+    @NonNull
     private String[] expected;
-    @NotNull
+    @NonNull
     private String current;
 
-    public ExpectedTokenException(@NotNull String expected, @NotNull Token current) {
+    public ExpectedTokenException(@NonNull String expected, @NonNull Token current) {
         super(current.getLineNumber());
         this.current = current.toString();
         this.expected = new String[]{expected};
     }
 
-    public ExpectedTokenException(@NotNull Token expected, @NotNull Token current) {
+    public ExpectedTokenException(@NonNull Token expected, @NonNull Token current) {
         super(current.getLineNumber());
         this.current = current.toString();
         this.expected = new String[]{expected.toString()};
     }
 
-    public ExpectedTokenException(@NotNull Token current, @NotNull String... expectToken) {
+    public ExpectedTokenException(@NonNull Token current, @NonNull String... expectToken) {
         super(current.getLineNumber());
         this.current = current.toString();
         this.expected = new String[expectToken.length];
         System.arraycopy(expectToken, 0, this.expected, 0, expectToken.length);
     }
 
-    @NotNull
+    @NonNull
     public String[] getExpected() {
         return this.expected;
     }
 
-    public void setExpected(@NotNull String[] var1) {
+    public void setExpected(@NonNull String[] var1) {
         this.expected = var1;
     }
 
-    @NotNull
+    @NonNull
     public String getCurrent() {
         return this.current;
     }
 
-    public void setCurrent(@NotNull String var1) {
+    public void setCurrent(@NonNull String var1) {
         this.current = var1;
     }
 

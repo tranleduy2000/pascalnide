@@ -16,8 +16,8 @@
 
 package com.duy.pascal.interperter.linenumber;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.io.Serializable;
 
@@ -29,20 +29,20 @@ public class LineInfo implements Serializable, Cloneable {
     @Nullable
     private String sourceFile;
 
-    public LineInfo(int line, @NotNull String sourceFile) {
+    public LineInfo(int line, @NonNull String sourceFile) {
         this.length = -1;
         this.line = line;
         this.sourceFile = sourceFile;
     }
 
-    public LineInfo(int line, int column, @NotNull String sourceFile) {
+    public LineInfo(int line, int column, @NonNull String sourceFile) {
         this.length = -1;
         this.line = line;
         this.column = column;
         this.sourceFile = sourceFile;
     }
 
-    public LineInfo(int line, int column, int length, @NotNull String sourceFile) {
+    public LineInfo(int line, int column, int length, @NonNull String sourceFile) {
         this.length = -1;
         this.line = line;
         this.column = column;
@@ -83,7 +83,7 @@ public class LineInfo implements Serializable, Cloneable {
         this.sourceFile = var1;
     }
 
-    @NotNull
+    @NonNull
     public String toString() {
         return "Line " + this.line + (this.column >= 0 ? ":" + this.column : "") + " " + this.sourceFile;
     }

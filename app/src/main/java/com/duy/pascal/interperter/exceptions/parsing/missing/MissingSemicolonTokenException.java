@@ -18,14 +18,14 @@ package com.duy.pascal.interperter.exceptions.parsing.missing;
 
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 public class MissingSemicolonTokenException extends MissingTokenException {
-    public MissingSemicolonTokenException(@NotNull LineInfo line) {
+    public MissingSemicolonTokenException(@NonNull LineInfo line) {
         super(line);
     }
 
-    @NotNull
+    @NonNull
     public String getMissingToken() {
         return ";";
     }

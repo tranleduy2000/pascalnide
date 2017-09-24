@@ -16,21 +16,20 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.value;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
-
-
-public  class OrdinalExpressionExpectedException extends RuntimePascalException {
-    public OrdinalExpressionExpectedException(@NotNull LineInfo line) {
+public class OrdinalExpressionExpectedException extends RuntimePascalException {
+    public OrdinalExpressionExpectedException(@NonNull LineInfo line) {
         super(line);
     }
 
     public OrdinalExpressionExpectedException() {
     }
 
-    public OrdinalExpressionExpectedException(@NotNull LineInfo line, @NotNull String mes) {
+    public OrdinalExpressionExpectedException(@NonNull LineInfo line, @NonNull String mes) {
         super(line, mes);
     }
 }

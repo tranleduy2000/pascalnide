@@ -16,18 +16,17 @@
 
 package com.duy.pascal.interperter.exceptions.parsing;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.linenumber.LineInfo;
-
-import org.jetbrains.annotations.NotNull;
 
 
 public class ParsingException extends Exception {
     @Nullable
     private LineInfo lineInfo;
 
-    public ParsingException(@Nullable LineInfo lineInfo, @NotNull String message) {
+    public ParsingException(@Nullable LineInfo lineInfo, @NonNull String message) {
         super(message);
         this.lineInfo = lineInfo;
     }
@@ -45,7 +44,7 @@ public class ParsingException extends Exception {
         this.lineInfo = var1;
     }
 
-    @NotNull
+    @NonNull
     public String toString() {
         return this.lineInfo + ":" + this.getMessage();
     }

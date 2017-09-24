@@ -18,12 +18,12 @@ package com.duy.pascal.interperter.exceptions.parsing.grouping;
 
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 public class StrayCharacterException extends GroupingException {
     private char charCode;
 
-    public StrayCharacterException(@NotNull LineInfo line, char charCode) {
+    public StrayCharacterException(@NonNull LineInfo line, char charCode) {
         super(line, "Stray character in program: " + charCode + "\nChar code " + charCode);
         this.charCode = charCode;
     }

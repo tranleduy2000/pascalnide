@@ -19,10 +19,10 @@ package com.duy.pascal.interperter.exceptions.parsing.value;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 public  class NonConstantExpressionException extends ParsingException {
-    public NonConstantExpressionException(@NotNull RuntimeValue value) {
+    public NonConstantExpressionException(@NonNull RuntimeValue value) {
         super(value.getLineNumber(), "The expression \"" + value + "\" is not constant.");
     }
 }

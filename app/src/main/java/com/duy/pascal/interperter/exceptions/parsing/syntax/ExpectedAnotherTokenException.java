@@ -19,10 +19,10 @@ package com.duy.pascal.interperter.exceptions.parsing.syntax;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 public class ExpectedAnotherTokenException extends ParsingException {
-    public ExpectedAnotherTokenException(@NotNull LineInfo line) {
+    public ExpectedAnotherTokenException(@NonNull LineInfo line) {
         super(line, "Another token is expected before the end of this construct.");
     }
 }

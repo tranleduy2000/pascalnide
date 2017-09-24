@@ -18,7 +18,7 @@ package com.duy.pascal.interperter.exceptions.parsing.define;
 
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
-import org.jetbrains.annotations.Nullable;
+import android.support.annotation.Nullable;
 
 public  class MainProgramNotFoundException extends ParsingException {
     public MainProgramNotFoundException() {

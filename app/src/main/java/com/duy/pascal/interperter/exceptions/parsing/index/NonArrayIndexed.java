@@ -22,7 +22,7 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.Nullable;
+import android.support.annotation.Nullable;
 
 public class NonArrayIndexed extends ParsingException {
     @NonNull

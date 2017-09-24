@@ -16,19 +16,18 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.missing;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
 
-import kotlin.jvm.internal.Intrinsics;
+public class MissingCommaTokenException extends MissingTokenException {
+    public MissingCommaTokenException(@NonNull LineInfo line) {
+        super(line);
+    }
 
-public  class MissingCommaTokenException extends MissingTokenException {
-   @NotNull
-   public String getMissingToken() {
-      return ",";
-   }
-
-   public MissingCommaTokenException(@NotNull LineInfo line) {
-      super(line);
-   }
+    @NonNull
+    public String getMissingToken() {
+        return ",";
+    }
 }

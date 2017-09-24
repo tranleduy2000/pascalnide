@@ -20,10 +20,10 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 public  class IncompatableFunctionDeclaration extends ParsingException {
-    public IncompatableFunctionDeclaration(@NotNull LineInfo line, @NotNull Type returntype, @NotNull Type previousreturntype) {
+    public IncompatableFunctionDeclaration(@NonNull LineInfo line, @NonNull Type returntype, @NonNull Type previousreturntype) {
         super(line, "Function declaration declares conflicting return type " + returntype + ".  It previously was defined as " + previousreturntype);
     }
 }

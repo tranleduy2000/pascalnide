@@ -70,7 +70,7 @@ import com.duy.pascal.interperter.source.ScriptSource;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -702,7 +702,7 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     @Override
-    public void onSelectedExpect(@NotNull String current, @NotNull String expect, boolean insert, int line, int column) {
+    public void onSelectedExpect(@NonNull String current, @NonNull String expect, boolean insert, int line, int column) {
         EditorFragment f = mPagerAdapter.getCurrentFragment();
         if (f != null && f.getEditor() != null) {
             f.getEditor().getAutoFixError().fixExpectToken(current, expect, insert, line, column);

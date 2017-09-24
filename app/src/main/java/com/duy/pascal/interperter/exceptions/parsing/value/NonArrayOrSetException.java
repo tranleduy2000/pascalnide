@@ -21,7 +21,7 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
-import org.jetbrains.annotations.Nullable;
+import android.support.annotation.Nullable;
 
 public class NonArrayOrSetException extends ParsingException {
     @NonNull

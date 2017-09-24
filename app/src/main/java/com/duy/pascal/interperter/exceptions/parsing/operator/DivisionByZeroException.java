@@ -19,15 +19,15 @@ package com.duy.pascal.interperter.exceptions.parsing.operator;
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 public class DivisionByZeroException extends InternalInterpreterException {
-    public DivisionByZeroException(@NotNull LineInfo line) {
+    public DivisionByZeroException(@NonNull LineInfo line) {
         super(line);
     }
 
-    @NotNull
+    @NonNull
     public String getInternalError() {
         return "Division by zero";
     }

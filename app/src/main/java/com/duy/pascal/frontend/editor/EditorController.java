@@ -17,14 +17,14 @@
 package com.duy.pascal.frontend.editor;
 
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 public interface EditorController {
     void saveAs();
 
-    void doFindAndReplace(@NotNull String var1, @NotNull String to, boolean regex, boolean matchCase);
+    void doFindAndReplace(@NonNull String var1, @NonNull String to, boolean regex, boolean matchCase);
 
-    void doFind(@NotNull String find, boolean regex, boolean wordOnly, boolean matchCase);
+    void doFind(@NonNull String find, boolean regex, boolean wordOnly, boolean matchCase);
 
     void saveFile();
 
@@ -40,8 +40,8 @@ public interface EditorController {
 
     void copyAll();
 
-    @NotNull
+    @NonNull
     String getCode();
 
-    void insert(@NotNull CharSequence var1);
+    void insert(@NonNull CharSequence var1);
 }

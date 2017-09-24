@@ -16,14 +16,14 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.operator;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class BadOperationTypeException extends ParsingException {
     @Nullable
@@ -41,7 +41,7 @@ public class BadOperationTypeException extends ParsingException {
         super(new LineInfo(-1, "Unknown"));
     }
 
-    public BadOperationTypeException(@NotNull LineInfo line, @NotNull Type t1, @NotNull Type t2, @Nullable RuntimeValue v1, @Nullable RuntimeValue v2, @NotNull OperatorTypes operation) {
+    public BadOperationTypeException(@NonNull LineInfo line, @NonNull Type t1, @NonNull Type t2, @Nullable RuntimeValue v1, @Nullable RuntimeValue v2, @NonNull OperatorTypes operation) {
         super(line, "Operator " + operation + " cannot be applied to arguments \'" + v1 + "\' and \'" + v2 + "\'.  One has type " + t1 + " and the other has type " + t2 + ".");
         this.value1 = v1;
         this.value2 = v2;
@@ -50,11 +50,11 @@ public class BadOperationTypeException extends ParsingException {
         this.declaredType1 = t2;
     }
 
-    public BadOperationTypeException(@NotNull LineInfo line, @NotNull Type t1, @NotNull RuntimeValue v1, @NotNull OperatorTypes operation) {
+    public BadOperationTypeException(@NonNull LineInfo line, @NonNull Type t1, @NonNull RuntimeValue v1, @NonNull OperatorTypes operation) {
         super(line, "Operator " + operation + " cannot be applied to argument \'" + v1 + "\' of type " + t1 + ".");
     }
 
-    public BadOperationTypeException(@NotNull LineInfo line, @NotNull OperatorTypes operator) {
+    public BadOperationTypeException(@NonNull LineInfo line, @NonNull OperatorTypes operator) {
         super(line, "Operator " + operator + " is not a unary operator.");
     }
 

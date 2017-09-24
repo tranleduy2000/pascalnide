@@ -22,7 +22,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
-import org.jetbrains.annotations.Nullable;
+import android.support.annotation.Nullable;
 
 
 public class ChangeValueConstantException extends ParsingException {

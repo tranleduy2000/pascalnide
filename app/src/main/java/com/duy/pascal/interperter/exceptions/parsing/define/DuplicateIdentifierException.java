@@ -20,21 +20,21 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.NamedEntity;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 
 public class DuplicateIdentifierException extends ParsingException {
-    @NotNull
+    @NonNull
     private String type;
     @Nullable
     private Name name;
-    @NotNull
+    @NonNull
     private String preType;
-    @NotNull
+    @NonNull
     private String preLine;
 
-    public DuplicateIdentifierException(@NotNull NamedEntity previous, @NotNull NamedEntity current) {
+    public DuplicateIdentifierException(@NonNull NamedEntity previous, @NonNull NamedEntity current) {
         super(current.getLineNumber(), "" + current.getEntityType() + ' ' + current.getName() + " conflicts with previously defined " + "" + previous.getEntityType() + " with the same name defined at " + previous.getLineNumber());
         this.type = current.getEntityType();
         this.name = current.getName();
@@ -42,12 +42,12 @@ public class DuplicateIdentifierException extends ParsingException {
         this.preLine = String.valueOf(previous.getLineNumber());
     }
 
-    @NotNull
+    @NonNull
     public final String getType() {
         return this.type;
     }
 
-    public final void setType(@NotNull String var1) {
+    public final void setType(@NonNull String var1) {
         this.type = var1;
     }
 
@@ -60,21 +60,21 @@ public class DuplicateIdentifierException extends ParsingException {
         this.name = var1;
     }
 
-    @NotNull
+    @NonNull
     public final String getPreType() {
         return this.preType;
     }
 
-    public final void setPreType(@NotNull String var1) {
+    public final void setPreType(@NonNull String var1) {
         this.preType = var1;
     }
 
-    @NotNull
+    @NonNull
     public final String getPreLine() {
         return this.preLine;
     }
 
-    public final void setPreLine(@NotNull String var1) {
+    public final void setPreLine(@NonNull String var1) {
         this.preLine = var1;
     }
 }

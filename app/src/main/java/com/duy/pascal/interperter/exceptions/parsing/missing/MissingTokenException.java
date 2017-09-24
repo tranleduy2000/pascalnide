@@ -19,8 +19,8 @@ package com.duy.pascal.interperter.exceptions.parsing.missing;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 public abstract class MissingTokenException extends ParsingException {
     public MissingTokenException(@Nullable LineInfo line) {
@@ -31,7 +31,7 @@ public abstract class MissingTokenException extends ParsingException {
         return true;
     }
 
-    @NotNull
+    @NonNull
     public abstract String getMissingToken();
 
     @Nullable

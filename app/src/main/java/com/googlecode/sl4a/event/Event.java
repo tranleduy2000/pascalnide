@@ -25,7 +25,7 @@ public class Event {
     private double mCreationTime;
 
     public Event(String name, Object data) {
-        Preconditions.checkNotNull(name);
+        Preconditions.checkNonNull(name);
         setName(name);
         setData(data);
         mCreationTime = System.currentTimeMillis() * 1000;

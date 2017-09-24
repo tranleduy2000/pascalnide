@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.exceptions.parsing.index;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 /**
  * This exception will be throw if the first > the upper of array
@@ -33,7 +33,7 @@ public class LowerGreaterUpperBoundException extends ParsingException {
     private int size;
 
     public LowerGreaterUpperBoundException(Comparable low, Comparable high,
-                                           @NotNull LineInfo lineInfo) {
+                                           @NonNull LineInfo lineInfo) {
         super(lineInfo);
         this.low = low;
         this.high = high;

@@ -18,8 +18,8 @@ package com.duy.pascal.interperter.tokens.value;
 
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 
 public  class CharacterToken extends ValueToken {
@@ -38,7 +38,7 @@ public  class CharacterToken extends ValueToken {
 
     }
 
-    public CharacterToken(@NotNull LineInfo line, @NotNull String nonParse) {
+    public CharacterToken(@NonNull LineInfo line, @NonNull String nonParse) {
         super(line);
         this.aChar = 32;
         try {
@@ -53,17 +53,17 @@ public  class CharacterToken extends ValueToken {
         this.origin = nonParse;
     }
 
-    @NotNull
+    @NonNull
     public String toCode() {
         return !this.isRaw ? "\'" + Character.toString(this.aChar) + "\'" : this.origin;
     }
 
-    @NotNull
+    @NonNull
     public String toString() {
         return this.toCode();
     }
 
-    @NotNull
+    @NonNull
     public Object getValue() {
         return this.aChar;
     }

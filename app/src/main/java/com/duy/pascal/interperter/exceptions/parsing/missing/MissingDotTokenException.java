@@ -16,13 +16,13 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.missing;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 public  class MissingDotTokenException extends MissingTokenException {
-   @NotNull
+   @NonNull
    public String getMissingToken() {
       return ".";
    }

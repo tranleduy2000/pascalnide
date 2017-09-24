@@ -19,10 +19,10 @@ package com.duy.pascal.interperter.exceptions.parsing.define;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 public class MultipleDefaultValuesException extends ParsingException {
-    public MultipleDefaultValuesException(@NotNull LineInfo line) {
+    public MultipleDefaultValuesException(@NonNull LineInfo line) {
         super(line);
     }
 }

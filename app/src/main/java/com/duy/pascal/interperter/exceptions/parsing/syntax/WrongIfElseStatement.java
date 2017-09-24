@@ -19,11 +19,11 @@ package com.duy.pascal.interperter.exceptions.parsing.syntax;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.tokens.Token;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 public  class WrongIfElseStatement extends ParsingException {
-    public WrongIfElseStatement(@NotNull Token next) {
+    public WrongIfElseStatement(@NonNull Token next) {
         super(next.getLineNumber());
     }
 

@@ -16,29 +16,29 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.convert;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.VariableAccess;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 
 public final class UnConvertibleTypeException extends ParsingException {
-    @NotNull
+    @NonNull
     private RuntimeValue value;
     @Nullable
     private Type valueType;
-    @NotNull
+    @NonNull
     private Type targetType;
     @Nullable
     private RuntimeValue identifier;
-    @NotNull
+    @NonNull
     private ExpressionContext scope;
 
-    public UnConvertibleTypeException(@NotNull RuntimeValue value, @NotNull Type targetType, @NotNull Type valueType, @NotNull ExpressionContext scope) {
+    public UnConvertibleTypeException(@NonNull RuntimeValue value, @NonNull Type targetType, @NonNull Type valueType, @NonNull ExpressionContext scope) {
         super(value.getLineNumber(), "The expression or variable \"" + value + "\" is of type \"" + valueType + "\"" + ", which cannot be converted to the type \"" + targetType + "\"");
         this.value = value;
         this.valueType = valueType;
@@ -46,7 +46,7 @@ public final class UnConvertibleTypeException extends ParsingException {
         this.scope = scope;
     }
 
-    public UnConvertibleTypeException(@NotNull RuntimeValue value, @NotNull Type identifierType, @Nullable Type valueType, @NotNull RuntimeValue identifier, @NotNull ExpressionContext scope) {
+    public UnConvertibleTypeException(@NonNull RuntimeValue value, @NonNull Type identifierType, @Nullable Type valueType, @NonNull RuntimeValue identifier, @NonNull ExpressionContext scope) {
         super(value.getLineNumber(), "The expression or variable \"" + value + "\" is of type \"" + valueType + "\"" + ", which cannot be " + "converted to the type \"" + identifierType + "\" of expression or variable " + identifier);
         this.value = value;
         this.valueType = valueType;
@@ -55,12 +55,12 @@ public final class UnConvertibleTypeException extends ParsingException {
         this.scope = scope;
     }
 
-    @NotNull
+    @NonNull
     public final RuntimeValue getValue() {
         return this.value;
     }
 
-    public final void setValue(@NotNull RuntimeValue var1) {
+    public final void setValue(@NonNull RuntimeValue var1) {
         this.value = var1;
     }
 
@@ -73,12 +73,12 @@ public final class UnConvertibleTypeException extends ParsingException {
         this.valueType = var1;
     }
 
-    @NotNull
+    @NonNull
     public final Type getTargetType() {
         return this.targetType;
     }
 
-    public final void setTargetType(@NotNull Type var1) {
+    public final void setTargetType(@NonNull Type var1) {
         this.targetType = var1;
     }
 
@@ -91,12 +91,12 @@ public final class UnConvertibleTypeException extends ParsingException {
         this.identifier = var1;
     }
 
-    @NotNull
+    @NonNull
     public final ExpressionContext getScope() {
         return this.scope;
     }
 
-    public final void setScope(@NotNull ExpressionContext var1) {
+    public final void setScope(@NonNull ExpressionContext var1) {
         this.scope = var1;
     }
 

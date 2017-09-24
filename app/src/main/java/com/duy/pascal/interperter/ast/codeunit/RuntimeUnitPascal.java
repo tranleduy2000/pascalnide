@@ -26,7 +26,6 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
-import kotlin.TypeCastException;
 
 public final class RuntimeUnitPascal extends RuntimeExecutableCodeUnit {
     public RuntimeUnitPascal(@NonNull PascalUnitDeclaration unitPascal) {
@@ -35,29 +34,19 @@ public final class RuntimeUnitPascal extends RuntimeExecutableCodeUnit {
 
     public void runInit() throws RuntimePascalException {
         ExpressionContextMixin var10000 = ((PascalUnitDeclaration) this.declaration).context;
-        if (((PascalUnitDeclaration) this.declaration).context == null) {
-            throw new TypeCastException("null cannot be cast to non-null type com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration.UnitExpressionContext");
-        } else {
-            PascalUnitDeclaration.UnitExpressionContext context = (PascalUnitDeclaration.UnitExpressionContext) var10000;
-            Executable var2 = context.getInitInstruction();
-            if (var2 != null) {
-                var2.execute(this, this);
-            }
-
+        PascalUnitDeclaration.UnitExpressionContext context = (PascalUnitDeclaration.UnitExpressionContext) var10000;
+        Executable var2 = context.getInitInstruction();
+        if (var2 != null) {
+            var2.execute(this, this);
         }
     }
 
     public void runFinal() throws RuntimePascalException {
         ExpressionContextMixin var10000 = ((PascalUnitDeclaration) this.declaration).context;
-        if (((PascalUnitDeclaration) this.declaration).context == null) {
-            throw new TypeCastException("null cannot be cast to non-null type com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration.UnitExpressionContext");
-        } else {
-            PascalUnitDeclaration.UnitExpressionContext context = (PascalUnitDeclaration.UnitExpressionContext) var10000;
-            Executable var2 = context.getFinalInstruction();
-            if (var2 != null) {
-                var2.execute(this, this);
-            }
-
+        PascalUnitDeclaration.UnitExpressionContext context = (PascalUnitDeclaration.UnitExpressionContext) var10000;
+        Executable var2 = context.getFinalInstruction();
+        if (var2 != null) {
+            var2.execute(this, this);
         }
     }
 

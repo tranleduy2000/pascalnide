@@ -20,16 +20,16 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 public  class MethodNotFoundException extends ParsingException {
-    @NotNull
+    @NonNull
     private final Name name;
-    @NotNull
+    @NonNull
     private final String className;
 
-    public MethodNotFoundException(@NotNull LineInfo lineNumber, @NotNull Name name, @NotNull String className) {
+    public MethodNotFoundException(@NonNull LineInfo lineNumber, @NonNull Name name, @NonNull String className) {
         super(lineNumber);
         this.name = name;
         this.className = className;
@@ -40,12 +40,12 @@ public  class MethodNotFoundException extends ParsingException {
         return "Can not find method \"" + this.name + "\" in class " + this.className;
     }
 
-    @NotNull
+    @NonNull
     public final Name getName() {
         return this.name;
     }
 
-    @NotNull
+    @NonNull
     public final String getClassName() {
         return this.className;
     }

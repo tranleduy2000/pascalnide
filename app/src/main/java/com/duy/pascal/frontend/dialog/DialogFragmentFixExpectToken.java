@@ -20,6 +20,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,9 +32,6 @@ import android.widget.RadioButton;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class DialogFragmentFixExpectToken extends BottomSheetDialogFragment {
     @Nullable
@@ -97,6 +95,6 @@ public class DialogFragmentFixExpectToken extends BottomSheetDialogFragment {
     }
 
     public interface OnSelectExpectListener {
-        void onSelectedExpect(@NotNull String current, @NotNull String expect, boolean insert, int line, int column);
+        void onSelectedExpect(@NonNull String current, @NonNull String expect, boolean insert, int line, int column);
     }
 }

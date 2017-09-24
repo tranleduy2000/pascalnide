@@ -21,8 +21,8 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,15 +32,15 @@ public  class BadFunctionCallException extends ParsingException {
     private boolean argsMatch;
     @Nullable
     private List args;
-    @NotNull
+    @NonNull
     private Name functionName;
     private boolean functionExists;
-    @NotNull
+    @NonNull
     private ArrayList functions;
-    @NotNull
+    @NonNull
     private ExpressionContext scope;
 
-    public BadFunctionCallException(@NotNull LineInfo line, @NotNull Name functionName, boolean functionExists, boolean numargsMatch, @NotNull ArrayList args, @NotNull ArrayList functions, @NotNull ExpressionContext scope) {
+    public BadFunctionCallException(@NonNull LineInfo line, @NonNull Name functionName, boolean functionExists, boolean numargsMatch, @NonNull ArrayList args, @NonNull ArrayList functions, @NonNull ExpressionContext scope) {
         super(line);
         this.functionName = functionName;
         this.functionExists = functionExists;
@@ -72,12 +72,12 @@ public  class BadFunctionCallException extends ParsingException {
         return this.functionExists ? (this.argsMatch ? "One or more arguments has an incorrect type when calling function \"" + this.functionName + "\"." : "Either too few or two many arguments are being passed to function \"" + this.functionName + "\".") : "Can not call function or procedure \"" + this.functionName + "\", which is not defined.";
     }
 
-    @NotNull
+    @NonNull
     public final Name getFunctionName() {
         return this.functionName;
     }
 
-    public final void setFunctionName(@NotNull Name var1) {
+    public final void setFunctionName(@NonNull Name var1) {
         this.functionName = var1;
     }
 
@@ -89,21 +89,21 @@ public  class BadFunctionCallException extends ParsingException {
         this.functionExists = var1;
     }
 
-    @NotNull
+    @NonNull
     public final ArrayList getFunctions() {
         return this.functions;
     }
 
-    public final void setFunctions(@NotNull ArrayList var1) {
+    public final void setFunctions(@NonNull ArrayList var1) {
         this.functions = var1;
     }
 
-    @NotNull
+    @NonNull
     public final ExpressionContext getScope() {
         return this.scope;
     }
 
-    public final void setScope(@NotNull ExpressionContext var1) {
+    public final void setScope(@NonNull ExpressionContext var1) {
         this.scope = var1;
     }
 }

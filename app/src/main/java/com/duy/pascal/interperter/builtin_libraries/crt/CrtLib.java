@@ -209,43 +209,43 @@ public class CrtLib implements PascalLibrary {
         return handler.getConsoleView().whereY();
     }
 
-    private void assertActivityNotNull() {
+    private void assertActivityNonNull() {
         if (handler == null) throw new RuntimeException("Can not define screen");
     }
 
     @PascalMethod(description = "Return to normal (startup) modes")
     public void NormVideo() {
-        assertActivityNotNull();
+        assertActivityNonNull();
         handler.getConsoleView().getTextRenderer().setAlpha(TextRenderer.NORMAL_TEXT_ALPHA);
     }
 
     @PascalMethod(description = "Switch to highlighted text mode")
     public void HighVideo() {
-        assertActivityNotNull();
+        assertActivityNonNull();
         handler.getConsoleView().getTextRenderer().setAlpha(TextRenderer.HIGH_TEXT_ALPHA);
     }
 
     @PascalMethod(description = "Switch to low intensity colors")
     public void LowVideo() {
-        assertActivityNotNull();
+        assertActivityNonNull();
         handler.getConsoleView().getTextRenderer().setAlpha(TextRenderer.LOW_TEXT_ALPHA);
     }
 
     @PascalMethod(description = "Show big cursor")
     public void cursorBig() {
-        assertActivityNotNull();
+        assertActivityNonNull();
         handler.getConsoleView().getCursorConsole().setMode(ConsoleCursor.BIG_CURSOR);
     }
 
     @PascalMethod(description = "Hide cursor")
     public void cursorOff() {
-        assertActivityNotNull();
+        assertActivityNonNull();
         handler.getConsoleView().getCursorConsole().setVisible(false);
     }
 
     @PascalMethod(description = "Display cursor")
     public void cursorOn() {
-        assertActivityNotNull();
+        assertActivityNonNull();
         handler.getConsoleView().getCursorConsole().setVisible(true);
     }
 

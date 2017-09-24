@@ -21,7 +21,7 @@ import android.os.Bundle;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.BaseActivity;
 
-import org.jetbrains.annotations.Nullable;
+import android.support.annotation.Nullable;
 
 /**
  * Created by Duy on 12-Jun-17.

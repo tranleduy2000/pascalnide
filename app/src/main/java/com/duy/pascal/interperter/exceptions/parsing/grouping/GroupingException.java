@@ -17,12 +17,11 @@
 package com.duy.pascal.interperter.exceptions.parsing.grouping;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.Token;
-
-import org.jetbrains.annotations.Nullable;
 
 public class GroupingException extends ParsingException {
     private Type exceptionTypes;

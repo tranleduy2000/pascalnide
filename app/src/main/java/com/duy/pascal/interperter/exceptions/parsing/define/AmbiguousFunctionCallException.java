@@ -20,10 +20,10 @@ import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 public  class AmbiguousFunctionCallException extends ParsingException {
-    public AmbiguousFunctionCallException(@NotNull LineInfo line, @NotNull AbstractFunction possible, @NotNull AbstractFunction alternative) {
+    public AmbiguousFunctionCallException(@NonNull LineInfo line, @NonNull AbstractFunction possible, @NonNull AbstractFunction alternative) {
         super(line, "Ambiguous function call could be interpreted as " + possible + " or as " + alternative);
     }
 }

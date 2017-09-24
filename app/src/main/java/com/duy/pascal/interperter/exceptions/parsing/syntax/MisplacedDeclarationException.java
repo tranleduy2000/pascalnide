@@ -20,15 +20,15 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 
 public  class MisplacedDeclarationException extends ParsingException {
-    public MisplacedDeclarationException(@NotNull LineInfo line, @NotNull String declarationType, @NotNull ExpressionContext loc) {
+    public MisplacedDeclarationException(@NonNull LineInfo line, @NonNull String declarationType, @NonNull ExpressionContext loc) {
         super(line, "Definition of " + declarationType + " is not appropriate here: " + loc);
     }
 
-    public MisplacedDeclarationException(@NotNull LineInfo line, @NotNull String declarationType, @NotNull String loc) {
+    public MisplacedDeclarationException(@NonNull LineInfo line, @NonNull String declarationType, @NonNull String loc) {
         super(line, "Definition of " + declarationType + " is not appropriate here: " + loc);
     }
 }

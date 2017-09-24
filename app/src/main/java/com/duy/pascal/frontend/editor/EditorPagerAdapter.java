@@ -21,19 +21,19 @@ import android.support.v4.app.FragmentManager;
 import com.commonsware.cwac.pager.PageDescriptor;
 import com.commonsware.cwac.pager.v4.ArrayPagerAdapter;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 import java.util.List;
 
 public class EditorPagerAdapter extends ArrayPagerAdapter<EditorFragment> {
     private final int MAX_PAGE = 5;
 
-    public EditorPagerAdapter(@NotNull FragmentManager fragmentManager, @NotNull List<PageDescriptor> descriptors) {
+    public EditorPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull List<PageDescriptor> descriptors) {
         super(fragmentManager, descriptors);
     }
 
-    @NotNull
-    protected EditorFragment createFragment(@NotNull PageDescriptor pageDescriptor) {
+    @NonNull
+    protected EditorFragment createFragment(@NonNull PageDescriptor pageDescriptor) {
         return EditorFragment.newInstance(pageDescriptor.getFragmentTag());
     }
 }

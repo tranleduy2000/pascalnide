@@ -16,25 +16,25 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.operator;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-
-import org.jetbrains.annotations.NotNull;
 
 
 public class OperationNotSupportedException extends RuntimePascalException {
     public OperationNotSupportedException() {
     }
 
-    public OperationNotSupportedException(@NotNull LineInfo line) {
+    public OperationNotSupportedException(@NonNull LineInfo line) {
         super(line);
     }
 
-    public OperationNotSupportedException(@NotNull LineInfo line, @NotNull String mes) {
+    public OperationNotSupportedException(@NonNull LineInfo line, @NonNull String mes) {
         super(line, mes);
     }
 
-    public OperationNotSupportedException(@NotNull String mes) {
+    public OperationNotSupportedException(@NonNull String mes) {
         super((LineInfo) null, mes);
     }
 }

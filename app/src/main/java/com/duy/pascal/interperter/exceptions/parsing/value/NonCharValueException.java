@@ -20,25 +20,25 @@ import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.value.CharacterToken;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 
 public class NonCharValueException extends ParsingException {
-    @NotNull
+    @NonNull
     private CharacterToken characterToken;
 
-    public NonCharValueException(@NotNull LineInfo line, @NotNull CharacterToken characterToken) {
+    public NonCharValueException(@NonNull LineInfo line, @NonNull CharacterToken characterToken) {
         super(line);
         this.characterToken = characterToken;
         this.setLineInfo(line);
     }
 
-    @NotNull
+    @NonNull
     public final CharacterToken getCharacterToken() {
         return this.characterToken;
     }
 
-    public final void setCharacterToken(@NotNull CharacterToken var1) {
+    public final void setCharacterToken(@NonNull CharacterToken var1) {
         this.characterToken = var1;
     }
 }

@@ -20,15 +20,15 @@ import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 
 public class InvalidAddressOperation extends ParsingException {
-    public InvalidAddressOperation(@NotNull LineInfo line, @NotNull RuntimeValue v) {
+    public InvalidAddressOperation(@NonNull LineInfo line, @NonNull RuntimeValue v) {
         super(line, "The expression " + v + " cannot have its address taken.");
     }
 
-    public InvalidAddressOperation(@NotNull LineInfo line) {
+    public InvalidAddressOperation(@NonNull LineInfo line) {
         super(line);
     }
 }
