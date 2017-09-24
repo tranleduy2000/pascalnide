@@ -24,7 +24,7 @@ import com.google.firebase.crash.FirebaseCrash;
  * Created by Duy on 27-Mar-17.
  */
 public class DLog {
-    public static String TAG = DLog.class.getSimpleName();
+    private static final String TAG = "DLog";
     public static boolean DEBUG = true;
     public static boolean ANDROID = true;
 
@@ -71,7 +71,7 @@ public class DLog {
     public static void e(Exception exception) {
         if (DEBUG) {
             if (ANDROID) {
-                Log.e(TAG, "Error ", exception);
+                Log.e(TAG, "Error " + exception.getClass().getSimpleName(), exception);
             } else {
                 System.err.println(TAG + ": " + exception.toString());
             }

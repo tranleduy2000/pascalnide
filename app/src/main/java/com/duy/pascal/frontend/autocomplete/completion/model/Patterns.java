@@ -22,17 +22,12 @@ import java.util.regex.Pattern;
  * Created by Duy on 11-Feb-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
 public class Patterns {
-
-    public static final Pattern LINE = Pattern.compile(".*\\n");
-
-
     /**
      * match reserved keyword
      */
     public static final Pattern KEYWORDS = Pattern.compile(
-            "(^|([^\\w]+))(uses|const|do|for|while|if|else|in|case|and|array|begin|div" +
+            "(^|\\W+)(uses|const|do|for|while|if|else|in|case|and|array|begin|div" +
                     "|downto|to|mod|of" +
                     "|procedure|program|repeat|until|shl|shr" +
                     "|then|type|var|end|function" +
@@ -46,7 +41,7 @@ public class Patterns {
                     "|char|text" +
                     "|record|continue" +
                     "|unit|interface|initialization|finalization|implementation|with" +
-                    "|null|nil|set|new)([^\\w]+|$)",
+                    "|null|nil|set|new)(\\W+|$)",
             Pattern.CASE_INSENSITIVE);
     /**
      * match builtin pascal function
@@ -55,18 +50,12 @@ public class Patterns {
             "\\b(sin|cos|sqrt|length" +
                     "|exp|tan|keyPressed|readKey|delay|random|randomize|inc|dec" +
                     "|ceil|trunc|frac|floor|abs|round|sqr|pred|succ|ln|arctan" +
-                    "|odd|int|halt|odd)\\b", Pattern.CASE_INSENSITIVE);
+                    "|odd|int|halt|odd|write|writeln)\\b", Pattern.CASE_INSENSITIVE);
     /**
      * match some spacial symbol
      */
     public static final Pattern SYMBOLS = Pattern.compile("[+\\-'*=<>/:)(\\]\\[;@\\^,.]");
 
-    public static final Pattern OPEN_PATTERN
-            = Pattern.compile("(begin|then|else|do|repeat|of|" +
-                    "type|var|const|interface|implementation)",
-            Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-    public static final Pattern END_PATTERN
-            = Pattern.compile("\\b(end)\\b", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
     /**
      * match number
      */
@@ -78,7 +67,6 @@ public class Patterns {
                     "([Ee][+-]?[\\d]+))\\b");
 
     public static final Pattern HEX_COLOR = Pattern.compile("(#[0-9a-fA-F]{6})");
-
     public static final Pattern RGB_FUNCTION = Pattern.compile(
             "([Rr][Gg][Bb])" + //1
                     "(\\()" +//2
@@ -88,7 +76,6 @@ public class Patterns {
                     "(,)" +//6
                     "(\\s?\\d+\\s?)" +//7
                     "(\\))");
-
     public static final Pattern ARGB_FUNCTION = Pattern.compile(
             "([Aa][Rr][Gg][Bb])" +
                     "(\\()" +
@@ -100,17 +87,14 @@ public class Patterns {
                     "(,)" +
                     "(\\s?\\d+\\s?)" +
                     "(\\))");
-
     public static final Pattern TEXT_COLOR_FUNCTION = Pattern.compile("(textColor)" +
             "(\\()" +
             "([0-9]+)" +
             "(\\))");
-
     public static final Pattern TEXT_BACKGROUND_FUNCTION = Pattern.compile("(textColor)" +
             "(\\()" +
             "([0-9]+)" +
             "(\\))");
-
     public static final Pattern IDENTIFIER = Pattern.compile("[a-zA-Z_][A-Za-z0-9_]*");
     public static final Pattern FILE_NAME = Pattern.compile(IDENTIFIER + "(\\." + IDENTIFIER + ")?");
 

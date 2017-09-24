@@ -346,7 +346,7 @@ public class AutoFixHelper {
                     startSelect = textToInsert.length();
                     endSelect = startSelect + type.length();
 
-                    textToInsert += type + (initValue != null ? " = " + initValue : "") + ";";
+                    textToInsert += type + (initValue != null ? " = " + initValue : "") + ";\n";
                 } else {
                     if ((matcher = Patterns.TYPE.matcher(scope.getText())).find()) {
                         insertPosition = matcher.end();

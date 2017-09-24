@@ -16,11 +16,11 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.define;
 
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-
 import android.support.annotation.Nullable;
 
-public  class MainProgramNotFoundException extends ParsingException {
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+
+public class MainProgramNotFoundException extends ParsingException {
     public MainProgramNotFoundException() {
         super(null);
     }
@@ -30,7 +30,8 @@ public  class MainProgramNotFoundException extends ParsingException {
         return "main program not found";
     }
 
-    public final boolean getAutoFix() {
+    @Override
+    public boolean getCanAutoFix() {
         return true;
     }
 }

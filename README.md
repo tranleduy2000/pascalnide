@@ -36,12 +36,13 @@ The application is a Pascal interpreter on Android. This application is confusin
 3. declare constant
 4. declare function
 5. declare variable
-6. fix wrong type
-7. fix missing token
-8. fix group exception
-9. change type const
-10. change constant to variable
-11. fix missing begin end
+6. Fix wrong type
+7. Fix missing token
+8. Fix group exception
+10. Change constant to variable
+11. Fix missing begin end
+12. Change type of constant
+13. Change type of variable
 
 ## Features that the interpreter is missing
 
