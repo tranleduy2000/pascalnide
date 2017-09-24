@@ -22,6 +22,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -50,12 +51,12 @@ import android.widget.Scroller;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.highlight.BracketHighlighter;
 import com.duy.pascal.frontend.editor.highlight.CodeHighlighter;
+import com.duy.pascal.frontend.editor.view.spans.ErrorSpan;
 import com.duy.pascal.frontend.themefont.themes.ThemeManager;
 import com.duy.pascal.frontend.themefont.themes.database.CodeTheme;
 import com.duy.pascal.frontend.themefont.themes.database.CodeThemeUtils;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,8 +71,7 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     public boolean showLines = true;
     public boolean wordWrap = true;
-    @NonNull
-    protected ArrayList<LineInfo> mLineErrors = new ArrayList<>();
+
     protected Paint mPaintNumbers;
     protected Paint mPaintHighlight;
     protected int mPaddingDP = 4;
@@ -114,7 +114,7 @@ public class HighlightEditor extends CodeSuggestsEditText
      * The change listener.
      */
     private EditTextChangeListener mChangeListener;
-    private int numberWidth = 0;
+    private float numberWidth = 0;
     private CodeHighlighter mCodeHighlighter;
     private final Runnable colorRunnable_duringEditing =
             new Runnable() {
@@ -166,9 +166,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         return autoCompile;
     }
 
-    public void setAutoCompile(boolean autoCompile) {
-        this.autoCompile = autoCompile;
-    }
 
     public boolean isCanEdit() {
         return canEdit;
@@ -202,11 +199,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         enableTextChangedListener();
     }
 
-
-    public void setLineError(@NonNull LineInfo lineError) {
-        this.mLineErrors.clear();
-        this.mLineErrors.add(lineError);
-    }
 
     public void computeScroll() {
 
@@ -349,7 +341,10 @@ public class HighlightEditor extends CodeSuggestsEditText
         this.canEdit = typedArray.getBoolean(R.styleable.CodeTheme_can_edit, true);
         typedArray.recycle();
 
-        setTypeface(mEditorSetting.getEditorFont());
+        Typeface editorFont = mEditorSetting.getEditorFont();
+        setTypeface(editorFont);
+        mPaintNumbers.setTypeface(editorFont);
+
         setHorizontallyScrolling(!mEditorSetting.isWrapText());
         setOverScrollMode(OVER_SCROLL_ALWAYS);
 
@@ -358,7 +353,6 @@ public class HighlightEditor extends CodeSuggestsEditText
 
         showLines = mEditorSetting.isShowLines();
 
-        int count = getLineCount();
         if (showLines) {
             mLinePadding = calculateLinePadding();
             setPadding(mLinePadding, mPadding, mPadding, mPadding);
@@ -397,10 +391,8 @@ public class HighlightEditor extends CodeSuggestsEditText
         int count = getLineCount();
         int result = (int) (Math.floor(Math.log10(count)) + 1);
 
-        Rect bounds = new Rect();
-        mPaintNumbers.getTextBounds("0", 0, 1, bounds);
-        numberWidth = bounds.width();
-        result = (result * numberWidth) + numberWidth + mPadding;
+        numberWidth = mPaintNumbers.measureText("0", 0, 1);
+        result = (int) ((result * numberWidth) + numberWidth * 0.5f + mPadding);
         return result;
     }
 
@@ -478,6 +470,10 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     private void highlightLineError(Editable e) {
         try {
+            ErrorSpan spans[] = e.getSpans(0, e.length(), ErrorSpan.class);
+            for (ErrorSpan span : spans) {
+                e.removeSpan(span);
+            }
             //high light error lineInfo
             for (LineInfo lineInfo : mLineErrors) {
                 Layout layout = getLayout();
@@ -502,13 +498,10 @@ public class HighlightEditor extends CodeSuggestsEditText
                     lineEnd = Math.min(lineEnd, getText().length());
 
                     if (lineStart < lineEnd) {
-                        e.setSpan(new BackgroundColorSpan(codeTheme.getErrorColor()),
+                        e.setSpan(new ErrorSpan(codeTheme.getErrorColor()),
                                 lineStart,
                                 lineEnd,
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        if (!isAutoCompile()) {
-                            setSelection(lineEnd);
-                        }
                     }
 
                 }

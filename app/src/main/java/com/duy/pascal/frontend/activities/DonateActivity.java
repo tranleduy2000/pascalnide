@@ -41,11 +41,12 @@ import aidl.util.Purchase;
 
 public class DonateActivity extends BaseActivity implements IabBroadcastReceiver.IabBroadcastListener, View.OnClickListener {
     public static final int REQUEST_DONATE = 10001;
-    private static final String SKU_DONATE_ONE = "java_nide_donate_one_dollar";
-    private static final String SKU_DONATE_TWO = "java_nide_donate_two_dollar";
-    private static final String SKU_DONATE_THREE = "java_nide_donate_three_dollar";
-    private static final String SKU_DONATE_FOUR = "java_nide_donate_four_dollar";
-    private static final String SKU_DONATE_FIVE = "java_nide_donate_five_dollar";
+    private static final String SKU_DONATE_ONE = "pascal_nide_donate_one_dollar";
+    private static final String SKU_DONATE_TWO = "pascal_nide_donate_two_dollar";
+    private static final String SKU_DONATE_THREE = "pascal_nide_donate_three_dollar";
+    private static final String SKU_DONATE_FOUR = "pascal_nide_donate_four_dollar";
+    private static final String SKU_DONATE_FIVE = "pascal_nide_donate_five_dollar";
+    private static final String SKU_DONATE_SIX = "pascal_nide_donate_six_dollar";
     private static final String TAG = "DonateActivity";
     private Handler mHandler = new Handler();
     private IabHelper mIabHelper;
@@ -213,6 +214,9 @@ public class DonateActivity extends BaseActivity implements IabBroadcastReceiver
                 break;
             case R.id.btn_donate_5:
                 purchase(SKU_DONATE_FIVE);
+                break;
+            case R.id.btn_donate_6:
+                purchase(SKU_DONATE_SIX);
                 break;
         }
     }

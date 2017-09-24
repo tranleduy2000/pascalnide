@@ -16,12 +16,15 @@
 
 package com.duy.pascal.frontend.autocomplete.completion;
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.duy.pascal.frontend.autocomplete.completion.model.ConstantDescription;
 import com.duy.pascal.frontend.autocomplete.completion.model.Description;
 import com.duy.pascal.frontend.autocomplete.completion.model.DescriptionImpl;
 import com.duy.pascal.frontend.autocomplete.completion.model.FunctionDescription;
 import com.duy.pascal.frontend.autocomplete.completion.model.KeyWord;
+import com.duy.pascal.frontend.autocomplete.completion.model.VariableDescription;
 import com.duy.pascal.frontend.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.interperter.ast.CodeUnitParsingException;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
@@ -35,6 +38,7 @@ import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.io.StringReader;
@@ -56,6 +60,8 @@ public class SuggestionProvider {
     private int cursorCol;
     private String incomplete;
     private CodeSuggestsEditText.SymbolsTokenizer symbolsTokenizer;
+    @Nullable
+    private ParsingException parsingException;
 
     public SuggestionProvider() {
         symbolsTokenizer = new CodeSuggestsEditText.SymbolsTokenizer();
@@ -69,17 +75,19 @@ public class SuggestionProvider {
         this.cursorLine = cursorLine;
         this.cursorCol = cursorCol;
         try {
+            calculateIncomplete();
             ArrayList<Description> suggestItems = new ArrayList<>();
             PascalProgramDeclaration pascalProgram;
             try {
                 DiagnosticCollector diagnosticCollector = new DiagnosticCollector();
                 pascalProgram = PascalCompiler.loadPascal(srcPath, new StringReader(source), null, null, diagnosticCollector);
 
-                calculateIncomplete();
                 //the result
                 addSuggestFrom(suggestItems, pascalProgram.getContext());
+                parsingException = null;
             } catch (CodeUnitParsingException e) { //parsing error
                 addSuggestFrom(suggestItems, e.getCodeUnit().getContext());
+                parsingException = e.getParseException();
             } catch (Exception e) {
             }
 
@@ -89,6 +97,11 @@ public class SuggestionProvider {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Nullable
+    public ParsingException getParsingException() {
+        return parsingException;
     }
 
     private void addSuggestFrom(ArrayList<Description> suggestItems, ExpressionContextMixin exprContext) {
@@ -148,9 +161,7 @@ public class SuggestionProvider {
             LineInfo line = constant.getLineNumber();
             if (constant.getName().isPrefix(incomplete)) {
                 if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
-                    Name name = constant.getName();
-                    suggestItems.add(new DescriptionImpl(DescriptionImpl.KIND_CONST,
-                            name, constant.getDescription(), constant.getType()));
+                    suggestItems.add(new ConstantDescription(constant));
                 }
             }
         }
@@ -165,8 +176,7 @@ public class SuggestionProvider {
                 LineInfo line = variable.getLineNumber();
                 if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
                     Name name = variable.getName();
-                    suggestItems.add(new DescriptionImpl(DescriptionImpl.KIND_VARIABLE, name,
-                            variable.getDescription(), variable.getType()));
+                    suggestItems.add(new VariableDescription(name, variable.getDescription(), variable.getType()));
                 }
             }
         }

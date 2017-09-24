@@ -19,6 +19,7 @@ package com.duy.pascal.frontend.editor.view;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -33,6 +34,7 @@ import com.duy.pascal.frontend.autocomplete.completion.model.DescriptionImpl;
 import com.duy.pascal.frontend.autocomplete.completion.model.KeyWord;
 import com.duy.pascal.frontend.editor.view.adapters.CodeSuggestAdapter;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.util.ArrayList;
 
@@ -49,6 +51,8 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     public int mCharWidth = 0;
     protected SymbolsTokenizer mTokenizer;
     protected boolean mEnableSyntaxParser = true;
+    @NonNull
+    protected ArrayList<LineInfo> mLineErrors = new ArrayList<>();
     private CodeSuggestAdapter mAdapter;
     private SuggestionProvider pascalParserHelper;
     private ParseTask parseTask;
@@ -101,7 +105,6 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         mCharHeight = (int) Math.ceil(getPaint().getFontSpacing());
         mCharHeight = (int) getPaint().measureText("M");
     }
-
 
     @Override
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
@@ -177,7 +180,6 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         return true;
     }
 
-
     /**
      * invalidate data for auto suggest
      */
@@ -197,6 +199,10 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         }
     }
 
+    public void setLineError(@NonNull LineInfo lineError) {
+        this.mLineErrors.clear();
+        this.mLineErrors.add(lineError);
+    }
 
     public static class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
         static final String TOKEN = "!@#$%^&*()_+-={}|[]:;'<>/<.? \r\n\t";
@@ -276,7 +282,11 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
             } else {
                 setSuggestData(result);
             }
+            if (pascalParserHelper.getParsingException() != null) {
+                setLineError(pascalParserHelper.getParsingException().getLineInfo());
+            }
         }
     }
+
 }
 

@@ -38,11 +38,11 @@ public class DescriptionImpl implements Comparable<Name>, Description {
     @ItemKind
     private int kind;
     @NonNull
-    private Name name;
+    protected Name name;
     @Nullable
     private String description = null;
     @Nullable
-    private Type type;
+    protected Type type;
 
     public DescriptionImpl(int kind, @NonNull Name name, @Nullable String description, Type type) {
         this.name = name;
