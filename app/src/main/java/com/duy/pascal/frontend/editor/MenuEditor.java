@@ -16,7 +16,6 @@
 
 package com.duy.pascal.frontend.editor;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -42,27 +41,27 @@ import com.duy.pascal.frontend.utils.StoreUtil;
 
 public class MenuEditor {
     @NonNull
-    private EditorActivity activity;
-    @Nullable
+    private EditorActivity mActivity;
+    @NonNull
     private EditorControl listener;
     private Menu menu;
-    private PascalPreferences pascalPreferences;
+    private PascalPreferences mPreference;
 
-    public MenuEditor(@NonNull EditorActivity activity, @Nullable EditorControl listener) {
-        this.activity = activity;
+    public MenuEditor(@NonNull EditorActivity activity, @NonNull EditorControl listener) {
+        this.mActivity = activity;
         this.listener = listener;
-        pascalPreferences = new PascalPreferences(this.activity);
+        mPreference = new PascalPreferences(this.mActivity);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
-        activity.getMenuInflater().inflate(R.menu.menu_tool, menu);
+        mActivity.getMenuInflater().inflate(R.menu.menu_tool, menu);
 
-        menu.findItem(R.id.action_show_line).setChecked(pascalPreferences.isShowLines());
-        menu.findItem(R.id.action_show_symbol).setChecked(pascalPreferences.isShowListSymbol());
-        menu.findItem(R.id.action_show_popup).setChecked(pascalPreferences.isShowSuggestPopup());
-        menu.findItem(R.id.action_edit_word_wrap).setChecked(pascalPreferences.isWrapText());
-        menu.findItem(R.id.action_ime).setChecked(pascalPreferences.useImeKeyboard());
+        menu.findItem(R.id.action_show_line).setChecked(mPreference.isShowLines());
+        menu.findItem(R.id.action_show_symbol).setChecked(mPreference.isShowListSymbol());
+        menu.findItem(R.id.action_show_popup).setChecked(mPreference.isShowSuggestPopup());
+        menu.findItem(R.id.action_edit_word_wrap).setChecked(mPreference.isWrapText());
+        menu.findItem(R.id.action_ime).setChecked(mPreference.useImeKeyboard());
 
         return true;
     }
@@ -72,188 +71,124 @@ public class MenuEditor {
         if (menuItem.isCheckable()) menuItem.setChecked(!menuItem.isChecked());
         switch (id) {
             case R.id.action_setting:
-                activity.startActivity(new Intent(activity, SettingsActivity.class));
+                mActivity.startActivity(new Intent(mActivity, SettingsActivity.class));
                 break;
             case R.id.action_find:
-                activity.showDialogFind();
+                mActivity.showDialogFind();
 
                 break;
             case R.id.action_find_and_replace:
-                if (listener != null) {
-                    listener.findAndReplace();
-                }
-
-//            case R.id.action_open_file:
-//                listener.chooseFile(null);
-//                break;
+                listener.findAndReplace();
                 break;
             case R.id.action_doc:
-                if (listener != null) {
-                    listener.showDocumentActivity();
-                }
-
+                listener.showDocumentActivity();
                 break;
             case R.id.action_new_file:
-                if (listener != null) {
-                    listener.createNewSourceFile(null);
-                }
-
+                listener.createNewSourceFile(null);
                 break;
             case R.id.action_code_sample:
-                activity.startActivity(new Intent(activity, CodeSampleActivity.class));
-
+                mActivity.startActivity(new Intent(mActivity, CodeSampleActivity.class));
                 break;
             case R.id.action_rate:
-                StoreUtil.gotoPlayStore(activity, BuildConfig.APPLICATION_ID);
+                StoreUtil.gotoPlayStore(mActivity, BuildConfig.APPLICATION_ID);
                 break;
             case R.id.action_more_app:
-                StoreUtil.moreApp(activity);
+                StoreUtil.moreApp(mActivity);
                 break;
             case R.id.nav_run:
-                if (listener != null) {
-                    listener.runProgram();
-                }
-
+                listener.runProgram();
                 break;
             case R.id.action_compile:
-                if (listener != null) {
-                    listener.doCompile();
-                }
-
+                listener.doCompile();
                 break;
             case R.id.action_save:
-                if (listener != null) {
-                    listener.saveFile();
-                }
-
+                listener.saveFile();
                 break;
             case R.id.action_save_as:
-                if (listener != null) {
-                    listener.saveAs();
-                }
-
+                listener.saveAs();
                 break;
             case R.id.action_goto_line:
-                if (listener != null) {
-                    listener.goToLine();
-                }
-
+                listener.goToLine();
                 break;
             case R.id.action_format:
-                if (listener != null) {
-                    listener.formatCode();
-                }
-
+                listener.formatCode();
                 break;
             case R.id.action_report_bug:
-                if (listener != null) {
-                    listener.reportBug();
-                }
-
+                listener.reportBug();
                 break;
-
             case R.id.action_undo:
-                if (listener != null) {
-                    listener.undo();
-                }
-
+                listener.undo();
                 break;
             case R.id.action_redo:
-                if (listener != null) {
-                    listener.redo();
-                }
-
+                listener.redo();
                 break;
             case R.id.action_paste:
-                if (listener != null) {
-                    listener.paste();
-                }
-
+                listener.paste();
                 break;
             case R.id.action_copy_all:
-                if (listener != null) {
-                    listener.copyAll();
-                }
-
+                listener.copyAll();
                 break;
             case R.id.action_select_theme:
-                if (listener != null) {
-                    listener.selectThemeFont();
-                }
-
+                listener.selectThemeFont();
                 break;
             case R.id.action_more_feature:
-                activity.openDrawer(GravityCompat.END);
-
+                mActivity.openDrawer(GravityCompat.END);
                 break;
             case R.id.action_translate:
-                startActivityTranslate(activity);
+                startActivityTranslate();
                 break;
             case R.id.action_info:
-                activity.startActivity(new Intent(activity, InfoActivity.class));
-
+                mActivity.startActivity(new Intent(mActivity, InfoActivity.class));
                 break;
             case R.id.action_program_structure:
-                activity.showProgramStructure();
-
+                mActivity.showProgramStructure();
                 break;
             case R.id.action_debug:
-                activity.startDebug();
-
+                mActivity.startDebug();
                 break;
             case R.id.action_show_line:
-                pascalPreferences.setShowLines(menuItem.isChecked());
-
-
+                mPreference.setShowLines(menuItem.isChecked());
                 break;
             case R.id.action_show_popup:
-                pascalPreferences.setShowSuggestPopup(menuItem.isChecked());
-
+                mPreference.setShowSuggestPopup(menuItem.isChecked());
                 break;
             case R.id.action_show_symbol:
-                pascalPreferences.setShowSymbol(menuItem.isChecked());
-
+                mPreference.setShowSymbol(menuItem.isChecked());
                 break;
             case R.id.action_edit_word_wrap:
-                pascalPreferences.setWordWrap(menuItem.isChecked());
-
+                mPreference.setWordWrap(menuItem.isChecked());
                 break;
-            case R.id.action_got_to_blog: {
-                Intent intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://pascalnide.wordpress.com/"));
-                activity.startActivity(intent);
-
-                break;
-            }
             case R.id.action_open_file:
-                activity.openDrawer(GravityCompat.START);
-
+                mActivity.openDrawer(GravityCompat.START);
                 break;
             case R.id.action_insert_media_url:
-                Intent i = new Intent();
-                i.setType("audio/*");
-                i.setAction(Intent.ACTION_GET_CONTENT);
-                activity.startActivityForResult(Intent.createChooser(i, "Complete action using"),
-                        EditorActivity.ACTION_PICK_MEDIA_URL);
-
+                selectMediaUrl();
                 break;
             case R.id.action_insert_color:
-                activity.insertColor();
+                mActivity.insertColor();
                 break;
             case R.id.action_ime:
-                pascalPreferences.setImeMode(menuItem.isChecked());
+                mPreference.setImeMode(menuItem.isChecked());
                 break;
             case R.id.action_donate:
-                DonateUtils.showDialogDonate(activity);
+                DonateUtils.showDialogDonate(mActivity);
                 break;
         }
         return true;
     }
 
-    public void startActivityTranslate(final Activity activity) {
+    private void selectMediaUrl() {
+        Intent i = new Intent();
+        i.setType("audio/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        Intent intent = Intent.createChooser(i, "Complete action using");
+        mActivity.startActivityForResult(intent, EditorActivity.ACTION_PICK_MEDIA_URL);
+    }
+
+    public void startActivityTranslate() {
         String link = "http://osewnui.oneskyapp.com/collaboration/project?id=272800";
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-        activity.startActivity(intent);
+        mActivity.startActivity(intent);
     }
 
     @Nullable

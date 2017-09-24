@@ -19,7 +19,7 @@
     android:layout_height="match_parent"
     android:minWidth="200dp"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="16dp">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/hint"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/enter_new_file_name">
 
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/edit_file_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -65,21 +65,23 @@
     </RadioGroup>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right">
 
-        <Button
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel" />
+
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_ok"
             style="@style/Base.Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ok" />
-
-        <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel" />
     </LinearLayout>
 
 </LinearLayout>

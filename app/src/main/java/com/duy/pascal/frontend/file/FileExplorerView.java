@@ -30,4 +30,8 @@ public interface FileExplorerView {
     void refresh();
 
     void finish();
+
+    void createNewFolder();
+
+    void createNewFile();
 }

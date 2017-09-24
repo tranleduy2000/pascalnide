@@ -186,7 +186,8 @@ public class FragmentFileManager extends Fragment implements
     /**
      * show dialog create new file
      */
-    private void createNewFile() {
+    @Override
+    public void createNewFile() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.new_file);
         builder.setView(R.layout.dialog_new_file);
@@ -233,7 +234,7 @@ public class FragmentFileManager extends Fragment implements
 
     }
 
-    private void createNewFolder() {
+    public void createNewFolder() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.new_folder);
         builder.setView(R.layout.dialog_new_file);

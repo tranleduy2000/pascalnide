@@ -143,8 +143,4 @@ public class DialogHelper {
         }
         return dialog;
     }
-
-    public static void createDialogReportBug(EditorActivity activity, String code) {
-
-    }
 }

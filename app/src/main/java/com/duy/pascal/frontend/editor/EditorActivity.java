@@ -472,10 +472,11 @@ public class EditorActivity extends BaseEditorActivity implements
         }
     }
 
-
     @Override
     public void reportBug() {
-        DialogHelper.createDialogReportBug(this, getCode());
+        String link = "https://github.com/tranleduy2000/pascalnide/issues";
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+        startActivity(intent);
     }
 
     @Override
@@ -498,7 +499,6 @@ public class EditorActivity extends BaseEditorActivity implements
             editorFragment.redo();
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -538,7 +538,6 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
-
     }
 
     @Override
@@ -548,7 +547,9 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void onDrawerClosed(View drawerView) {
-
+        if (mFabMenu.isOpened()) {
+            mFabMenu.close(false);
+        }
     }
 
     @Override
@@ -585,14 +586,10 @@ public class EditorActivity extends BaseEditorActivity implements
             return;
         }
 
-        /*
-          check can undo
-         */
         if (getPreferences().getBoolean(getString(R.string.key_back_undo))) {
             undo();
             return;
         }
-
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.exit)

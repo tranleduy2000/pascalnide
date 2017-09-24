@@ -426,6 +426,8 @@ public abstract class JecFile implements Parcelable
      */
     public abstract void mkdirs(BoolResultListener listener);
 
+    public abstract void createNewFile(BoolResultListener listener);
+
     /**
      * Renames the file denoted by this abstract pathname.
      *

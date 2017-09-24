@@ -223,7 +223,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
             });
             item.setVisible(false);
         } else if (item.getItemId() == R.id.add_folder_menu) {
-            action.doCreateFolder();
+            action.doCreateFolder(null);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -337,6 +337,16 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     @Override
     public void finish() {
         getActivity().finish();
+    }
+
+    @Override
+    public void createNewFolder() {
+        action.doCreateFolder((FileActionCallback) getActivity());
+    }
+
+    @Override
+    public void createNewFile() {
+        action.showDialogCreateFile((FileActionCallback) getActivity());
     }
 
     @Override
