@@ -65,6 +65,11 @@ public class LocalFile extends JecFile {
         file = new File(pathname);
     }
 
+    public LocalFile(File file) {
+        super(file.getPath());
+        this.file = file;
+    }
+
     protected LocalFile(Parcel in) {
         this(in.readString());
     }

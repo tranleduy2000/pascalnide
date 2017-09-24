@@ -62,20 +62,15 @@ public class FileManager {
     private PascalPreferences mPascalPreferences;
 
     public FileManager(Context context) {
-        this.mContext = context;
+        mContext = context;
         mDatabase = new Database(context);
         mPascalPreferences = new PascalPreferences(context);
     }
 
-    /**
-     * @return path of application
-     */
-    public static String getFilePath() {
-        File file = new File(EXTERNAL_DIR_CODE);
-        if (!file.exists()) file.mkdirs();
-        return EXTERNAL_DIR_CODE;
-    }
 
+    /**
+     * Read input stream
+     */
     public static StringBuilder streamToString(InputStream inputStream) {
         StringBuilder result = new StringBuilder();
         BufferedReader reader = null;
@@ -99,10 +94,26 @@ public class FileManager {
         return result;
     }
 
+    @NonNull
+    public static File getSrcPath(Context context) {
+        int i = ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
+        final String dirName = "PascalCompiler";
+        if (i == PackageManager.PERMISSION_GRANTED) {
+            File file = new File(Environment.getExternalStorageDirectory(), dirName);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+            return file;
+        } else {
+            return new File(context.getFilesDir(), dirName);
+        }
+    }
+
     /**
      * get path from uri
      */
-    public String getPath(Context context, Uri uri) throws URISyntaxException {
+    @Nullable
+    public static String getPathFromUri(Context context, Uri uri) throws URISyntaxException {
         if ("content".equalsIgnoreCase(uri.getScheme())) {
             String[] projection = {"_data"};
             Cursor cursor;
@@ -120,34 +131,6 @@ public class FileManager {
         }
         return null;
     }
-
-    public String getLineError(int position, String mFileName) {
-        File file = new File(mFileName);
-        if (file.canRead()) {
-            try {
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-                int index = 0;
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    index += line.length();
-                    if (index >= position) break;
-                }
-                if (index >= position) {
-                    return line;
-                } else
-                    return "";
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
-                return "";
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            return "";
-        }
-        return "";
-    }
-
 
     public StringBuilder fileToString(String path) {
         File file = new File(path);
@@ -353,6 +336,7 @@ public class FileManager {
             }
             return path;
         } catch (IOException e) {
+            e.printStackTrace();
             return "";
         }
     }
@@ -425,7 +409,6 @@ public class FileManager {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
-
     public void addNewPath(String path) {
         mDatabase.addNewFile(new File(path));
     }
@@ -441,11 +424,9 @@ public class FileManager {
         mDatabase.removeFile(path);
     }
 
-    public String createRandomFile() {
-        String filePath;
-        filePath = getFilePath() + Integer.toHexString((int) System.currentTimeMillis())
-                + ".pas";
-        return createNewFile(filePath);
+    public String createRandomFile(Context context) {
+        File f = new File(getSrcPath(context), Integer.toHexString((int) System.currentTimeMillis()) + ".pas");
+        return createNewFile(f.getPath());
     }
 
     /**
@@ -498,5 +479,4 @@ public class FileManager {
         intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
         return intent;
     }
-
 }

@@ -133,6 +133,20 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
         setupToolbar();
         setupPageView();
         initFileView();
+        loadFileFromIntent();
+    }
+
+    private void loadFileFromIntent() {
+        Log.d(TAG, "onResume() called");
+        Intent intent = getIntent();
+        if (intent != null && intent.getStringExtra(CompileManager.FILE_PATH) != null) {
+            String filePath = intent.getStringExtra(CompileManager.FILE_PATH);
+            Log.d(TAG, "onResume: path = " + filePath);
+            //No need save last file because it is the first file
+            addNewPageEditor(new File(filePath));
+            //Remove path
+            intent.removeExtra(CompileManager.FILE_PATH);
+        }
     }
 
     private void bindView() {
@@ -143,14 +157,13 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
         mTabLayout = findViewById(R.id.tab_layout);
         mContainerSymbol = findViewById(R.id.container_symbol);
         mViewPager = findViewById(R.id.view_pager);
-
     }
 
     private void initFileView() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         mFileExplorer = (FileListPagerFragment) fragmentManager.findFragmentByTag(FileListPagerFragment.TAG);
         if (mFileExplorer == null) {
-            LocalFile path = new LocalFile(FileManager.getFilePath());
+            LocalFile path = new LocalFile(FileManager.getSrcPath(this));
             mFileExplorer = (FileListPagerFragment) FileListPagerFragment.newFragment(path);
         }
         FragmentTransaction fm = fragmentManager.beginTransaction();
@@ -298,6 +311,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
      * @param file - file need load
      */
     protected void addNewPageEditor(@NonNull File file) {
+        Log.d(TAG, "addNewPageEditor() called with: file = [" + file + "]");
         int position = mPagerAdapter.getPositionForTag(file.getPath());
         if (position != -1) { //existed in list file
             TabLayout.Tab tab = mTabLayout.getTabAt(position);
@@ -335,28 +349,14 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Intent intent = getIntent();
-        if (intent != null) {
-            if (intent.getStringExtra(CompileManager.FILE_PATH) != null) {
-                String filePath = intent.getStringExtra(CompileManager.FILE_PATH);
-                //No need save last file because it is the frist file
-                addNewPageEditor(new File(filePath));
-                //Remove path
-                intent.removeExtra(CompileManager.FILE_PATH);
-            }
-        }
-    }
-
-    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        Log.d(TAG, "onNewIntent() called with: intent = [" + intent + "]");
         if (intent.getStringExtra(CompileManager.FILE_PATH) != null) {
             String filePath = intent.getStringExtra(CompileManager.FILE_PATH);
             File file = new File(filePath);
             if (!file.exists()) {
-                Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.file_not_found, Toast.LENGTH_SHORT).show();
                 return;
             }
             addNewPageEditor(file);
@@ -377,12 +377,6 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
         return false;
     }
 
-    /**
-     * delete a file
-     *
-     * @param file - file need delete
-     * @return true if delete success
-     */
     @Override
     public boolean doRemoveFile(@NonNull final File file) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

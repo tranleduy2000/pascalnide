@@ -17,6 +17,7 @@
 package com.duy.pascal.frontend.editor;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -40,7 +41,6 @@ import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,7 +57,7 @@ public class EditorFragment extends Fragment implements EditorController {
     private LockableScrollView mScrollView;
     private FileManager mFileManager;
     private Handler handler = new Handler();
-
+    private LoadCodeTask mLoadCodeTask;
 
     public static EditorFragment newInstance(String filePath) {
         EditorFragment editorFragment = new EditorFragment();
@@ -73,19 +73,17 @@ public class EditorFragment extends Fragment implements EditorController {
         mFileManager = new FileManager(getContext());
     }
 
-//    private LockableHorizontalScrollView mHorizontalScrollView;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_editor, container, false);
+        return inflater.inflate(R.layout.fragment_editor, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mCodeEditor = view.findViewById(R.id.code_editor);
         mScrollView = view.findViewById(R.id.vertical_scroll);
-//        mHorizontalScrollView = (LockableHorizontalScrollView) view.findViewById(R.id.horizontal_scroll);
-
-        FileManager fileManager = new FileManager(getContext());
-        StringBuilder code = fileManager.fileToString(getArguments().getString(CompileManager.FILE_PATH));
-        mCodeEditor.setTextHighlighted(code);
 
         try {
             mCodeEditor.setEditorControl((EditorControl) getActivity());
@@ -101,36 +99,22 @@ public class EditorFragment extends Fragment implements EditorController {
                 }
             });
         }
-//        if (mHorizontalScrollView != null) {
-//            mCodeEditor.setHorizontalScroll(mHorizontalScrollView);
-//            mHorizontalScrollView.setScrollListener(new LockableHorizontalScrollView.ScrollListener() {
-//                @Override
-//                public void onScroll(int x, int y) {
-//                    mCodeEditor.updateTextHighlight();
-//                }
-//            });
-//        }
-//        ArrayList<SuggestItem> items = PascalLibraryManager.getAllMethodDescription(SystemLibrary.class, IOLib.class, FileLib.class);
-//        for (String s : KeyWord.ALL_KEY_WORD) {
-//            items.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
-//        }
-//        mCodeEditor.setSuggestData(items);
-        return view;
+        mLoadCodeTask = new LoadCodeTask(getContext(), mCodeEditor);
+        mLoadCodeTask.execute(getArguments().getString(CompileManager.FILE_PATH));
     }
 
 
     @Override
-    public void onStop() {
+    public void onDestroyView() {
+        if (mLoadCodeTask != null) {
+            mLoadCodeTask.cancel(true);
+        }
         saveFile();
         if (mCodeEditor != null && getFilePath() != null) {
             Log.i(TAG, "onStop: save edit history " + getFilePath());
             mCodeEditor.saveHistory(getFilePath());
-        } else {
-            android.util.Log.e(TAG, "can not save edit history");
-            FirebaseAnalytics.getInstance(getContext()).logEvent("can_not_save_edit_history", new Bundle());
         }
-
-        super.onStop();
+        super.onDestroyView();
     }
 
     @Override
@@ -174,7 +158,9 @@ public class EditorFragment extends Fragment implements EditorController {
 
     @Override
     public void saveFile() {
-        if (mCodeEditor == null) return;
+        if (mCodeEditor == null) {
+            return;
+        }
         String filePath = getArguments().getString(CompileManager.FILE_PATH);
         boolean result;
         if (filePath != null) {
@@ -202,8 +188,7 @@ public class EditorFragment extends Fragment implements EditorController {
     public void formatCode() {
         String text = getCode();
         try {
-            PascalFormatCode autoIndentCode;
-            autoIndentCode = new PascalFormatCode(new StringReader(text));
+            PascalFormatCode autoIndentCode = new PascalFormatCode(new StringReader(text));
             StringBuilder result = autoIndentCode.getResult();
             mCodeEditor.setTextHighlighted(result);
             mCodeEditor.applyTabWidth(mCodeEditor.getText(), 0, mCodeEditor.getText().length());
@@ -280,6 +265,30 @@ public class EditorFragment extends Fragment implements EditorController {
             return "";
         } else {
             return path;
+        }
+    }
+
+    private static class LoadCodeTask extends AsyncTask<String, Void, StringBuilder> {
+        private final Context context;
+        private final EditorView editorView;
+
+        LoadCodeTask(Context context, EditorView editorView) {
+            this.context = context;
+            this.editorView = editorView;
+        }
+
+        @Override
+        protected StringBuilder doInBackground(String... params) {
+            FileManager fileManager = new FileManager(context);
+            return fileManager.fileToString(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(StringBuilder s) {
+            super.onPostExecute(s);
+            if (!isCancelled()) {
+                editorView.setText(s);
+            }
         }
     }
 

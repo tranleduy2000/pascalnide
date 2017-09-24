@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.duy.pascal.frontend">
+    package="com.duy.pascal.frontend">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.BATTERY_STATS"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BATTERY_STATS" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- aLocation library -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name="com.duy.pascal.PascalApplication"
@@ -32,9 +32,9 @@
             android:name="com.duy.pascal.CreateShortcutActivity"
             android:label="@string/create_shortcut">
             <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT"/>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
@@ -42,91 +42,93 @@
             android:name=".activities.ActivitySplashScreen"
             android:configChanges="orientation">
             <intent-filter>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
 
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
 
             <!-- Filter open file *.pas -->
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="*"
                     android:mimeType="*/*"
                     android:pathPattern=".*\\.pas"
-                    android:scheme="file"/>
+                    android:scheme="file" />
             </intent-filter>
 
             <!-- Filter open file *.PAS -->
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="*"
                     android:mimeType="*/*"
                     android:pathPattern=".*\\.PAS"
-                    android:scheme="file"/>
+                    android:scheme="file" />
             </intent-filter>
 
             <!-- Clip board filter -->
             <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
+                <action android:name="android.intent.action.SEND" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="text/plain"/>
+                <data android:mimeType="text/plain" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="text/*"/>
+                <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".editor.EditorActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask" />
+
         <activity
             android:name=".runnable.ExecuteActivity"
             android:configChanges="screenSize"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".code.sample.activities.DocumentActivity"/>
-        <activity android:name=".code.sample.activities.CodeSampleActivity"/>
-        <activity android:name=".themefont.activities.ThemeFontActivity"/>
-        <activity android:name=".info.InfoActivity"/>
-        <activity android:name=".setting.SettingsActivity"/>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".code.sample.activities.DocumentActivity" />
+        <activity android:name=".code.sample.activities.CodeSampleActivity" />
+        <activity android:name=".themefont.activities.ThemeFontActivity" />
+        <activity android:name=".info.InfoActivity" />
+        <activity android:name=".setting.SettingsActivity" />
         <activity
             android:name=".debug.activities.DebugActivity"
             android:configChanges="screenSize"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name="com.duy.pascal.interperter.builtin_libraries.android.activity.PascalActivity"/>
-        <activity android:name=".code.sample.activities.SearchResultSampleActivity"/>
-        <activity android:name=".themefont.themes.CustomThemeActivity"/>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name="com.duy.pascal.interperter.builtin_libraries.android.activity.PascalActivity" />
+        <activity android:name=".code.sample.activities.SearchResultSampleActivity" />
+        <activity android:name=".themefont.themes.CustomThemeActivity" />
 
         <!-- Scan bar code activity -->
         <activity
             android:name="com.duy.pascal.interperter.builtin_libraries.android.barcode.ZxingActivity"
-            android:label="@string/title_activity_zxing"/>
+            android:label="@string/title_activity_zxing" />
         <activity
             android:name="com.duy.pascal.interperter.builtin_libraries.android.barcode.ScannerActivity"
             android:screenOrientation="fullSensor"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <!-- Notification service -->
         <service android:name=".notify.FirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
@@ -136,14 +138,14 @@
         -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@mipmap/ic_launcher"/>
+            android:resource="@mipmap/ic_launcher" />
         <!--
              Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more.
         -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/dark.color_accent"/>
+            android:resource="@color/dark.color_accent" />
         <!-- END SETUP NOTIFICATION -->
 
     </application>

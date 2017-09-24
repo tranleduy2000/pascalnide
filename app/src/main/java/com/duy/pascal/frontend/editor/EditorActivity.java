@@ -126,7 +126,7 @@ public class EditorActivity extends BaseEditorActivity implements
         super.invalidateOptionsMenu();
     }
 
-    void insertTab(View v) {
+    private void insertTab(View v) {
         onKeyClick(v, AutoIndentEditText.TAB_CHARACTER);
     }
 
@@ -488,7 +488,7 @@ public class EditorActivity extends BaseEditorActivity implements
                     // Get the path
                     String path;
                     try {
-                        path = mFileManager.getPath(this, uri);
+                        path = mFileManager.getPathFromUri(this, uri);
                         mFileManager.setWorkingFilePath(path);
                         addNewPageEditor(new File(path));
                     } catch (Exception e) {

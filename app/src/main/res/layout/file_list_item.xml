@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/nameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -77,10 +77,10 @@
                 android:singleLine="true"
                 android:text="@{item.name}"
                 android:textColor="?android:attr/textColorPrimary"
-                android:textSize="17sp" />
+                android:textSize="14sp" />
 
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/dateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,9 +89,9 @@
                 android:layout_marginTop="5dp"
                 android:text="@{item.date}"
                 android:textColor="?android:attr/textColorSecondary"
-                android:textSize="13sp" />
+                android:textSize="10sp" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/secondLineTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

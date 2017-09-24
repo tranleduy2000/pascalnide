@@ -46,10 +46,10 @@ import com.duy.pascal.frontend.utils.DonateUtils;
 import com.duy.pascal.frontend.utils.Installation;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.Date;
 
 
@@ -196,7 +196,6 @@ public class ActivitySplashScreen extends AppCompatActivity {
             if (type.equals("text/plain")) {
                 handleActionSend(data, intentEdit);
             }
-
         } else if (action != null && Intent.ACTION_VIEW.equals(action) && type != null) {
             FirebaseAnalytics.getInstance(this).logEvent("open_from_another", new Bundle());
             handleActionView(data, intentEdit);
@@ -230,22 +229,25 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private void handleActionView(@NonNull Intent from,
                                   @NonNull Intent to) {
         Log.d(TAG, "handleActionView() called with: from = [" + from + "], to = [" + to + "]");
-        if (from.getData().toString().endsWith(".pas")) {
+        if (from.getData().toString().endsWith(".pas") || from.getData().toString().endsWith(".txt")) {
             Uri uriPath = from.getData();
             Log.d(TAG, "handleActionView: " + uriPath.getPath());
-            to.putExtra(CompileManager.FILE_PATH, uriPath.getPath());
+            try {
+                String path = FileManager.getPathFromUri(this, uriPath);
+                to.putExtra(CompileManager.FILE_PATH, path);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         } else if (from.getType().equals("text/x-pascal")) {
             Uri uri = from.getData();
             try {
                 //clone file
                 InputStream inputStream = getContentResolver().openInputStream(uri);
                 FileManager fileManager = new FileManager(this);
-                String filePath = fileManager.createRandomFile();
+                String filePath = fileManager.createRandomFile(this);
                 fileManager.copy(inputStream, new FileOutputStream(filePath));
 
                 to.putExtra(CompileManager.FILE_PATH, filePath);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -254,11 +256,8 @@ public class ActivitySplashScreen extends AppCompatActivity {
 
     private void handleActionSend(Intent from, Intent to) {
         String text = from.getStringExtra(Intent.EXTRA_TEXT);
-
         FileManager fileManager = new FileManager(this);
-        //create new temp file
-        String filePath = fileManager.createNewFile(FileManager.getFilePath() +
-                "new_" + Integer.toHexString((int) System.currentTimeMillis()) + ".pas");
+        String filePath = fileManager.createRandomFile(this);
         fileManager.saveFile(filePath, text);
         to.putExtra(CompileManager.FILE_PATH, filePath);
     }
@@ -266,7 +265,6 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private class CheckTask extends AsyncTask<Object, Object, Boolean> {
         private ApplicationInfo mApplicationInfo;
         private boolean mLicensedCached = false;
-
 
         @Override
         protected void onPreExecute() {

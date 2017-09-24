@@ -244,5 +244,6 @@
         1. Swipe left to right to open file view\n
         2. Swipe right to left to open drawer
     </string>
+    <string name="file_not_found">File not found</string>
 </resources>
 

@@ -25,13 +25,13 @@ import com.duy.pascal.frontend.autocomplete.autofix.model.TextData;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import static com.makeramen.roundedimageview.RoundedDrawable.TAG;
-
 /**
  * Created by Duy on 9/24/2017.
  */
 
 class EditorUtil {
+    private static final String TAG = "EditorUtil";
+
     /**
      * get text in lineInfo
      */

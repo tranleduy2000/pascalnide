@@ -24,7 +24,7 @@ public class TextData {
 
     public TextData(CharSequence text, int offset) {
         this.text = new SpannableStringBuilder(text);
-        this.offset = offset;
+        this.offset = Math.max(offset, 0);
     }
 
     public SpannableStringBuilder getText() {

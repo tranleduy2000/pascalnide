@@ -20,7 +20,6 @@ import android.content.Context;
 import android.graphics.Typeface;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.utils.DonateUtils;
 
 import java.io.File;
@@ -73,12 +72,13 @@ public class FontManager {
         return Typeface.MONOSPACE;
     }
 
-    public synchronized static Typeface getFontFromStorage(String name) {
+    public synchronized static Typeface getFontFromStorage(Context context, String name) {
         try {
             synchronized (cache) {
                 if (!cache.containsKey(name)) {
                     try {
-                        Typeface font = Typeface.createFromFile(FileManager.getFilePath() + "fonts/" + name);
+                        File file = new File(context.getFilesDir(), "fonts" + File.separator + name);
+                        Typeface font = Typeface.createFromFile(file);
                         cache.put(name, font);
                     } catch (Exception e) {
                         throw new IOException("Could not get typeface '" + name + "' because " + e.getMessage());
@@ -110,7 +110,7 @@ public class FontManager {
             e.printStackTrace();
         }
         if (DonateUtils.DONATED) {
-            File parent = new File(FileManager.getFilePath(), "fonts");
+            File parent = new File(context.getFilesDir(), "fonts");
             if (parent.exists() && parent.isDirectory()) {
                 File[] files = parent.listFiles();
                 for (File f : files) {
@@ -124,7 +124,7 @@ public class FontManager {
     }
 
     public static Typeface getFont(FontEntry fontEntry, Context context) {
-        return fontEntry.fromStorage ? getFontFromStorage(fontEntry.name) :
+        return fontEntry.fromStorage ? getFontFromStorage(context, fontEntry.name) :
                 getFontFromAsset(context, fontEntry.name);
     }
 }

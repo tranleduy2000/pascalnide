@@ -32,17 +32,16 @@ The application is a Pascal interpreter on Android. This application is confusin
 ## Auto Fix Error
 
 1. fix missing type
-2. declareProcedure
-3. declareConst
-4. declareFunction
-5. declareVar
-6. fixUnConvertType
+2. declare procedure
+3. declare constant
+4. declare function
+5. declare variable
+6. fix wrong type
 7. fix missing token
 8. fix group exception
 9. change type const
 10. change constant to variable
 11. fix missing begin end
-
 
 ## Features that the interpreter is missing
 

@@ -238,7 +238,7 @@ public class PascalPreferences {
     public Typeface getEditorFont() {
         boolean fromStorage = getBoolean("key_pref_editor_font_from_storage");
         String name = getString("key_pref_editor_font");
-        return fromStorage && DonateUtils.DONATED ? FontManager.getFontFromStorage(name)
+        return fromStorage && DonateUtils.DONATED ? FontManager.getFontFromStorage(context, name)
                 : FontManager.getFontFromAsset(context, name);
     }
 
@@ -250,7 +250,7 @@ public class PascalPreferences {
     public Typeface getConsoleFont() {
         boolean fromStorage = getBoolean("key_pref_console_font_from_storage");
         String name = getString("key_pref_console_font");
-        return fromStorage && DonateUtils.DONATED ? FontManager.getFontFromStorage(name)
+        return fromStorage && DonateUtils.DONATED ? FontManager.getFontFromStorage(context, name)
                 : FontManager.getFontFromAsset(context, name);
     }
 

@@ -263,7 +263,7 @@ public class AutoFixHelper {
                 Matcher matcher = Patterns.CONST.matcher(text.getText());
                 if (matcher.find()) {
                     insertPosition = matcher.end();
-                    textToInsert = "\n" + "    " + name + " = %v ;";
+                    textToInsert = "\n" + editable.getTabCharacter() + name + " = %v ;";
                 } else {
                     if ((matcher = Patterns.PROGRAM.matcher(text.getText())).find()) {
                         insertPosition = matcher.end();
@@ -272,7 +272,7 @@ public class AutoFixHelper {
                     } else if ((matcher = Patterns.TYPE.matcher(text.getText())).find()) {
                         insertPosition = matcher.start();
                     }
-                    textToInsert = "\nconst \n" + AutoIndentEditText.TAB_CHARACTER + name + " = %v ;";
+                    textToInsert = "\nconst \n" + editable.getTabCharacter() + name + " = %v ;";
                 }
 
                 insertPosition += text.getOffset();
@@ -426,6 +426,10 @@ public class AutoFixHelper {
     }
 
 
+    /**
+     * Change constant to variable
+     * eg const a = 2; -> var a: integer = 2'
+     */
     @NonNull
     private static AutoFixCommand changeConstToVar(final ChangeValueConstantException e) {
         return new AutoFixCommand() {
@@ -434,7 +438,7 @@ public class AutoFixHelper {
                 Log.d(TAG, "changeConstToVar() called with: editable = [" + editable + "]");
                 editable.disableTextWatcher();
 
-                TextData text = getText(editable, e.getScope().getStartLine(), e.getLineInfo());
+                TextData region = getText(editable, e.getScope().getStartLine(), e.getLineInfo());
                 ConstantAccess constant = e.getConst();
                 //const a = 2;
                 Pattern pattern = Pattern.compile(
@@ -446,19 +450,19 @@ public class AutoFixHelper {
                                 "(;)",//6
                         Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
-                Matcher matcher = pattern.matcher(text.getText());
+                Matcher matcher = pattern.matcher(region.getText());
                 if (matcher.find()) {
                     DLog.d(TAG, "changeConstToVar: " + matcher);
-                    int start = matcher.start(2) + text.getOffset() - 1;
+                    int start = matcher.start(2) + region.getOffset();
                     start = Math.max(0, start);
-                    int end = matcher.end(6) + text.getOffset();
+                    int end = matcher.end(6) + region.getOffset();
 
-                    Log.d(TAG, "execute: before delete " + text);
+                    Log.d(TAG, "execute: before delete " + region);
                     editable.getText().delete(start, end);
-                    text.getText().delete(matcher.start(2), matcher.end(6));
-                    Log.d(TAG, "execute: after delete " + text);
+                    region.getText().delete(matcher.start(2), matcher.end(6));
+                    Log.d(TAG, "execute: after delete " + region);
 
-                    AutoFixCommand declareVar = declareVar(text,
+                    AutoFixCommand declareVar = declareVar(region,
                             constant.getName(), //name
                             constant.getRuntimeType(null).declType.toString(), //type
                             constant.toCode());
@@ -477,16 +481,16 @@ public class AutoFixHelper {
                                     "(;)" //9
                             , Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
-                    matcher = pattern.matcher(text.getText());
+                    matcher = pattern.matcher(region.getText());
                     if (matcher.find()) {
-                        int start = matcher.start(2) + text.getOffset() - 1;
+                        int start = matcher.start(2) + region.getOffset();
                         start = Math.max(0, start);
-                        int end = matcher.end(9) + text.getOffset();
+                        int end = matcher.end(9) + region.getOffset();
 
                         editable.getText().delete(start, end);
-                        text.getText().delete(matcher.start(2), matcher.end(9));
+                        region.getText().delete(matcher.start(2), matcher.end(9));
 
-                        AutoFixCommand declareVar = declareVar(text,
+                        AutoFixCommand declareVar = declareVar(region,
                                 constant.getName(),  //name
                                 constant.getRuntimeType(null).declType.toString(), //type
                                 constant.toCode());
