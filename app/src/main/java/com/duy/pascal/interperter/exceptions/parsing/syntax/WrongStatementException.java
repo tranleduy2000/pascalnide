@@ -42,7 +42,8 @@ public class WrongStatementException extends ParsingException {
     public enum Statement {
         VAR_DECLARE("var <variable_list> : <type>;"),
         CONST_DECLARE("const <identifier> = <constant_value>;"),
-        FOR_TO_DO("for <variable-name> := <initial_value> to [down to] <final_value> do <statement>;"),
+        FOR_TO_DO("for <variable-name> := <initial_value> to  <final_value> do <statement>;"),
+        FOR_DOWNTO_DO("for <variable-name> := <initial_value> downto <final_value> do <statement>;"),
         WHILE_DO("while <condition> do <statement>;"),
         IF_THEN("if <condition> then <statement>;"),
         IF_THEN_ELSE("if <condition> then <statement> else <statement>;"),
@@ -53,7 +54,6 @@ public class WrongStatementException extends ParsingException {
                 "   ...\n" +
                 "   field-n: field-typen;\n" +
                 "end;");
-
         String statement;
 
         Statement(String statement) {

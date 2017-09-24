@@ -30,6 +30,8 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.autocomplete.autofix.AutoFixHelper;
+import com.duy.pascal.frontend.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.editor.indention.PascalFormatCode;
 import com.duy.pascal.frontend.editor.view.EditorView;
@@ -37,13 +39,6 @@ import com.duy.pascal.frontend.editor.view.LineUtils;
 import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
-import com.duy.pascal.interperter.exceptions.parsing.define.MainProgramNotFoundException;
-import com.duy.pascal.interperter.exceptions.parsing.define.TypeIdentifierExpectException;
-import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
-import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
-import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenException;
-import com.duy.pascal.interperter.exceptions.parsing.value.ChangeValueConstantException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -151,21 +146,8 @@ public class EditorFragment extends Fragment implements EditorController {
     }
 
     public void autoFix(ParsingException e) {
-        if (e instanceof TypeIdentifierExpectException) {
-            mCodeEditor.getAutoFixError().fixMissingType((TypeIdentifierExpectException) e);
-        } else if (e instanceof UnknownIdentifierException) {
-            mCodeEditor.getAutoFixError().fixMissingDefine((UnknownIdentifierException) e);
-        } else if (e instanceof UnConvertibleTypeException) {
-            mCodeEditor.getAutoFixError().fixUnConvertType((UnConvertibleTypeException) e);
-        } else if (e instanceof MissingTokenException) {
-            mCodeEditor.getAutoFixError().insertToken((MissingTokenException) e);
-        } else if (e instanceof ChangeValueConstantException) {
-            mCodeEditor.getAutoFixError().changeConstToVar((ChangeValueConstantException) e);
-        } else if (e instanceof GroupingException) {
-            mCodeEditor.getAutoFixError().fixGroupException((GroupingException) e);
-        } else if (e instanceof MainProgramNotFoundException) {
-            mCodeEditor.getAutoFixError().fixProgramNotFound();
-        }
+        AutoFixCommand command = AutoFixHelper.createCommand(e);
+        if (command != null) command.execute(mCodeEditor);
     }
 
     @Override

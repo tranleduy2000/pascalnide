@@ -299,11 +299,10 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 i.take();
                 importLibraries(i);
                 i.assertNextSemicolon();
-            } else if (next instanceof TypeToken) { // //supported diagnostic
+            } else if (next instanceof TypeToken) {//supported diagnostic
                 i.take();
                 addDeclareTypes(i);
             } else if (next instanceof LabelToken) {
-//            declareLabels(i);
                 throw new UnSupportTokenException(next);
             } else if (next instanceof CompileDirectiveToken) {
                 CompileDirectiveToken compileDirectiveToken = (CompileDirectiveToken) i.take();
@@ -415,8 +414,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
             //because the type can be forward type
             //example
-            //type
-            //      a = ^b;
+            //type  a = ^b;
             //      b = integer;
             if (grouperToken.peek() instanceof OperatorToken && ((OperatorToken) grouperToken.peek()).type == OperatorTypes.DEREF) {
                 grouperToken.take();
@@ -473,7 +471,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 declareTypedef(name.getName(), type);
                 grouperToken.assertNextSemicolon();
             }
-
         }
 
         //pre check forward pointer type

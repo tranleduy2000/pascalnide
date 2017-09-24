@@ -38,39 +38,6 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
     public static final String CURSOR = "\u2622";
     private static final String TAG = "AutoIndentEditText";
     protected EditorSetting mEditorSetting;
-
-    public AutoIndentEditText(Context context) {
-        super(context);
-        init(context);
-    }
-
-    public AutoIndentEditText(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
-    }
-
-    public AutoIndentEditText(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context);
-    }
-
-    public void applyTabWidth(Editable text, int start, int end) {
-        /*String str = text.toString();
-        float tabWidth = getPaint().measureText(INDEX_CHAR) * TAB_NUMBER;
-        while (start < end) {
-            int index = str.indexOf("\t", start);
-            if (index < 0)
-                break;
-            text.setSpan(new CustomTabWidthSpan(Float.valueOf(tabWidth).intValue()), index, index + 1,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            start = index + 1;
-        }*/
-    }
-
-    public void applyTabWidth() {
-        applyTabWidth(getText(), 0, getText().length());
-    }
-
     private TextWatcher mBracketWatcher = new TextWatcher() {
         private int start;
         private int count;
@@ -113,6 +80,38 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
             return source;
         }
     };
+
+    public AutoIndentEditText(Context context) {
+        super(context);
+        init(context);
+    }
+
+    public AutoIndentEditText(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
+    }
+
+    public AutoIndentEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(context);
+    }
+
+    public void applyTabWidth(Editable text, int start, int end) {
+        /*String str = text.toString();
+        float tabWidth = getPaint().measureText(INDEX_CHAR) * TAB_NUMBER;
+        while (start < end) {
+            int index = str.indexOf("\t", start);
+            if (index < 0)
+                break;
+            text.setSpan(new CustomTabWidthSpan(Float.valueOf(tabWidth).intValue()), index, index + 1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            start = index + 1;
+        }*/
+    }
+
+    public void applyTabWidth() {
+        applyTabWidth(getText(), 0, getText().length());
+    }
 
     private void init(Context context) {
         mEditorSetting = new EditorSetting(context);
@@ -245,4 +244,7 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
         return source + indent;
     }
 
+    public String getTabCharacter() {
+        return TAB_CHARACTER;
+    }
 }

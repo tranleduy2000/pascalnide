@@ -73,7 +73,6 @@ import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedAnotherToken
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.NotAStatementException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.WrongIfElseStatement;
-import com.duy.pascal.interperter.exceptions.parsing.syntax.WrongStatementException;
 import com.duy.pascal.interperter.exceptions.parsing.value.ChangeValueConstantException;
 import com.duy.pascal.interperter.exceptions.parsing.value.NonConstantExpressionException;
 import com.duy.pascal.interperter.exceptions.parsing.value.NonIntegerException;
@@ -406,7 +405,7 @@ public abstract class GrouperToken extends Token {
         } else if (n instanceof ValueToken || n instanceof OperatorToken) {
             return SubrangeType.getRangeType(this, context, n);
         } else if (!(n instanceof WordToken)) {
-            throw new WrongStatementException(WrongStatementException.Statement.TYPE_DECLARE, n);
+            throw new ExpectedTokenException("[Type Identifier]", n);
         }
         Type declaredType = ((WordToken) n).toBasicType(context);
         //process string with define length
@@ -763,11 +762,10 @@ public abstract class GrouperToken extends Token {
         List<WordToken> names = new ArrayList<>();
         Token next;
         do {
-            //get list name of variable
-            do {
+            do {//get list name of variable
                 next = take();
                 if (!(next instanceof WordToken)) {
-                    throw new WrongStatementException(WrongStatementException.Statement.VAR_DECLARE, next);
+                    throw new ExpectedTokenException("[Variable Identifier]", next);
                 }
                 names.add((WordToken) next);
                 next = take();

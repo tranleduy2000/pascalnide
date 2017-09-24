@@ -22,6 +22,7 @@ import android.text.Editable;
 import android.text.Layout;
 
 import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.autocomplete.autofix.model.TextData;
 import com.duy.pascal.frontend.autocomplete.completion.model.KeyWord;
 import com.duy.pascal.frontend.autocomplete.completion.model.Patterns;
 import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
@@ -368,6 +369,8 @@ public class AutoFixError {
     }
 
     /**
+     * Change type of function from <code>valueType</code> to <code>name</code>
+     *
      * @param name - name of function
      * @param text - a part text of the edit start at 0 and end at lineInfo where then function place
      */
@@ -382,51 +385,47 @@ public class AutoFixError {
         Matcher matcher = pattern.matcher(text.getText());
         if (matcher.find()) {
             DLog.d(TAG, "changeTypeFunction: match " + matcher);
-            final int start = matcher.start(5) + text.getOffset();
-            final int end = matcher.end(5) + text.getOffset();
+            int start = matcher.start(5) + text.getOffset();
+            int end = matcher.end(5) + text.getOffset();
 
-            final String insertText = valueType.toString();
+            String insertText = valueType.toString();
             editable.getEditableText().replace(start, end, insertText);
-            editable.post(new Runnable() {
-                @Override
-                public void run() {
-                    editable.setSelection(start, start + insertText.length());
-                    editable.showKeyboard();
-                }
-            });
+            editable.setSelection(start, start + insertText.length());
+            editable.showKeyboard();
         } else {
             DLog.d(TAG, "changeTypeFunction: can not find " + pattern);
         }
     }
 
+    /**
+     * Change type of variable
+     *
+     * @param text       - type to change
+     * @param identifier - variable
+     * @param valueType  - current type of variable
+     */
     private void changeTypeVar(TextData text, VariableAccess identifier, Type valueType) {
         DLog.d(TAG, "fixUnConvertType: variable");
         final Name name = identifier.getName();
         Pattern pattern = Pattern.compile("(^var\\s+|\\s+var\\s+)" + //match "var"  //1
-                        "(.*?)" + //other variable                                  //2
-                        "(" + name + ")" + //name of variable                       //3
-                        "(\\s?)" +//one or more white space                         //4
-                        "(:)" + //colon                                             //5
-                        "(.*?)" + //any type                                        //6
-                        "(;)",
-                Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+                "(.*?)" + //other variable                                  //2
+                "(" + name + ")" + //name of variable                       //3
+                "(\\s?)" +//one or more white space                         //4
+                "(:)" + //colon                                             //5
+                "(.*?)" + //any type                                        //6
+                "(;)", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
         Matcher matcher = pattern.matcher(text.getText());
         DLog.d(TAG, "fixUnConvertType: " + text);
 
         if (matcher.find()) {
             DLog.d(TAG, "fixUnConvertType: match " + matcher);
-            final int start = matcher.start(6) + text.getOffset();
+            int start = matcher.start(6) + text.getOffset();
             int end = matcher.end(6) + text.getOffset();
 
-            final String insertText = valueType.toString();
-            editable.getEditableText().replace(start, end, insertText);
-            editable.post(new Runnable() {
-                @Override
-                public void run() {
-                    editable.setSelection(start, start + insertText.length());
-                }
-            });
+            String insertText = " " + valueType.toString();
+            editable.getText().replace(start, end, insertText);
+            editable.setSelection(start, start + insertText.length());
             editable.showKeyboard();
         } else {
             DLog.d(TAG, "fixUnConvertType: can not find " + pattern);
@@ -581,37 +580,4 @@ public class AutoFixError {
         editable.setSelection(editable.length() - "\nend.\n".length());
     }
 
-    private class TextData {
-        /**
-         * content
-         */
-        CharSequence text;
-        int offset;
-
-        public TextData(CharSequence text, int offset) {
-            this.text = text;
-            this.offset = offset;
-        }
-
-        public CharSequence getText() {
-            return text;
-        }
-
-        public void setText(CharSequence text) {
-            this.text = text;
-        }
-
-        public int getOffset() {
-            return offset;
-        }
-
-        public void setOffset(int offset) {
-            this.offset = offset;
-        }
-
-        @Override
-        public String toString() {
-            return text + "\n" + "offset = " + offset;
-        }
-    }
 }
