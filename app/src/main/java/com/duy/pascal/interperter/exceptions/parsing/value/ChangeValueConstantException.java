@@ -17,12 +17,11 @@
 package com.duy.pascal.interperter.exceptions.parsing.value;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-
-import android.support.annotation.Nullable;
 
 
 public class ChangeValueConstantException extends ParsingException {
@@ -33,9 +32,9 @@ public class ChangeValueConstantException extends ParsingException {
     @NonNull
     private ExpressionContext scope;
 
-    public ChangeValueConstantException(@NonNull ConstantAccess var1, @NonNull ExpressionContext scope) {
-        super(var1.getLineNumber());
-        this.constant = var1;
+    public ChangeValueConstantException(@NonNull ConstantAccess c, @NonNull ExpressionContext scope) {
+        super(c.getLineNumber());
+        this.constant = c;
         this.scope = scope;
         this.name = "";
     }

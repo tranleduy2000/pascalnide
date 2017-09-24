@@ -53,12 +53,8 @@ import com.duy.pascal.frontend.editor.highlight.CodeHighlighter;
 import com.duy.pascal.frontend.themefont.themes.ThemeManager;
 import com.duy.pascal.frontend.themefont.themes.database.CodeTheme;
 import com.duy.pascal.frontend.themefont.themes.database.CodeThemeUtils;
-import com.duy.pascal.interperter.core.PascalCompiler;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.source.ScriptSource;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,14 +67,11 @@ public class HighlightEditor extends CodeSuggestsEditText
     public static final int CHARS_TO_COLOR = 2500;
     private final Handler updateHandler = new Handler();
     private final Object objectThread = new Object();
-    /**
-     * Thread for automatically interpreting the program to catch errors.
-     * Then show to edit text if there are errors
-     */
-    private final Runnable compileProgram = new CompileRunnable();
+
     public boolean showLines = true;
     public boolean wordWrap = true;
-    public LineInfo lineError = null;
+    @NonNull
+    protected ArrayList<LineInfo> mLineErrors = new ArrayList<>();
     protected Paint mPaintNumbers;
     protected Paint mPaintHighlight;
     protected int mPaddingDP = 4;
@@ -211,7 +204,8 @@ public class HighlightEditor extends CodeSuggestsEditText
 
 
     public void setLineError(@NonNull LineInfo lineError) {
-        this.lineError = lineError;
+        this.mLineErrors.clear();
+        this.mLineErrors.add(lineError);
     }
 
     public void computeScroll() {
@@ -424,7 +418,7 @@ public class HighlightEditor extends CodeSuggestsEditText
      * This method used to set text and high light text
      */
     public void setTextHighlighted(CharSequence text) {
-        lineError = null;
+        mLineErrors.clear();
         setText(text);
         refresh();
     }
@@ -437,13 +431,6 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     public String getCleanText() {
         return getText().toString();
-    }
-
-    private void startCompile(int longDelay) {
-        if (isAutoCompile()) {
-            updateHandler.removeCallbacks(compileProgram);
-            updateHandler.postDelayed(compileProgram, longDelay);
-        }
     }
 
     /**
@@ -492,22 +479,22 @@ public class HighlightEditor extends CodeSuggestsEditText
     private void highlightLineError(Editable e) {
         try {
             //high light error lineInfo
-            if (lineError != null) {
+            for (LineInfo lineInfo : mLineErrors) {
                 Layout layout = getLayout();
-                int line = lineError.getLine();
+                int line = lineInfo.getLine();
                 int temp = line;
                 while (realLines[temp] < line) temp++;
                 line = temp;
                 if (layout != null && line < getLineCount()) {
                     int lineStart = getLayout().getLineStart(line);
                     int lineEnd = getLayout().getLineEnd(line);
-                    lineStart += lineError.getColumn();
+                    lineStart += lineInfo.getColumn();
 
                     //check if it contains offset from start index error to
                     //(start + offset) index
-                    if (lineError.getLength() > -1) {
-                        lineEnd = lineStart + lineError.getLength();
-                        Log.d(TAG, "highlightLineError: " + lineError.getLength());
+                    if (lineInfo.getLength() > -1) {
+                        lineEnd = lineStart + lineInfo.getLength();
+                        Log.d(TAG, "highlightLineError: " + lineInfo.getLength());
                     }
 
                     //normalize
@@ -814,8 +801,9 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     public void updateTextHighlight() {
-        if (hasSelection() || updateHandler == null)
+        if (hasSelection() || updateHandler == null) {
             return;
+        }
         updateHandler.removeCallbacks(colorRunnable_duringEditing);
         updateHandler.removeCallbacks(colorRunnable_duringScroll);
         updateHandler.postDelayed(colorRunnable_duringEditing, SYNTAX_DELAY_MILLIS_LONG);
@@ -823,8 +811,7 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     public void showKeyboard() {
         requestFocus();
-        InputMethodManager inputMethodManager = (InputMethodManager)
-                getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
     }
 
@@ -840,53 +827,33 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
     }
 
+    public void disableTextWatcher() {
+        disableTextChangedListener();
+        mEnableSyntaxParser = false;
+    }
+
+    public void enableTextWatcher() {
+        enableTextChangedListener();
+        mEnableSyntaxParser = true;
+    }
+
+
     /**
      * Class that listens to changes in the text.
      */
     private final class EditTextChangeListener
             implements TextWatcher {
-        private int start;
-        private int count;
 
-        public void beforeTextChanged(
-                CharSequence s, int start, int count,
-                int after) {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
 
-        public void onTextChanged(CharSequence s,
-                                  int start, int before,
-                                  int count) {
-            this.start = start;
-            this.count = count;
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
             isFinding = false;
         }
 
         public void afterTextChanged(Editable s) {
+            mLineErrors.clear();
             updateTextHighlight();
-
-            if (!autoCompile) {
-                lineError = null;
-            }
-            startCompile(200);
-        }
-    }
-
-    private class CompileRunnable implements Runnable {
-        @Override
-        public void run() {
-            try {
-                PascalCompiler.loadPascal("temp", new StringReader(getCleanText()),
-                        new ArrayList<ScriptSource>(), null);
-                lineError = null;
-            } catch (ParsingException e) {
-                if (e.getLineInfo() != null) {
-                    synchronized (objectThread) {
-                        lineError = e.getLineInfo();
-                    }
-                }
-                e.printStackTrace();
-            } catch (Exception ignored) {
-            }
         }
     }
 }

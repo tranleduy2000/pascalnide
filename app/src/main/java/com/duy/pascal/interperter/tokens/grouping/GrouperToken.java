@@ -962,7 +962,7 @@ public abstract class GrouperToken extends Token {
                 if (left == null) {
                     if (identifier instanceof ConstantAccess
                             && ((ConstantAccess) identifier).getName() != null) {
-                        throw new ChangeValueConstantException((ConstantAccess<Object>) identifier, context);
+                        throw new ChangeValueConstantException((ConstantAccess) identifier, context);
                     }
                     throw new UnAssignableTypeException(identifier);
                 }

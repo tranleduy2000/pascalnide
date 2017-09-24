@@ -138,7 +138,13 @@ public class AutoFixHelper {
             return declareFunction(exception);
         } else if (exception.getFitType() == DefineType.DECLARE_PROCEDURE) {
             //add missing procedure
+            return declareProcedure(exception);
         }
+        return null;
+    }
+
+    @Nullable
+    private static AutoFixCommand declareProcedure(UnknownIdentifierException exception) {
         return null;
     }
 
@@ -362,14 +368,17 @@ public class AutoFixHelper {
                     textToInsert += type + (initValue != null ? " = " + initValue : "") + ";\n";
                 }
 
+                editable.disableTextWatcher();
+
                 editable.getText().insert(scope.getOffset() + insertPosition, textToInsert);
-                editable.setSelection(scope.getOffset() + insertPosition + startSelect,
-                        scope.getOffset() + insertPosition + endSelect);
-
+                int start = scope.getOffset() + insertPosition + startSelect;
+                int end = scope.getOffset() + insertPosition + endSelect;
+                editable.setSelection(start, end);
                 //set suggest data
-                editable.restoreAfterClick(KeyWord.DATA_TYPE);
-
+                editable.setSuggestData(KeyWord.DATA_TYPE);
                 editable.showKeyboard();
+
+                editable.enableTextWatcher();
             }
         };
     }
@@ -480,6 +489,7 @@ public class AutoFixHelper {
 
     }
 
+    @NonNull
     public static AutoFixCommand fixProgramNotFound() {
         return new AutoFixCommand() {
             @Override
@@ -494,7 +504,7 @@ public class AutoFixHelper {
     }
 
     @Nullable
-    public static AutoFixCommand createCommand(Exception e) {
+    public static AutoFixCommand buildCommand(Exception e) {
         if (e instanceof TypeIdentifierExpectException) {
             return fixMissingType((TypeIdentifierExpectException) e);
         } else if (e instanceof UnknownIdentifierException) {
@@ -522,6 +532,7 @@ public class AutoFixHelper {
      * @param line    - current lineInfo
      * @param column  - start at column of @lineInfo
      */
+    @NonNull
     public static AutoFixCommand fixExpectToken(final String current, final String expect, final boolean insert, final int line, final int column) {
         return new AutoFixCommand() {
             @Override

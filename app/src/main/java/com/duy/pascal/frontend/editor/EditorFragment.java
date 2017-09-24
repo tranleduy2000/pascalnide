@@ -146,8 +146,10 @@ public class EditorFragment extends Fragment implements EditorController {
     }
 
     public void autoFix(ParsingException e) {
-        AutoFixCommand command = AutoFixHelper.createCommand(e);
-        if (command != null) command.execute(mCodeEditor);
+        AutoFixCommand command = AutoFixHelper.buildCommand(e);
+        if (command != null) {
+            command.execute(mCodeEditor);
+        }
     }
 
     @Override

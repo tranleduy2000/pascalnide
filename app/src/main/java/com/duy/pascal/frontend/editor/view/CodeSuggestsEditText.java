@@ -51,6 +51,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     private CodeSuggestAdapter mAdapter;
     private SuggestionProvider pascalParserHelper;
     private ParseTask parseTask;
+    protected boolean mEnableSyntaxParser = true;
 
     public CodeSuggestsEditText(Context context) {
         super(context);
@@ -101,20 +102,23 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         mCharHeight = (int) getPaint().measureText("M");
     }
 
+
     @Override
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
-        try {
-            if (mEditorSetting.isShowSuggestPopup()) {
-                if (parseTask != null) {
-                    parseTask.cancel(true);
+        if (mEnableSyntaxParser) {
+            try {
+                if (mEditorSetting.isShowSuggestPopup()) {
+                    if (parseTask != null) {
+                        parseTask.cancel(true);
+                    }
+                    parseTask = new ParseTask(this, "");
+                    parseTask.execute();
                 }
-                parseTask = new ParseTask(this, "");
-                parseTask.execute();
+            } catch (Exception ignored) {
             }
-        } catch (Exception ignored) {
+            onPopupChangePosition();
         }
-        onPopupChangePosition();
     }
 
     public abstract void onPopupChangePosition();
@@ -205,6 +209,9 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
             onDropdownChangeSize(getWidth(), getHeight());
         }
     }
+
+
+
 
     public static class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
         static final String TOKEN = "!@#$%^&*()_+-={}|[]:;'<>/<.? \r\n\t";

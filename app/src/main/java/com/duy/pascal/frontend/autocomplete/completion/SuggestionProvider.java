@@ -90,7 +90,7 @@ public class SuggestionProvider {
             } catch (Exception e) { //parsing error
             }
 
-            suggestItems.addAll(sort(addKeyword()));
+            suggestItems.addAll(sort(getKeyword()));
             return suggestItems;
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,7 +98,7 @@ public class SuggestionProvider {
         return null;
     }
 
-    private ArrayList<Description> addKeyword() {
+    private ArrayList<Description> getKeyword() {
         ArrayList<Description> suggestItems = new ArrayList<>();
         if (incomplete.isEmpty()) return suggestItems;
         for (String s : KeyWord.ALL_KEY_WORD) {

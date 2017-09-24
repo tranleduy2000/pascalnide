@@ -154,7 +154,8 @@ public class ExceptionManager {
             }
 
             if (e instanceof ChangeValueConstantException) {
-                return getMessageResource(e, R.string.ChangeValueConstantException);
+                String name = ((ChangeValueConstantException) e).getConst().getName().getOriginName();
+                return getMessageResource(e, R.string.ChangeValueConstantException2, name);
             }
 
             if (e instanceof UnConvertibleTypeException) {

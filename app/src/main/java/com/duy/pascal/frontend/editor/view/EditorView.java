@@ -36,4 +36,5 @@ public class EditorView extends UndoRedoSupportEditText {
     public EditorView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
 }
