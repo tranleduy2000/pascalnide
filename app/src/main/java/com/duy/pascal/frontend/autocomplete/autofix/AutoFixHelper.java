@@ -594,7 +594,7 @@ public class AutoFixHelper {
      * @param line    - current lineInfo
      * @param column  - start at column of @lineInfo
      */
-    public AutoFixCommand fixExpectToken(final String current, final String expect, final boolean insert, final int line, final int column) {
+    public static AutoFixCommand fixExpectToken(final String current, final String expect, final boolean insert, final int line, final int column) {
         return new AutoFixCommand() {
             @Override
             public void execute(EditorView editable) {

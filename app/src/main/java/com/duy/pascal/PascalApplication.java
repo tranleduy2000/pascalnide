@@ -28,8 +28,7 @@ public class PascalApplication extends BasePascalApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (BuildConfig.DEBUG) {
-            FirebaseCrash.setCrashCollectionEnabled(false);
-        }
+        if (BuildConfig.DEBUG) FirebaseCrash.setCrashCollectionEnabled(false);
     }
+
 }

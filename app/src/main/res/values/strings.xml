@@ -240,5 +240,9 @@
     <string name="runtime_error">Runtime error</string>
     <string name="file_explorer">File Explorer</string>
     <string name="can_not_create_file">Can not create file</string>
+    <string name="getting_started_with_editor">
+        1. Swipe left to right to open file view\n
+        2. Swipe right to left to open drawer
+    </string>
 </resources>
 

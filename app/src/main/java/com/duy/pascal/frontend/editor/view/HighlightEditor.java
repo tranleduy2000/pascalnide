@@ -48,7 +48,6 @@ import android.widget.ScrollView;
 import android.widget.Scroller;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.autocomplete.autofix.AutoFixError;
 import com.duy.pascal.frontend.editor.highlight.BracketHighlighter;
 import com.duy.pascal.frontend.editor.highlight.CodeHighlighter;
 import com.duy.pascal.frontend.themefont.themes.ThemeManager;
@@ -123,7 +122,6 @@ public class HighlightEditor extends CodeSuggestsEditText
      */
     private EditTextChangeListener mChangeListener;
     private int numberWidth = 0;
-    private AutoFixError mAutoFixError;
     private CodeHighlighter mCodeHighlighter;
     private final Runnable colorRunnable_duringEditing =
             new Runnable() {
@@ -170,9 +168,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         refresh();
     }
 
-    public AutoFixError getAutoFixError() {
-        return mAutoFixError;
-    }
 
     public boolean isAutoCompile() {
         return autoCompile;
@@ -192,7 +187,6 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     private void setup(Context context) {
         this.mContext = context;
-        mAutoFixError = new AutoFixError(this);
 
         lineUtils = new LineUtils();
         mPaintNumbers = new Paint();

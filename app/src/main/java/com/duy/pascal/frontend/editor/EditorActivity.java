@@ -42,6 +42,8 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.autocomplete.autofix.AutoFixHelper;
+import com.duy.pascal.frontend.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.frontend.autocomplete.completion.model.Description;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.sample.activities.DocumentActivity;
@@ -69,8 +71,6 @@ import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
-
-import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -705,7 +705,8 @@ public class EditorActivity extends BaseEditorActivity implements
     public void onSelectedExpect(@NonNull String current, @NonNull String expect, boolean insert, int line, int column) {
         EditorFragment f = mPagerAdapter.getCurrentFragment();
         if (f != null && f.getEditor() != null) {
-            f.getEditor().getAutoFixError().fixExpectToken(current, expect, insert, line, column);
+            AutoFixCommand command = AutoFixHelper.fixExpectToken(current, expect, insert, line, column);
+            command.execute(f.getEditor());
         }
     }
 
