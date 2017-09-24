@@ -112,11 +112,11 @@ public class DonateActivity extends BaseActivity implements IabBroadcastReceiver
     }
 
     private void initIab() {
-        String base64Key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh+uvYlgvcAOOi9fTL8AUN7KDGq" +
-                "j3diAZ+5V6d5Ovl7QJNMuDJJpUEsMHzj/fpd/NO7k2gevNLGwX1JKM5BhWLDq/FHB8xTHT1yalZ69fhPPN" +
-                "tqCENtdtOTFj4owfzgCSW2TL2gBWzh/JpyBXH9rYyKsgcm5SNg5zA2uCp7Sb5yQDSLFCIiEkrriDPQS0GR" +
-                "cIp60qi62NtmHIEht39hcBiTeFAkyJ1pDdweaiNkcQowR04YOQt/NqF4X6peBs+5a4jzZ6UQWvl/YZ+yxz" +
-                "8Zf6T2dvskgrY6xCuwflWhPkMOqRAZXL4lVgywenm1NIydgf/ROThnJ7Dj1Li+8R07JarQIDAQAB";
+        String base64Key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnjkPE18aPiqzuAwjbDtDfhC/acit" +
+                "6VdvHa5e2Se6cPNXuQotpbY7IdNba1yUGKs+uxfathiU5VEB8mILAQZ/Cp2X37Fjn9E4A00b3iP1XjbLRr5" +
+                "wdJ2c6ddAbs7W8KrQ56EtYfmniM+1WAirBHjYHxuDMUsSweGKH5QkwB69rXdRJ8Cvc5olxw+icJgd5dpvEc" +
+                "dHYb7tZjlqjGgAHWRLnDy2+G1hBRo7LJBeSo38J3W1PsSKK7HIyHxagCdl1ijHdHyodTiilJSoLtEJWcrOWd" +
+                "MbOBniM9opQD3HtWYdlD0OV5J6+VBWAsujfSnarrRU1Q62NR1rctq6ubwHiMDguQIDAQAB";
         mIabHelper = new IabHelper(this, base64Key);
         mIabHelper.enableDebugLogging(BuildConfig.DEBUG);
         mIabHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
