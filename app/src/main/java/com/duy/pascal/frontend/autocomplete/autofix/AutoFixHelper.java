@@ -37,6 +37,7 @@ import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeEx
 import com.duy.pascal.interperter.exceptions.parsing.define.MainProgramNotFoundException;
 import com.duy.pascal.interperter.exceptions.parsing.define.TypeIdentifierExpectException;
 import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
+import com.duy.pascal.interperter.exceptions.parsing.define.VariableIdentifierExpectException;
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
 import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.value.ChangeValueConstantException;
@@ -300,6 +301,19 @@ public class AutoFixHelper {
      * Then insert new variable
      */
     @Nullable
+    private static AutoFixCommand declareVar(VariableIdentifierExpectException e) {
+        LineInfo[] range = {e.getScope().getStartPosition(), e.getLineInfo()};
+        String type = e.getExpectedType() != null ? e.getExpectedType().toString() : "";
+        return declareVar(range, e.getName(), type, null);
+    }
+
+    /**
+     * This method will be declare variable, the variable often below the
+     * "const", "uses", "program" keyword,
+     * First, match position of list keyword
+     * Then insert new variable
+     */
+    @Nullable
     private static AutoFixCommand declareVar(UnknownIdentifierException e) {
         return declareVar(new LineInfo[]{e.getScope().getStartPosition(), e.getLineInfo()},
                 e.getName(),
@@ -517,18 +531,28 @@ public class AutoFixHelper {
     public static AutoFixCommand buildCommand(Exception e) {
         if (e instanceof TypeIdentifierExpectException) {
             return declareType((TypeIdentifierExpectException) e);
+
         } else if (e instanceof UnknownIdentifierException) {
             return fixMissingDefine((UnknownIdentifierException) e);
+
+        } else if (e instanceof VariableIdentifierExpectException) {
+            return declareVar((VariableIdentifierExpectException) e);
+
         } else if (e instanceof UnConvertibleTypeException) {
             return fixUnConvertType((UnConvertibleTypeException) e);
+
         } else if (e instanceof MissingTokenException) {
             return insertToken((MissingTokenException) e);
+
         } else if (e instanceof ChangeValueConstantException) {
             return changeConstToVar((ChangeValueConstantException) e);
+
         } else if (e instanceof GroupingException) {
             return fixGroupException((GroupingException) e);
+
         } else if (e instanceof MainProgramNotFoundException) {
             return fixProgramNotFound();
+
         }
         return null;
     }

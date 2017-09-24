@@ -27,6 +27,8 @@ import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
 import com.duy.pascal.interperter.declaration.lang.types.set.SetType;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
+import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
+import com.duy.pascal.interperter.exceptions.parsing.define.VariableIdentifierExpectException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectDoTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.value.UnAssignableTypeException;
@@ -50,7 +52,26 @@ public class ForStatement {
      */
     public static Executable generateForStatement(GrouperToken group, ExpressionContext context,
                                                   LineInfo lineNumber) throws Exception {
-        RuntimeValue identifier = group.getNextTerm(context);
+        RuntimeValue identifier;
+        try {
+            identifier = group.getNextTerm(context);
+        } catch (Exception e) {
+            VariableIdentifierExpectException exception;
+            if (e instanceof UnknownIdentifierException) {
+                exception = new VariableIdentifierExpectException((UnknownIdentifierException) e);
+                try {
+                    Token next = group.take();
+                    if ((next instanceof AssignmentToken || next instanceof OperatorToken)) {
+                        RuntimeValue firstValue = group.getNextExpression(context);
+                        Type declType = firstValue.getRuntimeType(context).declType;
+                        exception.setExpectedType(declType);
+                    }
+                } catch (Exception other) {
+                }
+                throw exception;
+            }
+            throw e;
+        }
         AssignableValue varAssignable = identifier.asAssignableValue(context);
         RuntimeType varType = identifier.getRuntimeType(context);
 
@@ -58,8 +79,7 @@ public class ForStatement {
             throw new UnAssignableTypeException(identifier);
         }
         Token next = group.take();
-        if (!(next instanceof AssignmentToken
-                || next instanceof OperatorToken)) {
+        if (!(next instanceof AssignmentToken || next instanceof OperatorToken)) {
             throw new ExpectedTokenException(next, ":=", "in");
         }
         Executable result;

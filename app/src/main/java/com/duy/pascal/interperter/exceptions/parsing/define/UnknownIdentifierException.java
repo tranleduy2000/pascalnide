@@ -48,42 +48,42 @@ public class UnknownIdentifierException extends ParsingException {
     }
 
     @Nullable
-    public final String getToken() {
+    public String getToken() {
         return this.token;
     }
 
-    public final void setToken(@Nullable String var1) {
+    public void setToken(@Nullable String var1) {
         this.token = var1;
     }
 
     @Nullable
-    public final DefineType getFitType() {
+    public DefineType getFitType() {
         return this.fitType;
     }
 
-    public final void setFitType(@Nullable DefineType var1) {
+    public void setFitType(@Nullable DefineType var1) {
         this.fitType = var1;
     }
 
-    public final boolean getCanAutoFix() {
+    public boolean getCanAutoFix() {
         return true;
     }
 
     @NonNull
-    public final Name getName() {
+    public Name getName() {
         return this.name;
     }
 
-    public final void setName(@NonNull Name name) {
+    public void setName(@NonNull Name name) {
         this.name = name;
     }
 
     @NonNull
-    public final ExpressionContext getScope() {
+    public ExpressionContext getScope() {
         return this.scope;
     }
 
-    public final void setScope(@NonNull ExpressionContext var1) {
+    public void setScope(@NonNull ExpressionContext var1) {
         this.scope = var1;
     }
 }

@@ -20,20 +20,29 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
 
 public class VariableIdentifierExpectException extends ParsingException {
     @NonNull
-    private String name;
+    private Name name;
     @NonNull
     private ExpressionContext scope;
+    private Type expectedType;
 
-    public VariableIdentifierExpectException(@NonNull LineInfo line, @NonNull String name, @NonNull ExpressionContext scope) {
+    public VariableIdentifierExpectException(@NonNull LineInfo line, @NonNull Name name, @NonNull ExpressionContext scope) {
         super(line);
         this.name = name;
         this.scope = scope;
+    }
+
+    public VariableIdentifierExpectException(UnknownIdentifierException e) {
+        super(e.getLineInfo());
+        this.name = e.getName();
+        this.scope = e.getScope();
     }
 
     @Nullable
@@ -42,12 +51,8 @@ public class VariableIdentifierExpectException extends ParsingException {
     }
 
     @NonNull
-    public String getName() {
+    public Name getName() {
         return this.name;
-    }
-
-    public void setName(@NonNull String var1) {
-        this.name = var1;
     }
 
     @NonNull
@@ -55,7 +60,16 @@ public class VariableIdentifierExpectException extends ParsingException {
         return this.scope;
     }
 
-    public void setScope(@NonNull ExpressionContext var1) {
-        this.scope = var1;
+    @Override
+    public boolean getCanAutoFix() {
+        return true;
+    }
+
+    public Type getExpectedType() {
+        return expectedType;
+    }
+
+    public void setExpectedType(Type declType) {
+        this.expectedType = declType;
     }
 }

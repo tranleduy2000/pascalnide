@@ -44,6 +44,7 @@ import com.duy.pascal.interperter.exceptions.parsing.define.MultipleDefinitionsM
 import com.duy.pascal.interperter.exceptions.parsing.define.OverridingFunctionBodyException;
 import com.duy.pascal.interperter.exceptions.parsing.define.TypeIdentifierExpectException;
 import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
+import com.duy.pascal.interperter.exceptions.parsing.define.VariableIdentifierExpectException;
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
 import com.duy.pascal.interperter.exceptions.parsing.grouping.StrayCharacterException;
 import com.duy.pascal.interperter.exceptions.parsing.index.LowerGreaterUpperBoundException;
@@ -116,6 +117,8 @@ public class ExceptionManager {
 
             if (e instanceof UnknownIdentifierException) {
                 return getMessageResource(e, R.string.NoSuchFunctionOrVariableException, ((UnknownIdentifierException) e).getName());
+            }if (e instanceof VariableIdentifierExpectException) {
+                return getMessageResource(e, R.string.VariableIdentifierExpectException, ((VariableIdentifierExpectException) e).getName().getOriginName());
             }
             if (e instanceof BadFunctionCallException) return getBadFunctionCallException(e);
 
