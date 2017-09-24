@@ -485,7 +485,7 @@ public class AutoFixHelper {
 
             String insertText = " " + valueType.toString();
             editable.getText().replace(start, end, insertText);
-            editable.setSelection(start, start + insertText.length());
+            editable.setSelection(start + 1, start + insertText.length());
             editable.showKeyboard();
         } else {
             DLog.d(TAG, "fixUnConvertType: can not find " + pattern);
