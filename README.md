@@ -28,21 +28,19 @@ The application is a Pascal interpreter on Android. This application is confusin
 	    * Font size, font, word wrap.
   4. Support library Android (Sensor, battery, record audio, camera...)
   5. Support Java in Pascal
-
-## Auto Fix Error
-
-1. fix missing type
-2. declare procedure
-3. declare constant
-4. declare function
-5. declare variable
-6. Fix wrong type
-7. Fix missing token
-8. Fix group exception
-10. Change constant to variable
-11. Fix missing begin end
-12. Change type of constant
-13. Change type of variable
+  6. Auto Fix Error 
+        * fix missing type
+        * declare procedure
+        * declare constant
+        * declare function
+        * declare variable
+        * Fix wrong type
+        * Fix missing token
+        * Fix group exception
+        * Change constant to variable
+        * Fix missing begin end
+        * Change type of constant
+        * Change type of variable
 
 ## Features that the interpreter is missing
 
@@ -110,6 +108,8 @@ end.
 
 ## How to contribute
 All contributions are welcome, include code, documentation, suggestions, bug reports, ... . Use github pull request feature or email me. Many thanks for your help
+To help translate this app, please visit http://osewnui.oneskyapp.com/collaboration/project?id=272800
+
 ## Tutorials
 
 1. [Google Voice](wiki/tutorials/vi/google_voice/google_voice.md)
@@ -140,7 +140,3 @@ If you want to help me write a tutorial, please email to me.
 ## Developer
  Trần Lê Duy
  
-## Third party library
-   * JSPIIJ https://github.com/jeremysalwen/JSPIIJ
-   * SL4A https://github.com/damonkohler/sl4a
-   * ZXing-android-embedded

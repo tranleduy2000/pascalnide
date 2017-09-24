@@ -498,7 +498,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                     lineEnd = Math.min(lineEnd, getText().length());
 
                     if (lineStart < lineEnd) {
-                        e.setSpan(new ErrorSpan(codeTheme.getErrorColor()),
+                        e.setSpan(new BackgroundColorSpan(codeTheme.getErrorColor()),
                                 lineStart,
                                 lineEnd,
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
