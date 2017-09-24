@@ -27,7 +27,6 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.autocomplete.completion.model.Patterns;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.DiskReadErrorException;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileException;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotAssignException;
@@ -418,7 +417,7 @@ public class ExceptionManager {
     }
 
     private Spannable highlight(Spannable spannable) {
-        Matcher matcher = Patterns.REPLACE_HIGHLIGHT.matcher(spannable);
+        Matcher matcher = com.duy.pascal.frontend.autocomplete.autofix.Patterns.REPLACE_HIGHLIGHT.matcher(spannable);
         while (matcher.find()) {
             spannable.setSpan(new ForegroundColorSpan(Color.YELLOW), matcher.start(),
                     matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

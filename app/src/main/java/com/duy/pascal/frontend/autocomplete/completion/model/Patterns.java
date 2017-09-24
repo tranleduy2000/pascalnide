@@ -61,13 +61,6 @@ public class Patterns {
      */
     public static final Pattern SYMBOLS = Pattern.compile("[+\\-'*=<>/:)(\\]\\[;@\\^,.]");
 
-    public static final Pattern REPLACE_HIGHLIGHT = Pattern.compile("\"(.*?)\"");
-    public static final Pattern REPLACE_CURSOR = Pattern.compile("%\\w");
-    public static final Pattern VAR = Pattern.compile("\\b(var)\\b", Pattern.CASE_INSENSITIVE);
-    public static final Pattern TYPE = Pattern.compile("\\b(type)\\b", Pattern.CASE_INSENSITIVE);
-    public static final Pattern PROGRAM = Pattern.compile("\\b(program)[\\s](.*?);\\b", Pattern.CASE_INSENSITIVE);
-    public static final Pattern USES = Pattern.compile("\\b(uses)[\\s](.*?);\\b", Pattern.CASE_INSENSITIVE);
-    public static final Pattern CONST = Pattern.compile("\\b(const)\\b", Pattern.CASE_INSENSITIVE);
     public static final Pattern OPEN_PATTERN
             = Pattern.compile("(begin|then|else|do|repeat|of|" +
                     "type|var|const|interface|implementation)",

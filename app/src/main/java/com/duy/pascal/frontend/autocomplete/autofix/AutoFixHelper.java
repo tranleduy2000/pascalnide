@@ -19,14 +19,12 @@ package com.duy.pascal.frontend.autocomplete.autofix;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
-import android.text.Layout;
-import android.widget.EditText;
+import android.util.Log;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.frontend.autocomplete.autofix.model.TextData;
 import com.duy.pascal.frontend.autocomplete.completion.model.KeyWord;
-import com.duy.pascal.frontend.autocomplete.completion.model.Patterns;
 import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.editor.view.LineUtils;
@@ -47,13 +45,16 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.duy.pascal.frontend.structure.DialogProgramStructure.TAG;
+import static com.duy.pascal.frontend.autocomplete.autofix.EditorUtil.getText;
+import static com.duy.pascal.frontend.autocomplete.autofix.EditorUtil.getTextInLine;
 
 /**
  * Created by Duy on 9/24/2017.
  */
 
 public class AutoFixHelper {
+    private static final String TAG = "AutoFixHelper";
+
     private AutoFixHelper() {
     }
 
@@ -171,12 +172,12 @@ public class AutoFixHelper {
                         Name name = ((FunctionDeclaration.FunctionExpressionContext) exception.getScope()).function.getName();
                         //this is function name
                         if (name.equals(((VariableAccess) exception.getIdentifier()).getName())) {
-                            changeTypeFunction(editable, name, text, exception.getValueType());
+                            ChangeTypeHelper.changeTypeFunction(editable, name, text, exception.getValueType());
                         } else {
-                            changeTypeVar(editable, text, (VariableAccess) exception.getIdentifier(), exception.getValueType());
+                            ChangeTypeHelper.changeTypeVar(editable, text, (VariableAccess) exception.getIdentifier(), exception.getValueType());
                         }
                     } else {
-                        changeTypeVar(editable, text, (VariableAccess) exception.getIdentifier(), exception.getValueType());
+                        ChangeTypeHelper.changeTypeVar(editable, text, (VariableAccess) exception.getIdentifier(), exception.getValueType());
                     }
                 } else if (exception.getIdentifier() instanceof ConstantAccess) {
                     changeTypeConst(editable, text, (ConstantAccess) exception.getIdentifier(), exception.getValueType());
@@ -185,12 +186,12 @@ public class AutoFixHelper {
                         Name name = ((FunctionDeclaration.FunctionExpressionContext) exception.getScope()).function.getName();
                         //this is function name
                         if (name.equals(((VariableAccess) exception.getValue()).getName())) {
-                            changeTypeFunction(editable, name, text, exception.getTargetType());
+                            ChangeTypeHelper.changeTypeFunction(editable, name, text, exception.getTargetType());
                         } else {
-                            changeTypeVar(editable, text, (VariableAccess) exception.getValue(), exception.getTargetType());
+                            ChangeTypeHelper.changeTypeVar(editable, text, (VariableAccess) exception.getValue(), exception.getTargetType());
                         }
                     } else {
-                        changeTypeVar(editable, text, (VariableAccess) exception.getValue(), exception.getTargetType());
+                        ChangeTypeHelper.changeTypeVar(editable, text, (VariableAccess) exception.getValue(), exception.getTargetType());
                     }
 
                 } else if (exception.getValue() instanceof ConstantAccess) {
@@ -218,6 +219,7 @@ public class AutoFixHelper {
     /**
      * Insert "end" into the final position of the editor
      */
+    @Nullable
     private static AutoFixCommand fixGroupException(final GroupingException e) {
         return new AutoFixCommand() {
             @Override
@@ -235,20 +237,6 @@ public class AutoFixHelper {
         };
     }
 
-    private static TextData getText(EditText editable, LineInfo startLine, LineInfo endLine) {
-        CharSequence text = editable.getText().subSequence(
-                editable.getLayout().getLineStart(startLine.getLine())
-                        + startLine.getColumn(),
-
-                editable.getLayout().getLineEnd(endLine.getLine()));
-
-        int offset = editable.getLayout().getLineStart(startLine.getLine())
-                + startLine.getColumn()
-                + startLine.getLength();
-
-        if (offset < 0) offset = 0;
-        return new TextData(text, offset);
-    }
 
     /**
      * This method will be declare const, the constant pascal
@@ -426,77 +414,13 @@ public class AutoFixHelper {
         }
     }
 
-    /**
-     * Change type of function from <code>valueType</code> to <code>name</code>
-     *
-     * @param editable
-     * @param name     - name of function
-     * @param text     - a part text of the edit start at 0 and end at lineInfo where then function place
-     */
-    private static void changeTypeFunction(EditorView editable, final Name name, TextData text, Type valueType) {
-        Pattern pattern = Pattern.compile(
-                "(^function\\s+|\\s+function\\s+)" + //function token //1
-                        "(" + name + ")" + //name of function         //2
-                        "(\\s?)" + //white space                      //3
-                        "(:)" +                                       //4
-                        "(.*?)" + //type of function                  //5
-                        ";"); //end                                   //6
-        Matcher matcher = pattern.matcher(text.getText());
-        if (matcher.find()) {
-            DLog.d(TAG, "changeTypeFunction: match " + matcher);
-            int start = matcher.start(5) + text.getOffset();
-            int end = matcher.end(5) + text.getOffset();
 
-            String insertText = valueType.toString();
-            editable.getText().replace(start, end, insertText);
-            editable.setSelection(start, start + insertText.length());
-            editable.showKeyboard();
-        } else {
-            DLog.d(TAG, "changeTypeFunction: can not find " + pattern);
-        }
-    }
-
-    /**
-     * Change type of variable
-     *
-     * @param editable
-     * @param text       - type to change
-     * @param identifier - variable
-     * @param valueType  - current type of variable
-     */
-    private static void changeTypeVar(EditorView editable, TextData text, VariableAccess identifier, Type valueType) {
-        DLog.d(TAG, "fixUnConvertType: variable");
-        final Name name = identifier.getName();
-        Pattern pattern = Pattern.compile("(^var\\s+|\\s+var\\s+)" + //match "var"  //1
-                "(.*?)" + //other variable                                  //2
-                "(" + name + ")" + //name of variable                       //3
-                "(\\s?)" +//one or more white space                         //4
-                "(:)" + //colon                                             //5
-                "(.*?)" + //any type                                        //6
-                "(;)", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-
-        Matcher matcher = pattern.matcher(text.getText());
-        DLog.d(TAG, "fixUnConvertType: " + text);
-
-        if (matcher.find()) {
-            DLog.d(TAG, "fixUnConvertType: match " + matcher);
-            int start = matcher.start(6) + text.getOffset();
-            int end = matcher.end(6) + text.getOffset();
-
-            String insertText = " " + valueType.toString();
-            editable.getText().replace(start, end, insertText);
-            editable.setSelection(start + 1, start + insertText.length());
-            editable.showKeyboard();
-        } else {
-            DLog.d(TAG, "fixUnConvertType: can not find " + pattern);
-        }
-    }
-
-    public static AutoFixCommand changeConstToVar(final ChangeValueConstantException e) {
+    @NonNull
+    private static AutoFixCommand changeConstToVar(final ChangeValueConstantException e) {
         return new AutoFixCommand() {
             @Override
             public void execute(EditorView editable) {
-                DLog.d(TAG, "changeConstToVar: " + e);
+                Log.d(TAG, "changeConstToVar() called with: editable = [" + editable + "]");
 
                 TextData text = getText(editable, e.getScope().getStartLine(), e.getLineInfo());
                 ConstantAccess<Object> constant = e.getConst();
@@ -518,10 +442,11 @@ public class AutoFixHelper {
 
                     editable.getText().delete(start, end);
 
-                    declareVar(text,
+                    AutoFixCommand declareVar = declareVar(text,
                             constant.getName(), //name
                             constant.getRuntimeType(null).declType.toString(), //type
-                            constant.toCode()); //initialization value
+                            constant.toCode());
+                    declareVar.execute(editable); //initialization value
                 } else {
                     pattern = Pattern.compile(
                             "(^const\\s+|\\s+const\\s+)" + //1
@@ -543,10 +468,11 @@ public class AutoFixHelper {
 
                         editable.getText().delete(start, end);
 
-                        declareVar(text,
+                        AutoFixCommand declareVar = declareVar(text,
                                 constant.getName(),  //name
                                 constant.getRuntimeType(null).declType.toString(), //type
-                                constant.toCode());//initialization value
+                                constant.toCode());
+                        declareVar.execute(editable);//initialization value
                     }
                 }
             }
@@ -558,6 +484,8 @@ public class AutoFixHelper {
         return new AutoFixCommand() {
             @Override
             public void execute(EditorView editable) {
+                Log.d(TAG, "fixProgramNotFound() called with: editable = [" + editable + "]");
+
                 String tabCharacter = editable.getTabCharacter();
                 editable.getText().insert(editable.length(), "\nbegin\n" + tabCharacter + "\nend.\n");
                 editable.setSelection(editable.length() - "\nend.\n".length());
@@ -629,20 +557,5 @@ public class AutoFixHelper {
         };
     }
 
-    /**
-     * get text in lineInfo
-     */
-    private CharSequence getTextInLine(EditorView editable, int line, int column) {
-        Editable text = editable.getText();
-        Layout layout = editable.getLayout();
-        if (layout != null) {
-            int lineStart = layout.getLineStart(line);
-            int lineEnd = layout.getLineEnd(line);
-            lineStart = lineStart + column;
-            if (lineStart > text.length()) lineStart = text.length();
-            if (lineStart > lineEnd) lineStart = lineEnd;
-            return text.subSequence(lineStart, lineEnd);
-        }
-        return "";
-    }
+
 }

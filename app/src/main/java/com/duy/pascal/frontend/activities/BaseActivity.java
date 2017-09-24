@@ -144,7 +144,6 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        Log.d(TAG, "onSharedPreferenceChanged: " + s);
         if (s.equalsIgnoreCase(getString(R.string.key_pref_lang))) {
             setLocale(true);
             Toast.makeText(this, getString(R.string.change_lang_msg), Toast.LENGTH_SHORT).show();
