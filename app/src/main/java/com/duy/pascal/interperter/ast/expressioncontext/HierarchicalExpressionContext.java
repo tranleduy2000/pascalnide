@@ -11,7 +11,6 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
-import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.exceptions.parsing.define.DuplicateIdentifierException;
 
 import java.util.HashMap;
@@ -21,7 +20,7 @@ import java.util.Map;
 public abstract class HierarchicalExpressionContext implements ExpressionContext {
     protected ExpressionContext parent;
     protected CodeUnit root;
-    protected HashMap<Class, Object> parsingListener = new HashMap<>();
+    protected HashMap<Class, Object> listener = new HashMap<>();
 
     public HierarchicalExpressionContext(CodeUnit root, ExpressionContext parent) {
         this.parent = parent;
@@ -104,16 +103,12 @@ public abstract class HierarchicalExpressionContext implements ExpressionContext
                 || (parent != null && parent.functionExists(name));
     }
 
-    public void put(Class<?> clazz, DiagnosticCollector object) {
-        this.parsingListener.put(clazz, object);
+    public void put(Class<?> clazz, Object object) {
+        this.listener.put(clazz, object);
     }
 
     @Nullable
     public <T> T getListener(Class<T> c) {
-        try {
-            return (T) parsingListener.get(c);
-        } catch (Exception e) {
-            return null;
-        }
+        return null;
     }
 }

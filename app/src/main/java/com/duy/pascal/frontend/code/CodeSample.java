@@ -19,7 +19,6 @@ package com.duy.pascal.frontend.code;
 /**
  * Created by Duy on 12-Feb-17.
  */
-@SuppressWarnings("DefaultFileTemplate")
 public class CodeSample {
 
     public static final String DEMO_THEME =

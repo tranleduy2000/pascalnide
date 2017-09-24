@@ -63,12 +63,13 @@ public class CodeSampleActivity extends BaseActivity implements CodeSampleAdapte
 
         setContentView(R.layout.activity_code_sample);
         mToolbar = findViewById(R.id.toolbar);
-        mViewPager = findViewById(R.id.view_pager);
-        mSearchView = findViewById(R.id.search_view);
-        mTabLayout = findViewById(R.id.tab_layout);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.code_sample);
+
+        mViewPager = findViewById(R.id.view_pager);
+        mSearchView = findViewById(R.id.search_view);
+        mTabLayout = findViewById(R.id.tab_layout);
 
         final ArrayList<PageDescriptor> pages = new ArrayList<>();
         for (String category : mCategories) {

@@ -29,7 +29,7 @@ import android.telephony.gsm.GsmCellLocation;
 
 import com.googlecode.sl4a.event.Event;
 
-import org.apache.commons.codec.binary.Base64Codec;
+import org.apache.commons.codec.binary.Base64;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -118,7 +118,7 @@ public class JsonBuilder {
             return buildInetSocketAddress((InetSocketAddress) data);
         }
         if (data instanceof byte[]) {
-            return Base64Codec.encodeBase64((byte[]) data);
+            return Base64.encodeBase64((byte[]) data);
         }
         if (data instanceof Object[]) {
             return buildJSONArray((Object[]) data);

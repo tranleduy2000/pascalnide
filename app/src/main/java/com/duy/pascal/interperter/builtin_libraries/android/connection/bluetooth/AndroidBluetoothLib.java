@@ -33,7 +33,8 @@ import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
 
-import org.apache.commons.codec.binary.Base64Codec;
+
+import org.apache.commons.codec.binary.Base64;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -103,7 +104,7 @@ public class AndroidBluetoothLib implements PascalLibrary {
             throws IOException {
         BluetoothConnection conn = getConnection(connID);
         try {
-            conn.write(Base64Codec.decodeBase64(base64));
+            conn.write(Base64.decodeBase64(base64));
         } catch (IOException e) {
             connections.remove(conn.getUUID());
             throw e;
@@ -119,7 +120,7 @@ public class AndroidBluetoothLib implements PascalLibrary {
 
         BluetoothConnection conn = getConnection(connID);
         try {
-            return Base64Codec.encodeBase64String(conn.readBinary(bufferSize));
+            return Base64.encodeBase64String(conn.readBinary(bufferSize));
         } catch (IOException e) {
             connections.remove(conn.getUUID());
             throw e;
