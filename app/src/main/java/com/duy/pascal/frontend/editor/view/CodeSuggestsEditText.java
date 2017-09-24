@@ -48,10 +48,10 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     public int mCharHeight = 0;
     public int mCharWidth = 0;
     protected SymbolsTokenizer mTokenizer;
+    protected boolean mEnableSyntaxParser = true;
     private CodeSuggestAdapter mAdapter;
     private SuggestionProvider pascalParserHelper;
     private ParseTask parseTask;
-    protected boolean mEnableSyntaxParser = true;
 
     public CodeSuggestsEditText(Context context) {
         super(context);
@@ -168,14 +168,8 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
 
     @Override
     public void showDropDown() {
-        if (!isPopupShowing()) {
-            if (hasFocus()) {
-                super.showDropDown();
-            }
-        }
-    }
-
-    public void setEnoughToFilter() {
+        Log.d(TAG, "showDropDown() called");
+        super.showDropDown();
     }
 
     @Override
@@ -183,13 +177,6 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         return true;
     }
 
-    public void restoreAfterClick(final String[] data) {
-        setSuggestData(data);
-    }
-
-    public ArrayList<Description> getSuggestData() {
-        return mAdapter.getAllItems();
-    }
 
     /**
      * invalidate data for auto suggest
@@ -209,8 +196,6 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
             onDropdownChangeSize(getWidth(), getHeight());
         }
     }
-
-
 
 
     public static class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
@@ -276,8 +261,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
 
         @Override
         protected ArrayList<Description> doInBackground(Object... params) {
-            return pascalParserHelper.getSuggestion(srcPath, source,
-                    cursorPos, cursorLine, cursorCol);
+            return pascalParserHelper.getSuggestion(srcPath, source, cursorPos, cursorLine, cursorCol);
         }
 
         @Override

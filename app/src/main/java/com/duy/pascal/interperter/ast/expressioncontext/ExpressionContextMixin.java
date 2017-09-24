@@ -655,9 +655,11 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     }
 
-    private void reportException(ExpressionContext context, GrouperToken grouperToken, Exception e) throws Exception {
+    private void reportException(@Nullable ExpressionContext context, GrouperToken grouperToken, Exception e) throws Exception {
         System.out.println("ExpressionContextMixin.reportException");
-
+        if (context == null) {
+            throw e;
+        }
         DiagnosticsListener listener = context.getListener(DiagnosticsListener.class);
         if (listener != null) {
             listener.add(new Diagnostic(e));

@@ -66,23 +66,23 @@ public class AutoFixHelper {
      * Then, we insert a structure <code>"name" = "type"</code>
      */
     @NonNull
-    private static AutoFixCommand fixMissingType(final TypeIdentifierExpectException exception) {
+    private static AutoFixCommand declareType(final TypeIdentifierExpectException exception) {
         return new AutoFixCommand() {
 
             @Override
             public void execute(EditorView editable) {
                 //don't work if has selection
                 //sub string from 0 to postion error
-                TextData text = getText(editable, exception.getScope().getStartLine(), exception.getLineInfo());
+                TextData scope = getText(editable, exception.getScope().getStartLine(), exception.getLineInfo());
 
                 Name type = exception.getMissingType();
                 String textToInsert;
-                Matcher matcher = Patterns.TYPE.matcher(text.getText());
+                Matcher matcher = Patterns.TYPE.matcher(scope.getText());
                 int insertPosition = 0;
 
                 if (matcher.find()) {
                     insertPosition = matcher.end();
-                    textToInsert = "\n" + "    " + type + " = %t ;";
+                    textToInsert = editable.getTabCharacter() + type + " = " + AutoIndentEditText.CURSOR + ";\n";
                 } else {
                     /*
                     if not found "type" keyword, insert new type keyword
@@ -91,31 +91,25 @@ public class AutoFixHelper {
                     var
                         ....
                     */
-                    if ((matcher = Patterns.PROGRAM.matcher(text.getText())).find()) {
+                    if ((matcher = Patterns.PROGRAM.matcher(scope.getText())).find()) {
                         insertPosition = matcher.end();
-                    } else if ((matcher = Patterns.VAR.matcher(text.getText())).find()) {
+                    } else if ((matcher = Patterns.VAR.matcher(scope.getText())).find()) {
                         insertPosition = matcher.start();
-                    }
-                    //if not found var keyword, insert "type" above "uses" keyword
-                    else if ((matcher = Patterns.USES.matcher(text.getText())).find()) {
+                    } else if ((matcher = Patterns.CONST.matcher(scope.getText())).find()) {
+                        insertPosition = matcher.start();
+                    } else if ((matcher = Patterns.USES.matcher(scope.getText())).find()) {
                         insertPosition = matcher.end();
                     }
-                    textToInsert = "\ntype\n" + "    " + type + " = %t ;\n";
+                    textToInsert = "\ntype\n" + editable.getTabCharacter() + type + " = " + AutoIndentEditText.CURSOR + ";\n";
                 }
 
-                matcher = Patterns.REPLACE_CURSOR.matcher(textToInsert);
-                if (matcher.find()) {
-                    textToInsert = textToInsert.replaceAll("%\\w", "");
+                insertPosition += scope.getOffset();
 
-                    insertPosition += text.getOffset();
-                    insertPosition = Math.max(0, insertPosition); //normalize
-
-                    editable.getText().insert(insertPosition, textToInsert);
-                    editable.setSelection(insertPosition + matcher.start());
-
-                    //set suggest data
-                    editable.setSuggestData(KeyWord.DATA_TYPE);
-                }
+                editable.disableTextWatcher();
+                editable.getText().insert(insertPosition, textToInsert);
+                editable.setSelection(insertPosition + textToInsert.length() - 3);
+                editable.setSuggestData(KeyWord.DATA_TYPE);
+                editable.enableTextWatcher();
             }
         };
     }
@@ -339,7 +333,7 @@ public class AutoFixHelper {
         return new AutoFixCommand() {
             @Override
             public void execute(EditorView editable) {
-                String textToInsert = "";
+                String textToInsert;
                 int insertPosition = 0;
                 int startSelect;
                 int endSelect;
@@ -347,12 +341,12 @@ public class AutoFixHelper {
                 Matcher matcher = Patterns.VAR.matcher(scope.getText());
                 if (matcher.find()) {
                     insertPosition = matcher.end();
-                    textToInsert = AutoIndentEditText.TAB_CHARACTER + name + ": ";
+                    textToInsert = "\n" +AutoIndentEditText.TAB_CHARACTER + name + ": ";
 
                     startSelect = textToInsert.length();
                     endSelect = startSelect + type.length();
 
-                    textToInsert += type + (initValue != null ? " = " + initValue : "") + ";\n";
+                    textToInsert += type + (initValue != null ? " = " + initValue : "") + ";";
                 } else {
                     if ((matcher = Patterns.TYPE.matcher(scope.getText())).find()) {
                         insertPosition = matcher.end();
@@ -369,17 +363,13 @@ public class AutoFixHelper {
                     textToInsert += type + (initValue != null ? " = " + initValue : "") + ";\n";
                 }
 
+                int selectStart = scope.getOffset() + insertPosition + startSelect;
+                int selectEnd = scope.getOffset() + insertPosition + endSelect;
+
                 editable.disableTextWatcher();
-
                 editable.getText().insert(scope.getOffset() + insertPosition, textToInsert);
-
-                int start = scope.getOffset() + insertPosition + startSelect;
-                int end = scope.getOffset() + insertPosition + endSelect;
-                editable.setSelection(start, end);
-                //set suggest data
+                editable.setSelection(selectStart, selectEnd);
                 editable.setSuggestData(KeyWord.DATA_TYPE);
-                editable.showDropDown();
-
                 editable.enableTextWatcher();
             }
         };
@@ -521,7 +511,7 @@ public class AutoFixHelper {
     @Nullable
     public static AutoFixCommand buildCommand(Exception e) {
         if (e instanceof TypeIdentifierExpectException) {
-            return fixMissingType((TypeIdentifierExpectException) e);
+            return declareType((TypeIdentifierExpectException) e);
         } else if (e instanceof UnknownIdentifierException) {
             return fixMissingDefine((UnknownIdentifierException) e);
         } else if (e instanceof UnConvertibleTypeException) {

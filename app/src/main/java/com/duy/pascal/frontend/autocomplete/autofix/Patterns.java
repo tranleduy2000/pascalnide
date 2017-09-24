@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 public class Patterns {
     public static final Pattern VAR = Pattern.compile("(\\s(var)|^(var))\\s", Pattern.CASE_INSENSITIVE);
     public static final Pattern TYPE = Pattern.compile("(\\s(type)|^(type))\\s", Pattern.CASE_INSENSITIVE);
-    public static final Pattern PROGRAM = Pattern.compile("(\\W(program)|^(program))[\\s](.*?);", Pattern.CASE_INSENSITIVE);
+    public static final Pattern PROGRAM = Pattern.compile("(\\s(program)|^(program))[\\s](.*?);", Pattern.CASE_INSENSITIVE);
     public static final Pattern USES = Pattern.compile("(\\s(uses)|^(uses))[\\s](.*?);", Pattern.CASE_INSENSITIVE);
     public static final Pattern CONST = Pattern.compile("(\\s(const)|^(const))\\s", Pattern.CASE_INSENSITIVE);
 
