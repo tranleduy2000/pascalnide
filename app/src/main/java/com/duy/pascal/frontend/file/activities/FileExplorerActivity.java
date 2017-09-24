@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.file;
+package com.duy.pascal.frontend.file.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -33,6 +33,8 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.common.utils.IOUtils;
 import com.duy.pascal.frontend.common.utils.UIUtils;
 import com.duy.pascal.frontend.databinding.FileExplorerActivityBinding;
+import com.duy.pascal.frontend.file.FileClipboard;
+import com.duy.pascal.frontend.file.Pref;
 import com.duy.pascal.frontend.file.adapter.FileListPagerAdapter;
 import com.duy.pascal.frontend.file.io.JecFile;
 import com.duy.pascal.frontend.file.io.LocalFile;

@@ -124,8 +124,8 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
 
     @Override
     public BindingViewHolder<FileListItemBinding> onCreateViewHolder(ViewGroup parent, int viewType) {
-        FileListItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.file_list_item, parent, false);
-
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        FileListItemBinding binding = DataBindingUtil.inflate(inflater, R.layout.file_list_item, parent, false);
         return new BindingViewHolder<>(binding);
     }
 
@@ -168,6 +168,9 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
             color = R.color.type_text;
             icon = R.drawable.file_type_text;
 
+        } else if (mimeTypes.isPasFile(path)) {
+            color = R.color.type_file;
+            icon = R.drawable.ic_code_white_24dp;
         } else {
             color = R.color.type_file;
             icon = TextUtils.isEmpty(path.getExtension()) ? R.drawable.file_type_file : 0;
@@ -193,6 +196,11 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                if (onItemClickListener != null) {
+                    if (onItemClickListener.onItemLongClick(position, v)) {
+                        return true;
+                    }
+                }
                 toggleChecked(position, binding);
                 return true;
             }
@@ -204,8 +212,9 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
                     toggleChecked(position, binding);
                     return;
                 }
-                if (onItemClickListener != null)
+                if (onItemClickListener != null) {
                     onItemClickListener.onItemClick(position, v);
+                }
             }
         });
 

@@ -25,20 +25,116 @@ import java.util.Map;
 
 public class MimeTypes {
 
+    private static MimeTypes instance = null;
     private Map<String, String> mMimeTypes;
     private Map<String, Integer> mIcons;
-
-    private static MimeTypes instance = null;
-
-    public static MimeTypes getInstance() {
-        if(instance == null)
-            instance = new MimeTypes();
-        return instance;
-    }
 
     public MimeTypes() {
         mMimeTypes = new HashMap<String, String>();
         mIcons = new HashMap<String, Integer>();
+    }
+
+    public static MimeTypes getInstance() {
+        if (instance == null)
+            instance = new MimeTypes();
+        return instance;
+    }
+
+    /**
+     * Gets the extension of a file name, like ".png" or ".jpg".
+     *
+     * @param uri
+     * @return Extension including the dot("."); "" if there is no extension;
+     * null if uri was null.
+     */
+    public static String getExtension(String uri) {
+        if (uri == null) {
+            return null;
+        }
+
+        int dot = uri.lastIndexOf(".");
+        if (dot >= 0) {
+            return uri.substring(dot);
+        } else {
+            // No extension.
+            return "";
+        }
+    }
+
+    public static boolean isMimeText(String mime) {
+        return mime.startsWith("text");
+    }
+
+    /**
+     * Indicates whether requested file path is an image. This is done by
+     * comparing file extension to a static list of extensions known to be
+     * images.
+     *
+     * @param file File path
+     * @return {@code true} if file is image, {@code false} if not.
+     */
+    public static boolean isImageFile(String file) {
+        String ext = file.substring(file.lastIndexOf(".") + 1);
+        if (MimeTypes.getInstance().getMimeType(file).startsWith("image/"))
+            return true;
+        return ext.equalsIgnoreCase("png") || ext.equalsIgnoreCase("jpg")
+                || ext.equalsIgnoreCase("jpeg") || ext.equalsIgnoreCase("gif")
+                || ext.equalsIgnoreCase("tiff") || ext.equalsIgnoreCase("tif");
+
+    }
+
+    /**
+     * Indicates whether requested file path is an Android App.
+     *
+     * @param file File path
+     * @return {@code true} if file is Android App, {@code false} if not.
+     */
+    public static boolean isAPKFile(String file) {
+        file = file.substring(file.lastIndexOf("/") + 1);
+        if (file.indexOf(".") > -1)
+            file = file.substring(file.lastIndexOf(".") + 1);
+
+        return file.equalsIgnoreCase("apk");
+    }
+
+    /**
+     * Indicates whether requested file path is an image. This is done by
+     * checking Mimetype of file via {@link MimeTypes} class, and by comparing
+     * file extension to a static list of extensions known to be videos.
+     *
+     * @param path
+     * @return {@code true} if file is video, {@code false} if not.
+     */
+    public static boolean isVideoFile(String path) {
+        if (MimeTypes.getInstance().getMimeType(path).startsWith("video/"))
+            return true;
+
+        String ext = path.substring(path.lastIndexOf(".") + 1);
+        return ext.equalsIgnoreCase("mp4") || ext.equalsIgnoreCase("3gp")
+                || ext.equalsIgnoreCase("avi") || ext.equalsIgnoreCase("webm")
+                || ext.equalsIgnoreCase("m4v");
+    }
+
+    public static boolean isAudioFile(String path) {
+        if (MimeTypes.getInstance().getMimeType(path).startsWith("audio/"))
+            return true;
+//mp3|wma|wav|aac|ogg|m4a|flac
+        String ext = path.substring(path.lastIndexOf(".") + 1);
+        return ext.equalsIgnoreCase("mp3") || ext.equalsIgnoreCase("wma") || ext.equalsIgnoreCase("flac")
+                || ext.equalsIgnoreCase("wav") || ext.equalsIgnoreCase("aac")
+                || ext.equalsIgnoreCase("ogg") || ext.equalsIgnoreCase("m4a");
+    }
+
+    public boolean isPasFile(JecFile file) {
+        return !file.isDirectory() && isPasFile(file.getName());
+    }
+
+    private boolean isPasFile(String file) {
+        file = file.substring(file.lastIndexOf("/") + 1);
+        if (file.indexOf(".") > -1)
+            file = file.substring(file.lastIndexOf(".") + 1);
+
+        return file.equalsIgnoreCase("pas");
     }
 
     /*
@@ -58,27 +154,6 @@ public class MimeTypes {
         mMimeTypes.put(type, extension);
     }
 
-    /**
-     * Gets the extension of a file name, like ".png" or ".jpg".
-     * 
-     * @param uri
-     * @return Extension including the dot("."); "" if there is no extension;
-     *         null if uri was null.
-     */
-    public static String getExtension(String uri) {
-        if (uri == null) {
-            return null;
-        }
-
-        int dot = uri.lastIndexOf(".");
-        if (dot >= 0) {
-            return uri.substring(dot);
-        } else {
-            // No extension.
-            return "";
-        }
-    }
-
     public String getMimeType(String filename) {
 
         String extension = getExtension(filename);
@@ -87,7 +162,7 @@ public class MimeTypes {
         // extension-to-MIME map.
         // Be sure to remove the first character from the extension, which is
         // the "." character.
-        if(extension == null) return null;
+        if (extension == null) return null;
         if (extension.length() > 0) {
             String webkitMimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(
                     extension.substring(1));
@@ -125,11 +200,6 @@ public class MimeTypes {
         return !file.isDirectory() && isMimeText(getMimeType(file.getPath()));
     }
 
-    public static boolean isMimeText(String mime)
-    {
-        return mime.startsWith("text");
-    }
-
     /**
      * Indicates whether this path is an image.
      *
@@ -137,24 +207,6 @@ public class MimeTypes {
      */
     public boolean isImageFile(JecFile file) {
         return !file.isDirectory() && isImageFile(file.getName());
-    }
-
-    /**
-     * Indicates whether requested file path is an image. This is done by
-     * comparing file extension to a static list of extensions known to be
-     * images.
-     *
-     * @param file File path
-     * @return {@code true} if file is image, {@code false} if not.
-     */
-    public static boolean isImageFile(String file) {
-        String ext = file.substring(file.lastIndexOf(".") + 1);
-        if (MimeTypes.getInstance().getMimeType(file).startsWith("image/"))
-            return true;
-        return ext.equalsIgnoreCase("png") || ext.equalsIgnoreCase("jpg")
-                || ext.equalsIgnoreCase("jpeg") || ext.equalsIgnoreCase("gif")
-                || ext.equalsIgnoreCase("tiff") || ext.equalsIgnoreCase("tif");
-
     }
 
     /**
@@ -166,20 +218,6 @@ public class MimeTypes {
         return !file.isDirectory() && isAPKFile(file.getName());
     }
 
-    /**
-     * Indicates whether requested file path is an Android App.
-     *
-     * @param file File path
-     * @return {@code true} if file is Android App, {@code false} if not.
-     */
-    public static boolean isAPKFile(String file) {
-        file = file.substring(file.lastIndexOf("/") + 1);
-        if (file.indexOf(".") > -1)
-            file = file.substring(file.lastIndexOf(".") + 1);
-
-        return file.equalsIgnoreCase("apk");
-
-    }
 
     public boolean isArchive(JecFile file) {
         return file.getExtension().equalsIgnoreCase("zip");
@@ -196,36 +234,8 @@ public class MimeTypes {
         return !file.isDirectory() && isVideoFile(file.getName());
     }
 
-    /**
-     * Indicates whether requested file path is an image. This is done by
-     * checking Mimetype of file via {@link MimeTypes} class, and by comparing
-     * file extension to a static list of extensions known to be videos.
-     *
-     * @param path
-     * @return {@code true} if file is video, {@code false} if not.
-     */
-    public static boolean isVideoFile(String path) {
-        if (MimeTypes.getInstance().getMimeType(path).startsWith("video/"))
-            return true;
-
-        String ext = path.substring(path.lastIndexOf(".") + 1);
-        return ext.equalsIgnoreCase("mp4") || ext.equalsIgnoreCase("3gp")
-                || ext.equalsIgnoreCase("avi") || ext.equalsIgnoreCase("webm")
-                || ext.equalsIgnoreCase("m4v");
-    }
-
     public boolean isAudioFile(JecFile file) {
         return !file.isDirectory() && isAudioFile(file.getName());
-    }
-
-    public static boolean isAudioFile(String path) {
-        if (MimeTypes.getInstance().getMimeType(path).startsWith("audio/"))
-            return true;
-//mp3|wma|wav|aac|ogg|m4a|flac
-        String ext = path.substring(path.lastIndexOf(".") + 1);
-        return ext.equalsIgnoreCase("mp3") || ext.equalsIgnoreCase("wma") || ext.equalsIgnoreCase("flac")
-                || ext.equalsIgnoreCase("wav") || ext.equalsIgnoreCase("aac")
-                || ext.equalsIgnoreCase("ogg") || ext.equalsIgnoreCase("m4a");
     }
 
     public boolean isCodeFile(JecFile file) {

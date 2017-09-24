@@ -25,21 +25,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <EditText
+            android:id="@+id/nameFilterEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/filter_by_name"
+            android:maxLength="20"
+            android:singleLine="true"
+            android:textSize="12sp" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/pathScrollView"
             android:layout_width="match_parent"
             android:layout_height="30dp" />
 
-        <EditText
-            android:id="@+id/nameFilterEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/input_edittext_background"
-            android:hint="@string/filter_by_name"
-            android:maxLength="20"
-            android:padding="5dp"
-            android:singleLine="true"
-            android:textSize="12sp" />
 
         <FrameLayout
             android:layout_width="match_parent"

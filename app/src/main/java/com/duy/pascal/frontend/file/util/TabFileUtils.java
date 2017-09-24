@@ -14,19 +14,25 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.file;
+package com.duy.pascal.frontend.file.util;
 
-import android.support.annotation.NonNull;
+import android.content.Context;
+
+import com.duy.pascal.frontend.file.localdata.Database;
 
 import java.io.File;
+import java.util.ArrayList;
 
-public interface FileActionCallback {
-    boolean onSelectFile(@NonNull File file);
+/**
+ * Created by Duy on 17-Mar-17.
+ */
 
-    boolean onFileLongClick(@NonNull File file);
-
-    boolean doRemoveFile(@NonNull File file);
-
-    @NonNull
-    FileClipboard getFileClipboard();
+@SuppressWarnings("DefaultFileTemplate")
+public class TabFileUtils {
+    public static ArrayList<File> getTabFiles(Context context) {
+        ArrayList<File> files = new ArrayList<>();
+        Database database = new Database(context);
+        files.addAll(database.getListFile());
+        return files;
+    }
 }

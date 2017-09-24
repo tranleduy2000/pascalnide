@@ -203,9 +203,9 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     public void debugProgram() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            filePath = extras.getString(CompileManager.FILE_PATH);
-            if (filePath == null || filePath.isEmpty()) return;
-            File file = new File(filePath);
+            mFilePath = extras.getString(CompileManager.FILE_PATH);
+            if (mFilePath == null || mFilePath.isEmpty()) return;
+            File file = new File(mFilePath);
             if (!file.exists()) {
                 finish();
                 return;
@@ -217,7 +217,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
             setTitle(file.getName());
             endEnded.set(false);
             setEnableDebug(true); //disable DEBUG
-            createAndRunProgram(filePath); //execute file
+            createAndRunProgram(mFilePath); //execute file
         } else {
             finish();
         }
@@ -412,7 +412,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
             return true;
 
         } else if (i == R.id.action_rerun) {
-            CompileManager.debug(this, filePath);
+            CompileManager.debug(this, mFilePath);
             finish();
             return true;
 

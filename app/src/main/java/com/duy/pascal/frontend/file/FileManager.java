@@ -30,6 +30,7 @@ import android.support.v4.app.ActivityCompat;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.ActivitySplashScreen;
 import com.duy.pascal.frontend.code.CompileManager;
+import com.duy.pascal.frontend.file.localdata.Database;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 
 import java.io.BufferedReader;

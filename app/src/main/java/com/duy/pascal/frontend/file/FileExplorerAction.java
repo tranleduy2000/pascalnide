@@ -26,13 +26,13 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.duy.pascal.frontend.common.utils.UIUtils;
 import com.duy.pascal.frontend.file.io.JecFile;
 import com.duy.pascal.frontend.file.io.LocalFile;
 import com.duy.pascal.frontend.file.listener.BoolResultListener;
 import com.duy.pascal.frontend.file.listener.OnClipboardPasteFinishListener;
 import com.duy.pascal.frontend.file.util.MimeTypes;
 import com.duy.pascal.frontend.file.util.OnCheckedChangeListener;
-import com.duy.pascal.frontend.common.utils.UIUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -71,12 +71,13 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
 
     @Override
     public void onCheckedChanged(int checkedCount) {
-        if(checkedCount > 0) {
-            if (actionMode == null)
+        if (checkedCount > 0) {
+            if (actionMode == null) {
                 actionMode = view.startActionMode(this);
+            }
             actionMode.setTitle(context.getString(com.jecelyin.android.file_explorer.R.string.selected_x_items, checkedCount));
         } else {
-            if(actionMode != null) {
+            if (actionMode != null) {
                 actionMode.finish();
                 actionMode = null;
             }
@@ -109,7 +110,7 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
         shareMenu.setEnabled(canShare());
-        renameMenu.setEnabled(checkedList.size()  == 1);
+        renameMenu.setEnabled(checkedList.size() == 1);
         return true;
     }
 
@@ -254,25 +255,25 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
 
     public void doCreateFolder() {
         UIUtils.showInputDialog(context, com.jecelyin.android.file_explorer.R.string.create_folder
-                , 0 ,null, 0, new UIUtils.OnShowInputCallback() {
-            @Override
-            public void onConfirm(CharSequence input) {
-                if (TextUtils.isEmpty(input)) {
-                    return;
-                }
-                JecFile folder = explorerContext.getCurrentDirectory().newFile(input.toString());
-                folder.mkdirs(new BoolResultListener() {
+                , 0, null, 0, new UIUtils.OnShowInputCallback() {
                     @Override
-                    public void onResult(boolean result) {
-                        if (!result) {
-                            UIUtils.toast(context, com.jecelyin.android.file_explorer.R.string.can_not_create_folder);
+                    public void onConfirm(CharSequence input) {
+                        if (TextUtils.isEmpty(input)) {
                             return;
                         }
-                        view.refresh();
-                        destroyActionMode();
+                        JecFile folder = explorerContext.getCurrentDirectory().newFile(input.toString());
+                        folder.mkdirs(new BoolResultListener() {
+                            @Override
+                            public void onResult(boolean result) {
+                                if (!result) {
+                                    UIUtils.toast(context, com.jecelyin.android.file_explorer.R.string.can_not_create_folder);
+                                    return;
+                                }
+                                view.refresh();
+                                destroyActionMode();
+                            }
+                        });
                     }
                 });
-            }
-        });
     }
 }

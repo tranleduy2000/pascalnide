@@ -51,11 +51,12 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.BaseActivity;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.FileActionCallback;
+import com.duy.pascal.frontend.file.FileClipboard;
 import com.duy.pascal.frontend.file.FileExplorerView;
 import com.duy.pascal.frontend.file.FileManager;
-import com.duy.pascal.frontend.file.TabFileUtils;
 import com.duy.pascal.frontend.file.fragment.FileListPagerFragment;
 import com.duy.pascal.frontend.file.io.LocalFile;
+import com.duy.pascal.frontend.file.util.TabFileUtils;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.SymbolListView;
 
@@ -90,6 +91,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
     ViewPager mViewPager;
     private KeyBoardEventListener keyBoardListener;
     private FileListPagerFragment mFileExplorer;
+    private FileClipboard mFileClipboard;
 
     protected void onShowKeyboard() {
         hideAppBar();
@@ -137,10 +139,11 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
         FragmentManager fragmentManager = getSupportFragmentManager();
         mFileExplorer = (FileListPagerFragment) fragmentManager.findFragmentByTag(FileListPagerFragment.TAG);
         if (mFileExplorer == null) {
-            mFileExplorer = FileListPagerFragment.newFragment(new LocalFile(FileManager.getFilePath()))
+            LocalFile path = new LocalFile(FileManager.getFilePath());
+            mFileExplorer = (FileListPagerFragment) FileListPagerFragment.newFragment(path);
         }
         FragmentTransaction fm = fragmentManager.beginTransaction();
-        fm.replace(R.layout.file_explorer, mFileExplorer, FileListPagerFragment.TAG).commit();
+        fm.replace(R.id.file_explorer, mFileExplorer, FileListPagerFragment.TAG).commit();
     }
 
     protected void setupPageView() {
@@ -338,7 +341,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
      * @return true if delete success
      */
     @Override
-    public boolean doRemoveFile(final File file) {
+    public boolean doRemoveFile(@NonNull final File file) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getString(R.string.remove_file_msg) + " " + file.getName());
         builder.setTitle(R.string.delete_file);
@@ -373,6 +376,15 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
         });
         builder.create().show();
         return false;
+    }
+
+    @NonNull
+    @Override
+    public FileClipboard getFileClipboard() {
+        if (mFileClipboard == null) {
+            mFileClipboard = new FileClipboard();
+        }
+        return mFileClipboard;
     }
 
     /**

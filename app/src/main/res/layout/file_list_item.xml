@@ -15,10 +15,13 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="item" type="com.duy.pascal.frontend.file.model.FileItemModel" />
+        <variable
+            name="item"
+            type="com.duy.pascal.frontend.file.model.FileItemModel" />
     </data>
 
     <LinearLayout
@@ -36,7 +39,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="16dp">
 
-            <com.duy.pascal.frontend.file.view.IconImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.duy.pascal.frontend.file.view.IconImageView
                 android:id="@+id/iconImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -44,8 +47,7 @@
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 app:riv_corner_radius="360dp"
-                app:riv_mutate_background="true"
-                />
+                app:riv_mutate_background="true" />
 
             <TextView
                 android:id="@+id/extTextView"

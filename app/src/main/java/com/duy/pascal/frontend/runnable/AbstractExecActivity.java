@@ -85,7 +85,7 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
      */
     protected final AtomicBoolean enableDebug = new AtomicBoolean(false);
     protected String input = "";
-    protected String filePath = "";
+    protected String mFilePath = "";
     protected Object mLock;
     protected final Runnable runnableInput = new Runnable() {
         @Override
@@ -141,7 +141,7 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
             try {
                 try {
                     ArrayList<ScriptSource> searchPath = new ArrayList<>();
-                    searchPath.add(new FileScriptSource(new File(filePath).getParent()));
+                    searchPath.add(new FileScriptSource(new File(mFilePath).getParent()));
                     PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(
                             new File(programFile).getName(),
                             new FileReader(programFile),
@@ -178,7 +178,7 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
     @Override
     public String getCurrentDirectory() {
         try {
-            return new File(filePath).getParent();
+            return new File(mFilePath).getParent();
         } catch (Exception e) {
             return "";
         }

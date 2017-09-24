@@ -56,9 +56,9 @@ public class ExecuteActivity extends AbstractExecActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             if (savedInstanceState == null) {
-                filePath = extras.getString(CompileManager.FILE_PATH);
-                if (filePath == null || filePath.isEmpty()) return;
-                File file = new File(filePath);
+                mFilePath = extras.getString(CompileManager.FILE_PATH);
+                if (mFilePath == null || mFilePath.isEmpty()) return;
+                File file = new File(mFilePath);
                 if (!file.exists()) {
                     finish();
                     return;
@@ -71,7 +71,7 @@ public class ExecuteActivity extends AbstractExecActivity {
                 setEnableDebug(false);
 
                 //execute file
-                createAndRunProgram(filePath);
+                createAndRunProgram(mFilePath);
             } else {
 
             }
@@ -100,20 +100,22 @@ public class ExecuteActivity extends AbstractExecActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
-        if (i == R.id.action_show_soft) {
-            showKeyBoard();
-
-        } else if (i == android.R.id.home) {
-            finish();
-
-        } else if (i == R.id.action_change_keyboard) {
-            changeKeyBoard();
-
-        } else if (i == R.id.action_step_info) {
-            program.resume();
-
-        } else if (i == R.id.action_rerun) {
-            CompileManager.execute(this, filePath);
+        switch (i) {
+            case R.id.action_show_soft:
+                showKeyBoard();
+                break;
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.action_change_keyboard:
+                changeKeyBoard();
+                break;
+            case R.id.action_step_info:
+                program.resume();
+                break;
+            case R.id.action_rerun:
+                CompileManager.execute(this, mFilePath);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

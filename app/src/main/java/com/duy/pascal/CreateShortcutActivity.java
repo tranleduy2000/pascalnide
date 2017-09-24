@@ -18,6 +18,7 @@ package com.duy.pascal;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.file.FileActionCallback;
+import com.duy.pascal.frontend.file.FileClipboard;
 import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.file.fragment.FragmentFileManager;
 
@@ -48,7 +50,7 @@ public class CreateShortcutActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onSelectFile(File file) {
+    public boolean onSelectFile(@NonNull File file) {
         FileManager fileManager = new FileManager(this);
         Intent intent = fileManager.createShortcutIntent(this, file);
         setResult(RESULT_OK, intent);
@@ -59,12 +61,24 @@ public class CreateShortcutActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onFileLongClick(File file) {
+    public boolean onFileLongClick(@NonNull File file) {
         return true;
     }
 
     @Override
-    public boolean doRemoveFile(File file) {
+    public boolean doRemoveFile(@NonNull File file) {
         return false;
     }
+
+
+    @NonNull
+    @Override
+    public FileClipboard getFileClipboard() {
+        if (mFileClipboard == null) {
+            mFileClipboard = new FileClipboard();
+        }
+        return mFileClipboard;
+    }
+    private FileClipboard mFileClipboard;
+
 }
