@@ -22,7 +22,7 @@ import com.duy.pascal.interperter.tokens.Token;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public final class WrongIfElseStatement extends ParsingException {
+public  class WrongIfElseStatement extends ParsingException {
     public WrongIfElseStatement(@NotNull Token next) {
         super(next.getLineNumber());
     }

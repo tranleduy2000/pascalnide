@@ -17,26 +17,28 @@
 package com.duy.pascal.interperter.exceptions.parsing.value;
 
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.tokens.value.CharacterToken;
 
-public final class NonCharValueException extends ParsingException {
-   @NotNull
-   private CharacterToken characterToken;
+import org.jetbrains.annotations.NotNull;
 
-   @NotNull
-   public final CharacterToken getCharacterToken() {
-      return this.characterToken;
-   }
 
-   public final void setCharacterToken(@NotNull CharacterToken var1) {
-      Intrinsics.checkParameterIsNotNull(var1, "<set-?>");
-      this.characterToken = var1;
-   }
+public class NonCharValueException extends ParsingException {
+    @NotNull
+    private CharacterToken characterToken;
 
-   public NonCharValueException(@NotNull LineInfo line, @NotNull CharacterToken characterToken) {
-      Intrinsics.checkParameterIsNotNull(line, "line");
-      Intrinsics.checkParameterIsNotNull(characterToken, "characterToken");
-      super(line);
-      this.characterToken = characterToken;
-      this.setLineInfo(line);
-   }
+    public NonCharValueException(@NotNull LineInfo line, @NotNull CharacterToken characterToken) {
+        super(line);
+        this.characterToken = characterToken;
+        this.setLineInfo(line);
+    }
+
+    @NotNull
+    public final CharacterToken getCharacterToken() {
+        return this.characterToken;
+    }
+
+    public final void setCharacterToken(@NotNull CharacterToken var1) {
+        this.characterToken = var1;
+    }
 }

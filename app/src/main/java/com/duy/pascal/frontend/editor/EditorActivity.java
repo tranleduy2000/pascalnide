@@ -42,11 +42,11 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.autocomplete.completion.model.Description;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.sample.activities.DocumentActivity;
 import com.duy.pascal.frontend.dialog.DialogFragmentFixExpectToken;
 import com.duy.pascal.frontend.dialog.DialogHelper;
-import com.duy.pascal.frontend.autocomplete.completion.model.Description;
 import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.file.util.FileUtils;
@@ -691,8 +691,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     public void autoFix(ParsingException e) {
         if (e instanceof ExpectedTokenException) {
-            DialogFragmentFixExpectToken dialog =
-                    DialogFragmentFixExpectToken.Companion.newInstance((ExpectedTokenException) e);
+            DialogFragmentFixExpectToken dialog = DialogFragmentFixExpectToken.newInstance((ExpectedTokenException) e);
             dialog.show(getSupportFragmentManager(), dialog.getTag());
         } else {
             EditorFragment currentFragment = mPagerAdapter.getCurrentFragment();

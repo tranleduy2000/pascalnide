@@ -23,7 +23,7 @@ import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
 import org.jetbrains.annotations.Nullable;
 
-public final class NonArrayOrSetException extends ParsingException {
+public class NonArrayOrSetException extends ParsingException {
     @NonNull
     private final RuntimeValue value;
 
@@ -38,7 +38,7 @@ public final class NonArrayOrSetException extends ParsingException {
     }
 
     @NonNull
-    public final RuntimeValue getValue() {
+    public RuntimeValue getValue() {
         return this.value;
     }
 }

@@ -37,25 +37,25 @@ public class TypeIdentifierExpectException extends ParsingException {
         this.scope = scope;
     }
 
-    public final boolean getCanAutoFix() {
+    public boolean getCanAutoFix() {
         return true;
     }
 
     @NonNull
-    public final Name getMissingType() {
+    public Name getMissingType() {
         return this.missingType;
     }
 
-    public final void setMissingType(@NonNull Name var1) {
+    public void setMissingType(@NonNull Name var1) {
         this.missingType = var1;
     }
 
     @NonNull
-    public final ExpressionContext getScope() {
+    public ExpressionContext getScope() {
         return this.scope;
     }
 
-    public final void setScope(@NonNull ExpressionContext var1) {
+    public void setScope(@NonNull ExpressionContext var1) {
         this.scope = var1;
     }
 }

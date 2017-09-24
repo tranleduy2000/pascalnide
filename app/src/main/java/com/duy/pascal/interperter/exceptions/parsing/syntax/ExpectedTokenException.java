@@ -25,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 
 
-public final class ExpectedTokenException extends ParsingException {
+public class ExpectedTokenException extends ParsingException {
     @NotNull
     private String[] expected;
     @NotNull
@@ -51,20 +51,20 @@ public final class ExpectedTokenException extends ParsingException {
     }
 
     @NotNull
-    public final String[] getExpected() {
+    public String[] getExpected() {
         return this.expected;
     }
 
-    public final void setExpected(@NotNull String[] var1) {
+    public void setExpected(@NotNull String[] var1) {
         this.expected = var1;
     }
 
     @NotNull
-    public final String getCurrent() {
+    public String getCurrent() {
         return this.current;
     }
 
-    public final void setCurrent(@NotNull String var1) {
+    public void setCurrent(@NotNull String var1) {
         this.current = var1;
     }
 

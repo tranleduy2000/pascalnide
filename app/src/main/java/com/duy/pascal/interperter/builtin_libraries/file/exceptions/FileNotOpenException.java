@@ -14,37 +14,26 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.editor
+package com.duy.pascal.interperter.builtin_libraries.file.exceptions;
 
-interface EditorController {
-    fun saveAs()
 
-    fun doFindAndReplace(from: String, to: String, regex: Boolean, matchCase: Boolean)
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-    fun doFind(find: String, regex: Boolean, wordOnly: Boolean, matchCase: Boolean)
+import java.io.File;
 
-    fun saveFile()
 
-    fun goToLine(line: Int)
+public final class FileNotOpenException extends FileException {
+    public FileNotOpenException(@NonNull String filePath) {
+        super(filePath);
+    }
 
-    /**
-     * beautiful code
-     */
-    fun formatCode()
+    public FileNotOpenException(@NonNull File filePath) {
+        super(filePath);
+    }
 
-    fun undo()
-
-    fun redo()
-
-    fun paste()
-
-    fun copyAll()
-
-    /**
-     * @return current content of editor
-     */
-    val code: String
-
-    fun insert(text: CharSequence)
-
+    @Nullable
+    public String getMessage() {
+        return "file not open " + this.filePath;
+    }
 }

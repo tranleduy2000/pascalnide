@@ -25,7 +25,7 @@ import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import org.jetbrains.annotations.Nullable;
 
 
-public final class ChangeValueConstantException extends ParsingException {
+public class ChangeValueConstantException extends ParsingException {
     @NonNull
     private String name;
     @NonNull
@@ -41,11 +41,11 @@ public final class ChangeValueConstantException extends ParsingException {
     }
 
     @NonNull
-    public final String getName() {
+    public String getName() {
         return this.name;
     }
 
-    public final void setName(@NonNull String var1) {
+    public void setName(@NonNull String var1) {
         this.name = var1;
     }
 
@@ -59,20 +59,20 @@ public final class ChangeValueConstantException extends ParsingException {
     }
 
     @NonNull
-    public final ConstantAccess getConst() {
+    public ConstantAccess getConst() {
         return this.constant;
     }
 
-    public final void setConst(@NonNull ConstantAccess var1) {
+    public void setConst(@NonNull ConstantAccess var1) {
         this.constant = var1;
     }
 
     @NonNull
-    public final ExpressionContext getScope() {
+    public ExpressionContext getScope() {
         return this.scope;
     }
 
-    public final void setScope(@NonNull ExpressionContext var1) {
+    public void setScope(@NonNull ExpressionContext var1) {
         this.scope = var1;
     }
 }

@@ -40,19 +40,19 @@ public class OverridingFunctionBodyException extends ParsingException {
     }
 
     @NonNull
-    public final AbstractFunction getFunctionDeclaration() {
+    public AbstractFunction getFunctionDeclaration() {
         return this.functionDeclaration;
     }
 
-    public final void setFunctionDeclaration(@NonNull AbstractFunction var1) {
+    public void setFunctionDeclaration(@NonNull AbstractFunction var1) {
         this.functionDeclaration = var1;
     }
 
-    public final boolean isMethod() {
+    public boolean isMethod() {
         return this.isMethod;
     }
 
-    public final void setMethod(boolean var1) {
+    public void setMethod(boolean var1) {
         this.isMethod = var1;
     }
 }

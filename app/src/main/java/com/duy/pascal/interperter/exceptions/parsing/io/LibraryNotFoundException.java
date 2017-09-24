@@ -22,7 +22,7 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-public final class LibraryNotFoundException extends ParsingException {
+public class LibraryNotFoundException extends ParsingException {
     @NonNull
     private Name name;
 
@@ -32,11 +32,11 @@ public final class LibraryNotFoundException extends ParsingException {
     }
 
     @NonNull
-    public final Name getName() {
+    public Name getName() {
         return this.name;
     }
 
-    public final void setName(@NonNull Name var1) {
+    public void setName(@NonNull Name var1) {
         this.name = var1;
     }
 }

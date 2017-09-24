@@ -47,29 +47,29 @@ public class UnknownFieldException extends ParsingException {
     }
 
     @NonNull
-    public final RecordType getContainer() {
+    public RecordType getContainer() {
         return this.container;
     }
 
-    public final void setContainer(@NonNull RecordType var1) {
+    public void setContainer(@NonNull RecordType var1) {
         this.container = var1;
     }
 
     @NonNull
-    public final Name getName() {
+    public Name getName() {
         return this.name;
     }
 
-    public final void setName(@NonNull Name var1) {
+    public void setName(@NonNull Name var1) {
         this.name = var1;
     }
 
     @NonNull
-    public final ExpressionContext getScope() {
+    public ExpressionContext getScope() {
         return this.scope;
     }
 
-    public final void setScope(@NonNull ExpressionContext var1) {
+    public void setScope(@NonNull ExpressionContext var1) {
         this.scope = var1;
     }
 }

@@ -14,21 +14,34 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interperter.exceptions.parsing.missing;
+package com.duy.pascal.frontend.editor;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import org.jetbrains.annotations.NotNull;
 
-import kotlin.jvm.internal.Intrinsics;
+public interface EditorController {
+    void saveAs();
 
-public  class MissingCommaTokenException extends MissingTokenException {
-   @NotNull
-   public String getMissingToken() {
-      return ",";
-   }
+    void doFindAndReplace(@NotNull String var1, @NotNull String to, boolean regex, boolean matchCase);
 
-   public MissingCommaTokenException(@NotNull LineInfo line) {
-      super(line);
-   }
+    void doFind(@NotNull String find, boolean regex, boolean wordOnly, boolean matchCase);
+
+    void saveFile();
+
+    void goToLine(int line);
+
+    void formatCode();
+
+    void undo();
+
+    void redo();
+
+    void paste();
+
+    void copyAll();
+
+    @NotNull
+    String getCode();
+
+    void insert(@NotNull CharSequence var1);
 }

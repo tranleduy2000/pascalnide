@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interperter.exceptions.parsing.missing;
+package com.duy.pascal.frontend.editor;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import android.support.v4.app.FragmentManager;
+
+import com.commonsware.cwac.pager.PageDescriptor;
+import com.commonsware.cwac.pager.v4.ArrayPagerAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MissingSemicolonTokenException extends MissingTokenException {
-    public MissingSemicolonTokenException(@NotNull LineInfo line) {
-        super(line);
+import java.util.List;
+
+public class EditorPagerAdapter extends ArrayPagerAdapter<EditorFragment> {
+    private final int MAX_PAGE = 5;
+
+    public EditorPagerAdapter(@NotNull FragmentManager fragmentManager, @NotNull List<PageDescriptor> descriptors) {
+        super(fragmentManager, descriptors);
     }
 
     @NotNull
-    public String getMissingToken() {
-        return ";";
+    protected EditorFragment createFragment(@NotNull PageDescriptor pageDescriptor) {
+        return EditorFragment.newInstance(pageDescriptor.getFragmentTag());
     }
 }
