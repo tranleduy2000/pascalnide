@@ -65,6 +65,6 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
 
     @Override
     public String toString() {
-        return getDeclaration().getContext().getStartLine().getSourceFile();
+        return getDeclaration().getContext().getStartPosition().getSourceFile();
     }
 }

@@ -40,7 +40,7 @@ public class ClassExpressionContext extends ExpressionContextMixin {
 
     @NonNull
     @Override
-    public LineInfo getStartLine() {
+    public LineInfo getStartPosition() {
         return new LineInfo(0, mContextName == null ? "class?" : mContextName);
     }
 

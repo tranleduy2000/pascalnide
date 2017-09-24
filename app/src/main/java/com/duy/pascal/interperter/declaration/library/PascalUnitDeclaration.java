@@ -157,7 +157,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
 
         @NonNull
         @Override
-        public LineInfo getStartLine() {
+        public LineInfo getStartPosition() {
             return startLine;
         }
 
@@ -240,7 +240,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
                 for (AbstractFunction f : abstractFunctions) {
                     if (f instanceof FunctionDeclaration) {
                         if (((FunctionDeclaration) f).instructions == null) {
-                            throw new MissingBodyFunctionException(f.getName(), ((FunctionDeclaration) f).line);
+                            throw new MissingBodyFunctionException(f.getName(), ((FunctionDeclaration) f).startPosition);
                         }
                     }
                 }
@@ -259,22 +259,22 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
         }
 
         @Override
-        public void addNextDeclaration(GrouperToken i) throws Exception {
-            Token next = i.peek();
+        public void addNextDeclaration(GrouperToken group) throws Exception {
+            Token next = group.peek();
             if (next instanceof ProcedureToken || next instanceof FunctionToken) {
-                i.take();
+                group.take();
                 boolean is_procedure = next instanceof ProcedureToken;
-                FunctionDeclaration declaration = new FunctionDeclaration(this, i, is_procedure);
+                FunctionDeclaration declaration = new FunctionDeclaration(this, group, is_procedure);
                 getExistFunction(declaration);
 
                 //check exception
-                if (i.peek() instanceof ForwardToken) {
-                    throw new MisplacedDeclarationException(i.peek().getLineNumber(), "forward", this);
+                if (group.peek() instanceof ForwardToken) {
+                    throw new MisplacedDeclarationException(group.peek().getLineNumber(), "forward", this);
                 }
 
                 forwardFunctions.add(declaration.getName());
             } else {
-                super.addNextDeclaration(i);
+                super.addNextDeclaration(group);
             }
         }
 

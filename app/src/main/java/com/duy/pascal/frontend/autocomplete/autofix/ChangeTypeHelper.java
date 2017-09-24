@@ -56,7 +56,7 @@ public class ChangeTypeHelper {
             int start = matcher.start(5) + text.getOffset();
             int end = matcher.end(5) + text.getOffset();
 
-            String insertText = valueType.toString();
+            String insertText = " " + valueType.toString();
             editable.getText().replace(start, end, insertText);
             editable.setSelection(start, start + insertText.length());
             editable.showKeyboard();

@@ -36,11 +36,11 @@ public class ParsingException extends Exception {
     }
 
     @Nullable
-    public final LineInfo getLineInfo() {
+    public LineInfo getLineInfo() {
         return this.lineInfo;
     }
 
-    public final void setLineInfo(@Nullable LineInfo var1) {
+    public void setLineInfo(@Nullable LineInfo var1) {
         this.lineInfo = var1;
     }
 

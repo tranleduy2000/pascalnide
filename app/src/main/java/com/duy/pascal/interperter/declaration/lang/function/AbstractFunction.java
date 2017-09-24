@@ -104,13 +104,13 @@ public abstract class AbstractFunction extends NameEntityImpl {
         return result;
     }
 
-    public abstract FunctionCall generatePerfectFitCall(LineInfo line,
-                                                        List<RuntimeValue> values, ExpressionContext f)
-            throws Exception;
+    @Nullable
+    public abstract FunctionCall generatePerfectFitCall(LineInfo line, List<RuntimeValue> values,
+                                                        ExpressionContext f) throws Exception;
 
-    public abstract FunctionCall generateCall(LineInfo line,
-                                              List<RuntimeValue> values, ExpressionContext f)
-            throws Exception;
+    @Nullable
+    public abstract FunctionCall generateCall(LineInfo line, List<RuntimeValue> values,
+                                              ExpressionContext f) throws Exception;
 
     @Override
     public Class<?> getDeclaringClass() {

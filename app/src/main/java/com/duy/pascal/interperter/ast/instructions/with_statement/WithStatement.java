@@ -122,7 +122,7 @@ public class WithStatement {
 
         @NonNull
         @Override
-        public LineInfo getStartLine() {
+        public LineInfo getStartPosition() {
             return line;
         }
 

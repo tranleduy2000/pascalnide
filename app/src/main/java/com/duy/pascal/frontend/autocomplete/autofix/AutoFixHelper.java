@@ -73,7 +73,7 @@ public class AutoFixHelper {
             public void execute(EditorView editable) {
                 //don't work if has selection
                 //sub string from 0 to postion error
-                TextData scope = getText(editable, exception.getScope().getStartLine(), exception.getLineInfo());
+                TextData scope = getText(editable, exception.getScope().getStartPosition(), exception.getLineInfo());
 
                 Name type = exception.getMissingType();
                 String textToInsert;
@@ -166,19 +166,24 @@ public class AutoFixHelper {
             @Override
             public void execute(EditorView editable) {
                 //get a part of text
-                TextData text = getText(editable, exception.getScope().getStartLine(), exception.getLineInfo());
+                TextData text = getText(editable, exception.getScope().getStartPosition(), exception.getLineInfo());
                 if (exception.getIdentifier() instanceof VariableAccess) {
+
                     if (exception.getScope() instanceof FunctionDeclaration.FunctionExpressionContext) {
+                        text = getText(editable, exception.getScope().getStartPosition(), exception.getLineInfo());
                         Name name = ((FunctionDeclaration.FunctionExpressionContext) exception.getScope()).function.getName();
+
                         //this is function name
                         if (name.equals(((VariableAccess) exception.getIdentifier()).getName())) {
                             ChangeTypeHelper.changeTypeFunction(editable, name, text, exception.getValueType());
                         } else {
                             ChangeTypeHelper.changeTypeVar(editable, text, (VariableAccess) exception.getIdentifier(), exception.getValueType());
                         }
+
                     } else {
                         ChangeTypeHelper.changeTypeVar(editable, text, (VariableAccess) exception.getIdentifier(), exception.getValueType());
                     }
+
                 } else if (exception.getIdentifier() instanceof ConstantAccess) {
                     changeTypeConst(editable, text, (ConstantAccess) exception.getIdentifier(), exception.getValueType());
                 } else if (exception.getValue() instanceof VariableAccess) {
@@ -248,7 +253,7 @@ public class AutoFixHelper {
             @Override
             public void execute(EditorView editable) {
                 //sub string from 0 to position error
-                TextData text = getText(editable, e.getScope().getStartLine(), e.getLineInfo());
+                TextData text = getText(editable, e.getScope().getStartPosition(), e.getLineInfo());
 
                 String textToInsert = "";
                 int insertPosition = 0;
@@ -296,7 +301,7 @@ public class AutoFixHelper {
      */
     @Nullable
     private static AutoFixCommand declareVar(UnknownIdentifierException e) {
-        return declareVar(new LineInfo[]{e.getScope().getStartLine(), e.getLineInfo()},
+        return declareVar(new LineInfo[]{e.getScope().getStartPosition(), e.getLineInfo()},
                 e.getName(),
                 "",//unknown type
                 null); //non init value
@@ -428,7 +433,7 @@ public class AutoFixHelper {
                 Log.d(TAG, "changeConstToVar() called with: editable = [" + editable + "]");
                 editable.disableTextWatcher();
 
-                TextData region = getText(editable, e.getScope().getStartLine(), e.getLineInfo());
+                TextData region = getText(editable, e.getScope().getStartPosition(), e.getLineInfo());
                 ConstantAccess constant = e.getConst();
                 //const a = 2;
                 Pattern pattern = Pattern.compile(

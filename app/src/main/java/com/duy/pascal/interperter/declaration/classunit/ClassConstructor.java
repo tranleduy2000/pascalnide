@@ -31,7 +31,6 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.interperter.declaration.lang.types.PascalClassType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
@@ -49,6 +48,13 @@ public class ClassConstructor extends FunctionDeclaration {
                             GrouperToken grouperToken, boolean isProcedure)
             throws Exception {
         super(name, parent, grouperToken, isProcedure);
+        this.classType = classType;
+    }
+
+    public ClassConstructor(PascalClassType classType, Name name, ExpressionContext parent,
+                            GrouperToken grouperToken, boolean isProcedure, LineInfo startLine)
+            throws Exception {
+        super(name, parent, grouperToken, isProcedure, startLine);
         this.classType = classType;
     }
 

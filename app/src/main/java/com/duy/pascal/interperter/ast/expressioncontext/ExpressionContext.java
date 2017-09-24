@@ -24,7 +24,7 @@ import java.util.List;
 public interface ExpressionContext extends CompileTimeContext {
 
     @NonNull
-    LineInfo getStartLine();
+    LineInfo getStartPosition();
 
     RuntimeValue getIdentifierValue(WordToken name)
            throws Exception;

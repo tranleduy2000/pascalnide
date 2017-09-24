@@ -50,19 +50,19 @@ class EditorUtil {
     }
 
     static TextData getText(EditText editable, LineInfo startLine, LineInfo endLine) {
-        Log.d(TAG, "getText() called with: editable = [" + editable + "], startLine = [" + startLine + "], endLine = [" + endLine + "]");
+        Log.d(TAG, "getText() called with: startLine = [" + startLine + "], endLine = [" + endLine + "]");
 
-        CharSequence text = editable.getText().subSequence(
-                editable.getLayout().getLineStart(startLine.getLine())
-                        + startLine.getColumn(),
+        int start = editable.getLayout().getLineStart(startLine.getLine());
+        int end = editable.getLayout().getLineEnd(endLine.getLine());
 
-                editable.getLayout().getLineEnd(endLine.getLine()));
+        int startIndex = start + startLine.getColumn();
+        CharSequence text = editable.getText().subSequence(startIndex, end);
 
-        int offset = editable.getLayout().getLineStart(startLine.getLine())
-                + startLine.getColumn()
-                + startLine.getLength();
+        int offset = start + startLine.getColumn() /*+ startLine.getLength()*/;
 
-        if (offset < 0) offset = 0;
+        if (offset < 0) {
+            offset = 0;
+        }
         TextData textData = new TextData(text, offset);
         Log.d(TAG, "getText() returned: " + textData);
         return textData;

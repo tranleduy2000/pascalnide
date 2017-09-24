@@ -69,7 +69,7 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
 
         @NonNull
         @Override
-        public LineInfo getStartLine() {
+        public LineInfo getStartPosition() {
             return new LineInfo(0, programName == null ? getSourceName() : programName.getOriginName());
         }
 

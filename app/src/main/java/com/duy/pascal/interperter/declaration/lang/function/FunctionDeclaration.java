@@ -63,8 +63,10 @@ public class FunctionDeclaration extends AbstractCallableFunction {
      */
     public Name name;
     public Executable instructions;
-    public LineInfo line;
-    public LineInfo endPositionHeader;
+
+    public LineInfo startPosition;
+    public LineInfo endPosition;
+
     public Name[] argumentNames;
     public RuntimeType[] argumentTypes;
 
@@ -78,6 +80,12 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     public FunctionDeclaration(Name name, ExpressionContext parent, GrouperToken grouperToken,
                                boolean isProcedure) throws Exception {
         parseHeader(name, parent, grouperToken, isProcedure);
+    }
+
+    public FunctionDeclaration(Name name, ExpressionContext parent, GrouperToken grouperToken,
+                               boolean isProcedure, LineInfo lineInfo) throws Exception {
+        parseHeader(name, parent, grouperToken, isProcedure);
+        this.startPosition = lineInfo;
     }
 
     public FunctionDeclaration(ExpressionContext parent, GrouperToken grouperToken,
@@ -105,7 +113,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
         this.name = name;
         this.declaration = new FunctionExpressionContext(this, parent);
-        this.line = grouperToken.peek().getLineNumber();
+        this.startPosition = grouperToken.peek().getLineNumber();
         this.isProcedure = isProcedure;
 
         getArgumentsForDeclaration(grouperToken);
@@ -122,17 +130,16 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             //define variable result of function, the name of variable same as name function
             if (parent.root().getConfig().getMode() == ProgramMode.DELPHI) {
                 resultDefinition = new VariableDeclaration(Name.create("result"),
-                        grouperToken.getNextPascalType(parent), line);
+                        grouperToken.getNextPascalType(parent), startPosition);
             } else {
                 resultDefinition = new VariableDeclaration(name,
-                        grouperToken.getNextPascalType(parent), line);
+                        grouperToken.getNextPascalType(parent), startPosition);
             }
             this.declaration.declareVariable(resultDefinition);
         }
 
-        //assert next semicolon token
-        Token t = grouperToken.take();
-        this.endPositionHeader = t.getLineNumber();
+        Token t = grouperToken.take(); //semicolon token
+        this.endPosition = t.getLineNumber();
         if (!(t instanceof SemicolonToken)) {
             throw new ExpectedTokenException(new SemicolonToken(null), t);
         }
@@ -168,7 +175,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     public void parseFunctionBody(GrouperToken i) throws Exception {
         Token next = i.peekNoEOF();
         if (next instanceof ForwardToken) {
-            Token take = i.take();
+            i.take(); //forward token
             i.assertNextSemicolon();
         } else {
             if (instructions != null) {
@@ -291,7 +298,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
     @Override
     public LineInfo getLineNumber() {
-        return line;
+        return startPosition;
     }
 
     public boolean isProcedure() {
@@ -308,8 +315,8 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
         @NonNull
         @Override
-        public LineInfo getStartLine() {
-            return endPositionHeader;
+        public LineInfo getStartPosition() {
+            return startPosition;
         }
 
         @Override
