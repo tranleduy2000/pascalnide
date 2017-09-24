@@ -92,7 +92,7 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
             }
             main = i.getNextCommand(this);
             if (!(i.peek() instanceof PeriodToken)) {
-                throw new MissingDotTokenException(i.take().getLineNumber());
+                throw new MissingDotTokenException(i.peek().getLineNumber());
             }
             i.take();
         }

@@ -43,30 +43,26 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputContentInfo;
 import android.view.inputmethod.InputMethodManager;
 
+import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.interperter.builtin_libraries.android.gesture.listener.ClickListener;
 import com.duy.pascal.interperter.builtin_libraries.android.gesture.listener.DoubleClickListener;
 import com.duy.pascal.interperter.builtin_libraries.android.gesture.listener.LongClickListener;
 import com.duy.pascal.interperter.builtin_libraries.graphic.GraphScreen;
 import com.duy.pascal.interperter.builtin_libraries.graphic.model.GraphObject;
-import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.setting.PascalPreferences;
 
 import java.util.ArrayList;
 
 import static com.duy.pascal.frontend.utils.StringCompare.isGreaterEqual;
 import static com.duy.pascal.frontend.utils.StringCompare.isLessThan;
 
-public class ConsoleView extends View implements
-        GestureDetector.OnDoubleTapListener, GestureDetector.OnGestureListener {
+public class ConsoleView extends View implements GestureDetector.OnDoubleTapListener,
+        GestureDetector.OnGestureListener {
     public static final String THE_DELETE_COMMAND = "\u2764";
     public static final String THE_ENTER_KEY = "\u2713";
     private static final String TAG = "ConsoleView";
 
-    static {
-        DLog.TAG = TAG;
-    }
-
-    public Handler handler = new Handler();
+    public final Handler mHandler = new Handler();
     public int firstLine;
     public CharQueue mKeyBuffer = new CharQueue(2); // store key code event, two key
 
@@ -89,7 +85,7 @@ public class ConsoleView extends View implements
             if (updateSize()) {
                 invalidate();
             }
-            handler.postDelayed(this, 1000);
+            mHandler.postDelayed(this, 1000);
         }
     };
     private Runnable blink = new Runnable() {
@@ -97,7 +93,7 @@ public class ConsoleView extends View implements
             if (graphicMode) return;
             mCursor.toggleState();
             invalidate();
-            handler.postDelayed(this, 1000);
+            mHandler.postDelayed(this, 1000);
         }
     };
     private float mScrollRemainder;
@@ -843,13 +839,13 @@ public class ConsoleView extends View implements
 
 
     public void onPause() {
-        handler.removeCallbacks(checkSize);
-        handler.removeCallbacks(blink);
+        mHandler.removeCallbacks(checkSize);
+        mHandler.removeCallbacks(blink);
     }
 
     public void onResume() {
-        handler.postDelayed(checkSize, 1000);
-        handler.postDelayed(blink, 1000);
+        mHandler.postDelayed(checkSize, 1000);
+        mHandler.postDelayed(blink, 1000);
         updateSize();
     }
 
