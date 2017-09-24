@@ -19,7 +19,6 @@ package com.duy.pascal.frontend.dialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialogFragment
 import android.view.View
 import android.widget.ArrayAdapter
@@ -51,8 +50,6 @@ open class DialogFragmentFixExpectToken : BottomSheetDialogFragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         listener = context as OnSelectExpectListener;
-
-
     }
 
 
@@ -78,15 +75,6 @@ open class DialogFragmentFixExpectToken : BottomSheetDialogFragment() {
             }
         }
         dialog?.setContentView(view)
-    }
-
-    class CallBack : BottomSheetBehavior.BottomSheetCallback() {
-        override fun onSlide(bottomSheet: View, slideOffset: Float) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
-
-        override fun onStateChanged(bottomSheet: View, newState: Int) {
-        }
     }
 
 
