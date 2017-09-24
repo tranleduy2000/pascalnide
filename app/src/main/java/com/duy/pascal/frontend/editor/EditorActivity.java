@@ -56,7 +56,6 @@ import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.structure.DialogProgramStructure;
 import com.duy.pascal.frontend.structure.viewholder.StructureItem;
 import com.duy.pascal.frontend.themefont.activities.ThemeFontActivity;
-import com.duy.pascal.frontend.utils.DonateUtils;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.interperter.ast.CodeUnitParsingException;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;

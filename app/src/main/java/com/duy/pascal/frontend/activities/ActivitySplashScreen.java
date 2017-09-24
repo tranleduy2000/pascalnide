@@ -55,25 +55,23 @@ public class ActivitySplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         // Here, this is the current activity
         PreferenceManager.setDefaultValues(this, R.xml.pref_settings, false);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-            ActivityCompat.requestPermissions(this, permissions, MY_PERMISSIONS_REQUEST);
+        if (!permissionGranted()) {
+            requestPermisson();
         } else {
             startMainActivity();
         }
     }
 
-    private boolean isDonateInstalled(String name) {
-        PackageManager packageManager = getPackageManager();
-        try {
-            packageManager.getPackageInfo(name, PackageManager.GET_ACTIVITIES);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    private void requestPermisson() {
+        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+        ActivityCompat.requestPermissions(this, permissions, MY_PERMISSIONS_REQUEST);
+    }
+
+    private boolean permissionGranted() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED;
     }
 
     @Override
@@ -88,6 +86,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
                     startMainActivity();
                 } else {
                     Toast.makeText(this, R.string.permission_denied_storage, Toast.LENGTH_SHORT).show();
+                    requestPermisson();
                 }
             }
         }
