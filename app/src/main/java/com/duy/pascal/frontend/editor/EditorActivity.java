@@ -162,10 +162,10 @@ public class EditorActivity extends BaseEditorActivity implements
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
-        final CheckBox ckbRegex = (CheckBox) alertDialog.findViewById(R.id.ckb_regex);
-        final CheckBox ckbMatch = (CheckBox) alertDialog.findViewById(R.id.ckb_match_key);
-        final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
-        final EditText editReplace = (EditText) alertDialog.findViewById(R.id.edit_replace);
+        final CheckBox ckbRegex = alertDialog.findViewById(R.id.ckb_regex);
+        final CheckBox ckbMatch = alertDialog.findViewById(R.id.ckb_match_key);
+        final EditText editFind = alertDialog.findViewById(R.id.txt_find);
+        final EditText editReplace = alertDialog.findViewById(R.id.edit_replace);
         editFind.setText(getPreferences().getString(PascalPreferences.LAST_FIND));
         alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,10 +210,10 @@ public class EditorActivity extends BaseEditorActivity implements
         builder.setView(R.layout.dialog_find);
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        final CheckBox ckbRegex = (CheckBox) alertDialog.findViewById(R.id.ckb_regex);
-        final CheckBox ckbMatch = (CheckBox) alertDialog.findViewById(R.id.ckb_match_key);
-        final CheckBox ckbWordOnly = (CheckBox) alertDialog.findViewById(R.id.ckb_word_only);
-        final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
+        final CheckBox ckbRegex = alertDialog.findViewById(R.id.ckb_regex);
+        final CheckBox ckbMatch = alertDialog.findViewById(R.id.ckb_match_key);
+        final CheckBox ckbWordOnly = alertDialog.findViewById(R.id.ckb_word_only);
+        final EditText editFind = alertDialog.findViewById(R.id.txt_find);
         editFind.setText(getPreferences().getString(PascalPreferences.LAST_FIND));
         alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -404,9 +404,9 @@ public class EditorActivity extends BaseEditorActivity implements
         builder.setView(R.layout.dialog_view_file);
         AlertDialog dialog = builder.create();
         dialog.show();
-        TextView txtInfo = (TextView) dialog.findViewById(R.id.txt_info);
+        TextView txtInfo = dialog.findViewById(R.id.txt_info);
         txtInfo.setText(file.getPath());
-        EditorView editorView = (EditorView) dialog.findViewById(R.id.editor_view);
+        EditorView editorView = dialog.findViewById(R.id.editor_view);
         editorView.setTextHighlighted(mFileManager.fileToString(file));
     }
 

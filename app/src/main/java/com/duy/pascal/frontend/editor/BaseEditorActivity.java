@@ -36,7 +36,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
@@ -54,11 +57,14 @@ import com.duy.pascal.frontend.file.FileActionCallback;
 import com.duy.pascal.frontend.file.FileClipboard;
 import com.duy.pascal.frontend.file.FileExplorerView;
 import com.duy.pascal.frontend.file.FileManager;
+import com.duy.pascal.frontend.file.Pref;
 import com.duy.pascal.frontend.file.fragment.FileListPagerFragment;
 import com.duy.pascal.frontend.file.io.LocalFile;
+import com.duy.pascal.frontend.file.util.FileListSorter;
 import com.duy.pascal.frontend.file.util.TabFileUtils;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.SymbolListView;
+import com.github.clans.fab.FloatingActionMenu;
 
 import java.io.File;
 import java.io.IOException;
@@ -73,7 +79,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
         implements SymbolListView.OnKeyListener,
         EditorControl,
         FileActionCallback,
-        EditorContext {
+        EditorContext, View.OnClickListener, PopupMenu.OnMenuItemClickListener {
     protected final static String TAG = BaseEditorActivity.class.getSimpleName();
     protected final boolean SELECT = true;
     protected final boolean SAVE_LAST_FILE = true;
@@ -81,17 +87,20 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
     protected final boolean UN_SAVE_LAST_FILE = false;
     protected FileManager mFileManager;
     protected EditorPagerAdapter mPagerAdapter;
-    Toolbar toolbar;
-    AppBarLayout appBarLayout;
-    DrawerLayout mDrawerLayout;
-    SymbolListView mKeyList;
-    NavigationView mNavigationView;
-    TabLayout mTabLayout;
-    View mContainerSymbol;
-    ViewPager mViewPager;
+    protected Toolbar toolbar;
+    protected AppBarLayout appBarLayout;
+    protected DrawerLayout mDrawerLayout;
+    protected SymbolListView mKeyList;
+    protected NavigationView mNavigationView;
+    protected TabLayout mTabLayout;
+    protected View mContainerSymbol;
+    protected ViewPager mViewPager;
+    protected FloatingActionMenu mFabMenu;
     private KeyBoardEventListener keyBoardListener;
     private FileListPagerFragment mFileExplorer;
     private FileClipboard mFileClipboard;
+    private PopupMenu mFileMenu;
+    private MenuItem mPasteMenu;
 
     protected void onShowKeyboard() {
         hideAppBar();
@@ -121,7 +130,14 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
         DLog.d(TAG, "onCreate: ");
 
         setContentView(R.layout.activity_editor);
+        bindView();
 
+        setupToolbar();
+        setupPageView();
+        initFileView();
+    }
+
+    private void bindView() {
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mKeyList = findViewById(R.id.recycler_view);
         mFileManager = new FileManager(this);
@@ -130,9 +146,6 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
         mContainerSymbol = findViewById(R.id.container_symbol);
         mViewPager = findViewById(R.id.view_pager);
 
-        setupToolbar();
-        setupPageView();
-        initFileView();
     }
 
     private void initFileView() {
@@ -144,6 +157,36 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
         }
         FragmentTransaction fm = fragmentManager.beginTransaction();
         fm.replace(R.id.file_explorer, mFileExplorer, FileListPagerFragment.TAG).commit();
+
+        mFabMenu = findViewById(R.id.fab_menu);
+        mFabMenu.findViewById(R.id.action_new_file).setOnClickListener(this);
+        mFabMenu.findViewById(R.id.action_new_folder).setOnClickListener(this);
+
+        View anchor = findViewById(R.id.img_file_menus);
+        mFileMenu = new PopupMenu(this, anchor);
+        mFileMenu.setOnMenuItemClickListener(this);
+        Menu menu = mFileMenu.getMenu();
+        getMenuInflater().inflate(R.menu.explorer_menu, menu);
+        Pref pref = Pref.getInstance(this);
+        menu.findItem(R.id.show_hidden_files_menu).setChecked(pref.isShowHiddenFiles());
+        mPasteMenu = menu.findItem(R.id.paste_menu);
+        int sortId;
+        switch (pref.getFileSortType()) {
+            case FileListSorter.SORT_DATE:
+                sortId = R.id.sort_by_datetime_menu;
+                break;
+            case FileListSorter.SORT_SIZE:
+                sortId = R.id.sort_by_size_menu;
+                break;
+            case FileListSorter.SORT_TYPE:
+                sortId = R.id.sort_by_type_menu;
+                break;
+            default:
+                sortId = R.id.sort_by_name_menu;
+                break;
+        }
+        menu.findItem(sortId).setChecked(true);
+        anchor.setOnClickListener(this);
     }
 
     protected void setupPageView() {
@@ -334,6 +377,16 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
 
     protected abstract String getCode();
 
+    @Override
+    public boolean onSelectFile(@NonNull File file) {
+        return false;
+    }
+
+    @Override
+    public boolean onFileLongClick(@NonNull File file) {
+        return false;
+    }
+
     /**
      * delete a file
      *
@@ -402,6 +455,11 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
     }
 
     @Override
+    public boolean doCompile() {
+        return false;
+    }
+
+    @Override
     public void saveAs() {
         saveFile();
         final AppCompatEditText edittext = new AppCompatEditText(this);
@@ -436,6 +494,81 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
     }
 
     @Override
+    public void findAndReplace() {
+
+    }
+
+    @Override
+    public void runProgram() {
+
+    }
+
+    @Override
+    public boolean isAutoSave() {
+        return false;
+    }
+
+    @Override
+    public void saveFile() {
+
+    }
+
+    @Override
+    public void showDocumentActivity() {
+
+    }
+
+    @Override
+    public void createNewSourceFile(View view) {
+
+    }
+
+    @Override
+    public void goToLine() {
+
+    }
+
+    @Override
+    public void formatCode() {
+
+    }
+
+    @Override
+    public void reportBug() {
+
+    }
+
+    @Override
+    public void openTool() {
+
+    }
+
+    @Override
+    public void undo() {
+
+    }
+
+    @Override
+    public void redo() {
+
+    }
+
+    @Override
+    public void paste() {
+
+    }
+
+    @Override
+    public void copyAll() {
+
+    }
+
+    @Override
+    public void selectThemeFont() {
+
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         closeKeyBoard();
@@ -461,6 +594,48 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
             // Hide the KeyBoard
             inputManager.hideSoftInputFromWindow(windowToken, hideType);
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.img_file_menus:
+                mFileMenu.show();
+                break;
+        }
+    }
+
+    @Override
+    public void onKeyClick(View view, String text) {
+
+    }
+
+    @Override
+    public void onKeyLongClick(String text) {
+
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        Pref pref = Pref.getInstance(this);
+        int id = item.getItemId();
+        if (id == R.id.show_hidden_files_menu) {
+            item.setChecked(!item.isChecked());
+            pref.setShowHiddenFiles(item.isChecked());
+        } else if (id == R.id.sort_by_name_menu) {
+            item.setChecked(true);
+            pref.setFileSortType(FileListSorter.SORT_NAME);
+        } else if (id == R.id.sort_by_datetime_menu) {
+            item.setChecked(true);
+            pref.setFileSortType(FileListSorter.SORT_DATE);
+        } else if (id == R.id.sort_by_size_menu) {
+            item.setChecked(true);
+            pref.setFileSortType(FileListSorter.SORT_SIZE);
+        } else if (id == R.id.sort_by_type_menu) {
+            item.setChecked(true);
+            pref.setFileSortType(FileListSorter.SORT_TYPE);
+        }
+        return false;
     }
 
 

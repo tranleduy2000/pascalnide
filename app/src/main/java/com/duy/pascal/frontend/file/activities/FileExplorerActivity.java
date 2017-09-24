@@ -166,7 +166,6 @@ public class FileExplorerActivity extends FullScreenActivity implements View.OnC
                 sortId = R.id.sort_by_name_menu;
                 break;
         }
-
         menu.findItem(sortId).setChecked(true);
 
         return super.onCreateOptionsMenu(menu);

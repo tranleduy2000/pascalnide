@@ -30,6 +30,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -166,7 +167,6 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
             }
         });
 
-        Pref.getInstance(getContext()).registerOnSharedPreferenceChangeListener(this);
 
         view.post(new Runnable() {
             @Override
@@ -178,13 +178,18 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        Pref.getInstance(getContext()).registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         Pref.getInstance(getContext()).unregisterOnSharedPreferenceChangeListener(this);
         if (action != null) {
             action.destroy();
         }
-
     }
 
     @Override
@@ -222,6 +227,8 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
+        Log.d(TAG, "onRefresh() called");
+
         UpdateRootInfo updateRootInfo = new UpdateRootInfo() {
 
             @Override

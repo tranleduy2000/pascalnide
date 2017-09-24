@@ -238,5 +238,6 @@
     <string name="auto_insert_bracket_summary">Insert ) when type (, ] when type […</string>
     <string name="auto_insert_bracket">Auto insert bracket</string>
     <string name="runtime_error">Runtime error</string>
+    <string name="file_explorer">File Explorer</string>
 </resources>
 
