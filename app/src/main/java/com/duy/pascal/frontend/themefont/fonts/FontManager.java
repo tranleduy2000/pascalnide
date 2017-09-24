@@ -20,7 +20,6 @@ import android.content.Context;
 import android.graphics.Typeface;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.utils.DonateUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -109,14 +108,12 @@ public class FontManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (DonateUtils.DONATED) {
-            File parent = new File(context.getFilesDir(), "fonts");
-            if (parent.exists() && parent.isDirectory()) {
-                File[] files = parent.listFiles();
-                for (File f : files) {
-                    if (isFontFile(f.getName())) {
-                        fontEntries.add(new FontEntry(true, f.getName()));
-                    }
+        File parent = new File(context.getFilesDir(), "fonts");
+        if (parent.exists() && parent.isDirectory()) {
+            File[] files = parent.listFiles();
+            for (File f : files) {
+                if (isFontFile(f.getName())) {
+                    fontEntries.add(new FontEntry(true, f.getName()));
                 }
             }
         }

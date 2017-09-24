@@ -19,7 +19,6 @@ package com.duy.pascal.interperter.exceptions.parsing.define;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.frontend.autocomplete.autofix.DefineType;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
@@ -85,5 +84,12 @@ public class UnknownIdentifierException extends ParsingException {
 
     public void setScope(@NonNull ExpressionContext var1) {
         this.scope = var1;
+    }
+
+    /**
+     * Created by Duy on 23-May-17.
+     */
+    public enum DefineType {
+        DECLARE_TYPE, DECLARE_VAR, DECLARE_FUNCTION, DECLARE_PROCEDURE, DECLARE_CONST
     }
 }

@@ -58,6 +58,7 @@ import com.duy.pascal.frontend.structure.viewholder.StructureItem;
 import com.duy.pascal.frontend.themefont.activities.ThemeFontActivity;
 import com.duy.pascal.frontend.utils.DonateUtils;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
+import com.duy.pascal.interperter.ast.CodeUnitParsingException;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.builtin_libraries.io.IOLib;
@@ -96,10 +97,6 @@ public class EditorActivity extends BaseEditorActivity implements
         mDrawerLayout.addDrawerListener(this);
 
         mMenuEditor = new MenuEditor(this, this);
-        if (DonateUtils.DONATED) {
-            Menu menu = mNavigationView.getMenu();
-            menu.findItem(R.id.action_donate).setVisible(false);
-        }
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -307,9 +304,9 @@ public class EditorActivity extends BaseEditorActivity implements
         } catch (FileNotFoundException e) {
             showErrorDialog(e);
             return false;
-        } catch (ParsingException e) {
-            showErrorDialog(e);
-            showLineError(e);
+        } catch (CodeUnitParsingException e) {
+            showErrorDialog(e.getParseException());
+            showLineError(e.getParseException());
             return false;
         } catch (Exception e) {
             showErrorDialog(e);

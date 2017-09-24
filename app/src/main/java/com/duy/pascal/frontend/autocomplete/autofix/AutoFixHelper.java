@@ -18,7 +18,6 @@ package com.duy.pascal.frontend.autocomplete.autofix;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.Editable;
 import android.util.Log;
 
 import com.duy.pascal.frontend.DLog;
@@ -122,16 +121,16 @@ public class AutoFixHelper {
     @Nullable
     private static AutoFixCommand fixMissingDefine(UnknownIdentifierException exception) {
         DLog.d(TAG, "fixMissingDefine() called with: e = [" + exception + "]" + " " + exception.getFitType());
-        if (exception.getFitType() == DefineType.DECLARE_VAR) {
+        if (exception.getFitType() == UnknownIdentifierException.DefineType.DECLARE_VAR) {
             //add missing var
             return declareVar(exception);
-        } else if (exception.getFitType() == DefineType.DECLARE_CONST) {
+        } else if (exception.getFitType() == UnknownIdentifierException.DefineType.DECLARE_CONST) {
             //add missing const
             return declareConst(exception);
-        } else if (exception.getFitType() == DefineType.DECLARE_FUNCTION) {
+        } else if (exception.getFitType() == UnknownIdentifierException.DefineType.DECLARE_FUNCTION) {
             //add missing function
             return declareFunction(exception);
-        } else if (exception.getFitType() == DefineType.DECLARE_PROCEDURE) {
+        } else if (exception.getFitType() == UnknownIdentifierException.DefineType.DECLARE_PROCEDURE) {
             //add missing procedure
             return declareProcedure(exception);
         }
@@ -445,7 +444,6 @@ public class AutoFixHelper {
             @Override
             public void execute(EditorView editable) {
                 Log.d(TAG, "changeConstToVar() called with: editable = [" + editable + "]");
-                editable.disableTextWatcher();
 
                 TextData region = getText(editable, e.getScope().getStartPosition(), e.getLineInfo());
                 ConstantAccess constant = e.getConst();
@@ -466,10 +464,10 @@ public class AutoFixHelper {
                     start = Math.max(0, start);
                     int end = matcher.end(6) + region.getOffset();
 
-                    Log.d(TAG, "execute: before delete " + region);
+                    editable.disableTextWatcher();
                     editable.getText().delete(start, end);
                     region.getText().delete(matcher.start(2), matcher.end(6));
-                    Log.d(TAG, "execute: after delete " + region);
+                    editable.enableTextWatcher();
 
                     AutoFixCommand declareVar = declareVar(region,
                             constant.getName(), //name
@@ -496,8 +494,10 @@ public class AutoFixHelper {
                         start = Math.max(0, start);
                         int end = matcher.end(9) + region.getOffset();
 
+                        editable.disableTextWatcher();
                         editable.getText().delete(start, end);
                         region.getText().delete(matcher.start(2), matcher.end(9));
+                        editable.enableTextWatcher();
 
                         AutoFixCommand declareVar = declareVar(region,
                                 constant.getName(),  //name
@@ -507,7 +507,6 @@ public class AutoFixHelper {
                     }
                 }
 
-                editable.enableTextWatcher();
             }
         };
 
@@ -519,10 +518,13 @@ public class AutoFixHelper {
             @Override
             public void execute(EditorView editable) {
                 Log.d(TAG, "fixProgramNotFound() called with: editable = [" + editable + "]");
+                editable.disableTextWatcher();
 
                 String tabCharacter = editable.getTabCharacter();
                 editable.getText().insert(editable.length(), "\nbegin\n" + tabCharacter + "\nend.\n");
                 editable.setSelection(editable.length() - "\nend.\n".length());
+
+                editable.enableTextWatcher();
             }
         };
     }
@@ -587,16 +589,17 @@ public class AutoFixHelper {
                     int start = matcher.start();
                     int end = matcher.end();
 
+                    editable.disableTextWatcher();
                     //insert or replace other token
-                    Editable text = editable.getText();
                     if (!insert) {
-                        text.replace(offset + start, offset + start + end, expect);
+                        editable.getText().replace(offset + start, offset + start + end, expect);
                     } else {
                         String insert = " " + expect + " ";
-                        text.insert(offset + start, insert);
+                        editable.getText().insert(offset + start, insert);
                     }
                     editable.setSelection(offset + start, offset + start + expect.length());
                     editable.showKeyboard();
+                    editable.enableTextWatcher();
                 }
             }
         };

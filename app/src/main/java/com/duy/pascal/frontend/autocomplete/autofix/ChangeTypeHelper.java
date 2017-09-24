@@ -52,6 +52,8 @@ public class ChangeTypeHelper {
                         ";"); //end                                   //6
         Matcher matcher = pattern.matcher(text.getText());
         if (matcher.find()) {
+            editable.disableTextWatcher();
+
             DLog.d(TAG, "changeTypeFunction: match " + matcher);
             int start = matcher.start(5) + text.getOffset();
             int end = matcher.end(5) + text.getOffset();
@@ -60,6 +62,8 @@ public class ChangeTypeHelper {
             editable.getText().replace(start, end, insertText);
             editable.setSelection(start, start + insertText.length());
             editable.showKeyboard();
+
+            editable.enableTextWatcher();
         } else {
             DLog.d(TAG, "changeTypeFunction: can not find " + pattern);
         }
@@ -89,6 +93,7 @@ public class ChangeTypeHelper {
         DLog.d(TAG, "fixUnConvertType: " + text);
 
         if (matcher.find()) {
+            editable.disableTextWatcher();
             DLog.d(TAG, "fixUnConvertType: match " + matcher);
             int start = matcher.start(6) + text.getOffset();
             int end = matcher.end(6) + text.getOffset();
@@ -97,6 +102,8 @@ public class ChangeTypeHelper {
             editable.getText().replace(start, end, insertText);
             editable.setSelection(start + 1, start + insertText.length());
             editable.showKeyboard();
+
+            editable.enableTextWatcher();
         } else {
             DLog.d(TAG, "fixUnConvertType: can not find " + pattern);
         }

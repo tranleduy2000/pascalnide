@@ -27,6 +27,7 @@
         android:padding="32dp"
         android:scaleType="centerInside"
         android:src="@drawable/logo_splash" />
+
     <!--<ImageView-->
     <!--android:id="@+id/imageView"-->
     <!--android:layout_width="150dp"-->

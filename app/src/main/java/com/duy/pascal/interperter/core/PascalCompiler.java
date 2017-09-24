@@ -2,6 +2,7 @@ package com.duy.pascal.interperter.core;
 
 
 import com.duy.pascal.frontend.runnable.ProgramHandler;
+import com.duy.pascal.interperter.ast.CodeUnitParsingException;
 import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;

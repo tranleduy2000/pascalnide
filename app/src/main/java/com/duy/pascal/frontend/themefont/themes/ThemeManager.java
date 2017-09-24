@@ -26,7 +26,6 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.themefont.themes.database.CodeTheme;
 import com.duy.pascal.frontend.themefont.themes.database.CodeThemeUtils;
 import com.duy.pascal.frontend.themefont.themes.database.ThemeDatabase;
-import com.duy.pascal.frontend.utils.DonateUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,7 +58,7 @@ public class ThemeManager {
     public static HashMap<String, CodeTheme> getAll(Context context) {
         loadAll(context);
         HashMap<String, CodeTheme> hm = new HashMap<>(builtinThemes);
-        if (DonateUtils.DONATED) hm.putAll(customThemes);
+        hm.putAll(customThemes);
         return hm;
     }
 
@@ -143,10 +142,8 @@ public class ThemeManager {
         if (builtinThemes == null) loadBuiltinThemes(context);
         if (builtinThemes.containsKey(name)) return builtinThemes.get(name);
 
-        if (DonateUtils.DONATED) {
-            if (customThemes == null) loadCustomThemes(context);
-            if (customThemes.containsKey(name)) return customThemes.get(name);
-        }
+        if (customThemes == null) loadCustomThemes(context);
+        if (customThemes.containsKey(name)) return customThemes.get(name);
 
         //default theme
         CodeTheme codeTheme = new CodeTheme(true);
@@ -171,9 +168,7 @@ public class ThemeManager {
 
     public synchronized static void loadAll(Context context) {
         if (builtinThemes == null) loadBuiltinThemes(context);
-        if (DonateUtils.DONATED) {
-            if (customThemes == null) loadCustomThemes(context);
-        }
+        if (customThemes == null) loadCustomThemes(context);
     }
 
     public synchronized static void reload(Context context) {

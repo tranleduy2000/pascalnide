@@ -210,8 +210,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         return execute;
     }
 
-    private void getArgumentsForDeclaration(GrouperToken i)
-            throws Exception { // need
+    private void getArgumentsForDeclaration(GrouperToken i) throws Exception { // need
         List<WordToken> namesList = new ArrayList<>();
         List<RuntimeType> typesList = new ArrayList<>();
         Token next = i.peek();

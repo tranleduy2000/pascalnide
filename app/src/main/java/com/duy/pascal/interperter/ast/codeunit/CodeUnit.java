@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.frontend.runnable.ProgramHandler;
+import com.duy.pascal.interperter.ast.CodeUnitParsingException;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.instructions.Executable;
@@ -11,6 +12,7 @@ import com.duy.pascal.interperter.config.ProgramConfig;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.exceptions.DiagnosticsListener;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokenizer.GroupParser;
@@ -47,7 +49,12 @@ public abstract class CodeUnit {
         this.includeDirectories = includeDirectories;
 
         long time = System.currentTimeMillis();
-        GroupParser lexer = new GroupParser(program, sourceName, includeDirectories);
+        GroupParser lexer;
+        try {
+            lexer = new GroupParser(program, sourceName, includeDirectories);
+        } catch (ParsingException e) {
+            throw new CodeUnitParsingException(this, e);
+        }
         lexer.parse();
         parseTree(lexer.getTokenQueue());
         System.out.println("parse time " + (System.currentTimeMillis() - time));
@@ -77,8 +84,12 @@ public abstract class CodeUnit {
     protected abstract ExpressionContextMixin getExpressionContextInstance(ProgramHandler handler);
 
     private void parseTree(GrouperToken tokens) throws Exception {
-        while (tokens.hasNext()) {
-            context.addNextDeclaration(tokens);
+        try {
+            while (tokens.hasNext()) {
+                context.addNextDeclaration(tokens);
+            }
+        } catch (ParsingException e) {
+            throw new CodeUnitParsingException(this, e);
         }
     }
 

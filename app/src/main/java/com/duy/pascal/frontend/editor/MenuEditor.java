@@ -27,11 +27,11 @@ import android.view.MenuItem;
 import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.activities.DonateActivity;
 import com.duy.pascal.frontend.code.sample.activities.CodeSampleActivity;
 import com.duy.pascal.frontend.info.InfoActivity;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.setting.SettingsActivity;
-import com.duy.pascal.frontend.utils.DonateUtils;
 import com.duy.pascal.frontend.utils.StoreUtil;
 
 /**
@@ -171,7 +171,7 @@ public class MenuEditor {
                 mPreference.setImeMode(menuItem.isChecked());
                 break;
             case R.id.action_donate:
-                DonateUtils.showDialogDonate(mActivity);
+                mActivity.startActivity(new Intent(mActivity, DonateActivity.class));
                 break;
         }
         return true;

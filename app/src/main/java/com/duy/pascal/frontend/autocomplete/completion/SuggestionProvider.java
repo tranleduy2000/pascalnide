@@ -23,6 +23,7 @@ import com.duy.pascal.frontend.autocomplete.completion.model.DescriptionImpl;
 import com.duy.pascal.frontend.autocomplete.completion.model.FunctionDescription;
 import com.duy.pascal.frontend.autocomplete.completion.model.KeyWord;
 import com.duy.pascal.frontend.editor.view.CodeSuggestsEditText;
+import com.duy.pascal.interperter.ast.CodeUnitParsingException;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.datastructure.ArrayListMultimap;
@@ -69,25 +70,17 @@ public class SuggestionProvider {
         this.cursorCol = cursorCol;
         try {
             ArrayList<Description> suggestItems = new ArrayList<>();
-
+            PascalProgramDeclaration pascalProgram;
             try {
                 DiagnosticCollector diagnosticCollector = new DiagnosticCollector();
-                PascalProgramDeclaration pascalProgram =
-                        PascalCompiler.loadPascal(srcPath, new StringReader(source), null, null, diagnosticCollector);
-                ExpressionContextMixin exprContext = pascalProgram.getContext();
+                pascalProgram = PascalCompiler.loadPascal(srcPath, new StringReader(source), null, null, diagnosticCollector);
 
                 calculateIncomplete();
                 //the result
-
-                ArrayList<VariableDeclaration> variables = exprContext.getVariables();
-                suggestItems.addAll(sort(filterVariables(variables)));
-
-                Map<Name, ConstantDefinition> constants = exprContext.getConstants();
-                suggestItems.addAll(sort(filterConst(constants)));
-
-                ArrayListMultimap<Name, AbstractFunction> callableFunctions = exprContext.getCallableFunctions();
-                suggestItems.addAll(sort(filterFunctions(callableFunctions)));
-            } catch (Exception e) { //parsing error
+                addSuggestFrom(suggestItems, pascalProgram.getContext());
+            } catch (CodeUnitParsingException e) { //parsing error
+                addSuggestFrom(suggestItems, e.getCodeUnit().getContext());
+            } catch (Exception e) {
             }
 
             suggestItems.addAll(sort(getKeyword()));
@@ -96,6 +89,18 @@ public class SuggestionProvider {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void addSuggestFrom(ArrayList<Description> suggestItems, ExpressionContextMixin exprContext) {
+
+        ArrayList<VariableDeclaration> variables = exprContext.getVariables();
+        suggestItems.addAll(sort(filterVariables(variables)));
+
+        Map<Name, ConstantDefinition> constants = exprContext.getConstants();
+        suggestItems.addAll(sort(filterConst(constants)));
+
+        ArrayListMultimap<Name, AbstractFunction> callableFunctions = exprContext.getCallableFunctions();
+        suggestItems.addAll(sort(filterFunctions(callableFunctions)));
     }
 
     private ArrayList<Description> getKeyword() {

@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.BATTERY_STATS" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <!-- aLocation library -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -125,28 +126,6 @@
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
-        <!-- Notification service -->
-        <service android:name=".notify.FirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
-        <!--
-     Set custom default icon. This is used when no icon is set for incoming notification messages.
-     See README(https://goo.gl/l4GJaQ) for more.
-        -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@mipmap/ic_launcher" />
-        <!--
-             Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more.
-        -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/dark.color_accent" />
-        <!-- END SETUP NOTIFICATION -->
-
+        <activity android:name=".activities.DonateActivity" />
     </application>
 </manifest>

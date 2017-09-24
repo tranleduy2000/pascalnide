@@ -26,7 +26,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.autocomplete.autofix.DefineType;
 import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.editor.EditorActivity;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
@@ -112,13 +111,13 @@ public class DialogHelper {
                             int checkedRadioButtonId = container.getCheckedRadioButtonId();
                             switch (checkedRadioButtonId) {
                                 case R.id.rad_var:
-                                    ((UnknownIdentifierException) e).setFitType(DefineType.DECLARE_VAR);
+                                    ((UnknownIdentifierException) e).setFitType(UnknownIdentifierException.DefineType.DECLARE_VAR);
                                     break;
                                 case R.id.rad_fun:
-                                    ((UnknownIdentifierException) e).setFitType(DefineType.DECLARE_FUNCTION);
+                                    ((UnknownIdentifierException) e).setFitType(UnknownIdentifierException.DefineType.DECLARE_FUNCTION);
                                     break;
                                 case R.id.rad_const:
-                                    ((UnknownIdentifierException) e).setFitType(DefineType.DECLARE_CONST);
+                                    ((UnknownIdentifierException) e).setFitType(UnknownIdentifierException.DefineType.DECLARE_CONST);
                                     break;
                             }
                             context.autoFix((ParsingException) e);

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.runnable.ProgramHandler;
+import com.duy.pascal.interperter.ast.CodeUnitParsingException;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimePascalClass;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeUnitPascal;
@@ -369,7 +370,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 Token token = group.take();
                 handleUnrecognizedDeclaration(token, group);
             }
-        } catch (Exception e) {
+        } catch (ParsingException e) {
             DiagnosticsListener listener = getListener(DiagnosticsListener.class);
             if (listener != null) {
                 listener.add(new Diagnostic(e));
@@ -518,8 +519,14 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 }
                 if (reader != null) {
                     found.set(true);
-                    PascalUnitDeclaration library = new PascalUnitDeclaration(reader, ((WordToken) next).getName().getOriginName(),
-                            new ArrayList<ScriptSource>(), mHandler);
+                    PascalUnitDeclaration library = null;
+                    try {
+                        String name = ((WordToken) next).getName().getOriginName();
+                        library = new PascalUnitDeclaration(reader, name, new ArrayList<ScriptSource>(), mHandler);
+                    } catch (CodeUnitParsingException e) {
+                        e.printStackTrace();
+                        throw e.getParseException();
+                    }
                     library.declareConstants(this);
                     library.declareTypes(this);
                     library.declareFunctions(this);
@@ -627,7 +634,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                     } else { //missing init value
                         reportException(parent, grouperToken, new ExpectedTokenException("[init value]", grouperToken.peek()));
                     }
-                } catch (Exception e) { //type not found
+                } catch (ParsingException e) { //type not found
                     reportException(parent, grouperToken, e);
                 }
             } else if (next instanceof OperatorToken) { //const a = 2; , non define operator
@@ -645,7 +652,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                         ConstantDefinition c = new ConstantDefinition(name.getName(), type.declType, constVal, name.getLineNumber());
                         this.mConstants.put(c.getName(), c);
                         grouperToken.assertNextSemicolon();
-                    } catch (Exception e) { //error when parsing expression value
+                    } catch (ParsingException e) { //error when parsing expression value
                         reportException(parent, grouperToken, e);
                     }
                 }
@@ -657,7 +664,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     }
 
-    private void reportException(@Nullable ExpressionContext context, GrouperToken grouperToken, Exception e) throws Exception {
+    private void reportException(@Nullable ExpressionContext context, GrouperToken grouperToken, ParsingException e) throws Exception {
         System.out.println("ExpressionContextMixin.reportException");
         if (context == null) {
             throw e;

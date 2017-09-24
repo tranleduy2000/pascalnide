@@ -17,21 +17,15 @@
 package com.duy.pascal.frontend.activities;
 
 import android.Manifest;
-import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
@@ -42,15 +36,12 @@ import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.editor.EditorActivity;
 import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.runnable.ExecuteActivity;
-import com.duy.pascal.frontend.utils.DonateUtils;
-import com.duy.pascal.frontend.utils.Installation;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.util.Date;
 
 
 public class ActivitySplashScreen extends AppCompatActivity {
@@ -71,11 +62,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
             String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
             ActivityCompat.requestPermissions(this, permissions, MY_PERMISSIONS_REQUEST);
         } else {
-            if (isDonateInstalled(DonateUtils.DONATE_PACKAGE)) {
-                new CheckTask().execute();
-            } else {
-                startMainActivity();
-            }
+            startMainActivity();
         }
     }
 
@@ -98,11 +85,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED
                         && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    if (isDonateInstalled(DonateUtils.DONATE_PACKAGE)) {
-                        new CheckTask().execute();
-                    } else {
-                        startMainActivity();
-                    }
+                    startMainActivity();
                 } else {
                     Toast.makeText(this, R.string.permission_denied_storage, Toast.LENGTH_SHORT).show();
                 }
@@ -110,74 +93,6 @@ public class ActivitySplashScreen extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CHECK_LICENSE) {
-            switch (resultCode) {
-                case 0: //donate
-                    DonateUtils.DONATED = true;
-                    saveLicence();
-
-                    //save time
-                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(ActivitySplashScreen.this);
-                    long last = pref.getLong("donate_date", -1);
-                    if (last == -1) {
-                        pref.edit().putLong("donate_date", new Date().getTime()).apply();
-                    }
-
-                    startMainActivity();
-                    break;
-                case 1: //pirate
-                    DonateUtils.DONATED = false;
-                    //show dialog crack
-                    showDialogPirate();
-                    break;
-                case 2: //not connect or ....
-                    DonateUtils.DONATED = false;
-                    showDialogCheckFailed();
-                    break;
-
-            }
-        }
-    }
-
-    private void showDialogCheckFailed() {
-        Bundle bundle = new Bundle();
-        bundle.putString("device_id", Installation.id(this));
-        FirebaseAnalytics.getInstance(this).logEvent("check_license_failed", bundle);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.license_invalid);
-        builder.setPositiveButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                startMainActivity();
-            }
-        });
-        builder.create().show();
-    }
-
-    private void saveLicence() {
-        String path = getApplicationInfo().dataDir + "/license";
-        String content = DonateUtils.encodeString(Installation.id(this));
-        FileManager fileManager = new FileManager(this);
-        fileManager.saveFile(path, content);
-    }
-
-    private void showDialogPirate() {
-        Bundle bundle = new Bundle();
-        bundle.putString("device_id", Installation.id(this));
-        FirebaseAnalytics.getInstance(this).logEvent("cracked", bundle);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.pirated);
-        builder.setPositiveButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                startMainActivity();
-            }
-        });
-        builder.create().show();
-    }
 
     /**
      * If receive data from other app (it could be file, text from clipboard),
@@ -260,64 +175,5 @@ public class ActivitySplashScreen extends AppCompatActivity {
         String filePath = fileManager.createRandomFile(this);
         fileManager.saveFile(filePath, text);
         to.putExtra(CompileManager.FILE_PATH, filePath);
-    }
-
-    private class CheckTask extends AsyncTask<Object, Object, Boolean> {
-        private ApplicationInfo mApplicationInfo;
-        private boolean mLicensedCached = false;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            this.mApplicationInfo = getApplicationInfo();
-        }
-
-        @Override
-        protected Boolean doInBackground(Object... voids) {
-            if (mApplicationInfo != null) {
-                if (DonateUtils.existFile(mApplicationInfo.dataDir + "/license")) {
-                    String content = DonateUtils.readFile(mApplicationInfo.dataDir + "/license");
-                    if (content != null && !content.isEmpty()
-                            && (content = DonateUtils.decodeString(content)) != null) {
-                        if (content.equals(Installation.id(ActivitySplashScreen.this))) {
-                            mLicensedCached = true;
-                        }
-                    }
-                }
-                return mLicensedCached;
-            }
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean donationValid) {
-            super.onPostExecute(donationValid);
-            if (mLicensedCached) {
-                DonateUtils.DONATED = true;
-                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(ActivitySplashScreen.this);
-                long last = pref.getLong("donate_date", 0);
-                long current = new Date().getTime();
-                if (current - last <= 60 * 60 * 24) {
-                    try {
-                        getPackageManager().getPackageInfo(DonateUtils.DONATE_PACKAGE, 0);
-                    } catch (Exception e) {
-                        Toast.makeText(ActivitySplashScreen.this, "Please keep donate version one day", Toast.LENGTH_SHORT).show();
-                        DonateUtils.DONATED = false;
-                    }
-                }
-                startMainActivity();
-            } else {
-                try {
-                    Intent intent = new Intent(Intent.ACTION_MAIN);
-                    intent.setComponent(new ComponentName(DonateUtils.DONATE_PACKAGE,
-                            DonateUtils.DONATE_PACKAGE + ".MainActivity"));
-                    intent.putExtra("requestCode", REQUEST_CHECK_LICENSE);
-                    startActivityForResult(intent, REQUEST_CHECK_LICENSE);
-                } catch (Exception e) {
-                    Toast.makeText(ActivitySplashScreen.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        }
     }
 }

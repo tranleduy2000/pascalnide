@@ -30,7 +30,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.utils.DonateUtils;
 
 /**
  * Created by Duy on 17-May-17.
@@ -73,24 +72,13 @@ public class ThemeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button btnDonate = view.findViewById(R.id.btn_donate);
-        if (DonateUtils.DONATED) {
-            btnDonate.setText(R.string.create_new_theme);
-            btnDonate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivityForResult(new Intent(getActivity(), CustomThemeActivity.class), 1);
-                }
-            });
-        } else {
-            btnDonate.setText(R.string.more_theme);
-            btnDonate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    DonateUtils.showDialogDonate(getActivity());
-
-                }
-            });
-        }
+        btnDonate.setText(R.string.create_new_theme);
+        btnDonate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(getActivity(), CustomThemeActivity.class), 1);
+            }
+        });
 
 
         mRecyclerView = view.findViewById(R.id.recycler_view);
