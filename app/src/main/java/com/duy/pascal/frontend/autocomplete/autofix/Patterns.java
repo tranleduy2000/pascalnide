@@ -27,7 +27,7 @@ public class Patterns {
     public static final Pattern TYPE = Pattern.compile("\\b(type)\\b", Pattern.CASE_INSENSITIVE);
     public static final Pattern PROGRAM = Pattern.compile("(\\W(program)|^(program))[\\s](.*?);", Pattern.CASE_INSENSITIVE);
     public static final Pattern USES = Pattern.compile("(\\W(uses)|^(uses))[\\s](.*?);", Pattern.CASE_INSENSITIVE);
-    public static final Pattern CONST = Pattern.compile("(\\W(const)|^(const))\\W+", Pattern.CASE_INSENSITIVE);
+    public static final Pattern CONST = Pattern.compile("(\\s(const)|^(const))\\s+", Pattern.CASE_INSENSITIVE);
 
     public static final Pattern REPLACE_HIGHLIGHT = Pattern.compile("\"(.*?)\"");
     public static final Pattern REPLACE_CURSOR = Pattern.compile("%\\w");

@@ -16,29 +16,23 @@
 
 package com.duy.pascal.frontend.autocomplete.autofix.model;
 
+import android.text.SpannableStringBuilder;
+
 public class TextData {
-    private CharSequence text;
-    private int offset;
+    private final SpannableStringBuilder text;
+    private final int offset;
 
     public TextData(CharSequence text, int offset) {
-        this.text = text;
+        this.text = new SpannableStringBuilder(text);
         this.offset = offset;
     }
 
-    public CharSequence getText() {
+    public SpannableStringBuilder getText() {
         return text;
-    }
-
-    public void setText(CharSequence text) {
-        this.text = text;
     }
 
     public int getOffset() {
         return offset;
-    }
-
-    public void setOffset(int offset) {
-        this.offset = offset;
     }
 
     @Override

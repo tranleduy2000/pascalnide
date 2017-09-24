@@ -283,6 +283,7 @@ public class AutoFixHelper {
 
                     editable.getText().insert(insertPosition, textToInsert);
                     editable.setSelection(insertPosition + matcher.start());
+                    editable.showKeyboard();
                 }
             }
         };
@@ -371,12 +372,13 @@ public class AutoFixHelper {
                 editable.disableTextWatcher();
 
                 editable.getText().insert(scope.getOffset() + insertPosition, textToInsert);
+
                 int start = scope.getOffset() + insertPosition + startSelect;
                 int end = scope.getOffset() + insertPosition + endSelect;
                 editable.setSelection(start, end);
                 //set suggest data
                 editable.setSuggestData(KeyWord.DATA_TYPE);
-                editable.showKeyboard();
+                editable.showDropDown();
 
                 editable.enableTextWatcher();
             }
@@ -430,9 +432,11 @@ public class AutoFixHelper {
             @Override
             public void execute(EditorView editable) {
                 Log.d(TAG, "changeConstToVar() called with: editable = [" + editable + "]");
+                editable.disableTextWatcher();
 
                 TextData text = getText(editable, e.getScope().getStartLine(), e.getLineInfo());
-                ConstantAccess<Object> constant = e.getConst();
+                ConstantAccess constant = e.getConst();
+                //const a = 2;
                 Pattern pattern = Pattern.compile(
                         "(^const\\s+|\\s+const\\s+)" + //1
                                 "(" + constant.getName() + ")" + //2
@@ -449,14 +453,18 @@ public class AutoFixHelper {
                     start = Math.max(0, start);
                     int end = matcher.end(6) + text.getOffset();
 
+                    Log.d(TAG, "execute: before delete " + text);
                     editable.getText().delete(start, end);
+                    text.getText().delete(matcher.start(2), matcher.end(6));
+                    Log.d(TAG, "execute: after delete " + text);
 
                     AutoFixCommand declareVar = declareVar(text,
                             constant.getName(), //name
                             constant.getRuntimeType(null).declType.toString(), //type
                             constant.toCode());
-                    declareVar.execute(editable); //initialization value
+                    declareVar.execute(editable);
                 } else {
+                    //const a: integer = 2;
                     pattern = Pattern.compile(
                             "(^const\\s+|\\s+const\\s+)" + //1
                                     "(" + constant.getName() + ")" + //2
@@ -476,6 +484,7 @@ public class AutoFixHelper {
                         int end = matcher.end(9) + text.getOffset();
 
                         editable.getText().delete(start, end);
+                        text.getText().delete(matcher.start(2), matcher.end(9));
 
                         AutoFixCommand declareVar = declareVar(text,
                                 constant.getName(),  //name
@@ -484,6 +493,8 @@ public class AutoFixHelper {
                         declareVar.execute(editable);//initialization value
                     }
                 }
+
+                editable.enableTextWatcher();
             }
         };
 
