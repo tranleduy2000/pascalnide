@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interperter.exceptions.parsing.define
+package com.duy.pascal.interperter.exceptions.parsing.define;
 
-import com.duy.pascal.interperter.linenumber.LineInfo
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
-class MultipleDefaultValuesException(line: LineInfo) : ParsingException(line)
+import org.jetbrains.annotations.NotNull;
+
+public class MultipleDefaultValuesException extends ParsingException {
+    public MultipleDefaultValuesException(@NotNull LineInfo line) {
+        super(line);
+    }
+}

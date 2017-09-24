@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.editor.completion;
+package com.duy.pascal.frontend.autocomplete.completion;
 
 import android.util.Log;
 
-import com.duy.pascal.frontend.editor.completion.model.Description;
-import com.duy.pascal.frontend.editor.completion.model.DescriptionImpl;
-import com.duy.pascal.frontend.editor.completion.model.FunctionDescription;
-import com.duy.pascal.frontend.editor.completion.model.KeyWord;
+import com.duy.pascal.frontend.autocomplete.completion.model.Description;
+import com.duy.pascal.frontend.autocomplete.completion.model.DescriptionImpl;
+import com.duy.pascal.frontend.autocomplete.completion.model.FunctionDescription;
+import com.duy.pascal.frontend.autocomplete.completion.model.KeyWord;
 import com.duy.pascal.frontend.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.core.PascalCompiler;

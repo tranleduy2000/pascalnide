@@ -16,8 +16,8 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.define
 
-import com.duy.pascal.interperter.declaration.NamedEntity
 import com.duy.pascal.interperter.declaration.Name
+import com.duy.pascal.interperter.declaration.NamedEntity
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException
 
 class DuplicateIdentifierException(previous: NamedEntity, current: NamedEntity) :

@@ -14,14 +14,20 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.editor.completion;
+package com.duy.pascal.frontend.code.sample.activities;
 
-/**
- * Created by Duy on 9/1/2017.
- */
+import android.app.Activity;
+import android.os.Bundle;
 
-public class EditorHelper {
-    public static String getStatement(String src, int cursorPos) {
-        return null;
+import com.duy.pascal.frontend.R;
+
+
+public class SearchResultSampleActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search_result_sample);
     }
+
 }

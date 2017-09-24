@@ -101,8 +101,8 @@
             android:configChanges="screenSize"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".code_sample.activities.DocumentActivity"/>
-        <activity android:name=".code_sample.activities.CodeSampleActivity"/>
+        <activity android:name=".code.sample.activities.DocumentActivity"/>
+        <activity android:name=".code.sample.activities.CodeSampleActivity"/>
         <activity android:name=".themefont.activities.ThemeFontActivity"/>
         <activity android:name=".info.InfoActivity"/>
         <activity android:name=".setting.SettingsActivity"/>
@@ -111,7 +111,7 @@
             android:configChanges="screenSize"
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name="com.duy.pascal.interperter.builtin_libraries.android.activity.PascalActivity"/>
-        <activity android:name=".code_sample.activities.SearchResultSampleActivity"/>
+        <activity android:name=".code.sample.activities.SearchResultSampleActivity"/>
         <activity android:name=".themefont.themes.CustomThemeActivity"/>
 
         <!-- Scan bar code activity -->

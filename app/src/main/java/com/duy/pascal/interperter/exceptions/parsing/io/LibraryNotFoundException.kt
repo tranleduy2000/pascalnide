@@ -21,4 +21,4 @@ import com.duy.pascal.interperter.declaration.Name
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException
 import com.duy.pascal.interperter.linenumber.LineInfo
 
-class LibraryNotFoundException(lineInfo: LineInfo,var name: Name) : ParsingException(lineInfo)
+class LibraryNotFoundException(lineInfo: LineInfo, var name: Name) : ParsingException(lineInfo)

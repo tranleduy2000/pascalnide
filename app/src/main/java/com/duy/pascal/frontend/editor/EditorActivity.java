@@ -43,11 +43,10 @@ import android.widget.Toast;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
-import com.duy.pascal.frontend.code_sample.activities.DocumentActivity;
-import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
+import com.duy.pascal.frontend.code.sample.activities.DocumentActivity;
 import com.duy.pascal.frontend.dialog.DialogFragmentFixExpectToken;
 import com.duy.pascal.frontend.dialog.DialogHelper;
-import com.duy.pascal.frontend.editor.completion.model.Description;
+import com.duy.pascal.frontend.autocomplete.completion.model.Description;
 import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.file.util.FileUtils;
@@ -411,28 +410,6 @@ public class EditorActivity extends BaseEditorActivity implements
         txtInfo.setText(file.getPath());
         EditorView editorView = dialog.findViewById(R.id.editor_view);
         editorView.setTextHighlighted(mFileManager.fileToString(file));
-    }
-
-    /**
-     * show dialog create new source file
-     */
-    @Override
-    public void createNewSourceFile(View view) {
-        DialogCreateNewFile dialogCreateNewFile = DialogCreateNewFile.Companion.getInstance();
-        dialogCreateNewFile.show(getSupportFragmentManager(), DialogCreateNewFile.Companion.getTAG());
-        dialogCreateNewFile.setListener(new DialogCreateNewFile.OnCreateNewFileListener() {
-            @Override
-            public void onFileCreated(@NonNull File file) {
-                saveFile();
-                //add to view
-                addNewPageEditor(file);
-                mDrawerLayout.closeDrawers();
-            }
-
-            @Override
-            public void onCancel() {
-            }
-        });
     }
 
     @Override

@@ -16,8 +16,8 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.value
 
-import com.duy.pascal.interperter.linenumber.LineInfo
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException
+import com.duy.pascal.interperter.linenumber.LineInfo
 
 /**
  * This exception will be thrown if the variable can not working with ...

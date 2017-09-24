@@ -22,7 +22,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 
 import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.editor.completion.model.DescriptionImpl;
+import com.duy.pascal.frontend.autocomplete.completion.model.DescriptionImpl;
 import com.duy.pascal.frontend.runnable.ConsoleHandler;
 import com.duy.pascal.frontend.runnable.ProgramHandler;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;

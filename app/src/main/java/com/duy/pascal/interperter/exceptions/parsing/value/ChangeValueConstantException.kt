@@ -31,6 +31,6 @@ class ChangeValueConstantException(var const: ConstantAccess<Any>, var scope: Ex
     override val message: String?
         get() = "can not change value of constant " + const;
 
-    val canAutoFix: Boolean
+    override val canAutoFix: Boolean
         get() = true
 }

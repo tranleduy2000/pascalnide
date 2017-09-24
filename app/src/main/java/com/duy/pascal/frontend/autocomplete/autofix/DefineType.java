@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interperter.exceptions.parsing.define
-
-import com.duy.pascal.interperter.linenumber.LineInfo
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException
+package com.duy.pascal.frontend.autocomplete.autofix;
 
 /**
- * Created by Duy on 12-Mar-17.
+ * Created by Duy on 23-May-17.
  */
 
-class MultipleDefinitionsMainException(line: LineInfo?) : ParsingException(line) {
-
-    override val message: String?
-        get() = "Multiple definitions of main."
+public enum DefineType {
+    DECLARE_TYPE, DECLARE_VAR, DECLARE_FUNCTION, DECLARE_PROCEDURE, DECLARE_CONST
 }

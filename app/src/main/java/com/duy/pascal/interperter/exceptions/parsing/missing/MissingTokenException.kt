@@ -16,8 +16,8 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.missing
 
-import com.duy.pascal.interperter.linenumber.LineInfo
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException
+import com.duy.pascal.interperter.linenumber.LineInfo
 
 /**
  * Created by Duy on 25-May-17.
@@ -26,12 +26,13 @@ import com.duy.pascal.interperter.exceptions.parsing.ParsingException
 abstract class MissingTokenException(line: LineInfo?) : ParsingException(line) {
 
 
-    val canAutoFix: Boolean
+    override val canAutoFix: Boolean
         get() = true
 
     abstract fun getMissingToken(): String
 
-    override val message: String? get() {
-        return "Missing token ${getMissingToken()} at $lineInfo"
-    }
+    override val message: String?
+        get() {
+            return "Missing token ${getMissingToken()} at $lineInfo"
+        }
 }

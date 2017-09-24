@@ -27,7 +27,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.editor.completion.model.Patterns;
+import com.duy.pascal.frontend.autocomplete.completion.model.Patterns;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.DiskReadErrorException;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileException;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotAssignException;
@@ -177,7 +177,7 @@ public class ExceptionManager {
                 return getMessageResource(e, R.string.MultipleDefaultValuesException);
             }
             if (e instanceof NonArrayIndexed) {
-                return getMessageResource(e, R.string.NonArrayIndexed, ((NonArrayIndexed) e).getT().toString());
+                return getMessageResource(e, R.string.NonArrayIndexed, ((NonArrayIndexed) e).getType().toString());
             }
             if (e instanceof NonConstantExpressionException) {
                 return getMessageResource(e, R.string.NonConstantExpressionException);

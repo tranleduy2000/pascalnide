@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.editor.completion;
+package com.duy.pascal.frontend.autocomplete.completion;
 
 import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
 

@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interperter.exceptions.parsing.index
+package com.duy.pascal.frontend.autocomplete.completion;
 
-import com.duy.pascal.interperter.linenumber.LineInfo
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException
-import com.duy.pascal.interperter.declaration.lang.types.Type
+/**
+ * Created by Duy on 9/1/2017.
+ */
 
-class NonArrayIndexed(line: LineInfo, var t: Type) : ParsingException(line) {
-
-    override val message: String?
-        get() = "Tried to do indexed access on something which wasn't an array or a string. It was a " + t.toString()
-
+public class EditorHelper {
+    public static String getStatement(String src, int cursorPos) {
+        return null;
+    }
 }

@@ -42,10 +42,11 @@ class ExpectedTokenException : ParsingException {
     }
 
 
-    override val message: String? get() {
-        return "Syntax error, \"${Arrays.toString(expected)}\" expected but \"$current\" found"
-    }
+    override val message: String?
+        get() {
+            return "Syntax error, \"${Arrays.toString(expected)}\" expected but \"$current\" found"
+        }
 
-    val canAutoFix: Boolean
+    override val canAutoFix: Boolean
         get() = true
 }

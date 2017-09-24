@@ -18,6 +18,7 @@ import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibraryManager;
 import com.duy.pascal.interperter.builtin_libraries.file.FileLib;
 import com.duy.pascal.interperter.builtin_libraries.io.IOLib;
+import com.duy.pascal.interperter.datastructure.ArrayListMultimap;
 import com.duy.pascal.interperter.declaration.LabelDeclaration;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.NamedEntity;
@@ -70,7 +71,6 @@ import com.duy.pascal.interperter.tokens.grouping.BeginEndToken;
 import com.duy.pascal.interperter.tokens.grouping.BracketedToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.interperter.tokens.ignore.CompileDirectiveToken;
-import com.duy.pascal.interperter.datastructure.ArrayListMultimap;
 
 import java.io.Reader;
 import java.io.Serializable;

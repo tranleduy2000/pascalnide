@@ -269,12 +269,13 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
         if (mDialog != null) mDialog.cancel();
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.new_folder);
-        builder.setView(R.layout.dialog_new_file);
+        builder.setView(R.layout.dialog_input);
         mDialog = builder.create();
         mDialog.show();
-        final EditText editText = mDialog.findViewById(R.id.edit_file_name);
-        final TextInputLayout textInputLayout = mDialog.findViewById(R.id.hint);
+        final EditText editText = mDialog.findViewById(R.id.edit_input);
+        TextInputLayout textInputLayout = mDialog.findViewById(R.id.hint);
         textInputLayout.setHint(context.getString(R.string.enter_new_folder_name));
+
         Button btnOK = mDialog.findViewById(R.id.btn_ok);
         Button btnCancel = mDialog.findViewById(R.id.btn_cancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -320,7 +321,7 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
         mDialog = builder.create();
         mDialog.show();
 
-        final EditText editText = mDialog.findViewById(R.id.edit_file_name);
+        final EditText editText = mDialog.findViewById(R.id.edit_input);
         Button btnOK = mDialog.findViewById(R.id.btn_ok);
         Button btnCancel = mDialog.findViewById(R.id.btn_cancel);
 

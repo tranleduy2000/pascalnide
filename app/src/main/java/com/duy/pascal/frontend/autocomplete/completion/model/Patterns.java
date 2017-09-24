@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.editor.completion.model;
+package com.duy.pascal.frontend.autocomplete.completion.model;
 
 import java.util.regex.Pattern;
 

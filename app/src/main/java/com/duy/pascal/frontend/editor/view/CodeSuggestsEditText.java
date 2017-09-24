@@ -22,17 +22,15 @@ import android.os.AsyncTask;
 import android.support.v4.util.Pair;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.editor.completion.SuggestionProvider;
-import com.duy.pascal.frontend.editor.completion.model.Description;
-import com.duy.pascal.frontend.editor.completion.model.DescriptionImpl;
-import com.duy.pascal.frontend.editor.completion.model.KeyWord;
+import com.duy.pascal.frontend.autocomplete.completion.SuggestionProvider;
+import com.duy.pascal.frontend.autocomplete.completion.model.Description;
+import com.duy.pascal.frontend.autocomplete.completion.model.DescriptionImpl;
+import com.duy.pascal.frontend.autocomplete.completion.model.KeyWord;
 import com.duy.pascal.frontend.editor.view.adapters.CodeSuggestAdapter;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 
@@ -182,28 +180,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     }
 
     public void restoreAfterClick(final String[] data) {
-        final ArrayList<Description> suggestData = (ArrayList<Description>) getSuggestData().clone();
         setSuggestData(data);
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                setEnoughToFilter();
-                showDropDown();
-                setEnoughToFilter();
-
-                //when user click item, restore data
-                setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        setSuggestData(suggestData);
-
-                        //don't handle twice
-                        setOnItemClickListener(null);
-                    }
-                });
-
-            }
-        }, 50);
     }
 
     public ArrayList<Description> getSuggestData() {

@@ -21,15 +21,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
-import android.text.Spanned;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.autocomplete.autofix.DefineType;
 import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.editor.EditorActivity;
-import com.duy.pascal.frontend.editor.autofix.DefineType;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
 
@@ -76,24 +75,21 @@ public class DialogHelper {
         return builder.create();
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static AlertDialog showErrorDialog(final EditorActivity context, final Exception e) {
         ExceptionManager exceptionManager = new ExceptionManager(context);
-        String title = context.getString(R.string.compile_error);
-        Spanned msg = exceptionManager.getMessage(e);
-
         //create builder
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(R.layout.dialog_show_error);
-
         //show dialog
         final AlertDialog dialog = builder.create();
         dialog.show();
 
         //set title and message for dialog
         TextView txtTitle = dialog.findViewById(R.id.txt_name);
-        txtTitle.setText(title);
+        txtTitle.setText(context.getString(R.string.compile_error));
         TextView txtMsg = dialog.findViewById(R.id.txt_message);
-        txtMsg.setText(msg);
+        txtMsg.setText(exceptionManager.getMessage(e));
 
         //set event for button
         dialog.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
@@ -104,7 +100,7 @@ public class DialogHelper {
         });
 
         if (e instanceof ParsingException) {
-            if (((ParsingException) e).canAutoFix()) {
+            if (((ParsingException) e).getCanAutoFix()) {
                 //set event for button Auto fix
                 dialog.findViewById(R.id.btn_auto_fix).setVisibility(View.VISIBLE);
                 if (e instanceof UnknownIdentifierException) {

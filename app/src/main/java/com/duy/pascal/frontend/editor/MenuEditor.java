@@ -27,7 +27,7 @@ import android.view.MenuItem;
 import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.code_sample.activities.CodeSampleActivity;
+import com.duy.pascal.frontend.code.sample.activities.CodeSampleActivity;
 import com.duy.pascal.frontend.info.InfoActivity;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.setting.SettingsActivity;

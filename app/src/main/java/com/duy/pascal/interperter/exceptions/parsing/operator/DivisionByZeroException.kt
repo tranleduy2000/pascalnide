@@ -16,8 +16,8 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.operator
 
-import com.duy.pascal.interperter.linenumber.LineInfo
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException
+import com.duy.pascal.interperter.linenumber.LineInfo
 
 /**
  * Created by Duy on 01-Mar-17.

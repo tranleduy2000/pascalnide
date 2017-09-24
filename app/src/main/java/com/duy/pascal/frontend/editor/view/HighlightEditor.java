@@ -48,7 +48,7 @@ import android.widget.ScrollView;
 import android.widget.Scroller;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.editor.autofix.AutoFixError;
+import com.duy.pascal.frontend.autocomplete.autofix.AutoFixError;
 import com.duy.pascal.frontend.editor.highlight.BracketHighlighter;
 import com.duy.pascal.frontend.editor.highlight.CodeHighlighter;
 import com.duy.pascal.frontend.themefont.themes.ThemeManager;

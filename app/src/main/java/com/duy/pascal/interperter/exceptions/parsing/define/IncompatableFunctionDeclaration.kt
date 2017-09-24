@@ -16,9 +16,9 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.define
 
-import com.duy.pascal.interperter.linenumber.LineInfo
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException
 import com.duy.pascal.interperter.declaration.lang.types.Type
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException
+import com.duy.pascal.interperter.linenumber.LineInfo
 
 class IncompatableFunctionDeclaration(line: LineInfo, returntype: Type,
                                       previousreturntype: Type) :

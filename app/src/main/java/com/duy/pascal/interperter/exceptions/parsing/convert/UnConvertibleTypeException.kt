@@ -20,8 +20,8 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess
 import com.duy.pascal.interperter.ast.runtime_value.value.access.VariableAccess
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException
 import com.duy.pascal.interperter.declaration.lang.types.Type
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException
 
 class UnConvertibleTypeException : ParsingException {
 
@@ -78,7 +78,7 @@ class UnConvertibleTypeException : ParsingException {
         this.scope = scope
     }
 
-    val canAutoFix: Boolean
+    override val canAutoFix: Boolean
         get() = identifier is VariableAccess || value is VariableAccess
                 || identifier is ConstantAccess<*> && (identifier as ConstantAccess<*>).name != null ||
                 value is ConstantAccess<*> && (value as ConstantAccess<*>).name != null

@@ -17,10 +17,10 @@
 package com.duy.pascal.interperter.exceptions.parsing.operator
 
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue
-import com.duy.pascal.interperter.linenumber.LineInfo
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException
-import com.duy.pascal.interperter.declaration.lang.types.Type
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes
+import com.duy.pascal.interperter.declaration.lang.types.Type
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException
+import com.duy.pascal.interperter.linenumber.LineInfo
 
 class BadOperationTypeException : ParsingException {
     var declaredType: Type? = null

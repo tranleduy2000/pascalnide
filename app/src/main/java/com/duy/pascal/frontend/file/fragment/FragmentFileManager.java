@@ -193,7 +193,7 @@ public class FragmentFileManager extends Fragment implements
         builder.setView(R.layout.dialog_new_file);
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        final EditText editText = alertDialog.findViewById(R.id.edit_file_name);
+        final EditText editText = alertDialog.findViewById(R.id.edit_input);
         Button btnOK = alertDialog.findViewById(R.id.btn_ok);
         Button btnCancel = alertDialog.findViewById(R.id.btn_cancel);
         assert btnCancel != null;
@@ -240,7 +240,7 @@ public class FragmentFileManager extends Fragment implements
         builder.setView(R.layout.dialog_new_file);
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        final EditText editText = alertDialog.findViewById(R.id.edit_file_name);
+        final EditText editText = alertDialog.findViewById(R.id.edit_input);
         final TextInputLayout textInputLayout = alertDialog.findViewById(R.id.hint);
         assert textInputLayout != null;
         textInputLayout.setHint(getString(R.string.enter_new_folder_name));

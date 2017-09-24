@@ -14,19 +14,35 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interperter.exceptions.parsing.define
-
-import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext
-import com.duy.pascal.interperter.linenumber.LineInfo
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException
+package com.duy.pascal.frontend.code.sample.model;
 
 /**
- * Created by Duy on 30-May-17.
+ * Created by Duy on 04-Mar-17.
  */
 
-class VariableIdentifierExpectException(line: LineInfo, var name: String,
-                                        var scope: ExpressionContext) : ParsingException(line) {
+@SuppressWarnings("DefaultFileTemplate")
+class CodeEntry {
+    private String name;
+    private String content;
 
-    override val message: String?
-        get() = "Variable identifier expected: name";
+    public CodeEntry(String name, String content) {
+        this.name = name;
+        this.content = content;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

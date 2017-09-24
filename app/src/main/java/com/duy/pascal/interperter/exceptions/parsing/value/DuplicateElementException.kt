@@ -16,8 +16,8 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.value
 
-import com.duy.pascal.interperter.linenumber.LineInfo
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException
+import com.duy.pascal.interperter.linenumber.LineInfo
 
 /**
  * Created by Duy on 27-May-17.
@@ -33,7 +33,8 @@ class DuplicateElementException : ParsingException {
         this.container = container
     }
 
-    override val message: String? get() {
-        return "Duplicate element $element in $container"
-    }
+    override val message: String?
+        get() {
+            return "Duplicate element $element in $container"
+        }
 }

@@ -16,8 +16,8 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.value
 
-import com.duy.pascal.interperter.linenumber.LineInfo
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException
+import com.duy.pascal.interperter.linenumber.LineInfo
 import com.duy.pascal.interperter.tokens.value.CharacterToken
 
 /**

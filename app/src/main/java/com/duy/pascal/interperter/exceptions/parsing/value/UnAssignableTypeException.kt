@@ -19,15 +19,9 @@ package com.duy.pascal.interperter.exceptions.parsing.value
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException
 
-class UnAssignableTypeException : ParsingException {
+class UnAssignableTypeException(var runtimeValue: RuntimeValue) : ParsingException(runtimeValue.lineNumber,
+        "The expression $runtimeValue cannot have a value assigned to it.") {
 
-    var runtimeValue: RuntimeValue
-
-    constructor(runtimeValue: RuntimeValue) : super(runtimeValue.lineNumber,
-            "The expression $runtimeValue cannot have a value assigned to it.") {
-        this.runtimeValue = runtimeValue
-    }
-
-    val canAutoFix: Boolean
+    override val canAutoFix: Boolean
         get() = true
 }

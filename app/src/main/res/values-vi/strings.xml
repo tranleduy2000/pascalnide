@@ -20,7 +20,7 @@
     <string name="cancel">Trở lại</string>
     <string name="close">Đóng</string>
     <string name="code_sample">Code mẫu</string>
-    <string name="compile_error">Biên dịch gặp lỗi</string>
+    <string name="compile_error">Lỗi biên dịch</string>
     <string name="copy">Sao chép</string>
     <string name="document">Xem tài liệu</string>
     <string name="edit">Sửa</string>

@@ -16,8 +16,8 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.syntax;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

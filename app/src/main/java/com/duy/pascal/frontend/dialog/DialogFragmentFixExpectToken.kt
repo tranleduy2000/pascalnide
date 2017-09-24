@@ -25,8 +25,8 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.RadioButton
-import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException
 import com.duy.pascal.frontend.R
+import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException
 
 /**
  * Created by Duy on 28-May-17.

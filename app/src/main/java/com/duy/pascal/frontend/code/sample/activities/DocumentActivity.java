@@ -14,17 +14,22 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interperter.exceptions.parsing.define
+package com.duy.pascal.frontend.code.sample.activities;
 
-import com.duy.pascal.interperter.declaration.Name
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException
-import com.duy.pascal.interperter.linenumber.LineInfo
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+
+import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.activities.BaseActivity;
 
 /**
- * Created by Duy on 21-May-17.
+ * Created by Duy on 27-Feb-17.
  */
-class MissingBodyFunctionException(val funName: Name, line: LineInfo?) : ParsingException(line) {
 
-    override val message: String? get() = "Forward declaration not solved $funName"
-
+public class DocumentActivity extends BaseActivity {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.document);
+    }
 }

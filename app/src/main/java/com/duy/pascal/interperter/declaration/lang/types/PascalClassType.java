@@ -18,7 +18,6 @@ import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.define.AmbiguousFunctionCallException;
 import com.duy.pascal.interperter.exceptions.parsing.define.BadFunctionCallException;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;

@@ -30,8 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.editor.completion.model.Description;
-import com.duy.pascal.frontend.editor.completion.model.DescriptionImpl;
+import com.duy.pascal.frontend.autocomplete.completion.model.Description;
+import com.duy.pascal.frontend.autocomplete.completion.model.DescriptionImpl;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 
 import java.util.ArrayList;

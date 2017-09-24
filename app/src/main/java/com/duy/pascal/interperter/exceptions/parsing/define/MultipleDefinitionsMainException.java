@@ -14,12 +14,20 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interperter.exceptions.parsing.index
+package com.duy.pascal.interperter.exceptions.parsing.define;
 
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue
+import android.support.annotation.Nullable;
 
-class NonIntegerIndexException(var value: RuntimeValue) : com.duy.pascal.interperter.exceptions.parsing.ParsingException(value.lineNumber) {
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
-    override val message: String?
-        get() = "Array indexes must be integers: " + value
+public class MultipleDefinitionsMainException extends ParsingException {
+    public MultipleDefinitionsMainException(@Nullable LineInfo line) {
+        super(line);
+    }
+
+    @Nullable
+    public String getMessage() {
+        return "Multiple definitions of main.";
+    }
 }
