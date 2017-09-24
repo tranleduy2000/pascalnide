@@ -21,12 +21,13 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.VariableAccess;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
 
-public final class UnConvertibleTypeException extends ParsingException {
+public class UnConvertibleTypeException extends ParsingException {
     @NonNull
     private RuntimeValue value;
     @Nullable
@@ -38,7 +39,8 @@ public final class UnConvertibleTypeException extends ParsingException {
     @NonNull
     private ExpressionContext scope;
 
-    public UnConvertibleTypeException(@NonNull RuntimeValue value, @NonNull Type targetType, @NonNull Type valueType, @NonNull ExpressionContext scope) {
+    public UnConvertibleTypeException(@NonNull RuntimeValue value, @NonNull Type targetType,
+                                      @NonNull Type valueType, @NonNull ExpressionContext scope) {
         super(value.getLineNumber(), String.format("The expression or variable \"%s\" is of type \"%s\", which cannot be converted to the type \"%s\"", value, valueType, targetType));
         this.value = value;
         this.valueType = valueType;
@@ -46,7 +48,9 @@ public final class UnConvertibleTypeException extends ParsingException {
         this.scope = scope;
     }
 
-    public UnConvertibleTypeException(@NonNull RuntimeValue value, @NonNull Type identifierType, @Nullable Type valueType, @NonNull RuntimeValue identifier, @NonNull ExpressionContext scope) {
+    public UnConvertibleTypeException(@NonNull RuntimeValue value, @NonNull Type identifierType,
+                                      @Nullable Type valueType, @NonNull RuntimeValue identifier,
+                                      @NonNull ExpressionContext scope) {
         super(value.getLineNumber(), String.format("The expression or variable \"%s\" is of type \"%s\", which cannot be converted to the type \"%s\" of expression or variable %s", value, valueType, identifierType, identifier));
         this.value = value;
         this.valueType = valueType;
@@ -56,51 +60,44 @@ public final class UnConvertibleTypeException extends ParsingException {
     }
 
     @NonNull
-    public final RuntimeValue getValue() {
+    public RuntimeValue getValue() {
         return this.value;
     }
 
-    public final void setValue(@NonNull RuntimeValue var1) {
+    public void setValue(@NonNull RuntimeValue var1) {
         this.value = var1;
     }
 
     @Nullable
-    public final Type getValueType() {
+    public Type getValueType() {
         return this.valueType;
     }
 
-    public final void setValueType(@Nullable Type var1) {
-        this.valueType = var1;
-    }
 
     @NonNull
-    public final Type getTargetType() {
+    public Type getTargetType() {
         return this.targetType;
     }
 
-    public final void setTargetType(@NonNull Type var1) {
-        this.targetType = var1;
-    }
 
     @Nullable
-    public final RuntimeValue getIdentifier() {
+    public RuntimeValue getIdentifier() {
         return this.identifier;
     }
 
-    public final void setIdentifier(@Nullable RuntimeValue var1) {
+    public void setIdentifier(@Nullable RuntimeValue var1) {
         this.identifier = var1;
     }
 
     @NonNull
-    public final ExpressionContext getScope() {
+    public ExpressionContext getScope() {
         return this.scope;
     }
 
-    public final void setScope(@NonNull ExpressionContext var1) {
-        this.scope = var1;
-    }
 
     public boolean getCanAutoFix() {
-        return identifier instanceof VariableAccess || value instanceof VariableAccess;
+        return identifier instanceof VariableAccess
+                || value instanceof VariableAccess
+                || identifier instanceof ConstantAccess;
     }
 }

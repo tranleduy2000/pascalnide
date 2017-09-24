@@ -341,7 +341,7 @@ public class AutoFixHelper {
                 Matcher matcher = Patterns.VAR.matcher(scope.getText());
                 if (matcher.find()) {
                     insertPosition = matcher.end();
-                    textToInsert = "\n" +AutoIndentEditText.TAB_CHARACTER + name + ": ";
+                    textToInsert = "\n" + AutoIndentEditText.TAB_CHARACTER + name + ": ";
 
                     startSelect = textToInsert.length();
                     endSelect = startSelect + type.length();
@@ -408,7 +408,7 @@ public class AutoFixHelper {
             final int start = matcher.start(6) + text.getOffset();
             int end = matcher.end(6) + text.getOffset();
 
-            final String insertText = valueType.toString();
+            final String insertText = " " + valueType.toString();
             editable.getText().replace(start, end, insertText);
             editable.setSelection(start, start + insertText.length());
             editable.showKeyboard();

@@ -844,7 +844,7 @@ public abstract class GrouperToken extends Token {
      *                (Example <code>x := 1</code> with x is variable)
      * @return then constant with expect type
      */
-    public Object getConstantValue(ExpressionContext context, Type type,
+    public Object getConstantValue(@NonNull ExpressionContext context, @NonNull Type type,
                                    @Nullable RuntimeValue left) throws Exception {
         Object defValue;
         //set default value for array
@@ -865,21 +865,18 @@ public abstract class GrouperToken extends Token {
 
         } else { //set default single value
 
-            RuntimeValue unConvert = getNextExpression(context);
-            RuntimeValue converted = type.convert(unConvert, context);
+            RuntimeValue original = getNextExpression(context);
+            RuntimeValue converted = type.convert(original, context);
 
             if (converted == null) {
-                throw new UnConvertibleTypeException(unConvert, type,
-                        unConvert.getRuntimeType(context).declType, left, context);
+                throw new UnConvertibleTypeException(original, type,
+                        original.getRuntimeType(context).declType, left, context);
             }
 
             defValue = converted.compileTimeValue(context);
             if (defValue == null) {
                 throw new NonConstantExpressionException(converted);
             }
-           /* if (names.size() != 1) {
-                throw new MultipleDefaultValuesException(converted.getLineNumber());
-            }*/
         }
         return defValue;
     }
