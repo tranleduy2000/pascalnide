@@ -89,6 +89,8 @@ public class UIUtils {
         final AlertDialog mDialog = builder.create();
         mDialog.show();
         final EditText editText = mDialog.findViewById(R.id.edit_input);
+        editText.setInputType(inputType);
+        editText.setText(value);
         TextInputLayout textInputLayout = mDialog.findViewById(R.id.hint);
         textInputLayout.setHint(hint);
 

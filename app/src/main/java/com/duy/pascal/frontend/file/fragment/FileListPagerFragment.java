@@ -356,7 +356,12 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        onRefresh();
+        switch (key) {
+            case "show_hidden_files":
+            case "show_file_sort":
+                onRefresh();
+                break;
+        }
     }
 
     private interface UpdateRootInfo {

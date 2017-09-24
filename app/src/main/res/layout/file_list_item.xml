@@ -19,6 +19,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="item"
             type="com.duy.pascal.frontend.file.model.FileItemModel" />
@@ -28,14 +29,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/listItemBackground"
-        android:minHeight="72dp"
+        android:minHeight="60dp"
         android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
 
         <FrameLayout
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="16dp">
 
@@ -101,7 +102,7 @@
                 android:layout_toRightOf="@id/dateTextView"
                 android:text="@{item.secondLine}"
                 android:textColor="?android:attr/textColorSecondary"
-                android:textSize="13sp" />
+                android:textSize="10sp" />
 
         </RelativeLayout>
 

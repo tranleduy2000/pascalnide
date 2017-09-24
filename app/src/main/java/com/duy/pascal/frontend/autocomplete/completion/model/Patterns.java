@@ -52,7 +52,7 @@ public class Patterns {
             "\\b(sin|cos|sqrt|length" +
                     "|exp|tan|keyPressed|readKey|delay|random|randomize|inc|dec" +
                     "|ceil|trunc|frac|floor|abs|round|sqr|pred|succ|ln|arctan" +
-                    "|odd|int|halt|odd|write|writeln)\\b", Pattern.CASE_INSENSITIVE);
+                    "|odd|int|halt|odd)\\b", Pattern.CASE_INSENSITIVE);
     /**
      * match some spacial symbol
      */

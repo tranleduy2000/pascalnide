@@ -39,7 +39,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@+id/img_file_menus"
                 android:gravity="center_vertical"
-                android:paddingLeft="4dp"
+                android:paddingLeft="8dp"
                 android:text="@string/file_explorer" />
 
             <android.support.v7.widget.AppCompatImageView
