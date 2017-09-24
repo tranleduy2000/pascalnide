@@ -73,6 +73,7 @@ import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedAnotherToken
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.NotAStatementException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.WrongIfElseStatement;
+import com.duy.pascal.interperter.exceptions.parsing.syntax.WrongStatementException;
 import com.duy.pascal.interperter.exceptions.parsing.value.ChangeValueConstantException;
 import com.duy.pascal.interperter.exceptions.parsing.value.NonConstantExpressionException;
 import com.duy.pascal.interperter.exceptions.parsing.value.NonIntegerException;
@@ -405,9 +406,7 @@ public abstract class GrouperToken extends Token {
         } else if (n instanceof ValueToken || n instanceof OperatorToken) {
             return SubrangeType.getRangeType(this, context, n);
         } else if (!(n instanceof WordToken)) {
-            System.out.println("token " + n.getClass().getName() + " " + n.toString());
-            throw new ExpectedTokenException("[Type Identifier]", n);
-
+            throw new WrongStatementException(WrongStatementException.Statement.TYPE_DECLARE, n);
         }
         Type declaredType = ((WordToken) n).toBasicType(context);
         //process string with define length
@@ -768,7 +767,7 @@ public abstract class GrouperToken extends Token {
             do {
                 next = take();
                 if (!(next instanceof WordToken)) {
-                    throw new ExpectedTokenException("[Variable Identifier]", next);
+                    throw new WrongStatementException(WrongStatementException.Statement.VAR_DECLARE, next);
                 }
                 names.add((WordToken) next);
                 next = take();
@@ -807,6 +806,8 @@ public abstract class GrouperToken extends Token {
                 if (listener != null) {
                     listener.add(new Diagnostic(e));
                     nextStatement();
+                } else {
+                    throw e;
                 }
             }
             names.clear(); // reusing the list object

@@ -187,15 +187,13 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     }
 
     @Override
-    public RuntimeValue getIdentifierValue(WordToken name)
-            throws Exception {
+    public RuntimeValue getIdentifierValue(WordToken name) throws Exception {
         if (functionExistsLocal(name.getName())) {
             return FunctionCall.generateFunctionCall(name, new ArrayList<RuntimeValue>(0), this);
 
         } else if (getConstantDefinitionLocal(name.getName()) != null) {
             ConstantDefinition c = getConstantDefinition(name.getName());
-            ConstantAccess<Object> constant = new ConstantAccess<>(c.getValue(),
-                    c.getType(), name.getLineNumber());
+            ConstantAccess<Object> constant = new ConstantAccess<>(c.getValue(), c.getType(), name.getLineNumber());
             constant.setName(name.name);
             return constant;
 

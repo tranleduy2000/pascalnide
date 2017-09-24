@@ -39,7 +39,7 @@ public final class UnConvertibleTypeException extends ParsingException {
     private ExpressionContext scope;
 
     public UnConvertibleTypeException(@NonNull RuntimeValue value, @NonNull Type targetType, @NonNull Type valueType, @NonNull ExpressionContext scope) {
-        super(value.getLineNumber(), "The expression or variable \"" + value + "\" is of type \"" + valueType + "\"" + ", which cannot be converted to the type \"" + targetType + "\"");
+        super(value.getLineNumber(), String.format("The expression or variable \"%s\" is of type \"%s\", which cannot be converted to the type \"%s\"", value, valueType, targetType));
         this.value = value;
         this.valueType = valueType;
         this.targetType = targetType;
@@ -47,7 +47,7 @@ public final class UnConvertibleTypeException extends ParsingException {
     }
 
     public UnConvertibleTypeException(@NonNull RuntimeValue value, @NonNull Type identifierType, @Nullable Type valueType, @NonNull RuntimeValue identifier, @NonNull ExpressionContext scope) {
-        super(value.getLineNumber(), "The expression or variable \"" + value + "\" is of type \"" + valueType + "\"" + ", which cannot be " + "converted to the type \"" + identifierType + "\" of expression or variable " + identifier);
+        super(value.getLineNumber(), String.format("The expression or variable \"%s\" is of type \"%s\", which cannot be converted to the type \"%s\" of expression or variable %s", value, valueType, identifierType, identifier));
         this.value = value;
         this.valueType = valueType;
         this.targetType = identifierType;
@@ -101,9 +101,6 @@ public final class UnConvertibleTypeException extends ParsingException {
     }
 
     public boolean getCanAutoFix() {
-        if (!(identifier instanceof VariableAccess) && !(value instanceof VariableAccess)) {
-            return false;
-        }
-        return true;
+        return identifier instanceof VariableAccess || value instanceof VariableAccess;
     }
 }

@@ -16,8 +16,6 @@
 
 package com.googlecode.sl4a.event;
 
-import com.google.common.base.Preconditions;
-
 public class Event {
 
     private String mName;
@@ -25,7 +23,6 @@ public class Event {
     private double mCreationTime;
 
     public Event(String name, Object data) {
-        Preconditions.checkNonNull(name);
         setName(name);
         setData(data);
         mCreationTime = System.currentTimeMillis() * 1000;
