@@ -125,11 +125,11 @@ public class MimeTypes {
                 || ext.equalsIgnoreCase("ogg") || ext.equalsIgnoreCase("m4a");
     }
 
-    public boolean isPasFile(JecFile file) {
+    public static boolean isPasFile(JecFile file) {
         return !file.isDirectory() && isPasFile(file.getName());
     }
 
-    private boolean isPasFile(String file) {
+    private static boolean isPasFile(String file) {
         file = file.substring(file.lastIndexOf("/") + 1);
         if (file.indexOf(".") > -1)
             file = file.substring(file.lastIndexOf(".") + 1);

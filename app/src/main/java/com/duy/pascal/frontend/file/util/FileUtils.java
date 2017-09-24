@@ -16,6 +16,8 @@
 
 package com.duy.pascal.frontend.file.util;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.frontend.file.ExplorerException;
 import com.duy.pascal.frontend.file.io.JecFile;
 import com.duy.pascal.frontend.file.listener.BoolResultListener;
@@ -72,7 +74,7 @@ public class FileUtils {
     }
 
     public static void copyDirectory(final JecFile srcDir, JecFile destDir
-                                     , final boolean moveFile) {
+            , final boolean moveFile) {
         if (srcDir == null) {
             throw new NullPointerException("Source must not be null");
         }
@@ -177,4 +179,12 @@ public class FileUtils {
         }
     }
 
+    public static boolean canEdit(@NonNull File file) {
+        String extension = MimeTypes.getExtension(file.getAbsolutePath());
+        return file.exists() && file.isFile() &&
+                (extension.equalsIgnoreCase(".txt") ||
+                        extension.equalsIgnoreCase(".pas") ||
+                        extension.endsWith(".out") ||
+                        extension.equalsIgnoreCase(".in"));
+    }
 }

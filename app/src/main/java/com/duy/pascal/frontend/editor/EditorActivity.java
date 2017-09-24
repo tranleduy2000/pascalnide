@@ -41,7 +41,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code_sample.activities.DocumentActivity;
@@ -51,6 +50,7 @@ import com.duy.pascal.frontend.dialog.DialogHelper;
 import com.duy.pascal.frontend.editor.completion.model.Description;
 import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
 import com.duy.pascal.frontend.editor.view.EditorView;
+import com.duy.pascal.frontend.file.util.FileUtils;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.structure.DialogProgramStructure;
 import com.duy.pascal.frontend.structure.viewholder.StructureItem;
@@ -378,11 +378,14 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public boolean onSelectFile(@NonNull File file) {
-        //save current file
-        addNewPageEditor(file, SELECT);
-        //close drawer
-        mDrawerLayout.closeDrawers();
-        return true;
+        if (FileUtils.canEdit(file)) {
+            //save current file
+            addNewPageEditor(file);
+            //close drawer
+            mDrawerLayout.closeDrawers();
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -422,7 +425,7 @@ public class EditorActivity extends BaseEditorActivity implements
             public void onFileCreated(@NonNull File file) {
                 saveFile();
                 //add to view
-                addNewPageEditor(file, SELECT);
+                addNewPageEditor(file);
                 mDrawerLayout.closeDrawers();
             }
 
@@ -510,7 +513,7 @@ public class EditorActivity extends BaseEditorActivity implements
                     try {
                         path = mFileManager.getPath(this, uri);
                         mFileManager.setWorkingFilePath(path);
-                        addNewPageEditor(new File(path), SELECT);
+                        addNewPageEditor(new File(path));
                     } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();

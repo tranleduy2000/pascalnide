@@ -21,6 +21,7 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -143,7 +144,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
         binding.explorerSwipeRefreshLayout.setOnRefreshListener(this);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
-        binding.recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext()).margin(getResources().getDimensionPixelSize(com.jecelyin.android.file_explorer.R.dimen.file_list_item_divider_left_margin), 0).build());
+        binding.recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext()).margin(getResources().getDimensionPixelSize(R.dimen.file_list_item_divider_left_margin), 0).build());
         binding.explorerSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -180,16 +181,18 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     @Override
     public void onStart() {
         super.onStart();
-        Pref.getInstance(getContext()).registerOnSharedPreferenceChangeListener(this);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        pref.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
-        Pref.getInstance(getContext()).unregisterOnSharedPreferenceChangeListener(this);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        pref.unregisterOnSharedPreferenceChangeListener(this);
         if (action != null) {
             action.destroy();
         }
+        super.onDestroyView();
     }
 
     @Override
@@ -209,7 +212,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == com.jecelyin.android.file_explorer.R.id.paste_menu) {
+        if (item.getItemId() == R.id.paste_menu) {
             final FileClipboard fileClipboard = ((FileExplorerActivity) getActivity()).getFileClipboard();
             fileClipboard.paste(getContext(), getCurrentDirectory(), new OnClipboardPasteFinishListener() {
                 @Override
@@ -219,7 +222,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
                 }
             });
             item.setVisible(false);
-        } else if (item.getItemId() == com.jecelyin.android.file_explorer.R.id.add_folder_menu) {
+        } else if (item.getItemId() == R.id.add_folder_menu) {
             action.doCreateFolder();
         }
         return super.onOptionsItemSelected(item);
@@ -241,7 +244,12 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
             @Override
             public void onCompleted() {
                 if (binding.explorerSwipeRefreshLayout != null) {
-                    binding.explorerSwipeRefreshLayout.setRefreshing(false);
+                    binding.explorerSwipeRefreshLayout.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.explorerSwipeRefreshLayout.setRefreshing(false);
+                        }
+                    }, 300);
                 }
             }
 
@@ -255,9 +263,15 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
             @Override
             public void onError(Exception e) {
                 e.printStackTrace();
-                if (binding.explorerSwipeRefreshLayout == null)
+                if (binding.explorerSwipeRefreshLayout == null) {
                     return;
-                binding.explorerSwipeRefreshLayout.setRefreshing(false);
+                }
+                binding.explorerSwipeRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.explorerSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 300);
                 UIUtils.toast(getContext(), e);
             }
         });
@@ -280,12 +294,12 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
     @Override
     public boolean onItemLongClick(int position, View view) {
-        try {
-            JecFile file = adapter.getItem(position);
-            FileActionCallback callback = (FileActionCallback) getActivity();
-            return callback.onFileLongClick(new File(file.getPath()));
-        } catch (ClassCastException ignored) {
-        }
+//        try {
+//            JecFile file = adapter.getItem(position);
+//            FileActionCallback callback = (FileActionCallback) getActivity();
+//            return callback.onFileLongClick(new File(file.getPath()));
+//        } catch (ClassCastException ignored) {
+//        }
         return false;
     }
 

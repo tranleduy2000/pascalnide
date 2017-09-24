@@ -43,17 +43,16 @@ import java.util.ArrayList;
 
 public class CodeSampleActivity extends BaseActivity implements CodeSampleAdapter.OnCodeClickListener {
 
-    private final String[] categories;
-    ViewPager viewPager;
-    TabLayout tabLayout;
-    MaterialSearchView searchView;
-    Toolbar toolbar;
-    private FileManager fileManager;
-    private CodePagerAdapter pagerAdapter;
+    private final String[] mCategories = new String[]{"Basic", "System", "Crt", "Dos", "Graph",
+            "Math", "CompleteProgram", "Android", "AndroidDialog", "AndroidZxing", "AndroidLocation"};
+    private ViewPager mViewPager;
+    private TabLayout mTabLayout;
+    private MaterialSearchView mSearchView;
+    private Toolbar mToolbar;
+    private FileManager mFileManager;
+    private CodePagerAdapter mPagerAdapter;
 
     public CodeSampleActivity() {
-        categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math",
-                "CompleteProgram", "Android", "AndroidDialog", "AndroidZXing", "AndroidLocation"};
     }
 
     @Override
@@ -62,30 +61,30 @@ public class CodeSampleActivity extends BaseActivity implements CodeSampleAdapte
 
         FirebaseAnalytics.getInstance(getApplicationContext()).logEvent("open_code_sample", new Bundle());
 
-        fileManager = new FileManager(getApplicationContext());
+        mFileManager = new FileManager(getApplicationContext());
 
         setContentView(R.layout.activity_code_sample);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        searchView = (MaterialSearchView) findViewById(R.id.search_view);
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        setSupportActionBar(toolbar);
+        mToolbar = findViewById(R.id.toolbar);
+        mViewPager = findViewById(R.id.view_pager);
+        mSearchView = findViewById(R.id.search_view);
+        mTabLayout = findViewById(R.id.tab_layout);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.code_sample);
 
         final ArrayList<PageDescriptor> pages = new ArrayList<>();
-        for (String category : categories) {
+        for (String category : mCategories) {
             pages.add(new SimplePageDescriptor(category, category));
         }
 
-        pagerAdapter = new CodePagerAdapter(getSupportFragmentManager(), pages);
-        viewPager.setAdapter(pagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+        mPagerAdapter = new CodePagerAdapter(getSupportFragmentManager(), pages);
+        mViewPager.setAdapter(mPagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
 
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+        mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                FragmentCodeSample fragmentCodeSample = pagerAdapter.getCurrentFragment();
+                FragmentCodeSample fragmentCodeSample = mPagerAdapter.getCurrentFragment();
                 if (fragmentCodeSample != null) {
                     fragmentCodeSample.query(query);
                 }
@@ -102,8 +101,8 @@ public class CodeSampleActivity extends BaseActivity implements CodeSampleAdapte
 
     @Override
     public void onBackPressed() {
-        if (searchView.isSearchOpen()) {
-            searchView.closeSearch();
+        if (mSearchView.isSearchOpen()) {
+            mSearchView.closeSearch();
         } else {
             super.onBackPressed();
         }
@@ -114,7 +113,7 @@ public class CodeSampleActivity extends BaseActivity implements CodeSampleAdapte
         getMenuInflater().inflate(R.menu.menu_code_sample, menu);
 
         MenuItem item = menu.findItem(R.id.action_search);
-        searchView.setMenuItem(item);
+        mSearchView.setMenuItem(item);
 
         return true;
     }
@@ -130,21 +129,21 @@ public class CodeSampleActivity extends BaseActivity implements CodeSampleAdapte
     @Override
     public void onPlay(String code) {
         //create file temp
-        fileManager.setContentFileTemp(code);
+        mFileManager.setContentFileTemp(code);
 
         //set file temp for generate
         Intent intent = new Intent(this, ExecuteActivity.class);
 
         //this code is verified, do not need compile
-        intent.putExtra(CompileManager.FILE_PATH, fileManager.getTempFile().getPath());
+        intent.putExtra(CompileManager.FILE_PATH, mFileManager.getTempFile().getPath());
         startActivity(intent);
     }
 
     @Override
     public void onEdit(String code) {
         //create file temp
-        String file = fileManager.createNewFileInMode("sample_" + Integer.toHexString((int) System.currentTimeMillis()) + ".pas");
-        fileManager.saveFile(file, code);
+        String file = mFileManager.createNewFileInMode("sample_" + Integer.toHexString((int) System.currentTimeMillis()) + ".pas");
+        mFileManager.saveFile(file, code);
 
         //set file temp for generate
         Intent intent = new Intent(this, EditorActivity.class);

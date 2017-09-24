@@ -38,6 +38,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -80,15 +81,12 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
         EditorControl,
         FileActionCallback,
         EditorContext, View.OnClickListener, PopupMenu.OnMenuItemClickListener {
-    protected final static String TAG = BaseEditorActivity.class.getSimpleName();
-    protected final boolean SELECT = true;
-    protected final boolean SAVE_LAST_FILE = true;
-    protected final boolean UN_SELECT = false;
-    protected final boolean UN_SAVE_LAST_FILE = false;
+    private static final String TAG = "BaseEditorActivity";
+
     protected FileManager mFileManager;
     protected EditorPagerAdapter mPagerAdapter;
-    protected Toolbar toolbar;
-    protected AppBarLayout appBarLayout;
+    protected Toolbar mToolbar;
+    protected AppBarLayout mAppBarLayout;
     protected DrawerLayout mDrawerLayout;
     protected SymbolListView mKeyList;
     protected NavigationView mNavigationView;
@@ -96,7 +94,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
     protected View mContainerSymbol;
     protected ViewPager mViewPager;
     protected FloatingActionMenu mFabMenu;
-    private KeyBoardEventListener keyBoardListener;
+    private KeyBoardEventListener mKeyBoardListener;
     private FileListPagerFragment mFileExplorer;
     private FileClipboard mFileClipboard;
     private PopupMenu mFileMenu;
@@ -127,11 +125,9 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DLog.d(TAG, "onCreate: ");
-
         setContentView(R.layout.activity_editor);
-        bindView();
 
+        bindView();
         setupToolbar();
         setupPageView();
         initFileView();
@@ -203,7 +199,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
         if (mPagerAdapter.getCount() == 0) {
             String fileName = Integer.toHexString((int) System.currentTimeMillis()) + ".pas";
             String filePath = mFileManager.createNewFileInMode(fileName);
-            addNewPageEditor(new File(filePath), SELECT);
+            addNewPageEditor(new File(filePath));
         }
 
         int pos = getPreferences().getInt(PascalPreferences.TAB_POSITION_FILE);
@@ -250,21 +246,21 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
 
     protected void setupToolbar() {
         //setup action bar
-        toolbar = findViewById(R.id.toolbar);
-        appBarLayout = findViewById(R.id.app_bar);
+        mToolbar = findViewById(R.id.toolbar);
+        mAppBarLayout = findViewById(R.id.app_bar);
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
         //attach listener hide/show keyboard
-        keyBoardListener = new KeyBoardEventListener(this);
-        mDrawerLayout.getViewTreeObserver().addOnGlobalLayoutListener(keyBoardListener);
+        mKeyBoardListener = new KeyBoardEventListener(this);
+        mDrawerLayout.getViewTreeObserver().addOnGlobalLayoutListener(mKeyBoardListener);
     }
 
     /**
@@ -297,19 +293,15 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
      * Add new page for editor
      * Check if not in list file, add it to tab and select tab of file
      *
-     * @param file          - file need load
-     * @param selectNewPage - if <code>true</code>, the tab of file will be selected when initialized
+     * @param file - file need load
      */
-    protected void addNewPageEditor(@NonNull File file, boolean selectNewPage) {
+    protected void addNewPageEditor(@NonNull File file) {
         int position = mPagerAdapter.getPositionForTag(file.getPath());
         if (position != -1) { //existed in list file
-            //check need select tab
-            if (selectNewPage) {
-                TabLayout.Tab tab = mTabLayout.getTabAt(position);
-                if (tab != null) {
-                    tab.select();
-                    mViewPager.setCurrentItem(position);
-                }
+            TabLayout.Tab tab = mTabLayout.getTabAt(position);
+            if (tab != null) {
+                tab.select();
+                mViewPager.setCurrentItem(position);
             }
         } else { //new file
             if (mPagerAdapter.getCount() >= getPreferences().getMaxPage()) {
@@ -319,21 +311,17 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
                     removePage(0);
                 }
             }
-
             //add to database
             mFileManager.addNewPath(file.getPath());
 
             //new page
             mPagerAdapter.add(new SimplePageDescriptor(file.getPath(), file.getName()));
             invalidateTab();
-
-            if (selectNewPage) {
-                int indexOfNewPage = mPagerAdapter.getCount() - 1;
-                TabLayout.Tab tab = mTabLayout.getTabAt(indexOfNewPage);
-                if (tab != null) {
-                    tab.select();
-                    mViewPager.setCurrentItem(indexOfNewPage);
-                }
+            int indexOfNewPage = mPagerAdapter.getCount() - 1;
+            TabLayout.Tab tab = mTabLayout.getTabAt(indexOfNewPage);
+            if (tab != null) {
+                tab.select();
+                mViewPager.setCurrentItem(indexOfNewPage);
             }
         }
     }
@@ -352,7 +340,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
             if (intent.getStringExtra(CompileManager.FILE_PATH) != null) {
                 String filePath = intent.getStringExtra(CompileManager.FILE_PATH);
                 //No need save last file because it is the frist file
-                addNewPageEditor(new File(filePath), SELECT);
+                addNewPageEditor(new File(filePath));
                 //Remove path
                 intent.removeExtra(CompileManager.FILE_PATH);
             }
@@ -369,7 +357,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
                 Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show();
                 return;
             }
-            addNewPageEditor(file, SELECT);
+            addNewPageEditor(file);
             //remove path
             intent.removeExtra(CompileManager.FILE_PATH);
         }
@@ -573,7 +561,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
         super.onDestroy();
         closeKeyBoard();
         mDrawerLayout.getViewTreeObserver()
-                .removeGlobalOnLayoutListener(keyBoardListener);
+                .removeGlobalOnLayoutListener(mKeyBoardListener);
 
     }
 
@@ -598,7 +586,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.img_file_menus:
                 mFileMenu.show();
                 break;
@@ -617,6 +605,8 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        Log.d(TAG, "onMenuItemClick() called with: item = [" + item + "]");
+
         Pref pref = Pref.getInstance(this);
         int id = item.getItemId();
         if (id == R.id.show_hidden_files_menu) {
@@ -635,7 +625,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
             item.setChecked(true);
             pref.setFileSortType(FileListSorter.SORT_TYPE);
         }
-        return false;
+        return mFileExplorer.onOptionsItemSelected(item);
     }
 
 
