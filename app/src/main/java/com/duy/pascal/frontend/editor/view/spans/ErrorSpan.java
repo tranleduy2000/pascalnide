@@ -16,45 +16,20 @@
 
 package com.duy.pascal.frontend.editor.view.spans;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.support.annotation.NonNull;
-import android.text.style.ReplacementSpan;
+import android.os.Parcel;
+import android.text.style.BackgroundColorSpan;
 
 /**
  * Created by Duy on 31-May-17.
  */
 
-public class ErrorSpan extends ReplacementSpan {
-    private int color;
+public class ErrorSpan extends BackgroundColorSpan {
 
     public ErrorSpan(int color) {
-        this.color = color;
+        super(color);
     }
 
-    @Override
-    public void draw(@NonNull Canvas canvas, CharSequence text, int start, int end, float x, int top,
-                     int y, int bottom, @NonNull Paint paint) {
-        RectF rect = new RectF(x, top, x + measureText(paint, text, start, end), bottom);
-
-        Paint rectPaint = new Paint(paint);
-        rectPaint.setAntiAlias(true);
-        rectPaint.setStrokeWidth(2);
-        rectPaint.setStyle(Paint.Style.STROKE);
-        rectPaint.setColor(color);
-        canvas.drawRect(rect, rectPaint);
-
-        canvas.drawText(text, start, end, x, y, paint);
+    public ErrorSpan(Parcel src) {
+        super(src);
     }
-
-    @Override
-    public int getSize(@NonNull Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
-        return Math.round(measureText(paint, text, start, end));
-    }
-
-    private float measureText(Paint paint, CharSequence text, int start, int end) {
-        return paint.measureText(text, start, end);
-    }
-
 }

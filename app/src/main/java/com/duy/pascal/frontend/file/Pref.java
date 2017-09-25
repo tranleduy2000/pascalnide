@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.WeakHashMap;
 
 /**
  * @author Jecelyin Peng <jecelyin@gmail.com>
@@ -100,7 +99,6 @@ public class Pref implements SharedPreferences.OnSharedPreferenceChangeListener 
     private final SharedPreferences pm;
     private final Map<String, Object> map;
     private final Context context;
-    private final WeakHashMap<SharedPreferences.OnSharedPreferenceChangeListener, Object> mListeners = new WeakHashMap<>();
     private Set<String> toolbarIcons;
 
     public Pref(Context context) {
@@ -149,7 +147,6 @@ public class Pref implements SharedPreferences.OnSharedPreferenceChangeListener 
     }
 
     public static Pref getInstance(Context context) {
-
         return new Pref(context.getApplicationContext());
     }
 
@@ -197,12 +194,6 @@ public class Pref implements SharedPreferences.OnSharedPreferenceChangeListener 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         updateValue(key, sharedPreferences.getAll());
-        Set<SharedPreferences.OnSharedPreferenceChangeListener> listeners = mListeners.keySet();
-        for (SharedPreferences.OnSharedPreferenceChangeListener listener : listeners) {
-            if (listener != null) {
-                listener.onSharedPreferenceChanged(sharedPreferences, key);
-            }
-        }
     }
 
     public boolean isShowLineNumber() {

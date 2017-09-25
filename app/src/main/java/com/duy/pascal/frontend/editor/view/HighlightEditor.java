@@ -468,12 +468,16 @@ public class HighlightEditor extends CodeSuggestsEditText
         return -1;
     }
 
+    private <T> void removeSpan(Editable e, Class<T> clazz) {
+        T spans[] = e.getSpans(0, e.length(), clazz);
+        for (T span : spans) {
+            e.removeSpan(span);
+        }
+    }
+
     private void highlightLineError(Editable e) {
         try {
-            ErrorSpan spans[] = e.getSpans(0, e.length(), ErrorSpan.class);
-            for (ErrorSpan span : spans) {
-                e.removeSpan(span);
-            }
+            removeSpan(e, ErrorSpan.class);
             //high light error lineInfo
             for (LineInfo lineInfo : mLineErrors) {
                 Layout layout = getLayout();
@@ -498,7 +502,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                     lineEnd = Math.min(lineEnd, getText().length());
 
                     if (lineStart < lineEnd) {
-                        e.setSpan(new BackgroundColorSpan(codeTheme.getErrorColor()),
+                        e.setSpan(new ErrorSpan(codeTheme.getErrorColor()),
                                 lineStart,
                                 lineEnd,
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

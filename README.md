@@ -28,8 +28,8 @@ The application is a Pascal interpreter on Android. This application is confusin
 	    * Font size, font, word wrap.
   4. Support library Android (Sensor, battery, record audio, camera...)
   5. Support Java in Pascal
-  6. Auto Fix Error 
-        * fix missing type
+  6. Auto fix parsing error 
+        * declare type
         * declare procedure
         * declare constant
         * declare function
@@ -41,6 +41,7 @@ The application is a Pascal interpreter on Android. This application is confusin
         * Fix missing begin end
         * Change type of constant
         * Change type of variable
+        * Fix missing dot token
 
 ## Features that the interpreter is missing
 

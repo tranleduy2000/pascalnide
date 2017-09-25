@@ -25,7 +25,7 @@ import com.google.firebase.crash.FirebaseCrash;
  */
 public class DLog {
     private static final String TAG = "DLog";
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = BuildConfig.DEBUG;
     public static boolean ANDROID = true;
 
     public static void d(Object msg) {
@@ -68,12 +68,12 @@ public class DLog {
         }
     }
 
-    public static void e(Exception exception) {
+    public static void e(Exception e) {
         if (DEBUG) {
             if (ANDROID) {
-                Log.e(TAG, "Error " + exception.getClass().getSimpleName(), exception);
+                e.printStackTrace();
             } else {
-                System.err.println(TAG + ": " + exception.toString());
+                e.printStackTrace(System.err);
             }
         }
     }
@@ -83,7 +83,7 @@ public class DLog {
             if (ANDROID) {
                 Log.e(TAG, "Error ", exception);
             } else {
-                System.err.println(TAG + ": " + exception.toString());
+                exception.printStackTrace(System.err);
             }
         }
     }
@@ -103,8 +103,7 @@ public class DLog {
             if (ANDROID) {
                 Log.e(TAG, msg, e);
             } else {
-                System.err.println(TAG + ": " + msg);
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
         }
     }
