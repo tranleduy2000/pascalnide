@@ -53,7 +53,7 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
     }
 
     @Override
-    protected PascalProgramExpressionContext getExpressionContextInstance(ProgramHandler handler) {
+    protected PascalProgramExpressionContext createExpressionContext(ProgramHandler handler) {
         return new PascalProgramExpressionContext(handler);
     }
 

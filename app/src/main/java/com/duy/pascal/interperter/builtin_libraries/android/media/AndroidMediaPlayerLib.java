@@ -35,7 +35,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 
-public class AndroidMediaPlayerLib implements PascalLibrary {
+public class AndroidMediaPlayerLib extends PascalLibrary {
 
     public static final String NAME = "aMedia".toLowerCase();
     private static final String TAG = "AndroidMediaPlayerLib";

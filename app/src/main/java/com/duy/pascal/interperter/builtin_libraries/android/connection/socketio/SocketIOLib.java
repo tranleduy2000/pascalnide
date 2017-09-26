@@ -28,7 +28,7 @@ import java.util.Map;
  * Created by Duy on 10-May-17.
  */
 
-public class SocketIOLib implements PascalLibrary {
+public class SocketIOLib extends PascalLibrary {
 
     public static final String NAME = "SocketIO".toLowerCase();
 

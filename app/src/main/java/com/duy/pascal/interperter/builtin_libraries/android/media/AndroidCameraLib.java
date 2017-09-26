@@ -53,7 +53,7 @@ import java.util.concurrent.CountDownLatch;
 /**
  * Access Camera functions.
  */
-public class AndroidCameraLib implements PascalLibrary {
+public class AndroidCameraLib extends PascalLibrary {
     public static final String NAME = "aCamera".toLowerCase();
     private final Context mContext;
     private final Parameters mParameters;

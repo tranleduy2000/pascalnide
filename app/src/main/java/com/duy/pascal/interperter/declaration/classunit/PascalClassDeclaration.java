@@ -26,7 +26,6 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ClassExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
 /**
  * Created by Duy on 16-Jun-17.
@@ -43,11 +42,11 @@ public class PascalClassDeclaration extends CodeUnit implements Cloneable {
         this.root = root;
         this.parent = parent;
         this.handler = handler;
-        this.context = getExpressionContextInstance(handler);
+        this.context = createExpressionContext(handler);
     }
 
     @Override
-    protected ExpressionContextMixin getExpressionContextInstance(@Nullable ProgramHandler handler) {
+    protected ExpressionContextMixin createExpressionContext(@Nullable ProgramHandler handler) {
         return new ClassExpressionContext(root, parent);
     }
 

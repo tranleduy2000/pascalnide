@@ -40,7 +40,7 @@ import java.util.Map;
  * <br>
  * These can be used to trigger some common tasks.
  */
-public class CommonIntentsFacade implements PascalLibrary {
+public class CommonIntentsFacade extends PascalLibrary {
 
     private final AndroidUtilsLib mAndroidFacade;
 

@@ -38,7 +38,7 @@ import java.util.concurrent.Callable;
  *
  * @author Joerg Zieren (joerg.zieren@gmail.com)
  */
-public class SignalStrengthFacade implements PascalLibrary {
+public class SignalStrengthFacade extends PascalLibrary {
     private final Context mContext;
     private final TelephonyManager mTelephonyManager;
     private final AndroidEvent mEventFacade;

@@ -94,7 +94,7 @@ import java.util.Map;
  * @author Robbie Mathews (rjmatthews62@gmail.com)
  * @author John Karwatzki (jokar49@gmail.com)
  */
-public class AndroidSensorLib implements PascalLibrary {
+public class AndroidSensorLib extends PascalLibrary {
     public static final String NAME = "aSensor".toLowerCase();
 
     private SensorManager mSensorManager;

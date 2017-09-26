@@ -21,14 +21,13 @@ import com.duy.pascal.interperter.ast.runtime_value.ObjectBasedPointer;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalPointer;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
-import com.duy.pascal.interperter.builtin_libraries.runtime_exceptions.InvalidFloatingPointOperation;
-import com.duy.pascal.interperter.builtin_libraries.runtime_exceptions.RangeCheckError;
+import com.duy.pascal.interperter.builtin_libraries.exceptions.InvalidFloatingPointOperation;
+import com.duy.pascal.interperter.builtin_libraries.exceptions.RangeCheckError;
 import com.duy.pascal.interperter.exceptions.parsing.value.OrdinalExpressionExpectedException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.ScriptTerminatedException;
 import com.duy.pascal.interperter.exceptions.runtime.WrongArgsException;
 
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -40,14 +39,13 @@ import java.util.Random;
  * Created by Duy on 07-Mar-17.
  */
 @SuppressWarnings("unused")
-public class SystemLibrary implements PascalLibrary {
+public class SystemLibrary extends PascalLibrary {
 
     private Random random = new Random();
 
 
-    @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return false;
+    public SystemLibrary() {
+
     }
 
     @Override

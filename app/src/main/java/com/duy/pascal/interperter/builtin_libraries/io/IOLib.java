@@ -18,17 +18,17 @@ package com.duy.pascal.interperter.builtin_libraries.io;
 
 import android.support.annotation.NonNull;
 
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
-import com.duy.pascal.interperter.builtin_libraries.runtime_exceptions.CanNotReadVariableException;
+import com.duy.pascal.interperter.builtin_libraries.exceptions.CanNotReadVariableException;
 import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.exceptions.parsing.io.InputStreamNotFoundException;
 import com.duy.pascal.interperter.exceptions.runtime.InvalidNumericFormatException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.frontend.DLog;
 
 import java.io.PrintStream;
 import java.util.InputMismatchException;
@@ -36,7 +36,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
-public class IOLib implements PascalLibrary {
+@SuppressWarnings("unused")
+public class IOLib extends PascalLibrary {
 
     public static final String TAG = IOLib.class.getSimpleName();
 

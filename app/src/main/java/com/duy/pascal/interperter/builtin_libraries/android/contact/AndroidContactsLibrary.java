@@ -47,17 +47,22 @@ import java.util.Map;
  *
  * @author MeanEYE.rcf (meaneye.rcf@gmail.com
  */
-public class AndroidContactsLibrary implements PascalLibrary {
+@SuppressWarnings("unused")
+
+public class AndroidContactsLibrary extends PascalLibrary {
     private static final Uri CONTACTS_URI = Uri.parse("content://contacts/people");
-    private final ContentResolver mContentResolver;
-    private final Context mContext;
-    private final CommonIntentsFacade mCommonIntentsFacade;
-    public Uri mPhoneContent = null;
-    public String mContactId;
-    public String mPrimary;
-    public String mPhoneNumber;
-    @SuppressWarnings("unused")
-    public String mHasPhoneNumber;
+    private Uri mPhoneContent = null;
+    private String mContactId;
+    private String mPrimary;
+    private String mPhoneNumber;
+    private String mHasPhoneNumber;
+    private ContentResolver mContentResolver;
+    private Context mContext;
+    private CommonIntentsFacade mCommonIntentsFacade;
+
+    public AndroidContactsLibrary() {
+
+    }
 
     public AndroidContactsLibrary(AndroidLibraryManager manager) {
         mContext = manager.getContext();

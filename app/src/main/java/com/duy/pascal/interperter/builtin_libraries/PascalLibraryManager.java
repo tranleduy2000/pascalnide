@@ -19,6 +19,7 @@ package com.duy.pascal.interperter.builtin_libraries;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 
 import com.duy.pascal.frontend.DLog;
@@ -50,7 +51,7 @@ import com.duy.pascal.interperter.builtin_libraries.android.voice.AndroidTextToS
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.builtin_libraries.crt.CrtLib;
 import com.duy.pascal.interperter.builtin_libraries.crt.WinCrt;
-import com.duy.pascal.interperter.builtin_libraries.graphic.BasicGraphicAPI;
+import com.duy.pascal.interperter.builtin_libraries.graphic.GraphicAPI;
 import com.duy.pascal.interperter.builtin_libraries.io.InOutListener;
 import com.duy.pascal.interperter.builtin_libraries.java.data.JavaCollectionsAPI;
 import com.duy.pascal.interperter.builtin_libraries.math.MathLib;
@@ -106,7 +107,7 @@ public class PascalLibraryManager {
         put(WinCrt.NAME, WinCrt.class);
         put(DosLib.NAME, DosLib.class);
         put(MathLib.NAME, MathLib.class);
-        put(BasicGraphicAPI.NAME, BasicGraphicAPI.class);
+        put(GraphicAPI.NAME, GraphicAPI.class);
         put(StrUtilsLibrary.NAME, StrUtilsLibrary.class);
         put(SysUtilsLibrary.NAME, SysUtilsLibrary.class);
 
@@ -208,13 +209,7 @@ public class PascalLibraryManager {
             } catch (Exception ignored) {
             }
         }
-
-        if (parent != null) {
-            addMethodFromLibrary(parent, lineNumber);
-        } else {
-            throw new LibraryNotFoundException(lineNumber, Name.create(t.getName()));
-        }
-
+        addMethodFromLibrary(t, parent, lineNumber);
     }
 
     /**
@@ -262,36 +257,39 @@ public class PascalLibraryManager {
         addMethodFromClass(SystemLibrary.class, new LineInfo(-1, "system"));
     }
 
-    public void addMethodFromLibrary(@NonNull Object o, LineInfo line) throws PermissionDeniedException {
-        if (o instanceof IAndroidLibrary) {
-            String[] permissions = ((IAndroidLibrary) o).needPermission();
+    public void addMethodFromLibrary(Class<? extends PascalLibrary> clazz,
+                                     @Nullable Object instance, @Nullable LineInfo line) throws PermissionDeniedException {
+        if (instance instanceof IAndroidLibrary) {
+            String[] permissions = ((IAndroidLibrary) instance).needPermission();
             for (String permission : permissions) {
                 if (DLog.ANDROID) {
                     int i = ActivityCompat.checkSelfPermission(handler.getApplicationContext(), permission);
                     if (i != PackageManager.PERMISSION_GRANTED) {
-                        throw new PermissionDeniedException(((IAndroidLibrary) o).getName(), permission, line);
+                        throw new PermissionDeniedException(((IAndroidLibrary) instance).getName(), permission, line);
                     }
                 }
             }
 
         }
 
-        PascalLibrary library = (PascalLibrary) o;
-        library.declareConstants(program);
-        library.declareFunctions(program);
-        library.declareTypes(program);
-        library.declareVariables(program);
-        for (Method method : o.getClass().getDeclaredMethods()) {
+        PascalLibrary library = (PascalLibrary) instance;
+        if (library != null) {
+            library.declareConstants(program);
+            library.declareFunctions(program);
+            library.declareTypes(program);
+            library.declareVariables(program);
+        }
+        for (Method method : clazz.getDeclaredMethods()) {
             if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                 if (method.getAnnotation(PascalMethod.class) != null) {
                     PascalMethod annotation = method.getAnnotation(PascalMethod.class);
                     String description = annotation.description();
-                    MethodDeclaration methodDeclaration = new MethodDeclaration(o, method, description);
+                    MethodDeclaration methodDeclaration = new MethodDeclaration(instance, method, description);
                     program.declareFunction(methodDeclaration);
                 }
             } else {
                 if (Modifier.isPublic(method.getModifiers())) {
-                    MethodDeclaration methodDeclaration = new MethodDeclaration(o, method);
+                    MethodDeclaration methodDeclaration = new MethodDeclaration(instance, method);
                     program.declareFunction(methodDeclaration);
                 }
             }

@@ -20,10 +20,10 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.exceptions.runtime.WrongArgsException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.WrongArgsException;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.util.FastMath;
@@ -31,9 +31,14 @@ import org.apache.commons.math3.util.FastMath;
 import java.util.Map;
 import java.util.Random;
 
-public class MathLib implements PascalLibrary {
+@SuppressWarnings("unused")
+public class MathLib extends PascalLibrary {
     public static final String NAME = "math";
     private Random random = new Random();
+
+    public MathLib() {
+
+    }
 
     @PascalMethod(description = "Return inverse cosine")
     public double ArcCos(double x) {

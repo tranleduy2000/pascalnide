@@ -35,14 +35,15 @@ public abstract class CodeUnit {
     }
 
     public CodeUnit(@Nullable ProgramHandler handler) {
-        this.context = getExpressionContextInstance(handler);
+        this.context = createExpressionContext(handler);
     }
 
-    public CodeUnit(Reader program, String sourceName, List<ScriptSource> includeDirectories,
+    public CodeUnit(@NonNull Reader program, @NonNull String sourceName,
+                    @Nullable List<ScriptSource> includeDirectories,
                     @Nullable ProgramHandler handler, @Nullable DiagnosticCollector diagnosticCollector)
             throws Exception {
         this(handler);
-        this.context = getExpressionContextInstance(handler);
+        this.context = createExpressionContext(handler);
         this.context.put(DiagnosticsListener.class, diagnosticCollector);
 
         this.sourceName = sourceName;
@@ -81,7 +82,7 @@ public abstract class CodeUnit {
         return context;
     }
 
-    protected abstract ExpressionContextMixin getExpressionContextInstance(ProgramHandler handler);
+    protected abstract ExpressionContextMixin createExpressionContext(ProgramHandler handler);
 
     private void parseTree(GrouperToken tokens) throws Exception {
         try {

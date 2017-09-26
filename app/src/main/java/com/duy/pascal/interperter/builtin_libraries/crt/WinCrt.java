@@ -1,12 +1,12 @@
 package com.duy.pascal.interperter.builtin_libraries.crt;
 
+import com.duy.pascal.frontend.runnable.ConsoleHandler;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.builtin_libraries.io.IOLib;
 import com.duy.pascal.interperter.builtin_libraries.io.InOutListener;
 import com.duy.pascal.interperter.exceptions.runtime.WrongArgsException;
-import com.duy.pascal.frontend.runnable.ConsoleHandler;
 
 import java.util.Map;
 
@@ -22,14 +22,19 @@ import java.util.Map;
  * <p>
  * See in https://www.freepascal.org/docs-html/rtl/wincrt/index.html
  */
-public class WinCrt implements PascalLibrary {
+@SuppressWarnings("unused")
+public class WinCrt extends PascalLibrary {
     public static final String NAME = "wincrt";
-    private ConsoleHandler handler;
+    private ConsoleHandler mHandler;
     private CrtLib crtLib;
     private IOLib ioLib;
 
+    public WinCrt() {
+
+    }
+
     public WinCrt(ConsoleHandler handler) {
-        this.handler = handler;
+        this.mHandler = handler;
         this.crtLib = new CrtLib(handler);
         ioLib = new IOLib((InOutListener) handler);
     }

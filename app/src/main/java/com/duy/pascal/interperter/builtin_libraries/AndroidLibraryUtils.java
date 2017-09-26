@@ -26,12 +26,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Encapsulates the list of supported facades and their construction.
- *
- * @author Damon Kohler (damonkohler@gmail.com)
- * @author Igor Karp (igor.v.karp@gmail.com)
- */
 public class AndroidLibraryUtils {
 
     public static int getSdkVersion() {

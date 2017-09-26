@@ -19,23 +19,21 @@ package com.duy.pascal.interperter.builtin_libraries;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
-import com.duy.pascal.interperter.builtin_libraries.runtime_exceptions.EConvertError;
+import com.duy.pascal.interperter.builtin_libraries.exceptions.EConvertError;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 import java.util.Arrays;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
  * Created by Duy on 12-Apr-17.
  */
-
-public class StrUtilsLibrary implements PascalLibrary {
+@SuppressWarnings("unused")
+public class StrUtilsLibrary extends PascalLibrary {
     public static final String NAME = "strUtils".toLowerCase();
 
-    @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return false;
+    public StrUtilsLibrary() {
+
     }
 
     @Override

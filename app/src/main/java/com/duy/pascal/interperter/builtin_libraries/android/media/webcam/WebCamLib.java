@@ -88,7 +88,7 @@ import java.util.concurrent.Executor;
  * @author Damon Kohler (damonkohler@gmail.com) (probably)
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
-public class WebCamLib implements PascalLibrary {
+public class WebCamLib extends PascalLibrary {
 
     private final Context mContext;
     private final Executor mJpegCompressionExecutor = new SingleThreadExecutor();

@@ -3,16 +3,13 @@ package com.duy.pascal.interperter.builtin_libraries;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
 
-import java.util.Map;
-
 /**
  * Created by Duy on 08-May-17.
  */
+@SuppressWarnings("unused")
+public class MathLibrary extends PascalLibrary {
+    public MathLibrary() {
 
-public class MathLibrary implements PascalLibrary {
-    @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return false;
     }
 
     @Override

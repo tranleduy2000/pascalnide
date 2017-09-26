@@ -75,7 +75,7 @@ import java.util.TimeZone;
  * <br>
  * An intent can be built using the {@see #makeIntent} call, but can also be constructed exterally.
  */
-public class AndroidUtilsLib implements PascalLibrary {
+public class AndroidUtilsLib extends PascalLibrary {
     public static final String NAME = "aUtils".toLowerCase();
     private Context mContext;
     private Handler mHandler;

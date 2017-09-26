@@ -21,12 +21,12 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 
+import com.duy.pascal.frontend.R;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalParameter;
-import com.duy.pascal.frontend.R;
 
 import java.util.Map;
 
@@ -34,11 +34,15 @@ import java.util.Map;
  * Created by Duy on 25-Apr-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
-public class AndroidNotifyLib implements PascalLibrary {
+@SuppressWarnings("unused")
+public class AndroidNotifyLib extends PascalLibrary {
     public static final String NAME = "aNotify".toLowerCase();
 
-    private final Context mContext;
+    private Context mContext;
+
+    public AndroidNotifyLib() {
+
+    }
 
     public AndroidNotifyLib(AndroidLibraryManager manager) {
         mContext = manager.getContext();

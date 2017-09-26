@@ -33,7 +33,6 @@ import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
 
-
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.IOException;
@@ -47,8 +46,8 @@ import java.util.concurrent.Callable;
  */
 // Discovery functions added by Eden Sayag
 
-
-public class AndroidBluetoothLib implements PascalLibrary {
+@SuppressWarnings("unused")
+public class AndroidBluetoothLib extends PascalLibrary {
 
     public static final String NAME = "aBluetooth".toLowerCase();
     // UUID for SL4A.
@@ -57,6 +56,10 @@ public class AndroidBluetoothLib implements PascalLibrary {
     private Map<String, BluetoothConnection> connections = new HashMap<>();
     private AndroidUtilsLib mAndroidFacade;
     private BluetoothAdapter mBluetoothAdapter;
+
+    public AndroidBluetoothLib() {
+
+    }
 
     public AndroidBluetoothLib(AndroidLibraryManager manager) {
         mAndroidFacade = manager.getReceiver(AndroidUtilsLib.class);

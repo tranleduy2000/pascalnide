@@ -19,12 +19,12 @@ package com.googlecode.sl4a.facade;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalParameter;
 import com.googlecode.sl4a.Constants;
-import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -34,7 +34,8 @@ import java.util.Map;
  *
  * @author Alexey Reznichenko (alexey.reznichenko@gmail.com)
  */
-public class ActivityResultFacade implements PascalLibrary {
+@SuppressWarnings("unused")
+public class ActivityResultFacade extends PascalLibrary {
 
     private static final String sRpcDescription =
             "Sets the result of a script execution. Whenever the script APK is called via "
@@ -47,6 +48,10 @@ public class ActivityResultFacade implements PascalLibrary {
     private Activity mActivity = null;
     private Intent mResult = null;
     private int mResultCode;
+
+    public ActivityResultFacade() {
+
+    }
 
     public ActivityResultFacade(AndroidLibraryManager manager) {
     }

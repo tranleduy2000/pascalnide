@@ -63,7 +63,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class EventFacade implements PascalLibrary {
+public class EventFacade extends PascalLibrary {
     /**
      * The maximum length of the event queue. Old events will be discarded when this limit is
      * exceeded.

@@ -34,7 +34,7 @@ import java.util.concurrent.CountDownLatch;
 /**
  * Provides Text To Speech services for API 4 or more.
  */
-public class AndroidTextToSpeechLib implements PascalLibrary {
+public class AndroidTextToSpeechLib extends PascalLibrary {
     public static final String NAME = "aTTSpeech".toLowerCase();
 
     private TextToSpeech mTextToSpeech;

@@ -19,19 +19,19 @@ package com.duy.pascal.interperter.builtin_libraries.file;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
+import com.duy.pascal.interperter.builtin_libraries.exceptions.CanNotReadVariableException;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotAssignException;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotOpenException;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotOpenForInputException;
 import com.duy.pascal.interperter.builtin_libraries.io.InOutListener;
-import com.duy.pascal.interperter.builtin_libraries.runtime_exceptions.CanNotReadVariableException;
+import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.frontend.DLog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,18 +40,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FileLib implements PascalLibrary {
+@SuppressWarnings("unused")
+public class FileLib extends PascalLibrary {
     private static final String TAG = "FileLib";
     /**
      * map file
      * key is the path of file
      */
-    private HashMap<String, FileEntry> filesMap = new HashMap<>();
-    private int numberFiles = 0;
-    private InOutListener handler;
+    private HashMap<String, FileEntry> mFilesMap = new HashMap<>();
+    private InOutListener inOutListener;
+
+    public FileLib() {
+
+    }
 
     public FileLib(InOutListener handler) {
-        this.handler = handler;
+        this.inOutListener = handler;
     }
 
     /**
@@ -62,14 +66,14 @@ public class FileLib implements PascalLibrary {
         DLog.d(TAG, "assign() called with: fileVariable = [" + fileVariable + "], name = [" + name + "]");
         File file = new File(name.toString());
         if (!file.exists()) {
-            file = new File(handler.getCurrentDirectory(), name.toString());
+            file = new File(inOutListener.getCurrentDirectory(), name.toString());
         }
         DLog.d("File " + file);
         fileVariable.set(file);
 
         //put to map
         FileEntry fileEntry = new FileEntry(file);
-        filesMap.put(file.getPath(), fileEntry);
+        mFilesMap.put(file.getPath(), fileEntry);
     }
 
     @PascalMethod(description = "library file")
@@ -85,7 +89,7 @@ public class FileLib implements PascalLibrary {
             FileNotFoundException, RuntimePascalException {
         assertFileAssigned(fileVariable);
         //throw file not found exception
-        filesMap.get(fileVariable.get().getPath()).reset();
+        mFilesMap.get(fileVariable.get().getPath()).reset();
     }
 
     /**
@@ -104,7 +108,7 @@ public class FileLib implements PascalLibrary {
     @PascalMethod(description = "library file")
     public void erase(PascalReference<File> fileVariable) throws RuntimePascalException {
         assertFileAssigned(fileVariable);
-        if (filesMap.get(fileVariable.get().getPath()).isOpened()) {
+        if (mFilesMap.get(fileVariable.get().getPath()).isOpened()) {
             throw new FileNotAssignException(fileVariable.get().getPath());
         }
         boolean delete = fileVariable.get().delete();
@@ -120,7 +124,7 @@ public class FileLib implements PascalLibrary {
     public void rewrite(PascalReference<File> fileVariable) throws IOException, RuntimePascalException {
         assertFileAssigned(fileVariable);
 
-        filesMap.get(fileVariable.get().getPath()).rewrite();
+        mFilesMap.get(fileVariable.get().getPath()).rewrite();
     }
 
     @PascalMethod(description = "library file")
@@ -142,7 +146,7 @@ public class FileLib implements PascalLibrary {
         if (fileVariable == null) {
             throw new FileNotAssignException("");
         }
-        if (filesMap.get(fileVariable.getPath()) == null) {
+        if (mFilesMap.get(fileVariable.getPath()) == null) {
             throw new FileNotAssignException(fileVariable.getPath());
         }
     }
@@ -162,7 +166,7 @@ public class FileLib implements PascalLibrary {
 
     private void assertFileOpened(File fileVariable) throws RuntimePascalException {
         assertFileAssigned(fileVariable);
-        if (!filesMap.get(fileVariable.getPath()).isOpened()) {
+        if (!mFilesMap.get(fileVariable.getPath()).isOpened()) {
             throw new FileNotOpenException(fileVariable.getPath());
         }
     }
@@ -173,7 +177,7 @@ public class FileLib implements PascalLibrary {
     @PascalMethod(description = "library file")
     public void close(PascalReference<File> fileVariable) throws IOException, RuntimePascalException {
         assertFileOpened(fileVariable);
-        filesMap.get(fileVariable.get().getPath()).close();
+        mFilesMap.get(fileVariable.get().getPath()).close();
     }
 
     @PascalMethod(description = "library file")
@@ -194,14 +198,14 @@ public class FileLib implements PascalLibrary {
             RuntimePascalException {
         assertFileOpened(fileVariable);
         assertFileOpenForInput(fileVariable);
-        return filesMap.get(fileVariable.get().getPath()).isEof();
+        return mFilesMap.get(fileVariable.get().getPath()).isEof();
     }
 
     @PascalMethod(description = "Check for end of line")
     public boolean eoln(PascalReference<File> fileVariable) throws RuntimePascalException {
         assertFileOpened(fileVariable);
         assertFileOpenForInput(fileVariable);
-        return filesMap.get(fileVariable.get().getPath()).isEndOfLine();
+        return mFilesMap.get(fileVariable.get().getPath()).isEndOfLine();
     }
 
     private void seekEof(PascalReference<File> fileVariable) throws RuntimePascalException {
@@ -220,7 +224,7 @@ public class FileLib implements PascalLibrary {
     public void append(PascalReference<File> fileVariable) throws RuntimePascalException,
             IOException {
         assertFileAssigned(fileVariable);
-        filesMap.get(fileVariable.get().getPath()).append();
+        mFilesMap.get(fileVariable.get().getPath()).append();
     }
 
     @SuppressWarnings("unchecked")
@@ -235,18 +239,18 @@ public class FileLib implements PascalLibrary {
 
     private Object getValueForVariable(@NonNull File zfile, @NonNull Class c, @Nullable Object o)
             throws RuntimePascalException {
-        FileEntry file = filesMap.get(zfile.getPath());
+        FileEntry file = mFilesMap.get(zfile.getPath());
         if (c == Character.class) {
             char value = file.readChar();
             return value;
         } else if (c == StringBuilder.class) {
             String value = file.readString();
-            filesMap.get(zfile.getPath()).nextLine();
+            mFilesMap.get(zfile.getPath()).nextLine();
             return new StringBuilder(value);
 
         } else if (c == String.class) {
             String value = file.readString();
-            filesMap.get(zfile.getPath()).nextLine();
+            mFilesMap.get(zfile.getPath()).nextLine();
             return value;
 
         } else if (c == Integer.class) {
@@ -332,7 +336,7 @@ public class FileLib implements PascalLibrary {
     @PascalMethod(description = "library file")
     public void readln(File fileVariable) throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
-        filesMap.get(fileVariable.getPath()).nextLine();
+        mFilesMap.get(fileVariable.getPath()).nextLine();
     }
 
     /**
@@ -344,7 +348,7 @@ public class FileLib implements PascalLibrary {
         setValueForVariables(fileVariable, out);
         if (!(out.get() instanceof StringBuilder)
                 && !(out.get() instanceof String)) {
-            filesMap.get(fileVariable.getPath()).nextLine();
+            mFilesMap.get(fileVariable.getPath()).nextLine();
         }
     }
 
@@ -357,7 +361,7 @@ public class FileLib implements PascalLibrary {
         setValueForVariables(fileVariable, o1, o2);
         if (!(o2.get() instanceof StringBuilder)
                 && !(o2.get() instanceof String)) {
-            filesMap.get(fileVariable.getPath()).nextLine();
+            mFilesMap.get(fileVariable.getPath()).nextLine();
         }
     }
 
@@ -372,7 +376,7 @@ public class FileLib implements PascalLibrary {
         setValueForVariables(fileVariable, o1, o2, o3);
         if (!(o3.get() instanceof StringBuilder)
                 && !(o3.get() instanceof String)) {
-            filesMap.get(fileVariable.getPath()).nextLine();
+            mFilesMap.get(fileVariable.getPath()).nextLine();
         }
     }
 
@@ -386,7 +390,7 @@ public class FileLib implements PascalLibrary {
         setValueForVariables(fileVariable, o1, o2, o3, o4);
         if (!(o4.get() instanceof StringBuilder)
                 && !(o4.get() instanceof String)) {
-            filesMap.get(fileVariable.getPath()).nextLine();
+            mFilesMap.get(fileVariable.getPath()).nextLine();
         }
     }
 
@@ -400,7 +404,7 @@ public class FileLib implements PascalLibrary {
         setValueForVariables(fileVariable, o1, o2, o3, o4, o5);
         if (!(o5.get() instanceof StringBuilder)
                 && !(o5.get() instanceof String)) {
-            filesMap.get(fileVariable.getPath()).nextLine();
+            mFilesMap.get(fileVariable.getPath()).nextLine();
         }
     }
 
@@ -415,7 +419,7 @@ public class FileLib implements PascalLibrary {
         setValueForVariables(fileVariable, o1, o2, o3, o4, o5, o6);
         if (!(o6.get() instanceof StringBuilder)
                 && !(o6.get() instanceof String)) {
-            filesMap.get(fileVariable.getPath()).nextLine();
+            mFilesMap.get(fileVariable.getPath()).nextLine();
         }
     }
 
@@ -431,7 +435,7 @@ public class FileLib implements PascalLibrary {
     private void assertFileOpenForInput(File fileVariable)
             throws RuntimePascalException {
         assertFileOpened(fileVariable);
-        if (!filesMap.get(fileVariable.getPath()).isOpened()) {
+        if (!mFilesMap.get(fileVariable.getPath()).isOpened()) {
             throw new FileNotOpenForInputException(fileVariable.getPath());
         }
     }
@@ -442,7 +446,7 @@ public class FileLib implements PascalLibrary {
     public void writeFile(File fileVariable, Object... objects) throws RuntimePascalException {
         //check error
         assertFileOpened(fileVariable);
-        FileEntry file = filesMap.get(fileVariable.getPath());
+        FileEntry file = mFilesMap.get(fileVariable.getPath());
         file.writeString(objects);
     }
 
@@ -454,13 +458,13 @@ public class FileLib implements PascalLibrary {
     @Override
     @PascalMethod(description = "stop")
     public void shutdown() {
-        for (Map.Entry<String, FileEntry> entry : filesMap.entrySet()) {
+        for (Map.Entry<String, FileEntry> entry : mFilesMap.entrySet()) {
             try {
-                filesMap.get(entry.getKey()).close();
+                mFilesMap.get(entry.getKey()).close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            filesMap.remove(entry.getKey());
+            mFilesMap.remove(entry.getKey());
         }
     }
 
@@ -500,12 +504,12 @@ public class FileLib implements PascalLibrary {
             throws RuntimePascalException {
         if (args.length == 0) {
             assertFileOpenForInput(fileVariable);
-            filesMap.get(fileVariable.getPath()).nextLine();
+            mFilesMap.get(fileVariable.getPath()).nextLine();
         } else {
             setValueForVariables(fileVariable, args);
             if (!(args[args.length - 1].get() instanceof StringBuilder)
                     && !(args[args.length - 1].get() instanceof String)) {
-                filesMap.get(fileVariable.getPath()).nextLine();
+                mFilesMap.get(fileVariable.getPath()).nextLine();
             }
         }
     }

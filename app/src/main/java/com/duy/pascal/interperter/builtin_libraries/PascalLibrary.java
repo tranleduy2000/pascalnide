@@ -21,23 +21,42 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.Map;
 
-public interface PascalLibrary {
+public abstract class PascalLibrary {
 
-    boolean instantiate(Map<String, Object> pluginargs);
+    /**
+     * Empty constructor
+     */
+    public PascalLibrary() {
+
+    }
+
 
     /**
      * Invoked when the receiver is shut down.
      */
-    void shutdown();
+    public void shutdown() {
 
-    String getName();
+    }
 
-    void declareConstants(ExpressionContextMixin parentContext);
+    public abstract String getName();
 
-    void declareTypes(ExpressionContextMixin parentContext);
+    public void declareConstants(ExpressionContextMixin parentContext) {
 
-    void declareVariables(ExpressionContextMixin parentContext);
+    }
 
-    void declareFunctions(ExpressionContextMixin parentContext);
+    public void declareTypes(ExpressionContextMixin parentContext) {
 
+    }
+
+    public void declareVariables(ExpressionContextMixin parentContext) {
+
+    }
+
+    public void declareFunctions(ExpressionContextMixin parentContext) {
+
+    }
+
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
+    }
 }

@@ -35,7 +35,7 @@ import java.util.Map.Entry;
  * @author Felix Arends (felixarends@gmail.com)
  * @author Damon Kohler (damonkohler@gmail.com)
  */
-public class WakeLockFacade implements PascalLibrary {
+public class WakeLockFacade extends PascalLibrary {
 
     private final static String WAKE_LOCK_TAG =
             "com.googlecode.android_scripting.facade.PowerManagerFacade";

@@ -42,7 +42,7 @@ import java.util.Map;
  *
  * @author Frank Spychalski (frank.spychalski@gmail.com)
  */
-public class AndroidSettingLib implements PascalLibrary {
+public class AndroidSettingLib extends PascalLibrary {
     public static final String NAME = "aSetting".toLowerCase();
     private static final int AIRPLANE_MODE_OFF = 0;
     private static final int AIRPLANE_MODE_ON = 1;

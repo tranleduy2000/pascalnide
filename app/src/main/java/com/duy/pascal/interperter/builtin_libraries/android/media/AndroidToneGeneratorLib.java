@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * Generate DTMF tones.
  */
-public class AndroidToneGeneratorLib implements PascalLibrary {
+public class AndroidToneGeneratorLib extends PascalLibrary {
 
     public static final String NAME = "ATone";
     private  ToneGenerator mToneGenerator;

@@ -32,19 +32,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Map;
 
 /**
  * Created by Duy on 01-Mar-17.
  */
 
 @SuppressWarnings("unused")
-public class DosLib implements PascalLibrary {
+public class DosLib extends PascalLibrary {
 
     public static final String NAME = "dos";
 
     public DosLib() {
-
     }
 
     /**
@@ -75,11 +73,6 @@ public class DosLib implements PascalLibrary {
         month.set(calendar.get(Calendar.MONTH) + 1);
         mday.set(calendar.get(Calendar.DAY_OF_MONTH));
         wday.set(calendar.get(Calendar.DAY_OF_WEEK));
-    }
-
-    @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return true;
     }
 
     @Override

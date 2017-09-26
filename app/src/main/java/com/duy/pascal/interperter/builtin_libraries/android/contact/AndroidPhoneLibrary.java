@@ -51,15 +51,20 @@ import java.util.concurrent.Callable;
  * @author Damon Kohler (damonkohler@gmail.com)
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class AndroidPhoneLibrary implements PascalLibrary {
+@SuppressWarnings("unused")
+public class AndroidPhoneLibrary extends PascalLibrary {
 
-    private final AndroidUtilsLib mAndroidFacade;
-    private final AndroidEvent mEventFacade;
-    private final TelephonyManager mTelephonyManager;
-    private final Bundle mPhoneState;
-    private final Context mContext;
+    private AndroidUtilsLib mAndroidFacade;
+    private AndroidEvent mEventFacade;
+    private TelephonyManager mTelephonyManager;
+    private Bundle mPhoneState;
+    private Context mContext;
     private AndroidLibraryManager mManager;
     private PhoneStateListener mPhoneStateListener;
+
+    public AndroidPhoneLibrary() {
+
+    }
 
     public AndroidPhoneLibrary(AndroidLibraryManager manager) {
         mContext = manager.getContext();

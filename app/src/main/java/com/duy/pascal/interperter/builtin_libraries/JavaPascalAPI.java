@@ -21,14 +21,14 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
 
 /**
  * Created by Duy on 10-May-17.
  */
 
-public class JavaPascalAPI implements PascalLibrary {
-    //    @PascalMethod(getDescription = "create object")
+@SuppressWarnings("unused")
+public class JavaPascalAPI extends PascalLibrary {
+
     private Object newInstance(Class<?> c, Class... params) throws NoSuchMethodException,
             IllegalAccessException, InvocationTargetException, InstantiationException {
 
@@ -39,11 +39,6 @@ public class JavaPascalAPI implements PascalLibrary {
         Object o = constructor.newInstance();
 
         return o;
-    }
-
-    @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return false;
     }
 
     @Override

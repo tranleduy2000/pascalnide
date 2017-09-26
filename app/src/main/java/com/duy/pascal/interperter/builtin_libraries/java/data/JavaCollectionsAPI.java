@@ -17,7 +17,7 @@
 package com.duy.pascal.interperter.builtin_libraries.java.data;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.builtin_libraries.PascalLibraryImpl;
+import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.declaration.lang.types.JavaClassBasedType;
 
 import java.util.ArrayDeque;
@@ -53,9 +53,13 @@ import java.util.concurrent.PriorityBlockingQueue;
 /**
  * Created by Duy on 17-Jun-17.
  */
-
-public class JavaCollectionsAPI extends PascalLibraryImpl {
+@SuppressWarnings("unused")
+public class JavaCollectionsAPI extends PascalLibrary {
     public static final String NAME = "JavaCollections".toLowerCase();
+
+    public JavaCollectionsAPI() {
+
+    }
 
     @Override
     public void declareConstants(ExpressionContextMixin parentContext) {

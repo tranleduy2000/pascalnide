@@ -41,7 +41,7 @@ import java.util.Map;
  * @author Alexey Reznichenko (alexey.reznichenko@gmail.com)
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
-public class AndroidBatteryLib implements PascalLibrary {
+public class AndroidBatteryLib extends PascalLibrary {
     public static final String NAME = "aBattery".toLowerCase();
     /**
      * Power source is an AC charger.

@@ -85,7 +85,7 @@ import java.util.Map.Entry;
  * @author Damon Kohler (damonkohler@gmail.com)
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class LocationFacade implements PascalLibrary {
+public class LocationFacade extends PascalLibrary {
     private final AndroidEvent mEventFacade;
     private final Context mContext;
     private final Map<String, Location> mLocationUpdates;

@@ -32,7 +32,7 @@ import java.util.Map;
  * Created by Duy on 25-Apr-17.
  */
 
-public class AndroidClipboardLib implements PascalLibrary {
+public class AndroidClipboardLib extends PascalLibrary {
     public static final String NAME = "aclipboard";
     private final Context mContext;
     private ClipboardManagerCompat mClipboard = null;

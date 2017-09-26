@@ -43,7 +43,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * Created by Duy on 15-Jun-17.
  */
 
-public class GestureAPI implements PascalLibrary, View.OnTouchListener {
+public class GestureAPI extends PascalLibrary, View.OnTouchListener {
 
     private Queue<BaseGestureEvent> gestureEventQueue = new ConcurrentLinkedQueue<>();
     private ScaleGestureDetector mScaleDetector;

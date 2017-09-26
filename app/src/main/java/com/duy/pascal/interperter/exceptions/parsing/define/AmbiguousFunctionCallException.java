@@ -23,7 +23,8 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 import android.support.annotation.NonNull;
 
 public  class AmbiguousFunctionCallException extends ParsingException {
-    public AmbiguousFunctionCallException(@NonNull LineInfo line, @NonNull AbstractFunction possible, @NonNull AbstractFunction alternative) {
+    public AmbiguousFunctionCallException(@NonNull LineInfo line, @NonNull AbstractFunction possible,
+                                          @NonNull AbstractFunction alternative) {
         super(line, "Ambiguous function call could be interpreted as " + possible + " or as " + alternative);
     }
 }

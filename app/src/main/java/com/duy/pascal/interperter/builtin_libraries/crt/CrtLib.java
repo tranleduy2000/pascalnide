@@ -41,7 +41,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * <p>
  * Created by Duy on 28-Feb-17.
  */
-public class CrtLib implements PascalLibrary {
+public class CrtLib extends PascalLibrary {
     public static final String TAG = CrtLib.class.getSimpleName();
     public static final String NAME = "crt";
 
@@ -69,6 +69,9 @@ public class CrtLib implements PascalLibrary {
      */
     public CrtLib(ConsoleHandler handler) {
         this.handler = handler;
+    }
+
+    public CrtLib() {
 
     }
 

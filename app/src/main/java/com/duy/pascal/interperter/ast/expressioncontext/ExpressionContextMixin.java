@@ -150,8 +150,8 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         try {
             //load system function
             mPascalLibraryManager.loadSystemLibrary();
-            mPascalLibraryManager.addMethodFromLibrary(mFileHandler, new LineInfo(-1, "system"));
-            mPascalLibraryManager.addMethodFromLibrary(mIOHandler, new LineInfo(-1, "system"));
+            mPascalLibraryManager.addMethodFromLibrary(FileLib.class, mFileHandler, new LineInfo(-1, "system"));
+            mPascalLibraryManager.addMethodFromLibrary(IOLib.class, mIOHandler, new LineInfo(-1, "system"));
         } catch (PermissionDeniedException | LibraryNotFoundException e) {
             e.printStackTrace();
         }

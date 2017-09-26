@@ -32,7 +32,7 @@ import java.util.Map;
  * Created by Duy on 18-May-17.
  */
 
-public class HtmlLib implements PascalLibrary {
+public class HtmlLib extends PascalLibrary {
     public static final String NAME = "aHtml".toLowerCase();
 
 

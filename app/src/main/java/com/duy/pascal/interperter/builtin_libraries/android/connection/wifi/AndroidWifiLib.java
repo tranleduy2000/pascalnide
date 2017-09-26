@@ -36,11 +36,15 @@ import java.util.Map;
 /**
  * Wifi functions.
  */
-public class AndroidWifiLib implements PascalLibrary {
+public class AndroidWifiLib extends PascalLibrary {
 
     public static final String NAME = "aWifi".toLowerCase();
     private WifiManager mWifi;
     private WifiLock mLock;
+
+    public AndroidWifiLib() {
+
+    }
 
     @SuppressLint("WifiManagerLeak")
     public AndroidWifiLib(AndroidLibraryManager manager) {

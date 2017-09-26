@@ -34,7 +34,7 @@ import java.util.Map;
  *
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class AndroidSpeechRecognitionLib implements PascalLibrary {
+public class AndroidSpeechRecognitionLib extends PascalLibrary {
     public static final String NAME = "aRecognition".toLowerCase();
     private AndroidUtilsLib mAndroidFacade;
 

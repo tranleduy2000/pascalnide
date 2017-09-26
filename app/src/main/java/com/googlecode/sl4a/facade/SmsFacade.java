@@ -47,7 +47,7 @@ import java.util.Map;
  *
  * @author MeanEYE.rcf (meaneye.rcf@gmail.com)
  */
-public class SmsFacade implements PascalLibrary {
+public class SmsFacade extends PascalLibrary {
 
     private final ContentResolver mContentResolver;
     private final SmsManager mSms;

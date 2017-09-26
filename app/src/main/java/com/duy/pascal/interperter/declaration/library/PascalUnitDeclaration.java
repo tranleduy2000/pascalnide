@@ -57,7 +57,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalLibrary {
+public class PascalUnitDeclaration extends ExecutableCodeUnit extends PascalLibrary {
     private ProgramHandler handler;
 
     public PascalUnitDeclaration(Reader program,
@@ -70,7 +70,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
     }
 
     @Override
-    protected UnitExpressionContext getExpressionContextInstance(ProgramHandler handler) {
+    protected UnitExpressionContext createExpressionContext(ProgramHandler handler) {
         return new UnitExpressionContext(handler);
     }
 

@@ -32,7 +32,7 @@ import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileExceptio
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotAssignException;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotOpenException;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotOpenForInputException;
-import com.duy.pascal.interperter.builtin_libraries.runtime_exceptions.CanNotReadVariableException;
+import com.duy.pascal.interperter.builtin_libraries.exceptions.CanNotReadVariableException;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;

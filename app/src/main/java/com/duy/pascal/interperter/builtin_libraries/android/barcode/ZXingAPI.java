@@ -15,11 +15,15 @@ import java.util.Map;
 /**
  * Created by Duy on 01-May-17.
  */
-@SuppressWarnings("DefaultFileTemplate")
-public class ZXingAPI implements PascalLibrary {
+@SuppressWarnings("unused")
+public class ZXingAPI extends PascalLibrary {
     public static final String NAME = "barCode".toLowerCase();
     private AndroidUtilsLib mAndroidFacade;
     private Context context;
+
+    public ZXingAPI() {
+
+    }
 
     public ZXingAPI(AndroidLibraryManager manager) throws RuntimePascalException {
         mAndroidFacade = new AndroidUtilsLib(manager);

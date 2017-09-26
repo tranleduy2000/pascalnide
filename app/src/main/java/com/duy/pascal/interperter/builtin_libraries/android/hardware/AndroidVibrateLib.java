@@ -32,7 +32,7 @@ import java.util.Map;
  * Created by Duy on 25-Apr-17.
  */
 
-public class AndroidVibrateLib implements PascalLibrary {
+public class AndroidVibrateLib extends PascalLibrary {
     public static final String NAME = "aVibrate".toLowerCase();
     private Context mContext;
     private Vibrator mVibrator;

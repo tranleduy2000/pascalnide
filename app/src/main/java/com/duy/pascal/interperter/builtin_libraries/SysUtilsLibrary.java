@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.builtin_libraries;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
-import com.duy.pascal.interperter.builtin_libraries.runtime_exceptions.EConvertError;
+import com.duy.pascal.interperter.builtin_libraries.exceptions.EConvertError;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
@@ -29,17 +29,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Created by Duy on 12-Apr-17.
  */
-public class SysUtilsLibrary implements PascalLibrary {
+@SuppressWarnings("unused")
+public class SysUtilsLibrary extends PascalLibrary {
     public static final String NAME = "sysUtils".toLowerCase();
 
-    @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return false;
+    public SysUtilsLibrary() {
+
     }
 
     @Override

@@ -118,7 +118,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author MeanEYE.rcf (meaneye.rcf@gmail.com)
  */
-public class AndroidDialogLib implements PascalLibrary {
+public class AndroidDialogLib extends PascalLibrary {
     public static final String NAME = "aDialog".toLowerCase();
     // This value should not be used for menu groups outside this class.
     private static final int MENU_GROUP_ID = Integer.MAX_VALUE;

@@ -60,7 +60,7 @@ import java.util.concurrent.TimeUnit;
  * @author Damon Kohler (damonkohler@gmail.com)
  * @author John Karwatzki (jokar49@gmail.com)
  */
-public class AndroidMediaRecorderLib implements PascalLibrary {
+public class AndroidMediaRecorderLib extends PascalLibrary {
 
     private final MediaRecorder mMediaRecorder = new MediaRecorder();
     private final Context mContext;

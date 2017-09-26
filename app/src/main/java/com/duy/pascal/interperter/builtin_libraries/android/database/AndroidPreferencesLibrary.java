@@ -31,9 +31,14 @@ import com.googlecode.sl4a.rpc.RpcOptional;
 import java.io.IOException;
 import java.util.Map;
 
-public class AndroidPreferencesLibrary implements PascalLibrary {
+@SuppressWarnings("unused")
+public class AndroidPreferencesLibrary extends PascalLibrary {
 
     private Context mContext;
+
+    public AndroidPreferencesLibrary() {
+
+    }
 
     public AndroidPreferencesLibrary(AndroidLibraryManager manager) {
         mContext = manager.getContext();

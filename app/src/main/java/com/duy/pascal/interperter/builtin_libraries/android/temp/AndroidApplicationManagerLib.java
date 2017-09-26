@@ -39,7 +39,7 @@ import java.util.Set;
 /**
  * Facade for managing Applications.
  */
-public class AndroidApplicationManagerLib implements PascalLibrary {
+public class AndroidApplicationManagerLib extends PascalLibrary {
 
     private AndroidUtilsLib mAndroidFacade;
     private ActivityManager mActivityManager;
