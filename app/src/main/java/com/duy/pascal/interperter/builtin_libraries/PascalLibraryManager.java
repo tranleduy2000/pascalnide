@@ -100,7 +100,7 @@ import java.util.Map;
  * Created by Duy on 08-Apr-17.
  */
 public class PascalLibraryManager {
-    public static final Map<Name, Class<? extends PascalLibrary>> MAP_LIBRARIES = new Hashtable<>();
+    public static final Map<Name, Class<? extends IPascalLibrary>> MAP_LIBRARIES = new Hashtable<>();
 
     static {
         put(CrtLib.NAME, CrtLib.class);
@@ -148,8 +148,12 @@ public class PascalLibraryManager {
         facadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkVersion(), handler);
     }
 
-    private static void put(String name, Class<? extends PascalLibrary> claszz) {
-        MAP_LIBRARIES.put(Name.create(name), claszz);
+    private static void put(String name, Class<? extends IPascalLibrary> claszz) {
+        try {
+            MAP_LIBRARIES.put(Name.create(name), claszz);
+        } catch (Exception e) {
+
+        }
     }
 
     public static ArrayList<DescriptionImpl> getAllMethodDescription(Class<?>... classes) {
@@ -180,7 +184,7 @@ public class PascalLibraryManager {
      * load method from a class
      */
 
-    public void addMethodFromClass(Class<? extends PascalLibrary> t, LineInfo lineNumber) throws PermissionDeniedException, LibraryNotFoundException {
+    public void addMethodFromClass(Class<? extends IPascalLibrary> t, LineInfo lineNumber) throws PermissionDeniedException, LibraryNotFoundException {
         Object parent = null;
         Constructor constructor;
         try {
@@ -257,7 +261,7 @@ public class PascalLibraryManager {
         addMethodFromClass(SystemLibrary.class, new LineInfo(-1, "system"));
     }
 
-    public void addMethodFromLibrary(Class<? extends PascalLibrary> clazz,
+    public void addMethodFromLibrary(Class<? extends IPascalLibrary> clazz,
                                      @Nullable Object instance, @Nullable LineInfo line) throws PermissionDeniedException {
         if (instance instanceof IAndroidLibrary) {
             String[] permissions = ((IAndroidLibrary) instance).needPermission();

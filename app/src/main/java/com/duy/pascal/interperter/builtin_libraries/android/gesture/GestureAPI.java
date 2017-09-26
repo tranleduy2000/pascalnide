@@ -22,6 +22,8 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
+import com.duy.pascal.frontend.runnable.ProgramHandler;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.android.gesture.dectector.MoveGestureDetector;
@@ -32,8 +34,6 @@ import com.duy.pascal.interperter.builtin_libraries.android.gesture.listener.Rot
 import com.duy.pascal.interperter.builtin_libraries.android.gesture.listener.ScaleListener;
 import com.duy.pascal.interperter.builtin_libraries.android.gesture.listener.ShoveListener;
 import com.duy.pascal.interperter.builtin_libraries.android.gesture.model.BaseGestureEvent;
-import com.duy.pascal.frontend.runnable.ProgramHandler;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 import java.util.Map;
 import java.util.Queue;
@@ -43,7 +43,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * Created by Duy on 15-Jun-17.
  */
 
-public class GestureAPI extends PascalLibrary, View.OnTouchListener {
+public class GestureAPI extends PascalLibrary implements View.OnTouchListener {
 
     private Queue<BaseGestureEvent> gestureEventQueue = new ConcurrentLinkedQueue<>();
     private ScaleGestureDetector mScaleDetector;

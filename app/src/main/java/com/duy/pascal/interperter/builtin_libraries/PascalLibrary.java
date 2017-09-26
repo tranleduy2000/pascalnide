@@ -21,7 +21,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.Map;
 
-public abstract class PascalLibrary {
+public abstract class PascalLibrary implements IPascalLibrary {
 
     /**
      * Empty constructor
@@ -34,24 +34,28 @@ public abstract class PascalLibrary {
     /**
      * Invoked when the receiver is shut down.
      */
+    @Override
     public void shutdown() {
 
     }
 
-    public abstract String getName();
 
+    @Override
     public void declareConstants(ExpressionContextMixin parentContext) {
 
     }
 
+    @Override
     public void declareTypes(ExpressionContextMixin parentContext) {
 
     }
 
+    @Override
     public void declareVariables(ExpressionContextMixin parentContext) {
 
     }
 
+    @Override
     public void declareFunctions(ExpressionContextMixin parentContext) {
 
     }

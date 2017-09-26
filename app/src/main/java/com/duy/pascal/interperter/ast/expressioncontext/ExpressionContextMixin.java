@@ -15,7 +15,7 @@ import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.LibraryIdentifierAccess;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.VariableAccess;
-import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
+import com.duy.pascal.interperter.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibraryManager;
 import com.duy.pascal.interperter.builtin_libraries.file.FileLib;
 import com.duy.pascal.interperter.builtin_libraries.io.IOLib;
@@ -504,7 +504,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
             AtomicBoolean found = new AtomicBoolean(false);
             //find builtin library
-            Class<? extends PascalLibrary> classLibrary = MAP_LIBRARIES.get(((WordToken) next).getName());
+            Class<? extends IPascalLibrary> classLibrary = MAP_LIBRARIES.get(((WordToken) next).getName());
             if (classLibrary != null) {
                 found.set(true);
                 mLibrariesNames.add(((WordToken) next).name);

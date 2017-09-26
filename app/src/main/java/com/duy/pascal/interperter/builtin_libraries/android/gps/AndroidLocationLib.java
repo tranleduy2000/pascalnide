@@ -77,6 +77,10 @@ public class AndroidLocationLib implements IAndroidLibrary {
         }
     }
 
+    public AndroidLocationLib() {
+
+    }
+
     @Override
     public void shutdown() {
         stopLocating();

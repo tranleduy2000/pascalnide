@@ -20,6 +20,6 @@ package com.duy.pascal.interperter.builtin_libraries;
  * Created by Duy on 01-Jun-17.
  */
 
-public interface IAndroidLibrary extends PascalLibrary {
+public interface IAndroidLibrary extends IPascalLibrary {
     String[] needPermission();
 }

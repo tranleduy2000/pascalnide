@@ -62,7 +62,7 @@ public class CodeSampleActivity extends BaseActivity implements CodeSampleAdapte
         mFileManager = new FileManager(getApplicationContext());
 
         setContentView(R.layout.activity_code_sample);
-        mToolbar = findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.code_sample);
