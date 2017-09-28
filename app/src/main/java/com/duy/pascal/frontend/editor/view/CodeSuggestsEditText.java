@@ -21,9 +21,19 @@ import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.method.QwertyKeyListener;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.ListAdapter;
+import android.widget.ListPopupWindow;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.duy.pascal.frontend.DLog;
@@ -31,9 +41,9 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.autocomplete.completion.SuggestionProvider;
 import com.duy.pascal.frontend.autocomplete.completion.model.Description;
 import com.duy.pascal.frontend.autocomplete.completion.model.DescriptionImpl;
-import com.duy.pascal.frontend.autocomplete.completion.KeyWord;
 import com.duy.pascal.frontend.editor.view.adapters.CodeSuggestAdapter;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.util.ArrayList;
@@ -49,13 +59,22 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
 
     public int mCharHeight = 0;
     public int mCharWidth = 0;
-    protected SymbolsTokenizer mTokenizer;
+
+    protected MultiAutoCompleteTextView.Tokenizer mTokenizer;
     protected boolean mEnableSyntaxParser = true;
     @NonNull
     protected ArrayList<LineInfo> mLineErrors = new ArrayList<>();
     private CodeSuggestAdapter mAdapter;
     private SuggestionProvider pascalParserHelper;
     private ParseTask parseTask;
+
+    private ListPopupWindow mPopup;
+    private int mDropDownAnchorId;
+    private boolean mBlockCompletion;
+    private AdapterView.OnItemClickListener mItemClickListener;
+    private AdapterView.OnItemSelectedListener mItemSelectedListener;
+    private boolean mDropDownDismissedOnCompletion = true;
+    private Filter mFilter;
 
     public CodeSuggestsEditText(Context context) {
         super(context);
@@ -72,22 +91,29 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         init(context);
     }
 
-    /**
-     * slipt string in edittext and put it to list keyword
-     */
-    public void setDefaultKeyword() {
-        ArrayList<Description> data = new ArrayList<>();
-        for (String s : KeyWord.ALL_KEY_WORD) {
-            data.add(new DescriptionImpl(StructureType.TYPE_KEY_WORD, s));
-        }
-        setSuggestData(data);
+    public void setDropDownAnchorId(int mDropDownAnchorId) {
+        this.mDropDownAnchorId = mDropDownAnchorId;
     }
 
     private void init(Context context) {
         mTokenizer = new SymbolsTokenizer();
         setTokenizer(mTokenizer);
-        setThreshold(1);
-        invalidateCharHeight();
+        // setThreshold(1);
+        calculateCharHeight();
+
+        mDropDownAnchorId = View.NO_ID;
+        mPopup = new ListPopupWindow(context);
+        mPopup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mPopup.setPromptPosition(ListPopupWindow.POSITION_PROMPT_BELOW);
+        mPopup.setOnItemClickListener(new DropDownItemClickListener());
+
+        //  mPopup.setWidth(getWidth());
+        //  mPopup.setHeight(getHeight());
+        onDropdownChangeSize(getWidth(), getHeight());
+    }
+
+    public void setTokenizer(MultiAutoCompleteTextView.Tokenizer t) {
+        mTokenizer = t;
     }
 
     /**
@@ -101,7 +127,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         return r.bottom - r.top;
     }
 
-    private void invalidateCharHeight() {
+    private void calculateCharHeight() {
         mCharHeight = (int) Math.ceil(getPaint().getFontSpacing());
         mCharHeight = (int) getPaint().measureText("M");
     }
@@ -169,21 +195,50 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         onPopupChangePosition();
     }
 
-    @Override
-    public void showDropDown() {
-        Log.d(TAG, "showDropDown() called");
-        super.showDropDown();
+    public void setDropDownWidth(int width) {
+        mPopup.setWidth(width);
     }
 
-    @Override
-    public boolean enoughToFilter() {
-        return true;
+    public int getDropDownHeight() {
+        return mPopup.getHeight();
+    }
+
+    public void setDropDownHeight(int height) {
+        mPopup.setHeight(height);
+    }
+
+    public void showDropDown() {
+        Log.d(TAG, "showDropDown() called");
+        if (mPopup.getAnchorView() == null) {
+            if (mDropDownAnchorId != View.NO_ID) {
+                mPopup.setAnchorView(getRootView().findViewById(mDropDownAnchorId));
+            } else {
+                mPopup.setAnchorView(this);
+            }
+        }
+        if (mAdapter.getCount() > 0) {
+            mPopup.show();
+            mPopup.getListView().setOverScrollMode(View.OVER_SCROLL_ALWAYS);
+        }
+    }
+
+    public boolean isPopupShowing() {
+        return mPopup.isShowing();
+    }
+
+    public void setDropDownHorizontalOffset(int offset) {
+        mPopup.setHorizontalOffset(offset);
+    }
+
+    public void setDropDownVerticalOffset(int offset) {
+        mPopup.setVerticalOffset(offset);
     }
 
     /**
      * invalidate data for auto suggest
      */
     public void setSuggestData(ArrayList<Description> data) {
+        Log.d(TAG, "setSuggestData() called with: data = [" + data + "]");
         if (mAdapter != null) {
             mAdapter.clearAllData();
             mAdapter.addData(data);
@@ -193,15 +248,94 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
             setAdapter(mAdapter);
         }
         if (data.size() > 0) {
-            showDropDown();
             onPopupChangePosition();
             onDropdownChangeSize(getWidth(), getHeight());
+            showDropDown();
+        } else if (data.size() == 0) {
+            dismissDropDown();
         }
+    }
+
+    public <T extends ListAdapter & Filterable> void setAdapter(CodeSuggestAdapter adapter) {
+        mAdapter = adapter;
+        if (mAdapter != null) {
+            //noinspection unchecked
+            mFilter = mAdapter.getFilter();
+        } else {
+            mFilter = null;
+        }
+
+        mPopup.setAdapter(mAdapter);
     }
 
     public void setLineError(@NonNull LineInfo lineError) {
         this.mLineErrors.clear();
         this.mLineErrors.add(lineError);
+    }
+
+    private void performCompletion(View selectedView, int position, long id) {
+        if (isPopupShowing()) {
+            Object selectedItem;
+            if (position < 0) {
+                selectedItem = mPopup.getSelectedItem();
+            } else {
+                selectedItem = mAdapter.getItem(position);
+            }
+            if (selectedItem == null) {
+                Log.w(TAG, "performCompletion: no selected item");
+                return;
+            }
+
+            mBlockCompletion = true;
+            replaceText(convertSelectionToString(selectedItem));
+            mBlockCompletion = false;
+
+            if (mItemClickListener != null) {
+                final ListPopupWindow list = mPopup;
+
+                if (selectedView == null || position < 0) {
+                    selectedView = list.getSelectedView();
+                    position = list.getSelectedItemPosition();
+                    id = list.getSelectedItemId();
+                }
+                mItemClickListener.onItemClick(list.getListView(), selectedView, position, id);
+            }
+        }
+
+        if (mDropDownDismissedOnCompletion) {
+            dismissDropDown();
+        }
+    }
+
+    /**
+     * <p>Converts the selected item from the drop down list into a sequence
+     * of character that can be used in the edit box.</p>
+     *
+     * @param selectedItem the item selected by the user for completion
+     * @return a sequence of characters representing the selected suggestion
+     */
+    protected CharSequence convertSelectionToString(Object selectedItem) {
+        return mFilter.convertResultToString(selectedItem);
+    }
+
+    protected void replaceText(CharSequence text) {
+        clearComposingText();
+
+        int end = getSelectionEnd();
+        int start = mTokenizer.findTokenStart(getText(), end);
+
+        Editable editable = getText();
+        String original = TextUtils.substring(editable, start, end);
+
+        QwertyKeyListener.markAsReplaced(editable, start, end, original);
+        editable.replace(start, end, mTokenizer.terminateToken(text));
+    }
+
+    /**
+     * <p>Closes the drop down if present on screen.</p>
+     */
+    public void dismissDropDown() {
+        mPopup.dismiss();
     }
 
     public static class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
@@ -244,6 +378,12 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         }
     }
 
+    private class DropDownItemClickListener implements AdapterView.OnItemClickListener {
+        public void onItemClick(AdapterView parent, View v, int position, long id) {
+            performCompletion(v, position, id);
+        }
+    }
+
     private class ParseTask extends AsyncTask<Object, Object, ArrayList<Description>> {
         private String source;
         private String srcPath;
@@ -281,9 +421,11 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
                 setSuggestData(new ArrayList<Description>());
             } else {
                 setSuggestData(result);
+                showDropDown();
             }
             if (pascalParserHelper.getParsingException() != null) {
-                setLineError(pascalParserHelper.getParsingException().getLineInfo());
+                ParsingException parsingException = pascalParserHelper.getParsingException();
+                setLineError(parsingException.getLineInfo());
             }
         }
     }

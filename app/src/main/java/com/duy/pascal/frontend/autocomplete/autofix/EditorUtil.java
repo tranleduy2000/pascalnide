@@ -50,8 +50,6 @@ class EditorUtil {
     }
 
     static TextData getText(EditText editable, LineInfo startLine, LineInfo endLine) {
-        Log.d(TAG, "getText() called with: startLine = [" + startLine + "], endLine = [" + endLine + "]");
-
         int start = editable.getLayout().getLineStart(startLine.getLine());
         int end = editable.getLayout().getLineEnd(endLine.getLine());
 
@@ -64,7 +62,6 @@ class EditorUtil {
             offset = 0;
         }
         TextData textData = new TextData(text, offset);
-        Log.d(TAG, "getText() returned: " + textData);
         return textData;
     }
 }

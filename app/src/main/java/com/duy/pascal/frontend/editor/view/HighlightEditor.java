@@ -37,7 +37,6 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -493,7 +492,6 @@ public class HighlightEditor extends CodeSuggestsEditText
                     //(start + offset) index
                     if (lineInfo.getLength() > -1) {
                         lineEnd = lineStart + lineInfo.getLength();
-                        Log.d(TAG, "highlightLineError: " + lineInfo.getLength());
                     }
 
                     //normalize

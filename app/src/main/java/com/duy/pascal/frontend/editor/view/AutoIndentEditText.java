@@ -18,7 +18,7 @@ package com.duy.pascal.frontend.editor.view;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Layout;
@@ -33,7 +33,7 @@ import com.duy.pascal.frontend.EditorSetting;
  * Created by Duy on 12-May-17.
  */
 
-public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
+public class AutoIndentEditText extends AppCompatEditText {
     public static final String TAB_CHARACTER = "  ";
     public static final String CURSOR = "\u2622";
     private static final String TAG = "AutoIndentEditText";
