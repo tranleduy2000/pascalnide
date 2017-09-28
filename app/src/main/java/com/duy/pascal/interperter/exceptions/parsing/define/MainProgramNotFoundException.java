@@ -31,7 +31,7 @@ public class MainProgramNotFoundException extends ParsingException {
     }
 
     @Override
-    public boolean getCanAutoFix() {
+    public boolean canQuickFix() {
         return true;
     }
 }

@@ -99,7 +99,7 @@ public class DialogHelper {
         });
 
         if (e instanceof ParsingException) {
-            if (((ParsingException) e).getCanAutoFix()) {
+            if (((ParsingException) e).canQuickFix()) {
                 //set event for button Auto fix
                 dialog.findViewById(R.id.btn_auto_fix).setVisibility(View.VISIBLE);
                 if (e instanceof UnknownIdentifierException) {

@@ -23,6 +23,7 @@ import android.text.Editable;
 import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 
 import com.duy.pascal.frontend.editor.view.HighlightEditor;
 import com.duy.pascal.frontend.themefont.themes.database.CodeTheme;
@@ -154,6 +155,7 @@ public class CodeHighlighter implements Highlighter {
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         for (Matcher m = KEYWORDS.matcher(textToHighlight); m.find(); ) {
+            Log.d(TAG, "highlightOther: match " + m.group());
             allText.setSpan(new ForegroundColorSpan(codeTheme.getKeywordColor()),
                     start + m.start(),
                     start + m.end(),

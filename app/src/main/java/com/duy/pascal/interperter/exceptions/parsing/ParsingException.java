@@ -49,7 +49,7 @@ public class ParsingException extends Exception {
         return this.lineInfo + ":" + this.getMessage();
     }
 
-    public boolean getCanAutoFix() {
+    public boolean canQuickFix() {
         return false;
     }
 }

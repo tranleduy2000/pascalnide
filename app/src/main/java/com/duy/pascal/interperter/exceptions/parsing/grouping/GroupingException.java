@@ -29,14 +29,11 @@ public class GroupingException extends ParsingException {
     private Token openToken;
     @Nullable
     private Token closeToken;
+    @Nullable
     private Exception caused;
 
     public GroupingException(@Nullable LineInfo line, @NonNull String message) {
         super(line, message);
-    }
-
-    public GroupingException(@Nullable LineInfo line) {
-        super(line);
     }
 
     public GroupingException(@Nullable LineInfo line, @NonNull Type exceptionTypes, @NonNull Token openToken, @NonNull Token closeToken) {
@@ -52,50 +49,55 @@ public class GroupingException extends ParsingException {
     }
 
     @Nullable
-    public final Type getExceptionTypes() {
+    public Type getExceptionTypes() {
         return this.exceptionTypes;
     }
 
-    public final void setExceptionTypes(@Nullable Type var1) {
+    public void setExceptionTypes(@Nullable Type var1) {
         this.exceptionTypes = var1;
     }
 
     @Nullable
-    public final Token getOpenToken() {
+    public Token getOpenToken() {
         return this.openToken;
     }
 
-    public final void setOpenToken(@Nullable Token var1) {
+    public void setOpenToken(@Nullable Token var1) {
         this.openToken = var1;
     }
 
     @Nullable
-    public final Token getCloseToken() {
+    public Token getCloseToken() {
         return this.closeToken;
     }
 
-    public final void setCloseToken(@Nullable Token var1) {
+    public void setCloseToken(@Nullable Token var1) {
         this.closeToken = var1;
     }
 
     @Nullable
-    public final Exception getCaused() {
+    public Exception getCaused() {
         return this.caused;
     }
 
-    public final void setCaused(@Nullable Exception var1) {
+    public void setCaused(@Nullable Exception var1) {
         this.caused = var1;
     }
 
     @Nullable
     public String getMessage() {
-        return exceptionTypes.message + ": " + (caused != null ? caused.getMessage() : "");
+        if (exceptionTypes != null) {
+            return exceptionTypes.message + ": " + (caused != null ? caused.getMessage() : "");
+        }
+        if (caused != null) {
+            return caused.getMessage();
+        }
+        return super.getMessage();
     }
 
-    public boolean getCanAutoFix() {
+    public boolean canQuickFix() {
         return this.exceptionTypes == Type.UNFINISHED_BEGIN_END;
     }
-
 
     public enum Type {
         MISMATCHED_PARENTHESES("Mismatched parentheses"),

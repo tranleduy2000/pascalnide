@@ -64,7 +64,7 @@ public class UnknownIdentifierException extends ParsingException {
         this.fitType = var1;
     }
 
-    public boolean getCanAutoFix() {
+    public boolean canQuickFix() {
         return true;
     }
 

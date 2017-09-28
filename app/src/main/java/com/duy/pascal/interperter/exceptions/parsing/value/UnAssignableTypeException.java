@@ -31,7 +31,7 @@ public  class UnAssignableTypeException extends ParsingException {
         this.runtimeValue = runtimeValue;
     }
 
-    public boolean getCanAutoFix() {
+    public boolean canQuickFix() {
         return true;
     }
 

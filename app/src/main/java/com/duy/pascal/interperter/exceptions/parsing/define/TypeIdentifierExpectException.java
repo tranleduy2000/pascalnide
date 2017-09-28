@@ -37,7 +37,7 @@ public class TypeIdentifierExpectException extends ParsingException {
         this.scope = scope;
     }
 
-    public boolean getCanAutoFix() {
+    public boolean canQuickFix() {
         return true;
     }
 

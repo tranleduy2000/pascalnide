@@ -53,7 +53,7 @@ public class ChangeValueConstantException extends ParsingException {
         return "can not change value of constant " + this.constant;
     }
 
-    public boolean getCanAutoFix() {
+    public boolean canQuickFix() {
         return true;
     }
 

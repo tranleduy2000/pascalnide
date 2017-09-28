@@ -36,7 +36,6 @@ import android.text.method.MovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -468,8 +467,8 @@ public class HighlightEditor extends CodeSuggestsEditText
         return -1;
     }
 
-    private <T> void removeSpan(Editable e, Class<T> clazz) {
-        T spans[] = e.getSpans(0, e.length(), clazz);
+    private <T> void removeSpan(Editable e, Class<T> clazz, int start, int end) {
+        T spans[] = e.getSpans(start, end, clazz);
         for (T span : spans) {
             e.removeSpan(span);
         }
@@ -477,7 +476,7 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     private void highlightLineError(Editable e) {
         try {
-            removeSpan(e, ErrorSpan.class);
+            removeSpan(e, ErrorSpan.class, 0, length());
             //high light error lineInfo
             for (LineInfo lineInfo : mLineErrors) {
                 Layout layout = getLayout();
@@ -723,30 +722,9 @@ public class HighlightEditor extends CodeSuggestsEditText
      * remove span from start to end
      */
     private void clearSpans(Editable e, int start, int end) {
-        {
-            ForegroundColorSpan spans[] = e.getSpans(start, end, ForegroundColorSpan.class);
-            for (ForegroundColorSpan span : spans) {
-                e.removeSpan(span);
-            }
-        }
-        {
-            BackgroundColorSpan spans[] = e.getSpans(start, end, BackgroundColorSpan.class);
-            for (BackgroundColorSpan span : spans) {
-                e.removeSpan(span);
-            }
-        }
-        {
-            StyleSpan[] spans = e.getSpans(start, end, StyleSpan.class);
-            for (StyleSpan span : spans) {
-                e.removeSpan(span);
-            }
-        }
-        {
-            UnderlineSpan[] spans = e.getSpans(start, end, UnderlineSpan.class);
-            for (UnderlineSpan span : spans) {
-                e.removeSpan(span);
-            }
-        }
+        removeSpan(e, ForegroundColorSpan.class, start, end);
+        removeSpan(e, BackgroundColorSpan.class, start, end);
+        removeSpan(e, StyleSpan.class, start, end);
     }
 
     public void highlight(boolean newText) {

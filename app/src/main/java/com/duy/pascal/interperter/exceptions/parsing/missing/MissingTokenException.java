@@ -27,7 +27,7 @@ public abstract class MissingTokenException extends ParsingException {
         super(line);
     }
 
-    public boolean getCanAutoFix() {
+    public boolean canQuickFix() {
         return true;
     }
 

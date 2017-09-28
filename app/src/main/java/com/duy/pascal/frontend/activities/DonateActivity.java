@@ -161,7 +161,7 @@ public class DonateActivity extends BaseActivity implements IabBroadcastReceiver
     }
 
     private void purchase(String sku) {
-        FirebaseAnalytics.getInstance(this).logEvent("purchase" + sku, new Bundle());
+        FirebaseAnalytics.getInstance(this).logEvent("purchase_" + sku, new Bundle());
         String payload = "";
         try {
             mIabHelper.launchPurchaseFlow(this, sku, REQUEST_DONATE, mPurchaseFinishedListener, payload);

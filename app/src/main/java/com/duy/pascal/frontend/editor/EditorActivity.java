@@ -40,15 +40,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.autocomplete.autofix.AutoFixHelper;
 import com.duy.pascal.frontend.autocomplete.autofix.command.AutoFixCommand;
+import com.duy.pascal.frontend.autocomplete.autofix.dialog.QuickFixDialog;
 import com.duy.pascal.frontend.autocomplete.completion.model.Description;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.sample.activities.DocumentActivity;
 import com.duy.pascal.frontend.dialog.DialogFragmentFixExpectToken;
-import com.duy.pascal.frontend.dialog.DialogHelper;
 import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.file.util.FileUtils;
@@ -316,8 +315,8 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     private void showErrorDialog(Exception e) {
-        this.mDialog = DialogHelper.showErrorDialog(this, e);
-        DLog.e(e);
+        QuickFixDialog quickFixDialog = QuickFixDialog.newInstance(e);
+        quickFixDialog.show(getSupportFragmentManager(), QuickFixDialog.TAG);
     }
 
     @Override
@@ -694,6 +693,13 @@ public class EditorActivity extends BaseEditorActivity implements
             if (currentFragment != null) {
                 currentFragment.autoFix(e);
             }
+        }
+    }
+
+    public void executeCommand(AutoFixCommand command) {
+        EditorFragment currentFragment = mPagerAdapter.getCurrentFragment();
+        if (currentFragment != null) {
+            currentFragment.autoFix(command);
         }
     }
 

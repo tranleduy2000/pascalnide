@@ -136,6 +136,10 @@ public class EditorFragment extends Fragment implements EditorController {
         }
     }
 
+    public void autoFix(@NonNull AutoFixCommand command) {
+        command.execute(mCodeEditor);
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

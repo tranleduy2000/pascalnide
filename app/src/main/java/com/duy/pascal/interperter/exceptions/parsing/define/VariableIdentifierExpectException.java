@@ -54,7 +54,7 @@ public class VariableIdentifierExpectException extends ParsingException {
     }
 
     @Override
-    public boolean getCanAutoFix() {
+    public boolean canQuickFix() {
         return true;
     }
 

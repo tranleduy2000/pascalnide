@@ -250,5 +250,6 @@
     <!--Donate-->
     <string name="donate_for_project">Project Donation</string>
     <string name="thank_you_for_your_support_for_open_source_software">Thank you for supporting open source software.</string>
+    <string name="some_suggestion">Some suggestion</string>
 </resources>
 

@@ -16,6 +16,7 @@
 
 package com.duy.pascal.frontend.autocomplete.autofix;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -111,6 +112,12 @@ public class AutoFixHelper {
                 editable.setSuggestData(KeyWord.DATA_TYPE);
                 editable.enableTextWatcher();
             }
+
+            @Nullable
+            @Override
+            public CharSequence getTitle(Context context) {
+                return null;
+            }
         };
     }
 
@@ -203,6 +210,12 @@ public class AutoFixHelper {
                     changeTypeConst(editable, text, (ConstantAccess) exception.getValue(), exception.getTargetType());
                 }
             }
+
+            @Nullable
+            @Override
+            public CharSequence getTitle(Context context) {
+                return null;
+            }
         };
 
     }
@@ -217,6 +230,12 @@ public class AutoFixHelper {
                 editable.getText().insert(start, insertText);
                 editable.setSelection(start, insertText.length() + start);
                 editable.showKeyboard();
+            }
+
+            @Nullable
+            @Override
+            public CharSequence getTitle(Context context) {
+                return null;
             }
         };
     }
@@ -238,6 +257,12 @@ public class AutoFixHelper {
                     editable.setSelection(editable.length() - text.length() + 1, editable.length());
                     editable.showKeyboard();
                 }
+            }
+
+            @Nullable
+            @Override
+            public CharSequence getTitle(Context context) {
+                return null;
             }
         };
     }
@@ -284,6 +309,12 @@ public class AutoFixHelper {
                     editable.setSelection(insertPosition + matcher.start());
                     editable.showKeyboard();
                 }
+            }
+
+            @Nullable
+            @Override
+            public CharSequence getTitle(Context context) {
+                return null;
             }
         };
     }
@@ -334,6 +365,12 @@ public class AutoFixHelper {
             @Override
             public void execute(EditorView editable) {
                 declareVar(getText(editable, start, end), name, type, initValue).execute(editable);
+            }
+
+            @Nullable
+            @Override
+            public CharSequence getTitle(Context context) {
+                return null;
             }
         };
     }
@@ -390,6 +427,12 @@ public class AutoFixHelper {
                 editable.setSuggestData(KeyWord.DATA_TYPE);
                 editable.enableTextWatcher();
             }
+
+            @Nullable
+            @Override
+            public CharSequence getTitle(Context context) {
+                return null;
+            }
         };
     }
 
@@ -411,7 +454,7 @@ public class AutoFixHelper {
         Name name = identifier.getName();
         Pattern pattern = Pattern.compile("(^const\\s+|\\s+const\\s+)" + //match "const"  //1
                         "(.*?)" + //other const                                  //2
-                        "(" + name + ")" + //name of const                       //3
+                        "(" + Pattern.quote(name + "") + ")" + //name of const                       //3
                         "(\\s?)" +//one or more white space                         //4
                         "(:)" + //colon                                             //5
                         "(.*?)" + //type????                                        //6
@@ -450,7 +493,7 @@ public class AutoFixHelper {
                 //const a = 2;
                 Pattern pattern = Pattern.compile(
                         "(^const\\s+|\\s+const\\s+)" + //1
-                                "(" + constant.getName() + ")" + //2
+                                "(" + Pattern.quote(constant.getName() + "") + ")" + //2
                                 "(\\s?)" + //3
                                 "(=)" +//4
                                 "(.*?)" +//5
@@ -478,7 +521,7 @@ public class AutoFixHelper {
                     //const a: integer = 2;
                     pattern = Pattern.compile(
                             "(^const\\s+|\\s+const\\s+)" + //1
-                                    "(" + constant.getName() + ")" + //2
+                                    "(" + Pattern.quote(constant.getName() + "") + ")" + //2
                                     "(\\s?)" + //3
                                     "(:)" + //4
                                     "(\\s?)" +//5
@@ -508,6 +551,12 @@ public class AutoFixHelper {
                 }
 
             }
+
+            @Nullable
+            @Override
+            public CharSequence getTitle(Context context) {
+                return null;
+            }
         };
 
     }
@@ -525,6 +574,12 @@ public class AutoFixHelper {
                 editable.setSelection(editable.length() - "\nend.\n".length());
 
                 editable.enableTextWatcher();
+            }
+
+            @Nullable
+            @Override
+            public CharSequence getTitle(Context context) {
+                return null;
             }
         };
     }
@@ -582,7 +637,7 @@ public class AutoFixHelper {
                 int offset = LineUtils.getStartIndexAtLine(editable, line) + column;
 
                 //find token
-                Pattern pattern = Pattern.compile("(" + current + ")"); //current token
+                Pattern pattern = Pattern.compile("(" + Pattern.quote(current) + ")"); //current token
                 Matcher matcher = pattern.matcher(textInLine);
                 if (matcher.find()) {
 
@@ -601,6 +656,12 @@ public class AutoFixHelper {
                     editable.showKeyboard();
                     editable.enableTextWatcher();
                 }
+            }
+
+            @Nullable
+            @Override
+            public CharSequence getTitle(Context context) {
+                return null;
             }
         };
     }

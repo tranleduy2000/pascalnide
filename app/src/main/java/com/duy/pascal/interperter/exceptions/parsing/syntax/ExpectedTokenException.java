@@ -75,7 +75,7 @@ public class ExpectedTokenException extends ParsingException {
         return "Syntax error, \"" + Arrays.toString(this.expected) + "\" expected but \"" + this.current + "\" found";
     }
 
-    public boolean getCanAutoFix() {
+    public boolean canQuickFix() {
         return true;
     }
 }

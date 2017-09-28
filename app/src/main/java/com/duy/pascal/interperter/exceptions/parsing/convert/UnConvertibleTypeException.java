@@ -95,7 +95,7 @@ public class UnConvertibleTypeException extends ParsingException {
     }
 
 
-    public boolean getCanAutoFix() {
+    public boolean canQuickFix() {
         return identifier instanceof VariableAccess
                 || value instanceof VariableAccess
                 || identifier instanceof ConstantAccess;

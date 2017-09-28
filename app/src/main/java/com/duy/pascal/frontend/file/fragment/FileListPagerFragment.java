@@ -168,14 +168,8 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
             }
         });
 
-
-        view.post(new Runnable() {
-            @Override
-            public void run() {
-                isRoot = Pref.getInstance(getContext()).isRootable();
-                onRefresh();
-            }
-        });
+        isRoot = Pref.getInstance(getContext()).isRootable();
+        onRefresh();
     }
 
     @Override
