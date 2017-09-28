@@ -53,9 +53,9 @@ import static com.duy.pascal.frontend.autocomplete.autofix.EditorUtil.getText;
 import static com.duy.pascal.frontend.autocomplete.autofix.EditorUtil.getTextInLine;
 
 /**
+ * Quick fix some syntax error
  * Created by Duy on 9/24/2017.
  */
-
 public class AutoFixHelper {
     private static final String TAG = "AutoFixHelper";
 
@@ -119,32 +119,10 @@ public class AutoFixHelper {
             @NonNull
             @Override
             public CharSequence getTitle(Context context) {
-                return context.getString(R.string.declare_type, exception.getMissingType());
+                String string = context.getString(R.string.declare_type, exception.getMissingType());
+                return ExceptionManager.highlight(string);
             }
         };
-    }
-
-    /**
-     * This method will be add missing define, such as variable,
-     * constant, function or procedure
-     */
-    @Nullable
-    private static AutoFixCommand fixMissingDefine(UnknownIdentifierException exception) {
-        DLog.d(TAG, "fixMissingDefine() called with: e = [" + exception + "]" + " " + exception.getFitType());
-        if (exception.getFitType() == UnknownIdentifierException.DefineType.DECLARE_VAR) {
-            //add missing var
-            return declareVar(exception);
-        } else if (exception.getFitType() == UnknownIdentifierException.DefineType.DECLARE_CONST) {
-            //add missing const
-            return declareConst(exception);
-        } else if (exception.getFitType() == UnknownIdentifierException.DefineType.DECLARE_FUNCTION) {
-            //add missing function
-            return declareFunction(exception);
-        } else if (exception.getFitType() == UnknownIdentifierException.DefineType.DECLARE_PROCEDURE) {
-            //add missing procedure
-            return declareProcedure(exception);
-        }
-        return null;
     }
 
     @Nullable
@@ -234,6 +212,7 @@ public class AutoFixHelper {
 
     }
 
+    @NonNull
     private static AutoFixCommand insertToken(final MissingTokenException e) {
         return new AutoFixCommand() {
             @Override
@@ -249,7 +228,8 @@ public class AutoFixHelper {
             @NonNull
             @Override
             public CharSequence getTitle(Context context) {
-                return null;
+                String insertText = e.getMissingToken();
+                return ExceptionManager.highlight(context.getString(R.string.insert_token, insertText));
             }
         };
     }
@@ -333,7 +313,7 @@ public class AutoFixHelper {
         };
     }
 
-    @Nullable
+    @NonNull
     private static AutoFixCommand declareFunction(UnknownIdentifierException e) {
         return new AutoFixCommand() {
             @Override
@@ -379,7 +359,7 @@ public class AutoFixHelper {
     @Nullable
     private static AutoFixCommand declareVar(LineInfo[] lines, Name name, String type, String initValue) {
         if (lines.length != 2) {
-            android.util.Log.e(TAG, "The length line array must be 2");
+            DLog.e(TAG, "The length line array must be 2");
             return null;
         }
         return declareVar(lines[0], lines[1], name, type, initValue);
@@ -621,7 +601,8 @@ public class AutoFixHelper {
      * @param column  - start at column of @lineInfo
      */
     @NonNull
-    public static AutoFixCommand fixExpectToken(final String current, final String expect, final boolean insert, final int line, final int column) {
+    public static AutoFixCommand fixExpectToken(final String current, final String expect,
+                                                final boolean insert, final int line, final int column) {
         return new AutoFixCommand() {
             @Override
             public void execute(EditorView editable) {

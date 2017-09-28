@@ -61,7 +61,6 @@ import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.builtin_libraries.io.IOLib;
 import com.duy.pascal.interperter.core.PascalCompiler;
-import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.define.MainProgramNotFoundException;
@@ -611,51 +610,6 @@ public class EditorActivity extends BaseEditorActivity implements
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private StructureItem getNode(ExpressionContextMixin context, Name nameOfNode, int type, int depth) {
-//        StructureItem node = new StructureItem(type, nameOfNode.getOriginName());
-//        String tab = "";
-//        for (int i = 0; i < depth; i++) tab += "\t";
-//        Map<Name, ConstantDefinition> constants = context.getConstants();
-//        ArrayList<DescriptionImpl> listNameConstants = context.getListNameConstants();
-//        for (DescriptionImpl name : listNameConstants) {
-//            node.addNode(new StructureItem(StructureType.TYPE_CONST,
-//                    name + " = " + constants.get(name.getName()).getValue()));
-//        }
-//
-//        ArrayList<Name> libraries = context.getLibrariesNames();
-//        for (Name name : libraries) {
-//            DLog.d(TAG, tab + "showProgramStructure: library " + name);
-//            node.addNode(new StructureItem(StructureType.TYPE_LIBRARY, name.getOriginName()));
-//        }
-//
-//        List<VariableDeclaration> variables = context.getVariables();
-//        for (VariableDeclaration variableDeclaration : variables) {
-//            DLog.d(TAG, tab + "showProgramStructure: var " + variableDeclaration.getName() + " = "
-//                    + variableDeclaration.getInitialValue() + " " + variableDeclaration.getType());
-//            node.addNode(new StructureItem(StructureType.TYPE_VARIABLE,
-//                    variableDeclaration.getName() + ": " + variableDeclaration.getType()));
-//        }
-//
-//        ArrayListMultimap<Name, AbstractFunction> callableFunctions = context.getCallableFunctions();
-//        ArrayList<DescriptionImpl> listNameFunctions = context.getListNameFunctions();
-//        for (DescriptionImpl name : listNameFunctions) {
-//            List<AbstractFunction> abstractFunctions = callableFunctions.get(name.getName());
-//            for (AbstractFunction function : abstractFunctions) {
-//                if (function instanceof FunctionDeclaration) {
-//                    FunctionDeclaration functionInPascal = (FunctionDeclaration) function;
-//                    StructureItem child = getNode(
-//                            functionInPascal.declaration,
-//                            ((FunctionDeclaration) function).name,
-//                            functionInPascal.isProcedure() ? StructureType.TYPE_PROCEDURE : StructureType.TYPE_FUNCTION,
-//                            depth + 1);
-//                    node.addNode(child);
-//                }
-//            }
-//        }
-//        return node;
-        return null;
     }
 
     public void startDebug() {
