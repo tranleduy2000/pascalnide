@@ -43,6 +43,7 @@ import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierExc
 import com.duy.pascal.interperter.exceptions.parsing.define.VariableIdentifierExpectException;
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
 import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenException;
+import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.value.ChangeValueConstantException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
@@ -579,9 +580,24 @@ public class AutoFixHelper {
 
         } else if (e instanceof MainProgramNotFoundException) {
             commands.add(fixProgramNotFound());
+        } else if (e instanceof ExpectedTokenException) {
+            fixExpectToken(commands, (ExpectedTokenException) e);
         }
         return commands;
     }
+
+    private static void fixExpectToken(ArrayList<AutoFixCommand> commands, ExpectedTokenException e) {
+
+        String[] expected = e.getExpected();
+        String current = e.getCurrent();
+        for (String s : expected) {
+            commands.add(fixExpectToken(current, s, true, e.getLineInfo()));
+        }
+        for (String s : expected) {
+            commands.add(fixExpectToken(current, s, false, e.getLineInfo()));
+        }
+    }
+
 
     /**
      * replace current token by expect token exactly
@@ -589,23 +605,19 @@ public class AutoFixHelper {
      * @param current - current token
      * @param expect  - token for replace
      * @param insert  - true if insert, <code>false</code> if replace
-     * @param line    - current lineInfo
-     * @param column  - start at column of @lineInfo
      */
     @NonNull
-    @SuppressWarnings("unused")
-    public static AutoFixCommand fixExpectToken(final String current, final String expect,
-                                                final boolean insert, final int line, final int column) {
+    private static AutoFixCommand fixExpectToken(final String current, final String expect,
+                                                 final boolean insert, final LineInfo line) {
         return new AutoFixCommand() {
             @Override
             public void execute(EditorView editable) {
 
-                DLog.d(TAG, "fixExpectToken() called with: current = [" + current + "], expect = [" + expect + "], insert = [" + insert + "], line = [" + line + "], column = [" + column + "]");
                 //get text in lineInfo
-                CharSequence textInLine = getTextInLine(editable, line, column);
+                CharSequence textInLine = getTextInLine(editable, line.getLine(), line.getColumn());
 
                 //position from 0 to current token
-                int offset = LineUtils.getStartIndexAtLine(editable, line) + column;
+                int offset = LineUtils.getStartIndexAtLine(editable, line.getLine()) + line.getColumn();
 
                 //find token
                 Pattern pattern = Pattern.compile("(" + Pattern.quote(current) + ")"); //current token
@@ -632,7 +644,10 @@ public class AutoFixHelper {
             @NonNull
             @Override
             public CharSequence getTitle(Context context) {
-                return null;
+                String str = insert ?
+                        context.getString(R.string.insert_token_2, expect, current)
+                        : context.getString(R.string.replace_token, current, expect);
+                return ExceptionManager.highlight(str);
             }
         };
     }

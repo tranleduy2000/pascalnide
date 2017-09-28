@@ -17,35 +17,29 @@
 package com.duy.pascal.interperter.exceptions.parsing.syntax;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenException;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
 /**
- * Created by Duy on 31-May-17.
+ * Created by Duy on 9/28/2017.
  */
 
-public class ExpectDoTokenException extends MissingTokenException {
-    private WrongStatementException.Statement statement;
+public class WrongForStatementException extends ParsingException {
+    private Type type;
 
-    public ExpectDoTokenException(@Nullable LineInfo lineInfo, WrongStatementException.Statement statement) {
+    public WrongForStatementException(@NonNull LineInfo lineInfo, Type type) {
         super(lineInfo);
-        this.statement = statement;
-    }
-
-    public WrongStatementException.Statement getStatement() {
-        return statement;
+        this.type = type;
     }
 
     @Override
-    public boolean canQuickFix() {
-        return true;
+    public String getMessage() {
+        return getLineInfo() + "\n" +
+                "Syntax error: wrong for statement";
     }
 
-    @NonNull
-    @Override
-    public String getMissingToken() {
-        return "do";
+    public enum Type {
+        EXPECTED_DO, EXPECTED_TO
     }
 }

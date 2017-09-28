@@ -10,8 +10,8 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.interperter.debugable.DebuggableExecutable;
+import com.duy.pascal.interperter.exceptions.parsing.syntax.WrongStatementException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectDoTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
@@ -52,7 +52,7 @@ public class WhileStatement extends DebuggableExecutable {
             if (next instanceof BasicToken) {
                 throw new ExpectedTokenException("do", next);
             } else {
-                throw new ExpectDoTokenException(next.getLineNumber());
+                throw new ExpectDoTokenException(next.getLineNumber(), WrongStatementException.Statement.WHILE_DO);
             }
         }
 

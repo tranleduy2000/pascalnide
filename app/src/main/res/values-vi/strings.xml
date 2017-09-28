@@ -241,6 +241,8 @@
     <string name="declare_type">Khai báo kiểu \"%1$s\"</string>
     <string name="change_const_to_var">Chuyển hằng \"%1$s\" sang biến với kiểu dữ liệu là \"%2$s\", giá trị khởi tạo là \"%3$s\"</string>
     <string name="insert_token">Chèn \"%1$s\"</string>
+    <string name="insert_token_2">Chèn từ khóa \"%1$s\" trước từ khóa \"%2$s\"</string>
+    <string name="replace_token">Thay thế từ khóa \"%1$s\" bởi từ khóa \"%2$s\"</string>
     <string name="change_var_type">Chuyển kiểu của biến \"%1$s\" sang kiểu \"%2$s\"</string>
     <string name="change_const_type">Chuyển kiểu của hằng \"%1$s\" sang kiểu \"%2$s\"</string>
     <string name="change_function_type">Chuyển kiểu của hàm \"%1$s\" sang kiểu \"%2$s\"</string>

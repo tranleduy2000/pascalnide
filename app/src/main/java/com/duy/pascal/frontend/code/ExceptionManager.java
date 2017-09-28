@@ -110,11 +110,16 @@ public class ExceptionManager {
             return new SpannableString("null");
         }
         try {
-            if (e instanceof ExpectedTokenException)
-                return getExpectedTokenException((ExpectedTokenException) e);
 
-            if (e instanceof StackOverflowException)
+            if (e instanceof ExpectedTokenException) {
+                return getExpectedTokenException((ExpectedTokenException) e);
+            }
+//            if (e instanceof ExpectDoTokenException) {
+//
+//            }
+            if (e instanceof StackOverflowException) {
                 return getMessageResource(e, R.string.StackOverflowException);
+            }
 
             if (e instanceof MissingSemicolonTokenException) {
                 return getMessageResource(e, R.string.MissingSemicolonTokenException,

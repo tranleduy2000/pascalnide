@@ -16,11 +16,11 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.syntax;
 
-import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 /**
  * Created by Duy on 31-May-17.
@@ -36,5 +36,10 @@ public class ExpectThenTokenException extends MissingTokenException {
     @Override
     public String getMissingToken() {
         return "then";
+    }
+
+    @Override
+    public boolean canQuickFix() {
+        return true;
     }
 }

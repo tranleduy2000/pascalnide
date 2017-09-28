@@ -31,6 +31,7 @@ import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierExc
 import com.duy.pascal.interperter.exceptions.parsing.define.VariableIdentifierExpectException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectDoTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
+import com.duy.pascal.interperter.exceptions.parsing.syntax.WrongStatementException;
 import com.duy.pascal.interperter.exceptions.parsing.value.UnAssignableTypeException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.OperatorToken;
@@ -100,7 +101,7 @@ public class ForStatement {
                 if (next instanceof BasicToken) {
                     throw new ExpectedTokenException("do", next);
                 } else {
-                    throw new ExpectDoTokenException(next.getLineNumber());
+                    throw new ExpectDoTokenException(next.getLineNumber(), WrongStatementException.Statement.FOR_TO_DO);
                 }
             }
 
