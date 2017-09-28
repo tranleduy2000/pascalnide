@@ -42,13 +42,12 @@ import java.util.ArrayList;
  * Created by Duy on 9/28/2017.
  */
 
-public class QuickFixDialog extends BottomSheetDialogFragment {
+public class ErrorAndQuickFixDialog extends BottomSheetDialogFragment {
     public static final String TAG = "QuickFixDialog";
-    private static final String KEY_EXCEPTION = "key_exception";
     private Exception exception;
 
-    public static QuickFixDialog newInstance(Exception exception) {
-        QuickFixDialog fragment = new QuickFixDialog();
+    public static ErrorAndQuickFixDialog newInstance(Exception exception) {
+        ErrorAndQuickFixDialog fragment = new ErrorAndQuickFixDialog();
         fragment.setException(exception);
         return fragment;
     }

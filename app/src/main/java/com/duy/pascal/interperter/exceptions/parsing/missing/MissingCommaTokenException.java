@@ -26,6 +26,11 @@ public class MissingCommaTokenException extends MissingTokenException {
         super(line);
     }
 
+    @Override
+    public boolean canQuickFix() {
+        return true;
+    }
+
     @NonNull
     public String getMissingToken() {
         return ",";

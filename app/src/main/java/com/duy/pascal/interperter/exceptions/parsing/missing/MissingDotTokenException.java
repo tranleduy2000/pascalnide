@@ -26,7 +26,10 @@ public  class MissingDotTokenException extends MissingTokenException {
    public String getMissingToken() {
       return ".";
    }
-
+   @Override
+   public boolean canQuickFix() {
+      return true;
+   }
    public MissingDotTokenException(@Nullable LineInfo line) {
       super(line);
    }

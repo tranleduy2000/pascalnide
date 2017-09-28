@@ -16,9 +16,9 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.missing;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
-
 import android.support.annotation.NonNull;
+
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class MissingSemicolonTokenException extends MissingTokenException {
     public MissingSemicolonTokenException(@NonNull LineInfo line) {
@@ -28,5 +28,10 @@ public class MissingSemicolonTokenException extends MissingTokenException {
     @NonNull
     public String getMissingToken() {
         return ";";
+    }
+
+    @Override
+    public boolean canQuickFix() {
+        return true;
     }
 }

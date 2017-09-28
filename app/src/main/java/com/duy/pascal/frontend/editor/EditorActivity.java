@@ -43,7 +43,7 @@ import android.widget.Toast;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.autocomplete.autofix.command.AutoFixCommand;
-import com.duy.pascal.frontend.autocomplete.autofix.dialog.QuickFixDialog;
+import com.duy.pascal.frontend.autocomplete.autofix.dialog.ErrorAndQuickFixDialog;
 import com.duy.pascal.frontend.autocomplete.completion.model.Description;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.sample.activities.DocumentActivity;
@@ -312,8 +312,8 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     private void showErrorDialog(Exception e) {
-        QuickFixDialog quickFixDialog = QuickFixDialog.newInstance(e);
-        quickFixDialog.show(getSupportFragmentManager(), QuickFixDialog.TAG);
+        ErrorAndQuickFixDialog quickFixDialog = ErrorAndQuickFixDialog.newInstance(e);
+        quickFixDialog.show(getSupportFragmentManager(), ErrorAndQuickFixDialog.TAG);
         DLog.e(e);
     }
 

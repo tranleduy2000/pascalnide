@@ -22,7 +22,7 @@ import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
 
-public  class UnAssignableTypeException extends ParsingException {
+public class UnAssignableTypeException extends ParsingException {
     @NonNull
     private RuntimeValue runtimeValue;
 
@@ -36,11 +36,11 @@ public  class UnAssignableTypeException extends ParsingException {
     }
 
     @NonNull
-    public final RuntimeValue getRuntimeValue() {
+    public RuntimeValue getRuntimeValue() {
         return this.runtimeValue;
     }
 
-    public final void setRuntimeValue(@NonNull RuntimeValue var1) {
+    public void setRuntimeValue(@NonNull RuntimeValue var1) {
         this.runtimeValue = var1;
     }
 }
