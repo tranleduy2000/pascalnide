@@ -230,5 +230,8 @@
     <string name="save_and_apply">Save and apply</string>
     <string name="auto_insert_bracket">Tự động chèn</string>
     <string name="auto_insert_bracket_summary">Tự động chèn dấu đóng ngoặc</string>
+
     <string name="missing_token_exception">Có thể thiếu \"%1$s\"</string>
+    <string name="add_end_at_the_end_of_program">Thêm từ khóa \"end\" vào cuối chương trình</string>
+    <string name="some_suggestion">Một số gợi ý</string>
 </resources>

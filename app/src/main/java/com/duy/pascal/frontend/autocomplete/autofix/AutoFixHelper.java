@@ -19,12 +19,15 @@ package com.duy.pascal.frontend.autocomplete.autofix;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.SpannableString;
 import android.util.Log;
 
 import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.frontend.autocomplete.autofix.model.TextData;
-import com.duy.pascal.frontend.autocomplete.completion.model.KeyWord;
+import com.duy.pascal.frontend.autocomplete.completion.KeyWord;
+import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.editor.view.LineUtils;
@@ -32,7 +35,6 @@ import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.VariableAccess;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.define.MainProgramNotFoundException;
 import com.duy.pascal.interperter.exceptions.parsing.define.TypeIdentifierExpectException;
@@ -43,6 +45,7 @@ import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenExcepti
 import com.duy.pascal.interperter.exceptions.parsing.value.ChangeValueConstantException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -113,10 +116,10 @@ public class AutoFixHelper {
                 editable.enableTextWatcher();
             }
 
-            @Nullable
+            @NonNull
             @Override
             public CharSequence getTitle(Context context) {
-                return null;
+                return context.getString(R.string.declare_type, exception.getMissingType());
             }
         };
     }
@@ -146,7 +149,18 @@ public class AutoFixHelper {
 
     @Nullable
     private static AutoFixCommand declareProcedure(UnknownIdentifierException exception) {
-        return null;
+        return new AutoFixCommand() {
+            @Override
+            public void execute(EditorView editable) {
+
+            }
+
+            @NonNull
+            @Override
+            public CharSequence getTitle(Context context) {
+                return context.getString(R.string.declare_function);
+            }
+        };
     }
 
     /**
@@ -192,7 +206,7 @@ public class AutoFixHelper {
                     }
 
                 } else if (exception.getIdentifier() instanceof ConstantAccess) {
-                    changeTypeConst(editable, text, (ConstantAccess) exception.getIdentifier(), exception.getValueType());
+                    ChangeTypeHelper.changeTypeConst(editable, text, (ConstantAccess) exception.getIdentifier(), exception.getValueType());
                 } else if (exception.getValue() instanceof VariableAccess) {
                     if (exception.getScope() instanceof FunctionDeclaration.FunctionExpressionContext) {
                         Name name = ((FunctionDeclaration.FunctionExpressionContext) exception.getScope()).function.getName();
@@ -207,11 +221,11 @@ public class AutoFixHelper {
                     }
 
                 } else if (exception.getValue() instanceof ConstantAccess) {
-                    changeTypeConst(editable, text, (ConstantAccess) exception.getValue(), exception.getTargetType());
+                    ChangeTypeHelper.changeTypeConst(editable, text, (ConstantAccess) exception.getValue(), exception.getTargetType());
                 }
             }
 
-            @Nullable
+            @NonNull
             @Override
             public CharSequence getTitle(Context context) {
                 return null;
@@ -232,7 +246,7 @@ public class AutoFixHelper {
                 editable.showKeyboard();
             }
 
-            @Nullable
+            @NonNull
             @Override
             public CharSequence getTitle(Context context) {
                 return null;
@@ -259,10 +273,10 @@ public class AutoFixHelper {
                 }
             }
 
-            @Nullable
+            @NonNull
             @Override
             public CharSequence getTitle(Context context) {
-                return null;
+                return context.getString(R.string.add_end_at_the_end_of_program);
             }
         };
     }
@@ -311,17 +325,28 @@ public class AutoFixHelper {
                 }
             }
 
-            @Nullable
+            @NonNull
             @Override
             public CharSequence getTitle(Context context) {
-                return null;
+                return context.getString(R.string.declare_constant_2, e.getName().getOriginName());
             }
         };
     }
 
     @Nullable
     private static AutoFixCommand declareFunction(UnknownIdentifierException e) {
-        return null;
+        return new AutoFixCommand() {
+            @Override
+            public void execute(EditorView editable) {
+
+            }
+
+            @NonNull
+            @Override
+            public CharSequence getTitle(Context context) {
+                return context.getString(R.string.declare_function);
+            }
+        };
     }
 
     /**
@@ -360,17 +385,20 @@ public class AutoFixHelper {
         return declareVar(lines[0], lines[1], name, type, initValue);
     }
 
-    private static AutoFixCommand declareVar(final LineInfo start, final LineInfo end, final Name name, final String type, final String initValue) {
+    @NonNull
+    private static AutoFixCommand declareVar(final LineInfo start, final LineInfo end, final Name name,
+                                             final String type, final String initValue) {
         return new AutoFixCommand() {
             @Override
             public void execute(EditorView editable) {
                 declareVar(getText(editable, start, end), name, type, initValue).execute(editable);
             }
 
-            @Nullable
+            @NonNull
             @Override
             public CharSequence getTitle(Context context) {
-                return null;
+                String str = context.getString(R.string.declare_variable_2, name, type);
+                return ExceptionManager.highlight(new SpannableString(str));
             }
         };
     }
@@ -428,52 +456,14 @@ public class AutoFixHelper {
                 editable.enableTextWatcher();
             }
 
-            @Nullable
+
+            @NonNull
             @Override
             public CharSequence getTitle(Context context) {
-                return null;
+                String str = context.getString(R.string.declare_variable_2, name, type);
+                return ExceptionManager.highlight(new SpannableString(str));
             }
         };
-    }
-
-    /**
-     * This method will be Change type constant to type of value
-     * if constant is define with type
-     * <p>
-     * Example
-     * const a: integer = 'adsda'; => change to string
-     */
-    private static void changeTypeConst(EditorView editable, TextData text, ConstantAccess identifier, Type valueType) {
-        DLog.d(TAG, "fixUnConvertType: constant " + identifier);
-
-        if (identifier.getName() == null) { //can not replace because it is not a identifier
-            DLog.d(TAG, "changeTypeConst: this is not identifier");
-            return;
-        }
-
-        Name name = identifier.getName();
-        Pattern pattern = Pattern.compile("(^const\\s+|\\s+const\\s+)" + //match "const"  //1
-                        "(.*?)" + //other const                                  //2
-                        "(" + Pattern.quote(name + "") + ")" + //name of const                       //3
-                        "(\\s?)" +//one or more white space                         //4
-                        "(:)" + //colon                                             //5
-                        "(.*?)" + //type????                                        //6
-                        "(=)" +
-                        "(.*?)" +
-                        "(;)",
-                Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-        Matcher matcher = pattern.matcher(text.getText());
-
-        if (matcher.find()) {
-            DLog.d(TAG, "fixUnConvertType: match " + matcher);
-            final int start = matcher.start(6) + text.getOffset();
-            int end = matcher.end(6) + text.getOffset();
-
-            final String insertText = " " + valueType.toString();
-            editable.getText().replace(start, end, insertText);
-            editable.setSelection(start, start + insertText.length());
-            editable.showKeyboard();
-        }
     }
 
 
@@ -549,20 +539,22 @@ public class AutoFixHelper {
                         declareVar.execute(editable);//initialization value
                     }
                 }
-
             }
 
-            @Nullable
+            @NonNull
             @Override
             public CharSequence getTitle(Context context) {
-                return null;
+                ConstantAccess constant = e.getConst();
+                String string = context.getString(R.string.change_const_to_var, constant.getName(),
+                        constant.getRuntimeType(null).getRawType().toString(), constant.getValue().toString());
+                return ExceptionManager.highlight(string);
             }
         };
 
     }
 
     @NonNull
-    public static AutoFixCommand fixProgramNotFound() {
+    private static AutoFixCommand fixProgramNotFound() {
         return new AutoFixCommand() {
             @Override
             public void execute(EditorView editable) {
@@ -576,42 +568,47 @@ public class AutoFixHelper {
                 editable.enableTextWatcher();
             }
 
-            @Nullable
+            @NonNull
             @Override
             public CharSequence getTitle(Context context) {
-                return null;
+                return ExceptionManager.highlight(context.getString(R.string.add_begin_end));
             }
         };
     }
 
-    @Nullable
-    public static AutoFixCommand buildCommand(Exception e) {
-        if (e instanceof TypeIdentifierExpectException) {
-            return declareType((TypeIdentifierExpectException) e);
+    @NonNull
+    public static ArrayList<AutoFixCommand> buildCommands(Exception exception) {
+        ArrayList<AutoFixCommand> commands = new ArrayList<>();
+        if (exception instanceof TypeIdentifierExpectException) {
+            commands.add(declareType((TypeIdentifierExpectException) exception));
+        } else if (exception instanceof UnknownIdentifierException) {
+            //add missing var
+            commands.add(declareVar((UnknownIdentifierException) exception));
+            //add missing const
+            commands.add(declareConst((UnknownIdentifierException) exception));
+            //add missing function
+            commands.add(declareFunction((UnknownIdentifierException) exception));
+            //add missing procedure
+//            commands.add(declareProcedure((UnknownIdentifierException) exception));
+        } else if (exception instanceof VariableIdentifierExpectException) {
+            commands.add(declareVar((VariableIdentifierExpectException) exception));
 
-        } else if (e instanceof UnknownIdentifierException) {
-            return fixMissingDefine((UnknownIdentifierException) e);
+        } else if (exception instanceof UnConvertibleTypeException) {
+            commands.add(fixUnConvertType((UnConvertibleTypeException) exception));
 
-        } else if (e instanceof VariableIdentifierExpectException) {
-            return declareVar((VariableIdentifierExpectException) e);
+        } else if (exception instanceof MissingTokenException) {
+            commands.add(insertToken((MissingTokenException) exception));
 
-        } else if (e instanceof UnConvertibleTypeException) {
-            return fixUnConvertType((UnConvertibleTypeException) e);
+        } else if (exception instanceof ChangeValueConstantException) {
+            commands.add(changeConstToVar((ChangeValueConstantException) exception));
 
-        } else if (e instanceof MissingTokenException) {
-            return insertToken((MissingTokenException) e);
+        } else if (exception instanceof GroupingException) {
+            commands.add(fixGroupException((GroupingException) exception));
 
-        } else if (e instanceof ChangeValueConstantException) {
-            return changeConstToVar((ChangeValueConstantException) e);
-
-        } else if (e instanceof GroupingException) {
-            return fixGroupException((GroupingException) e);
-
-        } else if (e instanceof MainProgramNotFoundException) {
-            return fixProgramNotFound();
-
+        } else if (exception instanceof MainProgramNotFoundException) {
+            commands.add(fixProgramNotFound());
         }
-        return null;
+        return commands;
     }
 
     /**
@@ -658,7 +655,7 @@ public class AutoFixHelper {
                 }
             }
 
-            @Nullable
+            @NonNull
             @Override
             public CharSequence getTitle(Context context) {
                 return null;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.autocomplete.completion.model;
+package com.duy.pascal.frontend.autocomplete.completion;
 
 import java.util.regex.Pattern;
 
@@ -27,7 +27,7 @@ public class Patterns {
      * match reserved keyword
      */
     public static final Pattern KEYWORDS = Pattern.compile(
-            "(^|\\W)(uses|const|do|for|while|if|else|in|case|and|array|begin|div" +
+            "(\\W?)(uses|const|do|for|while|if|else|in|case|and|array|begin|div" +
                     "|downto|to|mod|of" +
                     "|procedure|program|repeat|until|shl|shr" +
                     "|then|type|var|end|function" +
@@ -41,18 +41,19 @@ public class Patterns {
                     "|char|text" +
                     "|record|continue" +
                     "|unit|interface|initialization|finalization|implementation|with" +
-                    "|null|nil|set|new)(\\W|$)",
+                    "|null|nil|set|new)(\\W?)",
             Pattern.CASE_INSENSITIVE);
+
     public static final Pattern NON_WORD = Pattern.compile("\\W+");
 
     /**
      * match builtin pascal function
      */
     public static final Pattern BUILTIN_FUNCTIONS = Pattern.compile(
-            "\\b(sin|cos|sqrt|length" +
+            "(\\W?)(sin|cos|sqrt|length" +
                     "|exp|tan|keyPressed|readKey|delay|random|randomize|inc|dec" +
                     "|ceil|trunc|frac|floor|abs|round|sqr|pred|succ|ln|arctan" +
-                    "|odd|int|halt|odd)\\b", Pattern.CASE_INSENSITIVE);
+                    "|odd|int|halt|odd)(\\W?)", Pattern.CASE_INSENSITIVE);
     /**
      * match some spacial symbol
      */

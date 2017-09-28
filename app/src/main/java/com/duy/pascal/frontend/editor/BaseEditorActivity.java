@@ -66,6 +66,7 @@ import com.duy.pascal.frontend.file.util.TabFileUtils;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.SymbolListView;
 import com.github.clans.fab.FloatingActionMenu;
+import com.kobakei.ratethisapp.RateThisApp;
 
 import java.io.File;
 import java.io.IOException;
@@ -632,6 +633,14 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
         return mFileExplorer.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Monitor launch times and interval from installation
+        RateThisApp.onStart(this);
+        // If the criteria is satisfied, "Rate this app" dialog will be shown
+        RateThisApp.showRateDialogIfNeeded(this);
+    }
 
     private class KeyBoardEventListener implements ViewTreeObserver.OnGlobalLayoutListener {
         BaseEditorActivity activity;
@@ -657,6 +666,4 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
             }
         }
     }
-
-
 }

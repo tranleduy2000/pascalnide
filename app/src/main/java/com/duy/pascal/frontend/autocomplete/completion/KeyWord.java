@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.autocomplete.completion.model;
+package com.duy.pascal.frontend.autocomplete.completion;
 
 import com.duy.pascal.interperter.utils.ArrayUtil;
 

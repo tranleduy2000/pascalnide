@@ -21,6 +21,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.ListViewCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,28 +45,29 @@ import java.util.ArrayList;
 public class QuickFixDialog extends BottomSheetDialogFragment {
     public static final String TAG = "QuickFixDialog";
     private static final String KEY_EXCEPTION = "key_exception";
+    private Exception exception;
 
     public static QuickFixDialog newInstance(Exception exception) {
-
-        Bundle args = new Bundle();
-        args.putSerializable(KEY_EXCEPTION, exception);
         QuickFixDialog fragment = new QuickFixDialog();
-        fragment.setArguments(args);
+        fragment.setException(exception);
         return fragment;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ContextThemeWrapper wrap = new ContextThemeWrapper(getContext(), getActivity().getTheme());
+        ContextThemeWrapper wrap = new ContextThemeWrapper(getActivity(), getActivity().getTheme());
         inflater = LayoutInflater.from(wrap);
         return inflater.inflate(R.layout.dialog_error, container, false);
+    }
+
+    public void setException(Exception exception) {
+        this.exception = exception;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Exception exception = (Exception) getArguments().getSerializable(KEY_EXCEPTION);
         ExceptionManager exceptionManager = new ExceptionManager(getContext());
 
         //set title and message for view
@@ -76,11 +78,8 @@ public class QuickFixDialog extends BottomSheetDialogFragment {
 
         if (exception instanceof ParsingException && ((ParsingException) exception).canQuickFix()) {
             ListViewCompat listCommand = view.findViewById(R.id.list_command);
-            AutoFixCommand autoFixCommand = AutoFixHelper.buildCommand(exception);
-            final ArrayList<AutoFixCommand> commands = new ArrayList<>();
-            commands.add(autoFixCommand);
-            CommandAdapter commandAdapter = new CommandAdapter(getContext(),
-                    R.layout.list_item_quick_fix, commands);
+            final ArrayList<AutoFixCommand> commands = AutoFixHelper.buildCommands(exception);
+            CommandAdapter commandAdapter = new CommandAdapter(getActivity(), R.layout.list_item_quick_fix, commands);
             listCommand.setAdapter(commandAdapter);
             listCommand.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -92,6 +91,7 @@ public class QuickFixDialog extends BottomSheetDialogFragment {
     }
 
     private void executeCommand(AutoFixCommand autoFixCommand) {
+        Log.d(TAG, "executeCommand() called with: autoFixCommand = [" + autoFixCommand + "]");
         try {
             EditorActivity editorActivity = (EditorActivity) getActivity();
             editorActivity.executeCommand(autoFixCommand);

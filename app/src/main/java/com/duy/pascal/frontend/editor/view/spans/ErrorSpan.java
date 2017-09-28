@@ -16,15 +16,15 @@
 
 package com.duy.pascal.frontend.editor.view.spans;
 
-import android.text.style.UnderlineSpan;
+import android.text.style.BackgroundColorSpan;
 
 /**
  * Created by Duy on 31-May-17.
  */
 
-public class ErrorSpan extends UnderlineSpan {
+public class ErrorSpan extends BackgroundColorSpan {
 
     public ErrorSpan(int color) {
-//        super(color);
+        super(color);
     }
 }

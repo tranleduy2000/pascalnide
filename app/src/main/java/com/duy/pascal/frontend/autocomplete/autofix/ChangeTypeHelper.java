@@ -21,6 +21,7 @@ import android.util.Log;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.autocomplete.autofix.model.TextData;
 import com.duy.pascal.frontend.editor.view.EditorView;
+import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.VariableAccess;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
@@ -34,7 +35,7 @@ import static com.makeramen.roundedimageview.RoundedDrawable.TAG;
  * Created by Duy on 9/24/2017.
  */
 
-public class ChangeTypeHelper {
+class ChangeTypeHelper {
     /**
      * Change type of function from <code>valueType</code> to <code>name</code>
      *
@@ -42,7 +43,7 @@ public class ChangeTypeHelper {
      * @param name     - name of function
      * @param text     - a part text of the edit start at 0 and end at lineInfo where then function place
      */
-    public static void changeTypeFunction(EditorView editable, final Name name, TextData text, Type valueType) {
+    static void changeTypeFunction(EditorView editable, final Name name, TextData text, Type valueType) {
         Pattern pattern = Pattern.compile(
                 "(^function\\s+|\\s+function\\s+)" + //function token //1
                         "(" + name + ")" + //name of function         //2
@@ -77,7 +78,7 @@ public class ChangeTypeHelper {
      * @param identifier - variable
      * @param valueType  - current type of variable
      */
-    public static void changeTypeVar(EditorView editable, TextData text, VariableAccess identifier, Type valueType) {
+    static void changeTypeVar(EditorView editable, TextData text, VariableAccess identifier, Type valueType) {
         Log.d(TAG, "changeTypeVar() called with: editable = [" + editable + "], text = [" + text + "], identifier = [" + identifier + "], valueType = [" + valueType + "]");
 
         final Name name = identifier.getName();
@@ -108,4 +109,45 @@ public class ChangeTypeHelper {
             DLog.d(TAG, "fixUnConvertType: can not find " + pattern);
         }
     }
+
+    /**
+     * This method will be Change type constant to type of value
+     * if constant is define with type
+     * <p>
+     * Example
+     * const a: integer = 'adsda'; => change to string
+     */
+    static void changeTypeConst(EditorView editable, TextData text, ConstantAccess identifier, Type valueType) {
+        DLog.d(TAG, "fixUnConvertType: constant " + identifier);
+
+        if (identifier.getName() == null) { //can not replace because it is not a identifier
+            DLog.d(TAG, "changeTypeConst: this is not identifier");
+            return;
+        }
+
+        Name name = identifier.getName();
+        Pattern pattern = Pattern.compile("(^const\\s+|\\s+const\\s+)" + //match "const"  //1
+                        "(.*?)" + //other const                                  //2
+                        "(" + Pattern.quote(name + "") + ")" + //name of const                       //3
+                        "(\\s?)" +//one or more white space                         //4
+                        "(:)" + //colon                                             //5
+                        "(.*?)" + //type????                                        //6
+                        "(=)" +
+                        "(.*?)" +
+                        "(;)",
+                Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(text.getText());
+
+        if (matcher.find()) {
+            DLog.d(TAG, "fixUnConvertType: match " + matcher);
+            final int start = matcher.start(6) + text.getOffset();
+            int end = matcher.end(6) + text.getOffset();
+
+            final String insertText = " " + valueType.toString();
+            editable.getText().replace(start, end, insertText);
+            editable.setSelection(start, start + insertText.length());
+            editable.showKeyboard();
+        }
+    }
+
 }

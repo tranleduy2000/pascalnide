@@ -31,7 +31,6 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.autocomplete.autofix.AutoFixHelper;
 import com.duy.pascal.frontend.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.editor.indention.PascalFormatCode;
@@ -39,7 +38,6 @@ import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.editor.view.LineUtils;
 import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.io.File;
@@ -129,14 +127,7 @@ public class EditorFragment extends Fragment implements EditorController {
         mCodeEditor.restoreHistory(getFilePath());
     }
 
-    public void autoFix(ParsingException e) {
-        AutoFixCommand command = AutoFixHelper.buildCommand(e);
-        if (command != null) {
-            command.execute(mCodeEditor);
-        }
-    }
-
-    public void autoFix(@NonNull AutoFixCommand command) {
+    public void exciteCommand(@NonNull AutoFixCommand command) {
         command.execute(mCodeEditor);
     }
 

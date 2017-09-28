@@ -16,6 +16,9 @@
 
 package com.duy.pascal.interperter.datastructure;
 
+import android.support.annotation.NonNull;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,9 +27,14 @@ import java.util.HashMap;
  * Created by Duy on 9/2/2017.
  */
 
-public class ArrayListMultimap<K, V> {
+public class ArrayListMultimap<K, V> implements Serializable {
     private HashMap<K, ArrayList<V>> map = new HashMap<>();
 
+    private ArrayListMultimap() {
+
+    }
+
+    @NonNull
     public static <K, V> ArrayListMultimap<K, V> create() {
         return new ArrayListMultimap<>();
     }

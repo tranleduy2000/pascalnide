@@ -27,12 +27,13 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.autocomplete.autofix.Patterns;
+import com.duy.pascal.interperter.builtin_libraries.exceptions.CanNotReadVariableException;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.DiskReadErrorException;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileException;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotAssignException;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotOpenException;
 import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotOpenForInputException;
-import com.duy.pascal.interperter.builtin_libraries.exceptions.CanNotReadVariableException;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
@@ -89,6 +90,21 @@ public class ExceptionManager {
         this.context = context;
     }
 
+    public static Spannable highlight(Spannable spannable) {
+        Matcher matcher = Patterns.REPLACE_HIGHLIGHT.matcher(spannable);
+        while (matcher.find()) {
+            spannable.setSpan(new ForegroundColorSpan(Color.YELLOW), matcher.start(),
+                    matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new StyleSpan(Typeface.BOLD), matcher.start(),
+                    matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return spannable;
+    }
+
+    public static Spannable highlight(CharSequence spannable) {
+        return highlight(new SpannableString(spannable));
+    }
+
     public Spanned getMessage(Throwable e) {
         if (e == null) {
             return new SpannableString("null");
@@ -117,7 +133,8 @@ public class ExceptionManager {
 
             if (e instanceof UnknownIdentifierException) {
                 return getMessageResource(e, R.string.NoSuchFunctionOrVariableException, ((UnknownIdentifierException) e).getName());
-            }if (e instanceof VariableIdentifierExpectException) {
+            }
+            if (e instanceof VariableIdentifierExpectException) {
                 return getMessageResource(e, R.string.VariableIdentifierExpectException, ((VariableIdentifierExpectException) e).getName().getOriginName());
             }
             if (e instanceof BadFunctionCallException) return getBadFunctionCallException(e);
@@ -256,7 +273,6 @@ public class ExceptionManager {
         return new SpannableString(e.getLocalizedMessage());
     }
 
-
     private Spanned getConstantCalculationException(Throwable e) {
         ConstantCalculationException exception = (ConstantCalculationException) e;
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
@@ -268,7 +284,6 @@ public class ExceptionManager {
         return stringBuilder;
 
     }
-
 
     private Spanned getNonIntegerException(Throwable e) {
         NonIntegerIndexException exception = (NonIntegerIndexException) e;
@@ -418,16 +433,5 @@ public class ExceptionManager {
                 ArrayUtil.expectToString(e.getExpected(), context), e.getCurrent());
         SpannableString spannableString = new SpannableString(msg);
         return highlight(spannableString);
-    }
-
-    private Spannable highlight(Spannable spannable) {
-        Matcher matcher = com.duy.pascal.frontend.autocomplete.autofix.Patterns.REPLACE_HIGHLIGHT.matcher(spannable);
-        while (matcher.find()) {
-            spannable.setSpan(new ForegroundColorSpan(Color.YELLOW), matcher.start(),
-                    matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            spannable.setSpan(new StyleSpan(Typeface.BOLD), matcher.start(),
-                    matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        return spannable;
     }
 }

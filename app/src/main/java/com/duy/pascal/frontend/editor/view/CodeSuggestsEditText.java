@@ -31,7 +31,7 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.autocomplete.completion.SuggestionProvider;
 import com.duy.pascal.frontend.autocomplete.completion.model.Description;
 import com.duy.pascal.frontend.autocomplete.completion.model.DescriptionImpl;
-import com.duy.pascal.frontend.autocomplete.completion.model.KeyWord;
+import com.duy.pascal.frontend.autocomplete.completion.KeyWord;
 import com.duy.pascal.frontend.editor.view.adapters.CodeSuggestAdapter;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.interperter.linenumber.LineInfo;

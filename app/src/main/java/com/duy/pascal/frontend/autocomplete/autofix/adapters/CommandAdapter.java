@@ -17,6 +17,7 @@
 package com.duy.pascal.frontend.autocomplete.autofix.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -59,6 +60,7 @@ public class CommandAdapter extends ArrayAdapter<AutoFixCommand> {
             convertView = mInflater.inflate(R.layout.list_item_quick_fix, parent, false);
         }
         TextView txtContent = convertView.findViewById(R.id.txt_content);
+        txtContent.setTypeface(Typeface.MONOSPACE);
         txtContent.setText(commandDescriptors.get(position).getTitle(getContext()));
         return convertView;
     }

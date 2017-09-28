@@ -251,5 +251,12 @@
     <string name="donate_for_project">Project Donation</string>
     <string name="thank_you_for_your_support_for_open_source_software">Thank you for supporting open source software.</string>
     <string name="some_suggestion">Some suggestion</string>
+
+    <string name="add_begin_end">Add \"begin end.\"</string>
+    <string name="add_end_at_the_end_of_program">Add \"end\" keyword to the end of program</string>
+    <string name="declare_constant_2">Declare constant \"%1$s\"</string>
+    <string name="declare_variable_2">Declare variable \"%1$s\" with type is \"%2$s\". Code: var %1$s: %2$s;</string>
+    <string name="change_const_to_var">Change constant \"%1$s\" to variable with type is \"%2$s\", init value is \"%3$s\".\nCode:\n var %1$s: %2$s = %3$s;</string>
+    <string name="declare_type">Declare type \"%1$s\"</string>
 </resources>
 

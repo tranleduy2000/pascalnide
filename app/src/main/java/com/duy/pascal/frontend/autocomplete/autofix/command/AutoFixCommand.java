@@ -17,7 +17,7 @@
 package com.duy.pascal.frontend.autocomplete.autofix.command;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
 import com.duy.pascal.frontend.editor.view.EditorView;
 
@@ -28,6 +28,6 @@ import com.duy.pascal.frontend.editor.view.EditorView;
 public interface AutoFixCommand {
     void execute(EditorView editable);
 
-    @Nullable
+    @NonNull
     CharSequence getTitle(Context context);
 }

@@ -23,7 +23,6 @@ import com.duy.pascal.frontend.autocomplete.completion.model.ConstantDescription
 import com.duy.pascal.frontend.autocomplete.completion.model.Description;
 import com.duy.pascal.frontend.autocomplete.completion.model.DescriptionImpl;
 import com.duy.pascal.frontend.autocomplete.completion.model.FunctionDescription;
-import com.duy.pascal.frontend.autocomplete.completion.model.KeyWord;
 import com.duy.pascal.frontend.autocomplete.completion.model.VariableDescription;
 import com.duy.pascal.frontend.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.interperter.ast.CodeUnitParsingException;

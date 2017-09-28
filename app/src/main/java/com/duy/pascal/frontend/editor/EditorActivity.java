@@ -65,7 +65,6 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.define.MainProgramNotFoundException;
-import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
@@ -684,22 +683,11 @@ public class EditorActivity extends BaseEditorActivity implements
                 }).build().show();
     }
 
-    public void autoFix(ParsingException e) {
-        if (e instanceof ExpectedTokenException) {
-            DialogFragmentFixExpectToken dialog = DialogFragmentFixExpectToken.newInstance((ExpectedTokenException) e);
-            dialog.show(getSupportFragmentManager(), dialog.getTag());
-        } else {
-            EditorFragment currentFragment = mPagerAdapter.getCurrentFragment();
-            if (currentFragment != null) {
-                currentFragment.autoFix(e);
-            }
-        }
-    }
 
     public void executeCommand(AutoFixCommand command) {
         EditorFragment currentFragment = mPagerAdapter.getCurrentFragment();
         if (currentFragment != null) {
-            currentFragment.autoFix(command);
+            currentFragment.exciteCommand(command);
         }
     }
 

@@ -122,10 +122,7 @@ public abstract class BaseActivity extends AppCompatActivity
         if (mPreferences != null) {
             mPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         }
-        // Monitor launch times and interval from installation
-        RateThisApp.onStart(this);
-        // If the criteria is satisfied, "Rate this app" dialog will be shown
-        RateThisApp.showRateDialogIfNeeded(this);
+
 
     }
 

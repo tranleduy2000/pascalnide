@@ -113,7 +113,7 @@ public class ThemeManager {
                     builtinThemes.put(Integer.toString(id), codeTheme);
                     id++;
                 } catch (Exception e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
                     return;
                 }
             }
