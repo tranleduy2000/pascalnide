@@ -15,7 +15,6 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.converter.StringBuilderLimitBoxer;
 import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.SubrangeType;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
@@ -343,12 +342,13 @@ public enum BasicType implements Type {
     @NonNull
     @Override
     public Name getName() {
-        return name;
+        return Name.create(toString());
     }
 
     @Override
     public void setName(Name name) {
-        this.name = name;
+        //this.name = name;
+        //ignored
     }
 
     @Override

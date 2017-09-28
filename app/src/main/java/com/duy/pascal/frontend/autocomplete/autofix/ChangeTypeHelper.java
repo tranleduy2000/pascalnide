@@ -16,19 +16,26 @@
 
 package com.duy.pascal.frontend.autocomplete.autofix;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.frontend.autocomplete.autofix.model.TextData;
+import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.VariableAccess;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.duy.pascal.frontend.autocomplete.autofix.EditorUtil.getText;
 import static com.makeramen.roundedimageview.RoundedDrawable.TAG;
 
 /**
@@ -39,75 +46,109 @@ class ChangeTypeHelper {
     /**
      * Change type of function from <code>valueType</code> to <code>name</code>
      *
-     * @param editable
-     * @param name     - name of function
-     * @param text     - a part text of the edit start at 0 and end at lineInfo where then function place
+     * @param functionName - name of function
      */
-    static void changeTypeFunction(EditorView editable, final Name name, TextData text, Type valueType) {
-        Pattern pattern = Pattern.compile(
-                "(^function\\s+|\\s+function\\s+)" + //function token //1
-                        "(" + name + ")" + //name of function         //2
-                        "(\\s?)" + //white space                      //3
-                        "(:)" +                                       //4
-                        "(.*?)" + //type of function                  //5
-                        ";"); //end                                   //6
-        Matcher matcher = pattern.matcher(text.getText());
-        if (matcher.find()) {
-            editable.disableTextWatcher();
+    @NonNull
+    static AutoFixCommand changeTypeFunction(final UnConvertibleTypeException exception, final Name functionName, final Type newType) {
+        return new AutoFixCommand() {
+            @Override
+            public void execute(EditorView editable) {
+                //get a part of text
+                TextData scope = getText(editable, exception.getScope().getStartPosition(), exception.getLineInfo());
+                Pattern pattern = Pattern.compile(
+                        "(^function\\s+|\\s+function\\s+)" + //function token //1
+                                "(" + Pattern.quote(functionName.getOriginName()) + ")" + //name of function         //2
+                                "(\\s?)" + //white space                      //3
+                                "(:)" +                                       //4
+                                "(.*?)" + //type of function                  //5
+                                ";"); //end                                   //6
+                Matcher matcher = pattern.matcher(scope.getText());
+                if (matcher.find()) {
+                    editable.disableTextWatcher();
 
-            DLog.d(TAG, "changeTypeFunction: match " + matcher);
-            int start = matcher.start(5) + text.getOffset();
-            int end = matcher.end(5) + text.getOffset();
+                    DLog.d(TAG, "changeTypeFunction: match " + matcher);
+                    int start = matcher.start(5) + scope.getOffset();
+                    int end = matcher.end(5) + scope.getOffset();
 
-            String insertText = " " + valueType.toString();
-            editable.getText().replace(start, end, insertText);
-            editable.setSelection(start, start + insertText.length());
-            editable.showKeyboard();
+                    String insertText = " " + newType.toString();
+                    editable.getText().replace(start, end, insertText);
+                    editable.setSelection(start, start + insertText.length());
+                    editable.showKeyboard();
+                    editable.enableTextWatcher();
+                } else {
+                    DLog.d(TAG, "changeTypeFunction: can not find " + pattern);
+                }
+            }
 
-            editable.enableTextWatcher();
-        } else {
-            DLog.d(TAG, "changeTypeFunction: can not find " + pattern);
-        }
+            @NonNull
+            @Override
+            public CharSequence getTitle(Context context) {
+                String string = context.getString(R.string.change_function_type,
+                        functionName.toString(),
+                        newType.getName().toString());
+                return ExceptionManager.highlight(string);
+            }
+        };
     }
 
     /**
      * Change type of variable
      *
-     * @param editable
-     * @param text       - type to change
-     * @param identifier - variable
-     * @param valueType  - current type of variable
+     * @param scope    - type to change
+     * @param variable - variable
+     * @param newType  - current type of variable
      */
-    static void changeTypeVar(EditorView editable, TextData text, VariableAccess identifier, Type valueType) {
-        Log.d(TAG, "changeTypeVar() called with: editable = [" + editable + "], text = [" + text + "], identifier = [" + identifier + "], valueType = [" + valueType + "]");
+    @NonNull
+    static AutoFixCommand changeTypeVar(final UnConvertibleTypeException exception,
+                                        final VariableAccess variable,
+                                        final Type newType) {
+        return new AutoFixCommand() {
+            @Override
+            public void execute(EditorView editable) {
+                //get a part of text
+                TextData scope = getText(editable, exception.getScope().getStartPosition(), exception.getLineInfo());
 
-        final Name name = identifier.getName();
-        Pattern pattern = Pattern.compile("(^var\\s+|\\s+var\\s+)" + //match "var"  //1
-                "(.*?)" + //other variable                                  //2
-                "(" + name + ")" + //name of variable                       //3
-                "(\\s?)" +//one or more white space                         //4
-                "(:)" + //colon                                             //5
-                "(.*?)" + //any type                                        //6
-                "(;)", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+                Log.d(TAG, "changeTypeVar() called with: editable = [" + editable + "], text = [" + scope + "], identifier = [" + variable + "], valueType = [" + newType + "]");
 
-        Matcher matcher = pattern.matcher(text.getText());
-        DLog.d(TAG, "fixUnConvertType: " + text);
 
-        if (matcher.find()) {
-            editable.disableTextWatcher();
-            DLog.d(TAG, "fixUnConvertType: match " + matcher);
-            int start = matcher.start(6) + text.getOffset();
-            int end = matcher.end(6) + text.getOffset();
+                final Name name = variable.getName();
+                Pattern pattern = Pattern.compile("(^var\\s+|\\s+var\\s+)" + //match "var"  //1
+                        "(.*?)" + //other variable                                  //2
+                        "(" + Pattern.quote(name.getOriginName()) + ")" +  //name of variable                       //3
+                        "(\\s?)" +//one or more white space                         //4
+                        "(:)" + //colon                                             //5
+                        "(.*?)" + //any type                                        //6
+                        "(;)", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
-            String insertText = " " + valueType.toString();
-            editable.getText().replace(start, end, insertText);
-            editable.setSelection(start + 1, start + insertText.length());
-            editable.showKeyboard();
+                Matcher matcher = pattern.matcher(scope.getText());
+                DLog.d(TAG, "fixUnConvertType: " + scope);
 
-            editable.enableTextWatcher();
-        } else {
-            DLog.d(TAG, "fixUnConvertType: can not find " + pattern);
-        }
+                if (matcher.find()) {
+                    editable.disableTextWatcher();
+                    DLog.d(TAG, "fixUnConvertType: match " + matcher);
+                    int start = matcher.start(6) + scope.getOffset();
+                    int end = matcher.end(6) + scope.getOffset();
+
+                    String insertText = " " + newType.toString();
+                    editable.getText().replace(start, end, insertText);
+                    editable.setSelection(start + 1, start + insertText.length());
+                    editable.showKeyboard();
+                    editable.enableTextWatcher();
+                } else {
+                    DLog.d(TAG, "fixUnConvertType: can not find " + pattern);
+                }
+            }
+
+            @NonNull
+            @Override
+            public CharSequence getTitle(Context context) {
+                String string = context.getString(R.string.change_var_type,
+                        variable.getName().toString(),
+                        newType.getName().toString());
+                return ExceptionManager.highlight(string);
+            }
+        };
+
     }
 
     /**
@@ -117,37 +158,51 @@ class ChangeTypeHelper {
      * Example
      * const a: integer = 'adsda'; => change to string
      */
-    static void changeTypeConst(EditorView editable, TextData text, ConstantAccess identifier, Type valueType) {
-        DLog.d(TAG, "fixUnConvertType: constant " + identifier);
+    @NonNull
+    static AutoFixCommand changeTypeConst(final UnConvertibleTypeException exception, final ConstantAccess constant, final Type newType) {
+        return new AutoFixCommand() {
+            @Override
+            public void execute(EditorView editable) {
+                DLog.d(TAG, "fixUnConvertType: constant " + constant);
+                TextData scope = getText(editable, exception.getScope().getStartPosition(), exception.getLineInfo());
+                if (constant.getName() == null) { //can not replace because it is not a identifier
+                    DLog.d(TAG, "changeTypeConst: this is not identifier");
+                    return;
+                }
 
-        if (identifier.getName() == null) { //can not replace because it is not a identifier
-            DLog.d(TAG, "changeTypeConst: this is not identifier");
-            return;
-        }
+                Name name = constant.getName();
+                Pattern pattern = Pattern.compile("(^const\\s+|\\s+const\\s+)" + //match "const"  //1
+                                "(.*?)" + //other const                                  //2
+                                "(" + Pattern.quote(name + "") + ")" + //name of const                       //3
+                                "(\\s?)" +//one or more white space                         //4
+                                "(:)" + //colon                                             //5
+                                "(.*?)" + //type????                                        //6
+                                "(=)" +
+                                "(.*?)" +
+                                "(;)",
+                        Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+                Matcher matcher = pattern.matcher(scope.getText());
 
-        Name name = identifier.getName();
-        Pattern pattern = Pattern.compile("(^const\\s+|\\s+const\\s+)" + //match "const"  //1
-                        "(.*?)" + //other const                                  //2
-                        "(" + Pattern.quote(name + "") + ")" + //name of const                       //3
-                        "(\\s?)" +//one or more white space                         //4
-                        "(:)" + //colon                                             //5
-                        "(.*?)" + //type????                                        //6
-                        "(=)" +
-                        "(.*?)" +
-                        "(;)",
-                Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-        Matcher matcher = pattern.matcher(text.getText());
+                if (matcher.find()) {
+                    DLog.d(TAG, "fixUnConvertType: match " + matcher);
+                    final int start = matcher.start(6) + scope.getOffset();
+                    int end = matcher.end(6) + scope.getOffset();
 
-        if (matcher.find()) {
-            DLog.d(TAG, "fixUnConvertType: match " + matcher);
-            final int start = matcher.start(6) + text.getOffset();
-            int end = matcher.end(6) + text.getOffset();
+                    final String insertText = " " + newType.toString();
+                    editable.getText().replace(start, end, insertText);
+                    editable.setSelection(start, start + insertText.length());
+                    editable.showKeyboard();
+                }
+            }
 
-            final String insertText = " " + valueType.toString();
-            editable.getText().replace(start, end, insertText);
-            editable.setSelection(start, start + insertText.length());
-            editable.showKeyboard();
-        }
+            @NonNull
+            @Override
+            public CharSequence getTitle(Context context) {
+                String string = context.getString(R.string.change_const_type,
+                        constant.getName().toString(),
+                        newType.getName().toString());
+                return ExceptionManager.highlight(string);
+            }
+        };
     }
-
 }

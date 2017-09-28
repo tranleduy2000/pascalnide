@@ -49,6 +49,9 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.duy.pascal.frontend.autocomplete.autofix.ChangeTypeHelper.changeTypeConst;
+import static com.duy.pascal.frontend.autocomplete.autofix.ChangeTypeHelper.changeTypeFunction;
+import static com.duy.pascal.frontend.autocomplete.autofix.ChangeTypeHelper.changeTypeVar;
 import static com.duy.pascal.frontend.autocomplete.autofix.EditorUtil.getText;
 import static com.duy.pascal.frontend.autocomplete.autofix.EditorUtil.getTextInLine;
 
@@ -159,56 +162,47 @@ public class AutoFixHelper {
      * end.
      * </code>
      */
-    @NonNull
-    private static AutoFixCommand fixUnConvertType(final UnConvertibleTypeException exception) {
-        return new AutoFixCommand() {
-            @Override
-            public void execute(EditorView editable) {
-                //get a part of text
-                TextData text = getText(editable, exception.getScope().getStartPosition(), exception.getLineInfo());
-                if (exception.getIdentifier() instanceof VariableAccess) {
+    private static void fixUnConvertType(final ArrayList<AutoFixCommand> commands, UnConvertibleTypeException exception) {
 
-                    if (exception.getScope() instanceof FunctionDeclaration.FunctionExpressionContext) {
-                        text = getText(editable, exception.getScope().getStartPosition(), exception.getLineInfo());
-                        Name name = ((FunctionDeclaration.FunctionExpressionContext) exception.getScope()).function.getName();
+        //identifier
+        if (exception.getIdentifier() instanceof VariableAccess) {
+            if (exception.getScope() instanceof FunctionDeclaration.FunctionExpressionContext) {
+                Name funName = ((FunctionDeclaration.FunctionExpressionContext) exception.getScope()).function.getName();
+                //this is function name
+                if (funName.equals(((VariableAccess) exception.getIdentifier()).getName())) {
+                    commands.add(changeTypeFunction(exception, funName, exception.getValueType()));
 
-                        //this is function name
-                        if (name.equals(((VariableAccess) exception.getIdentifier()).getName())) {
-                            ChangeTypeHelper.changeTypeFunction(editable, name, text, exception.getValueType());
-                        } else {
-                            ChangeTypeHelper.changeTypeVar(editable, text, (VariableAccess) exception.getIdentifier(), exception.getValueType());
-                        }
-
-                    } else {
-                        ChangeTypeHelper.changeTypeVar(editable, text, (VariableAccess) exception.getIdentifier(), exception.getValueType());
-                    }
-
-                } else if (exception.getIdentifier() instanceof ConstantAccess) {
-                    ChangeTypeHelper.changeTypeConst(editable, text, (ConstantAccess) exception.getIdentifier(), exception.getValueType());
-                } else if (exception.getValue() instanceof VariableAccess) {
-                    if (exception.getScope() instanceof FunctionDeclaration.FunctionExpressionContext) {
-                        Name name = ((FunctionDeclaration.FunctionExpressionContext) exception.getScope()).function.getName();
-                        //this is function name
-                        if (name.equals(((VariableAccess) exception.getValue()).getName())) {
-                            ChangeTypeHelper.changeTypeFunction(editable, name, text, exception.getTargetType());
-                        } else {
-                            ChangeTypeHelper.changeTypeVar(editable, text, (VariableAccess) exception.getValue(), exception.getTargetType());
-                        }
-                    } else {
-                        ChangeTypeHelper.changeTypeVar(editable, text, (VariableAccess) exception.getValue(), exception.getTargetType());
-                    }
-
-                } else if (exception.getValue() instanceof ConstantAccess) {
-                    ChangeTypeHelper.changeTypeConst(editable, text, (ConstantAccess) exception.getValue(), exception.getTargetType());
+                } else {
+                    commands.add(changeTypeVar(exception, (VariableAccess) exception.getIdentifier(), exception.getValueType()));
                 }
+            } else {
+                commands.add(changeTypeVar(exception, (VariableAccess) exception.getIdentifier(), exception.getValueType()));
             }
+        }
 
-            @NonNull
-            @Override
-            public CharSequence getTitle(Context context) {
-                return null;
+        if (exception.getIdentifier() instanceof ConstantAccess
+                && ((ConstantAccess) exception.getIdentifier()).getName() != null) {
+            commands.add(changeTypeConst(exception, (ConstantAccess) exception.getIdentifier(), exception.getValueType()));
+        }
+
+        //value
+        if (exception.getValue() instanceof ConstantAccess
+                && ((ConstantAccess) exception.getValue()).getName() != null) {
+            commands.add(changeTypeConst(exception, (ConstantAccess) exception.getValue(), exception.getTargetType()));
+        }
+        if (exception.getValue() instanceof VariableAccess) {
+            if (exception.getScope() instanceof FunctionDeclaration.FunctionExpressionContext) {
+                Name name = ((FunctionDeclaration.FunctionExpressionContext) exception.getScope()).function.getName();
+                //this is function name
+                if (name.equals(((VariableAccess) exception.getValue()).getName())) {
+                    commands.add(changeTypeFunction(exception, name, exception.getTargetType()));
+                } else {
+                    commands.add(changeTypeVar(exception, (VariableAccess) exception.getValue(), exception.getTargetType()));
+                }
+            } else {
+                commands.add(changeTypeVar(exception, (VariableAccess) exception.getValue(), exception.getTargetType()));
             }
-        };
+        }
 
     }
 
@@ -557,35 +551,35 @@ public class AutoFixHelper {
     }
 
     @NonNull
-    public static ArrayList<AutoFixCommand> buildCommands(Exception exception) {
+    public static ArrayList<AutoFixCommand> buildCommands(Exception e) {
         ArrayList<AutoFixCommand> commands = new ArrayList<>();
-        if (exception instanceof TypeIdentifierExpectException) {
-            commands.add(declareType((TypeIdentifierExpectException) exception));
-        } else if (exception instanceof UnknownIdentifierException) {
+        if (e instanceof TypeIdentifierExpectException) {
+            commands.add(declareType((TypeIdentifierExpectException) e));
+        } else if (e instanceof UnknownIdentifierException) {
             //add missing var
-            commands.add(declareVar((UnknownIdentifierException) exception));
+            commands.add(declareVar((UnknownIdentifierException) e));
             //add missing const
-            commands.add(declareConst((UnknownIdentifierException) exception));
+            commands.add(declareConst((UnknownIdentifierException) e));
             //add missing function
-            commands.add(declareFunction((UnknownIdentifierException) exception));
+            commands.add(declareFunction((UnknownIdentifierException) e));
             //add missing procedure
 //            commands.add(declareProcedure((UnknownIdentifierException) exception));
-        } else if (exception instanceof VariableIdentifierExpectException) {
-            commands.add(declareVar((VariableIdentifierExpectException) exception));
+        } else if (e instanceof VariableIdentifierExpectException) {
+            commands.add(declareVar((VariableIdentifierExpectException) e));
 
-        } else if (exception instanceof UnConvertibleTypeException) {
-            commands.add(fixUnConvertType((UnConvertibleTypeException) exception));
+        } else if (e instanceof UnConvertibleTypeException) {
+            UnConvertibleTypeException exception = (UnConvertibleTypeException) e;
+            fixUnConvertType(commands, exception);
+        } else if (e instanceof MissingTokenException) {
+            commands.add(insertToken((MissingTokenException) e));
 
-        } else if (exception instanceof MissingTokenException) {
-            commands.add(insertToken((MissingTokenException) exception));
+        } else if (e instanceof ChangeValueConstantException) {
+            commands.add(changeConstToVar((ChangeValueConstantException) e));
 
-        } else if (exception instanceof ChangeValueConstantException) {
-            commands.add(changeConstToVar((ChangeValueConstantException) exception));
+        } else if (e instanceof GroupingException) {
+            commands.add(fixGroupException((GroupingException) e));
 
-        } else if (exception instanceof GroupingException) {
-            commands.add(fixGroupException((GroupingException) exception));
-
-        } else if (exception instanceof MainProgramNotFoundException) {
+        } else if (e instanceof MainProgramNotFoundException) {
             commands.add(fixProgramNotFound());
         }
         return commands;
