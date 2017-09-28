@@ -214,7 +214,7 @@ public class AutoFixHelper {
             public void execute(EditorView editable) {
                 LineInfo line = e.getLineInfo();
                 int start = LineUtils.getStartIndexAtLine(editable, line.getLine()) + line.getColumn();
-                String insertText = e.getMissingToken();
+                String insertText = " " + e.getMissingToken() + " ";
                 editable.getText().insert(start, insertText);
                 editable.setSelection(start, insertText.length() + start);
                 editable.showKeyboard();

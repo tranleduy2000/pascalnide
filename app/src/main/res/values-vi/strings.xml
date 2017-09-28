@@ -220,18 +220,28 @@
     <string name="donate_nope">Tôi sẽ ko bị dụ đâu :P!</string>
     <string name="donate_yes">Tôi yêu ứng dụng này. Phải ủng hộ!</string>
     <string name="license_invalid">Thanks for purchasing the donation app! Unfortunately license check failed. Please try again later. If it\'s still not working, please contact me. You need internet access!</string>
+
     <string name="unknown">Unknown</string>
     <string name="more_font">Get more font</string>
     <string name="editor_font">Editor font</string>
     <string name="console_font">Console font</string>
-    <string name="create_new_theme">Create new theme</string>
+    <string name="create_new_theme">Tạo chủ đề mới</string>
     <string name="custom_theme">Custom theme</string>
     <string name="more_theme">Get premium version. Create your custom theme!</string>
-    <string name="save_and_apply">Save and apply</string>
+    <string name="save_and_apply">Lưu và áp dụng</string>
     <string name="auto_insert_bracket">Tự động chèn</string>
     <string name="auto_insert_bracket_summary">Tự động chèn dấu đóng ngoặc</string>
 
     <string name="missing_token_exception">Có thể thiếu \"%1$s\"</string>
-    <string name="add_end_at_the_end_of_program">Thêm từ khóa \"end\" vào cuối chương trình</string>
     <string name="some_suggestion">Một số gợi ý</string>
+    <string name="add_begin_end">Thêm \"begin end.\"</string>
+    <string name="add_end_at_the_end_of_program">Thêm từ khóa \"end\" vào cuối chương trình</string>
+    <string name="declare_constant_2">Khai báo hằng \"%1$s\"</string>
+    <string name="declare_variable_2">Khai báo biến \"%1$s\" với kiểu dữ liệu là \"%2$s\"</string>
+    <string name="declare_type">Khai báo kiểu \"%1$s\"</string>
+    <string name="change_const_to_var">Chuyển hằng \"%1$s\" sang biến với kiểu dữ liệu là \"%2$s\", giá trị khởi tạo là \"%3$s\"</string>
+    <string name="insert_token">Chèn \"%1$s\"</string>
+    <string name="change_var_type">Chuyển kiểu của biến \"%1$s\" sang kiểu \"%2$s\"</string>
+    <string name="change_const_type">Chuyển kiểu của hằng \"%1$s\" sang kiểu \"%2$s\"</string>
+    <string name="change_function_type">Chuyển kiểu của hàm \"%1$s\" sang kiểu \"%2$s\"</string>
 </resources>

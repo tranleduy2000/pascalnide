@@ -77,9 +77,9 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mListFrame = (RadioGroup) view.findViewById(R.id.group_frame);
+        mListFrame = view.findViewById(R.id.group_frame);
 
-        mListVars = (RecyclerView) view.findViewById(R.id.rc_vars);
+        mListVars = view.findViewById(R.id.rc_vars);
         mListVars.setHasFixedSize(true);
         mListVars.setLayoutManager(new LinearLayoutManager(getContext()));
         mVariableAdapter = new VariableAdapter(getContext());
