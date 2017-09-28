@@ -19,6 +19,7 @@ package com.duy.pascal.frontend.autocomplete.autofix;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.Size;
 import android.text.SpannableString;
 import android.util.Log;
 
@@ -268,7 +269,7 @@ public class AutoFixHelper {
                 //sub string from 0 to position error
                 TextData text = getText(editable, e.getScope().getStartPosition(), e.getLineInfo());
 
-                String textToInsert = "";
+                String textToInsert;
                 int insertPosition = 0;
                 Name name = e.getName();
 
@@ -329,7 +330,7 @@ public class AutoFixHelper {
      * First, match position of list keyword
      * Then insert new variable
      */
-    @Nullable
+    @NonNull
     private static AutoFixCommand declareVar(VariableIdentifierExpectException e) {
         LineInfo[] range = {e.getScope().getStartPosition(), e.getLineInfo()};
         String type = e.getExpectedType() != null ? e.getExpectedType().toString() : "";
@@ -342,7 +343,7 @@ public class AutoFixHelper {
      * First, match position of list keyword
      * Then insert new variable
      */
-    @Nullable
+    @NonNull
     private static AutoFixCommand declareVar(UnknownIdentifierException e) {
         return declareVar(new LineInfo[]{e.getScope().getStartPosition(), e.getLineInfo()},
                 e.getName(),
@@ -350,12 +351,8 @@ public class AutoFixHelper {
                 null); //non init value
     }
 
-    @Nullable
-    private static AutoFixCommand declareVar(LineInfo[] lines, Name name, String type, String initValue) {
-        if (lines.length != 2) {
-            DLog.e(TAG, "The length line array must be 2");
-            return null;
-        }
+    @NonNull
+    private static AutoFixCommand declareVar(@Size(2) LineInfo[] lines, Name name, String type, String initValue) {
         return declareVar(lines[0], lines[1], name, type, initValue);
     }
 
@@ -385,6 +382,7 @@ public class AutoFixHelper {
      * @param type      - the type of variable will be declared
      * @param initValue - init value
      */
+    @NonNull
     private static AutoFixCommand declareVar(final TextData scope, final Name name,
                                              final String type, final String initValue) {
         return new AutoFixCommand() {
@@ -563,7 +561,7 @@ public class AutoFixHelper {
             //add missing function
             commands.add(declareFunction((UnknownIdentifierException) e));
             //add missing procedure
-//            commands.add(declareProcedure((UnknownIdentifierException) exception));
+            commands.add(declareProcedure((UnknownIdentifierException) e));
         } else if (e instanceof VariableIdentifierExpectException) {
             commands.add(declareVar((VariableIdentifierExpectException) e));
 
@@ -595,6 +593,7 @@ public class AutoFixHelper {
      * @param column  - start at column of @lineInfo
      */
     @NonNull
+    @SuppressWarnings("unused")
     public static AutoFixCommand fixExpectToken(final String current, final String expect,
                                                 final boolean insert, final int line, final int column) {
         return new AutoFixCommand() {

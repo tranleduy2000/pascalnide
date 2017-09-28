@@ -47,7 +47,6 @@ import com.duy.pascal.frontend.autocomplete.autofix.dialog.QuickFixDialog;
 import com.duy.pascal.frontend.autocomplete.completion.model.Description;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.sample.activities.DocumentActivity;
-import com.duy.pascal.frontend.dialog.DialogFragmentFixExpectToken;
 import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.file.util.FileUtils;
@@ -75,7 +74,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class EditorActivity extends BaseEditorActivity implements
-        DrawerLayout.DrawerListener, DialogFragmentFixExpectToken.OnSelectExpectListener {
+        DrawerLayout.DrawerListener {
 
     public static final int ACTION_FILE_SELECT_CODE = 1012;
     public static final int ACTION_PICK_MEDIA_URL = 1013;
@@ -645,14 +644,6 @@ public class EditorActivity extends BaseEditorActivity implements
         }
     }
 
-    @Override
-    public void onSelectedExpect(@NonNull String current, @NonNull String expect, boolean insert, int line, int column) {
-        EditorFragment f = mPagerAdapter.getCurrentFragment();
-        if (f != null && f.getEditor() != null) {
-            AutoFixCommand command = AutoFixHelper.fixExpectToken(current, expect, insert, line, column);
-            command.execute(f.getEditor());
-        }
-    }
 
     private class ProgramHandler implements com.duy.pascal.frontend.runnable.ProgramHandler {
 
