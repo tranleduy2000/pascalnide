@@ -346,4 +346,14 @@ public class PascalPreferences {
     public boolean useAutoInsert() {
         return getBoolean(context.getString(R.string.key_auto_insert_bracket), false);
     }
+
+    public String getTabCharacter() {
+        int tabWidth = getInt("key_pref_tab_width", 2);
+        tabWidth = Math.min(6, Math.max(0, tabWidth));
+        String res = "";
+        for (int i = 0; i < tabWidth; i++) {
+            res += " ";
+        }
+        return res;
+    }
 }

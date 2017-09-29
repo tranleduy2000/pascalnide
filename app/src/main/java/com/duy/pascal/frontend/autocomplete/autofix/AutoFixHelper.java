@@ -397,7 +397,7 @@ public class AutoFixHelper {
                 Matcher matcher = Patterns.VAR.matcher(scope.getText());
                 if (matcher.find()) {
                     insertPosition = matcher.end();
-                    textToInsert = "\n" + AutoIndentEditText.TAB_CHARACTER + name + ": ";
+                    textToInsert = "\n" + editable.getTabCharacter() + name + ": ";
 
                     startSelect = textToInsert.length();
                     endSelect = startSelect + type.length();
@@ -411,7 +411,7 @@ public class AutoFixHelper {
                     } else if ((matcher = Patterns.PROGRAM.matcher(scope.getText())).find()) {
                         insertPosition = matcher.end();
                     }
-                    textToInsert = "\nvar\n" + AutoIndentEditText.TAB_CHARACTER + name + ": ";
+                    textToInsert = "\nvar\n" + editable.getTabCharacter() + name + ": ";
 
                     startSelect = textToInsert.length();
                     endSelect = startSelect + type.length();

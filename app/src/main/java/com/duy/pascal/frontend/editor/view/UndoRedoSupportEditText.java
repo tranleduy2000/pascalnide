@@ -228,12 +228,10 @@ public class UndoRedoSupportEditText extends HighlightEditor {
         } else {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_TAB:
-                    String textToInsert = TAB_CHARACTER;
                     int start, end;
                     start = Math.max(getSelectionStart(), 0);
                     end = Math.max(getSelectionEnd(), 0);
-                    getText().replace(Math.min(start, end), Math.max(start, end),
-                            textToInsert, 0, textToInsert.length());
+                    getText().replace(Math.min(start, end), Math.max(start, end), mTabStr, 0, mTabStr.length());
                     return true;
                 default:
                     try {

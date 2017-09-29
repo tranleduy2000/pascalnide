@@ -84,6 +84,8 @@ public class ErrorAndQuickFixDialog extends BottomSheetDialogFragment {
         });
 
         if (exception instanceof ParsingException && ((ParsingException) exception).canQuickFix()) {
+            view.findViewById(R.id.container_command).setVisibility(View.VISIBLE);
+
             RecyclerView listCommand = view.findViewById(R.id.list_command);
             listCommand.setLayoutManager(new LinearLayoutManager(getActivity()));
             listCommand.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
@@ -97,7 +99,8 @@ public class ErrorAndQuickFixDialog extends BottomSheetDialogFragment {
                 }
             });
 
-            view.findViewById(R.id.txt_hint).setVisibility(View.VISIBLE);
+        } else {
+            view.findViewById(R.id.container_command).setVisibility(View.GONE);
         }
     }
 

@@ -43,7 +43,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1"
-                    android:paddingTop="8dp"
+                    android:gravity="center_vertical"
                     android:text="@string/compile_error"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
@@ -69,6 +69,7 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
+        android:id="@+id/container_command"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardUseCompatPadding="true">
@@ -84,8 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/some_suggestion"
-                android:textColor="?colorAccent"
-                android:visibility="gone" />
+                android:textColor="?colorAccent" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/list_command"

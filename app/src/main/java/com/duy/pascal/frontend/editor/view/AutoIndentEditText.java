@@ -34,9 +34,9 @@ import com.duy.pascal.frontend.EditorSetting;
  */
 
 public class AutoIndentEditText extends AppCompatEditText {
-    public static final String TAB_CHARACTER = "  ";
     public static final String CURSOR = "\u2622";
     private static final String TAG = "AutoIndentEditText";
+    protected String mTabStr = "  ";
     protected EditorSetting mEditorSetting;
     private TextWatcher mBracketWatcher = new TextWatcher() {
         private int start;
@@ -115,7 +115,7 @@ public class AutoIndentEditText extends AppCompatEditText {
 
     private void init(Context context) {
         mEditorSetting = new EditorSetting(context);
-
+        mTabStr = mEditorSetting.getTabCharacter();
         setFilters(new InputFilter[]{mInputFilter});
         addTextChangedListener(mBracketWatcher);
     }
@@ -219,7 +219,7 @@ public class AutoIndentEditText extends AppCompatEditText {
             indent += dest.subSequence(indexStart, indexEnd);
         }
         if (parenthesesCount < 0) {
-            indent += TAB_CHARACTER;
+            indent += mTabStr;
         }
         Log.d(TAG, "indentLine: " + dest.charAt(dend) + " " + dest.charAt(dstart));
 
@@ -245,6 +245,6 @@ public class AutoIndentEditText extends AppCompatEditText {
     }
 
     public String getTabCharacter() {
-        return TAB_CHARACTER;
+        return mTabStr;
     }
 }

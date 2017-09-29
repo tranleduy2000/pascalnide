@@ -47,7 +47,6 @@ import com.duy.pascal.frontend.autocomplete.autofix.dialog.ErrorAndQuickFixDialo
 import com.duy.pascal.frontend.autocomplete.completion.model.Description;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.sample.activities.DocumentActivity;
-import com.duy.pascal.frontend.editor.view.AutoIndentEditText;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.file.util.FileUtils;
 import com.duy.pascal.frontend.setting.PascalPreferences;
@@ -119,7 +118,21 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     private void insertTab(View v) {
-        onKeyClick(v, AutoIndentEditText.TAB_CHARACTER);
+        EditorFragment currentFragment = mPagerAdapter.getCurrentFragment();
+        if (currentFragment != null) {
+            currentFragment.exciteCommand(new AutoFixCommand() {
+                @Override
+                public void execute(EditorView editable) {
+                    editable.insert(editable.getTabCharacter());
+                }
+
+                @NonNull
+                @Override
+                public CharSequence getTitle(Context context) {
+                    return null;
+                }
+            });
+        }
     }
 
     @Override
