@@ -560,15 +560,15 @@ public class AutoFixHelper {
             //add missing const
             commands.add(declareConst((UnknownIdentifierException) e));
             //add missing function
-            commands.add(declareFunction((UnknownIdentifierException) e));
+            //commands.add(declareFunction((UnknownIdentifierException) e));
             //add missing procedure
-            commands.add(declareProcedure((UnknownIdentifierException) e));
+            //commands.add(declareProcedure((UnknownIdentifierException) e));
         } else if (e instanceof VariableIdentifierExpectException) {
             commands.add(declareVar((VariableIdentifierExpectException) e));
 
         } else if (e instanceof UnConvertibleTypeException) {
-            UnConvertibleTypeException exception = (UnConvertibleTypeException) e;
-            fixUnConvertType(commands, exception);
+            fixUnConvertType(commands, (UnConvertibleTypeException) e);
+
         } else if (e instanceof MissingTokenException) {
             commands.add(insertToken((MissingTokenException) e));
 

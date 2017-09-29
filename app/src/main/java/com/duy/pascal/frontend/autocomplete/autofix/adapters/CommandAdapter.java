@@ -18,13 +18,11 @@ package com.duy.pascal.frontend.autocomplete.autofix.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
@@ -36,37 +34,63 @@ import java.util.List;
  * Created by Duy on 9/28/2017.
  */
 
-public class CommandAdapter extends ArrayAdapter<AutoFixCommand> {
+public class CommandAdapter extends RecyclerView.Adapter<CommandAdapter.ViewHolder> {
     @NonNull
-    private final Context context;
-    private final int resource;
+    private Context context;
     @NonNull
-    private final List<AutoFixCommand> commandDescriptors;
+    private List<AutoFixCommand> commandDescriptors;
     private LayoutInflater mInflater;
+    private OnItemClickListener onItemClickListener;
 
-    public CommandAdapter(@NonNull Context context, @LayoutRes int resource,
-                          @NonNull List<AutoFixCommand> objects) {
-        super(context, resource, objects);
+    public CommandAdapter(@NonNull Context context, @NonNull List<AutoFixCommand> objects) {
         this.context = context;
-        this.resource = resource;
         this.commandDescriptors = objects;
         this.mInflater = LayoutInflater.from(context);
     }
 
-    @NonNull
+
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.list_item_quick_fix, parent, false);
-        }
-        TextView txtContent = convertView.findViewById(R.id.txt_content);
-        txtContent.setTypeface(Typeface.MONOSPACE);
-        txtContent.setText(commandDescriptors.get(position).getTitle(getContext()));
-        return convertView;
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = mInflater.inflate(R.layout.list_item_quick_fix, parent, false);
+        return new ViewHolder(v);
     }
 
     @Override
-    public int getCount() {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        TextView txtContent = holder.txtContent;
+        txtContent.setTypeface(Typeface.MONOSPACE);
+        txtContent.setText(commandDescriptors.get(position).getTitle(context));
+        holder.root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onClick(commandDescriptors.get(position));
+                }
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
         return commandDescriptors.size();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onClick(AutoFixCommand command);
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView txtContent;
+        View root;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            txtContent = itemView.findViewById(R.id.txt_content);
+            root = itemView.findViewById(R.id.root);
+        }
     }
 }

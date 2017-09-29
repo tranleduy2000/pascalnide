@@ -20,12 +20,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.view.ContextThemeWrapper;
-import android.support.v7.widget.ListViewCompat;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
@@ -75,17 +76,28 @@ public class ErrorAndQuickFixDialog extends BottomSheetDialogFragment {
         TextView txtMsg = view.findViewById(R.id.txt_message);
         txtMsg.setText(exceptionManager.getMessage(exception));
 
+        view.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
         if (exception instanceof ParsingException && ((ParsingException) exception).canQuickFix()) {
-            ListViewCompat listCommand = view.findViewById(R.id.list_command);
+            RecyclerView listCommand = view.findViewById(R.id.list_command);
+            listCommand.setLayoutManager(new LinearLayoutManager(getActivity()));
+            listCommand.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
             final ArrayList<AutoFixCommand> commands = AutoFixHelper.buildCommands(exception);
-            CommandAdapter commandAdapter = new CommandAdapter(getActivity(), R.layout.list_item_quick_fix, commands);
+            CommandAdapter commandAdapter = new CommandAdapter(getActivity(), commands);
             listCommand.setAdapter(commandAdapter);
-            listCommand.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            commandAdapter.setOnItemClickListener(new CommandAdapter.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    executeCommand(commands.get(position));
+                public void onClick(AutoFixCommand command) {
+                    executeCommand(command);
                 }
             });
+
+            view.findViewById(R.id.txt_hint).setVisibility(View.VISIBLE);
         }
     }
 
