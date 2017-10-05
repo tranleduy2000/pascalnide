@@ -23,15 +23,6 @@ import android.support.annotation.Size;
 import android.text.SpannableString;
 import android.util.Log;
 
-import com.duy.pascal.ui.DLog;
-import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
-import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
-import com.duy.pascal.ui.autocomplete.completion.KeyWord;
-import com.duy.pascal.ui.code.ExceptionManager;
-import com.duy.pascal.ui.editor.view.AutoIndentEditText;
-import com.duy.pascal.ui.editor.view.EditorView;
-import com.duy.pascal.ui.editor.view.LineUtils;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.VariableAccess;
 import com.duy.pascal.interperter.declaration.Name;
@@ -46,6 +37,14 @@ import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenExcepti
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.value.ChangeValueConstantException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.R;
+import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
+import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
+import com.duy.pascal.ui.autocomplete.completion.KeyWord;
+import com.duy.pascal.ui.editor.view.AutoIndentEditText;
+import com.duy.pascal.ui.editor.view.EditorView;
+import com.duy.pascal.ui.editor.view.LineUtils;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -56,6 +55,7 @@ import static com.duy.pascal.ui.autocomplete.autofix.ChangeTypeHelper.changeType
 import static com.duy.pascal.ui.autocomplete.autofix.ChangeTypeHelper.changeTypeVar;
 import static com.duy.pascal.ui.autocomplete.autofix.EditorUtil.getText;
 import static com.duy.pascal.ui.autocomplete.autofix.EditorUtil.getTextInLine;
+import static com.duy.pascal.ui.code.ExceptionManager.highlight;
 
 /**
  * Quick fix some syntax error
@@ -125,7 +125,7 @@ public class AutoFixHelper {
             @Override
             public CharSequence getTitle(Context context) {
                 String string = context.getString(R.string.declare_type, exception.getMissingType());
-                return ExceptionManager.highlight(string);
+                return highlight(string);
             }
         };
     }
@@ -225,7 +225,7 @@ public class AutoFixHelper {
             @Override
             public CharSequence getTitle(Context context) {
                 String insertText = e.getMissingToken();
-                return ExceptionManager.highlight(context.getString(R.string.insert_token, insertText));
+                return highlight(context.getString(R.string.insert_token, insertText));
             }
         };
     }
@@ -304,7 +304,8 @@ public class AutoFixHelper {
             @NonNull
             @Override
             public CharSequence getTitle(Context context) {
-                return context.getString(R.string.declare_constant_2, e.getName().getOriginName());
+                String str = context.getString(R.string.declare_constant_2, e.getName().getOriginName());
+                return highlight(str);
             }
         };
     }
@@ -370,7 +371,7 @@ public class AutoFixHelper {
             @Override
             public CharSequence getTitle(Context context) {
                 String str = context.getString(R.string.declare_variable_2, name, type);
-                return ExceptionManager.highlight(new SpannableString(str));
+                return highlight(new SpannableString(str));
             }
         };
     }
@@ -434,7 +435,7 @@ public class AutoFixHelper {
             @Override
             public CharSequence getTitle(Context context) {
                 String str = context.getString(R.string.declare_variable_2, name, type);
-                return ExceptionManager.highlight(new SpannableString(str));
+                return highlight(new SpannableString(str));
             }
         };
     }
@@ -520,7 +521,7 @@ public class AutoFixHelper {
                 ConstantAccess constant = e.getConst();
                 String string = context.getString(R.string.change_const_to_var, constant.getName(),
                         constant.getRuntimeType(null).getRawType().toString(), constant.getValue().toString());
-                return ExceptionManager.highlight(string);
+                return highlight(string);
             }
         };
 
@@ -544,7 +545,7 @@ public class AutoFixHelper {
             @NonNull
             @Override
             public CharSequence getTitle(Context context) {
-                return ExceptionManager.highlight(context.getString(R.string.add_begin_end));
+                return highlight(context.getString(R.string.add_begin_end));
             }
         };
     }
@@ -647,7 +648,7 @@ public class AutoFixHelper {
                 String str = insert ?
                         context.getString(R.string.insert_token_2, expect, current)
                         : context.getString(R.string.replace_token, current, expect);
-                return ExceptionManager.highlight(str);
+                return highlight(str);
             }
         };
     }

@@ -26,7 +26,6 @@ import android.text.TextUtils;
 import com.duy.pascal.ui.common.utils.StringUtils;
 import com.duy.pascal.ui.common.utils.SysUtils;
 import com.duy.pascal.ui.file.util.FileListSorter;
-import com.stericson.RootTools.RootTools;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -328,7 +327,7 @@ public class Pref implements SharedPreferences.OnSharedPreferenceChangeListener 
     }
 
     public boolean isRootable() {
-        return ((boolean) map.get(KEY_ENABLE_ROOT)) && RootTools.isRootAvailable() && RootTools.isAccessGiven();
+        return ((boolean) map.get(KEY_ENABLE_ROOT));
     }
 
     public boolean isKeepBackupFile() {

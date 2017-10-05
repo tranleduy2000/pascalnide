@@ -71,12 +71,12 @@ import java.util.List;
  */
 public class FileListPagerFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, OnItemClickListener, FileExplorerView, ExplorerContext, SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String TAG = "FileListPagerFragment";
-    private FileListItemAdapter adapter;
+    private FileListItemAdapter mAdapter;
     @Nullable
     private JecFile path;
     private FileExplorerFragmentBinding binding;
     private PathButtonAdapter mPathAdapter;
-    private boolean isRoot;
+    private boolean mIsRoot;
     private ScanFilesTask task;
     private FileExplorerAction action;
 
@@ -102,16 +102,16 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
         super.onViewCreated(view, savedInstanceState);
         FileClipboard fileClipboard = ((FileActionCallback) getActivity()).getFileClipboard();
         action = new FileExplorerAction(getContext(), this, fileClipboard, this);
-        adapter = new FileListItemAdapter();
-        adapter.setOnCheckedChangeListener(action);
-        adapter.setOnItemClickListener(this);
-        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        mAdapter = new FileListItemAdapter();
+        mAdapter.setOnCheckedChangeListener(action);
+        mAdapter.setOnItemClickListener(this);
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
                 binding.emptyLayout.post(new Runnable() {
                     @Override
                     public void run() {
-                        binding.emptyLayout.setVisibility(adapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
+                        binding.emptyLayout.setVisibility(mAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
                     }
                 });
 
@@ -143,7 +143,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
         binding.explorerSwipeRefreshLayout.setOnRefreshListener(this);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setAdapter(mAdapter);
         binding.recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext()).margin(getResources().getDimensionPixelSize(R.dimen.file_list_item_divider_left_margin), 0).build());
         binding.explorerSwipeRefreshLayout.post(new Runnable() {
             @Override
@@ -159,7 +159,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.filter(s);
+                mAdapter.filter(s);
             }
 
             @Override
@@ -168,7 +168,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
             }
         });
 
-        isRoot = Pref.getInstance(getContext()).isRootable();
+        mIsRoot = Pref.getInstance(getContext()).isRootable();
         onRefresh();
     }
 
@@ -233,7 +233,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
                 path = f;
             }
         };
-        task = new ScanFilesTask(getActivity(), path, isRoot, updateRootInfo);
+        task = new ScanFilesTask(getActivity(), path, mIsRoot, updateRootInfo);
         task.setTaskListener(new TaskListener<JecFile[]>() {
             @Override
             public void onCompleted() {
@@ -249,8 +249,8 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
             @Override
             public void onSuccess(JecFile[] result) {
-                if (adapter != null) {
-                    adapter.setData(result);
+                if (mAdapter != null) {
+                    mAdapter.setData(result);
                 }
             }
 
@@ -275,7 +275,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     @Override
     public void onItemClick(int position, View view) {
         try {
-            JecFile file = adapter.getItem(position);
+            JecFile file = mAdapter.getItem(position);
             FileActionCallback callback = (FileActionCallback) getActivity();
             if (!callback.onSelectFile(new File(file.getPath()))) {
                 if (file.isDirectory()) {
@@ -320,7 +320,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
     @Override
     public void setSelectAll(boolean checked) {
-        adapter.checkAll(checked);
+        mAdapter.checkAll(checked);
     }
 
     @Override

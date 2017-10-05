@@ -174,9 +174,10 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
         mFabMenu.findViewById(R.id.action_new_file).setOnClickListener(this);
         mFabMenu.findViewById(action_new_folder).setOnClickListener(this);
 
-        View anchor = findViewById(R.id.img_file_menus);
-        mFileMenu = new PopupMenu(this, anchor);
+        View menuAnchor = findViewById(R.id.img_file_menus);
+        mFileMenu = new PopupMenu(this, menuAnchor);
         mFileMenu.setOnMenuItemClickListener(this);
+
         Menu menu = mFileMenu.getMenu();
         getMenuInflater().inflate(R.menu.explorer_menu, menu);
         Pref pref = Pref.getInstance(this);
@@ -198,7 +199,9 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
                 break;
         }
         menu.findItem(sortId).setChecked(true);
-        anchor.setOnClickListener(this);
+        menuAnchor.setOnClickListener(this);
+
+        findViewById(R.id.img_home_dir).setOnClickListener(this);
     }
 
     protected void setupPageView() {
@@ -594,6 +597,8 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
             case action_new_folder:
                 mFileExplorer.createNewFolder();
                 mFabMenu.close(true);
+                break;
+            case R.id.img_home_dir:
                 break;
         }
     }

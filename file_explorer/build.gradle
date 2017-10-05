@@ -21,5 +21,4 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.0.3'
     compile 'com.github.afollestad.material-dialogs:commons:0.8.5.8'
     compile 'com.google.code.gson:gson:2.7'
-    compile files('libs/RootTools-4.2.jar')
 }
