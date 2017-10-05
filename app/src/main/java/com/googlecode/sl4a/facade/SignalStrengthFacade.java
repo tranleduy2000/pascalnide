@@ -22,9 +22,9 @@ import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 
-import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
-import com.duy.pascal.interperter.builtin_libraries.android.AndroidLibraryManager;
-import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
+import com.duy.pascal.interperter.libraries.PascalLibrary;
+import com.duy.pascal.interperter.libraries.android.AndroidLibraryManager;
+import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
 import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;

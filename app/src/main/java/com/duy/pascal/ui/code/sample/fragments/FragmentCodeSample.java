@@ -105,7 +105,7 @@ public class FragmentCodeSample extends Fragment {
                     }
                     AssetManager assets = context.getAssets();
                     list = assets.list(path);
-                    Log.d(TAG, "doInBackground: " + Arrays.toString(list));
+                   DLog.d(TAG, "doInBackground: " + Arrays.toString(list));
                     for (String fileName : list) {
                         if (fileName.endsWith(".pas")) {
                             StringBuilder content =

@@ -23,6 +23,7 @@ import com.duy.pascal.interperter.ast.runtime_value.value.boxing.ArrayBoxer;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.ui.DLog;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -36,6 +37,8 @@ import java.util.Set;
  */
 
 public class OutputFormatter {
+    private static final String TAG = "OutputFormatter";
+
     public static Object[] format(ArrayBoxer args, VariableContext f,
                                   RuntimeExecutableCodeUnit main) throws RuntimePascalException {
         RuntimeValue[] runtimeValues = args.getValues();
@@ -52,7 +55,11 @@ public class OutputFormatter {
     }
 
     public static String getValueOutput(Object value) {
-        if (value instanceof Object[]) return Arrays.toString((Object[]) value);
+        DLog.d(TAG, "getValueOutput() called with: value = [" + value + "] class = " + value.getClass());
+
+        if (value instanceof Object[]) {
+            return Arrays.toString((Object[]) value);
+        }
         if (value instanceof RecordValue) {
             Set<Map.Entry<Name, Object>> entries = ((RecordValue) value).getVariableMap().entrySet();
             StringBuilder res = new StringBuilder();

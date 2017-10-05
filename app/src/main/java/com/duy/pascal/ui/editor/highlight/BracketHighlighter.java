@@ -86,7 +86,7 @@ public class BracketHighlighter {
     }
 
     private void findClose(char open, int selEnd) {
-        Log.d(TAG, "findClose() called with: open = [" + open + "], selEnd = [" + selEnd + "]");
+       DLog.d(TAG, "findClose() called with: open = [" + open + "], selEnd = [" + selEnd + "]");
 
         Editable text = editText.getText();
         int cursor = selEnd + 1;

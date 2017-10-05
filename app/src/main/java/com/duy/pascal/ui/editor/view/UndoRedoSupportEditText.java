@@ -144,7 +144,7 @@ public class UndoRedoSupportEditText extends HighlightEditor {
     private boolean handleControlKey(int keyCode, KeyEvent event, boolean down) {
         if (keyCode == mSettings.getControlKeyCode()
                 || event.isCtrlPressed()) {
-//            Log.w(TAG, "handler control key: ");
+//           DLog.w(TAG, "handler control key: ");
             mKeyListener.handleControlKey(down);
             return true;
         }
@@ -169,12 +169,12 @@ public class UndoRedoSupportEditText extends HighlightEditor {
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (DLog.DEBUG) Log.w(TAG, "onKeyDown: " + keyCode + " " + event);
+        if (DLog.DEBUG)DLog.w(TAG, "onKeyDown: " + keyCode + " " + event);
         if (handleControlKey(keyCode, event, false)) {
             return true;
         }
         if (event.isCtrlPressed() || mKeyListener.mControlKey.isActive()) {
-//            Log.i(TAG, "onKeyDown: process");
+//           DLog.i(TAG, "onKeyDown: process");
             switch (keyCode) {
                 case KeyEvent.KEYCODE_A:
                     selectAll();
@@ -247,7 +247,7 @@ public class UndoRedoSupportEditText extends HighlightEditor {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (DLog.DEBUG) {
-            Log.w(TAG, "onKeyUp " + event);
+           DLog.w(TAG, "onKeyUp " + event);
         }
         if (handleControlKey(keyCode, event, false)) {
             return true;

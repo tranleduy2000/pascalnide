@@ -231,7 +231,7 @@ public class FloodFill {
      * @return Right.
      */
     private int floodFill(int x, int y) {
-        Log.d(TAG, "floodFill() called with: x = [" + x + "], y = [" + y + "]");
+       DLog.d(TAG, "floodFill() called with: x = [" + x + "], y = [" + y + "]");
 
         int yOff = y * width;
 

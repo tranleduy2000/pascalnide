@@ -78,18 +78,18 @@ public class FileUtils {
                 result &= path.delete();
             }
             if (!result) {
-                Log.e("Delete failed;");
+               DLog.e("Delete failed;");
             }
             return result;
         } else {
-            Log.e("File does not exist.");
+           DLog.e("File does not exist.");
             return false;
         }
     }
 
     public static File copyFromStream(String name, InputStream input) {
         if (name == null || name.length() == 0) {
-            Log.e("No script name specified.");
+           DLog.e("No script name specified.");
             return null;
         }
         File file = new File(name);
@@ -100,7 +100,7 @@ public class FileUtils {
             OutputStream output = new FileOutputStream(file);
             IoUtils.copy(input, output);
         } catch (Exception e) {
-            Log.e(e);
+           DLog.e(e);
             return null;
         }
         return file;
@@ -112,16 +112,16 @@ public class FileUtils {
             parent = parent.getParentFile();
         }
         if (!directory.exists()) {
-            Log.v("Creating directory: " + directory.getName());
+           DLog.v("Creating directory: " + directory.getName());
             if (!directory.mkdirs()) {
-                Log.e("Failed to create directory.");
+               DLog.e("Failed to create directory.");
                 return false;
             }
         }
         try {
             recursiveChmod(parent, mode);
         } catch (Exception e) {
-            Log.e(e);
+           DLog.e(e);
             return false;
         }
         return true;

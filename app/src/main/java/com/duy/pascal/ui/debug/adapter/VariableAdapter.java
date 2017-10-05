@@ -104,7 +104,7 @@ public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.Variab
         final VariableDeclaration var = variableItems.get(position);
         holder.txtName.setText(spanUtils.createVarSpan(var));
 
-        Log.d(TAG, "onBindViewHolder: " + updateList.get(position));
+       DLog.d(TAG, "onBindViewHolder: " + updateList.get(position));
         if (updateList.get(position)) { //update value
             AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.7f);
             alphaAnimation.setDuration(500);

@@ -138,11 +138,11 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
     }
 
     private void loadFileFromIntent() {
-        Log.d(TAG, "onResume() called");
+       DLog.d(TAG, "onResume() called");
         Intent intent = getIntent();
         if (intent != null && intent.getStringExtra(CompileManager.FILE_PATH) != null) {
             String filePath = intent.getStringExtra(CompileManager.FILE_PATH);
-            Log.d(TAG, "onResume: path = " + filePath);
+           DLog.d(TAG, "onResume: path = " + filePath);
             //No need save last file because it is the first file
             addNewPageEditor(new File(filePath));
             //Remove path
@@ -315,7 +315,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
      * @param file - file need load
      */
     protected void addNewPageEditor(@NonNull File file) {
-        Log.d(TAG, "addNewPageEditor() called with: file = [" + file + "]");
+       DLog.d(TAG, "addNewPageEditor() called with: file = [" + file + "]");
         int position = mPagerAdapter.getPositionForTag(file.getPath());
         if (position != -1) { //existed in list file
             TabLayout.Tab tab = mTabLayout.getTabAt(position);
@@ -355,7 +355,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Log.d(TAG, "onNewIntent() called with: intent = [" + intent + "]");
+       DLog.d(TAG, "onNewIntent() called with: intent = [" + intent + "]");
         if (intent.getStringExtra(CompileManager.FILE_PATH) != null) {
             String filePath = intent.getStringExtra(CompileManager.FILE_PATH);
             File file = new File(filePath);
@@ -616,7 +616,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        Log.d(TAG, "onMenuItemClick() called with: item = [" + item + "]");
+       DLog.d(TAG, "onMenuItemClick() called with: item = [" + item + "]");
 
         Pref pref = Pref.getInstance(this);
         int id = item.getItemId();

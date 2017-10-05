@@ -22,11 +22,11 @@ import android.net.Uri;
 import android.provider.Contacts.People;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
-import com.duy.pascal.interperter.builtin_libraries.android.AndroidLibraryManager;
-import com.duy.pascal.interperter.builtin_libraries.android.temp.AndroidUtilsLib;
-import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
-import com.duy.pascal.interperter.builtin_libraries.annotations.PascalParameter;
+import com.duy.pascal.interperter.libraries.PascalLibrary;
+import com.duy.pascal.interperter.libraries.android.AndroidLibraryManager;
+import com.duy.pascal.interperter.libraries.android.temp.AndroidUtilsLib;
+import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
+import com.duy.pascal.interperter.libraries.annotations.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcOptional;
 
 import org.json.JSONException;

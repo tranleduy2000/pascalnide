@@ -57,8 +57,8 @@ public class OutputValue implements RuntimeValue {
     @Override
     public StringBuilder getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Object value = target.getValue(f, main);
-        StringBuilder out = new StringBuilder(OutputFormatter.getValueOutput(value));
         if (outputFormat != null) {
+            StringBuilder out = new StringBuilder(OutputFormatter.getValueOutput(value));
             boolean formatDouble = outputFormat[1] != null;
             if (formatDouble) {
                 int sizeOfReal = (int) outputFormat[1].getValue(f, main);
@@ -70,8 +70,11 @@ public class OutputValue implements RuntimeValue {
                     out.insert(0, " ");
                 }
             }
+            return out;
+        } else {
+            StringBuilder out = new StringBuilder(OutputFormatter.getValueOutput(value));
+            return out;
         }
-        return out;
     }
 
     @Override

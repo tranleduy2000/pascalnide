@@ -308,7 +308,7 @@ public class FileManager {
     public String createNewFileInMode(String fileName) {
         String name = getCurrentPath() + fileName;
         File file = new File(name);
-//        Log.i(TAG, "createNewFileInMode: " + name);
+//       DLog.i(TAG, "createNewFileInMode: " + name);
         try {
             if (!file.exists()) {
                 new File(file.getParent()).mkdirs();
@@ -316,7 +316,7 @@ public class FileManager {
             }
             return file.getPath();
         } catch (IOException e) {
-//            Log.e("", "Could not create file.", e);
+//           DLog.e("", "Could not create file.", e);
             return "";
         }
     }

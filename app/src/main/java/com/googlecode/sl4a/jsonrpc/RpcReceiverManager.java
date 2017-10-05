@@ -16,7 +16,7 @@
 
 package com.googlecode.sl4a.jsonrpc;
 
-import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
+import com.duy.pascal.interperter.libraries.PascalLibrary;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.rpc.MethodDescriptor;
 
@@ -51,7 +51,7 @@ public abstract class RpcReceiverManager {
             object = (PascalLibrary) constructor.newInstance(this);
             mReceivers.put(clazz, object);
         } catch (Exception e) {
-            Log.e(e);
+           DLog.e(e);
         }
 
         return object;

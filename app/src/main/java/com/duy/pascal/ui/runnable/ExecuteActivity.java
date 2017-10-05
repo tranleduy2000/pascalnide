@@ -180,7 +180,7 @@ public class ExecuteActivity extends AbstractExecActivity {
         ExceptionManager exceptionManager = new ExceptionManager(this);
         Dialog dialog = DialogHelper.createFinishDialog(this, getString(R.string.runtime_error), exceptionManager.getMessage(e));
         showDialog(dialog);
-        if (DLog.DEBUG) Log.e(TAG, "onError: ", e);
+        if (DLog.DEBUG)DLog.e(TAG, "onError: ", e);
     }
 
 

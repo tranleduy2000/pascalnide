@@ -110,7 +110,7 @@ public class EditorFragment extends Fragment implements EditorController {
         }
         saveFile();
         if (mCodeEditor != null && getFilePath() != null) {
-            Log.i(TAG, "onStop: save edit history " + getFilePath());
+           DLog.i(TAG, "onStop: save edit history " + getFilePath());
             mCodeEditor.saveHistory(getFilePath());
         }
         super.onDestroyView();

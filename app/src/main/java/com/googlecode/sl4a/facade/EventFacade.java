@@ -22,10 +22,10 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
-import com.duy.pascal.interperter.builtin_libraries.android.activity.PascalFutureResult;
-import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
-import com.duy.pascal.interperter.builtin_libraries.annotations.PascalParameter;
+import com.duy.pascal.interperter.libraries.PascalLibrary;
+import com.duy.pascal.interperter.libraries.android.activity.PascalFutureResult;
+import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
+import com.duy.pascal.interperter.libraries.annotations.PascalParameter;
 import com.duy.pascal.ui.runnable.ProgramHandler;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;

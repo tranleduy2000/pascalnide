@@ -90,7 +90,7 @@ public abstract class FragmentsAdapter extends PagerAdapter {
         }
 
         Fragment fragment = getItem(position);
-        if (DEBUG) Log.v(TAG, "Adding item #" + position + ": f=" + fragment);
+        if (DEBUG)DLog.v(TAG, "Adding item #" + position + ": f=" + fragment);
 
         fragment.setMenuVisibility(false);
         fragment.setUserVisibleHint(false);
@@ -106,7 +106,7 @@ public abstract class FragmentsAdapter extends PagerAdapter {
         if (mCurTransaction == null) {
             mCurTransaction = mFragmentManager.beginTransaction();
         }
-        if (DEBUG) Log.v(TAG, "Removing item #" + position + ": f=" + object
+        if (DEBUG)DLog.v(TAG, "Removing item #" + position + ": f=" + object
                 + " v=" + ((Fragment)object).getView());
 
         mCurTransaction.remove(fragment);
@@ -123,7 +123,7 @@ public abstract class FragmentsAdapter extends PagerAdapter {
             if (fragment != null) {
                 fragment.setMenuVisibility(true);
                 if(fragment.getFragmentManager() == null) {
-                    Log.v(TAG, "fragment manager == null item #"+position+": f="+object);
+                   DLog.v(TAG, "fragment manager == null item #"+position+": f="+object);
                 }
                 fragment.setUserVisibleHint(true);
             }

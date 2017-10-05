@@ -80,10 +80,11 @@
 -dontwarn android.support.**
 -dontwarn com.google.ads.**
 
--keep class com.duy.pascal.backend.lib.** { *; }
-
--keep class javax.** { *; }
--keep class javax.annotation.**
+-keep class com.duy.pascal.interperter.libraries.** { *; }
 -dontwarn com.google.common.**
 -dontwarn org.apache.commons.**
 -dontwarn java.awt.**
+
+-keep class javax.** { *; }
+-keep class javax.annotation.**
+

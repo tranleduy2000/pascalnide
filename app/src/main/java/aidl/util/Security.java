@@ -17,7 +17,8 @@ package aidl.util;
 
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
+
+import com.duy.pascal.ui.DLog;
 
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
@@ -55,7 +56,7 @@ public class Security {
     public static boolean verifyPurchase(String base64PublicKey, String signedData, String signature) {
         if (TextUtils.isEmpty(signedData) || TextUtils.isEmpty(base64PublicKey) ||
                 TextUtils.isEmpty(signature)) {
-            Log.e(TAG, "Purchase verification failed: missing data.");
+           DLog.e(TAG, "Purchase verification failed: missing data.");
             return false;
         }
 
@@ -78,7 +79,7 @@ public class Security {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         } catch (InvalidKeySpecException e) {
-            Log.e(TAG, "Invalid key specification.");
+           DLog.e(TAG, "Invalid key specification.");
             throw new IllegalArgumentException(e);
         }
     }
@@ -97,7 +98,7 @@ public class Security {
         try {
             signatureBytes = Base64.decode(signature, Base64.DEFAULT);
         } catch (IllegalArgumentException e) {
-            Log.e(TAG, "Base64 decoding failed.");
+           DLog.e(TAG, "Base64 decoding failed.");
             return false;
         }
         try {
@@ -105,16 +106,16 @@ public class Security {
             sig.initVerify(publicKey);
             sig.update(signedData.getBytes());
             if (!sig.verify(signatureBytes)) {
-                Log.e(TAG, "Signature verification failed.");
+               DLog.e(TAG, "Signature verification failed.");
                 return false;
             }
             return true;
         } catch (NoSuchAlgorithmException e) {
-            Log.e(TAG, "NoSuchAlgorithmException.");
+           DLog.e(TAG, "NoSuchAlgorithmException.");
         } catch (InvalidKeyException e) {
-            Log.e(TAG, "Invalid key specification.");
+           DLog.e(TAG, "Invalid key specification.");
         } catch (SignatureException e) {
-            Log.e(TAG, "Signature exception.");
+           DLog.e(TAG, "Signature exception.");
         }
         return false;
     }

@@ -45,11 +45,11 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.duy.pascal.ui.DLog;
 import com.duy.pascal.ui.setting.PascalPreferences;
-import com.duy.pascal.interperter.builtin_libraries.android.gesture.listener.ClickListener;
-import com.duy.pascal.interperter.builtin_libraries.android.gesture.listener.DoubleClickListener;
-import com.duy.pascal.interperter.builtin_libraries.android.gesture.listener.LongClickListener;
-import com.duy.pascal.interperter.builtin_libraries.graphic.GraphScreen;
-import com.duy.pascal.interperter.builtin_libraries.graphic.model.GraphObject;
+import com.duy.pascal.interperter.libraries.android.gesture.listener.ClickListener;
+import com.duy.pascal.interperter.libraries.android.gesture.listener.DoubleClickListener;
+import com.duy.pascal.interperter.libraries.android.gesture.listener.LongClickListener;
+import com.duy.pascal.interperter.libraries.graphic.GraphScreen;
+import com.duy.pascal.interperter.libraries.graphic.model.GraphObject;
 
 import java.util.ArrayList;
 
@@ -369,7 +369,7 @@ public class ConsoleView extends View implements GestureDetector.OnDoubleTapList
 
     public boolean updateSize(@IntRange(from = 1) int newWidth,
                               @IntRange(from = 1) int newHeight) throws ArrayIndexOutOfBoundsException {
-//        Log.d(TAG, "updateSize() called with: newWidth = [" + newWidth + "], newHeight = [" + newHeight + "]");
+//       DLog.d(TAG, "updateSize() called with: newWidth = [" + newWidth + "], newHeight = [" + newHeight + "]");
 
         int newColumn = newWidth / mTextRenderer.getCharWidth();
         int i, j;
@@ -959,7 +959,7 @@ public class ConsoleView extends View implements GestureDetector.OnDoubleTapList
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        Log.d(TAG, "onScroll() called with: e1 = [" + e1 + "], e2 = [" + e2 + "], distanceX = [" + distanceX + "], distanceY = [" + distanceY + "]");
+       DLog.d(TAG, "onScroll() called with: e1 = [" + e1 + "], e2 = [" + e2 + "], distanceX = [" + distanceX + "], distanceY = [" + distanceY + "]");
 
         distanceY += mScrollRemainder;
         int deltaRows = (int) (distanceY / mTextRenderer.getCharHeight());
@@ -974,7 +974,7 @@ public class ConsoleView extends View implements GestureDetector.OnDoubleTapList
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        Log.d(TAG, "onFling() called with: e1 = [" + e1 + "], e2 = [" + e2 + "], velocityX = [" + velocityX + "], velocityY = [" + velocityY + "]");
+       DLog.d(TAG, "onFling() called with: e1 = [" + e1 + "], e2 = [" + e2 + "], velocityX = [" + velocityX + "], velocityY = [" + velocityY + "]");
 
         mScrollRemainder = 0.0f;
         onScroll(e1, e2,/* 2 * */velocityX, -/*2 **/ velocityY * 0.1f);
@@ -982,20 +982,20 @@ public class ConsoleView extends View implements GestureDetector.OnDoubleTapList
     }
 
     public void onShowPress(MotionEvent e) {
-        Log.d(TAG, "onShowPress() called with: e = [" + e + "]");
+       DLog.d(TAG, "onShowPress() called with: e = [" + e + "]");
 
     }
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
-        Log.d(TAG, "onSingleTapConfirmed() called with: e = [" + e + "]");
+       DLog.d(TAG, "onSingleTapConfirmed() called with: e = [" + e + "]");
 
         return true;
     }
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
-        Log.d(TAG, "onDoubleTap() called with: e = [" + e + "]");
+       DLog.d(TAG, "onDoubleTap() called with: e = [" + e + "]");
 
         doShowSoftKeyboard();
         for (DoubleClickListener doubleClickListener : doubleClickListeners) {
@@ -1011,7 +1011,7 @@ public class ConsoleView extends View implements GestureDetector.OnDoubleTapList
     }
 
     public boolean onSingleTapUp(MotionEvent e) {
-        Log.d(TAG, "onSingleTapUp() called with: e = [" + e + "]");
+       DLog.d(TAG, "onSingleTapUp() called with: e = [" + e + "]");
         for (ClickListener clickListener : clickListeners) {
             clickListener.onClick(e);
         }
@@ -1024,7 +1024,7 @@ public class ConsoleView extends View implements GestureDetector.OnDoubleTapList
     }
 
     public void onLongPress(MotionEvent e) {
-        Log.d(TAG, "onLongPress() called with: e = [" + e + "]");
+       DLog.d(TAG, "onLongPress() called with: e = [" + e + "]");
 
         for (LongClickListener longClickListener : longClickListeners) {
             longClickListener.onLongClick(e);

@@ -20,7 +20,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
 
-import com.duy.pascal.interperter.builtin_libraries.android.activity.PascalActivityTaskExecutor;
+import com.duy.pascal.interperter.libraries.android.activity.PascalActivityTaskExecutor;
 import com.duy.pascal.ui.BuildConfig;
 import com.google.firebase.crash.FirebaseCrash;
 

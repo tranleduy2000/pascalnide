@@ -24,10 +24,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.telephony.gsm.SmsManager;
 
-import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
-import com.duy.pascal.interperter.builtin_libraries.android.AndroidLibraryManager;
-import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
-import com.duy.pascal.interperter.builtin_libraries.annotations.PascalParameter;
+import com.duy.pascal.interperter.libraries.PascalLibrary;
+import com.duy.pascal.interperter.libraries.android.AndroidLibraryManager;
+import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
+import com.duy.pascal.interperter.libraries.annotations.PascalParameter;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
@@ -69,7 +69,7 @@ public class SmsFacade extends PascalLibrary {
         Uri.Builder builder = Uri.parse("content://sms").buildUpon();
         builder.appendPath(folder);
         Uri uri = builder.build();
-        Log.v("Built SMS URI: " + uri);
+       DLog.v("Built SMS URI: " + uri);
         return uri;
     }
 

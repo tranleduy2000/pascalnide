@@ -220,7 +220,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-        Log.d(TAG, "onRefresh() called");
+       DLog.d(TAG, "onRefresh() called");
 
         UpdateRootInfo updateRootInfo = new UpdateRootInfo() {
 

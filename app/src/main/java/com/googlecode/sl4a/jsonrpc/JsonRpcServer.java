@@ -70,7 +70,7 @@ public class JsonRpcServer extends SimpleServer {
         boolean passedAuthentication = false;
         String data;
         while ((data = reader.readLine()) != null) {
-            Log.v("Received: " + data);
+           DLog.v("Received: " + data);
             JSONObject request = new JSONObject(data);
             int id = request.getInt("id");
             String method = request.getString("method");
@@ -97,7 +97,7 @@ public class JsonRpcServer extends SimpleServer {
             try {
                 send(writer, JsonRpcResult.result(id, rpc.invoke(receiverManager, params)));
             } catch (Throwable t) {
-                Log.e("Invocation error.", t);
+               DLog.e("Invocation error.", t);
                 send(writer, JsonRpcResult.error(id, t));
             }
         }
@@ -110,7 +110,7 @@ public class JsonRpcServer extends SimpleServer {
     private void send(PrintWriter writer, JSONObject result) {
         writer.write(result + "\n");
         writer.flush();
-        Log.v("Sent: " + result);
+       DLog.v("Sent: " + result);
     }
 
     @Override

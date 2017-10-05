@@ -32,8 +32,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.duy.pascal.interperter.builtin_libraries.android.activity.PascalActivityTask;
-import com.duy.pascal.interperter.builtin_libraries.android.view.AndroidDialogLib;
+import com.duy.pascal.interperter.libraries.android.activity.PascalActivityTask;
+import com.duy.pascal.interperter.libraries.android.view.AndroidDialogLib;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.SingleThreadExecutor;
@@ -179,7 +179,7 @@ public class HtmlActivityTask extends PascalActivityTask<Void> {
     private class JavaScriptWrapper {
         @SuppressWarnings("unused")
         public String call(String data) throws JSONException {
-            Log.v("Received: " + data);
+           DLog.v("Received: " + data);
             JSONObject request = new JSONObject(data);
             int id = request.getInt("id");
             String method = request.getString("method");
@@ -191,7 +191,7 @@ public class HtmlActivityTask extends PascalActivityTask<Void> {
             try {
                 return JsonRpcResult.result(id, rpc.invoke(mReceiverManager, params)).toString();
             } catch (Throwable t) {
-                Log.e("Invocation error.", t);
+               DLog.e("Invocation error.", t);
                 return JsonRpcResult.error(id, t).toString();
             }
         }
@@ -222,7 +222,7 @@ public class HtmlActivityTask extends PascalActivityTask<Void> {
             try {
                 json.put("data", JsonBuilder.build(event.getData()));
             } catch (JSONException e) {
-                Log.e(e);
+               DLog.e(e);
             }
             if (mEventMap.containsKey(event.getName())) {
                 for (final Integer id : mEventMap.get(event.getName())) {

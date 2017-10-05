@@ -101,7 +101,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
         Intent data = getIntent();
         String action = data.getAction();
 
-        if (DLog.DEBUG) Log.d(TAG, "startMainActivity: action = " + action);
+        if (DLog.DEBUG)DLog.d(TAG, "startMainActivity: action = " + action);
 
         String type = data.getType();
         final Intent intentEdit = new Intent(ActivitySplashScreen.this, EditorActivity.class);
@@ -142,10 +142,10 @@ public class ActivitySplashScreen extends AppCompatActivity {
 
     private void handleActionView(@NonNull Intent from,
                                   @NonNull Intent to) {
-        Log.d(TAG, "handleActionView() called with: from = [" + from + "], to = [" + to + "]");
+       DLog.d(TAG, "handleActionView() called with: from = [" + from + "], to = [" + to + "]");
         if (from.getData().toString().endsWith(".pas") || from.getData().toString().endsWith(".txt")) {
             Uri uriPath = from.getData();
-            Log.d(TAG, "handleActionView: " + uriPath.getPath());
+           DLog.d(TAG, "handleActionView: " + uriPath.getPath());
             try {
                 String path = FileManager.getPathFromUri(this, uriPath);
                 to.putExtra(CompileManager.FILE_PATH, path);

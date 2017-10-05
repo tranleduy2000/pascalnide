@@ -20,10 +20,10 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
-import com.duy.pascal.interperter.builtin_libraries.android.AndroidLibraryManager;
-import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
-import com.duy.pascal.interperter.builtin_libraries.annotations.PascalParameter;
+import com.duy.pascal.interperter.libraries.PascalLibrary;
+import com.duy.pascal.interperter.libraries.android.AndroidLibraryManager;
+import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
+import com.duy.pascal.interperter.libraries.annotations.PascalParameter;
 import com.googlecode.sl4a.Constants;
 
 import java.io.Serializable;

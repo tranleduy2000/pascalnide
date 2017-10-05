@@ -136,7 +136,7 @@ public class SuggestionProvider {
         int start = symbolsTokenizer.findTokenStart(source, cursorPos);
         incomplete = source.substring(start, cursorPos);
         incomplete = incomplete.trim();
-        Log.d(TAG, "calculateIncomplete incomplete = " + incomplete);
+       DLog.d(TAG, "calculateIncomplete incomplete = " + incomplete);
     }
 
     private ArrayList<Description> sort(ArrayList<Description> items) {

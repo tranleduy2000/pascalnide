@@ -65,7 +65,7 @@ public class EventServer extends SimpleServer implements AndroidEvent.EventObser
     @Override
     protected void handleConnection(Socket socket) throws IOException {
         Listener listener = new Listener(socket);
-        Log.v("Adding EventServer listener " + socket.getPort());
+       DLog.v("Adding EventServer listener " + socket.getPort());
         mListeners.add(listener);
         // we are running in the socket accept thread
         // wait until the event dispatcher gets us the events
@@ -80,7 +80,7 @@ public class EventServer extends SimpleServer implements AndroidEvent.EventObser
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.v("Ending EventServer listener " + socket.getPort());
+       DLog.v("Ending EventServer listener " + socket.getPort());
     }
 
     @Override
@@ -92,7 +92,7 @@ public class EventServer extends SimpleServer implements AndroidEvent.EventObser
             return;
         }
 
-        Log.v("EventServer dispatching " + result);
+       DLog.v("EventServer dispatching " + result);
 
         for (Listener listener : mListeners) {
             if (!listener.out.checkError()) {

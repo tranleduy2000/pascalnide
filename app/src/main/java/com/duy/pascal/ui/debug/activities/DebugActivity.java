@@ -64,7 +64,7 @@ import com.duy.pascal.interperter.ast.instructions.Executable;
 import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.builtin_libraries.io.IOLib;
+import com.duy.pascal.interperter.libraries.io.IOLib;
 import com.duy.pascal.interperter.config.DebugMode;
 import com.duy.pascal.interperter.debugable.DebugListener;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
@@ -225,7 +225,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onLine(Executable executable, @Nullable final LineInfo lineInfo) {
-        Log.d(TAG, "onLine() called with: runtimeValue = [" + executable + "], line = [" + lineInfo + "]");
+       DLog.d(TAG, "onLine() called with: runtimeValue = [" + executable + "], line = [" + lineInfo + "]");
         if (lineInfo == null) {
             return;
         }
@@ -252,7 +252,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onLine(RuntimeValue executable, final LineInfo lineInfo) {
-        Log.d(TAG, "onLine() called with: executable = [" + executable.getClass() +
+       DLog.d(TAG, "onLine() called with: executable = [" + executable.getClass() +
                 "], line = [" + lineInfo + "]");
         if (lineInfo == null) return;
         scrollTo(lineInfo);
@@ -260,7 +260,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onEvaluatingExpr(LineInfo lineInfo, String expression) {
-        Log.d(TAG, "onEvaluatingExpr() called with: line = [" + lineInfo + "], " +
+       DLog.d(TAG, "onEvaluatingExpr() called with: line = [" + lineInfo + "], " +
                 "expression = [" + expression + "]");
 
     }
@@ -274,7 +274,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
      */
     @Override
     public void onEvaluatedExpr(final LineInfo lineInfo, final String expr, final String result) {
-        Log.d(TAG, "onEvaluatedExpr() called with: line = [" + lineInfo + "], expr = [" +
+       DLog.d(TAG, "onEvaluatedExpr() called with: line = [" + lineInfo + "], expr = [" +
                 expr + "], result = [" + result + "]");
         showPopupAt(lineInfo, expr + " = " + result);
     }
@@ -288,7 +288,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
                 //get relative position of expression at edittext
                 Point position = mCodeView.getDebugPosition(lineInfo.getLine(), lineInfo.getColumn(),
                         Gravity.TOP);
-                Log.d(TAG, "generate: " + position);
+               DLog.d(TAG, "generate: " + position);
                 dismissPopup();
                 //create new popup
                 PopupWindow window = new PopupWindow(DebugActivity.this);
@@ -331,20 +331,20 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     public void onAssignValue(LineInfo lineNumber, final AssignableValue left,
                               @NonNull final Object old, final Object value,
                               @NonNull VariableContext context) {
-        Log.d(TAG, "onAssignValue() called with: lineNumber = [" + lineNumber + "], left = [" +
+       DLog.d(TAG, "onAssignValue() called with: lineNumber = [" + lineNumber + "], left = [" +
                 left + "], value = [" + value + "]");
     }
 
     @Override
     public void onPreFunctionCall(AbstractCallableFunction function, RuntimeValue[] arguments) {
-        Log.d(TAG, "onPreFunctionCall() called with: function = [" + function + "], arguments = ["
+       DLog.d(TAG, "onPreFunctionCall() called with: function = [" + function + "], arguments = ["
                 + Arrays.toString(arguments) + "]");
 
     }
 
     @Override
     public void onFunctionCalled(AbstractCallableFunction function, RuntimeValue[] arguments, Object result) {
-        Log.d(TAG, "onFunctionCalled() called with: function = [" + function + "], arguments = ["
+       DLog.d(TAG, "onFunctionCalled() called with: function = [" + function + "], arguments = ["
                 + Arrays.toString(arguments) + "], result = [" + result + "]");
 
     }
@@ -445,19 +445,19 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onNewMessage(String msg) {
-        Log.d(TAG, "onNewMessage() called with: msg = [" + msg + "]");
+       DLog.d(TAG, "onNewMessage() called with: msg = [" + msg + "]");
 
     }
 
     @Override
     public void onClearDebug() {
-        Log.d(TAG, "onClearDebug() called");
+       DLog.d(TAG, "onClearDebug() called");
 
     }
 
     @Override
     public void onFunctionCall(String name) {
-        Log.d(TAG, "onFunctionCall() called with: name = [" + name + "]");
+       DLog.d(TAG, "onFunctionCall() called with: name = [" + name + "]");
 
     }
 

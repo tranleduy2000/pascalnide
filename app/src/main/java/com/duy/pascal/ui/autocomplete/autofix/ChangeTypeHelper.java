@@ -108,7 +108,7 @@ class ChangeTypeHelper {
                 //get a part of text
                 TextData scope = getText(editable, exception.getScope().getStartPosition(), exception.getLineInfo());
 
-                Log.d(TAG, "changeTypeVar() called with: editable = [" + editable + "], text = [" + scope + "], identifier = [" + variable + "], valueType = [" + newType + "]");
+               DLog.d(TAG, "changeTypeVar() called with: editable = [" + editable + "], text = [" + scope + "], identifier = [" + variable + "], valueType = [" + newType + "]");
 
 
                 final Name name = variable.getName();

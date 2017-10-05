@@ -66,7 +66,7 @@ public class ThemeDatabase extends SQLiteOpenHelper {
     }
 
     public long insert(CodeTheme themeEntry) {
-        Log.d(TAG, "insert() called with: themeEntry = [" + themeEntry + "]");
+       DLog.d(TAG, "insert() called with: themeEntry = [" + themeEntry + "]");
 
         ContentValues contentValues = new ContentValues();
         for (Map.Entry<String, Integer> entry : themeEntry.getColors().entrySet()) {
@@ -78,7 +78,7 @@ public class ThemeDatabase extends SQLiteOpenHelper {
     }
 
     public boolean hasValue(@NonNull String name) {
-        Log.d(TAG, "hasValue() called with: name = [" + name + "]");
+       DLog.d(TAG, "hasValue() called with: name = [" + name + "]");
 
         SQLiteDatabase db = getReadableDatabase();
         Cursor query = db.query(TABLE_NAME, new String[]{NAME}, NAME + "=?",
@@ -89,7 +89,7 @@ public class ThemeDatabase extends SQLiteOpenHelper {
     }
 
     public ArrayList<CodeTheme> getAll() {
-        Log.d(TAG, "getAll() called");
+       DLog.d(TAG, "getAll() called");
 
         String[] projection = {NAME, BACKGROUND, NORMAL, KEY_WORD, BOOLEAN,
                 ERROR, NUMBER, OPERATOR, COMMENT, STRING};
@@ -111,7 +111,7 @@ public class ThemeDatabase extends SQLiteOpenHelper {
             codeThemes.add(codeTheme);
         }
         cursor.close();
-        Log.d(TAG, "getAll() returned: " + codeThemes);
+       DLog.d(TAG, "getAll() returned: " + codeThemes);
         return codeThemes;
     }
 

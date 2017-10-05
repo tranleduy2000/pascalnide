@@ -145,7 +145,7 @@ public class CodeTheme implements Serializable {
         float[] hsv = new float[3];
         Color.colorToHSV(background, hsv);
         hsv[2] = Math.min(1, Math.max(0.1f, hsv[2]) * 1.25f);//brightness color
-        Log.d(TAG, "getDebugColor: " + Arrays.toString(hsv));
+       DLog.d(TAG, "getDebugColor: " + Arrays.toString(hsv));
         return Color.HSVToColor(hsv);
     }
 

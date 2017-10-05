@@ -16,7 +16,9 @@
 
 package com.duy.pascal.ui;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.crash.FirebaseCrash;
 
@@ -78,6 +80,16 @@ public class DLog {
         }
     }
 
+    public static void e(String message) {
+        if (DEBUG) {
+            if (ANDROID) {
+                Log.e(TAG, message);
+            } else {
+                System.err.println(message);
+            }
+        }
+    }
+
     public static void e(String TAG, Exception exception) {
         if (DEBUG) {
             if (ANDROID) {
@@ -122,4 +134,104 @@ public class DLog {
         FirebaseCrash.report(e);
     }
 
+
+    private static void toast(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    public static void v(String message) {
+        android.util.Log.v(TAG, message);
+    }
+
+    public static void v(String message, Throwable e) {
+        android.util.Log.v(TAG, message, e);
+    }
+
+    public static void v(Context context, String message) {
+        toast(context, message);
+        android.util.Log.v(TAG, message);
+    }
+
+    public static void v(Context context, String message, Throwable e) {
+        toast(context, message);
+        android.util.Log.v(TAG, message, e);
+    }
+
+    public static void e(Throwable e) {
+        android.util.Log.e(TAG, "Error", e);
+    }
+
+
+    public static void e(String message, Throwable e) {
+        android.util.Log.e(TAG, message, e);
+    }
+
+    public static void e(Context context, String message) {
+        toast(context, message);
+        android.util.Log.e(TAG, message);
+    }
+
+    public static void e(Context context, String message, Throwable e) {
+        toast(context, message);
+        android.util.Log.e(TAG, message, e);
+    }
+
+    public static void w(Throwable e) {
+        android.util.Log.w(TAG, "Warning", e);
+    }
+
+    public static void w(String message) {
+        android.util.Log.w(TAG, message);
+    }
+
+    public static void w(String message, Throwable e) {
+        android.util.Log.w(TAG, message, e);
+    }
+
+    public static void w(Context context, String message) {
+        toast(context, message);
+        android.util.Log.w(TAG, message);
+    }
+
+    public static void w(Context context, String message, Throwable e) {
+        toast(context, message);
+        android.util.Log.w(TAG, message, e);
+    }
+
+    public static void d(String message) {
+        android.util.Log.d(TAG, message);
+    }
+
+    public static void d(String message, Throwable e) {
+        android.util.Log.d(TAG, message, e);
+    }
+
+    public static void d(Context context, String message) {
+        toast(context, message);
+        android.util.Log.d(TAG, message);
+    }
+
+    public static void d(Context context, String message, Throwable e) {
+        toast(context, message);
+        android.util.Log.d(TAG, message, e);
+    }
+
+    public static void i(String message) {
+        android.util.Log.i(TAG, message);
+    }
+
+    public static void i(String message, Throwable e) {
+        android.util.Log.i(TAG, message, e);
+    }
+
+    public static void i(Context context, String message) {
+        toast(context, message);
+        android.util.Log.i(TAG, message);
+    }
+
+    public static void i(Context context, String message, Throwable e) {
+        toast(context, message);
+        android.util.Log.i(TAG, message, e);
+    }
 }

@@ -181,7 +181,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         Rect rect = new Rect();
         getWindowVisibleDisplayFrame(rect);
 
-        Log.d(TAG, "onDropdownChangeSize: " + rect);
+       DLog.d(TAG, "onDropdownChangeSize: " + rect);
         w = rect.width();
         h = rect.height();
 
@@ -208,7 +208,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     }
 
     public void showDropDown() {
-        Log.d(TAG, "showDropDown() called");
+       DLog.d(TAG, "showDropDown() called");
         if (mPopup.getAnchorView() == null) {
             if (mDropDownAnchorId != View.NO_ID) {
                 mPopup.setAnchorView(getRootView().findViewById(mDropDownAnchorId));
@@ -238,7 +238,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      * invalidate data for auto suggest
      */
     public void setSuggestData(ArrayList<Description> data) {
-        Log.d(TAG, "setSuggestData() called with: data = [" + data + "]");
+       DLog.d(TAG, "setSuggestData() called with: data = [" + data + "]");
         if (mAdapter != null) {
             mAdapter.clearAllData();
             mAdapter.addData(data);
@@ -291,7 +291,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
                 selectedItem = mAdapter.getItem(position);
             }
             if (selectedItem == null) {
-                Log.w(TAG, "performCompletion: no selected item");
+               DLog.w(TAG, "performCompletion: no selected item");
                 return;
             }
 
@@ -495,7 +495,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         protected void onPostExecute(ArrayList<Description> result) {
             super.onPostExecute(result);
             if (isCancelled()) {
-                Log.d(TAG, "onPostExecute: cancel");
+               DLog.d(TAG, "onPostExecute: cancel");
                 return;
             }
             if (result == null) {

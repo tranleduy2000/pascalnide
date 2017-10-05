@@ -221,7 +221,7 @@ public class AutoIndentEditText extends AppCompatEditText {
         if (parenthesesCount < 0) {
             indent += mTabStr;
         }
-        Log.d(TAG, "indentLine: " + dest.charAt(dend) + " " + dest.charAt(dstart));
+       DLog.d(TAG, "indentLine: " + dest.charAt(dend) + " " + dest.charAt(dstart));
 
 
         //new line in bracket

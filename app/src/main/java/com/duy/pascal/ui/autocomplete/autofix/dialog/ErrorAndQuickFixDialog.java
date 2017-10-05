@@ -105,7 +105,7 @@ public class ErrorAndQuickFixDialog extends BottomSheetDialogFragment {
     }
 
     private void executeCommand(AutoFixCommand autoFixCommand) {
-        Log.d(TAG, "executeCommand() called with: autoFixCommand = [" + autoFixCommand + "]");
+       DLog.d(TAG, "executeCommand() called with: autoFixCommand = [" + autoFixCommand + "]");
         try {
             EditorActivity editorActivity = (EditorActivity) getActivity();
             editorActivity.executeCommand(autoFixCommand);

@@ -5,7 +5,7 @@ package com.googlecode.sl4a;
 import android.content.Context;
 import android.os.Handler;
 
-import com.duy.pascal.interperter.builtin_libraries.android.activity.PascalFutureResult;
+import com.duy.pascal.interperter.libraries.android.activity.PascalFutureResult;
 
 import java.util.concurrent.Callable;
 
@@ -28,7 +28,7 @@ public class MainThread {
                 try {
                     result.set(task.call());
                 } catch (Exception e) {
-                    Log.e(e);
+                   DLog.e(e);
                     result.set(null);
                 }
             }
@@ -36,7 +36,7 @@ public class MainThread {
         try {
             return result.get();
         } catch (InterruptedException e) {
-            Log.e(e);
+           DLog.e(e);
         }
         return null;
     }

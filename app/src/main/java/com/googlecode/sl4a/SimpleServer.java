@@ -16,6 +16,7 @@
 
 package com.googlecode.sl4a;
 
+import com.duy.pascal.ui.DLog;
 import com.google.common.collect.Lists;
 import com.googlecode.sl4a.facade.EventFacade;
 
@@ -58,7 +59,7 @@ public abstract class SimpleServer implements EventFacade.EventObserver {
             Enumeration<InetAddress> addresses = netint.getInetAddresses();
             for (InetAddress address : Collections.list(addresses)) {
                 if (address instanceof Inet4Address) {
-                    Log.d("local address " + address);
+                   DLog.d("local address " + address);
                     return address; // Prefer ipv4
                 }
                 candidate = address; // Probably an ipv6
@@ -140,7 +141,7 @@ public abstract class SimpleServer implements EventFacade.EventObserver {
             address = getPrivateInetAddress();
             mServer = new ServerSocket(port, 5 /* backlog */, address);
         } catch (Exception e) {
-            Log.e("Failed to start server.", e);
+           DLog.e("Failed to start server.", e);
             return null;
         }
         int boundPort = start();
@@ -160,7 +161,7 @@ public abstract class SimpleServer implements EventFacade.EventObserver {
             address = null;
             mServer = new ServerSocket(port, 5 /* backlog */, address);
         } catch (Exception e) {
-            Log.e("Failed to start server.", e);
+           DLog.e("Failed to start server.", e);
             return null;
         }
         int boundPort = start();
@@ -177,7 +178,7 @@ public abstract class SimpleServer implements EventFacade.EventObserver {
         try {
             mServer = new ServerSocket(port, 5 /* backlog */);
         } catch (Exception e) {
-            Log.e("Failed to start server.", e);
+           DLog.e("Failed to start server.", e);
             return null;
         }
         int boundPort = start();
@@ -198,14 +199,14 @@ public abstract class SimpleServer implements EventFacade.EventObserver {
                         }
                     } catch (IOException e) {
                         if (!mStopServer) {
-                            Log.e("Failed to accept connection.", e);
+                           DLog.e("Failed to accept connection.", e);
                         }
                     }
                 }
             }
         };
         mServerThread.start();
-        Log.v("Bound to " + mServer.getInetAddress());
+       DLog.v("Bound to " + mServer.getInetAddress());
         return mServer.getLocalPort();
     }
 
@@ -223,7 +224,7 @@ public abstract class SimpleServer implements EventFacade.EventObserver {
         try {
             mServer.close();
         } catch (IOException e) {
-            Log.e("Failed to close server socket.", e);
+           DLog.e("Failed to close server socket.", e);
         }
         // Since the server is not running, the mNetworkThreads set can only
         // shrink from this point onward. We can just stop all of the running helper
@@ -254,18 +255,18 @@ public abstract class SimpleServer implements EventFacade.EventObserver {
 
         @Override
         public void run() {
-            Log.v("Server thread " + getId() + " started.");
+           DLog.v("Server thread " + getId() + " started.");
             try {
                 handleConnection(mmSocket);
             } catch (Exception e) {
                 if (!mStopServer) {
-                    Log.e("Server error.", e);
+                   DLog.e("Server error.", e);
                 }
             } finally {
                 close();
                 mConnectionThreads.remove(this);
                 notifyOnDisconnect();
-                Log.v("Server thread " + getId() + " died.");
+               DLog.v("Server thread " + getId() + " died.");
             }
         }
 
@@ -274,7 +275,7 @@ public abstract class SimpleServer implements EventFacade.EventObserver {
                 try {
                     mmSocket.close();
                 } catch (IOException e) {
-                    Log.e(e.getMessage(), e);
+                   DLog.e(e.getMessage(), e);
                 }
             }
         }

@@ -15,10 +15,10 @@ import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.LibraryIdentifierAccess;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.VariableAccess;
-import com.duy.pascal.interperter.builtin_libraries.IPascalLibrary;
-import com.duy.pascal.interperter.builtin_libraries.PascalLibraryManager;
-import com.duy.pascal.interperter.builtin_libraries.file.FileLib;
-import com.duy.pascal.interperter.builtin_libraries.io.IOLib;
+import com.duy.pascal.interperter.libraries.IPascalLibrary;
+import com.duy.pascal.interperter.libraries.PascalLibraryManager;
+import com.duy.pascal.interperter.libraries.file.FileLib;
+import com.duy.pascal.interperter.libraries.io.IOLib;
 import com.duy.pascal.interperter.datastructure.ArrayListMultimap;
 import com.duy.pascal.interperter.declaration.LabelDeclaration;
 import com.duy.pascal.interperter.declaration.Name;
@@ -82,7 +82,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.duy.pascal.interperter.builtin_libraries.PascalLibraryManager.MAP_LIBRARIES;
+import static com.duy.pascal.interperter.libraries.PascalLibraryManager.MAP_LIBRARIES;
 
 public abstract class ExpressionContextMixin extends HierarchicalExpressionContext
         implements Cloneable, Serializable {

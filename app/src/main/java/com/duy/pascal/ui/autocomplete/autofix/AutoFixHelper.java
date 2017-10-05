@@ -450,7 +450,7 @@ public class AutoFixHelper {
         return new AutoFixCommand() {
             @Override
             public void execute(EditorView editable) {
-                Log.d(TAG, "changeConstToVar() called with: editable = [" + editable + "]");
+               DLog.d(TAG, "changeConstToVar() called with: editable = [" + editable + "]");
 
                 TextData region = getText(editable, e.getScope().getStartPosition(), e.getLineInfo());
                 ConstantAccess constant = e.getConst();
@@ -532,7 +532,7 @@ public class AutoFixHelper {
         return new AutoFixCommand() {
             @Override
             public void execute(EditorView editable) {
-                Log.d(TAG, "fixProgramNotFound() called with: editable = [" + editable + "]");
+               DLog.d(TAG, "fixProgramNotFound() called with: editable = [" + editable + "]");
                 editable.disableTextWatcher();
 
                 String tabCharacter = editable.getTabCharacter();

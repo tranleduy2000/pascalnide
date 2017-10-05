@@ -28,12 +28,12 @@ import android.text.style.StyleSpan;
 
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.Patterns;
-import com.duy.pascal.interperter.builtin_libraries.exceptions.CanNotReadVariableException;
-import com.duy.pascal.interperter.builtin_libraries.file.exceptions.DiskReadErrorException;
-import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileException;
-import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotAssignException;
-import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotOpenException;
-import com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotOpenForInputException;
+import com.duy.pascal.interperter.libraries.exceptions.CanNotReadVariableException;
+import com.duy.pascal.interperter.libraries.file.exceptions.DiskReadErrorException;
+import com.duy.pascal.interperter.libraries.file.exceptions.FileException;
+import com.duy.pascal.interperter.libraries.file.exceptions.FileNotAssignException;
+import com.duy.pascal.interperter.libraries.file.exceptions.FileNotOpenException;
+import com.duy.pascal.interperter.libraries.file.exceptions.FileNotOpenForInputException;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
@@ -341,7 +341,7 @@ public class ExceptionManager {
             stringBuilder.append(context.getString(R.string.DiskReadErrorException));
         } else if (e instanceof FileNotAssignException) {
             stringBuilder.append(context.getString(R.string.FileNotAssignException));
-        } else if (e instanceof com.duy.pascal.interperter.builtin_libraries.file.exceptions.FileNotFoundException) {
+        } else if (e instanceof com.duy.pascal.interperter.libraries.file.exceptions.FileNotFoundException) {
             stringBuilder.append(context.getString(R.string.FileNotFoundException));
         } else if (e instanceof FileNotOpenException) {
             stringBuilder.append(context.getString(R.string.FileNotOpenException));
