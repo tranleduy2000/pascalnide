@@ -20,7 +20,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.googlecode.sl4a.Log;
+import com.duy.pascal.ui.utils.DLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;

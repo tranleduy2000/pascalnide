@@ -27,7 +27,7 @@ import com.duy.pascal.interperter.libraries.android.exceptions.MediaFileNotAssig
 import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.libraries.annotations.PascalParameter;
 import com.duy.pascal.interperter.libraries.file.exceptions.FileNotFoundException;
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 
 import java.util.Hashtable;
 import java.util.Map;

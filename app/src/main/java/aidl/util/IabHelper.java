@@ -30,7 +30,7 @@ import android.os.RemoteException;
 import android.text.TextUtils;
 
 import com.android.vending.billing.IInAppBillingService;
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 
 import org.json.JSONException;
 

@@ -35,7 +35,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -48,6 +47,16 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
+import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.config.DebugMode;
+import com.duy.pascal.interperter.debugable.DebugListener;
+import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
+import com.duy.pascal.interperter.libraries.io.IOLib;
+import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.code.ExceptionManager;
@@ -60,15 +69,6 @@ import com.duy.pascal.ui.runnable.AbstractExecActivity;
 import com.duy.pascal.ui.runnable.ProgramHandler;
 import com.duy.pascal.ui.view.LockableScrollView;
 import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
-import com.duy.pascal.interperter.ast.instructions.Executable;
-import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.libraries.io.IOLib;
-import com.duy.pascal.interperter.config.DebugMode;
-import com.duy.pascal.interperter.debugable.DebugListener;
-import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
-import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;
@@ -225,7 +225,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onLine(Executable executable, @Nullable final LineInfo lineInfo) {
-       DLog.d(TAG, "onLine() called with: runtimeValue = [" + executable + "], line = [" + lineInfo + "]");
+        DLog.d(TAG, "onLine() called with: runtimeValue = [" + executable + "], line = [" + lineInfo + "]");
         if (lineInfo == null) {
             return;
         }
@@ -252,7 +252,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onLine(RuntimeValue executable, final LineInfo lineInfo) {
-       DLog.d(TAG, "onLine() called with: executable = [" + executable.getClass() +
+        DLog.d(TAG, "onLine() called with: executable = [" + executable.getClass() +
                 "], line = [" + lineInfo + "]");
         if (lineInfo == null) return;
         scrollTo(lineInfo);
@@ -260,7 +260,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onEvaluatingExpr(LineInfo lineInfo, String expression) {
-       DLog.d(TAG, "onEvaluatingExpr() called with: line = [" + lineInfo + "], " +
+        DLog.d(TAG, "onEvaluatingExpr() called with: line = [" + lineInfo + "], " +
                 "expression = [" + expression + "]");
 
     }
@@ -274,7 +274,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
      */
     @Override
     public void onEvaluatedExpr(final LineInfo lineInfo, final String expr, final String result) {
-       DLog.d(TAG, "onEvaluatedExpr() called with: line = [" + lineInfo + "], expr = [" +
+        DLog.d(TAG, "onEvaluatedExpr() called with: line = [" + lineInfo + "], expr = [" +
                 expr + "], result = [" + result + "]");
         showPopupAt(lineInfo, expr + " = " + result);
     }
@@ -288,7 +288,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
                 //get relative position of expression at edittext
                 Point position = mCodeView.getDebugPosition(lineInfo.getLine(), lineInfo.getColumn(),
                         Gravity.TOP);
-               DLog.d(TAG, "generate: " + position);
+                DLog.d(TAG, "generate: " + position);
                 dismissPopup();
                 //create new popup
                 PopupWindow window = new PopupWindow(DebugActivity.this);
@@ -331,20 +331,20 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     public void onAssignValue(LineInfo lineNumber, final AssignableValue left,
                               @NonNull final Object old, final Object value,
                               @NonNull VariableContext context) {
-       DLog.d(TAG, "onAssignValue() called with: lineNumber = [" + lineNumber + "], left = [" +
+        DLog.d(TAG, "onAssignValue() called with: lineNumber = [" + lineNumber + "], left = [" +
                 left + "], value = [" + value + "]");
     }
 
     @Override
     public void onPreFunctionCall(AbstractCallableFunction function, RuntimeValue[] arguments) {
-       DLog.d(TAG, "onPreFunctionCall() called with: function = [" + function + "], arguments = ["
+        DLog.d(TAG, "onPreFunctionCall() called with: function = [" + function + "], arguments = ["
                 + Arrays.toString(arguments) + "]");
 
     }
 
     @Override
     public void onFunctionCalled(AbstractCallableFunction function, RuntimeValue[] arguments, Object result) {
-       DLog.d(TAG, "onFunctionCalled() called with: function = [" + function + "], arguments = ["
+        DLog.d(TAG, "onFunctionCalled() called with: function = [" + function + "], arguments = ["
                 + Arrays.toString(arguments) + "], result = [" + result + "]");
 
     }
@@ -445,19 +445,19 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onNewMessage(String msg) {
-       DLog.d(TAG, "onNewMessage() called with: msg = [" + msg + "]");
+        DLog.d(TAG, "onNewMessage() called with: msg = [" + msg + "]");
 
     }
 
     @Override
     public void onClearDebug() {
-       DLog.d(TAG, "onClearDebug() called");
+        DLog.d(TAG, "onClearDebug() called");
 
     }
 
     @Override
     public void onFunctionCall(String name) {
-       DLog.d(TAG, "onFunctionCall() called with: name = [" + name + "]");
+        DLog.d(TAG, "onFunctionCall() called with: name = [" + name + "]");
 
     }
 

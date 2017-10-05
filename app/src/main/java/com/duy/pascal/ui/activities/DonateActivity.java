@@ -25,7 +25,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.duy.pascal.ui.BuildConfig;
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.google.firebase.analytics.FirebaseAnalytics;
 

@@ -23,12 +23,13 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.EditorControl;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
@@ -38,7 +39,6 @@ import com.duy.pascal.ui.editor.view.EditorView;
 import com.duy.pascal.ui.editor.view.LineUtils;
 import com.duy.pascal.ui.file.FileManager;
 import com.duy.pascal.ui.view.LockableScrollView;
-import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.io.File;
 import java.io.IOException;
@@ -110,7 +110,7 @@ public class EditorFragment extends Fragment implements EditorController {
         }
         saveFile();
         if (mCodeEditor != null && getFilePath() != null) {
-           DLog.i(TAG, "onStop: save edit history " + getFilePath());
+            DLog.d(TAG, "onStop: save edit history " + getFilePath());
             mCodeEditor.saveHistory(getFilePath());
         }
         super.onDestroyView();

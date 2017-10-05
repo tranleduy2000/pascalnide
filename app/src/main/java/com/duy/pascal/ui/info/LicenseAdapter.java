@@ -23,7 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 
 import java.util.ArrayList;

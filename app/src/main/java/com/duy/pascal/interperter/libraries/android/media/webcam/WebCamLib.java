@@ -39,7 +39,7 @@ import com.duy.pascal.interperter.libraries.android.activity.PascalActivityTaskE
 import com.duy.pascal.interperter.libraries.android.media.JpegProvider;
 import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.libraries.annotations.PascalParameter;
-import com.googlecode.sl4a.Log;
+import com.duy.pascal.ui.utils.DLog;
 import com.googlecode.sl4a.SimpleServer.SimpleServerObserver;
 import com.googlecode.sl4a.SingleThreadExecutor;
 import com.googlecode.sl4a.facade.AndroidEvent;

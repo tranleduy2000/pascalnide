@@ -18,7 +18,7 @@ package aidl.util;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;

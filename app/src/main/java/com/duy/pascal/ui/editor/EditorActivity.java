@@ -40,7 +40,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.autocomplete.autofix.dialog.ErrorAndQuickFixDialog;

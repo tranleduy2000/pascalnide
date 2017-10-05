@@ -18,7 +18,6 @@ package com.duy.pascal.ui.debug.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +26,11 @@ import android.view.animation.Animation;
 import android.widget.TextView;
 
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.debug.utils.SpanUtils;
-import com.duy.pascal.ui.themefont.themes.database.CodeTheme;
 import com.duy.pascal.ui.themefont.themes.ThemeManager;
+import com.duy.pascal.ui.themefont.themes.database.CodeTheme;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,19 +50,19 @@ public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.Variab
     private List<Boolean> updateList = new ArrayList<>();
     private OnExpandValueListener onExpandValueListener;
 
+    public VariableAdapter(Context context) {
+        this.context = context;
+        this.layoutInflater = LayoutInflater.from(context);
+        this.codeTheme = ThemeManager.getDefault((context));
+        this.spanUtils = new SpanUtils(codeTheme);
+    }
+
     public CodeTheme getCodeTheme() {
         return codeTheme;
     }
 
     public SpanUtils getSpanUtils() {
         return spanUtils;
-    }
-
-    public VariableAdapter(Context context) {
-        this.context = context;
-        this.layoutInflater = LayoutInflater.from(context);
-        this.codeTheme = ThemeManager.getDefault((context));
-        this.spanUtils = new SpanUtils(codeTheme);
     }
 
     public OnExpandValueListener getOnExpandValueListener() {
@@ -104,7 +104,7 @@ public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.Variab
         final VariableDeclaration var = variableItems.get(position);
         holder.txtName.setText(spanUtils.createVarSpan(var));
 
-       DLog.d(TAG, "onBindViewHolder: " + updateList.get(position));
+        DLog.d(TAG, "onBindViewHolder: " + updateList.get(position));
         if (updateList.get(position)) { //update value
             AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.7f);
             alphaAnimation.setDuration(500);

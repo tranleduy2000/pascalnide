@@ -39,8 +39,8 @@ import com.duy.pascal.interperter.libraries.android.activity.PascalActivityTaskE
 import com.duy.pascal.interperter.libraries.android.temp.AndroidUtilsLib;
 import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.libraries.annotations.PascalParameter;
+import com.duy.pascal.ui.utils.DLog;
 import com.googlecode.sl4a.FileUtils;
-import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.rpc.RpcDefault;
 
 import java.io.File;
@@ -92,7 +92,7 @@ public class AndroidCameraLib extends PascalLibrary {
             Method method = camera.getClass().getMethod("setDisplayOrientation", int.class);
             method.invoke(camera, 90);
         } catch (Exception e) {
-           DLog.e(e);
+            DLog.e(e);
         }
 
         try {
@@ -104,7 +104,7 @@ public class AndroidCameraLib extends PascalLibrary {
             takePicture(new File(targetPath), takePictureResult, camera);
             previewTask.finish();
         } catch (Exception e) {
-           DLog.e(e);
+            DLog.e(e);
         } finally {
             camera.release();
         }
@@ -166,7 +166,7 @@ public class AndroidCameraLib extends PascalLibrary {
                     output.close();
                     takePictureResult.mmResult = true;
                 } catch (IOException e) {
-                   DLog.e("Failed to save picture.", e);
+                    DLog.e("Failed to save picture.", e);
                     takePictureResult.mmResult = false;
                 } finally {
                     latch.countDown();

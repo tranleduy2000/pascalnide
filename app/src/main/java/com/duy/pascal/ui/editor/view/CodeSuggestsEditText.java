@@ -25,7 +25,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.method.QwertyKeyListener;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -37,7 +36,7 @@ import android.widget.ListAdapter;
 import android.widget.ListPopupWindow;
 import android.widget.MultiAutoCompleteTextView;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.completion.SuggestionProvider;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;

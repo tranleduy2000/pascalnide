@@ -25,7 +25,7 @@ import android.text.Layout;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
+import com.duy.pascal.ui.utils.DLog;
 
 import com.duy.pascal.ui.EditorSetting;
 

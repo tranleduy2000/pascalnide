@@ -28,7 +28,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.GestureDetectorCompat;
 import android.text.InputType;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -43,7 +42,7 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputContentInfo;
 import android.view.inputmethod.InputMethodManager;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.setting.PascalPreferences;
 import com.duy.pascal.interperter.libraries.android.gesture.listener.ClickListener;
 import com.duy.pascal.interperter.libraries.android.gesture.listener.DoubleClickListener;

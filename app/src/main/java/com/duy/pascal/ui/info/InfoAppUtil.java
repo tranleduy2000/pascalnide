@@ -16,7 +16,7 @@
 
 package com.duy.pascal.ui.info;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -37,6 +37,7 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 
 public class InfoAppUtil {
+    private static final String TAG = "InfoAppUtil";
 
     /*  public static ArrayList<ItemInfo> readListTranslate(Context context, String filePath, boolean fromAssets)
               throws IOException, UnexpectedElementException, SAXException, ParserConfigurationException {
@@ -73,7 +74,6 @@ public class InfoAppUtil {
             Document document = documentBuilder.parse(inputStream);
             Element root = document.getDocumentElement();
             NodeList nodeList = root.getChildNodes();
-            DLog.i(nodeList.getLength());
             for (int index = 0; index < nodeList.getLength(); index++) {
                 Node node = nodeList.item(index);
                 if (node instanceof Element) {
@@ -103,7 +103,6 @@ public class InfoAppUtil {
             Document document = documentBuilder.parse(inputStream);
             Element root = document.getDocumentElement();
             NodeList nodeList = root.getChildNodes();
-            DLog.i(nodeList.getLength());
             for (int index = 0; index < nodeList.getLength(); index++) {
                 Node node = nodeList.item(index);
                 if (node instanceof Element) {

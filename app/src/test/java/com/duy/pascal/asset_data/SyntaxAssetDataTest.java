@@ -16,7 +16,7 @@
 
 package com.duy.pascal.asset_data;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 
 import junit.framework.TestCase;
 

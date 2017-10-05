@@ -68,7 +68,7 @@ import com.duy.pascal.interperter.tokens.ignore.CompileDirectiveToken;
 import com.duy.pascal.interperter.tokens.ignore.GroupingExceptionToken;
 import com.duy.pascal.interperter.tokens.value.ValueToken;
 import com.duy.pascal.interperter.utils.ArrayUtil;
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 
 import java.io.File;
 import java.io.FileReader;

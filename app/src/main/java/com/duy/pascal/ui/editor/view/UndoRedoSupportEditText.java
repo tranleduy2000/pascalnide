@@ -21,10 +21,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.EditorControl;
 import com.duy.pascal.ui.keyboard.KeyListener;
 import com.duy.pascal.ui.keyboard.KeySettings;
@@ -33,7 +32,7 @@ import com.duy.pascal.ui.utils.clipboard.ClipboardManagerCompat;
 import com.duy.pascal.ui.utils.clipboard.ClipboardManagerCompatFactory;
 import com.google.firebase.crash.FirebaseCrash;
 
-//import android.util.Log;
+//import com.duy.pascal.ui.utils.DLog;
 
 /**
  * EditText with undo and redo support

@@ -17,7 +17,7 @@
 package com.googlecode.sl4a.jsonrpc;
 
 import com.duy.pascal.interperter.libraries.PascalLibrary;
-import com.googlecode.sl4a.Log;
+import com.duy.pascal.ui.utils.DLog;
 import com.googlecode.sl4a.rpc.MethodDescriptor;
 
 import java.lang.reflect.Constructor;

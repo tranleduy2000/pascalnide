@@ -26,7 +26,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
+import com.duy.pascal.ui.utils.DLog;
 import android.widget.Toast;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;

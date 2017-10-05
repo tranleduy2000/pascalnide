@@ -18,9 +18,8 @@ package com.duy.pascal.ui.autocomplete.autofix;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.autocomplete.autofix.model.TextData;

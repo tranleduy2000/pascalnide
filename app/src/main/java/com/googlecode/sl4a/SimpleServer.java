@@ -16,7 +16,7 @@
 
 package com.googlecode.sl4a;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 import com.google.common.collect.Lists;
 import com.googlecode.sl4a.facade.EventFacade;
 

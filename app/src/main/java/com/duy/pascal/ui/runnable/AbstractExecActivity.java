@@ -23,7 +23,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.activities.BaseActivity;
 import com.duy.pascal.ui.runnable.model.InputData;

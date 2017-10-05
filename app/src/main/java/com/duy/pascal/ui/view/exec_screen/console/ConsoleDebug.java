@@ -16,7 +16,7 @@
 
 package com.duy.pascal.ui.view.exec_screen.console;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 
 /**
  * Created by Duy on 26-Mar-17.

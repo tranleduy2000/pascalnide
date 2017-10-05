@@ -42,7 +42,7 @@ import com.duy.pascal.interperter.libraries.android.activity.PascalActivityTask;
 import com.duy.pascal.interperter.libraries.android.activity.PascalActivityTaskExecutor;
 import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.libraries.annotations.PascalParameter;
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
@@ -418,7 +418,7 @@ public class AndroidUtilsLib extends PascalLibrary {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Writes message to logcat.")
     public void log(@PascalParameter(name = "message") String message) {
-        android.util.Log.v("SCRIPT", message);
+        com.duy.pascal.ui.utils.DLog.v("SCRIPT", message);
     }
 
     /**

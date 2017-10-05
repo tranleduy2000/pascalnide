@@ -19,13 +19,13 @@ package com.duy.pascal.ui.code.sample.adapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.sample.model.CodeSampleEntry;
 import com.duy.pascal.ui.editor.view.EditorView;
@@ -71,7 +71,7 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
     }
 
     public void addCodes(ArrayList<CodeSampleEntry> listCodeCategories) {
-       DLog.d(TAG, "addCodes() called with: listCodeCategories = [" + listCodeCategories + "]");
+        DLog.d(TAG, "addCodes() called with: listCodeCategories = [" + listCodeCategories + "]");
 
         this.originalData.addAll(listCodeCategories);
         this.codeSampleEntries.addAll(listCodeCategories);

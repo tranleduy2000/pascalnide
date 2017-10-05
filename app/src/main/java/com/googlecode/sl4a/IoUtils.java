@@ -16,6 +16,8 @@
 
 package com.googlecode.sl4a;
 
+import com.duy.pascal.ui.utils.DLog;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -42,12 +44,12 @@ public class IoUtils {
             try {
                 out.close();
             } catch (IOException e) {
-               DLog.e(e.getMessage(), e);
+                DLog.e(e.getMessage(), e);
             }
             try {
                 in.close();
             } catch (IOException e) {
-               DLog.e(e.getMessage(), e);
+                DLog.e(e.getMessage(), e);
             }
         }
         return count;

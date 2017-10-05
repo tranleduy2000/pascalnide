@@ -24,7 +24,7 @@ import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.themefont.fonts.FontEntry;
 import com.duy.pascal.ui.themefont.fonts.FontManager;

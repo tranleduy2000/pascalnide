@@ -42,7 +42,7 @@ import android.widget.SpinnerAdapter;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 
 import org.json.JSONArray;
 import org.xmlpull.v1.XmlPullParser;

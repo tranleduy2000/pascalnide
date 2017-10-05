@@ -30,12 +30,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.common.listeners.OnItemClickListener;
 import com.duy.pascal.ui.common.task.JecAsyncTask;
@@ -220,7 +220,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-       DLog.d(TAG, "onRefresh() called");
+        DLog.d(TAG, "onRefresh() called");
 
         UpdateRootInfo updateRootInfo = new UpdateRootInfo() {
 

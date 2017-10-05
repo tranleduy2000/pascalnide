@@ -28,7 +28,12 @@ public class ParsingTest extends BaseTestCase {
         return "test_parsing";
     }
 
-    public void testAll() {
-        parseAll();
+    public void test1() {
+        run("test1.pas");
     }
+
+    public void test2() {
+        run("test2.pas");
+    }
+
 }

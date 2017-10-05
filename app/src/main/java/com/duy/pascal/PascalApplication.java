@@ -16,7 +16,6 @@
 
 package com.duy.pascal;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
 
@@ -29,11 +28,10 @@ import com.google.firebase.crash.FirebaseCrash;
  */
 
 public class PascalApplication extends MultiDexApplication {
-    @NonNull
-    private final PascalActivityTaskExecutor mTaskExecutor = new PascalActivityTaskExecutor((Context) this);
+    private PascalActivityTaskExecutor mTaskExecutor;
 
     @NonNull
-    public final PascalActivityTaskExecutor getTaskExecutor() {
+    public PascalActivityTaskExecutor getTaskExecutor() {
         return this.mTaskExecutor;
     }
 
@@ -41,6 +39,7 @@ public class PascalApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        mTaskExecutor = new PascalActivityTaskExecutor(this);
         if (BuildConfig.DEBUG) FirebaseCrash.setCrashCollectionEnabled(false);
     }
 

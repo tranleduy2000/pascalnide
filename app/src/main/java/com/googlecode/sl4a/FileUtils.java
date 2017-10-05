@@ -20,6 +20,8 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Environment;
 
+import com.duy.pascal.ui.utils.DLog;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -78,18 +80,18 @@ public class FileUtils {
                 result &= path.delete();
             }
             if (!result) {
-               DLog.e("Delete failed;");
+                DLog.e("Delete failed;");
             }
             return result;
         } else {
-           DLog.e("File does not exist.");
+            DLog.e("File does not exist.");
             return false;
         }
     }
 
     public static File copyFromStream(String name, InputStream input) {
         if (name == null || name.length() == 0) {
-           DLog.e("No script name specified.");
+            DLog.e("No script name specified.");
             return null;
         }
         File file = new File(name);
@@ -100,7 +102,7 @@ public class FileUtils {
             OutputStream output = new FileOutputStream(file);
             IoUtils.copy(input, output);
         } catch (Exception e) {
-           DLog.e(e);
+            DLog.e(e);
             return null;
         }
         return file;
@@ -112,16 +114,16 @@ public class FileUtils {
             parent = parent.getParentFile();
         }
         if (!directory.exists()) {
-           DLog.v("Creating directory: " + directory.getName());
+            DLog.v("Creating directory: " + directory.getName());
             if (!directory.mkdirs()) {
-               DLog.e("Failed to create directory.");
+                DLog.e("Failed to create directory.");
                 return false;
             }
         }
         try {
             recursiveChmod(parent, mode);
         } catch (Exception e) {
-           DLog.e(e);
+            DLog.e(e);
             return false;
         }
         return true;

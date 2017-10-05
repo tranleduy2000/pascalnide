@@ -18,9 +18,9 @@ package com.duy.pascal.ui.editor.highlight;
 
 import android.text.Editable;
 import android.text.Spanned;
-import android.util.Log;
 import android.widget.EditText;
 
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.editor.view.spans.BracketSpan;
 import com.duy.pascal.ui.themefont.themes.database.CodeTheme;
 
@@ -30,6 +30,7 @@ import com.duy.pascal.ui.themefont.themes.database.CodeTheme;
 
 public class BracketHighlighter {
 
+    private static final String TAG = "BracketHighlighter";
     private EditText editText;
     private CodeTheme codeTheme;
 
@@ -41,9 +42,6 @@ public class BracketHighlighter {
     public void setCodeTheme(CodeTheme codeTheme) {
         this.codeTheme = codeTheme;
     }
-
-
-    private static final String TAG = "BracketHighlighter";
 
     public void onSelectChange(int selStart, int selEnd) {
         try {
@@ -86,7 +84,7 @@ public class BracketHighlighter {
     }
 
     private void findClose(char open, int selEnd) {
-       DLog.d(TAG, "findClose() called with: open = [" + open + "], selEnd = [" + selEnd + "]");
+        DLog.d(TAG, "findClose() called with: open = [" + open + "], selEnd = [" + selEnd + "]");
 
         Editable text = editText.getText();
         int cursor = selEnd + 1;

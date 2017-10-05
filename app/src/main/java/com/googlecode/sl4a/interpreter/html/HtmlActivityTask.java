@@ -34,8 +34,8 @@ import android.webkit.WebViewClient;
 
 import com.duy.pascal.interperter.libraries.android.activity.PascalActivityTask;
 import com.duy.pascal.interperter.libraries.android.view.AndroidDialogLib;
+import com.duy.pascal.ui.utils.DLog;
 import com.googlecode.sl4a.FileUtils;
-import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.SingleThreadExecutor;
 import com.googlecode.sl4a.event.Event;
 import com.googlecode.sl4a.facade.AndroidEvent;

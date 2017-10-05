@@ -16,7 +16,7 @@
 
 package com.googlecode.sl4a.jsonrpc;
 
-import com.googlecode.sl4a.Log;
+import com.duy.pascal.ui.utils.DLog;
 import com.googlecode.sl4a.SimpleServer;
 import com.googlecode.sl4a.event.Event;
 import com.googlecode.sl4a.rpc.MethodDescriptor;
@@ -70,7 +70,7 @@ public class JsonRpcServer extends SimpleServer {
         boolean passedAuthentication = false;
         String data;
         while ((data = reader.readLine()) != null) {
-           DLog.v("Received: " + data);
+            DLog.v("Received: " + data);
             JSONObject request = new JSONObject(data);
             int id = request.getInt("id");
             String method = request.getString("method");
@@ -97,7 +97,7 @@ public class JsonRpcServer extends SimpleServer {
             try {
                 send(writer, JsonRpcResult.result(id, rpc.invoke(receiverManager, params)));
             } catch (Throwable t) {
-               DLog.e("Invocation error.", t);
+                DLog.e("Invocation error.", t);
                 send(writer, JsonRpcResult.error(id, t));
             }
         }
@@ -110,7 +110,7 @@ public class JsonRpcServer extends SimpleServer {
     private void send(PrintWriter writer, JSONObject result) {
         writer.write(result + "\n");
         writer.flush();
-       DLog.v("Sent: " + result);
+        DLog.v("Sent: " + result);
     }
 
     @Override

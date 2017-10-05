@@ -5,7 +5,7 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Shader;
-import android.util.Log;
+import com.duy.pascal.ui.utils.DLog;
 
 import java.util.ArrayList;
 

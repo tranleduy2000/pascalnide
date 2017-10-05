@@ -23,7 +23,7 @@ import com.duy.pascal.interperter.ast.runtime_value.value.boxing.ArrayBoxer;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;

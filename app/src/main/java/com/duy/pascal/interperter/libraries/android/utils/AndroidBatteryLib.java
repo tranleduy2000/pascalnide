@@ -27,7 +27,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.libraries.PascalLibrary;
 import com.duy.pascal.interperter.libraries.android.AndroidLibraryManager;
 import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
-import com.googlecode.sl4a.Log;
+import com.duy.pascal.ui.utils.DLog;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
 
 import java.lang.reflect.Field;

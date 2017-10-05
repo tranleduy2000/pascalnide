@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui;
+package com.duy.pascal.ui.utils;
 
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.duy.pascal.ui.BuildConfig;
 import com.google.firebase.crash.FirebaseCrash;
 
 /**
@@ -30,15 +31,6 @@ public class DLog {
     public static boolean DEBUG = BuildConfig.DEBUG;
     public static boolean ANDROID = true;
 
-    public static void d(Object msg) {
-        if (DEBUG) {
-            if (ANDROID) {
-                Log.d(TAG, msg.toString());
-            } else {
-                System.out.println(TAG + ": " + msg.toString());
-            }
-        }
-    }
 
     public static void d(String TAG, Object msg) {
         if (DEBUG) {
@@ -120,7 +112,7 @@ public class DLog {
         }
     }
 
-    public static void i(Object msg) {
+    public static void i(String msg) {
         if (DEBUG) {
             if (ANDROID) {
                 Log.i(TAG, msg.toString());
@@ -141,97 +133,104 @@ public class DLog {
 
 
     public static void v(String message) {
-        android.util.Log.v(TAG, message);
+        Log.v(TAG, message);
+    }
+
+    public static void v(String TAG, String message) {
+        Log.v(TAG, message);
     }
 
     public static void v(String message, Throwable e) {
-        android.util.Log.v(TAG, message, e);
+        Log.v(TAG, message, e);
     }
 
     public static void v(Context context, String message) {
         toast(context, message);
-        android.util.Log.v(TAG, message);
+        Log.v(TAG, message);
     }
 
     public static void v(Context context, String message, Throwable e) {
         toast(context, message);
-        android.util.Log.v(TAG, message, e);
+        Log.v(TAG, message, e);
     }
 
     public static void e(Throwable e) {
-        android.util.Log.e(TAG, "Error", e);
+        Log.e(TAG, "Error", e);
     }
 
 
     public static void e(String message, Throwable e) {
-        android.util.Log.e(TAG, message, e);
+        Log.e(TAG, message, e);
     }
 
     public static void e(Context context, String message) {
         toast(context, message);
-        android.util.Log.e(TAG, message);
+        Log.e(TAG, message);
     }
 
     public static void e(Context context, String message, Throwable e) {
         toast(context, message);
-        android.util.Log.e(TAG, message, e);
+        Log.e(TAG, message, e);
     }
 
     public static void w(Throwable e) {
-        android.util.Log.w(TAG, "Warning", e);
+        Log.w(TAG, "Warning", e);
     }
 
     public static void w(String message) {
-        android.util.Log.w(TAG, message);
+        Log.w(TAG, message);
     }
 
     public static void w(String message, Throwable e) {
-        android.util.Log.w(TAG, message, e);
+        Log.w(TAG, message, e);
     }
 
     public static void w(Context context, String message) {
         toast(context, message);
-        android.util.Log.w(TAG, message);
+        Log.w(TAG, message);
     }
 
     public static void w(Context context, String message, Throwable e) {
         toast(context, message);
-        android.util.Log.w(TAG, message, e);
+        Log.w(TAG, message, e);
     }
 
-    public static void d(String message) {
-        android.util.Log.d(TAG, message);
+    public static void d(String msg) {
+        if (DEBUG) {
+            if (ANDROID) {
+                Log.d(TAG, msg);
+            } else {
+                System.out.println(TAG + ": " + msg);
+            }
+        }
     }
 
     public static void d(String message, Throwable e) {
-        android.util.Log.d(TAG, message, e);
+        Log.d(TAG, message, e);
     }
 
     public static void d(Context context, String message) {
         toast(context, message);
-        android.util.Log.d(TAG, message);
+        Log.d(TAG, message);
     }
 
     public static void d(Context context, String message, Throwable e) {
         toast(context, message);
-        android.util.Log.d(TAG, message, e);
+        Log.d(TAG, message, e);
     }
 
-    public static void i(String message) {
-        android.util.Log.i(TAG, message);
-    }
 
     public static void i(String message, Throwable e) {
-        android.util.Log.i(TAG, message, e);
+        Log.i(TAG, message, e);
     }
 
     public static void i(Context context, String message) {
         toast(context, message);
-        android.util.Log.i(TAG, message);
+        Log.i(TAG, message);
     }
 
     public static void i(Context context, String message, Throwable e) {
         toast(context, message);
-        android.util.Log.i(TAG, message, e);
+        Log.i(TAG, message, e);
     }
 }

@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.libraries.graphic.model;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 
 /**
  * Created by Duy on 02-Mar-17.

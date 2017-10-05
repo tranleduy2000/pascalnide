@@ -17,14 +17,7 @@
 package com.duy.pascal.ui.autocomplete.completion;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 
-import com.duy.pascal.ui.autocomplete.completion.model.ConstantDescription;
-import com.duy.pascal.ui.autocomplete.completion.model.Description;
-import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
-import com.duy.pascal.ui.autocomplete.completion.model.FunctionDescription;
-import com.duy.pascal.ui.autocomplete.completion.model.VariableDescription;
-import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.interperter.ast.CodeUnitParsingException;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.core.PascalCompiler;
@@ -39,6 +32,13 @@ import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.utils.DLog;
+import com.duy.pascal.ui.autocomplete.completion.model.ConstantDescription;
+import com.duy.pascal.ui.autocomplete.completion.model.Description;
+import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
+import com.duy.pascal.ui.autocomplete.completion.model.FunctionDescription;
+import com.duy.pascal.ui.autocomplete.completion.model.VariableDescription;
+import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -136,7 +136,7 @@ public class SuggestionProvider {
         int start = symbolsTokenizer.findTokenStart(source, cursorPos);
         incomplete = source.substring(start, cursorPos);
         incomplete = incomplete.trim();
-       DLog.d(TAG, "calculateIncomplete incomplete = " + incomplete);
+        DLog.d(TAG, "calculateIncomplete incomplete = " + incomplete);
     }
 
     private ArrayList<Description> sort(ArrayList<Description> items) {

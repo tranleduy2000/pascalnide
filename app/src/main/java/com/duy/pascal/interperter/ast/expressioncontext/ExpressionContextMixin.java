@@ -3,7 +3,7 @@ package com.duy.pascal.interperter.ast.expressioncontext;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.runnable.ProgramHandler;
 import com.duy.pascal.interperter.ast.CodeUnitParsingException;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;

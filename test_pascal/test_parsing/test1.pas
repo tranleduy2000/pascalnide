@@ -90,7 +90,7 @@ begin
   menus := setMenus(['menu 1', 'menu 2', 'menu 3', 'menu 4']);
   selected := selectMenu(menus, whereY);
   // print selection
-  if selected > = 0 then
+  if selected >= 0 then
     writeln('Anda memilih "', menus[selected], '".')
   else
     writeln('Anda membatalkan pilihan.');

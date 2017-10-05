@@ -80,7 +80,7 @@
 -dontwarn android.support.**
 -dontwarn com.google.ads.**
 
--keep class com.duy.pascal.interperter.libraries.** { *; }
+-keep class com.duy.pascal.interperter.** { *; }
 -dontwarn com.google.common.**
 -dontwarn org.apache.commons.**
 -dontwarn java.awt.**

@@ -20,6 +20,8 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import com.duy.pascal.ui.utils.DLog;
+
 public class Version {
 
     private Version() {
@@ -31,7 +33,7 @@ public class Version {
             PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             return info.versionName;
         } catch (PackageManager.NameNotFoundException e) {
-           DLog.e("Package name not found", e);
+            DLog.e("Package name not found", e);
         }
         return "?";
     }

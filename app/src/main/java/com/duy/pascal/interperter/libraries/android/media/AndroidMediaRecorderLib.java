@@ -35,7 +35,7 @@ import com.duy.pascal.interperter.libraries.android.activity.PascalActivityTaskE
 import com.duy.pascal.interperter.libraries.android.temp.AndroidUtilsLib;
 import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.libraries.annotations.PascalParameter;
-import com.googlecode.sl4a.Log;
+import com.duy.pascal.ui.utils.DLog;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
 

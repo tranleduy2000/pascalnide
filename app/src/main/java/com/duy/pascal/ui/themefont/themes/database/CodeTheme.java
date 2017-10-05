@@ -17,7 +17,7 @@
 package com.duy.pascal.ui.themefont.themes.database;
 
 import android.graphics.Color;
-import android.util.Log;
+import com.duy.pascal.ui.utils.DLog;
 
 import java.io.Serializable;
 import java.util.Arrays;

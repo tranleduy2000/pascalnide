@@ -23,7 +23,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.runnable.ConsoleHandler;
 import com.duy.pascal.ui.view.exec_screen.console.ConsoleCursor;
 import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;

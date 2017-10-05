@@ -15,7 +15,7 @@
  */
 package com.googlecode.sl4a.facade;
 
-import com.googlecode.sl4a.Log;
+import com.duy.pascal.ui.utils.DLog;
 import com.googlecode.sl4a.SimpleServer;
 import com.googlecode.sl4a.event.Event;
 import com.googlecode.sl4a.jsonrpc.JsonBuilder;

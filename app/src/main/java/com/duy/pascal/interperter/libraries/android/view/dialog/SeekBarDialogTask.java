@@ -22,7 +22,7 @@ import android.content.DialogInterface;
 import android.util.AndroidRuntimeException;
 import android.widget.SeekBar;
 
-import com.googlecode.sl4a.Log;
+import com.duy.pascal.ui.utils.DLog;
 import com.googlecode.sl4a.facade.AndroidEvent;
 
 import org.json.JSONException;

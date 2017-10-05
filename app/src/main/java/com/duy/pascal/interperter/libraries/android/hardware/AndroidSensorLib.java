@@ -27,7 +27,7 @@ import com.duy.pascal.interperter.libraries.PascalLibrary;
 import com.duy.pascal.interperter.libraries.android.AndroidLibraryManager;
 import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.libraries.annotations.PascalParameter;
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 
 import java.util.Arrays;

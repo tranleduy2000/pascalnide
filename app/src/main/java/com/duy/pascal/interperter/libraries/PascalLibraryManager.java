@@ -22,7 +22,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
 import com.duy.pascal.ui.runnable.ConsoleHandler;
 import com.duy.pascal.ui.runnable.ProgramHandler;

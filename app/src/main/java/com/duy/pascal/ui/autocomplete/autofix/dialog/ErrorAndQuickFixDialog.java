@@ -23,19 +23,19 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.AutoFixHelper;
 import com.duy.pascal.ui.autocomplete.autofix.adapters.CommandAdapter;
 import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.code.ExceptionManager;
 import com.duy.pascal.ui.editor.EditorActivity;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
 import java.util.ArrayList;
 
@@ -105,7 +105,7 @@ public class ErrorAndQuickFixDialog extends BottomSheetDialogFragment {
     }
 
     private void executeCommand(AutoFixCommand autoFixCommand) {
-       DLog.d(TAG, "executeCommand() called with: autoFixCommand = [" + autoFixCommand + "]");
+        DLog.d(TAG, "executeCommand() called with: autoFixCommand = [" + autoFixCommand + "]");
         try {
             EditorActivity editorActivity = (EditorActivity) getActivity();
             editorActivity.executeCommand(autoFixCommand);

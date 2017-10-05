@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.systemfunction.builtin;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
