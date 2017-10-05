@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ActionMode;
@@ -34,6 +35,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import com.duy.pascal.ui.BuildConfig;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.common.utils.UIUtils;
 import com.duy.pascal.ui.file.io.JecFile;
@@ -56,11 +58,11 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
     private final Context context;
     private final FileClipboard fileClipboard;
     private final ExplorerContext explorerContext;
-    private ActionMode actionMode;
+    private ActionMode mActionMode;
     private List<JecFile> checkedList = new ArrayList<>();
-    private ShareActionProvider shareActionProvider;
+    private ShareActionProvider mShareActionProvider;
     private MenuItem renameMenu;
-    private MenuItem shareMenu;
+    private MenuItem mShareMenu;
     @Nullable
     private Dialog mDialog;
 
@@ -83,14 +85,14 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
     @Override
     public void onCheckedChanged(int checkedCount) {
         if (checkedCount > 0) {
-            if (actionMode == null) {
-                actionMode = view.startActionMode(this);
+            if (mActionMode == null) {
+                mActionMode = view.startActionMode(this);
             }
-            actionMode.setTitle(context.getString(R.string.selected_x_items, checkedCount));
+            mActionMode.setTitle(context.getString(R.string.selected_x_items, checkedCount));
         } else {
-            if (actionMode != null) {
-                actionMode.finish();
-                actionMode = null;
+            if (mActionMode != null) {
+                mActionMode.finish();
+                mActionMode = null;
             }
         }
     }
@@ -108,11 +110,11 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
         renameMenu = menu.add(0, R.id.rename, 0, R.string.rename);
         renameMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
-        shareMenu = menu.add(0, R.id.share, 0, R.string.share);
-        shareMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-        shareActionProvider = new ShareActionProvider(context);
-        shareActionProvider.setOnShareTargetSelectedListener(this);
-        MenuItemCompat.setActionProvider(shareMenu, shareActionProvider);
+        mShareMenu = menu.add(0, R.id.share, 0, R.string.share);
+        mShareMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        mShareActionProvider = new ShareActionProvider(context);
+        mShareActionProvider.setOnShareTargetSelectedListener(this);
+        MenuItemCompat.setActionProvider(mShareMenu, mShareActionProvider);
 
         menu.add(0, R.id.delete, 0, R.string.delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         return true;
@@ -120,7 +122,7 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
 
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        shareMenu.setEnabled(canShare());
+        mShareMenu.setEnabled(canShare());
         renameMenu.setEnabled(checkedList.size() == 1);
         return true;
     }
@@ -164,13 +166,13 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-        shareActionProvider.setOnShareTargetSelectedListener(null);
-        shareActionProvider = null;
+        mShareActionProvider.setOnShareTargetSelectedListener(null);
+        mShareActionProvider = null;
         checkedList.clear();
         view.setSelectAll(false);
         renameMenu = null;
-        shareMenu = null;
-        actionMode = null;
+        mShareMenu = null;
+        mActionMode = null;
     }
 
     public void destroy() {
@@ -179,9 +181,9 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
     }
 
     private void destroyActionMode() {
-        if (actionMode != null) {
-            actionMode.finish();
-            actionMode = null;
+        if (mActionMode != null) {
+            mActionMode.finish();
+            mActionMode = null;
         }
     }
 
@@ -224,7 +226,7 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
     }
 
     private void shareFile() {
-        if (checkedList.isEmpty() || shareActionProvider == null)
+        if (checkedList.isEmpty() || mShareActionProvider == null)
             return;
 
         Intent shareIntent = new Intent();
@@ -232,23 +234,35 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
             File localFile = new File(checkedList.get(0).getPath());
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.setType(MimeTypes.getInstance().getMimeType(localFile.getPath()));
-            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(localFile));
+            Uri fileUri;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                fileUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", localFile);
+            } else {
+                fileUri = Uri.fromFile(localFile);
+            }
+            shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
         } else {
             shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
 
             ArrayList<Uri> streams = new ArrayList<>();
             for (JecFile file : checkedList) {
-                if (!(file instanceof LocalFile))
+                if (!(file instanceof LocalFile)) {
                     throw new ExplorerException(context.getString(R.string.can_not_share_x, file + " isn't LocalFile"));
-
-                streams.add(Uri.fromFile(new File(file.getPath())));
+                }
+                File localFile = new File(file.getPath());
+                Uri fileUri;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    fileUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", localFile);
+                } else {
+                    fileUri = Uri.fromFile(localFile);
+                }
+                streams.add(fileUri);
             }
 
             shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, streams);
         }
 
-
-        shareActionProvider.setShareIntent(shareIntent);
+        mShareActionProvider.setShareIntent(shareIntent);
     }
 
     private void doDeleteAction() {

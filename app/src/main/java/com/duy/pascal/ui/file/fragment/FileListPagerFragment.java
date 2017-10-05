@@ -35,7 +35,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.common.listeners.OnItemClickListener;
 import com.duy.pascal.ui.common.task.JecAsyncTask;
@@ -57,6 +56,7 @@ import com.duy.pascal.ui.file.io.LocalFile;
 import com.duy.pascal.ui.file.listener.FileListResultListener;
 import com.duy.pascal.ui.file.listener.OnClipboardPasteFinishListener;
 import com.duy.pascal.ui.file.util.FileListSorter;
+import com.duy.pascal.ui.utils.DLog;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.io.File;
@@ -79,6 +79,8 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     private FileExplorerAction action;
 
     public static Fragment newFragment(JecFile path) {
+        DLog.d(TAG, "newFragment() called with: path = [" + path + "]");
+
         FileListPagerFragment f = new FileListPagerFragment();
         Bundle b = new Bundle();
         b.putParcelable("path", path);
@@ -223,7 +225,6 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
         DLog.d(TAG, "onRefresh() called");
 
         UpdateRootInfo updateRootInfo = new UpdateRootInfo() {
-
             @Override
             public void onUpdate(JecFile f) {
                 mPath = f;
