@@ -18,14 +18,13 @@ package com.duy.pascal.ui.view;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.v7.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
 
 /**
  * Created by Duy on 10-Jun-17.
  */
 
-public class MonospaceRadioButton extends AppCompatRadioButton {
+public class MonospaceRadioButton extends android.support.v7.widget.AppCompatRadioButton {
 
     public MonospaceRadioButton(Context context) {
         super(context);

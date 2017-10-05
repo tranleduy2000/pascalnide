@@ -32,6 +32,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.debug.CallStack;
 import com.duy.pascal.ui.debug.adapter.FrameAdapter;
@@ -39,8 +41,6 @@ import com.duy.pascal.ui.debug.adapter.VariableAdapter;
 import com.duy.pascal.ui.debug.utils.SpanUtils;
 import com.duy.pascal.ui.dialog.DialogHelper;
 import com.duy.pascal.ui.view.MonospaceRadioButton;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,7 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
     private VariableAdapter mVariableAdapter;
     @Nullable
     private CallStack mLastStack;
-    private Dialog dialog;
+    private Dialog mdialog;
 
     public static FragmentFrame newInstance() {
 
@@ -94,7 +94,7 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
         ArrayList<VariableContext> stacks = callStack.getStacks();
         mListFrame.removeAllViews();
         for (int i = 0; i < stacks.size(); i++) {
-            MonospaceRadioButton radioButton = new MonospaceRadioButton(getContext());
+            MonospaceRadioButton radioButton = new MonospaceRadioButton(getActivity());
             radioButton.setLayoutParams(new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -154,7 +154,7 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
 
     @Override
     public void onDestroyView() {
-        if (dialog != null) dialog.dismiss();
+        if (mdialog != null) mdialog.dismiss();
         mVariableAdapter.clearData();
         super.onDestroyView();
     }
@@ -172,7 +172,7 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
                 var.getName().getOriginName(),
                 spanUtils.createVarSpan(var));
         msgDialog.show();
-        this.dialog = msgDialog;
+        this.mdialog = msgDialog;
     }
 
     private final class OnFrameChangeListener implements CompoundButton.OnCheckedChangeListener {
