@@ -120,6 +120,10 @@ public class SystemFunctionTest extends BaseTestCase {
 
     public void testSin() {
         run("Sin.pas");
+        run("Sin.pas");
+        run("Sin.pas");
+        run("Sin.pas");
+        run("Sin.pas");
     }
 
     public void testSizeOf() {
@@ -151,6 +155,8 @@ public class SystemFunctionTest extends BaseTestCase {
     }
 
     public void testStringToInt() {
+        run("StringToInt.pas");
+        run("StringToInt.pas");
         run("StringToInt.pas");
     }
 

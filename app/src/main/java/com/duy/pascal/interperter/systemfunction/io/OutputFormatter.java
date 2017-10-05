@@ -61,6 +61,11 @@ public class OutputFormatter {
             }
             return res.toString();
         }
+        if (value instanceof Number) {
+            if (value.equals(((Number) value).longValue())) {
+                return String.valueOf(((Number) value).longValue());
+            }
+        }
         return String.valueOf(value);
     }
 
@@ -78,10 +83,10 @@ public class OutputFormatter {
         decimalFormat.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ENGLISH));
 
         Double d = Double.parseDouble(out.toString());
-        if (d - Math.floor(d) == 0.d) {
-            return new StringBuilder(String.valueOf(Long.valueOf(String.valueOf(d))));
-        } else {
-            return new StringBuilder(decimalFormat.format(d));
-        }
+//        if (d - d.longValue() == 0.d) {
+//            return new StringBuilder(String.valueOf(d.longValue()));
+//        } else {
+        return new StringBuilder(decimalFormat.format(d));
+//        }
     }
 }

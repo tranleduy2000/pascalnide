@@ -23,13 +23,12 @@ import android.support.annotation.Size;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.systemfunction.io.OutputFormatter;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.systemfunction.io.OutputFormatter;
 import com.duy.pascal.interperter.utils.NullSafety;
 
 import static com.duy.pascal.interperter.utils.NullSafety.zReturn;
@@ -41,19 +40,16 @@ import static com.duy.pascal.interperter.utils.NullSafety.zReturn;
 public class OutputValue implements RuntimeValue {
     private RuntimeValue target;
     @Nullable
-    private RuntimeValue[] infoOutput;
+    private RuntimeValue[] outputFormat;
 
-    public OutputValue(RuntimeValue target, @Nullable @Size(2) RuntimeValue[] infoOutput) {
+    public OutputValue(RuntimeValue target, @Nullable @Size(2) RuntimeValue[] outputFormat) {
         this.target = target;
-        this.infoOutput = infoOutput;
+        this.outputFormat = outputFormat;
     }
 
+    @Nullable
     public RuntimeValue[] getOutputFormat() {
-        return infoOutput;
-    }
-
-    public void setOutputFormat(@Size(2) @Nullable RuntimeValue[] formatInfo) {
-        this.infoOutput = formatInfo;
+        return outputFormat;
     }
 
 
@@ -62,14 +58,14 @@ public class OutputValue implements RuntimeValue {
     public StringBuilder getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Object value = target.getValue(f, main);
         StringBuilder out = new StringBuilder(OutputFormatter.getValueOutput(value));
-        if (infoOutput != null) {
-            if (infoOutput[1] != null) {
-                int sizeOfReal = (int) infoOutput[1].getValue(f, main);
+        if (outputFormat != null) {
+            boolean formatDouble = outputFormat[1] != null;
+            if (formatDouble) {
+                int sizeOfReal = (int) outputFormat[1].getValue(f, main);
                 out = OutputFormatter.formatDecimal(sizeOfReal, out);
             }
-
-            if (infoOutput[0] != null) {
-                int column = (int) infoOutput[0].getValue(f, main);
+            if (outputFormat[0] != null) {
+                int column = (int) outputFormat[0].getValue(f, main);
                 while (out.length() < column) {
                     out.insert(0, " ");
                 }
@@ -100,16 +96,16 @@ public class OutputValue implements RuntimeValue {
         Object value = target.compileTimeValue(context);
         if (NullSafety.isNullValue(value)) return zReturn(value);
         StringBuilder out = new StringBuilder(OutputFormatter.getValueOutput(value));
-        if (infoOutput != null) {
-            if (infoOutput[1] != null) {
-                Object o = infoOutput[1].compileTimeValue(context);
+        if (outputFormat != null) {
+            if (outputFormat[1] != null) {
+                Object o = outputFormat[1].compileTimeValue(context);
                 if (NullSafety.isNullValue(o)) return NullValue.get();
                 int sizeOfReal = (int) o;
                 out = OutputFormatter.formatDecimal(sizeOfReal, out);
             }
 
-            if (infoOutput[0] != null) {
-                Object o = infoOutput[0].compileTimeValue(context);
+            if (outputFormat[0] != null) {
+                Object o = outputFormat[0].compileTimeValue(context);
                 if (NullSafety.isNullValue(o)) return NullValue.get();
                 int column = (int) o;
                 while (out.length() < column) {
@@ -123,7 +119,7 @@ public class OutputValue implements RuntimeValue {
     @Nullable
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
-        return new OutputValue(target.compileTimeExpressionFold(context), infoOutput);
+        return new OutputValue(target.compileTimeExpressionFold(context), outputFormat);
     }
 
     @Nullable

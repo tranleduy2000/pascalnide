@@ -24,7 +24,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.View;
 
-import com.duy.pascal.BasePascalApplication;
+import com.duy.pascal.PascalApplication;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.android.AndroidLibraryManager;
@@ -136,7 +136,7 @@ public class AndroidDialogLib extends PascalLibrary {
         mContext = manager.getContext();
         mManager = manager;
         if (mContext != null) {
-            mTaskQueue = ((BasePascalApplication) mContext).getTaskExecutor();
+            mTaskQueue = ((PascalApplication) mContext).getTaskExecutor();
         }
         mContextMenuItems = new CopyOnWriteArrayList<>();
         mOptionsMenuItems = new CopyOnWriteArrayList<>();

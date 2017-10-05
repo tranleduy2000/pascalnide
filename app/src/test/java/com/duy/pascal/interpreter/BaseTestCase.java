@@ -59,7 +59,7 @@ public abstract class BaseTestCase extends TestCase {
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
-            assertTrue(false);
+            assertTrue(e.getMessage(), false);
         }
     }
 

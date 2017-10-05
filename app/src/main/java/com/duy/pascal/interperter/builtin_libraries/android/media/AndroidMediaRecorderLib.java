@@ -26,7 +26,7 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
-import com.duy.pascal.BasePascalApplication;
+import com.duy.pascal.PascalApplication;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.android.AndroidLibraryManager;
@@ -307,7 +307,7 @@ public class AndroidMediaRecorderLib extends PascalLibrary {
         };
 
         PascalActivityTaskExecutor taskExecutor =
-                ((BasePascalApplication) mContext).getTaskExecutor();
+                ((PascalApplication) mContext).getTaskExecutor();
         taskExecutor.execute(task);
 
         Exception e = task.getResult();

@@ -33,7 +33,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.duy.pascal.BasePascalApplication;
+import com.duy.pascal.PascalApplication;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.builtin_libraries.AndroidLibraryUtils;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
@@ -84,7 +84,7 @@ public class AndroidUtilsLib extends PascalLibrary {
     public AndroidUtilsLib(AndroidLibraryManager manager) {
         mContext = manager.getContext();
         if (mContext != null) {
-            BasePascalApplication application = ((BasePascalApplication) mContext);
+            PascalApplication application = ((PascalApplication) mContext);
             mTaskQueue = application.getTaskExecutor();
             mHandler = new Handler(mContext.getMainLooper());
         }

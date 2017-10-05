@@ -16,6 +16,11 @@
 
 package com.duy.pascal;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.multidex.MultiDexApplication;
+
+import com.duy.pascal.interperter.builtin_libraries.android.activity.PascalActivityTaskExecutor;
 import com.duy.pascal.ui.BuildConfig;
 import com.google.firebase.crash.FirebaseCrash;
 
@@ -23,7 +28,15 @@ import com.google.firebase.crash.FirebaseCrash;
  * Created by Duy on 17-May-17.
  */
 
-public class PascalApplication extends BasePascalApplication {
+public class PascalApplication extends MultiDexApplication {
+    @NonNull
+    private final PascalActivityTaskExecutor mTaskExecutor = new PascalActivityTaskExecutor((Context) this);
+
+    @NonNull
+    public final PascalActivityTaskExecutor getTaskExecutor() {
+        return this.mTaskExecutor;
+    }
+
 
     @Override
     public void onCreate() {
