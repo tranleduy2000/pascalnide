@@ -104,6 +104,7 @@
             android:configChanges="screenSize"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
+
         <activity android:name="com.duy.pascal.ui.code.sample.activities.DocumentActivity" />
         <activity android:name="com.duy.pascal.ui.code.sample.activities.CodeSampleActivity" />
         <activity android:name="com.duy.pascal.ui.themefont.activities.ThemeFontActivity" />

@@ -59,7 +59,6 @@ import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.Diagnostic;
 import com.duy.pascal.interperter.exceptions.DiagnosticsListener;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.UnSupportTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
@@ -976,18 +975,21 @@ public abstract class GrouperToken extends Token {
 				 */
                 RuntimeValue converted = leftType.convert(value, context);
                 if (converted == null) {
-                    throw new UnConvertibleTypeException(value, leftType, valueType,
-                            identifier, context);
+                    throw new UnConvertibleTypeException(value, leftType, valueType, identifier, context);
                 }
                 if (assign instanceof PlusAssignToken) {
                     return new PlusAssignStatement(context, left, leftType.cloneValue(converted),
                             next.getLineNumber());
+
                 } else if (assign instanceof MinusAssignToken) {
+
                     return new MinusAssignStatement(context, left, leftType.cloneValue(converted),
                             next.getLineNumber());
                 } else if (assign instanceof MultiplyAssignToken) {
+
                     return new MulAssignStatement(context, left, leftType.cloneValue(converted),
                             next.getLineNumber());
+
                 } else if (assign instanceof DivAssignToken) {
 
                     return new DivAssignStatement(context, left, leftType.cloneValue(converted),

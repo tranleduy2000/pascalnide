@@ -38,6 +38,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,7 +49,6 @@ import android.widget.Toast;
 
 import com.commonsware.cwac.pager.PageDescriptor;
 import com.commonsware.cwac.pager.SimplePageDescriptor;
-import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.EditorControl;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.activities.BaseActivity;
@@ -63,6 +63,7 @@ import com.duy.pascal.ui.file.io.LocalFile;
 import com.duy.pascal.ui.file.util.FileListSorter;
 import com.duy.pascal.ui.file.util.TabFileUtils;
 import com.duy.pascal.ui.setting.PascalPreferences;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.view.SymbolListView;
 import com.github.clans.fab.FloatingActionMenu;
 import com.kobakei.ratethisapp.RateThisApp;
@@ -137,11 +138,11 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
     }
 
     private void loadFileFromIntent() {
-       DLog.d(TAG, "onResume() called");
+        DLog.d(TAG, "onResume() called");
         Intent intent = getIntent();
         if (intent != null && intent.getStringExtra(CompileManager.FILE_PATH) != null) {
             String filePath = intent.getStringExtra(CompileManager.FILE_PATH);
-           DLog.d(TAG, "onResume: path = " + filePath);
+            DLog.d(TAG, "onResume: path = " + filePath);
             //No need save last file because it is the first file
             addNewPageEditor(new File(filePath));
             //Remove path
@@ -227,34 +228,27 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
     }
 
     private void invalidateTab() {
-        for (int i = 0; i < mPagerAdapter.getCount(); i++) {
-            final TabLayout.Tab tab = mTabLayout.getTabAt(i);
-            View view = null;
-            if (tab != null) {
-                tab.setCustomView(R.layout.item_tab_file);
-                view = tab.getCustomView();
-            }
-
-            if (view != null) {
-                View vClose = view.findViewById(R.id.img_close);
-                final int position = i;
-                vClose.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        removePage(position);
-                    }
-                });
-                TextView txtTitle = view.findViewById(R.id.txt_name);
-                txtTitle.setText(mPagerAdapter.getPageTitle(i));
-                txtTitle.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mViewPager.setCurrentItem(position);
-                    }
-                });
-            }
-
-            if (i == mViewPager.getCurrentItem()) {
+        for (int index = 0; index < mPagerAdapter.getCount(); index++) {
+            final TabLayout.Tab tab = mTabLayout.getTabAt(index);
+            View view = LayoutInflater.from(this).inflate(R.layout.item_tab_file, null);
+            if (tab != null) tab.setCustomView(view);
+            View vClose = view.findViewById(R.id.img_close);
+            final int position = index;
+            vClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removePage(position);
+                }
+            });
+            TextView txtTitle = view.findViewById(R.id.txt_name);
+            txtTitle.setText(mPagerAdapter.getPageTitle(index));
+            txtTitle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mViewPager.setCurrentItem(position);
+                }
+            });
+            if (index == mViewPager.getCurrentItem()) {
                 if (tab != null) {
                     tab.select();
                 }
@@ -314,7 +308,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
      * @param file - file need load
      */
     protected void addNewPageEditor(@NonNull File file) {
-       DLog.d(TAG, "addNewPageEditor() called with: file = [" + file + "]");
+        DLog.d(TAG, "addNewPageEditor() called with: file = [" + file + "]");
         int position = mPagerAdapter.getPositionForTag(file.getPath());
         if (position != -1) { //existed in list file
             TabLayout.Tab tab = mTabLayout.getTabAt(position);
@@ -354,7 +348,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-       DLog.d(TAG, "onNewIntent() called with: intent = [" + intent + "]");
+        DLog.d(TAG, "onNewIntent() called with: intent = [" + intent + "]");
         if (intent.getStringExtra(CompileManager.FILE_PATH) != null) {
             String filePath = intent.getStringExtra(CompileManager.FILE_PATH);
             File file = new File(filePath);
@@ -615,7 +609,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-       DLog.d(TAG, "onMenuItemClick() called with: item = [" + item + "]");
+        DLog.d(TAG, "onMenuItemClick() called with: item = [" + item + "]");
 
         Pref pref = Pref.getInstance(this);
         int id = item.getItemId();

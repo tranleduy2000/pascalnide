@@ -80,7 +80,7 @@ public class EditorActivity extends BaseEditorActivity implements
     public static final int ACTION_CREATE_SHORTCUT = 1014;
 
     private CompileManager mCompileManager;
-    private MenuEditor mMenuEditor;
+    private EditorDelegate mEditorDelegate;
     private Dialog mDialog;
 
     @Override
@@ -90,12 +90,12 @@ public class EditorActivity extends BaseEditorActivity implements
         mCompileManager = new CompileManager(this);
         mDrawerLayout.addDrawerListener(this);
 
-        mMenuEditor = new MenuEditor(this, this);
+        mEditorDelegate = new EditorDelegate(this, this);
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 mDrawerLayout.closeDrawers();
-                return mMenuEditor.onOptionsItemSelected(item);
+                return mEditorDelegate.onOptionsItemSelected(item);
             }
         });
         findViewById(R.id.img_tab).setOnClickListener(new View.OnClickListener() {
@@ -108,7 +108,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return mMenuEditor.onOptionsItemSelected(item);
+        return mEditorDelegate.onOptionsItemSelected(item);
     }
 
 
@@ -153,7 +153,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return mMenuEditor.onCreateOptionsMenu(menu);
+        return mEditorDelegate.onCreateOptionsMenu(menu);
     }
 
     /**
@@ -201,7 +201,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public boolean isAutoSave() {
-        return mMenuEditor.getChecked(R.id.action_auto_save);
+        return mEditorDelegate.getChecked(R.id.action_auto_save);
     }
 
     /**

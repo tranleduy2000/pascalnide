@@ -39,7 +39,7 @@ import com.duy.pascal.ui.utils.StoreUtil;
  * Created by Duy on 03-Mar-17.
  */
 
-public class MenuEditor {
+public class EditorDelegate {
     @NonNull
     private EditorActivity mActivity;
     @NonNull
@@ -47,7 +47,7 @@ public class MenuEditor {
     private Menu menu;
     private PascalPreferences mPreference;
 
-    public MenuEditor(@NonNull EditorActivity activity, @NonNull EditorControl listener) {
+    public EditorDelegate(@NonNull EditorActivity activity, @NonNull EditorControl listener) {
         this.mActivity = activity;
         this.listener = listener;
         mPreference = new PascalPreferences(this.mActivity);
