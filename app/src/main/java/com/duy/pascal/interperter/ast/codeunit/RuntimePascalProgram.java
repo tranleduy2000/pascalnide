@@ -21,7 +21,7 @@ import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.config.RunMode;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.frontend.debug.CallStack;
+import com.duy.pascal.ui.debug.CallStack;
 
 import java.util.HashMap;
 import java.util.Map;

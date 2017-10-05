@@ -22,8 +22,8 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
-import com.duy.pascal.frontend.runnable.ProgramHandler;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
+import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.android.gesture.dectector.MoveGestureDetector;

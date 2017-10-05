@@ -35,7 +35,7 @@ import com.duy.pascal.interperter.builtin_libraries.graphic.style.FillType;
 import com.duy.pascal.interperter.builtin_libraries.graphic.style.LineStyle;
 import com.duy.pascal.interperter.builtin_libraries.graphic.style.LineWidth;
 import com.duy.pascal.interperter.imageprocessing.ImageUtils;
-import com.duy.pascal.frontend.R;
+import com.duy.pascal.ui.R;
 
 /**
  * Created by Duy on 02-Mar-17.

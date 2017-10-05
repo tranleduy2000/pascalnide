@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.duy.pascal.frontend">
+    package="com.duy.pascal.ui">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -30,7 +30,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeDark.NoActionBar">
         <activity
-            android:name=".activities.CreateShortcutActivity"
+            android:name="com.duy.pascal.ui.activities.CreateShortcutActivity"
             android:label="@string/create_shortcut">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />
@@ -40,7 +40,7 @@
         </activity>
 
         <activity
-            android:name=".activities.ActivitySplashScreen"
+            android:name="com.duy.pascal.ui.activities.ActivitySplashScreen"
             android:configChanges="orientation">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
@@ -96,26 +96,26 @@
         </activity>
 
         <activity
-            android:name=".editor.EditorActivity"
+            android:name="com.duy.pascal.ui.editor.EditorActivity"
             android:launchMode="singleTask" />
 
         <activity
-            android:name=".runnable.ExecuteActivity"
+            android:name="com.duy.pascal.ui.runnable.ExecuteActivity"
             android:configChanges="screenSize"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".code.sample.activities.DocumentActivity" />
-        <activity android:name=".code.sample.activities.CodeSampleActivity" />
-        <activity android:name=".themefont.activities.ThemeFontActivity" />
-        <activity android:name=".info.InfoActivity" />
-        <activity android:name=".setting.SettingsActivity" />
+        <activity android:name="com.duy.pascal.ui.code.sample.activities.DocumentActivity" />
+        <activity android:name="com.duy.pascal.ui.code.sample.activities.CodeSampleActivity" />
+        <activity android:name="com.duy.pascal.ui.themefont.activities.ThemeFontActivity" />
+        <activity android:name="com.duy.pascal.ui.info.InfoActivity" />
+        <activity android:name="com.duy.pascal.ui.setting.SettingsActivity" />
         <activity
-            android:name=".debug.activities.DebugActivity"
+            android:name="com.duy.pascal.ui.debug.activities.DebugActivity"
             android:configChanges="screenSize"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.duy.pascal.interperter.builtin_libraries.android.activity.PascalActivity" />
-        <activity android:name=".code.sample.activities.SearchResultSampleActivity" />
-        <activity android:name=".themefont.themes.CustomThemeActivity" />
+        <activity android:name="com.duy.pascal.ui.code.sample.activities.SearchResultSampleActivity" />
+        <activity android:name="com.duy.pascal.ui.themefont.themes.CustomThemeActivity" />
 
         <!-- Scan bar code activity -->
         <activity
@@ -126,6 +126,6 @@
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
-        <activity android:name=".activities.DonateActivity" />
+        <activity android:name="com.duy.pascal.ui.activities.DonateActivity" />
     </application>
 </manifest>

@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.builtin_libraries.graphic.model;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.ui.DLog;
 
 /**
  * Created by Duy on 02-Mar-17.

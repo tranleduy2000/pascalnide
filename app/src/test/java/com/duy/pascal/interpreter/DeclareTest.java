@@ -16,7 +16,7 @@
 
 package com.duy.pascal.interpreter;
 
-import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.ui.DLog;
 
 /**
  * Created by Duy on 29-May-17.

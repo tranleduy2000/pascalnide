@@ -23,10 +23,10 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.runnable.ConsoleHandler;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
+import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.runnable.ConsoleHandler;
+import com.duy.pascal.ui.view.exec_screen.console.ConsoleCursor;
+import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;

@@ -2,7 +2,7 @@ package com.duy.pascal.interperter.ast.runtime_value.value;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.frontend.debug.DebugManager;
+import com.duy.pascal.ui.debug.DebugManager;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;

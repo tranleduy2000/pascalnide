@@ -16,7 +16,7 @@
 
 package com.duy.pascal;
 
-import com.duy.pascal.frontend.BuildConfig;
+import com.duy.pascal.ui.BuildConfig;
 import com.google.firebase.crash.FirebaseCrash;
 
 /**

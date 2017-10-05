@@ -19,9 +19,9 @@ package com.duy.pascal;
 import android.app.Activity;
 import android.content.Context;
 
-import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.runnable.ProgramHandler;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
+import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.builtin_libraries.io.IOLib;
 import com.duy.pascal.interperter.core.PascalCompiler;

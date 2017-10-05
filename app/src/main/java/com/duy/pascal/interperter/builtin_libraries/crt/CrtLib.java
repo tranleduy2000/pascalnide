@@ -18,11 +18,11 @@ package com.duy.pascal.interperter.builtin_libraries.crt;
 
 import android.graphics.Color;
 
-import com.duy.pascal.frontend.runnable.ConsoleHandler;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleScreen;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
-import com.duy.pascal.frontend.view.exec_screen.console.TextRenderer;
+import com.duy.pascal.ui.runnable.ConsoleHandler;
+import com.duy.pascal.ui.view.exec_screen.console.ConsoleCursor;
+import com.duy.pascal.ui.view.exec_screen.console.ConsoleScreen;
+import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
+import com.duy.pascal.ui.view.exec_screen.console.TextRenderer;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.android.media.AndroidToneGeneratorLib;

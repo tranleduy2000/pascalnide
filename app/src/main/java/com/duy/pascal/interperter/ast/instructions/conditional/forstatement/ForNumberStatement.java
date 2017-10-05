@@ -29,9 +29,8 @@ import com.duy.pascal.interperter.debugable.DebuggableExecutable;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.frontend.debug.CallStack;
+import com.duy.pascal.ui.debug.CallStack;
 
 /**
  * For to do loop

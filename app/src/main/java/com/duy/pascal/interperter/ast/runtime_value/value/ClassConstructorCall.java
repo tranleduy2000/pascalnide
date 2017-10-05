@@ -18,7 +18,7 @@ package com.duy.pascal.interperter.ast.runtime_value.value;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.frontend.debug.DebugManager;
+import com.duy.pascal.ui.debug.DebugManager;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
@@ -28,7 +28,6 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.classunit.ClassConstructor;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.MethodReflectionException;
 import com.duy.pascal.interperter.linenumber.LineInfo;

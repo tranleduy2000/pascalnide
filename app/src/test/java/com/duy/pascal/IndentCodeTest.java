@@ -16,8 +16,7 @@
 
 package com.duy.pascal;
 
-import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.editor.indention.PascalFormatCode;
+import com.duy.pascal.ui.editor.indention.PascalFormatCode;
 import com.duy.pascal.interpreter.BaseTestCase;
 
 import java.io.File;

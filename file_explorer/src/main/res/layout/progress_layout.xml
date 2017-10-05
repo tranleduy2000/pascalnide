@@ -37,7 +37,7 @@
         android:textSize="12sp"
         android:visibility="gone" />
 
-    <com.duy.pascal.frontend.common.view.ProgressIndicatorView
+    <com.duy.pascal.ui.common.view.ProgressIndicatorView
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_gravity="center" />

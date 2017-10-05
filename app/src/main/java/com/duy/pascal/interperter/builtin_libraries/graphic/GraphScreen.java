@@ -33,8 +33,8 @@ import com.duy.pascal.interperter.builtin_libraries.graphic.style.FillType;
 import com.duy.pascal.interperter.builtin_libraries.graphic.style.LineStyle;
 import com.duy.pascal.interperter.builtin_libraries.graphic.style.LineWidth;
 import com.duy.pascal.interperter.builtin_libraries.graphic.style.TextJustify;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
+import com.duy.pascal.ui.view.exec_screen.console.ConsoleCursor;
+import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 
 /**
  * Created by Duy on 30-Mar-17.

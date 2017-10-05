@@ -21,7 +21,7 @@ import android.content.DialogInterface;
 import android.util.AndroidRuntimeException;
 import android.widget.TimePicker;
 
-import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.ui.DLog;
 
 import org.json.JSONException;
 import org.json.JSONObject;

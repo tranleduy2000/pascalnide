@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.builtin_libraries.file;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.ui.DLog;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;

@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.declaration.lang.function;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.ui.DLog;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalPointer;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;

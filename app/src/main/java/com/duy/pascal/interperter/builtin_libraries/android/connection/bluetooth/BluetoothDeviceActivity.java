@@ -30,8 +30,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.BaseActivity;
+import com.duy.pascal.ui.R;
+import com.duy.pascal.ui.activities.BaseActivity;
 import com.googlecode.sl4a.Constants;
 
 import java.util.ArrayList;

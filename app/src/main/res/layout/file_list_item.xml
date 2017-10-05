@@ -22,7 +22,7 @@
 
         <variable
             name="item"
-            type="com.duy.pascal.frontend.file.model.FileItemModel" />
+            type="com.duy.pascal.ui.file.model.FileItemModel" />
     </data>
 
     <LinearLayout
@@ -40,7 +40,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="16dp">
 
-            <com.duy.pascal.frontend.file.view.IconImageView
+            <com.duy.pascal.ui.file.view.IconImageView
                 android:id="@+id/iconImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

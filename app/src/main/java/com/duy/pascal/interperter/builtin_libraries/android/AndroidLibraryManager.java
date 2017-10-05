@@ -21,7 +21,7 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.android.temp.AndroidUtilsLib;
-import com.duy.pascal.frontend.runnable.ActivityHandler;
+import com.duy.pascal.ui.runnable.ActivityHandler;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
 
 import java.lang.reflect.Method;

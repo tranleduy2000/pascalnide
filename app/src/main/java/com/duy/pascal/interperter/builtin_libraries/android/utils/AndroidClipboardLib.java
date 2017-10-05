@@ -23,8 +23,8 @@ import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalParameter;
-import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompat;
-import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompatFactory;
+import com.duy.pascal.ui.utils.clipboard.ClipboardManagerCompat;
+import com.duy.pascal.ui.utils.clipboard.ClipboardManagerCompatFactory;
 
 import java.util.Map;
 

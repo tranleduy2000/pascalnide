@@ -16,13 +16,11 @@
 
 package com.duy.pascal.asset_data;
 
-import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.ui.DLog;
 
 import junit.framework.TestCase;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 
 import static com.duy.pascal.Interpreter.checkSyntax;
 

@@ -26,7 +26,7 @@ import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.FieldAccess;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.frontend.debug.CallStack;
+import com.duy.pascal.ui.debug.CallStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;

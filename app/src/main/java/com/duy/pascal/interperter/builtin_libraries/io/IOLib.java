@@ -18,7 +18,7 @@ package com.duy.pascal.interperter.builtin_libraries.io;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.ui.DLog;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;

@@ -1,6 +1,6 @@
 package com.duy.pascal.interperter.builtin_libraries.crt;
 
-import com.duy.pascal.frontend.runnable.ConsoleHandler;
+import com.duy.pascal.ui.runnable.ConsoleHandler;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.builtin_libraries.PascalLibrary;
 import com.duy.pascal.interperter.builtin_libraries.annotations.PascalMethod;

@@ -5,7 +5,7 @@
         android:allowBackup="true"
         android:supportsRtl="true">
 
-        <activity android:name="com.duy.pascal.frontend.file.FileExplorerActivity" />
+        <activity android:name="com.duy.pascal.ui.file.FileExplorerActivity" />
     </application>
 
 </manifest>

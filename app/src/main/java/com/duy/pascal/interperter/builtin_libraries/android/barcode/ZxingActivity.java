@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
-import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.R;
+import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.R;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.CaptureActivity;

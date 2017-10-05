@@ -22,11 +22,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 
-import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.autocomplete.completion.model.DescriptionImpl;
-import com.duy.pascal.frontend.runnable.ConsoleHandler;
-import com.duy.pascal.frontend.runnable.ProgramHandler;
-import com.duy.pascal.frontend.structure.viewholder.StructureType;
+import com.duy.pascal.ui.DLog;
+import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
+import com.duy.pascal.ui.runnable.ConsoleHandler;
+import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.structure.viewholder.StructureType;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
 import com.duy.pascal.interperter.builtin_libraries.android.AndroidLibraryManager;

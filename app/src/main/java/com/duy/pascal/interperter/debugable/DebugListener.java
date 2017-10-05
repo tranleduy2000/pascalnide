@@ -11,7 +11,7 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.frontend.debug.CallStack;
+import com.duy.pascal.ui.debug.CallStack;
 
 /**
  * Created by Duy on 24-Mar-17.

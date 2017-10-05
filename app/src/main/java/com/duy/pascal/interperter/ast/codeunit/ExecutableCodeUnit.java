@@ -1,7 +1,6 @@
 package com.duy.pascal.interperter.ast.codeunit;
 
-import com.duy.pascal.frontend.runnable.ProgramHandler;
-import com.duy.pascal.interperter.ast.CodeUnitParsingException;
+import com.duy.pascal.ui.runnable.ProgramHandler;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.source.ScriptSource;
 

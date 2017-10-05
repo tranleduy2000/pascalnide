@@ -25,7 +25,7 @@ import android.graphics.Paint;
 import android.graphics.Shader;
 
 import com.duy.pascal.interperter.imageprocessing.ImageUtils;
-import com.duy.pascal.frontend.R;
+import com.duy.pascal.ui.R;
 
 /**
  * Created by Duy on 09-Apr-17.
