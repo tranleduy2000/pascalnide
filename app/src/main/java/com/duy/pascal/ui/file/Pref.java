@@ -83,17 +83,6 @@ public class Pref implements SharedPreferences.OnSharedPreferenceChangeListener 
     private static final Object mContent = new Object();
     private static Pref instance;
 
-    static {
-        // All Private Keys should go here like this:
-//        privateKeys.put("box_key", "zqjxn1m3i4eg4iud158e0nz7u9oi2cpu");
-//        privateKeys.put("box_secret", "BcTh1GpJpma1cJc58sqcfZSjDZeuiYZ2");
-//        privateKeys.put("dropbox_key", "vajaedmhzkkp3sw");
-//        privateKeys.put("dropbox_secret", "plkrfrygu17glgn");
-//        privateKeys.put("drive_key", "645291897772.apps.googleusercontent.com");
-//        privateKeys.put("drive_secret", "xo9-oPP7P7Rj5er3J1qmzhoG");
-//        privateKeys.put("skydrive_key", "00000000400F4500");
-//        privateKeys.put("skydrive_secret", "0uUmcI0Bjdxux9KdSWVxmgRCZcpzacyz");
-    }
 
     private final SharedPreferences pm;
     private final Map<String, Object> map;

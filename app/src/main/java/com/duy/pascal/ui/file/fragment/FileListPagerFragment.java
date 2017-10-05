@@ -55,7 +55,6 @@ import com.duy.pascal.ui.file.adapter.FileListItemAdapter;
 import com.duy.pascal.ui.file.adapter.PathButtonAdapter;
 import com.duy.pascal.ui.file.io.JecFile;
 import com.duy.pascal.ui.file.io.LocalFile;
-import com.duy.pascal.ui.file.io.RootFile;
 import com.duy.pascal.ui.file.listener.FileListResultListener;
 import com.duy.pascal.ui.file.listener.OnClipboardPasteFinishListener;
 import com.duy.pascal.ui.file.util.FileListSorter;

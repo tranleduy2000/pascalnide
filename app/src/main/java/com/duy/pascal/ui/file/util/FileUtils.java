@@ -22,7 +22,6 @@ import com.duy.pascal.ui.file.ExplorerException;
 import com.duy.pascal.ui.file.io.JecFile;
 import com.duy.pascal.ui.file.listener.BoolResultListener;
 import com.duy.pascal.ui.file.listener.FileListResultListener;
-import com.stericson.RootTools.RootTools;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -33,17 +32,6 @@ import java.util.List;
  */
 public class FileUtils {
     private static Boolean mRootAccess = null;
-
-    public static boolean hasRootAccess() {
-        if (mRootAccess != null)
-            return mRootAccess;
-        try {
-            mRootAccess = RootTools.isAccessGiven();
-        } catch (Exception e) {
-            mRootAccess = false;
-        }
-        return mRootAccess;
-    }
 
 
     /**

@@ -196,14 +196,14 @@ public class FragmentFileManager extends Fragment implements
         final EditText editText = alertDialog.findViewById(R.id.edit_input);
         Button btnOK = alertDialog.findViewById(R.id.btn_ok);
         Button btnCancel = alertDialog.findViewById(R.id.btn_cancel);
-        assert btnCancel != null;
+        
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.cancel();
             }
         });
-        assert btnOK != null;
+        
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -247,18 +247,18 @@ public class FragmentFileManager extends Fragment implements
         alertDialog.show();
         final EditText editText = alertDialog.findViewById(R.id.edit_input);
         final TextInputLayout textInputLayout = alertDialog.findViewById(R.id.hint);
-        assert textInputLayout != null;
+        
         textInputLayout.setHint(getString(R.string.enter_new_folder_name));
         Button btnOK = alertDialog.findViewById(R.id.btn_ok);
         Button btnCancel = alertDialog.findViewById(R.id.btn_cancel);
-        assert btnCancel != null;
+        
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.cancel();
             }
         });
-        assert btnOK != null;
+        
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
