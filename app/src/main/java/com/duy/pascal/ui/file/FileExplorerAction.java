@@ -228,43 +228,45 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
     private void shareFile() {
         if (checkedList.isEmpty() || mShareActionProvider == null)
             return;
+        try {
+            Intent shareIntent = new Intent();
+            if (checkedList.size() == 1) {
+                File file = new File(checkedList.get(0).getPath());
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.setType(MimeTypes.getInstance().getMimeType(file.getPath()));
 
-        Intent shareIntent = new Intent();
-        if (checkedList.size() == 1) {
-            File localFile = new File(checkedList.get(0).getPath());
-            shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.setType(MimeTypes.getInstance().getMimeType(localFile.getPath()));
-            Uri fileUri;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                fileUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", localFile);
-            } else {
-                fileUri = Uri.fromFile(localFile);
-            }
-            shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        } else {
-            shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-
-            ArrayList<Uri> streams = new ArrayList<>();
-            for (JecFile file : checkedList) {
-                if (!(file instanceof LocalFile)) {
-                    throw new ExplorerException(context.getString(R.string.can_not_share_x, file + " isn't LocalFile"));
-                }
-                File localFile = new File(file.getPath());
                 Uri fileUri;
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                    fileUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", localFile);
+                    fileUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file);
                 } else {
-                    fileUri = Uri.fromFile(localFile);
+                    fileUri = Uri.fromFile(file);
                 }
-                streams.add(fileUri);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            } else {
+                shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+
+                ArrayList<Uri> streams = new ArrayList<>();
+                for (JecFile file : checkedList) {
+                    if (!(file instanceof LocalFile)) {
+                        throw new ExplorerException(context.getString(R.string.can_not_share_x, file + " isn't LocalFile"));
+                    }
+                    File localFile = new File(file.getPath());
+                    Uri fileUri;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                        fileUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", localFile);
+                    } else {
+                        fileUri = Uri.fromFile(localFile);
+                    }
+                    streams.add(fileUri);
+                }
+
+                shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, streams);
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             }
-
-            shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, streams);
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            mShareActionProvider.setShareIntent(shareIntent);
+        } catch (Exception e) {
         }
-
-        mShareActionProvider.setShareIntent(shareIntent);
     }
 
     private void doDeleteAction() {

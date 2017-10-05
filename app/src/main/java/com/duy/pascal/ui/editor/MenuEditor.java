@@ -57,11 +57,11 @@ public class MenuEditor {
         this.menu = menu;
         mActivity.getMenuInflater().inflate(R.menu.menu_tool, menu);
 
-        menu.findItem(R.id.action_show_line).setChecked(mPreference.isShowLines());
-        menu.findItem(R.id.action_show_symbol).setChecked(mPreference.isShowListSymbol());
-        menu.findItem(R.id.action_show_popup).setChecked(mPreference.isShowSuggestPopup());
-        menu.findItem(R.id.action_edit_word_wrap).setChecked(mPreference.isWrapText());
-        menu.findItem(R.id.action_ime).setChecked(mPreference.useImeKeyboard());
+//        menu.findItem(R.id.action_show_line).setChecked(mPreference.isShowLines());
+//        menu.findItem(R.id.action_show_symbol).setChecked(mPreference.isShowListSymbol());
+//        menu.findItem(R.id.action_show_popup).setChecked(mPreference.isShowSuggestPopup());
+//        menu.findItem(R.id.action_edit_word_wrap).setChecked(mPreference.isWrapText());
+//        menu.findItem(R.id.action_ime).setChecked(mPreference.useImeKeyboard());
 
         return true;
     }
@@ -146,18 +146,18 @@ public class MenuEditor {
             case R.id.action_debug:
                 mActivity.startDebug();
                 break;
-            case R.id.action_show_line:
-                mPreference.setShowLines(menuItem.isChecked());
-                break;
-            case R.id.action_show_popup:
-                mPreference.setShowSuggestPopup(menuItem.isChecked());
-                break;
-            case R.id.action_show_symbol:
-                mPreference.setShowSymbol(menuItem.isChecked());
-                break;
-            case R.id.action_edit_word_wrap:
-                mPreference.setWordWrap(menuItem.isChecked());
-                break;
+//            case R.id.action_show_line:
+//                mPreference.setShowLines(menuItem.isChecked());
+//                break;
+//            case R.id.action_show_popup:
+//                mPreference.setShowSuggestPopup(menuItem.isChecked());
+//                break;
+//            case R.id.action_show_symbol:
+//                mPreference.setShowSymbol(menuItem.isChecked());
+//                break;
+//            case R.id.action_edit_word_wrap:
+//                mPreference.setWordWrap(menuItem.isChecked());
+//                break;
             case R.id.action_open_file:
                 mActivity.openDrawer(GravityCompat.START);
                 break;
@@ -167,14 +167,18 @@ public class MenuEditor {
             case R.id.action_insert_color:
                 mActivity.insertColor();
                 break;
-            case R.id.action_ime:
-                mPreference.setImeMode(menuItem.isChecked());
-                break;
+//            case R.id.action_ime:
+//                mPreference.setImeMode(menuItem.isChecked());
+//                break;
             case R.id.action_donate:
-                mActivity.startActivity(new Intent(mActivity, DonateActivity.class));
+                donate();
                 break;
         }
         return true;
+    }
+
+    private void donate() {
+        mActivity.startActivity(new Intent(mActivity, DonateActivity.class));
     }
 
     private void selectMediaUrl() {

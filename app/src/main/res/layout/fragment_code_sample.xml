@@ -24,7 +24,6 @@
     tools:showIn="@layout/activity_code_sample">
 
     <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-        android:scrollbars="vertical"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,7 +36,7 @@
         app:fastScrollPopupTextColor="?attr/colorPrimaryDark"
         app:fastScrollPopupTextSize="56sp"
         app:fastScrollThumbColor="?attr/colorAccent"
-        app:fastScrollTrackColor="#1f000000" >
+        app:fastScrollTrackColor="#1f000000">
 
     </com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView>
 

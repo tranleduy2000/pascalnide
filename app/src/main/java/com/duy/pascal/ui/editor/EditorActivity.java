@@ -40,7 +40,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.duy.pascal.ui.utils.DLog;
+import com.duy.pascal.interperter.ast.CodeUnitParsingException;
+import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
+import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.interperter.core.PascalCompiler;
+import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.exceptions.parsing.define.MainProgramNotFoundException;
+import com.duy.pascal.interperter.libraries.io.IOLib;
+import com.duy.pascal.interperter.source.FileScriptSource;
+import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.autocomplete.autofix.dialog.ErrorAndQuickFixDialog;
@@ -53,17 +62,8 @@ import com.duy.pascal.ui.setting.PascalPreferences;
 import com.duy.pascal.ui.structure.DialogProgramStructure;
 import com.duy.pascal.ui.structure.viewholder.StructureItem;
 import com.duy.pascal.ui.themefont.activities.ThemeFontActivity;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
-import com.duy.pascal.interperter.ast.CodeUnitParsingException;
-import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
-import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.libraries.io.IOLib;
-import com.duy.pascal.interperter.core.PascalCompiler;
-import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.exceptions.parsing.define.MainProgramNotFoundException;
-import com.duy.pascal.interperter.source.FileScriptSource;
-import com.duy.pascal.interperter.source.ScriptSource;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
@@ -192,8 +192,6 @@ public class EditorActivity extends BaseEditorActivity implements
                 alertDialog.dismiss();
             }
         });
-
-
     }
 
     @Override
@@ -239,8 +237,6 @@ public class EditorActivity extends BaseEditorActivity implements
                 alertDialog.dismiss();
             }
         });
-
-
     }
 
     @Override
@@ -332,10 +328,10 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (mDialog != null && mDialog.isShowing()) {
             mDialog.dismiss();
         }
+        super.onDestroy();
     }
 
     @Override

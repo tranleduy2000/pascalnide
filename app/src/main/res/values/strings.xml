@@ -84,7 +84,7 @@
     <string name="data">Data</string>
     <string name="show_key_board">Show key board</string>
     <string name="undo">Undo</string>
-    <string name="redo">redo</string>
+    <string name="redo">Redo</string>
     <string name="paste">Paste</string>
     <string name="copy_all">Copy all</string>
     <string name="pascal_for_android">Pascal for Android</string>
@@ -264,5 +264,6 @@
     <string name="change_var_type">Change type of variable \"%1$s\" to type \"%2$s\"</string>
     <string name="change_const_type">Change type of constant \"%1$s\" to type \"%2$s\"</string>
     <string name="change_function_type">Change type of function \"%1$s\" to type \"%2$s\"</string>
+    <string name="code">Code</string>
 </resources>
 
