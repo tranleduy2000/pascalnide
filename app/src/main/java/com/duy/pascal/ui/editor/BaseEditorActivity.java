@@ -599,6 +599,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
                 mFabMenu.close(true);
                 break;
             case R.id.img_home_dir:
+                mFileExplorer.show(FileManager.getSrcPath(this));
                 break;
         }
     }

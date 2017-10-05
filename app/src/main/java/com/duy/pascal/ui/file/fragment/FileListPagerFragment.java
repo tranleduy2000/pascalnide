@@ -54,6 +54,7 @@ import com.duy.pascal.ui.file.activities.FileExplorerActivity;
 import com.duy.pascal.ui.file.adapter.FileListItemAdapter;
 import com.duy.pascal.ui.file.adapter.PathButtonAdapter;
 import com.duy.pascal.ui.file.io.JecFile;
+import com.duy.pascal.ui.file.io.LocalFile;
 import com.duy.pascal.ui.file.io.RootFile;
 import com.duy.pascal.ui.file.listener.FileListResultListener;
 import com.duy.pascal.ui.file.listener.OnClipboardPasteFinishListener;
@@ -73,11 +74,10 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     public static final String TAG = "FileListPagerFragment";
     private FileListItemAdapter mAdapter;
     @Nullable
-    private JecFile path;
+    private JecFile mPath;
     private FileExplorerFragmentBinding binding;
     private PathButtonAdapter mPathAdapter;
-    private boolean mIsRoot;
-    private ScanFilesTask task;
+    private ScanFilesTask mTask;
     private FileExplorerAction action;
 
     public static Fragment newFragment(JecFile path) {
@@ -92,7 +92,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        path = getArguments().getParcelable("path");
+        mPath = getArguments().getParcelable("path");
         binding = DataBindingUtil.inflate(inflater, R.layout.file_explorer_fragment, container, false);
         return binding.getRoot();
     }
@@ -126,7 +126,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
                 binding.pathScrollView.scrollToPosition(mPathAdapter.getItemCount() - 1);
             }
         });
-        mPathAdapter.setPath(path);
+        mPathAdapter.setPath(mPath);
         mPathAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view) {
@@ -167,8 +167,6 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
             }
         });
-
-        mIsRoot = Pref.getInstance(getContext()).isRootable();
         onRefresh();
     }
 
@@ -192,9 +190,9 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     @Override
     public void onStop() {
         super.onStop();
-        if (task != null) {
-            task.cancel(true);
-            task = null;
+        if (mTask != null) {
+            mTask.cancel(true);
+            mTask = null;
         }
     }
 
@@ -230,11 +228,11 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
             @Override
             public void onUpdate(JecFile f) {
-                path = f;
+                mPath = f;
             }
         };
-        task = new ScanFilesTask(getActivity(), path, mIsRoot, updateRootInfo);
-        task.setTaskListener(new TaskListener<JecFile[]>() {
+        mTask = new ScanFilesTask(getActivity(), mPath, updateRootInfo);
+        mTask.setTaskListener(new TaskListener<JecFile[]>() {
             @Override
             public void onCompleted() {
                 if (binding.explorerSwipeRefreshLayout != null) {
@@ -269,7 +267,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
                 UIUtils.toast(getContext(), e);
             }
         });
-        task.execute();
+        mTask.execute();
     }
 
     @Override
@@ -298,8 +296,8 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     }
 
     public boolean onBackPressed() {
-        JecFile parent = path.getParentFile();
-        if (parent == null || parent.getPath().startsWith(path.getPath())) {
+        JecFile parent = mPath.getParentFile();
+        if (parent == null || parent.getPath().startsWith(mPath.getPath())) {
             switchToPath(parent);
             return true;
         }
@@ -307,7 +305,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     }
 
     private void switchToPath(JecFile file) {
-        path = file;
+        mPath = file;
         mPathAdapter.setPath(file);
         Pref.getInstance(getContext()).setLastOpenPath(file.getPath());
         onRefresh();
@@ -344,8 +342,14 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     }
 
     @Override
+    public void show(File file) {
+        mPath = new LocalFile(file);
+        onRefresh();
+    }
+
+    @Override
     public JecFile getCurrentDirectory() {
-        return path;
+        return mPath;
     }
 
     @Override
@@ -366,12 +370,10 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
         private final UpdateRootInfo updateRootInfo;
         private final Context context;
         private JecFile path;
-        private boolean isRoot;
 
-        private ScanFilesTask(Context context, JecFile path, boolean isRoot, UpdateRootInfo updateRootInfo) {
+        private ScanFilesTask(Context context, JecFile path, UpdateRootInfo updateRootInfo) {
             this.context = context.getApplicationContext();
             this.path = path;
-            this.isRoot = isRoot;
             this.updateRootInfo = updateRootInfo;
         }
 
@@ -380,7 +382,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
             Pref pref = Pref.getInstance(context);
             final boolean showHiddenFiles = pref.isShowHiddenFiles();
             final int sortType = pref.getFileSortType();
-            if (isRoot && !(path instanceof RootFile) && !path.getPath().startsWith(Environment.getExternalStorageDirectory().getPath())) {
+            if (!(path instanceof RootFile) && !path.getPath().startsWith(Environment.getExternalStorageDirectory().getPath())) {
                 path = new RootFile(path.getPath());
             }
             updateRootInfo.onUpdate(path);

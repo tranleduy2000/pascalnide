@@ -18,6 +18,8 @@ package com.duy.pascal.ui.file;
 
 import android.support.v7.view.ActionMode;
 
+import java.io.File;
+
 /**
  * @author Jecelyin Peng <jecelyin@gmail.com>
  */
@@ -34,4 +36,6 @@ public interface FileExplorerView {
     void createNewFolder();
 
     void createNewFile();
+
+    void show(File file);
 }

@@ -234,6 +234,11 @@ public class FragmentFileManager extends Fragment implements
 
     }
 
+    @Override
+    public void show(File file) {
+
+    }
+
     public void createNewFolder() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.new_folder);
