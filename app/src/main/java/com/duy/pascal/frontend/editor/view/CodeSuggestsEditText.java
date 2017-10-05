@@ -26,6 +26,7 @@ import android.text.TextUtils;
 import android.text.method.QwertyKeyListener;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -66,7 +67,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     protected ArrayList<LineInfo> mLineErrors = new ArrayList<>();
     private CodeSuggestAdapter mAdapter;
     private SuggestionProvider pascalParserHelper;
-    private ParseTask parseTask;
+    private ParseDataTask parseTask;
 
     private ListPopupWindow mPopup;
     private int mDropDownAnchorId;
@@ -75,6 +76,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     private AdapterView.OnItemSelectedListener mItemSelectedListener;
     private boolean mDropDownDismissedOnCompletion = true;
     private Filter mFilter;
+    private int mLastKeyCode;
 
     public CodeSuggestsEditText(Context context) {
         super(context);
@@ -106,9 +108,8 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         mPopup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         mPopup.setPromptPosition(ListPopupWindow.POSITION_PROMPT_BELOW);
         mPopup.setOnItemClickListener(new DropDownItemClickListener());
+        mPopup.setAnimationStyle(R.style.Suggest_Popup_Animation);
 
-        //  mPopup.setWidth(getWidth());
-        //  mPopup.setHeight(getHeight());
         onDropdownChangeSize(getWidth(), getHeight());
     }
 
@@ -141,7 +142,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
                     if (parseTask != null) {
                         parseTask.cancel(true);
                     }
-                    parseTask = new ParseTask(this, "");
+                    parseTask = new ParseDataTask(this, "");
                     parseTask.execute();
                 }
             } catch (Exception ignored) {
@@ -273,6 +274,15 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         this.mLineErrors.add(lineError);
     }
 
+    /**
+     * <p>Performs the text completion by converting the selected item from
+     * the drop down list into a string, replacing the text box's content with
+     * this string and finally dismissing the drop down menu.</p>
+     */
+    public void performCompletion() {
+        performCompletion(null, -1, -1);
+    }
+
     private void performCompletion(View selectedView, int position, long id) {
         if (isPopupShowing()) {
             Object selectedItem;
@@ -338,6 +348,78 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         mPopup.dismiss();
     }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        boolean consumed = mPopup.onKeyUp(keyCode, event);
+        if (consumed) {
+            switch (keyCode) {
+                // if the list accepts the key events and the key event
+                // was a click, the text view gets the selected item
+                // from the drop down as its content
+                case KeyEvent.KEYCODE_ENTER:
+                case KeyEvent.KEYCODE_DPAD_CENTER:
+                case KeyEvent.KEYCODE_TAB:
+                    if (event.hasNoModifiers()) {
+                        performCompletion();
+                    }
+                    return true;
+            }
+        }
+
+        if (isPopupShowing() && keyCode == KeyEvent.KEYCODE_TAB && event.hasNoModifiers()) {
+            performCompletion();
+            return true;
+        }
+
+        return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (mPopup.onKeyDown(keyCode, event)) {
+            return true;
+        }
+
+        if (!isPopupShowing()) {
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_DPAD_DOWN:
+                    if (event.hasNoModifiers()) {
+                        performValidation();
+                    }
+            }
+        }
+
+        if (isPopupShowing() && keyCode == KeyEvent.KEYCODE_TAB && event.hasNoModifiers()) {
+            return true;
+        }
+
+        mLastKeyCode = keyCode;
+        boolean handled = super.onKeyDown(keyCode, event);
+        mLastKeyCode = KeyEvent.KEYCODE_UNKNOWN;
+
+        if (handled && isPopupShowing()) {
+            clearListSelection();
+        }
+
+        return handled;
+    }
+
+    /**
+     * <p>Clear the list selection.  This may only be temporary, as user input will often bring
+     * it back.
+     */
+    public void clearListSelection() {
+        mPopup.clearListSelection();
+    }
+
+    /**
+     * Instead of validating the entire text, this subclass method validates
+     * each token of the text individually.  Empty tokens are removed.
+     */
+    public void performValidation() {
+
+    }
+
     public static class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
         static final String TOKEN = "!@#$%^&*()_+-={}|[]:;'<>/<.? \r\n\t";
 
@@ -384,13 +466,13 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         }
     }
 
-    private class ParseTask extends AsyncTask<Object, Object, ArrayList<Description>> {
+    private class ParseDataTask extends AsyncTask<Object, Object, ArrayList<Description>> {
         private String source;
         private String srcPath;
         private SuggestionProvider pascalParserHelper;
         private int cursorPos, cursorLine, cursorCol;
 
-        private ParseTask(EditText editText, String srcPath) {
+        private ParseDataTask(EditText editText, String srcPath) {
             this.source = editText.getText().toString();
             this.srcPath = srcPath;
             this.pascalParserHelper = new SuggestionProvider();

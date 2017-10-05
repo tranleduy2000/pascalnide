@@ -67,6 +67,11 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
+    <style name="Suggest_Popup_Animation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_in</item>
+    </style>
+
 </resources>
 
 

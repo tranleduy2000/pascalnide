@@ -53,6 +53,8 @@ import java.util.Map;
 
 public class SuggestionProvider {
     private static final String TAG = "SuggestionProvider";
+    private static final int MAX_CHAR = 1000;
+
     private String source;
     private int cursorPos;
     private int cursorLine;
@@ -60,7 +62,7 @@ public class SuggestionProvider {
     private String incomplete;
     private CodeSuggestsEditText.SymbolsTokenizer symbolsTokenizer;
     @Nullable
-    private ParsingException parsingException;
+    private ParsingException mParsingException;
 
     public SuggestionProvider() {
         symbolsTokenizer = new CodeSuggestsEditText.SymbolsTokenizer();
@@ -76,20 +78,22 @@ public class SuggestionProvider {
         try {
             calculateIncomplete();
             ArrayList<Description> suggestItems = new ArrayList<>();
-            PascalProgramDeclaration pascalProgram;
-            try {
-                DiagnosticCollector diagnosticCollector = new DiagnosticCollector();
-                pascalProgram = PascalCompiler.loadPascal(srcPath, new StringReader(source), null, null, diagnosticCollector);
+            if (source.length() <= MAX_CHAR) {
+                try {
+                    DiagnosticCollector diagnosticCollector = new DiagnosticCollector();
+                    PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(srcPath,
+                            new StringReader(source), null, null, diagnosticCollector);
 
-                //the result
-                addSuggestFrom(suggestItems, pascalProgram.getContext());
-                parsingException = null;
-            } catch (CodeUnitParsingException e) { //parsing error
-                addSuggestFrom(suggestItems, e.getCodeUnit().getContext());
-                parsingException = e.getParseException();
-            } catch (Exception e) {
+                    //the result
+                    addSuggestFrom(suggestItems, pascalProgram.getContext());
+                    mParsingException = null;
+                } catch (CodeUnitParsingException e) { //parsing error
+                    addSuggestFrom(suggestItems, e.getCodeUnit().getContext());
+                    mParsingException = e.getParseException();
+                } catch (Exception ignored) {
+
+                }
             }
-
             suggestItems.addAll(sort(getKeyword()));
             return suggestItems;
         } catch (Exception e) {
@@ -100,7 +104,7 @@ public class SuggestionProvider {
 
     @Nullable
     public ParsingException getParsingException() {
-        return parsingException;
+        return mParsingException;
     }
 
     private void addSuggestFrom(ArrayList<Description> suggestItems, ExpressionContextMixin exprContext) {
