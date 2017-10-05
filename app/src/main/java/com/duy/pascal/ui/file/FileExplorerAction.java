@@ -241,6 +241,7 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
                 fileUri = Uri.fromFile(localFile);
             }
             shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         } else {
             shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
 
@@ -260,6 +261,7 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
             }
 
             shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, streams);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
 
         mShareActionProvider.setShareIntent(shareIntent);
