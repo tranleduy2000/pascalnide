@@ -17,10 +17,10 @@
 package com.duy.pascal.interperter.systemfunction.io;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.boxing.ArrayBoxer;
-import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
@@ -70,14 +70,18 @@ public class OutputFormatter {
                 Arrays.toString((Object[]) value) : String.valueOf(value));
 
         StringBuilder pattern = new StringBuilder("#0.");
-        for (int j = 0; j < decimal; j++) pattern.append("0");
+        for (int j = 0; j < decimal; j++) {
+            pattern.append("0");
+        }
 
         DecimalFormat decimalFormat = new DecimalFormat(pattern.toString());
         decimalFormat.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ENGLISH));
 
         Double d = Double.parseDouble(out.toString());
-        out = new StringBuilder(decimalFormat.format(d));
-
-        return out;
+        if (d - Math.floor(d) == 0.d) {
+            return new StringBuilder(String.valueOf(Long.valueOf(String.valueOf(d))));
+        } else {
+            return new StringBuilder(decimalFormat.format(d));
+        }
     }
 }

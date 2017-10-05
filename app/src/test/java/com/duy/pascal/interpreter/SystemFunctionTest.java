@@ -128,6 +128,12 @@ public class SystemFunctionTest extends BaseTestCase {
 
     public void testSqr() {
         run("Sqr.pas");
+        run("Sqr.pas");
+        run("Sqr.pas");
+        run("Sqr.pas");
+        run("Sqr.pas");
+        run("Sqr.pas");
+        run("Sqr.pas");
     }
 
     public void testSqrt() {
@@ -135,6 +141,12 @@ public class SystemFunctionTest extends BaseTestCase {
     }
 
     public void testStr() {
+        run("Str.pas");
+        run("Str.pas");
+        run("Str.pas");
+        run("Str.pas");
+        run("Str.pas");
+        run("Str.pas");
         run("Str.pas");
     }
 
@@ -144,6 +156,9 @@ public class SystemFunctionTest extends BaseTestCase {
 
     public void testTrunc() {
         run("Trunc.pas");
+        run("Trunc.pas");
+        run("Trunc.pas");
+        run("Trunc.pas");
     }
 
     public void testUpCase() {
@@ -151,6 +166,9 @@ public class SystemFunctionTest extends BaseTestCase {
     }
 
     public void testStr2() {
+        run("Str2.pas");
+        run("Str2.pas");
+        run("Str2.pas");
         run("Str2.pas");
     }
 }

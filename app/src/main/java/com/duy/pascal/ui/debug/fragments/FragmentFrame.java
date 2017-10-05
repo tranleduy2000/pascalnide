@@ -57,7 +57,7 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
     private VariableAdapter mVariableAdapter;
     @Nullable
     private CallStack mLastStack;
-    private Dialog mdialog;
+    private Dialog dialog;
 
     public static FragmentFrame newInstance() {
 
@@ -154,7 +154,7 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
 
     @Override
     public void onDestroyView() {
-        if (mdialog != null) mdialog.dismiss();
+        if (dialog != null) dialog.dismiss();
         mVariableAdapter.clearData();
         super.onDestroyView();
     }
@@ -172,7 +172,7 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
                 var.getName().getOriginName(),
                 spanUtils.createVarSpan(var));
         msgDialog.show();
-        this.mdialog = msgDialog;
+        this.dialog = msgDialog;
     }
 
     private final class OnFrameChangeListener implements CompoundButton.OnCheckedChangeListener {
