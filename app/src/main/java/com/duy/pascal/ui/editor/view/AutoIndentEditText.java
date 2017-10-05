@@ -25,9 +25,9 @@ import android.text.Layout;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import com.duy.pascal.ui.utils.DLog;
 
 import com.duy.pascal.ui.EditorSetting;
+import com.duy.pascal.ui.utils.DLog;
 
 /**
  * Created by Duy on 12-May-17.
@@ -69,13 +69,17 @@ public class AutoIndentEditText extends AppCompatEditText {
         @Override
         public CharSequence filter(CharSequence source, int start,
                                    int end, Spanned dest, int dstart, int dend) {
-            if (end - start == 1 && start < source.length() && dstart < dest.length()) {
-                char c = source.charAt(start);
-                if (c == '\n') {
-                    return indentLine(source, start, end, dest, dstart, dend);
-                } else {
-                    return addBracket(source, start, end, dest, dstart, dend);
+            try {
+                if (end - start == 1 && start < source.length() && dstart < dest.length()) {
+                    char c = source.charAt(start);
+                    if (c == '\n') {
+                        return indentLine(source, start, end, dest, dstart, dend);
+                    } else {
+                        return addBracket(source, start, end, dest, dstart, dend);
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             return source;
         }
@@ -221,7 +225,7 @@ public class AutoIndentEditText extends AppCompatEditText {
         if (parenthesesCount < 0) {
             indent += mTabStr;
         }
-       DLog.d(TAG, "indentLine: " + dest.charAt(dend) + " " + dest.charAt(dstart));
+        DLog.d(TAG, "indentLine: " + dest.charAt(dend) + " " + dest.charAt(dstart));
 
 
         //new line in bracket

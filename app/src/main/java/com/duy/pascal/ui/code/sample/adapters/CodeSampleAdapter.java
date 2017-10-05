@@ -17,6 +17,7 @@
 package com.duy.pascal.ui.code.sample.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -25,12 +26,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.sample.model.CodeSampleEntry;
 import com.duy.pascal.ui.editor.view.EditorView;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.utils.clipboard.ClipboardManagerCompat;
 import com.duy.pascal.ui.utils.clipboard.ClipboardManagerCompatFactory;
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
 
@@ -39,10 +41,12 @@ import java.util.ArrayList;
  * <p>
  * Created by Duy on 08-Apr-17.
  */
-public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.CodeHolder> {
+public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.CodeHolder>
+        implements FastScrollRecyclerView.SectionedAdapter {
     private static final String TAG = "CodeSampleAdapter";
-    private final ClipboardManagerCompat clipboardManagerCompat;
-    private ArrayList<CodeSampleEntry> codeSampleEntries = new ArrayList<>();
+
+    private ClipboardManagerCompat mClipboard;
+    private ArrayList<CodeSampleEntry> mItems = new ArrayList<>();
     private ArrayList<CodeSampleEntry> originalData = new ArrayList<>();
     private Context context;
     private LayoutInflater inflater;
@@ -51,7 +55,7 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
     public CodeSampleAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
-        clipboardManagerCompat = ClipboardManagerCompatFactory.newInstance(context);
+        mClipboard = ClipboardManagerCompatFactory.newInstance(context);
     }
 
     @Override
@@ -62,8 +66,8 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
 
     @Override
     public void onBindViewHolder(final CodeHolder holder, int position) {
-        final CodeSampleEntry codeSampleEntry = codeSampleEntries.get(position);
-        holder.bind(codeSampleEntry, listener, clipboardManagerCompat);
+        final CodeSampleEntry codeSampleEntry = mItems.get(position);
+        holder.bind(codeSampleEntry, listener, mClipboard);
     }
 
     public void setListener(OnCodeClickListener listener) {
@@ -74,17 +78,17 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
         DLog.d(TAG, "addCodes() called with: listCodeCategories = [" + listCodeCategories + "]");
 
         this.originalData.addAll(listCodeCategories);
-        this.codeSampleEntries.addAll(listCodeCategories);
+        this.mItems.addAll(listCodeCategories);
     }
 
     @Override
     public int getItemCount() {
-        return codeSampleEntries.size();
+        return mItems.size();
     }
 
     public void query(String query) {
-        int size = codeSampleEntries.size();
-        codeSampleEntries.clear();
+        int size = mItems.size();
+        mItems.clear();
         notifyItemRangeRemoved(0, size);
 
         int count = 0;
@@ -93,8 +97,8 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
                     codeSampleEntry.getContent().contains(query)) {
                 CodeSampleEntry clone = codeSampleEntry.clone();
                 clone.setQuery(query);
-                codeSampleEntries.add(clone);
-                notifyItemInserted(codeSampleEntries.size() - 1);
+                mItems.add(clone);
+                notifyItemInserted(mItems.size() - 1);
                 count++;
             }
         }
@@ -103,6 +107,12 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
         } else {
             Toast.makeText(context, count + " file", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @NonNull
+    @Override
+    public String getSectionName(int position) {
+        return mItems.get(position).getName().charAt(0) + "";
     }
 
 

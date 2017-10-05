@@ -23,7 +23,7 @@
     tools:context=".code.sample.activities.CodeSampleActivity"
     tools:showIn="@layout/activity_code_sample">
 
-    <android.support.v7.widget.RecyclerView
+    <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
         android:scrollbars="vertical"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
@@ -31,6 +31,6 @@
         android:paddingLeft="4dp"
         android:paddingRight="4dp">
 
-    </android.support.v7.widget.RecyclerView>
+    </com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView>
 
 </RelativeLayout>

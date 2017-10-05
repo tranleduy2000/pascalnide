@@ -31,7 +31,7 @@ import com.duy.pascal.ui.activities.BaseActivity;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.code.sample.adapters.CodePagerAdapter;
 import com.duy.pascal.ui.code.sample.adapters.CodeSampleAdapter;
-import com.duy.pascal.ui.code.sample.fragments.FragmentCodeSample;
+import com.duy.pascal.ui.code.sample.fragments.CodeSampleFragment;
 import com.duy.pascal.ui.editor.EditorActivity;
 import com.duy.pascal.ui.file.FileManager;
 import com.duy.pascal.ui.runnable.ExecuteActivity;
@@ -83,9 +83,9 @@ public class CodeSampleActivity extends BaseActivity implements CodeSampleAdapte
         mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                FragmentCodeSample fragmentCodeSample = mPagerAdapter.getCurrentFragment();
-                if (fragmentCodeSample != null) {
-                    fragmentCodeSample.query(query);
+                CodeSampleFragment codeSampleFragment = mPagerAdapter.getCurrentFragment();
+                if (codeSampleFragment != null) {
+                    codeSampleFragment.query(query);
                 }
                 return false;
             }

@@ -20,23 +20,21 @@ import android.support.v4.app.FragmentManager;
 
 import com.commonsware.cwac.pager.PageDescriptor;
 import com.commonsware.cwac.pager.v4.ArrayPagerAdapter;
-import com.duy.pascal.ui.code.sample.fragments.FragmentCodeSample;
+import com.duy.pascal.ui.code.sample.fragments.CodeSampleFragment;
 
 import java.util.List;
 
 /**
  * Created by Duy on 28-Apr-17.
  */
-
-@SuppressWarnings("DefaultFileTemplate")
-public class CodePagerAdapter extends ArrayPagerAdapter<FragmentCodeSample> {
+public class CodePagerAdapter extends ArrayPagerAdapter<CodeSampleFragment> {
     public CodePagerAdapter(FragmentManager fragmentManager, List<PageDescriptor> descriptors) {
         super(fragmentManager, descriptors);
 
     }
 
     @Override
-    protected FragmentCodeSample createFragment(PageDescriptor desc) {
-        return FragmentCodeSample.newInstance(desc.getTitle());
+    protected CodeSampleFragment createFragment(PageDescriptor desc) {
+        return CodeSampleFragment.newInstance(desc.getTitle());
     }
 }

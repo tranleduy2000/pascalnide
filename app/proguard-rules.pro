@@ -79,12 +79,13 @@
 # platform version. We know about them, and they are safe.
 -dontwarn android.support.**
 -dontwarn com.google.ads.**
-
--keep class com.duy.pascal.interperter.** { *; }
 -dontwarn com.google.common.**
 -dontwarn org.apache.commons.**
 -dontwarn java.awt.**
 
+-keep class com.duy.pascal.** { *; }
 -keep class javax.** { *; }
 -keep class javax.annotation.**
+-keep class com.googlecode.sl4a.**
+-dontwarn com.squareup.picasso.**
 

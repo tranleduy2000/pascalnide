@@ -28,15 +28,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.sample.adapters.CodeSampleAdapter;
 import com.duy.pascal.ui.code.sample.model.CodeCategory;
 import com.duy.pascal.ui.code.sample.model.CodeSampleEntry;
 import com.duy.pascal.ui.file.FileManager;
+import com.duy.pascal.ui.utils.DLog;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -45,50 +46,47 @@ import java.util.Arrays;
  */
 
 @SuppressWarnings("DefaultFileTemplate")
-public class FragmentCodeSample extends Fragment {
+public class CodeSampleFragment extends Fragment {
     private static final String TAG = "FragmentCodeSample";
 
-    private CodeSampleAdapter adapter;
+    private CodeSampleAdapter mAdapter;
 
-    public static FragmentCodeSample newInstance(String category) {
-        FragmentCodeSample fragmentCodeSample = new FragmentCodeSample();
+    public static CodeSampleFragment newInstance(String category) {
+        CodeSampleFragment codeSampleFragment = new CodeSampleFragment();
         Bundle bundle = new Bundle();
         bundle.putString(TAG, category);
-        fragmentCodeSample.setArguments(bundle);
-        return fragmentCodeSample;
+        codeSampleFragment.setArguments(bundle);
+        return codeSampleFragment;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_code_sample, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        adapter = new CodeSampleAdapter(getContext());
-        try {
-            adapter.setListener((CodeSampleAdapter.OnCodeClickListener) getActivity());
-        } catch (Exception ignored) {
-        }
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setHasFixedSize(false);
-
-
-        return view;
+        return inflater.inflate(R.layout.fragment_code_sample, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        mAdapter = new CodeSampleAdapter(getContext());
+        try {
+            mAdapter.setListener((CodeSampleAdapter.OnCodeClickListener) getActivity());
+        } catch (Exception ignored) {
+        }
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(false);
         new LoadCodeTask().execute();
     }
 
     public void query(String query) {
-        adapter.query(query);
+        mAdapter.query(query);
     }
 
     private class LoadCodeTask extends AsyncTask<Object, Object, Void> {
-        private ArrayList<CodeSampleEntry> codeSampleEntries = new ArrayList<>();
+        private ArrayList<CodeSampleEntry> mCodeSampleEntries = new ArrayList<>();
 
         @Override
         protected Void doInBackground(Object... params) {
@@ -104,18 +102,18 @@ public class FragmentCodeSample extends Fragment {
                     }
                     AssetManager assets = context.getAssets();
                     list = assets.list(path);
-                   DLog.d(TAG, "doInBackground: " + Arrays.toString(list));
+                    DLog.d(TAG, "doInBackground: " + Arrays.toString(list));
                     for (String fileName : list) {
                         if (fileName.endsWith(".pas")) {
-                            StringBuilder content =
-                                    FileManager.streamToString(assets.open(path +File.separator + fileName));
+                            InputStream stream = assets.open(path + File.separator + fileName);
+                            StringBuilder content = FileManager.streamToString(stream);
                             codeCategory.addCodeItem(new CodeSampleEntry(fileName, content));
                         }
                     }
                 } catch (IOException ignored) {
                     DLog.e(ignored);
                 }
-                codeSampleEntries.addAll(codeCategory.getCodeSampleEntries());
+                mCodeSampleEntries.addAll(codeCategory.getCodeSampleEntries());
             } catch (Exception ignored) {
             }
             return null;
@@ -125,8 +123,8 @@ public class FragmentCodeSample extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            adapter.addCodes(codeSampleEntries);
-            adapter.notifyDataSetChanged();
+            mAdapter.addCodes(mCodeSampleEntries);
+            mAdapter.notifyDataSetChanged();
         }
     }
 }
