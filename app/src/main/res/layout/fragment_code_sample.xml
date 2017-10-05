@@ -29,7 +29,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="4dp"
-        android:paddingRight="4dp">
+        android:paddingRight="4dp"
+        app:fastScrollAutoHide="false"
+        app:fastScrollAutoHideDelay="1500"
+        app:fastScrollPopupBackgroundSize="88dp"
+        app:fastScrollPopupBgColor="?attr/colorAccent"
+        app:fastScrollPopupTextColor="?attr/colorPrimaryDark"
+        app:fastScrollPopupTextSize="56sp"
+        app:fastScrollThumbColor="?attr/colorAccent"
+        app:fastScrollTrackColor="#1f000000" >
 
     </com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView>
 
