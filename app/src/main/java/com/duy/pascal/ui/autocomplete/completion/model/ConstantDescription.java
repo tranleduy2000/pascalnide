@@ -38,8 +38,6 @@ public class ConstantDescription extends DescriptionImpl {
 
     public ConstantDescription(ConstantDefinition c) {
         super(KIND_CONST, c.getName(), c.getDescription(), c.getType());
-        this.name = name;
-        this.type = type;
         this.value = c.getValue();
     }
 
