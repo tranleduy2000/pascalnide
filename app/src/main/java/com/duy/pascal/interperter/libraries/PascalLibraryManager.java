@@ -313,6 +313,9 @@ public class PascalLibraryManager {
                     for (int i = 0; i < types1.length; i++) {
                         Class<?> t1Class = types1[i].getRuntimeClass();
                         Class<?> t2Class = types2[i].getRuntimeClass();
+                        if (t1Class.equals(t2Class)) {
+                            continue;
+                        }
                         if (TypeConverter.isPrimitive(t1Class) && TypeConverter.isPrimitive(t2Class)) {
                             if (!types1[i].equals(types2[i])) {
                                 if (TypeConverter.isLowerPrecedence(t1Class, t2Class)) {

@@ -21,12 +21,12 @@ import android.os.Build;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
-import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RecordType;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -72,7 +72,7 @@ public class DosLib extends PascalLibrary {
         year.set(calendar.get(Calendar.YEAR));
         month.set(calendar.get(Calendar.MONTH) + 1);
         mday.set(calendar.get(Calendar.DAY_OF_MONTH));
-        wday.set(calendar.get(Calendar.DAY_OF_WEEK));
+        wday.set(calendar.get(Calendar.DAY_OF_WEEK) - 1);
     }
 
     @Override

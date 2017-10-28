@@ -11,6 +11,7 @@ var
   Year, Month, Day, WDay : word;
 begin
   GetDate(Year, Month, Day, WDay);
+  writeln(WDay);
   WriteLn('Current date');
   WriteLn(DayStr[WDay], ', ', Day, ' ', MonthStr[Month], ' ', Year, '.');
 end.

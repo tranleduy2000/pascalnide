@@ -34,19 +34,19 @@ public class JavaCollectionsTest extends BaseTestCase {
         run("ArrayList.pas");
     }
 
-    public void testHashMap() {
-        run("HashMap.pas");
-    }
+//    public void testHashMap() {
+//        run("HashMap.pas");
+//    }
 
     public void testHashSet() {
         run("HashSet.pas");
 
     }
 
-    public void testLinkedHashMap() {
+ /*   public void testLinkedHashMap() {
         run("LinkedHashMap.pas");
 
-    }
+    }*/
 
     public void testLinkedHashSet() {
         run("LinkedHashSet.pas");

@@ -41,14 +41,14 @@ public class ClassTest extends BaseTestCase {
     public void test3() {
         run("test3.pas");
     }
-
+/*
     public void test4() {
         run("test4.pas");
     }
 
     public void test5() {
         run("test5.pas");
-    }
+    }*/
 
     public void testCreate() {
         run("test_create.pas");
@@ -58,13 +58,13 @@ public class ClassTest extends BaseTestCase {
         run("test_modifier.pas");
     }
 
-    public void testField() {
+   /* public void testField() {
         run("test_field.pas");
     }
 
     public void testStaticField() {
         run("test_static_field.pas");
-    }
+    }*/
 
     public void testClassInClass() {
         run("test_class_in_class.pas");

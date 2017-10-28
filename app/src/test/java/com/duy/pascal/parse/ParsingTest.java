@@ -29,11 +29,11 @@ public class ParsingTest extends BaseTestCase {
     }
 
     public void test1() {
-        run("test1.pas");
+//        run("test1.pas");
     }
 
     public void test2() {
-        run("test2.pas");
+//        run("test2.pas");
     }
 
 }
