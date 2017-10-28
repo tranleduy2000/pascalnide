@@ -228,7 +228,7 @@ public class FileLib extends PascalLibrary {
     }
 
     @SuppressWarnings("unchecked")
-    public void setValueForVariables(File fileVariable, PascalReference... listVariable)
+    private void setValueForVariables(File fileVariable, PascalReference... listVariable)
             throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
         for (PascalReference out : listVariable) {
@@ -241,8 +241,7 @@ public class FileLib extends PascalLibrary {
             throws RuntimePascalException {
         FileEntry file = mFilesMap.get(zfile.getPath());
         if (c == Character.class) {
-            char value = file.readChar();
-            return value;
+            return file.readChar();
         } else if (c == StringBuilder.class) {
             String value = file.readString();
             mFilesMap.get(zfile.getPath()).nextLine();
@@ -276,150 +275,6 @@ public class FileLib extends PascalLibrary {
             return record;
         } else {
             throw new CanNotReadVariableException(c);
-        }
-    }
-   /* *//**
-     * move cursor to next line
-     *//*
-    @PascalMethod(description = "library file")
-    public void read(File fileVariable) throws RuntimePascalException {
-        assertFileOpenForInput(fileVariable);
-    }
-
-    @PascalMethod(description = "library file")
-    public void read(File fileVariable, PascalReference<Object> out)
-            throws IOException, RuntimePascalException {
-        setValueForVariables(fileVariable, out);
-    }
-
-    @PascalMethod(description = "library file")
-    public void read(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2)
-            throws IOException, RuntimePascalException {
-        setValueForVariables(fileVariable, o1, o2);
-    }
-
-    @PascalMethod(description = "library file")
-    public void read(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
-                     PascalReference<Object> o3)
-            throws IOException, RuntimePascalException {
-        setValueForVariables(fileVariable, o1, o2, o3);
-    }
-
-    @PascalMethod(description = "library file")
-    public void read(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
-                     PascalReference<Object> o3, PascalReference<Object> o4)
-            throws IOException, RuntimePascalException {
-        setValueForVariables(fileVariable, o1, o2, o3, o4);
-    }
-
-
-    @PascalMethod(description = "library file")
-    public void read(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
-                     PascalReference<Object> o3, PascalReference<Object> o4, PascalReference<Object> o5)
-            throws IOException, RuntimePascalException {
-        setValueForVariables(fileVariable, o1, o2, o3, o4, o5);
-    }
-
-
-    @PascalMethod(description = "library file")
-    public void read(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
-                     PascalReference<Object> o3, PascalReference<Object> o4, PascalReference<Object> o5,
-                     PascalReference<Object> o6)
-            throws IOException, RuntimePascalException {
-        setValueForVariables(fileVariable, o1, o2, o3, o4, o5, o6);
-    }*/
-
-
-    /**
-     * move cursor to next line
-     */
-    @PascalMethod(description = "library file")
-    public void readln(File fileVariable) throws RuntimePascalException {
-        assertFileOpenForInput(fileVariable);
-        mFilesMap.get(fileVariable.getPath()).nextLine();
-    }
-
-    /**
-     * read file and  move cursor to new line
-     */
-    @PascalMethod(description = "library file")
-    public void readln(File fileVariable, PascalReference<Object> out)
-            throws IOException, RuntimePascalException {
-        setValueForVariables(fileVariable, out);
-        if (!(out.get() instanceof StringBuilder)
-                && !(out.get() instanceof String)) {
-            mFilesMap.get(fileVariable.getPath()).nextLine();
-        }
-    }
-
-    /**
-     * read file and  move cursor to new line
-     */
-    @PascalMethod(description = "library file")
-    public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2)
-            throws IOException, RuntimePascalException {
-        setValueForVariables(fileVariable, o1, o2);
-        if (!(o2.get() instanceof StringBuilder)
-                && !(o2.get() instanceof String)) {
-            mFilesMap.get(fileVariable.getPath()).nextLine();
-        }
-    }
-
-
-    /**
-     * read file and  move cursor to new line
-     */
-    @PascalMethod(description = "library file")
-    public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
-                       PascalReference<Object> o3)
-            throws IOException, RuntimePascalException {
-        setValueForVariables(fileVariable, o1, o2, o3);
-        if (!(o3.get() instanceof StringBuilder)
-                && !(o3.get() instanceof String)) {
-            mFilesMap.get(fileVariable.getPath()).nextLine();
-        }
-    }
-
-    /**
-     * read file and  move cursor to new line
-     */
-    @PascalMethod(description = "library file")
-    public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
-                       PascalReference<Object> o3, PascalReference<Object> o4)
-            throws IOException, RuntimePascalException {
-        setValueForVariables(fileVariable, o1, o2, o3, o4);
-        if (!(o4.get() instanceof StringBuilder)
-                && !(o4.get() instanceof String)) {
-            mFilesMap.get(fileVariable.getPath()).nextLine();
-        }
-    }
-
-    /**
-     * read file and  move cursor to new line
-     */
-    @PascalMethod(description = "library file")
-    public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
-                       PascalReference<Object> o3, PascalReference<Object> o4, PascalReference<Object> o5)
-            throws IOException, RuntimePascalException {
-        setValueForVariables(fileVariable, o1, o2, o3, o4, o5);
-        if (!(o5.get() instanceof StringBuilder)
-                && !(o5.get() instanceof String)) {
-            mFilesMap.get(fileVariable.getPath()).nextLine();
-        }
-    }
-
-    /**
-     * read file and  move cursor to new line
-     */
-    @PascalMethod(description = "library file")
-    public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
-                       PascalReference<Object> o3, PascalReference<Object> o4, PascalReference<Object> o5,
-                       PascalReference<Object> o6)
-            throws IOException, RuntimePascalException {
-        setValueForVariables(fileVariable, o1, o2, o3, o4, o5, o6);
-        if (!(o6.get() instanceof StringBuilder)
-                && !(o6.get() instanceof String)) {
-            mFilesMap.get(fileVariable.getPath()).nextLine();
         }
     }
 

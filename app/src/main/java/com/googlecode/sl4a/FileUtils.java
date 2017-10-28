@@ -24,12 +24,9 @@ import com.duy.pascal.ui.utils.DLog;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.lang.reflect.Method;
 
 /**
@@ -87,25 +84,6 @@ public class FileUtils {
             DLog.e("File does not exist.");
             return false;
         }
-    }
-
-    public static File copyFromStream(String name, InputStream input) {
-        if (name == null || name.length() == 0) {
-            DLog.e("No script name specified.");
-            return null;
-        }
-        File file = new File(name);
-        if (!makeDirectories(file.getParentFile(), 493)) {
-            return null;
-        }
-        try {
-            OutputStream output = new FileOutputStream(file);
-            IoUtils.copy(input, output);
-        } catch (Exception e) {
-            DLog.e(e);
-            return null;
-        }
-        return file;
     }
 
     public static boolean makeDirectories(File directory, int mode) {

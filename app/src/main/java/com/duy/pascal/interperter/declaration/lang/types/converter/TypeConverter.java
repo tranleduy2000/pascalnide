@@ -7,7 +7,6 @@ import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
-import com.duy.pascal.ui.utils.DLog;
 
 import java.util.HashMap;
 
@@ -66,7 +65,6 @@ public class TypeConverter {
      * @return true if precede of first lower precede of second
      */
     public static boolean isLowerPrecedence(@NonNull Class first, @NonNull Class second) {
-        DLog.d(TAG, "isLowerPrecedence() called with: first = [" + first + "], second = [" + second + "]");
         Integer inPrecedence = PRECEDENCE.get(first);
         Integer outPrecedence = PRECEDENCE.get(second);
         if (inPrecedence != null && outPrecedence != null) {
