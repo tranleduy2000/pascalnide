@@ -98,7 +98,10 @@ public class Patterns {
             "(\\()" +
             "([0-9]+)" +
             "(\\))");
+
     public static final Pattern IDENTIFIER = Pattern.compile("[a-zA-Z_][A-Za-z0-9_]*");
     public static final Pattern FILE_NAME = Pattern.compile(IDENTIFIER + "(\\." + IDENTIFIER + ")?");
+    public static final Pattern END_ASSIGN = Pattern.compile(":=( )*$");
+    public static final Pattern ID_ASSIGN = Pattern.compile("(" + IDENTIFIER + ")(" + END_ASSIGN + ")");
 
 }

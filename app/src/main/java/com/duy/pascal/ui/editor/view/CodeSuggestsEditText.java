@@ -207,7 +207,6 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     }
 
     public void showDropDown() {
-       DLog.d(TAG, "showDropDown() called");
         if (mPopup.getAnchorView() == null) {
             if (mDropDownAnchorId != View.NO_ID) {
                 mPopup.setAnchorView(getRootView().findViewById(mDropDownAnchorId));
@@ -237,7 +236,6 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      * invalidate data for auto suggest
      */
     public void setSuggestData(ArrayList<Description> data) {
-       DLog.d(TAG, "setSuggestData() called with: data = [" + data + "]");
         if (mAdapter != null) {
             mAdapter.clearAllData();
             mAdapter.addData(data);

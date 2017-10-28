@@ -23,7 +23,6 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 
-import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.EditorControl;
 import com.duy.pascal.ui.keyboard.KeyListener;
 import com.duy.pascal.ui.keyboard.KeySettings;
@@ -168,7 +167,6 @@ public class UndoRedoSupportEditText extends HighlightEditor {
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (DLog.DEBUG)DLog.w(TAG, "onKeyDown: " + keyCode + " " + event);
         if (handleControlKey(keyCode, event, false)) {
             return true;
         }
@@ -248,9 +246,6 @@ public class UndoRedoSupportEditText extends HighlightEditor {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (DLog.DEBUG) {
-           DLog.w(TAG, "onKeyUp " + event);
-        }
         if (handleControlKey(keyCode, event, false)) {
             return true;
         }

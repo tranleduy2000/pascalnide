@@ -29,16 +29,15 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
-import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.autocomplete.completion.model.ConstantDescription;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
 import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
 import com.duy.pascal.ui.autocomplete.completion.model.FunctionDescription;
 import com.duy.pascal.ui.autocomplete.completion.model.VariableDescription;
 import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
+import com.duy.pascal.ui.utils.DLog;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -47,6 +46,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 
+import static com.duy.pascal.ui.autocomplete.completion.SuggestionProvider.CompleteContext.CONTEXT_WORD;
+
 /**
  * Created by Duy on 17-Aug-17.
  */
@@ -54,23 +55,24 @@ import java.util.Map;
 public class SuggestionProvider {
     private static final String TAG = "SuggestionProvider";
     private static final int MAX_CHAR = 1000;
-
     private String mSource;
     private int mCursorPos;
     private int mCursorLine;
     private int mCursorCol;
-    private String incomplete;
-    private CodeSuggestsEditText.SymbolsTokenizer symbolsTokenizer;
-    @Nullable
+    private String mIncomplete, mPreWord;
+
+    private CompleteContext mCompleteContext = CONTEXT_WORD;
+    private CodeSuggestsEditText.SymbolsTokenizer mSymbolsTokenizer;
     private ParsingException mParsingException;
 
     public SuggestionProvider() {
-        symbolsTokenizer = new CodeSuggestsEditText.SymbolsTokenizer();
-        incomplete = "";
+        mSymbolsTokenizer = new CodeSuggestsEditText.SymbolsTokenizer();
+        mIncomplete = "";
     }
 
     public ArrayList<Description> getSuggestion(String srcPath, String source,
                                                 int cursorPos, int cursorLine, int cursorCol) {
+        long time = System.currentTimeMillis();
         this.mSource = source;
         this.mCursorPos = cursorPos;
         this.mCursorLine = cursorLine;
@@ -78,23 +80,25 @@ public class SuggestionProvider {
         try {
             calculateIncomplete();
             ArrayList<Description> suggestItems = new ArrayList<>();
+
             if (source.length() <= MAX_CHAR) {
                 try {
-                    DiagnosticCollector diagnosticCollector = new DiagnosticCollector();
                     PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(srcPath,
-                            new StringReader(source), null, null, diagnosticCollector);
+                            new StringReader(source), null, null);
 
                     //the result
-                    addSuggestFrom(suggestItems, pascalProgram.getContext());
+                    addSuggestFromContext(suggestItems, pascalProgram.getContext());
                     mParsingException = null;
                 } catch (CodeUnitParsingException e) { //parsing error
-                    addSuggestFrom(suggestItems, e.getCodeUnit().getContext());
+                    addSuggestFromContext(suggestItems, e.getCodeUnit().getContext());
                     mParsingException = e.getParseException();
                 } catch (Exception ignored) {
 
                 }
             }
+
             suggestItems.addAll(sort(getKeyword()));
+            DLog.d(TAG, "getSuggestion: time = " + (System.currentTimeMillis() - time));
             return suggestItems;
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,24 +111,46 @@ public class SuggestionProvider {
         return mParsingException;
     }
 
-    private void addSuggestFrom(ArrayList<Description> suggestItems, ExpressionContextMixin exprContext) {
+    private void addSuggestFromContext(ArrayList<Description> toAdd, ExpressionContextMixin exprContext) {
+        switch (mCompleteContext) {
+            case CONTEXT_AFTER_FOR:
+                completeFor(toAdd, exprContext);
+                completeWord(toAdd, exprContext);
+                break;
+            case CONTEXT_AFTER_TO:
+                completeWord(toAdd, exprContext);
+                break;
+            case CONTEXT_ASSIGN:
+                completeWord(toAdd, exprContext);
+                break;
+            default:
+            case CONTEXT_WORD:
+                completeWord(toAdd, exprContext);
+                break;
+        }
+    }
 
+    private void completeFor(ArrayList<Description> toAdd, ExpressionContextMixin exprContext) {
+        String identifier = mPreWord;
+    }
+
+    private void completeWord(ArrayList<Description> toAdd, ExpressionContextMixin exprContext) {
         ArrayList<VariableDeclaration> variables = exprContext.getVariables();
-        suggestItems.addAll(sort(filterVariables(variables)));
+        toAdd.addAll(sort(filterVariables(variables)));
 
         Map<Name, ConstantDefinition> constants = exprContext.getConstants();
-        suggestItems.addAll(sort(filterConst(constants)));
+        toAdd.addAll(sort(filterConst(constants)));
 
         ArrayListMultimap<Name, AbstractFunction> callableFunctions = exprContext.getCallableFunctions();
-        suggestItems.addAll(sort(filterFunctions(callableFunctions)));
+        toAdd.addAll(sort(filterFunctions(callableFunctions)));
     }
 
     private ArrayList<Description> getKeyword() {
         ArrayList<Description> suggestItems = new ArrayList<>();
-        if (incomplete.isEmpty()) return suggestItems;
+        if (mIncomplete.isEmpty()) return suggestItems;
         for (String s : KeyWord.ALL_KEY_WORD) {
-            if (s.toLowerCase().startsWith(incomplete.toLowerCase())
-                    && !s.equalsIgnoreCase(incomplete)) {
+            if (s.toLowerCase().startsWith(mIncomplete.toLowerCase())
+                    && !s.equalsIgnoreCase(mIncomplete)) {
                 suggestItems.add(new DescriptionImpl(DescriptionImpl.KIND_KEYWORD, s));
             }
         }
@@ -132,11 +158,41 @@ public class SuggestionProvider {
     }
 
     private void calculateIncomplete() {
-        incomplete = "";
-        int start = symbolsTokenizer.findTokenStart(mSource, mCursorPos);
-        incomplete = mSource.substring(start, mCursorPos);
-        incomplete = incomplete.trim();
-        DLog.d(TAG, "calculateIncomplete incomplete = " + incomplete);
+        mIncomplete = "";
+        int start = mSymbolsTokenizer.findTokenStart(mSource, mCursorPos);
+        mIncomplete = mSource.substring(start, mCursorPos);
+
+        mIncomplete = mIncomplete.trim();
+        String beforeIncomplete = mSource.substring(0, start);
+
+        mPreWord = null;
+        mCompleteContext = CONTEXT_WORD;
+        //complete assign
+       /* if (END_ASSIGN.matcher(beforeIncomplete).find()) { //:=|
+            mCompleteContext = CompleteContext.CONTEXT_ASSIGN;
+            Matcher matcher = ID_ASSIGN.matcher(beforeIncomplete);
+            if (matcher.find()) {
+                mPreWord = matcher.group(1);
+            }
+        } else {
+            start = mSymbolsTokenizer.findTokenEnd(beforeIncomplete, start);
+            if (start >= 0) {
+                //get previous word
+                mPreWord = mSource.substring(start);
+                //for keyword
+                //syntax "for <var>=integer_value to|downto integer_value do
+                if (mPreWord.equalsIgnoreCase("for")) {
+                    mCompleteContext = CompleteContext.CONTEXT_AFTER_FOR;
+                }
+                //syntax "for <var>=integer_value to|downto integer_value do
+                else if (mPreWord.equalsIgnoreCase("to")) {
+                    mCompleteContext = CompleteContext.CONTEXT_AFTER_TO;
+                }
+
+            }
+        }
+        DLog.d(TAG, "calculateIncomplete mIncomplete = '" + mIncomplete + "'");
+        DLog.d(TAG, "calculateIncomplete: mPreWord = '" + mPreWord + "'");*/
     }
 
     private ArrayList<Description> sort(ArrayList<Description> items) {
@@ -155,14 +211,14 @@ public class SuggestionProvider {
     }
 
     private ArrayList<Description> filterConst(Map<Name, ConstantDefinition> constants) {
-        if (incomplete.isEmpty()) return new ArrayList<>();
+        if (mIncomplete.isEmpty()) return new ArrayList<>();
 
         ArrayList<Description> suggestItems = new ArrayList<>();
 
         for (Map.Entry<Name, ConstantDefinition> entry : constants.entrySet()) {
             ConstantDefinition constant = entry.getValue();
             LineInfo line = constant.getLineNumber();
-            if (constant.getName().isPrefix(incomplete)) {
+            if (constant.getName().isPrefix(mIncomplete)) {
                 if (line != null && line.getLine() <= mCursorLine && line.getColumn() <= mCursorCol) {
                     suggestItems.add(new ConstantDescription(constant));
                 }
@@ -172,10 +228,10 @@ public class SuggestionProvider {
     }
 
     private ArrayList<Description> filterVariables(ArrayList<VariableDeclaration> variables) {
-        if (incomplete.isEmpty()) return new ArrayList<>();
+        if (mIncomplete.isEmpty()) return new ArrayList<>();
         ArrayList<Description> suggestItems = new ArrayList<>();
         for (VariableDeclaration variable : variables) {
-            if (variable.getName().isPrefix(incomplete)) {
+            if (variable.getName().isPrefix(mIncomplete)) {
                 LineInfo line = variable.getLineNumber();
                 if (line != null && line.getLine() <= mCursorLine && line.getColumn() <= mCursorCol) {
                     Name name = variable.getName();
@@ -188,12 +244,12 @@ public class SuggestionProvider {
 
     private ArrayList<Description> filterFunctions(
             ArrayListMultimap<Name, AbstractFunction> allFunctions) {
-        if (incomplete.isEmpty()) return new ArrayList<>();
+        if (mIncomplete.isEmpty()) return new ArrayList<>();
         ArrayList<Description> suggestItems = new ArrayList<>();
         Collection<ArrayList<AbstractFunction>> values = allFunctions.values();
         for (ArrayList<AbstractFunction> list : values) {
             for (AbstractFunction function : list) {
-                if (function.getName().isPrefix(incomplete)) {
+                if (function.getName().isPrefix(mIncomplete)) {
                     LineInfo line = function.getLineNumber();
                     if (line != null && line.getLine() <= mCursorLine && line.getColumn() <= mCursorCol) {
                         Name name = function.getName();
@@ -205,5 +261,9 @@ public class SuggestionProvider {
             }
         }
         return suggestItems;
+    }
+
+    enum CompleteContext {
+        CONTEXT_AFTER_FOR, CONTEXT_AFTER_TO, CONTEXT_ASSIGN, CONTEXT_WORD
     }
 }
