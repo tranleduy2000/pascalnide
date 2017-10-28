@@ -74,7 +74,7 @@ public class PointerType extends TypeInfo {
 
     @Override
     public String toString() {
-        return "^" + pointedToType.toString();
+        return "^" + pointedToType.getName();
     }
 
     public void setPointerToType(Type pointerToType) {
