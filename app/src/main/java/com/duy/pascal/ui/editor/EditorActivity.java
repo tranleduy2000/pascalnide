@@ -287,7 +287,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
                 ArrayList<ScriptSource> searchPath = new ArrayList<>();
                 searchPath.add(new FileScriptSource(new File(filePath).getParent()));
-                codeUnit = PascalCompiler.loadLibrary(new File(filePath).getName(),
+                 PascalCompiler.loadLibrary(new File(filePath).getName(),
                         new FileReader(filePath),
                         searchPath,
                         new ProgramHandler(filePath));
@@ -298,11 +298,9 @@ public class EditorActivity extends BaseEditorActivity implements
 
                 codeUnit = PascalCompiler.loadPascal(new File(filePath).getName(),
                         new FileReader(filePath), searchPath, new ProgramHandler(filePath));
-                if (codeUnit != null) {
-                    if (((PascalProgramDeclaration) codeUnit).main == null) {
-                        showErrorDialog(new MainProgramNotFoundException());
-                        return false;
-                    }
+                if (((PascalProgramDeclaration) codeUnit).main == null) {
+                    showErrorDialog(new MainProgramNotFoundException());
+                    return false;
                 }
             }
         } catch (FileNotFoundException e) {

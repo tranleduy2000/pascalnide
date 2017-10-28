@@ -16,6 +16,18 @@
 
 <resources>
 
+    <style name="AppThemeDark.NoActionBar" parent="AppThemeDark">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <!--Theme light for pro version-->
+    <style name="AppThemeLight.NoActionBar" parent="AppThemeLight">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+
     <style name="AppThemeDark" parent="Theme.AppCompat">
 
         <item name="colorPrimary">@color/dark.color_primary</item>
@@ -36,16 +48,6 @@
         <item name="colorAccent">@color/light.color_accent</item>
     </style>
 
-    <style name="AppThemeDark.NoActionBar" parent="AppThemeDark">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-    </style>
-
-    <!--Theme light for pro version-->
-    <style name="AppThemeLight.NoActionBar" parent="AppThemeLight">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -68,6 +70,7 @@
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
         <item name="android:windowExitAnimation">@android:anim/fade_in</item>
     </style>
+
 
 </resources>
 
