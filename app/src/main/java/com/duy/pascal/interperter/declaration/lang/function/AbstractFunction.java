@@ -25,9 +25,9 @@ import com.duy.pascal.interperter.declaration.NameEntityImpl;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.VarargsType;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.utils.ArrayUtil;
+import com.duy.pascal.interperter.utils.NullSafety;
 
 import java.util.Iterator;
 import java.util.List;
@@ -43,12 +43,14 @@ public abstract class AbstractFunction extends NameEntityImpl {
 
     @Override
     public String toString() {
-        Type declaredType = returnType();
-        if (argumentTypes().length == 0) {
-            return getName() + (declaredType != null ? ":" + declaredType.toString() : "");
+        Type returnType = returnType();
+        ArgumentType[] argumentTypes = argumentTypes();
+        boolean isProcedure = NullSafety.isNullPointer(returnType);
+        if (argumentTypes.length == 0) {
+            return getName() + (isProcedure ? "" : ":" + returnType.toString());
         } else {
-            return getName() + ArrayUtil.argToString(argumentTypes())
-                    + (declaredType != null ? ":" + declaredType.toString() : "");
+            return getName() + ArrayUtil.argToString(argumentTypes)
+                    + (isProcedure ? "" : ":" + returnType.toString());
         }
     }
 
