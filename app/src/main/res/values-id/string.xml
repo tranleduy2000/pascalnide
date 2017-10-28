@@ -222,7 +222,7 @@
     <string name="license_invalid">"Terima kasih telah membeli aplikasi donasi! Sayangnya cek lisensi gagal. Silakan coba lagi nanti. Jika masih belum berfungsi, tolong hubungi saya. Anda membutuhkan akses internet!"</string>
     <string name="pirated">"Sepertinya aplikasi donasi tidak dibeli melalui Play Store! Jika Anda membajaknya, maka rasa malu pada Anda!"</string>
     <string name="donate">"Menyumbangkan"</string>
-    <string name="donate_summary">"Anda dapat memilih tema kode khusus, lebih banyak font, mengubah font konsol ... dengan versi donasi \ n. Karena aplikasi ini adalah open source Anda dapat dengan mudah membangunnya sendiri dan menghapus cek ini. Tapi saya harap Anda mendukung pengembang. Terima kasih telah menggunakan Pascal NIDE! Setelah Anda membeli aplikasi donasi Anda harus me-restart Pascal NIDE untuk mengaktifkan semua fitur."</string>
+    <string name="donate_summary">"Anda dapat memilih tema kode khusus, lebih banyak font, mengubah font konsol … dengan versi donasi \ n. Karena aplikasi ini adalah open source Anda dapat dengan mudah membangunnya sendiri dan menghapus cek ini. Tapi saya harap Anda mendukung pengembang. Terima kasih telah menggunakan Pascal NIDE! Setelah Anda membeli aplikasi donasi Anda harus me-restart Pascal NIDE untuk mengaktifkan semua fitur."</string>
     <string name="donate_nope">"Aku tidak akan jatuh untuk penipuan ini!"</string>
     <string name="donate_yes">"Saya suka aplikasi ini. Harus disumbangkan!"</string>
 
