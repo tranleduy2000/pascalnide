@@ -98,6 +98,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -107,6 +108,7 @@ import java.util.Map;
 public class PascalLibraryManager {
     public static final Map<Name, Class<? extends IPascalLibrary>> MAP_LIBRARIES = new Hashtable<>();
     private static final String TAG = "PascalLibraryManager";
+    private static final HashMap<Class, ArrayList<AbstractFunction>> METHOD_CACHE = new HashMap<>();
 
     static {
         put(CrtLib.NAME, CrtLib.class);
@@ -179,6 +181,10 @@ public class PascalLibraryManager {
             }
         }
         return suggestItems;
+    }
+
+    public static Class<? extends IPascalLibrary> get(Name name) {
+        return MAP_LIBRARIES.get(name);
     }
 
     /**
@@ -264,6 +270,7 @@ public class PascalLibraryManager {
 
     public void addMethodFromLibrary(Class<? extends IPascalLibrary> clazz,
                                      @Nullable Object instance, @Nullable LineInfo line) throws PermissionDeniedException {
+
         if (instance instanceof IAndroidLibrary) {
             String[] permissions = ((IAndroidLibrary) instance).needPermission();
             for (String permission : permissions) {
@@ -283,55 +290,58 @@ public class PascalLibraryManager {
             library.declareTypes(mProgram);
             library.declareVariables(mProgram);
         }
-        ArrayList<AbstractFunction> declarations = new ArrayList<>();
-        for (Method method : clazz.getDeclaredMethods()) {
-            if (Modifier.isPublic(method.getModifiers()) && !isHiddenSystemMethod(method.getName())) {
-                if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                    if (method.getAnnotation(PascalMethod.class) != null) {
-                        PascalMethod annotation = method.getAnnotation(PascalMethod.class);
-                        String description = annotation.description();
-                        MethodDeclaration methodDecl = new MethodDeclaration(instance, method, description);
-                        declarations.add(methodDecl);
+
+        ArrayList<AbstractFunction> declarations = METHOD_CACHE.get(clazz);
+        if (declarations == null) {
+            declarations = new ArrayList<>();
+            for (Method method : clazz.getDeclaredMethods()) {
+                if (Modifier.isPublic(method.getModifiers()) && !isHiddenSystemMethod(method.getName())) {
+                    if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                        if (method.getAnnotation(PascalMethod.class) != null) {
+                            PascalMethod annotation = method.getAnnotation(PascalMethod.class);
+                            String description = annotation.description();
+                            MethodDeclaration methodDecl = new MethodDeclaration(instance, method, description);
+                            declarations.add(methodDecl);
+                        }
+                    } else {
+                        MethodDeclaration methodDeclaration = new MethodDeclaration(instance, method);
+                        declarations.add(methodDeclaration);
                     }
-                } else {
-                    MethodDeclaration methodDeclaration = new MethodDeclaration(instance, method);
-                    declarations.add(methodDeclaration);
                 }
             }
-        }
-        DLog.d(TAG, "addMethodFromLibrary: sort");
-        Collections.sort(declarations, new Comparator<AbstractFunction>() {
-            @Override
-            public int compare(AbstractFunction o1, AbstractFunction o2) {
-                if (o1.getName().equals(o2.getName())) {
-                    ArgumentType[] types1 = o1.argumentTypes();
-                    ArgumentType[] types2 = o2.argumentTypes();
-                    if (types1.length != types2.length) {
-                        return -1;
-                    }
-
-                    for (int i = 0; i < types1.length; i++) {
-                        Class<?> t1Class = types1[i].getRuntimeClass();
-                        Class<?> t2Class = types2[i].getRuntimeClass();
-                        if (t1Class.equals(t2Class)) {
-                            continue;
-                        }
-                        if (TypeConverter.isPrimitive(t1Class) && TypeConverter.isPrimitive(t2Class)) {
-                            if (!types1[i].equals(types2[i])) {
-                                if (TypeConverter.isLowerThanPrecedence(t1Class, t2Class)) {
-                                    return -1;
-                                }
-                            }
-                        } else {
+            Collections.sort(declarations, new Comparator<AbstractFunction>() {
+                @Override
+                public int compare(AbstractFunction o1, AbstractFunction o2) {
+                    if (o1.getName().equals(o2.getName())) {
+                        ArgumentType[] types1 = o1.argumentTypes();
+                        ArgumentType[] types2 = o2.argumentTypes();
+                        if (types1.length != types2.length) {
                             return -1;
                         }
+
+                        for (int i = 0; i < types1.length; i++) {
+                            Class<?> t1Class = types1[i].getRuntimeClass();
+                            Class<?> t2Class = types2[i].getRuntimeClass();
+                            if (t1Class.equals(t2Class)) {
+                                continue;
+                            }
+                            if (TypeConverter.isPrimitive(t1Class) && TypeConverter.isPrimitive(t2Class)) {
+                                if (!types1[i].equals(types2[i])) {
+                                    if (TypeConverter.isLowerThanPrecedence(t1Class, t2Class)) {
+                                        return -1;
+                                    }
+                                }
+                            } else {
+                                return -1;
+                            }
+                        }
                     }
+                    return o1.getName().compareTo(o2.getName());
                 }
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
+            });
+            METHOD_CACHE.put(clazz, declarations);
+        }
         for (AbstractFunction declaration : declarations) {
-            System.out.println(declaration);
             mProgram.declareFunction(declaration);
         }
     }
@@ -344,5 +354,4 @@ public class PascalLibraryManager {
                 || name.equals("instantiate")
                 || name.equals("declareVariables");
     }
-
 }

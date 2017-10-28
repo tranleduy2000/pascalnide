@@ -126,7 +126,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 startActivity(intentEdit);
                 finish();
             }
-        }, 3000);
+        }, 100);
     }
 
     private void handleRunProgram(Intent data) {

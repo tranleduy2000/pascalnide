@@ -52,8 +52,6 @@
         <item name="android:textViewStyle">@style/TextViewStyle</item>
         <item name="android:editTextStyle">@style/EditTextStyle</item>
 
-        <!--App自定义-->
-        <item name="netLoadingDrawable">@drawable/loading_icon</item>
         <item name="tabBackground">@drawable/drawer_tab_item_background</item>
         <item name="listItemBackground">@drawable/white_selectable_item_background</item>
         <item name="highlightBackground">#ffffff</item>

@@ -55,10 +55,10 @@ public class SuggestionProvider {
     private static final String TAG = "SuggestionProvider";
     private static final int MAX_CHAR = 1000;
 
-    private String source;
-    private int cursorPos;
-    private int cursorLine;
-    private int cursorCol;
+    private String mSource;
+    private int mCursorPos;
+    private int mCursorLine;
+    private int mCursorCol;
     private String incomplete;
     private CodeSuggestsEditText.SymbolsTokenizer symbolsTokenizer;
     @Nullable
@@ -71,10 +71,10 @@ public class SuggestionProvider {
 
     public ArrayList<Description> getSuggestion(String srcPath, String source,
                                                 int cursorPos, int cursorLine, int cursorCol) {
-        this.source = source;
-        this.cursorPos = cursorPos;
-        this.cursorLine = cursorLine;
-        this.cursorCol = cursorCol;
+        this.mSource = source;
+        this.mCursorPos = cursorPos;
+        this.mCursorLine = cursorLine;
+        this.mCursorCol = cursorCol;
         try {
             calculateIncomplete();
             ArrayList<Description> suggestItems = new ArrayList<>();
@@ -133,8 +133,8 @@ public class SuggestionProvider {
 
     private void calculateIncomplete() {
         incomplete = "";
-        int start = symbolsTokenizer.findTokenStart(source, cursorPos);
-        incomplete = source.substring(start, cursorPos);
+        int start = symbolsTokenizer.findTokenStart(mSource, mCursorPos);
+        incomplete = mSource.substring(start, mCursorPos);
         incomplete = incomplete.trim();
         DLog.d(TAG, "calculateIncomplete incomplete = " + incomplete);
     }
@@ -163,7 +163,7 @@ public class SuggestionProvider {
             ConstantDefinition constant = entry.getValue();
             LineInfo line = constant.getLineNumber();
             if (constant.getName().isPrefix(incomplete)) {
-                if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
+                if (line != null && line.getLine() <= mCursorLine && line.getColumn() <= mCursorCol) {
                     suggestItems.add(new ConstantDescription(constant));
                 }
             }
@@ -177,7 +177,7 @@ public class SuggestionProvider {
         for (VariableDeclaration variable : variables) {
             if (variable.getName().isPrefix(incomplete)) {
                 LineInfo line = variable.getLineNumber();
-                if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
+                if (line != null && line.getLine() <= mCursorLine && line.getColumn() <= mCursorCol) {
                     Name name = variable.getName();
                     suggestItems.add(new VariableDescription(name, variable.getDescription(), variable.getType()));
                 }
@@ -195,7 +195,7 @@ public class SuggestionProvider {
             for (AbstractFunction function : list) {
                 if (function.getName().isPrefix(incomplete)) {
                     LineInfo line = function.getLineNumber();
-                    if (line != null && line.getLine() <= cursorLine && line.getColumn() <= cursorCol) {
+                    if (line != null && line.getLine() <= mCursorLine && line.getColumn() <= mCursorCol) {
                         Name name = function.getName();
                         ArgumentType[] args = function.argumentTypes();
                         Type type = function.returnType();

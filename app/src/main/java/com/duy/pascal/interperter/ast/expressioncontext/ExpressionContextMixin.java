@@ -504,7 +504,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
             AtomicBoolean found = new AtomicBoolean(false);
             //find builtin library
-            Class<? extends IPascalLibrary> classLibrary = MAP_LIBRARIES.get(((WordToken) next).getName());
+            Class<? extends IPascalLibrary> classLibrary = PascalLibraryManager.get(((WordToken) next).getName());
             if (classLibrary != null) {
                 found.set(true);
                 mLibrariesNames.add(((WordToken) next).name);
