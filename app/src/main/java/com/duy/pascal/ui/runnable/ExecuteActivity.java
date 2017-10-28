@@ -110,7 +110,7 @@ public class ExecuteActivity extends AbstractExecActivity {
                 changeKeyBoard();
                 break;
             case R.id.action_step_info:
-                program.resume();
+                mProgram.resume();
                 break;
             case R.id.action_rerun:
                 CompileManager.execute(this, mFilePath);

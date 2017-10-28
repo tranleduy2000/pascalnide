@@ -36,7 +36,6 @@ import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenExcepti
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.value.ChangeValueConstantException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
@@ -44,6 +43,7 @@ import com.duy.pascal.ui.autocomplete.completion.KeyWord;
 import com.duy.pascal.ui.editor.view.AutoIndentEditText;
 import com.duy.pascal.ui.editor.view.EditorView;
 import com.duy.pascal.ui.editor.view.LineUtils;
+import com.duy.pascal.ui.utils.DLog;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -232,7 +232,7 @@ public class AutoFixHelper {
     /**
      * Insert "end" into the final position of the editor
      */
-    @Nullable
+    @NonNull
     private static AutoFixCommand fixGroupException(final GroupingException e) {
         return new AutoFixCommand() {
             @Override
@@ -449,7 +449,7 @@ public class AutoFixHelper {
         return new AutoFixCommand() {
             @Override
             public void execute(EditorView editable) {
-               DLog.d(TAG, "changeConstToVar() called with: editable = [" + editable + "]");
+                DLog.d(TAG, "changeConstToVar() called with: editable = [" + editable + "]");
 
                 TextData region = getText(editable, e.getScope().getStartPosition(), e.getLineInfo());
                 ConstantAccess constant = e.getConst();
@@ -531,7 +531,7 @@ public class AutoFixHelper {
         return new AutoFixCommand() {
             @Override
             public void execute(EditorView editable) {
-               DLog.d(TAG, "fixProgramNotFound() called with: editable = [" + editable + "]");
+                DLog.d(TAG, "fixProgramNotFound() called with: editable = [" + editable + "]");
                 editable.disableTextWatcher();
 
                 String tabCharacter = editable.getTabCharacter();

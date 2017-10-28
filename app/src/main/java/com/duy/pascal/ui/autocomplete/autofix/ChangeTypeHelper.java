@@ -92,10 +92,6 @@ class ChangeTypeHelper {
 
     /**
      * Change type of variable
-     *
-     * @param scope    - type to change
-     * @param variable - variable
-     * @param newType  - current type of variable
      */
     @NonNull
     static AutoFixCommand changeTypeVar(final UnConvertibleTypeException exception,

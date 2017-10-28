@@ -46,7 +46,7 @@ public class UndoRedoSupportEditText extends HighlightEditor {
     private KeySettings mSettings;
     private KeyListener mKeyListener;
     private ClipboardManagerCompat mClipboardManager;
-    private EditorControl editorControl;
+    private EditorControl mEditorControl;
 
     public UndoRedoSupportEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -188,20 +188,23 @@ public class UndoRedoSupportEditText extends HighlightEditor {
                     paste();
                     return true;
                 case KeyEvent.KEYCODE_R: //generate
-                    if (editorControl != null)
-                        editorControl.runProgram();
+                    if (mEditorControl != null)
+                        mEditorControl.runProgram();
                     return true;
                 case KeyEvent.KEYCODE_B: //build
-                    if (editorControl != null)
-                        editorControl.doCompile();
+                    if (mEditorControl != null) {
+                        mEditorControl.doCompile();
+                    }
                     return true;
                 case KeyEvent.KEYCODE_G: //go to line
-                    if (editorControl != null)
-                        editorControl.goToLine();
+                    if (mEditorControl != null) {
+                        mEditorControl.goToLine();
+                    }
                     return true;
                 case KeyEvent.KEYCODE_L: //format
-                    if (editorControl != null)
-                        editorControl.formatCode();
+                    if (mEditorControl != null) {
+                        mEditorControl.formatCode();
+                    }
                     return true;
                 case KeyEvent.KEYCODE_Z:
                     if (canUndo()) {
@@ -214,12 +217,12 @@ public class UndoRedoSupportEditText extends HighlightEditor {
                     }
                     return true;
                 case KeyEvent.KEYCODE_S:
-                    if (editorControl != null)
-                        editorControl.saveFile();
+                    if (mEditorControl != null)
+                        mEditorControl.saveFile();
                     return true;
                 case KeyEvent.KEYCODE_N:
-                    if (editorControl != null)
-                        editorControl.saveAs();
+                    if (mEditorControl != null)
+                        mEditorControl.saveAs();
                     return true;
                 default:
                     return super.onKeyDown(keyCode, event);
@@ -330,7 +333,7 @@ public class UndoRedoSupportEditText extends HighlightEditor {
     }
 
     public void setEditorControl(EditorControl editorControl) {
-        this.editorControl = editorControl;
+        this.mEditorControl = editorControl;
     }
 
 

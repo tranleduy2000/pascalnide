@@ -132,7 +132,7 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
      * set <code>true</code> if you want to DEBUG program
      */
     protected boolean debugging = false;
-    protected RuntimeExecutableCodeUnit program;
+    protected RuntimeExecutableCodeUnit mProgram;
     protected String programFile;
 
     private final Runnable runProgram = new Runnable() {
@@ -148,19 +148,19 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
                             searchPath,
                             AbstractExecActivity.this);
 
-                    program = pascalProgram.generate();
+                    mProgram = pascalProgram.generate();
 
                     //set stack size for the program
                     long maxStackSize = getPreferences().getMaxStackSize();
-                    program.setMaxStackSize(maxStackSize);
+                    mProgram.setMaxStackSize(maxStackSize);
 
                     if (isEnableDebug()) {
-                        program.enableDebug();
-                        program.setDebugMode(DebugMode.STEP_INFO);
-                        program.setDebugListener((DebugListener) AbstractExecActivity.this);
+                        mProgram.enableDebug();
+                        mProgram.setDebugMode(DebugMode.STEP_INFO);
+                        mProgram.setDebugListener((DebugListener) AbstractExecActivity.this);
                     }
 
-                    program.run();
+                    mProgram.run();
 
                     mMessageHandler.sendEmptyMessage(COMPLETE);
                 } catch (ScriptTerminatedException e) {
@@ -264,7 +264,7 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
      */
     private void stopProgram() {
         try {
-            program.terminate();
+            mProgram.terminate();
             Toast.makeText(this, R.string.program_stopped, Toast.LENGTH_SHORT).show();
         } catch (Exception ignored) {
             if (DLog.DEBUG) {

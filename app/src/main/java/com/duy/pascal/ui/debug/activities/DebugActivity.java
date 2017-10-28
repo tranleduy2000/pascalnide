@@ -306,6 +306,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
                 window.showAtLocation(mCodeView, Gravity.NO_GRAVITY, position.x - windowWidth / 3,
                         position.y + toolbar.getHeight() - windowHeight);
+
                 TextView txtResult = container.findViewById(R.id.txt_result);
                 txtResult.setText(msg);
                 AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.5f);
@@ -391,14 +392,14 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == R.id.action_step_info) {
-            if (program != null) {
-                program.setDebugMode(DebugMode.STEP_INFO);
+            if (mProgram != null) {
+                mProgram.setDebugMode(DebugMode.STEP_INFO);
             }
             resumeProgram();
             return true;
         } else if (i == R.id.action_step_over) {
-            if (program != null) {
-                program.setDebugMode(DebugMode.STEP_OVER);
+            if (mProgram != null) {
+                mProgram.setDebugMode(DebugMode.STEP_OVER);
             }
             resumeProgram();
             return true;
@@ -420,7 +421,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     private void resumeProgram() {
-        if (program != null && !mEnded.get()) program.resume();
+        if (mProgram != null && !mEnded.get()) mProgram.resume();
         else {
             mVibrator.vibrate(100);
             Toast.makeText(this, R.string.program_stopped, Toast.LENGTH_SHORT).show();
@@ -472,8 +473,8 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
             public void run() {
                 AlertDialog.Builder builder = new AlertDialog.Builder(DebugActivity.this);
                 final AppCompatEditText editText = new AppCompatEditText(DebugActivity.this);
-                editText.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-                        LayoutParams.WRAP_CONTENT));
+                editText.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+                editText.setPadding(8, 8, 8, 8);
                 builder.setView(editText);
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
@@ -485,7 +486,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
                         dialog.cancel();
                     }
                 });
-                builder.setTitle("Read/readln");
+                builder.setTitle(R.string.enter_data);
                 mAlertDialog = builder.create();
                 mAlertDialog.setCanceledOnTouchOutside(false);
                 if (!isFinishing()) {

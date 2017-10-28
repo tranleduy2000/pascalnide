@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.List;
 
@@ -35,17 +36,19 @@ import java.util.List;
  */
 
 public class CommandAdapter extends RecyclerView.Adapter<CommandAdapter.ViewHolder> {
+    private FirebaseAnalytics mFirebaseAnalytics;
     @NonNull
-    private Context context;
+    private Context mContext;
     @NonNull
-    private List<AutoFixCommand> commandDescriptors;
+    private List<AutoFixCommand> mCommandDescriptors;
     private LayoutInflater mInflater;
-    private OnItemClickListener onItemClickListener;
+    private OnItemClickListener mOnItemClickListener;
 
     public CommandAdapter(@NonNull Context context, @NonNull List<AutoFixCommand> objects) {
-        this.context = context;
-        this.commandDescriptors = objects;
+        this.mContext = context;
+        this.mCommandDescriptors = objects;
         this.mInflater = LayoutInflater.from(context);
+        this.mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
     }
 
 
@@ -59,12 +62,16 @@ public class CommandAdapter extends RecyclerView.Adapter<CommandAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, final int position) {
         TextView txtContent = holder.txtContent;
         txtContent.setTypeface(Typeface.MONOSPACE);
-        txtContent.setText(commandDescriptors.get(position).getTitle(context));
+        try {
+            txtContent.setText(mCommandDescriptors.get(position).getTitle(mContext));
+        } catch (Exception e) {
+            txtContent.setText(e.getMessage());
+        }
         holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onItemClickListener != null) {
-                    onItemClickListener.onClick(commandDescriptors.get(position));
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onClick(mCommandDescriptors.get(position));
                 }
             }
         });
@@ -72,11 +79,11 @@ public class CommandAdapter extends RecyclerView.Adapter<CommandAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return commandDescriptors.size();
+        return mCommandDescriptors.size();
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
+        this.mOnItemClickListener = onItemClickListener;
     }
 
     public interface OnItemClickListener {
