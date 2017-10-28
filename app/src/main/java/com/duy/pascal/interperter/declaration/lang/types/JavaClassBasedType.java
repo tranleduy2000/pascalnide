@@ -1,7 +1,6 @@
 package com.duy.pascal.interperter.declaration.lang.types;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
@@ -14,10 +13,10 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class JavaClassBasedType extends TypeInfo {
 
-    @Nullable
+    @NonNull
     private Class clazz;
 
-    public JavaClassBasedType(@Nullable Class clazz) {
+    public JavaClassBasedType(@NonNull Class clazz) {
         this.clazz = clazz;
     }
 
@@ -25,9 +24,7 @@ public class JavaClassBasedType extends TypeInfo {
     @Override
     public Object initialize() {
         try {
-            if (clazz != null) {
-                return clazz.newInstance();
-            }
+            return clazz.newInstance();
         } catch (Exception ignored) {
         }
         return NullValue.get();
@@ -35,16 +32,12 @@ public class JavaClassBasedType extends TypeInfo {
 
     @Override
     public String toString() {
-        if (clazz != null) {
-            if (clazz == Void.class) {
-                return "";
-            }
-            String name = clazz.getName();
-            name = name.replace(".", "_");
-            return name;
-        } else {
+        if (clazz.equals(Void.class) || clazz.equals(void.class)) {
             return "";
         }
+        String name = clazz.getSimpleName();
+        name = name.replace(".", "_");
+        return name;
     }
 
     @NonNull

@@ -84,10 +84,10 @@ public class ReadFileFunction implements IMethodDeclaration {
     private class ReadFileCall extends FunctionCall {
         private RuntimeValue args;
         private LineInfo line;
-        private RuntimeValue filePreference;
+        private RuntimeValue mFileReference;
 
         ReadFileCall(RuntimeValue filePreferences, RuntimeValue args, LineInfo line) {
-            this.filePreference = filePreferences;
+            this.mFileReference = filePreferences;
             this.args = args;
             this.line = line;
         }
@@ -116,13 +116,13 @@ public class ReadFileFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws Exception {
-            return new ReadFileCall(filePreference, args, line);
+            return new ReadFileCall(mFileReference, args, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws Exception {
-            return new ReadFileCall(filePreference, args, line);
+            return new ReadFileCall(mFileReference, args, line);
         }
 
         @Override
@@ -137,7 +137,7 @@ public class ReadFileFunction implements IMethodDeclaration {
             FileLib fileLib = main.getDeclaration().getContext().getFileHandler();
 
             PascalReference[] values = (PascalReference[]) args.getValue(f, main);
-            PascalReference<File> file = (PascalReference<File>) filePreference.getValue(f, main);
+            PascalReference<File> file = (PascalReference<File>) mFileReference.getValue(f, main);
             fileLib.readz(file.get(), values);
             if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
 

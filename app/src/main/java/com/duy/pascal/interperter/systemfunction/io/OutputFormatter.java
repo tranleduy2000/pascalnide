@@ -23,7 +23,6 @@ import com.duy.pascal.interperter.ast.runtime_value.value.boxing.ArrayBoxer;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.ui.utils.DLog;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -55,8 +54,6 @@ public class OutputFormatter {
     }
 
     public static String getValueOutput(Object value) {
-        DLog.d(TAG, "getValueOutput() called with: value = [" + value + "] class = " + value.getClass());
-
         if (value instanceof Object[]) {
             return Arrays.toString((Object[]) value);
         }
@@ -77,7 +74,6 @@ public class OutputFormatter {
     }
 
     public static StringBuilder formatDecimal(int decimal, Object value) {
-
         StringBuilder out = new StringBuilder(value instanceof Object[] ?
                 Arrays.toString((Object[]) value) : String.valueOf(value));
 

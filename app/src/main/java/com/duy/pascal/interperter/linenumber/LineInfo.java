@@ -23,6 +23,7 @@ import java.io.Serializable;
 
 
 public class LineInfo implements Serializable, Cloneable {
+    public static final LineInfo SYSTEM_LINE = new LineInfo(-1, "system");
     private int line;
     private int column;
     private int length;

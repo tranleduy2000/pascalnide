@@ -18,17 +18,17 @@ package com.duy.pascal.interperter.libraries.io;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
-import com.duy.pascal.interperter.libraries.PascalLibrary;
-import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
-import com.duy.pascal.interperter.libraries.exceptions.CanNotReadVariableException;
 import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.exceptions.parsing.io.InputStreamNotFoundException;
 import com.duy.pascal.interperter.exceptions.runtime.InvalidNumericFormatException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.libraries.PascalLibrary;
+import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
+import com.duy.pascal.interperter.libraries.exceptions.CanNotReadVariableException;
+import com.duy.pascal.ui.utils.DLog;
 
 import java.io.PrintStream;
 import java.util.InputMismatchException;
@@ -216,7 +216,7 @@ public class IOLib extends PascalLibrary {
     }
 
     @NonNull
-    public String getInputBuffer() {
+    private String getInputBuffer() {
         return inputBuffer;
     }
 

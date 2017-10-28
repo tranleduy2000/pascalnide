@@ -3,8 +3,6 @@ package com.duy.pascal.interperter.ast.expressioncontext;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.ui.utils.DLog;
-import com.duy.pascal.ui.runnable.ProgramHandler;
 import com.duy.pascal.interperter.ast.CodeUnitParsingException;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimePascalClass;
@@ -15,10 +13,6 @@ import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.LibraryIdentifierAccess;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.VariableAccess;
-import com.duy.pascal.interperter.libraries.IPascalLibrary;
-import com.duy.pascal.interperter.libraries.PascalLibraryManager;
-import com.duy.pascal.interperter.libraries.file.FileLib;
-import com.duy.pascal.interperter.libraries.io.IOLib;
 import com.duy.pascal.interperter.datastructure.ArrayListMultimap;
 import com.duy.pascal.interperter.declaration.LabelDeclaration;
 import com.duy.pascal.interperter.declaration.Name;
@@ -50,6 +44,10 @@ import com.duy.pascal.interperter.exceptions.parsing.syntax.WrongIfElseStatement
 import com.duy.pascal.interperter.exceptions.parsing.value.NonConstantExpressionException;
 import com.duy.pascal.interperter.exceptions.parsing.value.NonIntegerException;
 import com.duy.pascal.interperter.javaunderpascal.classpath.JavaClassLoader;
+import com.duy.pascal.interperter.libraries.IPascalLibrary;
+import com.duy.pascal.interperter.libraries.PascalLibraryManager;
+import com.duy.pascal.interperter.libraries.file.FileLib;
+import com.duy.pascal.interperter.libraries.io.IOLib;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokens.OperatorToken;
@@ -72,6 +70,8 @@ import com.duy.pascal.interperter.tokens.grouping.BeginEndToken;
 import com.duy.pascal.interperter.tokens.grouping.BracketedToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.interperter.tokens.ignore.CompileDirectiveToken;
+import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.utils.DLog;
 
 import java.io.Reader;
 import java.io.Serializable;
@@ -121,7 +121,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
      */
     private ArrayList<Name> mLibrariesNames = new ArrayList<>();
 
-    private PascalLibraryManager mPascalLibraryManager;
+    private PascalLibraryManager mLibraryManager;
     /**
      * Class loader, load class in library rt.jar (java library) and other file *.class
      */
@@ -144,14 +144,14 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         super(root, parent);
 
         this.mHandler = handler;
-        mPascalLibraryManager = new PascalLibraryManager(this, handler);
+        mLibraryManager = new PascalLibraryManager(this, handler);
         mFileHandler = new FileLib(handler);
         mIOHandler = new IOLib(handler);
         try {
             //load system function
-            mPascalLibraryManager.loadSystemLibrary();
-            mPascalLibraryManager.addMethodFromLibrary(FileLib.class, mFileHandler, new LineInfo(-1, "system"));
-            mPascalLibraryManager.addMethodFromLibrary(IOLib.class, mIOHandler, new LineInfo(-1, "system"));
+            mLibraryManager.loadSystemLibrary();
+            mLibraryManager.addMethodFromLibrary(FileLib.class, mFileHandler, LineInfo.SYSTEM_LINE);
+            mLibraryManager.addMethodFromLibrary(IOLib.class, mIOHandler, LineInfo.SYSTEM_LINE);
         } catch (PermissionDeniedException | LibraryNotFoundException e) {
             e.printStackTrace();
         }
@@ -508,7 +508,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             if (classLibrary != null) {
                 found.set(true);
                 mLibrariesNames.add(((WordToken) next).name);
-                mPascalLibraryManager.addMethodFromClass(classLibrary, next.getLineNumber());
+                mLibraryManager.addMethodFromClass(classLibrary, next.getLineNumber());
             } else {
                 //custom library pascal
                 String libName = ((WordToken) next).getName() + ".pas";

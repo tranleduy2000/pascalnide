@@ -7,36 +7,38 @@ import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
+import com.duy.pascal.ui.utils.DLog;
 
 import java.util.HashMap;
 
 public class TypeConverter {
-    private static final HashMap<Class, Integer> precedence = new HashMap<>();
+    private static final HashMap<Class, Integer> PRECEDENCE = new HashMap<>();
+    private static final String TAG = "TypeConverter";
 
     static {
         //region integer
-        precedence.put(Character.class, 1);
-        precedence.put(char.class, 1);
+        PRECEDENCE.put(Character.class, 1);
+        PRECEDENCE.put(char.class, 1);
 
-        precedence.put(Byte.class, 1);
-        precedence.put(byte.class, 1);
+        PRECEDENCE.put(Byte.class, 1);
+        PRECEDENCE.put(byte.class, 1);
 
-        precedence.put(Short.class, 1);
-        precedence.put(short.class, 1);
+        PRECEDENCE.put(Short.class, 1);
+        PRECEDENCE.put(short.class, 1);
 
-        precedence.put(Integer.class, 1);
-        precedence.put(int.class, 1);
+        PRECEDENCE.put(Integer.class, 1);
+        PRECEDENCE.put(int.class, 1);
 
-        precedence.put(Long.class, 1);
-        precedence.put(long.class, 1);
+        PRECEDENCE.put(Long.class, 1);
+        PRECEDENCE.put(long.class, 1);
         //end region
 
         //region real
-        precedence.put(Float.class, 2);
-        precedence.put(float.class, 2);
+        PRECEDENCE.put(Float.class, 2);
+        PRECEDENCE.put(float.class, 2);
 
-        precedence.put(Double.class, 2);
-        precedence.put(double.class, 2);
+        PRECEDENCE.put(Double.class, 2);
+        PRECEDENCE.put(double.class, 2);
         //end region
     }
 
@@ -45,8 +47,8 @@ public class TypeConverter {
         if (inType == outType) {
             return target;
         }
-        Integer inPrecedence = precedence.get(inType.getTransferClass());
-        Integer outPrecedence = precedence.get(outType.getTransferClass());
+        Integer inPrecedence = PRECEDENCE.get(inType.getTransferClass());
+        Integer outPrecedence = PRECEDENCE.get(outType.getTransferClass());
         if (inPrecedence != null && outPrecedence != null) {
             if (inPrecedence <= outPrecedence) {
                 return forceConvert(outType, target, inType);
@@ -58,11 +60,17 @@ public class TypeConverter {
         return null;
     }
 
+    /**
+     * @param first  - primitive type
+     * @param second - primitive type
+     * @return true if precede of first lower precede of second
+     */
     public static boolean isLowerPrecedence(@NonNull Class first, @NonNull Class second) {
-        Integer inPrecedence = precedence.get(first);
-        Integer outPrecedence = precedence.get(second);
+        DLog.d(TAG, "isLowerPrecedence() called with: first = [" + first + "], second = [" + second + "]");
+        Integer inPrecedence = PRECEDENCE.get(first);
+        Integer outPrecedence = PRECEDENCE.get(second);
         if (inPrecedence != null && outPrecedence != null) {
-            if (inPrecedence <= outPrecedence) {
+            if (inPrecedence < outPrecedence) {
                 return true;
             }
         }
@@ -173,6 +181,15 @@ public class TypeConverter {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @param clazz - any class
+     * @return true if class is primitive, include object String.class, Long.class,
+     * Integer.class, Double.class, ...
+     */
+    public static boolean isPrimitive(Class<?> clazz) {
+        return PRECEDENCE.get(clazz) != null;
     }
 
     @Override

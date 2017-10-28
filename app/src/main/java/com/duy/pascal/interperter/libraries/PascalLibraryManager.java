@@ -25,10 +25,13 @@ import android.support.v4.app.ActivityCompat;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
 import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.declaration.lang.function.MethodDeclaration;
+import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.JavaClassBasedType;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
+import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.exceptions.parsing.PermissionDeniedException;
 import com.duy.pascal.interperter.exceptions.parsing.io.LibraryNotFoundException;
@@ -93,6 +96,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -101,6 +106,7 @@ import java.util.Map;
  */
 public class PascalLibraryManager {
     public static final Map<Name, Class<? extends IPascalLibrary>> MAP_LIBRARIES = new Hashtable<>();
+    private static final String TAG = "PascalLibraryManager";
 
     static {
         put(CrtLib.NAME, CrtLib.class);
@@ -148,7 +154,7 @@ public class PascalLibraryManager {
         this.mFacadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkVersion(), handler);
     }
 
-    private static void put(String name, Class<? extends IPascalLibrary> claszz)  {
+    private static void put(String name, Class<? extends IPascalLibrary> claszz) {
         MAP_LIBRARIES.put(Name.create(name), claszz);
     }
 
@@ -174,7 +180,6 @@ public class PascalLibraryManager {
         }
         return suggestItems;
     }
-
 
     /**
      * load method from a class
@@ -246,7 +251,7 @@ public class PascalLibraryManager {
         mProgram.declareFunction(new AbstractMethodDeclaration(new WriteFunction()));
         //end region
 
-        mProgram.declareConst(new ConstantDefinition("null", new JavaClassBasedType(null), NullValue.get(), null));
+        mProgram.declareConst(new ConstantDefinition("null", new JavaClassBasedType(NullValue.get().getClass()), NullValue.get(), null));
         mProgram.declareConst(new ConstantDefinition("nil", new PointerType(null), NullValue.get(), null));
 
         mProgram.declareConst(new ConstantDefinition("maxint", BasicType.Integer, Integer.MAX_VALUE, null));
@@ -278,22 +283,63 @@ public class PascalLibraryManager {
             library.declareTypes(mProgram);
             library.declareVariables(mProgram);
         }
-
+        ArrayList<AbstractFunction> declarations = new ArrayList<>();
         for (Method method : clazz.getDeclaredMethods()) {
-            if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                if (method.getAnnotation(PascalMethod.class) != null) {
-                    PascalMethod annotation = method.getAnnotation(PascalMethod.class);
-                    String description = annotation.description();
-                    MethodDeclaration methodDeclaration = new MethodDeclaration(instance, method, description);
-                    mProgram.declareFunction(methodDeclaration);
-                }
-            } else {
-                if (Modifier.isPublic(method.getModifiers())) {
+            if (Modifier.isPublic(method.getModifiers()) && !isHiddenSystemMethod(method.getName())) {
+                if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                    if (method.getAnnotation(PascalMethod.class) != null) {
+                        PascalMethod annotation = method.getAnnotation(PascalMethod.class);
+                        String description = annotation.description();
+                        MethodDeclaration methodDecl = new MethodDeclaration(instance, method, description);
+                        declarations.add(methodDecl);
+                    }
+                } else {
                     MethodDeclaration methodDeclaration = new MethodDeclaration(instance, method);
-                    mProgram.declareFunction(methodDeclaration);
+                    declarations.add(methodDeclaration);
                 }
             }
         }
+        DLog.d(TAG, "addMethodFromLibrary: sort");
+        Collections.sort(declarations, new Comparator<AbstractFunction>() {
+            @Override
+            public int compare(AbstractFunction o1, AbstractFunction o2) {
+                if (o1.getName().equals(o2.getName())) {
+                    ArgumentType[] types1 = o1.argumentTypes();
+                    ArgumentType[] types2 = o2.argumentTypes();
+                    if (types1.length != types2.length) {
+                        return -1;
+                    }
+
+                    for (int i = 0; i < types1.length; i++) {
+                        Class<?> t1Class = types1[i].getRuntimeClass();
+                        Class<?> t2Class = types2[i].getRuntimeClass();
+                        if (TypeConverter.isPrimitive(t1Class) && TypeConverter.isPrimitive(t2Class)) {
+                            if (!types1[i].equals(types2[i])) {
+                                if (TypeConverter.isLowerPrecedence(t1Class, t2Class)) {
+                                    return 1;
+                                }
+                            }
+                        } else {
+                            return -1;
+                        }
+                    }
+                }
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+        for (AbstractFunction declaration : declarations) {
+            System.out.println(declaration);
+            mProgram.declareFunction(declaration);
+        }
+    }
+
+    private boolean isHiddenSystemMethod(String name) {
+        return name.equals("declareConstants")
+                || name.equals("declareFunctions")
+                || name.equals("declareTypes")
+                || name.equals("shutdown")
+                || name.equals("instantiate")
+                || name.equals("declareVariables");
     }
 
 }
