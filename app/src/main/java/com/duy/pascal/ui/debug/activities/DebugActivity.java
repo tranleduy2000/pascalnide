@@ -56,7 +56,6 @@ import com.duy.pascal.interperter.debugable.DebugListener;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
 import com.duy.pascal.interperter.libraries.io.IOLib;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.code.ExceptionManager;
@@ -67,6 +66,7 @@ import com.duy.pascal.ui.editor.view.HighlightEditor;
 import com.duy.pascal.ui.editor.view.LineUtils;
 import com.duy.pascal.ui.runnable.AbstractExecActivity;
 import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.view.LockableScrollView;
 import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -85,10 +85,10 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     private HighlightEditor mCodeView;
     private Toolbar toolbar;
     private LockableScrollView mScrollView;
-    private AlertDialog alertDialog;
-    private PopupWindow popupWindow;
-    private AtomicBoolean endEnded = new AtomicBoolean(false);
-    private Vibrator vibrator;
+    private AlertDialog mAlertDialog;
+    private PopupWindow mPopupWindow;
+    private AtomicBoolean mEnded = new AtomicBoolean(false);
+    private Vibrator mVibrator;
     private Runnable showDialog = new Runnable() {
         @Override
         public void run() {
@@ -96,9 +96,8 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         }
     };
 
-
     private FragmentFrame mFameFragment;
-    private DrawerLayout drawerLayout;
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +107,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         bindView();
 
         FirebaseAnalytics.getInstance(this).logEvent("open_debug", new Bundle());
-        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        mVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         mConsoleView.updateSize();
         mConsoleView.showPrompt();
@@ -122,18 +121,18 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     private void bindView() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mConsoleView = (ConsoleView) findViewById(R.id.console);
-        mCodeView = (HighlightEditor) findViewById(R.id.code_editor);
-        mScrollView = (LockableScrollView) findViewById(R.id.vertical_scroll);
+        mConsoleView = findViewById(R.id.console);
+        mCodeView = findViewById(R.id.code_editor);
+        mScrollView = findViewById(R.id.vertical_scroll);
         mCodeView.setVerticalScroll(mScrollView);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.setDrawerListener(drawerToggle);
+        mDrawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
         mFameFragment = (FragmentFrame) getSupportFragmentManager().findFragmentByTag("FragmentFrame");
@@ -142,8 +141,8 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawers();
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawers();
             return;
         }
         super.onBackPressed();
@@ -215,7 +214,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
             mCodeView.highlightAll();
 
             setTitle(file.getName());
-            endEnded.set(false);
+            mEnded.set(false);
             setEnableDebug(true); //disable DEBUG
             createAndRunProgram(mFilePath); //execute file
         } else {
@@ -314,15 +313,15 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
                 alphaAnimation.setRepeatMode(Animation.REVERSE);
                 alphaAnimation.setRepeatCount(Animation.INFINITE);
                 txtResult.startAnimation(alphaAnimation);
-                DebugActivity.this.popupWindow = window;
+                DebugActivity.this.mPopupWindow = window;
             }
         });
     }
 
     private void dismissPopup() {
-        if (popupWindow != null) {
-            if (this.popupWindow.isShowing()) {
-                popupWindow.dismiss();
+        if (mPopupWindow != null) {
+            if (this.mPopupWindow.isShowing()) {
+                mPopupWindow.dismiss();
             }
         }
     }
@@ -359,7 +358,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     @Override
     public void onEndProgram() {
         dismissPopup();
-        this.endEnded.set(true);
+        this.mEnded.set(true);
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -421,9 +420,9 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     private void resumeProgram() {
-        if (program != null && !endEnded.get()) program.resume();
+        if (program != null && !mEnded.get()) program.resume();
         else {
-            vibrator.vibrate(100);
+            mVibrator.vibrate(100);
             Toast.makeText(this, R.string.program_stopped, Toast.LENGTH_SHORT).show();
         }
     }
@@ -434,7 +433,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     protected void onDestroy() {
-        if (alertDialog != null) alertDialog.dismiss();
+        if (mAlertDialog != null) mAlertDialog.dismiss();
         super.onDestroy();
     }
 
@@ -487,10 +486,10 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
                     }
                 });
                 builder.setTitle("Read/readln");
-                alertDialog = builder.create();
-                alertDialog.setCanceledOnTouchOutside(false);
+                mAlertDialog = builder.create();
+                mAlertDialog.setCanceledOnTouchOutside(false);
                 if (!isFinishing()) {
-                    alertDialog.show();
+                    mAlertDialog.show();
                 }
             }
         });

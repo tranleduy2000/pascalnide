@@ -13,17 +13,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    productFlavors {
-        dev {
-            // Enable pre-dexing to produce an APK that can be tested on
-            // Android 5.0+ without the time-consuming DEX build processes.
-            minSdkVersion 21
-        }
-        prod {
-            // The actual minSdkVersion for the production version.
-            minSdkVersion rootProject.ext.minSdkVersion
-        }
-    }
 
     buildTypes {
         release {
@@ -66,12 +55,12 @@ dependencies {
     compile "com.android.support:cardview-v7:$android_support_version"
     compile "com.android.support:recyclerview-v7:$android_support_version"
     compile "com.android.support:support-annotations:$android_support_version"
-    compile "com.android.support:multidex:1.0.1"
+    compile "com.android.support:multidex:1.0.2"
 
-    compile 'com.google.firebase:firebase-core:11.0.2'
-    compile 'com.google.firebase:firebase-crash:11.0.2'
+    compile 'com.google.firebase:firebase-core:11.4.2'
+    compile 'com.google.firebase:firebase-crash:11.4.2'
 
-    compile 'io.github.kobakei:ratethisapp:1.1.2'
+    compile 'io.github.kobakei:ratethisapp:1.2.0'
     compile 'commons-io:commons-io:2.4'
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'

@@ -97,6 +97,8 @@ public class SpanUtils {
                 spannableString = new SpannableString(listToString((List) value, 10));
             } else if (value instanceof ContainsVariables) { //record
                 spannableString = new SpannableString(value.toString());
+            } else {
+                spannableString = new SpannableString(value.toString());
             }
             return spannableString;
         }
