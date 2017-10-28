@@ -14,6 +14,7 @@
   ~ limitations under the License.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
@@ -23,10 +24,10 @@
     android:paddingRight="20dp"
     android:paddingTop="15dp">
 
-    <ImageView
+    <android.support.v4.widget.ContentLoadingProgressBar
+        style="@style/Base.Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="?attr/netLoadingDrawable" />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/messageTextView"
@@ -35,11 +36,8 @@
         android:layout_gravity="center"
         android:textColor="@android:color/white"
         android:textSize="12sp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:text="Sample" />
 
-    <com.duy.pascal.ui.common.view.ProgressIndicatorView
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_gravity="center" />
 
 </LinearLayout>

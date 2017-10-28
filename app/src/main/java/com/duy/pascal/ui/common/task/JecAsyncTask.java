@@ -27,7 +27,7 @@ import com.duy.pascal.ui.common.listeners.ProgressInterface;
 public abstract class JecAsyncTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
     private Exception exception;
     private TaskListener<Result> listener;
-    private ProgressInterface progressInterface;
+    private ProgressInterface mProgressInterface;
     private boolean complete = false;
 
     public JecAsyncTask<Params, Progress, Result> setTaskListener(TaskListener<Result> listener) {
@@ -36,7 +36,7 @@ public abstract class JecAsyncTask<Params, Progress, Result> extends AsyncTask<P
     }
 
     public void setProgress(ProgressInterface progressInterface) {
-        this.progressInterface = progressInterface;
+        this.mProgressInterface = progressInterface;
         if (progressInterface != null) {
             progressInterface.addOnDismissListener(new OnDismissListener() {
                 @Override
@@ -49,13 +49,13 @@ public abstract class JecAsyncTask<Params, Progress, Result> extends AsyncTask<P
     }
 
     public ProgressInterface getProgress() {
-        return progressInterface;
+        return mProgressInterface;
     }
 
     @Override
     protected void onPreExecute() {
-        if (progressInterface != null) {
-            progressInterface.show();
+        if (mProgressInterface != null) {
+            mProgressInterface.show();
         }
     }
 
@@ -95,8 +95,8 @@ public abstract class JecAsyncTask<Params, Progress, Result> extends AsyncTask<P
         if (listener != null)
             listener.onCompleted();
 
-        if (progressInterface != null) {
-            progressInterface.dismiss();
+        if (mProgressInterface != null) {
+            mProgressInterface.dismiss();
         }
     }
 

@@ -59,7 +59,6 @@
         <attr name="hlOperator" format="color" />
     </declare-styleable>
 
-    <attr name="netLoadingDrawable" format="reference" />
     <attr name="tabBackground" format="reference" />
 
 

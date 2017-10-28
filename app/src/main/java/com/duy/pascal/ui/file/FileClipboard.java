@@ -19,14 +19,14 @@ package com.duy.pascal.ui.file;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.duy.pascal.ui.file.io.JecFile;
-import com.duy.pascal.ui.file.listener.OnClipboardDataChangedListener;
-import com.duy.pascal.ui.file.listener.OnClipboardPasteFinishListener;
-import com.duy.pascal.ui.file.util.FileUtils;
 import com.duy.pascal.ui.common.app.ProgressDialog;
 import com.duy.pascal.ui.common.task.JecAsyncTask;
 import com.duy.pascal.ui.common.task.TaskResult;
 import com.duy.pascal.ui.common.utils.UIUtils;
+import com.duy.pascal.ui.file.io.JecFile;
+import com.duy.pascal.ui.file.listener.OnClipboardDataChangedListener;
+import com.duy.pascal.ui.file.listener.OnClipboardPasteFinishListener;
+import com.duy.pascal.ui.file.util.FileUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,20 +36,21 @@ import java.util.List;
  */
 
 public class FileClipboard {
-    private List<JecFile> clipList = new ArrayList<>();
+    private List<JecFile> mClipList = new ArrayList<>();
     private boolean isCopy;
-    private OnClipboardDataChangedListener onClipboardDataChangedListener;
+    private OnClipboardDataChangedListener mOnClipboardDataChangedListener;
 
     public boolean canPaste() {
-        return !clipList.isEmpty();
+        return !mClipList.isEmpty();
     }
 
     public void setData(boolean isCopy, List<JecFile> data) {
         this.isCopy = isCopy;
-        clipList.clear();
-        clipList.addAll(data);
-        if (onClipboardDataChangedListener != null)
-            onClipboardDataChangedListener.onClipboardDataChanged();
+        mClipList.clear();
+        mClipList.addAll(data);
+        if (mOnClipboardDataChangedListener != null) {
+            mOnClipboardDataChangedListener.onClipboardDataChanged();
+        }
     }
 
     public void paste(Context context, JecFile currentDirectory, OnClipboardPasteFinishListener listener) {
@@ -57,7 +58,7 @@ public class FileClipboard {
             return;
 
         ProgressDialog dlg = new ProgressDialog(context);
-        PasteTask task = new PasteTask(listener);
+        PasteTask task = new PasteTask(listener, mClipList, isCopy);
         task.setProgress(dlg);
         task.execute(currentDirectory);
     }
@@ -70,12 +71,20 @@ public class FileClipboard {
         }
     }
 
-    private class PasteTask extends JecAsyncTask<JecFile, JecFile, Integer> {
-        private final OnClipboardPasteFinishListener listener;
-        private StringBuilder errorMsg = new StringBuilder();
+    public void setOnClipboardDataChangedListener(OnClipboardDataChangedListener onClipboardDataChangedListener) {
+        this.mOnClipboardDataChangedListener = onClipboardDataChangedListener;
+    }
 
-        public PasteTask(OnClipboardPasteFinishListener listener) {
-            this.listener = listener;
+    private static class PasteTask extends JecAsyncTask<JecFile, JecFile, Integer> {
+        private final OnClipboardPasteFinishListener mListener;
+        private StringBuilder errorMsg = new StringBuilder();
+        private List<JecFile> mClipList;
+        private boolean isCopy = false;
+
+        PasteTask(OnClipboardPasteFinishListener listener, List<JecFile> mClipList, boolean isCopy) {
+            this.mListener = listener;
+            this.mClipList = mClipList;
+            this.isCopy = isCopy;
         }
 
         @Override
@@ -87,7 +96,7 @@ public class FileClipboard {
         protected void onRun(TaskResult<Integer> taskResult, JecFile... params) throws Exception {
             JecFile currentDirectory = params[0];
             int count = 0;
-            for (JecFile file : clipList) {
+            for (JecFile file : mClipList) {
                 publishProgress(file);
                 try {
                     if (file.isDirectory()) {
@@ -100,26 +109,22 @@ public class FileClipboard {
                     errorMsg.append(e.getMessage()).append("\n");
                 }
             }
-            clipList.clear();
+            mClipList.clear();
             taskResult.setResult(count);
         }
 
         @Override
         protected void onSuccess(Integer integer) {
-            if (listener != null) {
-                listener.onFinish(integer, errorMsg.toString());
+            if (mListener != null) {
+                mListener.onFinish(integer, errorMsg.toString());
             }
         }
 
         @Override
         protected void onError(Exception e) {
-            if (listener != null) {
-                listener.onFinish(0, e.getMessage());
+            if (mListener != null) {
+                mListener.onFinish(0, e.getMessage());
             }
         }
-    }
-
-    public void setOnClipboardDataChangedListener(OnClipboardDataChangedListener onClipboardDataChangedListener) {
-        this.onClipboardDataChangedListener = onClipboardDataChangedListener;
     }
 }

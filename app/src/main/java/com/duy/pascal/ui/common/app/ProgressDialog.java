@@ -24,11 +24,12 @@ import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.jecelyin.android.file_explorer.R;
 import com.duy.pascal.ui.common.listeners.ProgressInterface;
+import com.jecelyin.android.file_explorer.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,11 +56,13 @@ public class ProgressDialog extends Dialog implements ProgressInterface {
         setCancelable(true);
         setCanceledOnTouchOutside(false);
         setContentView(R.layout.progress_layout);
-//        getWindow().setBackgroundDrawable(null);
-        getWindow().getAttributes().gravity = Gravity.CENTER;
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.dimAmount = 0.2f;
-        getWindow().setAttributes(lp);
+        Window window = getWindow();
+        if (window != null) {
+            window.setGravity(Gravity.CENTER);
+            WindowManager.LayoutParams lp = window.getAttributes();
+            lp.dimAmount = 0.2f;
+            window.setAttributes(lp);
+        }
         messageTextView = findViewById(R.id.messageTextView);
         setTitle(title);
     }
