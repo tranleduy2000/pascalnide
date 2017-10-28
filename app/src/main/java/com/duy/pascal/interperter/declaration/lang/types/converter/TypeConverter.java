@@ -64,11 +64,11 @@ public class TypeConverter {
      * @param second - primitive type
      * @return true if precede of first lower precede of second
      */
-    public static boolean isLowerPrecedence(@NonNull Class first, @NonNull Class second) {
+    public static boolean isLowerThanPrecedence(@NonNull Class first, @NonNull Class second) {
         Integer inPrecedence = PRECEDENCE.get(first);
         Integer outPrecedence = PRECEDENCE.get(second);
         if (inPrecedence != null && outPrecedence != null) {
-            if (inPrecedence < outPrecedence) {
+            if (inPrecedence <= outPrecedence) {
                 return true;
             }
         }
