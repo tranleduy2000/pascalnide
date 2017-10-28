@@ -49,13 +49,13 @@ public abstract class BaseTestCase extends TestCase {
     }
 
     /**
-     * generate a pascal file
+     * Compile and run a pascal file
      *
-     * @param file - dir of program file
+     * @param fileName - name of file
      */
-    protected void run(String file) {
+    protected void run(String fileName) {
         try {
-            runProgram(dir + file);
+            runProgram(dir + fileName);
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();

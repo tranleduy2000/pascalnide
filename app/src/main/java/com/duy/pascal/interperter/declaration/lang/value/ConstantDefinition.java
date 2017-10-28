@@ -61,8 +61,9 @@ public class ConstantDefinition implements NamedEntity {
         this.line = line;
     }
 
-    public ConstantDefinition(@NonNull String name, @Nullable Type type, @NonNull Object init, LineInfo line) {
-        this(Name.create(name), type, init, line);
+    public ConstantDefinition(@NonNull String name, @Nullable Type type, @NonNull Object initValue,
+                            LineInfo line) {
+        this(Name.create(name), type, initValue, line);
     }
 
     /*enum*/

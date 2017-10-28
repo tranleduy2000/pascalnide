@@ -19,14 +19,11 @@ package com.duy.pascal.interperter.declaration.lang.function;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalPointer;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.libraries.annotations.ArrayBoundsInfo;
-import com.duy.pascal.interperter.libraries.annotations.MethodTypeData;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
@@ -38,7 +35,10 @@ import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.IntegerSubrangeType;
 import com.duy.pascal.interperter.declaration.lang.types.util.TypeUtils;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.libraries.annotations.ArrayBoundsInfo;
+import com.duy.pascal.interperter.libraries.annotations.MethodTypeData;
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.utils.DLog;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.InvocationTargetException;
@@ -50,32 +50,34 @@ import java.util.List;
 
 public class MethodDeclaration extends AbstractCallableFunction {
     private static final String TAG = MethodDeclaration.class.getSimpleName();
-    private Object owner;
-    private Method method;
-    private ArgumentType[] argCache = null;
-    private String description = "";
-    private Type returnType;
+    @Nullable
+    private Object mInstance;
+    @NonNull
+    private Method mMethod;
+    private ArgumentType[] mArgCache = null;
+    private String mDescription = "";
+    private Type mReturnType;
 
     /**
      * @param owner - parent class
      * @param m     - method of class
      */
-    public MethodDeclaration(@NonNull Object owner, @NonNull Method m) {
-        this.owner = owner;
-        this.method = m;
+    public MethodDeclaration(@Nullable Object owner, @NonNull Method m) {
+        this.mInstance = owner;
+        this.mMethod = m;
     }
 
-    public MethodDeclaration(@NonNull Object owner, @NonNull Method m, @Nullable String description) {
-        this.owner = owner;
-        this.method = m;
-        this.description = description;
+    public MethodDeclaration(@Nullable Object owner, @NonNull Method m, @Nullable String description) {
+        this.mInstance = owner;
+        this.mMethod = m;
+        this.mDescription = description;
     }
 
-    public MethodDeclaration(@NonNull Object owner, @NonNull Method m, @Nullable String description,
+    public MethodDeclaration(@Nullable Object owner, @NonNull Method m, @Nullable String description,
                              @Nullable ArrayList<String> listParams) {
-        this.owner = owner;
-        method = m;
-        this.description = description;
+        this.mInstance = owner;
+        mMethod = m;
+        this.mDescription = description;
     }
 
     private static java.lang.reflect.Type getFirstGenericType(java.lang.reflect.Type t) {
@@ -171,25 +173,25 @@ public class MethodDeclaration extends AbstractCallableFunction {
             throws IllegalArgumentException, IllegalAccessException,
             InvocationTargetException,
             RuntimePascalException {
-        if (owner instanceof RuntimeValue) {
-            owner = ((RuntimeValue) owner).getValue(f, main);
+        if (mInstance instanceof RuntimeValue) {
+            mInstance = ((RuntimeValue) mInstance).getValue(f, main);
         }
-        return method.invoke(owner, arguments);
+        return mMethod.invoke(mInstance, arguments);
     }
 
     @Override
     public ArgumentType[] argumentTypes() {
-        if (argCache != null) {
-            return argCache;
+        if (mArgCache != null) {
+            return mArgCache;
         }
-        java.lang.reflect.Type[] types = method.getGenericParameterTypes();
+        java.lang.reflect.Type[] types = mMethod.getGenericParameterTypes();
         ArgumentType[] result = new ArgumentType[types.length];
-        MethodTypeData tmp = method.getAnnotation(MethodTypeData.class);
+        MethodTypeData tmp = mMethod.getAnnotation(MethodTypeData.class);
         ArrayBoundsInfo[] type_data = tmp == null ? null : tmp.info();
         for (int i = 0; i < types.length; i++) {
             RuntimeType argtype = deducePascalTypeFromJavaTypeAndAnnotations(
                     types[i], type_data == null ? null : type_data[i]);
-            if (i == types.length - 1 && method.isVarArgs()) {
+            if (i == types.length - 1 && mMethod.isVarArgs()) {
                 ArrayType<?> lastArgType = (ArrayType<?>) argtype.declType;
                 result[i] = new VarargsType(new RuntimeType(
                         lastArgType.elementType, argtype.writable));
@@ -197,35 +199,35 @@ public class MethodDeclaration extends AbstractCallableFunction {
                 result[i] = argtype;
             }
         }
-        argCache = result;
+        mArgCache = result;
         return result;
     }
 
     @NonNull
     @Override
     public Name getName() {
-        return Name.create(method.getName());
+        return Name.create(mMethod.getName());
     }
 
     @Override
     public String getDescription() {
-        return description;
+        return mDescription;
     }
 
     @Override
     public Type returnType() {
-        if (returnType == null) {
-            Class<?> result = method.getReturnType();
+        if (mReturnType == null) {
+            Class<?> result = mMethod.getReturnType();
             if (result == PascalReference.class) {
-                result = (Class<?>) ((ParameterizedType) method
+                result = (Class<?>) ((ParameterizedType) mMethod
                         .getGenericReturnType()).getActualTypeArguments()[0];
             }
             if (result.isPrimitive()) {
                 result = TypeUtils.getClassForType(result);
             }
-            returnType = BasicType.create(result);
+            mReturnType = BasicType.create(result);
         }
-        return returnType;
+        return mReturnType;
     }
 
     @NonNull
@@ -236,7 +238,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
 
     @Override
     public LineInfo getLineNumber() {
-        return new LineInfo(-1, owner.getClass().getCanonicalName());
+        return new LineInfo(-1, mInstance.getClass().getCanonicalName());
     }
 
 }

@@ -17,8 +17,8 @@ public class JavaClassBasedType extends TypeInfo {
     @Nullable
     private Class clazz;
 
-    public JavaClassBasedType(@Nullable Class c) {
-        this.clazz = c;
+    public JavaClassBasedType(@Nullable Class clazz) {
+        this.clazz = clazz;
     }
 
     @NonNull

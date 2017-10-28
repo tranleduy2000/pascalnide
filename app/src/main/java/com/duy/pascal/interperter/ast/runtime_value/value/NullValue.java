@@ -21,7 +21,7 @@ package com.duy.pascal.interperter.ast.runtime_value.value;
  */
 
 public class NullValue {
-    public static final NullValue NULL = new NullValue();
+    private static final NullValue NULL = new NullValue();
 
     private NullValue() {
     }

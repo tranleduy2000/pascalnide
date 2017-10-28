@@ -30,6 +30,10 @@ public class StringTest extends BaseTestCase {
         run("test2.pas");
     }
 
+    public void test3() {
+        run("test3.pas");
+    }
+
     @Override
     public String getDirTest() {
         return "test_string";

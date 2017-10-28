@@ -22,13 +22,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 
-import com.duy.pascal.ui.utils.DLog;
-import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
-import com.duy.pascal.ui.runnable.ConsoleHandler;
-import com.duy.pascal.ui.runnable.ProgramHandler;
-import com.duy.pascal.ui.structure.viewholder.StructureType;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.lang.function.MethodDeclaration;
+import com.duy.pascal.interperter.declaration.lang.types.BasicType;
+import com.duy.pascal.interperter.declaration.lang.types.JavaClassBasedType;
+import com.duy.pascal.interperter.declaration.lang.types.PointerType;
+import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
+import com.duy.pascal.interperter.exceptions.parsing.PermissionDeniedException;
+import com.duy.pascal.interperter.exceptions.parsing.io.LibraryNotFoundException;
 import com.duy.pascal.interperter.libraries.android.AndroidLibraryManager;
 import com.duy.pascal.interperter.libraries.android.barcode.ZXingAPI;
 import com.duy.pascal.interperter.libraries.android.connection.bluetooth.AndroidBluetoothLib;
@@ -55,14 +58,6 @@ import com.duy.pascal.interperter.libraries.graphic.GraphicAPI;
 import com.duy.pascal.interperter.libraries.io.InOutListener;
 import com.duy.pascal.interperter.libraries.java.data.JavaCollectionsAPI;
 import com.duy.pascal.interperter.libraries.math.MathLib;
-import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.declaration.lang.function.MethodDeclaration;
-import com.duy.pascal.interperter.declaration.lang.types.BasicType;
-import com.duy.pascal.interperter.declaration.lang.types.JavaClassBasedType;
-import com.duy.pascal.interperter.declaration.lang.types.PointerType;
-import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
-import com.duy.pascal.interperter.exceptions.parsing.PermissionDeniedException;
-import com.duy.pascal.interperter.exceptions.parsing.io.LibraryNotFoundException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.systemfunction.builtin.AbstractMethodDeclaration;
 import com.duy.pascal.interperter.systemfunction.builtin.AddressFunction;
@@ -88,6 +83,11 @@ import com.duy.pascal.interperter.systemfunction.io.WriteFileFunction;
 import com.duy.pascal.interperter.systemfunction.io.WriteFunction;
 import com.duy.pascal.interperter.systemfunction.io.WriteLineFunction;
 import com.duy.pascal.interperter.systemfunction.io.WritelnFileFunction;
+import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
+import com.duy.pascal.ui.runnable.ConsoleHandler;
+import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.structure.viewholder.StructureType;
+import com.duy.pascal.ui.utils.DLog;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -136,24 +136,20 @@ public class PascalLibraryManager {
     }
 
     @NonNull
-    private ExpressionContextMixin program;
+    private ExpressionContextMixin mProgram;
     @NonNull
-    private ProgramHandler handler;
-    private AndroidLibraryManager facadeManager;
+    private ProgramHandler mHandler;
+    private AndroidLibraryManager mFacadeManager;
 
     public PascalLibraryManager(@NonNull ExpressionContextMixin program,
                                 @NonNull ProgramHandler handler) {
-        this.program = program;
-        this.handler = handler;
-        facadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkVersion(), handler);
+        this.mProgram = program;
+        this.mHandler = handler;
+        this.mFacadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkVersion(), handler);
     }
 
-    private static void put(String name, Class<? extends IPascalLibrary> claszz) {
-        try {
-            MAP_LIBRARIES.put(Name.create(name), claszz);
-        } catch (Exception e) {
-
-        }
+    private static void put(String name, Class<? extends IPascalLibrary> claszz)  {
+        MAP_LIBRARIES.put(Name.create(name), claszz);
     }
 
     public static ArrayList<DescriptionImpl> getAllMethodDescription(Class<?>... classes) {
@@ -184,36 +180,36 @@ public class PascalLibraryManager {
      * load method from a class
      */
 
-    public void addMethodFromClass(Class<? extends IPascalLibrary> t, LineInfo lineNumber) throws PermissionDeniedException, LibraryNotFoundException {
+    public void addMethodFromClass(Class<? extends IPascalLibrary> clazz, LineInfo lineNumber) throws PermissionDeniedException, LibraryNotFoundException {
         Object parent = null;
         Constructor constructor;
         try {
-            constructor = t.getConstructor(InOutListener.class);
-            parent = constructor.newInstance(handler);
+            constructor = clazz.getConstructor(InOutListener.class);
+            parent = constructor.newInstance(mHandler);
         } catch (Exception ignored) {
         }
         if (parent == null) {
             try {
-                constructor = t.getConstructor(ConsoleHandler.class);
-                parent = constructor.newInstance(handler);
+                constructor = clazz.getConstructor(ConsoleHandler.class);
+                parent = constructor.newInstance(mHandler);
             } catch (Exception ignored) {
             }
         }
         if (parent == null) {
             try {
-                constructor = t.getConstructor(AndroidLibraryManager.class);
-                parent = constructor.newInstance(facadeManager);
+                constructor = clazz.getConstructor(AndroidLibraryManager.class);
+                parent = constructor.newInstance(mFacadeManager);
             } catch (Exception ignored) {
             }
         }
         if (parent == null) {
             try {
-                constructor = t.getConstructor();
+                constructor = clazz.getConstructor();
                 parent = constructor.newInstance();
             } catch (Exception ignored) {
             }
         }
-        addMethodFromLibrary(t, parent, lineNumber);
+        addMethodFromLibrary(clazz, parent, lineNumber);
     }
 
     /**
@@ -221,42 +217,42 @@ public class PascalLibraryManager {
      */
     public void loadSystemLibrary() throws PermissionDeniedException, LibraryNotFoundException {
         //load builtin function
-        program.declareFunction(new AbstractMethodDeclaration(new SetLengthFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new LengthFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new SizeOfObjectFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new SizeOfArrayFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new ExitFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new ExitNoneFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new HighFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new LowFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new NewFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new CopyFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new SetLengthFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new LengthFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new SizeOfObjectFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new SizeOfArrayFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new ExitFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new ExitNoneFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new HighFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new LowFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new NewFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new CopyFunction()));
 
-        program.declareFunction(new AbstractMethodDeclaration(new CastObjectFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new NewInstanceParamsObject()));
-        program.declareFunction(new AbstractMethodDeclaration(new NewInstanceObject()));
-        program.declareFunction(new AbstractMethodDeclaration(new AddressFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new AssignedPointerFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new CastObjectFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new NewInstanceParamsObject()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new NewInstanceObject()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new AddressFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new AssignedPointerFunction()));
 
         //io region
-        program.declareFunction(new AbstractMethodDeclaration(new ReadFileFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new ReadlnFileFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new ReadLineFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new ReadFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new ReadFileFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new ReadlnFileFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new ReadLineFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new ReadFunction()));
 
-        program.declareFunction(new AbstractMethodDeclaration(new WriteFileFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new WritelnFileFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new WriteLineFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new WriteFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new WriteFileFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new WritelnFileFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new WriteLineFunction()));
+        mProgram.declareFunction(new AbstractMethodDeclaration(new WriteFunction()));
         //end region
 
-        program.declareConst(new ConstantDefinition("null", new JavaClassBasedType(null), NullValue.get(), null));
-        program.declareConst(new ConstantDefinition("nil", new PointerType(null), NullValue.get(), null));
+        mProgram.declareConst(new ConstantDefinition("null", new JavaClassBasedType(null), NullValue.get(), null));
+        mProgram.declareConst(new ConstantDefinition("nil", new PointerType(null), NullValue.get(), null));
 
-        program.declareConst(new ConstantDefinition("maxint", BasicType.Integer, Integer.MAX_VALUE, null));
-        program.declareConst(new ConstantDefinition("maxlongint", BasicType.Long, Long.MAX_VALUE, null));
+        mProgram.declareConst(new ConstantDefinition("maxint", BasicType.Integer, Integer.MAX_VALUE, null));
+        mProgram.declareConst(new ConstantDefinition("maxlongint", BasicType.Long, Long.MAX_VALUE, null));
 
-        program.declareConst(new ConstantDefinition("pi", BasicType.Double, Math.PI, null));
+        mProgram.declareConst(new ConstantDefinition("pi", BasicType.Double, Math.PI, null));
 
         addMethodFromClass(SystemLibrary.class, new LineInfo(-1, "system"));
     }
@@ -267,34 +263,34 @@ public class PascalLibraryManager {
             String[] permissions = ((IAndroidLibrary) instance).needPermission();
             for (String permission : permissions) {
                 if (DLog.ANDROID) {
-                    int i = ActivityCompat.checkSelfPermission(handler.getApplicationContext(), permission);
+                    int i = ActivityCompat.checkSelfPermission(mHandler.getApplicationContext(), permission);
                     if (i != PackageManager.PERMISSION_GRANTED) {
                         throw new PermissionDeniedException(((IAndroidLibrary) instance).getName(), permission, line);
                     }
                 }
             }
-
         }
 
         PascalLibrary library = (PascalLibrary) instance;
         if (library != null) {
-            library.declareConstants(program);
-            library.declareFunctions(program);
-            library.declareTypes(program);
-            library.declareVariables(program);
+            library.declareConstants(mProgram);
+            library.declareFunctions(mProgram);
+            library.declareTypes(mProgram);
+            library.declareVariables(mProgram);
         }
+
         for (Method method : clazz.getDeclaredMethods()) {
             if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                 if (method.getAnnotation(PascalMethod.class) != null) {
                     PascalMethod annotation = method.getAnnotation(PascalMethod.class);
                     String description = annotation.description();
                     MethodDeclaration methodDeclaration = new MethodDeclaration(instance, method, description);
-                    program.declareFunction(methodDeclaration);
+                    mProgram.declareFunction(methodDeclaration);
                 }
             } else {
                 if (Modifier.isPublic(method.getModifiers())) {
                     MethodDeclaration methodDeclaration = new MethodDeclaration(instance, method);
-                    program.declareFunction(methodDeclaration);
+                    mProgram.declareFunction(methodDeclaration);
                 }
             }
         }

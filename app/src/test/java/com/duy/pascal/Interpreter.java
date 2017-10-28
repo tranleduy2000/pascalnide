@@ -19,18 +19,18 @@ package com.duy.pascal;
 import android.app.Activity;
 import android.content.Context;
 
-import com.duy.pascal.ui.utils.DLog;
-import com.duy.pascal.ui.runnable.ProgramHandler;
-import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.interperter.libraries.io.IOLib;
 import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.Diagnostic;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.libraries.io.IOLib;
 import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.source.ScriptSource;
+import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.utils.DLog;
+import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -169,10 +169,8 @@ public class Interpreter {
                     return true;
                 } else {
                     DLog.d("------------ RESULT --------------");
-                    DLog.d("------------ FAILED --------------");
-                    throw new RuntimeException("wrong output: \n" +
-                            "current: " + output.toString() + "\n" +
-                            "expect: " + expectOutput);
+                    throw new RuntimeException(String.format("wrong output: \nActual: \n\"%s\"\nExpected: \n\"%s\"",
+                            output.toString(), expectOutput));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
