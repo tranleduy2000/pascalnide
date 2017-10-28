@@ -24,10 +24,10 @@ import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.themefont.fonts.FontEntry;
 import com.duy.pascal.ui.themefont.fonts.FontManager;
+import com.duy.pascal.ui.utils.DLog;
 
 /**
  * Setting for application
@@ -69,6 +69,10 @@ public class PascalPreferences {
     public static void setFirstOpen(Context context) {
         String key = "first_open";
 
+    }
+
+    public static PascalPreferences newInstance(Context context) {
+        return new PascalPreferences(context);
     }
 
     @NonNull
@@ -185,7 +189,6 @@ public class PascalPreferences {
 //        return getInt(mContext.readBuffer(R.string.key_console_text_color));
         return Color.WHITE;
     }
-
 
     public int getConsoleFrameRate() {
         int i;

@@ -50,4 +50,31 @@
         <item>26</item>
         <item>28</item>
     </string-array>
+
+    <string-array name="language_entry" translatable="false">
+        <item>@string/default_</item>
+        <item>English</item>
+        <item>Pусский</item>
+        <item>Tiếng Việt</item>
+        <item>Spanish</item>
+        <item>Čeština</item>
+        <item>Slovenčina</item>
+        <item>Română</item>
+        <item>Chinese simplified</item>
+        <item>日本語</item>
+    </string-array>
+
+    <string-array name="language_code" translatable="false">
+        <item>default_lang</item>
+        <item>en</item>
+        <item>ru</item>
+        <item>vi</item>
+        <item>es</item>
+        <item>cs</item>
+        <item>sk</item>
+        <item>ro</item>
+        <item>zh_rCN</item>
+        <item>ja</item>
+    </string-array>
+
 </resources>

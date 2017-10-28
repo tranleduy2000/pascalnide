@@ -20,8 +20,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,12 +31,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.duy.pascal.ui.LocaleHelper;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.setting.PascalPreferences;
-
-import java.util.Locale;
 
 
 public abstract class BaseActivity extends AppCompatActivity
@@ -54,7 +50,6 @@ public abstract class BaseActivity extends AppCompatActivity
 
         mPreferences = new PascalPreferences(this);
 
-        setLocale(false);
         setTheme(false);  //set theme for app
         setFullScreen();
     }
@@ -90,23 +85,9 @@ public abstract class BaseActivity extends AppCompatActivity
         }
     }
 
-    /**
-     * set language
-     */
-    private void setLocale(boolean create) {
-        Locale locale;
-        String code = mPreferences.getString(getString(R.string.key_pref_lang), "default_lang");
-        if (code.equals("default_lang")) {
-            locale = Locale.getDefault();
-        } else {
-            locale = new Locale(code);
-        }
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        Resources resources = getResources();
-        resources.updateConfiguration(config, resources.getDisplayMetrics());
-        if (create) recreate();
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
     }
 
     @Override
@@ -139,9 +120,8 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        if (s.equalsIgnoreCase(getString(R.string.key_pref_lang))) {
-            setLocale(true);
-            Toast.makeText(this, getString(R.string.change_lang_msg), Toast.LENGTH_SHORT).show();
+        if (s.equalsIgnoreCase(getString(R.string.key_language))) {
+            recreate();
         }
     }
 

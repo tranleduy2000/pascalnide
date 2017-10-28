@@ -23,35 +23,12 @@
     <string name="key_pref_font_size" translatable="false">key_pref_font_size</string>
     <string name="key_pref_font" translatable="false">key_pref_font</string>
     <string name="key_show_suggest_popup" translatable="false">key_show_hint</string>
-    <string name="key_pref_lang" translatable="false">key_pref_lang</string>
+    <string name="key_language" translatable="false">key_pref_lang</string>
     <string name="lang_default" translatable="false">default_lang</string>
     <string name="key_code_theme" translatable="false">key_code_theme</string>
     <string name="key_back_undo" translatable="false">key_back_undo</string>
     <string name="key_ime_keyboard" translatable="false">key_ime_keyboard</string>
 
-    <string-array name="language_entry" translatable="false">
-        <item>@string/default_</item>
-        <item>English</item>
-        <item>Pусский</item>
-        <item>Tiếng Việt</item>
-        <item>Spanish</item>
-        <item>Čeština</item>
-        <item>Slovenčina</item>
-        <item>Română</item>
-        <item>Chinese simplified</item>
-    </string-array>
-
-    <string-array name="language_code" translatable="false">
-        <item>default_lang</item>
-        <item>en</item>
-        <item>ru</item>
-        <item>vi</item>
-        <item>es</item>
-        <item>cs</item>
-        <item>sk</item>
-        <item>ro</item>
-        <item>zh_CN</item>
-    </string-array>
 
     <string-array name="fonts_arr" translatable="false">
         <item>@string/font.consolas</item>
@@ -124,4 +101,7 @@ end;
 end.]]></string>
 
     <string name="key_auto_insert_bracket" translatable="false">key_auto_insert_bracket</string>
+
+    <!--default language value-->
+    <string name="default_lang" translatable="false">default_lang</string>
 </resources>

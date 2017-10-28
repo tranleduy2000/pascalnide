@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!--
+  ~  Copyright (c) 2017 Tran Le Duy
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="cancel">キャンセル</string>
+    <string name="save">保存</string>
+    <string name="ok">OK</string>
+    <string name="new_file">新しいソースファイル</string>
+    <string name="default_">システム</string>
+    <string name="language">言語</string>
+    <string name="close">閉じる</string>
+    <string name="rate">アプリを評価</string>
+    <string name="more_app">その他のアプリ</string>
+    <string name="compile_error">コンパイルエラー</string>
+    <string name="setting">設定</string>
+    <string name="document">ドキュメントを見る</string>
+    <string name="code_sample">サンプルコード</string>
+    <string name="title_activity_code_sample">サンプルコード</string>
+    <string name="edit">編集</string>
+    <string name="copy">コピー</string>
+    <string name="enter_new_file_name">新しいファイル名を入力してください</string>
+    <string name="extension">拡張機能</string>
+    <string name="readable">"読み込み可能 "</string>
+    <string name="writeable">"書き込み可能 "</string>
+    <string name="delete_file">ファイルを削除</string>
+    <string name="deleted">削除されました</string>
+    <string name="failed">失敗しました</string>
+    <string name="compile_ok">コンパイル成功</string>
+    <string name="code_editor">コードエディタ</string>
+    <string name="font_z">フォントサイズ</string>
+    <string name="font">フォント</string>
+    <string name="user_interface">ユーザーインターフェイス</string>
+    <string name="show_line">行番号を表示</string>
+    <string name="find">検索</string>
+    <string name="find_replace">検索と置換</string>
+    <string name="tool">ツール</string>
+    <string name="replace_with">置き換え文字列</string>
+    <string name="replace">置換</string>
+    <string name="auto_save">自動保存</string>
+    <string name="goto_line">指定した行へ移動</string>
+    <string name="report_bug">バグを報告する</string>
+    <string name="check_update">アップデートをチェック</string>
+    <string name="email">Eメール</string>
+    <string name="bug">バグ</string>
+    <string name="hide_status_bar">ステータスバーを非表示</string>
+    <string name="compile">コンパイル</string>
+    <string name="file">ファイル</string>
+    <string name="undo">元に戻す</string>
+    <string name="redo">やり直す</string>
+    <string name="paste">ペースト</string>
+    <string name="copy_all">全てをコピー</string>
+    <string name="exit">終了</string>
+    <string name="exit_mgs">アプリを終了しますか？</string>
+    <string name="pas_file">Pasファイル (*.pas)</string>
+    <string name="inp_file">Inpファイル (*.inp)</string>
+    <string name="select">選択</string>
+    <string name="folder">フォルダ</string>
+    <!--DONATE-->
+    <!--Donate-->
+</resources>
