@@ -18,73 +18,34 @@ package com.duy.pascal.interperter.ast.instructions.assign_statement;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.ast.runtime_value.operators.BinaryOperatorEval;
-import com.duy.pascal.interperter.ast.runtime_value.references.Reference;
 import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.debugable.DebuggableNode;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
-import com.duy.pascal.ui.debug.CallStack;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 /**
  * a *= b
  * Multiply a with b, and stores the result in a
  */
-public class MulAssignStatement extends DebuggableNode implements AssignNode {
-    private AssignableValue left;
-    private RuntimeValue mulOp;
-    private LineInfo line;
+public class MulAssignStatement extends AssignNodeImpl {
 
     public MulAssignStatement(@NonNull AssignableValue left, @NonNull RuntimeValue mulOp,
                               @NonNull LineInfo line) throws Exception {
-        this.left = left;
-        this.mulOp = mulOp;
-        this.line = line;
+        super(left, mulOp, line);
     }
 
     public MulAssignStatement(@NonNull ExpressionContext f,
                               @NonNull AssignableValue left, RuntimeValue value,
                               LineInfo line) throws Exception {
-        this.left = left;
-        this.line = line;
-        this.mulOp = BinaryOperatorEval.generateOp(f, left, value, OperatorTypes.MULTIPLY, line);
+        super(f, left, OperatorTypes.MULTIPLY, value, line);
     }
 
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-
-        Reference ref = left.getReference(context, main);
-        Object v = this.mulOp.getValue(context, main);
-        ref.set(v);
-
-        if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(context));
-
-        return ExecutionResult.NOPE;
-    }
-
-    @Override
-    public String toString() {
-        return left + " := " + mulOp;
-    }
-
-    @Override
-    public LineInfo getLineNumber() {
-        return this.line;
-    }
 
     @Override
     public AssignNode compileTimeConstantTransform(CompileTimeContext c)
             throws Exception {
-        return new MulAssignStatement(left, mulOp.compileTimeExpressionFold(c), line);
+        return new MulAssignStatement(mLeftNode, mOperator.compileTimeExpressionFold(c), mLine);
     }
 }

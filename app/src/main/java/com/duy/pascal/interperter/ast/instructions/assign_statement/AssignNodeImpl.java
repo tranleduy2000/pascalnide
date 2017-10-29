@@ -37,22 +37,22 @@ import com.duy.pascal.ui.debug.CallStack;
  */
 
 public abstract class AssignNodeImpl<T extends OperatorTypes> extends DebuggableNode implements AssignNode {
-    private AssignableValue mLeftNode;
-    private RuntimeValue mOperator;
-    private LineInfo mLine;
+    protected AssignableValue mLeftNode;
+    protected RuntimeValue mOperator;
+    protected LineInfo mLine;
 
-    AssignNodeImpl(@NonNull AssignableValue left, @NonNull RuntimeValue operator,
-                   LineInfo line) throws Exception {
+    public AssignNodeImpl(@NonNull AssignableValue left, @NonNull RuntimeValue operator,
+                          LineInfo line) throws Exception {
         this.mLeftNode = left;
         this.mOperator = operator;
         this.mLine = line;
     }
 
-    AssignNodeImpl(@NonNull ExpressionContext f,
-                   @NonNull AssignableValue left,
-                   @NonNull T operator,
-                   @NonNull RuntimeValue value,
-                   @NonNull LineInfo line) throws Exception {
+    public AssignNodeImpl(@NonNull ExpressionContext f,
+                          @NonNull AssignableValue left,
+                          @NonNull T operator,
+                          @NonNull RuntimeValue value,
+                          @NonNull LineInfo line) throws Exception {
         this.mLeftNode = left;
         this.mLine = line;
         this.mOperator = BinaryOperatorEval.generateOp(f, left, value, operator, line);
@@ -70,6 +70,11 @@ public abstract class AssignNodeImpl<T extends OperatorTypes> extends Debuggable
         if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(context));
 
         return ExecutionResult.NOPE;
+    }
+
+    @Override
+    public String toString() {
+        return mLeftNode + " := " + mOperator;
     }
 
     @Override

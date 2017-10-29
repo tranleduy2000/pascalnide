@@ -24,6 +24,7 @@ import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
@@ -32,59 +33,31 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
  * Divides a through b, and stores the result in a
  */
 public class DivAssignStatement extends AssignNodeImpl {
-    private AssignableValue mLeftNode;
-    private RuntimeValue mOperator;
-    private LineInfo line;
 
     public DivAssignStatement(@NonNull AssignableValue left, @NonNull RuntimeValue operator,
                               LineInfo line) throws Exception {
         super(left, operator, line);
-//        this.mLeftNode = left;
-//        this.mOperator = operator;
-//        this.line = line;
     }
 
     public DivAssignStatement(@NonNull ExpressionContext f,
                               @NonNull AssignableValue left, RuntimeValue value,
                               LineInfo line) throws Exception {
         super(f, left, OperatorTypes.DIVIDE, value, line);
-//        this.mLeftNode = left;
-//        this.line = line;
-//        this.mOperator = BinaryOperatorEval.generateOp(f, left, value, OperatorTypes.DIVIDE, line);
-        if (!(left.getRuntimeType(f).getRawType().equals(BasicType.Double) ||
-                left.getRuntimeType(f).getRawType().equals(BasicType.Float))) {
-            throw new UnConvertibleTypeException(left, BasicType.Double,
-                    left.getRuntimeType(f).getRawType(), f);
+        Type leftType = left.getRuntimeType(f).getRawType();
+        if (!(leftType.equals(BasicType.Double) || leftType.equals(BasicType.Float))) {
+            throw new UnConvertibleTypeException(left, BasicType.Double, leftType, f);
         }
     }
 
-
-//    @Override
-//    public ExecutionResult executeImpl(VariableContext context,
-//                                       RuntimeExecutableCodeUnit main) throws RuntimePascalException {
-//
-//        Reference ref = mLeftNode.getReference(context, main);
-//        Object v = this.mOperator.getValue(context, main);
-//        ref.set(v);
-//
-//        if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(context));
-//
-//        return ExecutionResult.NOPE;
-//    }
 
     @Override
     public String toString() {
         return mLeftNode + " := " + mOperator;
     }
 
-//    @Override
-//    public LineInfo getLineNumber() {
-//        return this.line;
-//    }
 
     @Override
-    public AssignNode compileTimeConstantTransform(CompileTimeContext c)
-            throws Exception {
-        return new DivAssignStatement(mLeftNode, mOperator.compileTimeExpressionFold(c), line);
+    public AssignNode compileTimeConstantTransform(CompileTimeContext c) throws Exception {
+        return new DivAssignStatement(mLeftNode, mOperator.compileTimeExpressionFold(c), mLine);
     }
 }
