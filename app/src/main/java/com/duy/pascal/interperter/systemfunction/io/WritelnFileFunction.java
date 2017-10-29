@@ -24,7 +24,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.systemfunction.builtin.IMethodDeclaration;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
@@ -32,7 +32,6 @@ import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.boxing.ArrayBoxer;
 import com.duy.pascal.interperter.libraries.file.FileLib;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
@@ -122,7 +121,7 @@ public class WritelnFileFunction implements IMethodDeclaration {
         }
 
         @Override
-        public Executable compileTimeConstantTransform(CompileTimeContext c)
+        public Node compileTimeConstantTransform(CompileTimeContext c)
                 throws Exception {
             return new WriteLineFileCall(filePreference, args, line);
         }

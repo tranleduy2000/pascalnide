@@ -23,22 +23,21 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ClassExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.debugable.DebuggableExecutableReturnValue;
+import com.duy.pascal.interperter.debugable.DebuggableNodeReturnValue;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
 /**
  * Created by Duy on 16-Jun-17.
  */
-public class ClassFunctionCall extends DebuggableExecutableReturnValue {
+public class ClassFunctionCall extends DebuggableNodeReturnValue {
     private Name container;
     private FunctionCall function;
     private LineInfo lineInfo;
@@ -91,7 +90,7 @@ public class ClassFunctionCall extends DebuggableExecutableReturnValue {
     }
 
     @Override
-    public Executable compileTimeConstantTransform(CompileTimeContext c) throws Exception {
+    public Node compileTimeConstantTransform(CompileTimeContext c) throws Exception {
         return null;
     }
 

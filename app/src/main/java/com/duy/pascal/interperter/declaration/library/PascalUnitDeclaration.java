@@ -23,7 +23,7 @@ import com.duy.pascal.ui.runnable.ProgramHandler;
 import com.duy.pascal.interperter.ast.codeunit.ExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeUnitPascal;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.libraries.IPascalLibrary;
 import com.duy.pascal.interperter.datastructure.ArrayListMultimap;
 import com.duy.pascal.interperter.declaration.Name;
@@ -140,9 +140,9 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
     public class UnitExpressionContext extends CodeUnitExpressionContext {
         private boolean isParsed = false;
         @Nullable
-        private Executable initInstruction;
+        private Node initInstruction;
         @Nullable
-        private Executable finalInstruction;
+        private Node finalInstruction;
         private ArrayList<Name> publicVariables = new ArrayList<>();
         private ArrayList<Name> publicConstants = new ArrayList<>();
         private ArrayList<Name> forwardFunctions = new ArrayList<>();
@@ -297,12 +297,12 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
         }
 
         @Nullable
-        public Executable getInitInstruction() {
+        public Node getInitInstruction() {
             return initInstruction;
         }
 
         @Nullable
-        public Executable getFinalInstruction() {
+        public Node getFinalInstruction() {
             return finalInstruction;
         }
     }

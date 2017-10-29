@@ -3,13 +3,12 @@ package com.duy.pascal.interperter.ast.instructions.conditional;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.debugable.DebuggableExecutable;
+import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectThenTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
@@ -21,14 +20,14 @@ import com.duy.pascal.interperter.tokens.basic.ThenToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 
-public class IfStatement extends DebuggableExecutable {
+public class IfStatement extends DebuggableNode {
     private RuntimeValue condition;
-    private Executable instruction;
-    private Executable elseInstruction;
+    private Node instruction;
+    private Node elseInstruction;
     private LineInfo line;
 
-    public IfStatement(RuntimeValue condition, Executable instruction,
-                       Executable elseInstruction, LineInfo line) {
+    public IfStatement(RuntimeValue condition, Node instruction,
+                       Node elseInstruction, LineInfo line) {
 
 
         this.condition = condition;
@@ -67,10 +66,10 @@ public class IfStatement extends DebuggableExecutable {
         }
 
         //get command after then token
-        Executable command = grouperToken.getNextCommand(context);
+        Node command = grouperToken.getNextCommand(context);
 
         //if it in include else command
-        Executable elseCommand = null;
+        Node elseCommand = null;
         next = grouperToken.peek();
         if (next instanceof ElseToken) {
             grouperToken.take();
@@ -108,7 +107,7 @@ public class IfStatement extends DebuggableExecutable {
     }
 
     @Override
-    public Executable compileTimeConstantTransform(CompileTimeContext c)
+    public Node compileTimeConstantTransform(CompileTimeContext c)
             throws Exception {
         Object o = condition.compileTimeValue(c);
         if (o != null) {

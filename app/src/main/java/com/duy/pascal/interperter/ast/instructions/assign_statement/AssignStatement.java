@@ -25,12 +25,12 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.references.Reference;
 import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.debugable.DebuggableExecutable;
+import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.ui.debug.CallStack;
 
-public class AssignStatement extends DebuggableExecutable implements AssignExecutable {
+public class AssignStatement extends DebuggableNode implements AssignNode {
     private AssignableValue left;
     private RuntimeValue value;
     private LineInfo line;
@@ -65,7 +65,7 @@ public class AssignStatement extends DebuggableExecutable implements AssignExecu
     }
 
     @Override
-    public AssignExecutable compileTimeConstantTransform(CompileTimeContext c)
+    public AssignNode compileTimeConstantTransform(CompileTimeContext c)
             throws Exception {
         return new AssignStatement(left, value.compileTimeExpressionFold(c), line);
     }

@@ -4,13 +4,12 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.instructions.CompoundStatement;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.debugable.DebuggableExecutable;
+import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.value.NonConstantExpressionException;
@@ -29,7 +28,7 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CaseInstruction extends DebuggableExecutable {
+public class CaseInstruction extends DebuggableNode {
     private RuntimeValue mSwitchValue;
     private CasePossibility[] possibilities;
     private CompoundStatement otherwise;
@@ -81,7 +80,7 @@ public class CaseInstruction extends DebuggableExecutable {
                     throw new ExpectedTokenException("[comma (,) or colon (:)]", token.take());
                 }
             }
-            Executable command = token.getNextCommand(context);
+            Node command = token.getNextCommand(context);
             assertNextSemicolon(token);
             possibilities.add(new CasePossibility(conditions.toArray(new CaseCondition[conditions.size()]), command));
         }
@@ -137,7 +136,7 @@ public class CaseInstruction extends DebuggableExecutable {
 
 
     @Override
-    public Executable compileTimeConstantTransform(CompileTimeContext c)
+    public Node compileTimeConstantTransform(CompileTimeContext c)
             throws Exception {
       /*  Object value = mSwitchValue.compileTimeValue(c);
         if (value == null) {

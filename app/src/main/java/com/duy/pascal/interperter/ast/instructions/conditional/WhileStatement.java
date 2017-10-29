@@ -3,13 +3,13 @@ package com.duy.pascal.interperter.ast.instructions.conditional;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
 import com.duy.pascal.interperter.ast.instructions.NopeInstruction;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.interperter.debugable.DebuggableExecutable;
+import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.WrongStatementException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
@@ -22,9 +22,9 @@ import com.duy.pascal.interperter.tokens.basic.DoToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 
-public class WhileStatement extends DebuggableExecutable {
+public class WhileStatement extends DebuggableNode {
     private RuntimeValue condition;
-    private Executable command;
+    private Node command;
     private LineInfo line;
 
     /**
@@ -57,14 +57,14 @@ public class WhileStatement extends DebuggableExecutable {
         }
 
         //get command
-        Executable command = grouperToken.getNextCommand(context);
+        Node command = grouperToken.getNextCommand(context);
 
         this.condition = condition;
         this.command = command;
         this.line = lineNumber;
     }
 
-    public WhileStatement(RuntimeValue condition, Executable command,
+    public WhileStatement(RuntimeValue condition, Node command,
                           LineInfo line) {
         this.condition = condition;
         this.command = command;
@@ -99,9 +99,9 @@ public class WhileStatement extends DebuggableExecutable {
     }
 
     @Override
-    public Executable compileTimeConstantTransform(CompileTimeContext c)
+    public Node compileTimeConstantTransform(CompileTimeContext c)
             throws Exception {
-        Executable comm = command.compileTimeConstantTransform(c);
+        Node comm = command.compileTimeConstantTransform(c);
         Object cond = condition.compileTimeValue(c);
         if (cond != null) {
             if (!((Boolean) cond)) {

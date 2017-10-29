@@ -3,15 +3,14 @@ package com.duy.pascal.interperter.ast.instructions;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.debugable.DebuggableExecutable;
+import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 import java.util.LinkedList;
 
-public class CompoundStatement extends DebuggableExecutable {
-    private LinkedList<Executable> instructions;
+public class CompoundStatement extends DebuggableNode {
+    private LinkedList<Node> instructions;
     private LineInfo startLine, endLine;
 
     public CompoundStatement(LineInfo startLine) {
@@ -28,14 +27,14 @@ public class CompoundStatement extends DebuggableExecutable {
         return startLine;
     }
 
-    public void addCommand(Executable e) {
+    public void addCommand(Node e) {
         instructions.add(e);
     }
 
     @Override
     public ExecutionResult executeImpl(VariableContext context,
                                        RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        for (Executable e : instructions) {
+        for (Node e : instructions) {
             switch (e.execute(context, main)) {
                 case BREAK:
                     return ExecutionResult.BREAK;
@@ -52,7 +51,7 @@ public class CompoundStatement extends DebuggableExecutable {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("begin\n");
-        for (Executable e : instructions) {
+        for (Node e : instructions) {
             builder.append(e).append("\n");
         }
         builder.append("end\n");
@@ -60,10 +59,10 @@ public class CompoundStatement extends DebuggableExecutable {
     }
 
     @Override
-    public Executable compileTimeConstantTransform(CompileTimeContext c) throws Exception {
+    public Node compileTimeConstantTransform(CompileTimeContext c) throws Exception {
         CompoundStatement nig = new CompoundStatement(startLine);
-        for (Executable e : instructions) {
-            Executable transformed = e.compileTimeConstantTransform(c);
+        for (Node e : instructions) {
+            Node transformed = e.compileTimeConstantTransform(c);
             if (transformed == null) {
                 nig.addCommand(e);
             } else if (transformed instanceof NopeInstruction) {
@@ -78,7 +77,7 @@ public class CompoundStatement extends DebuggableExecutable {
         }
     }
 
-    public LinkedList<Executable> getInstructions() {
+    public LinkedList<Node> getInstructions() {
         return instructions;
     }
 }

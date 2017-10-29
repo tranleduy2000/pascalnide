@@ -23,7 +23,7 @@ import com.duy.pascal.ui.debug.CallStack;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.variablecontext.FunctionOnStack;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.config.ProgramMode;
@@ -62,7 +62,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
      * name of function or procedure
      */
     public Name name;
-    public Executable instructions;
+    public Node instructions;
 
     public LineInfo startPosition;
     public LineInfo endPosition;
@@ -319,7 +319,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         }
 
         @Override
-        public Executable handleUnrecognizedStatementImpl(Token next, GrouperToken container)
+        public Node handleUnrecognizedStatementImpl(Token next, GrouperToken container)
                 throws Exception {
             return null;
         }

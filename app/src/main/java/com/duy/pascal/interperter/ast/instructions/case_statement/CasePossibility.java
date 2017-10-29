@@ -2,22 +2,21 @@ package com.duy.pascal.interperter.ast.instructions.case_statement;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.debugable.DebuggableExecutable;
+import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
-class CasePossibility extends DebuggableExecutable {
-    private final Executable commands;
+class CasePossibility extends DebuggableNode {
+    private final Node commands;
     /**
      * This class represents a line in a case statement.
      */
     CaseCondition[] conditions;
 
-    CasePossibility(CaseCondition[] conditions, Executable commands) {
+    CasePossibility(CaseCondition[] conditions, Node commands) {
         this.conditions = conditions;
         this.commands = commands;
     }
@@ -39,7 +38,7 @@ class CasePossibility extends DebuggableExecutable {
     }
 
     @Override
-    public Executable compileTimeConstantTransform(CompileTimeContext c)
+    public Node compileTimeConstantTransform(CompileTimeContext c)
             throws Exception {
         return new CasePossibility(conditions, commands.compileTimeConstantTransform(c));
     }

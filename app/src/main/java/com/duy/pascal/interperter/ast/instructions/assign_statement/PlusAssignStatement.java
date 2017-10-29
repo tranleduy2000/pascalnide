@@ -27,7 +27,7 @@ import com.duy.pascal.interperter.ast.runtime_value.operators.BinaryOperatorEval
 import com.duy.pascal.interperter.ast.runtime_value.references.Reference;
 import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.debugable.DebuggableExecutable;
+import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
@@ -37,7 +37,7 @@ import com.duy.pascal.ui.debug.CallStack;
  * a += b
  * Adds b to a, and stores the result in a
  */
-public class PlusAssignStatement extends DebuggableExecutable implements AssignExecutable {
+public class PlusAssignStatement extends DebuggableNode implements AssignNode {
     private AssignableValue left;
     private LineInfo line;
     private RuntimeValue plusOp;
@@ -83,7 +83,7 @@ public class PlusAssignStatement extends DebuggableExecutable implements AssignE
     }
 
     @Override
-    public AssignExecutable compileTimeConstantTransform(CompileTimeContext c)
+    public AssignNode compileTimeConstantTransform(CompileTimeContext c)
             throws Exception {
         return new PlusAssignStatement(left, plusOp.compileTimeExpressionFold(c), line);
     }

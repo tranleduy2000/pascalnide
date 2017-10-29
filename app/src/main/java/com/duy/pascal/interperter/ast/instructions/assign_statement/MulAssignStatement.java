@@ -27,7 +27,7 @@ import com.duy.pascal.interperter.ast.runtime_value.operators.BinaryOperatorEval
 import com.duy.pascal.interperter.ast.runtime_value.references.Reference;
 import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.debugable.DebuggableExecutable;
+import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
@@ -37,7 +37,7 @@ import com.duy.pascal.ui.debug.CallStack;
  * a *= b
  * Multiply a with b, and stores the result in a
  */
-public class MulAssignStatement extends DebuggableExecutable implements AssignExecutable {
+public class MulAssignStatement extends DebuggableNode implements AssignNode {
     private AssignableValue left;
     private RuntimeValue mulOp;
     private LineInfo line;
@@ -83,7 +83,7 @@ public class MulAssignStatement extends DebuggableExecutable implements AssignEx
     }
 
     @Override
-    public AssignExecutable compileTimeConstantTransform(CompileTimeContext c)
+    public AssignNode compileTimeConstantTransform(CompileTimeContext c)
             throws Exception {
         return new MulAssignStatement(left, mulOp.compileTimeExpressionFold(c), line);
     }

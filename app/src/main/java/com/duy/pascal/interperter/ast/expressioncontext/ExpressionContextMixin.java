@@ -7,7 +7,7 @@ import com.duy.pascal.interperter.ast.CodeUnitParsingException;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimePascalClass;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeUnitPascal;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
@@ -81,8 +81,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import static com.duy.pascal.interperter.libraries.PascalLibraryManager.MAP_LIBRARIES;
 
 public abstract class ExpressionContextMixin extends HierarchicalExpressionContext
         implements Cloneable, Serializable {
@@ -684,17 +682,17 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     }
 
     @Override
-    public Executable handleUnrecognizedStatement(Token next, GrouperToken container)
+    public Node handleUnrecognizedStatement(Token next, GrouperToken container)
             throws Exception {
         try {
-            Executable result = handleUnrecognizedStatementImpl(next, container);
+            Node result = handleUnrecognizedStatementImpl(next, container);
             if (result != null) {
                 return result;
             }
         } catch (ParsingException ignored) {
         }
 
-        Executable result = parent == null ? null : parent
+        Node result = parent == null ? null : parent
                 .handleUnrecognizedStatement(next, container);
 
         if (result == null) {
@@ -706,7 +704,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         return result;
     }
 
-    protected abstract Executable handleUnrecognizedStatementImpl(Token next, GrouperToken container)
+    protected abstract Node handleUnrecognizedStatementImpl(Token next, GrouperToken container)
             throws Exception;
 
     protected abstract boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken container)

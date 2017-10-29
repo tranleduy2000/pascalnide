@@ -47,7 +47,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
@@ -223,8 +223,8 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     @Override
-    public void onLine(Executable executable, @Nullable final LineInfo lineInfo) {
-        DLog.d(TAG, "onLine() called with: runtimeValue = [" + executable + "], line = [" + lineInfo + "]");
+    public void onLine(Node node, @Nullable final LineInfo lineInfo) {
+        DLog.d(TAG, "onLine() called with: runtimeValue = [" + node + "], line = [" + lineInfo + "]");
         if (lineInfo == null) {
             return;
         }

@@ -23,7 +23,7 @@ import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
@@ -112,7 +112,7 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
         }
 
         @Override
-        public Executable compileTimeConstantTransform(CompileTimeContext c)
+        public Node compileTimeConstantTransform(CompileTimeContext c)
                 throws Exception {
             return new SizeOfObjectCall(array.compileTimeExpressionFold(c), line);
         }

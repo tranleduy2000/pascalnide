@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.declaration;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class LabelDeclaration implements NamedEntity, Cloneable{
@@ -29,7 +29,7 @@ public class LabelDeclaration implements NamedEntity, Cloneable{
      */
     public Name name;
     private LineInfo line;
-    private Executable command;
+    private Node command;
 
     public LabelDeclaration(@NonNull Name name, @Nullable LineInfo line) {
         this.name = name;
@@ -71,11 +71,11 @@ public class LabelDeclaration implements NamedEntity, Cloneable{
         return new LabelDeclaration(name, line);
     }
 
-    public Executable getCommand() {
+    public Node getCommand() {
         return command;
     }
 
-    public void setCommand(Executable command) {
+    public void setCommand(Node command) {
         this.command = command;
     }
 }

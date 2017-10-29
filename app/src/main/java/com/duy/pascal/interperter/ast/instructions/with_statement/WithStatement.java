@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.FieldAccess;
 import com.duy.pascal.interperter.declaration.Name;
@@ -42,7 +42,7 @@ import java.util.List;
 
 public class WithStatement {
     private static final String TAG = "WithDeclaration";
-    public Executable instructions;
+    public Node instructions;
     public LineInfo line;
 
     public List<RuntimeValue> references;
@@ -127,7 +127,7 @@ public class WithStatement {
         }
 
         @Override
-        public Executable handleUnrecognizedStatementImpl(Token next, GrouperToken container)
+        public Node handleUnrecognizedStatementImpl(Token next, GrouperToken container)
                 throws Exception {
             return null;
         }

@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
@@ -35,7 +35,7 @@ public final class RuntimeUnitPascal extends RuntimeExecutableCodeUnit {
     public void runInit() throws RuntimePascalException {
         ExpressionContextMixin var10000 = ((PascalUnitDeclaration) this.declaration).context;
         PascalUnitDeclaration.UnitExpressionContext context = (PascalUnitDeclaration.UnitExpressionContext) var10000;
-        Executable var2 = context.getInitInstruction();
+        Node var2 = context.getInitInstruction();
         if (var2 != null) {
             var2.execute(this, this);
         }
@@ -44,7 +44,7 @@ public final class RuntimeUnitPascal extends RuntimeExecutableCodeUnit {
     public void runFinal() throws RuntimePascalException {
         ExpressionContextMixin var10000 = ((PascalUnitDeclaration) this.declaration).context;
         PascalUnitDeclaration.UnitExpressionContext context = (PascalUnitDeclaration.UnitExpressionContext) var10000;
-        Executable var2 = context.getFinalInstruction();
+        Node var2 = context.getFinalInstruction();
         if (var2 != null) {
             var2.execute(this, this);
         }

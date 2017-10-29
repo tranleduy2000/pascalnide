@@ -27,7 +27,7 @@ import com.duy.pascal.interperter.ast.runtime_value.operators.BinaryOperatorEval
 import com.duy.pascal.interperter.ast.runtime_value.references.Reference;
 import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.debugable.DebuggableExecutable;
+import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
@@ -39,7 +39,7 @@ import com.duy.pascal.ui.debug.CallStack;
  * a /= b
  * Divides a through b, and stores the result in a
  */
-public class DivAssignStatement extends DebuggableExecutable implements AssignExecutable {
+public class DivAssignStatement extends DebuggableNode implements AssignNode {
     private AssignableValue left;
     private RuntimeValue divOp;
     private LineInfo line;
@@ -89,7 +89,7 @@ public class DivAssignStatement extends DebuggableExecutable implements AssignEx
     }
 
     @Override
-    public AssignExecutable compileTimeConstantTransform(CompileTimeContext c)
+    public AssignNode compileTimeConstantTransform(CompileTimeContext c)
             throws Exception {
         return new DivAssignStatement(left, divOp.compileTimeExpressionFold(c), line);
     }

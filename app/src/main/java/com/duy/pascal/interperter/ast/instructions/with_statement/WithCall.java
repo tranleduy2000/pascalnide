@@ -21,20 +21,19 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.FieldAccess;
-import com.duy.pascal.interperter.debugable.DebuggableExecutableReturnValue;
+import com.duy.pascal.interperter.debugable.DebuggableNodeReturnValue;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
 import java.util.ArrayList;
 
-public class WithCall extends DebuggableExecutableReturnValue {
+public class WithCall extends DebuggableNodeReturnValue {
 
     public ArrayList<FieldAccess> arguments;
     private WithStatement withStatement;
@@ -71,7 +70,7 @@ public class WithCall extends DebuggableExecutableReturnValue {
     public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         if (main.isDebug()) {
-            main.getDebugListener().onLine((Executable) this, getLineNumber());
+            main.getDebugListener().onLine((Node) this, getLineNumber());
         }
         main.incStack(getLineNumber());
         main.scriptControlCheck(getLineNumber());
@@ -105,7 +104,7 @@ public class WithCall extends DebuggableExecutableReturnValue {
     }
 
     @Override
-    public Executable compileTimeConstantTransform(CompileTimeContext c)
+    public Node compileTimeConstantTransform(CompileTimeContext c)
             throws Exception {
         return new WithCall(withStatement, arguments, line);
     }

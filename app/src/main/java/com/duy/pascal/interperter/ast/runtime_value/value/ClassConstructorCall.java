@@ -22,7 +22,7 @@ import com.duy.pascal.ui.debug.DebugManager;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.classunit.ClassConstructor;
@@ -60,7 +60,7 @@ public class ClassConstructorCall extends FunctionCall {
     public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         if (main.isDebug()) {
-            main.getDebugListener().onLine((Executable) this, line);
+            main.getDebugListener().onLine((Node) this, line);
         }
         main.incStack(line);
         //Do not enable debug in any case, because you will need to get value of list parameter,
@@ -132,7 +132,7 @@ public class ClassConstructorCall extends FunctionCall {
     }
 
     @Override
-    public Executable compileTimeConstantTransform(CompileTimeContext c)
+    public Node compileTimeConstantTransform(CompileTimeContext c)
             throws Exception {
         return new SimpleFunctionCall(constructor, compileTimeExpressionFoldArguments(c), line);
     }

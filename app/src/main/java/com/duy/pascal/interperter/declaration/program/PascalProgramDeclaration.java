@@ -22,7 +22,7 @@ import com.duy.pascal.ui.runnable.ProgramHandler;
 import com.duy.pascal.interperter.ast.codeunit.ExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimePascalProgram;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.variablecontext.FunctionOnStack;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.exceptions.parsing.define.MultipleDefinitionsMainException;
@@ -38,7 +38,7 @@ import java.io.Reader;
 import java.util.List;
 
 public class PascalProgramDeclaration extends ExecutableCodeUnit {
-    public Executable main;
+    public Node main;
 
     private FunctionOnStack mainRunning;
     private ProgramHandler handler;

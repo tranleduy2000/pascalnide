@@ -24,7 +24,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.systemfunction.builtin.IMethodDeclaration;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
@@ -120,7 +120,7 @@ public class ReadlnFileFunction implements IMethodDeclaration {
         }
 
         @Override
-        public Executable compileTimeConstantTransform(CompileTimeContext c)
+        public Node compileTimeConstantTransform(CompileTimeContext c)
                 throws Exception {
             return new ReadLineFileCall(filePreference, args, line);
         }

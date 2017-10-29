@@ -3,12 +3,11 @@ package com.duy.pascal.interperter.ast.instructions;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.debugable.DebuggableExecutable;
+import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
-public class ExitInstruction extends DebuggableExecutable {
+public class ExitInstruction extends DebuggableNode {
     LineInfo line;
 
     public ExitInstruction(LineInfo line) {
@@ -27,7 +26,7 @@ public class ExitInstruction extends DebuggableExecutable {
     }
 
     @Override
-    public Executable compileTimeConstantTransform(CompileTimeContext c)
+    public Node compileTimeConstantTransform(CompileTimeContext c)
             throws Exception {
         return this;
     }

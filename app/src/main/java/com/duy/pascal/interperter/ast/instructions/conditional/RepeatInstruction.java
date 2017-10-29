@@ -4,14 +4,13 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.instructions.CompoundStatement;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.interperter.debugable.DebuggableExecutable;
+import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
@@ -20,8 +19,8 @@ import com.duy.pascal.interperter.tokens.basic.UntilToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 
-public class RepeatInstruction extends DebuggableExecutable {
-    Executable command;
+public class RepeatInstruction extends DebuggableNode {
+    Node command;
 
     RuntimeValue condition;
     LineInfo line;
@@ -54,7 +53,7 @@ public class RepeatInstruction extends DebuggableExecutable {
         this.line = lineInfo;
     }
 
-    public RepeatInstruction(Executable command, RuntimeValue condition,
+    public RepeatInstruction(Node command, RuntimeValue condition,
                              LineInfo line) {
         this.command = command;
         this.condition = condition;
@@ -84,7 +83,7 @@ public class RepeatInstruction extends DebuggableExecutable {
     }
 
     @Override
-    public Executable compileTimeConstantTransform(CompileTimeContext c)
+    public Node compileTimeConstantTransform(CompileTimeContext c)
             throws Exception {
         Object o = condition.compileTimeValue(c);
         if (o != null) {

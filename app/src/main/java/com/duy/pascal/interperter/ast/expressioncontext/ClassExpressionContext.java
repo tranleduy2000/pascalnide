@@ -19,11 +19,10 @@ package com.duy.pascal.interperter.ast.expressioncontext;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.MisplacedDeclarationException;
 import com.duy.pascal.interperter.tokens.Token;
@@ -51,7 +50,7 @@ public class ClassExpressionContext extends ExpressionContextMixin {
     }
 
     @Override
-    protected Executable handleUnrecognizedStatementImpl(Token next, GrouperToken container)
+    protected Node handleUnrecognizedStatementImpl(Token next, GrouperToken container)
             throws Exception {
         throw new UnrecognizedTokenException(next);
     }

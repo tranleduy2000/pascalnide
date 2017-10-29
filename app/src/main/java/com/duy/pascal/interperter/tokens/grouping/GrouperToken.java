@@ -9,7 +9,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.instructions.BreakInstruction;
 import com.duy.pascal.interperter.ast.instructions.CompoundStatement;
 import com.duy.pascal.interperter.ast.instructions.ContinueInstruction;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.instructions.ExitInstruction;
 import com.duy.pascal.interperter.ast.instructions.LabelInstruction;
 import com.duy.pascal.interperter.ast.instructions.NopeInstruction;
@@ -22,7 +22,7 @@ import com.duy.pascal.interperter.ast.instructions.case_statement.CaseInstructio
 import com.duy.pascal.interperter.ast.instructions.conditional.IfStatement;
 import com.duy.pascal.interperter.ast.instructions.conditional.RepeatInstruction;
 import com.duy.pascal.interperter.ast.instructions.conditional.WhileStatement;
-import com.duy.pascal.interperter.ast.instructions.conditional.forstatement.ForStatement;
+import com.duy.pascal.interperter.ast.instructions.forstatement.ForStatement;
 import com.duy.pascal.interperter.ast.instructions.with_statement.WithStatement;
 import com.duy.pascal.interperter.ast.runtime_value.operators.BinaryOperatorEval;
 import com.duy.pascal.interperter.ast.runtime_value.operators.UnaryOperatorEval;
@@ -895,7 +895,7 @@ public abstract class GrouperToken extends Token {
         return result;
     }
 
-    public Executable getNextCommand(ExpressionContext context) throws Exception {
+    public Node getNextCommand(ExpressionContext context) throws Exception {
         Token next = take();
         LineInfo lineNumber = next.getLineNumber();
         if (next instanceof IfToken) {
@@ -936,7 +936,7 @@ public abstract class GrouperToken extends Token {
             return new ContinueInstruction(next.getLineNumber());
 
         } else if (next instanceof WithToken) {
-            return (Executable) new WithStatement(context, this).generate();
+            return (Node) new WithStatement(context, this).generate();
 
         } else if (next instanceof ExitToken) {
             return new ExitInstruction(next.getLineNumber());
@@ -1004,13 +1004,13 @@ public abstract class GrouperToken extends Token {
                 } else {
                     throw new ExpectedTokenException(":", peek());
                 }
-            } else if (identifier instanceof Executable) { //function or procedure
-                return (Executable) identifier;
+            } else if (identifier instanceof Node) { //function or procedure
+                return (Node) identifier;
 
             } else if (identifier instanceof FieldAccess) {
                 FieldAccess fieldAccess = (FieldAccess) identifier;
                 RuntimeValue container = fieldAccess.getContainer();
-                return (Executable) getMethodFromJavaClass(context, container, fieldAccess.getName());
+                return (Node) getMethodFromJavaClass(context, container, fieldAccess.getName());
             } else {
                 throw new NotAStatementException(identifier);
             }

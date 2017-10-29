@@ -23,7 +23,7 @@ import com.duy.pascal.ui.debug.CallStack;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.Executable;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
@@ -115,7 +115,7 @@ public class ReadFunction implements IMethodDeclaration {
         }
 
         @Override
-        public Executable compileTimeConstantTransform(CompileTimeContext c)
+        public Node compileTimeConstantTransform(CompileTimeContext c)
                 throws Exception {
             return new ReadCall(args, line);
         }

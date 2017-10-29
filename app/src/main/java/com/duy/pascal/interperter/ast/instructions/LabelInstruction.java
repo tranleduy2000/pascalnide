@@ -22,9 +22,8 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.debugable.DebuggableExecutable;
+import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
@@ -33,12 +32,12 @@ import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
  * Created by Duy on 14-Jun-17.
  */
 
-public class LabelInstruction extends DebuggableExecutable {
+public class LabelInstruction extends DebuggableNode {
     @Nullable
-    private Executable command;
+    private Node command;
     private boolean bodyDeclared = false;
 
-    public LabelInstruction(@Nullable Executable command) {
+    public LabelInstruction(@Nullable Node command) {
         this.command = command;
     }
 
@@ -46,7 +45,7 @@ public class LabelInstruction extends DebuggableExecutable {
         return bodyDeclared;
     }
 
-    public void setCommand(@Nullable Executable command) {
+    public void setCommand(@Nullable Node command) {
         this.command = command;
     }
 
@@ -66,7 +65,7 @@ public class LabelInstruction extends DebuggableExecutable {
     }
 
     @Override
-    public Executable compileTimeConstantTransform(CompileTimeContext c) throws Exception {
+    public Node compileTimeConstantTransform(CompileTimeContext c) throws Exception {
         return null;
     }
 
