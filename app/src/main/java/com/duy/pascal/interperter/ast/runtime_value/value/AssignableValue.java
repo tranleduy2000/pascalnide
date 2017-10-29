@@ -7,7 +7,7 @@ import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 public interface AssignableValue extends RuntimeValue {
 
-    Reference<?> getReference(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    Reference getReference(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException;
 
 }

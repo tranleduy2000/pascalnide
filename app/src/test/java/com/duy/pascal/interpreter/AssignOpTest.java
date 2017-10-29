@@ -26,7 +26,7 @@ public class AssignOpTest extends BaseTestCase {
         return "test_assign";
     }
 
-    public void testCConstruct() {
-        run("c_construct.pas");
+    public void test1() {
+        run("test_1.pas");
     }
 }
