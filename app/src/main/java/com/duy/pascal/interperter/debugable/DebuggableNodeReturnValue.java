@@ -45,7 +45,7 @@ public abstract class DebuggableNodeReturnValue implements Node,
             throws RuntimePascalException;
 
     @Override
-    public ExecutionResult execute(VariableContext context, RuntimeExecutableCodeUnit<?> main)
+    public ExecutionResult visit(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
             if (main.isDebug()) {

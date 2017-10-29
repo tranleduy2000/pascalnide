@@ -35,7 +35,7 @@ public class CompoundStatement extends DebuggableNode {
     public ExecutionResult executeImpl(VariableContext context,
                                        RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         for (Node e : instructions) {
-            switch (e.execute(context, main)) {
+            switch (e.visit(context, main)) {
                 case BREAK:
                     return ExecutionResult.BREAK;
                 case EXIT:
@@ -44,7 +44,7 @@ public class CompoundStatement extends DebuggableNode {
                     return ExecutionResult.CONTINUE;
             }
         }
-        new NopeInstruction(endLine).execute(context, main);
+        new NopeInstruction(endLine).visit(context, main);
         return ExecutionResult.NOPE;
     }
 

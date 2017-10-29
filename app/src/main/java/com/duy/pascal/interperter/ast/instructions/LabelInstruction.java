@@ -73,6 +73,6 @@ public class LabelInstruction extends DebuggableNode {
     public ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main
             )
             throws RuntimePascalException {
-        return command.execute(context, main);
+        return command.visit(context, main);
     }
 }

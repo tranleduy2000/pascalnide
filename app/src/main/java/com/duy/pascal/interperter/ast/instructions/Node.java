@@ -9,7 +9,7 @@ import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 public interface Node {
     LineInfo getLineNumber();
 
-    ExecutionResult execute(VariableContext context, RuntimeExecutableCodeUnit<?> main)
+    ExecutionResult visit(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException;
 
     Node compileTimeConstantTransform(CompileTimeContext c) throws Exception;

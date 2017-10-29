@@ -45,7 +45,7 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
         }
 
         if (isDebug()) getDebugListener().onVariableChange(new CallStack(this));
-        getDeclaration().main.execute(this, this);
+        getDeclaration().main.visit(this, this);
 
         //generate final code library
         for (Map.Entry<PascalUnitDeclaration, RuntimeUnitPascal> entry : entries) {

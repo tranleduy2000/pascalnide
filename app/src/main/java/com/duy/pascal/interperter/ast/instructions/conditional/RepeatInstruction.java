@@ -70,7 +70,7 @@ public class RepeatInstruction extends DebuggableNode {
                                        RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         do_loop:
         do {
-            switch (command.execute(context, main)) {
+            switch (command.visit(context, main)) {
                 case CONTINUE:
                     continue do_loop;
                 case BREAK:

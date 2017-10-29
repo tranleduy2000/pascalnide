@@ -37,7 +37,7 @@ public final class RuntimeUnitPascal extends RuntimeExecutableCodeUnit {
         PascalUnitDeclaration.UnitExpressionContext context = (PascalUnitDeclaration.UnitExpressionContext) var10000;
         Node var2 = context.getInitInstruction();
         if (var2 != null) {
-            var2.execute(this, this);
+            var2.visit(this, this);
         }
     }
 
@@ -46,7 +46,7 @@ public final class RuntimeUnitPascal extends RuntimeExecutableCodeUnit {
         PascalUnitDeclaration.UnitExpressionContext context = (PascalUnitDeclaration.UnitExpressionContext) var10000;
         Node var2 = context.getFinalInstruction();
         if (var2 != null) {
-            var2.execute(this, this);
+            var2.visit(this, this);
         }
     }
 

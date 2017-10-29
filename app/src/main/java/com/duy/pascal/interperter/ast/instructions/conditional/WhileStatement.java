@@ -76,7 +76,7 @@ public class WhileStatement extends DebuggableNode {
                                        RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         while_loop:
         while ((Boolean) condition.getValue(context, main)) {
-            switch (command.execute(context, main)) {
+            switch (command.visit(context, main)) {
                 case CONTINUE:
                     continue while_loop;
                 case BREAK:

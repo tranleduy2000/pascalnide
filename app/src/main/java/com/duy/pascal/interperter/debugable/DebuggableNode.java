@@ -11,7 +11,7 @@ import com.duy.pascal.interperter.exceptions.runtime.UnhandledPascalException;
 public abstract class DebuggableNode implements Node {
 
     @Override
-    public ExecutionResult execute(VariableContext context, RuntimeExecutableCodeUnit<?> main)
+    public ExecutionResult visit(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
             if (main.isDebug()) {

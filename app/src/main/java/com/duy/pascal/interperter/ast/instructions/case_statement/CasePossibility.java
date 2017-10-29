@@ -29,7 +29,7 @@ class CasePossibility extends DebuggableNode {
     @Override
     public ExecutionResult executeImpl(VariableContext context,
                                        RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        return commands.execute(context, main);
+        return commands.visit(context, main);
     }
 
     @Override

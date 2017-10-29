@@ -75,7 +75,7 @@ public class ForEnumStatement extends DebuggableNode {
                 reference.set(list.get(i));
                 if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
 
-                ExecutionResult result = command.execute(f, main);
+                ExecutionResult result = command.visit(f, main);
                 switch (result) {
                     case EXIT:
                         return ExecutionResult.EXIT;
@@ -90,7 +90,7 @@ public class ForEnumStatement extends DebuggableNode {
                 reference.set(list.get(i));
                 if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
 
-                ExecutionResult result = command.execute(f, main);
+                ExecutionResult result = command.visit(f, main);
                 switch (result) {
                     case EXIT:
                         return ExecutionResult.EXIT;

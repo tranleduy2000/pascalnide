@@ -19,8 +19,8 @@ package com.duy.pascal.interperter.ast.instructions.forstatement;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.runtime_value.references.Reference;
 import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
@@ -28,8 +28,8 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
-import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.debug.CallStack;
 
 /**
@@ -71,7 +71,7 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
                 for (Integer index = start; index >= end; index--) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-                    ExecutionResult result = command.execute(f, main);
+                    ExecutionResult result = command.visit(f, main);
                     switch (result) {
                         case EXIT:
                             return ExecutionResult.EXIT;
@@ -88,7 +88,7 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
                 for (Long index = start; index >= end; index--) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-                    ExecutionResult result = command.execute(f, main);
+                    ExecutionResult result = command.visit(f, main);
                     switch (result) {
                         case EXIT:
                             return ExecutionResult.EXIT;
@@ -105,7 +105,7 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
                 for (Byte index = start; index >= end; index--) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-                    ExecutionResult result = command.execute(f, main);
+                    ExecutionResult result = command.visit(f, main);
                     switch (result) {
                         case EXIT:
                             return ExecutionResult.EXIT;
@@ -122,13 +122,14 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
                 for (Character index = start; index >= end; index--) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-                    ExecutionResult result = command.execute(f, main);
+                    ExecutionResult result = command.visit(f, main);
                     switch (result) {
                         case EXIT:
                             return ExecutionResult.EXIT;
                         case BREAK:
                             break forLoop;
                         case CONTINUE:
+                            continue;
                     }
                 }
             }
@@ -141,7 +142,7 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
                 for (Integer index = start; index <= end; index++) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-                    ExecutionResult result = command.execute(f, main);
+                    ExecutionResult result = command.visit(f, main);
                     switch (result) {
                         case EXIT:
                             return ExecutionResult.EXIT;
@@ -158,7 +159,7 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
                 for (Long index = start; index <= end; index++) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-                    ExecutionResult result = command.execute(f, main);
+                    ExecutionResult result = command.visit(f, main);
                     switch (result) {
                         case EXIT:
                             return ExecutionResult.EXIT;
@@ -175,7 +176,7 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
                 for (Byte index = start; index <= end; index++) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-                    ExecutionResult result = command.execute(f, main);
+                    ExecutionResult result = command.visit(f, main);
                     switch (result) {
                         case EXIT:
                             return ExecutionResult.EXIT;
@@ -186,13 +187,13 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
                 }
             } else if (mNumberType == BasicType.Character) {
                 Reference<Character> reference = tempVar.getReference(f, main);
-                Character start =(Character) (first.getValue(f, main));
-                Character end =(Character)(last.getValue(f, main));
+                Character start = (Character) (first.getValue(f, main));
+                Character end = (Character) (last.getValue(f, main));
                 forLoop:
                 for (Character index = start; index <= end; index++) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-                    ExecutionResult result = command.execute(f, main);
+                    ExecutionResult result = command.visit(f, main);
                     switch (result) {
                         case EXIT:
                             return ExecutionResult.EXIT;
@@ -214,8 +215,7 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
     }
 
     @Override
-    public Node compileTimeConstantTransform(CompileTimeContext c)
-            throws Exception {
+    public Node compileTimeConstantTransform(CompileTimeContext c) throws Exception {
         return null;
     }
 }

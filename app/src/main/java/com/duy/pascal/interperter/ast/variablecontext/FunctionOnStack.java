@@ -82,7 +82,7 @@ public class FunctionOnStack extends VariableContext {
     }
 
     public Object execute() throws RuntimePascalException {
-        prototype.instructions.execute(this, main);
+        prototype.instructions.visit(this, main);
         //get result of prototype, name of variable is name of prototype
         if (main.getDeclaration().getConfig().getMode() == ProgramMode.DELPHI) {
             return mapVars.get("result");

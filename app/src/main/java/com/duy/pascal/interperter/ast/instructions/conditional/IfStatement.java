@@ -92,10 +92,10 @@ public class IfStatement extends DebuggableNode {
                                        RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Boolean value = (Boolean) (condition.getValue(context, main));
         if (value) {
-            return instruction.execute(context, main);
+            return instruction.visit(context, main);
         } else {
             if (elseInstruction != null) {
-                return elseInstruction.execute(context, main);
+                return elseInstruction.visit(context, main);
             }
             return ExecutionResult.NOPE;
         }

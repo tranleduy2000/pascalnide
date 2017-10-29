@@ -122,11 +122,11 @@ public class CaseInstruction extends DebuggableNode {
         for (CasePossibility possibility : possibilities) {
             for (int j = 0; j < possibility.conditions.length; j++) {
                 if (possibility.conditions[j].fits(context, main, value)) {
-                    return possibility.execute(context, main);
+                    return possibility.visit(context, main);
                 }
             }
         }
-        return otherwise.execute(context, main);
+        return otherwise.visit(context, main);
     }
 
     @Override

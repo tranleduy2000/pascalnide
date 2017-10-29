@@ -72,6 +72,6 @@ public class GotoStatement extends DebuggableNode {
     @Override
     public ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        return command.execute(context, main);
+        return command.visit(context, main);
     }
 }
