@@ -22,7 +22,7 @@ import com.duy.pascal.ui.debug.CallStack;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimePascalClass;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.node.CompoundStatement;
+import com.duy.pascal.interperter.ast.node.CompoundNode;
 import com.duy.pascal.interperter.ast.runtime.value.ClassConstructorCall;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.FunctionOnStack;
@@ -63,7 +63,7 @@ public class ClassConstructor extends FunctionDeclaration {
         super(parent);
         this.classType = classType;
         this.name = Name.create("create");
-        this.instructions = new CompoundStatement(new LineInfo(0, "system"));
+        this.instructions = new CompoundNode(new LineInfo(0, "system"));
     }
 
 

@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.node.CompoundStatement;
+import com.duy.pascal.interperter.ast.node.CompoundNode;
 import com.duy.pascal.interperter.ast.node.ExecutionResult;
 import com.duy.pascal.interperter.ast.node.Node;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
@@ -32,7 +32,7 @@ public class RepeatNode extends DebuggableNode {
     public RepeatNode(ExpressionContext f, GrouperToken grouperToken, @NonNull LineInfo lineInfo)
             throws Exception {
         Token next = null;
-        CompoundStatement command = new CompoundStatement(lineInfo);
+        CompoundNode command = new CompoundNode(lineInfo);
 
         while (!(grouperToken.peekNoEOF() instanceof UntilToken)) {
             command.addCommand(grouperToken.getNextCommand(f));

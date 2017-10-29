@@ -3,7 +3,7 @@ package com.duy.pascal.interperter.ast.node.case_statement;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.node.CompoundStatement;
+import com.duy.pascal.interperter.ast.node.CompoundNode;
 import com.duy.pascal.interperter.ast.node.ExecutionResult;
 import com.duy.pascal.interperter.ast.node.Node;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
@@ -31,7 +31,7 @@ import java.util.List;
 public class CaseOfNode extends DebuggableNode {
     private RuntimeValue mSwitchValue;
     private CasePossibility[] mPossibilities;
-    private CompoundStatement mOtherwise;
+    private CompoundNode mOtherwise;
     private LineInfo mLine;
 
     public CaseOfNode(CaseToken token, ExpressionContext context)
@@ -85,7 +85,7 @@ public class CaseOfNode extends DebuggableNode {
             possibilities.add(new CasePossibility(conditions.toArray(new CaseCondition[conditions.size()]), command));
         }
 
-        mOtherwise = new CompoundStatement(token.peek().getLineNumber());
+        mOtherwise = new CompoundNode(token.peek().getLineNumber());
         if (token.peek() instanceof ElseToken) {
             token.take();
             while (token.hasNext()) {

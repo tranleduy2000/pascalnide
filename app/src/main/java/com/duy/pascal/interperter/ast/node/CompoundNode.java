@@ -9,11 +9,11 @@ import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 import java.util.LinkedList;
 
-public class CompoundStatement extends DebuggableNode {
+public class CompoundNode extends DebuggableNode {
     private LinkedList<Node> instructions;
     private LineInfo startLine, endLine;
 
-    public CompoundStatement(LineInfo startLine) {
+    public CompoundNode(LineInfo startLine) {
         this.startLine = startLine;
         instructions = new LinkedList<>();
     }
@@ -60,7 +60,7 @@ public class CompoundStatement extends DebuggableNode {
 
     @Override
     public Node compileTimeConstantTransform(CompileTimeContext c) throws Exception {
-        CompoundStatement nig = new CompoundStatement(startLine);
+        CompoundNode nig = new CompoundNode(startLine);
         for (Node e : instructions) {
             Node transformed = e.compileTimeConstantTransform(c);
             if (transformed == null) {

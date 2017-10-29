@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.interperter.ast.expressioncontext.ClassExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.node.BreakNode;
-import com.duy.pascal.interperter.ast.node.CompoundStatement;
+import com.duy.pascal.interperter.ast.node.CompoundNode;
 import com.duy.pascal.interperter.ast.node.ContinueNode;
 import com.duy.pascal.interperter.ast.node.Node;
 import com.duy.pascal.interperter.ast.node.ExitNode;
@@ -906,7 +906,7 @@ public abstract class GrouperToken extends Token {
 
         } else if (next instanceof BeginEndToken) {
 
-            CompoundStatement beginEndPreprocessed = new CompoundStatement(lineNumber);
+            CompoundNode beginEndPreprocessed = new CompoundNode(lineNumber);
             BeginEndToken castToken = (BeginEndToken) next;
 
             while (castToken.hasNext()) {
