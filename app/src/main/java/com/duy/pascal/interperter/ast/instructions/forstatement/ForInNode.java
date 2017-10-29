@@ -39,7 +39,7 @@ import java.util.LinkedList;
  * <p>
  * Created by Duy on 14-May-17.
  */
-public class ForInStatement extends DebuggableNode {
+public class ForInNode extends DebuggableNode {
     /**
      * the statement of loop
      */
@@ -65,10 +65,10 @@ public class ForInStatement extends DebuggableNode {
      * @param enumList - enum type or expression with type is enum
      * @param command  - command for execute
      */
-    public ForInStatement(AssignableValue item,
-                          RuntimeValue enumList, //enum
-                          Node command,
-                          LineInfo line) {
+    public ForInNode(AssignableValue item,
+                     RuntimeValue enumList, //enum
+                     Node command,
+                     LineInfo line) {
         this.item = item;
         this.list = enumList;
         this.line = line;
@@ -140,6 +140,6 @@ public class ForInStatement extends DebuggableNode {
     @Override
     public Node compileTimeConstantTransform(CompileTimeContext c)
             throws Exception {
-        return new ForInStatement(item, list, command, line);
+        return new ForInNode(item, list, command, line);
     }
 }

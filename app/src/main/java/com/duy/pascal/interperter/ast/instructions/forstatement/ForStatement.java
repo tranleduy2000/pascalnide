@@ -51,8 +51,8 @@ public class ForStatement {
     /**
      * create executable for statement
      */
-    public static Node generateForStatement(GrouperToken group, ExpressionContext context,
-                                            LineInfo lineNumber) throws Exception {
+    public static Node generateForNode(GrouperToken group, ExpressionContext context,
+                                       LineInfo lineNumber) throws Exception {
         RuntimeValue identifier = null;
         try {
             identifier = group.getNextTerm(context);
@@ -106,11 +106,11 @@ public class ForStatement {
             }
 
             if (varType.getRawType() instanceof EnumGroupType) {
-                result = new ForEnumStatement(context, varAssignable, firstValue,
+                result = new ForEnumNode(varAssignable, firstValue,
                         lastValue, group.getNextCommand(context),
                         (EnumGroupType) varType.getRawType(), lineNumber, downto);
             } else {
-                result = new ForNumberStatement(context, varAssignable, firstValue,
+                result = new ForNumberNode(context, varAssignable, firstValue,
                         lastValue, group.getNextCommand(context), lineNumber, downto);
             }
         } else {
@@ -154,7 +154,7 @@ public class ForStatement {
                 group.take(); //ignore do token
                 //statement
                 Node command = group.getNextCommand(context);
-                return new ForInStatement(varAssignable, enumList, command, lineNumber);
+                return new ForInNode(varAssignable, enumList, command, lineNumber);
             } else {
                 throw new ExpectedTokenException(next, ":=", "in");
             }

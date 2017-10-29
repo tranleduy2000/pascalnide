@@ -919,7 +919,7 @@ public abstract class GrouperToken extends Token {
             return beginEndPreprocessed;
 
         } else if (next instanceof ForToken) {
-            return ForStatement.generateForStatement(this, context, lineNumber);
+            return ForStatement.generateForNode(this, context, lineNumber);
         } else if (next instanceof RepeatToken) {
             return new RepeatNode(context, this, lineNumber);
 

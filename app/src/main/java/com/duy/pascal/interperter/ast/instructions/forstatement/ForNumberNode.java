@@ -16,6 +16,8 @@
 
 package com.duy.pascal.interperter.ast.instructions.forstatement;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
@@ -37,26 +39,31 @@ import com.duy.pascal.ui.debug.CallStack;
  * <p>
  * see in https://www.freepascal.org/docs-html/ref/refsu58.html#x164-18600013.2.4
  */
-public class ForNumberStatement<T extends Number> extends DebuggableNode {
-
-    private Node command;
-    private AssignableValue tempVar;
-    private RuntimeValue first;
-    private RuntimeValue last;
-    private LineInfo line;
+public class ForNumberNode extends DebuggableNode {
+    @NonNull
+    private Node mCommand;
+    @NonNull
+    private AssignableValue mTempVar;
+    @NonNull
+    private RuntimeValue mFirst;
+    @NonNull
+    private RuntimeValue mLast;
+    @NonNull
+    private LineInfo mLine;
     private boolean downto = false;
+    @NonNull
     private Type mNumberType = null;
 
-    public ForNumberStatement(ExpressionContext f, AssignableValue tempVar,
-                              RuntimeValue first, RuntimeValue last, Node command,
-                              LineInfo line, boolean downto) throws Exception {
+    public ForNumberNode(ExpressionContext f, @NonNull AssignableValue tempVar,
+                         @NonNull RuntimeValue first, @NonNull RuntimeValue last, @NonNull Node command,
+                         @NonNull LineInfo line, boolean downto) throws Exception {
         this.downto = downto;
-        this.tempVar = tempVar;
+        this.mTempVar = tempVar;
         this.mNumberType = tempVar.getRuntimeType(f).getRawType();
-        this.first = first;
-        this.last = last;
-        this.line = line;
-        this.command = command;
+        this.mFirst = first;
+        this.mLast = last;
+        this.mLine = line;
+        this.mCommand = command;
     }
 
     @Override
@@ -64,14 +71,14 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
             throws RuntimePascalException {
         if (downto) {
             if (mNumberType == BasicType.Integer) {
-                Reference<Integer> reference = tempVar.getReference(f, main);
-                Integer start = (Integer) (first.getValue(f, main));
-                Integer end = (Integer) (last.getValue(f, main));
+                Reference<Integer> reference = mTempVar.getReference(f, main);
+                Integer start = (Integer) (mFirst.getValue(f, main));
+                Integer end = (Integer) (mLast.getValue(f, main));
                 forLoop:
                 for (Integer index = start; index >= end; index--) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-                    ExecutionResult result = command.visit(f, main);
+                    ExecutionResult result = mCommand.visit(f, main);
                     switch (result) {
                         case EXIT:
                             return ExecutionResult.EXIT;
@@ -81,14 +88,14 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
                     }
                 }
             } else if (mNumberType == BasicType.Long) {
-                Reference<Long> reference = tempVar.getReference(f, main);
-                Long start = (Long) first.getValue(f, main);
-                Long end = (Long) last.getValue(f, main);
+                Reference<Long> reference = mTempVar.getReference(f, main);
+                Long start = (Long) mFirst.getValue(f, main);
+                Long end = (Long) mLast.getValue(f, main);
                 forLoop:
                 for (Long index = start; index >= end; index--) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-                    ExecutionResult result = command.visit(f, main);
+                    ExecutionResult result = mCommand.visit(f, main);
                     switch (result) {
                         case EXIT:
                             return ExecutionResult.EXIT;
@@ -98,14 +105,14 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
                     }
                 }
             } else if (mNumberType == BasicType.Byte) {
-                Reference<Byte> reference = tempVar.getReference(f, main);
-                Byte start = (Byte) first.getValue(f, main);
-                Byte end = (Byte) last.getValue(f, main);
+                Reference<Byte> reference = mTempVar.getReference(f, main);
+                Byte start = (Byte) mFirst.getValue(f, main);
+                Byte end = (Byte) mLast.getValue(f, main);
                 forLoop:
                 for (Byte index = start; index >= end; index--) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-                    ExecutionResult result = command.visit(f, main);
+                    ExecutionResult result = mCommand.visit(f, main);
                     switch (result) {
                         case EXIT:
                             return ExecutionResult.EXIT;
@@ -115,14 +122,14 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
                     }
                 }
             } else if (mNumberType == BasicType.Character) {
-                Reference<Character> reference = tempVar.getReference(f, main);
-                Character start = (Character) first.getValue(f, main);
-                Character end = (Character) last.getValue(f, main);
+                Reference<Character> reference = mTempVar.getReference(f, main);
+                Character start = (Character) mFirst.getValue(f, main);
+                Character end = (Character) mLast.getValue(f, main);
                 forLoop:
                 for (Character index = start; index >= end; index--) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-                    ExecutionResult result = command.visit(f, main);
+                    ExecutionResult result = mCommand.visit(f, main);
                     switch (result) {
                         case EXIT:
                             return ExecutionResult.EXIT;
@@ -135,14 +142,14 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
             }
         } else {
             if (mNumberType == BasicType.Integer) {
-                Reference<Integer> reference = tempVar.getReference(f, main);
-                Integer start = (Integer) (first.getValue(f, main));
-                Integer end = (Integer) (last.getValue(f, main));
+                Reference<Integer> reference = mTempVar.getReference(f, main);
+                Integer start = (Integer) (mFirst.getValue(f, main));
+                Integer end = (Integer) (mLast.getValue(f, main));
                 forLoop:
                 for (Integer index = start; index <= end; index++) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-                    ExecutionResult result = command.visit(f, main);
+                    ExecutionResult result = mCommand.visit(f, main);
                     switch (result) {
                         case EXIT:
                             return ExecutionResult.EXIT;
@@ -152,14 +159,14 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
                     }
                 }
             } else if (mNumberType == BasicType.Long) {
-                Reference<Long> reference = tempVar.getReference(f, main);
-                Long start = (Long) first.getValue(f, main);
-                Long end = (Long) last.getValue(f, main);
+                Reference<Long> reference = mTempVar.getReference(f, main);
+                Long start = (Long) mFirst.getValue(f, main);
+                Long end = (Long) mLast.getValue(f, main);
                 forLoop:
                 for (Long index = start; index <= end; index++) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-                    ExecutionResult result = command.visit(f, main);
+                    ExecutionResult result = mCommand.visit(f, main);
                     switch (result) {
                         case EXIT:
                             return ExecutionResult.EXIT;
@@ -169,14 +176,14 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
                     }
                 }
             } else if (mNumberType == BasicType.Byte) {
-                Reference<Byte> reference = tempVar.getReference(f, main);
-                Byte start = (Byte) first.getValue(f, main);
-                Byte end = (Byte) last.getValue(f, main);
+                Reference<Byte> reference = mTempVar.getReference(f, main);
+                Byte start = (Byte) mFirst.getValue(f, main);
+                Byte end = (Byte) mLast.getValue(f, main);
                 forLoop:
                 for (Byte index = start; index <= end; index++) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-                    ExecutionResult result = command.visit(f, main);
+                    ExecutionResult result = mCommand.visit(f, main);
                     switch (result) {
                         case EXIT:
                             return ExecutionResult.EXIT;
@@ -186,14 +193,14 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
                     }
                 }
             } else if (mNumberType == BasicType.Character) {
-                Reference<Character> reference = tempVar.getReference(f, main);
-                Character start = (Character) (first.getValue(f, main));
-                Character end = (Character) (last.getValue(f, main));
+                Reference<Character> reference = mTempVar.getReference(f, main);
+                Character start = (Character) (mFirst.getValue(f, main));
+                Character end = (Character) (mLast.getValue(f, main));
                 forLoop:
                 for (Character index = start; index <= end; index++) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-                    ExecutionResult result = command.visit(f, main);
+                    ExecutionResult result = mCommand.visit(f, main);
                     switch (result) {
                         case EXIT:
                             return ExecutionResult.EXIT;
@@ -211,7 +218,7 @@ public class ForNumberStatement<T extends Number> extends DebuggableNode {
 
     @Override
     public LineInfo getLineNumber() {
-        return line;
+        return mLine;
     }
 
     @Override

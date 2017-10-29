@@ -79,7 +79,7 @@ public class WithStatement {
     }
 
     public RuntimeValue generate() {
-        return new WithCall(this, fields, line);
+        return new WithNode(this, fields, line);
     }
 
     private void getReferenceVariables(GrouperToken grouperToken, ExpressionContext parent)

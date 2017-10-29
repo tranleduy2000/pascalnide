@@ -16,11 +16,12 @@
 
 package com.duy.pascal.interperter.ast.instructions.forstatement;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
-import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
+import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.runtime.references.Reference;
 import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime.value.EnumElementValue;
@@ -28,8 +29,8 @@ import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
-import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.debug.CallStack;
 
 import java.util.LinkedList;
@@ -39,27 +40,33 @@ import java.util.LinkedList;
  * <p>
  * see in https://www.freepascal.org/docs-html/ref/refsu58.html#x164-18600013.2.4
  */
-public class ForEnumStatement extends DebuggableNode {
-    private Node command;
-    private boolean downto;
+public class ForEnumNode extends DebuggableNode {
+    @NonNull
+    private Node mCommand;
+    private boolean mIsDownto;
+    @NonNull
     private AssignableValue mTempVar;
-    private RuntimeValue first;
-    private RuntimeValue last;
-    private LineInfo line;
+    @NonNull
+    private RuntimeValue mFirst;
+    @NonNull
+    private RuntimeValue mLast;
+    @NonNull
+    private LineInfo mLine;
+    @NonNull
     private EnumGroupType mEnumGroupType;
 
 
-    public ForEnumStatement(ExpressionContext f, AssignableValue mTempVar,
-                            RuntimeValue first, RuntimeValue last, Node command,
-                            EnumGroupType enumGroupType,
-                            LineInfo line, boolean downto) throws Exception {
+    public ForEnumNode(@NonNull AssignableValue mTempVar,
+                       @NonNull RuntimeValue first, @NonNull RuntimeValue last, @NonNull Node command,
+                       @NonNull EnumGroupType enumGroupType,
+                       @NonNull LineInfo line, boolean downto) throws Exception {
         this.mTempVar = mTempVar;
-        this.first = first;
-        this.last = last;
-        this.line = line;
+        this.mFirst = first;
+        this.mLast = last;
+        this.mLine = line;
         this.mEnumGroupType = enumGroupType;
-        this.command = command;
-        this.downto = downto;
+        this.mCommand = command;
+        this.mIsDownto = downto;
     }
 
     @Override
@@ -67,15 +74,15 @@ public class ForEnumStatement extends DebuggableNode {
             throws RuntimePascalException {
         LinkedList<EnumElementValue> list = mEnumGroupType.getList();
         Reference<EnumElementValue> reference = mTempVar.getReference(f, main);
-        Integer start = ((EnumElementValue) this.first.getValue(f, main)).getIndex();
-        Integer end = ((EnumElementValue) this.last.getValue(f, main)).getIndex();
-        if (downto) {
+        Integer start = ((EnumElementValue) this.mFirst.getValue(f, main)).getIndex();
+        Integer end = ((EnumElementValue) this.mLast.getValue(f, main)).getIndex();
+        if (mIsDownto) {
             forLoop:
             for (int i = end; i >= start; i--) {
                 reference.set(list.get(i));
                 if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
 
-                ExecutionResult result = command.visit(f, main);
+                ExecutionResult result = mCommand.visit(f, main);
                 switch (result) {
                     case EXIT:
                         return ExecutionResult.EXIT;
@@ -90,7 +97,7 @@ public class ForEnumStatement extends DebuggableNode {
                 reference.set(list.get(i));
                 if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
 
-                ExecutionResult result = command.visit(f, main);
+                ExecutionResult result = mCommand.visit(f, main);
                 switch (result) {
                     case EXIT:
                         return ExecutionResult.EXIT;
@@ -105,13 +112,13 @@ public class ForEnumStatement extends DebuggableNode {
 
     @Override
     public LineInfo getLineNumber() {
-        return line;
+        return mLine;
     }
 
     @Override
     public Node compileTimeConstantTransform(CompileTimeContext c)
             throws Exception {
-        Node comm = command.compileTimeConstantTransform(c);
+        Node comm = mCommand.compileTimeConstantTransform(c);
 //        return new ForDowntoStatement(first, comp, inc, comm, line);
         return null;
     }
