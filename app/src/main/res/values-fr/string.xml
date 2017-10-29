@@ -32,15 +32,11 @@
     <string name="setting">"Paramètre"</string>
     <string name="document">"Voir le document"</string>
     <string name="code_sample">"Exemple de code"</string>
-    <string name="title_activity_code_sample">"Exemple de code"</string>
     <string name="edit">"modifier"</string>
     <string name="copy">"Copier"</string>
     <string name="save_as">"Protection"</string>
     <string name="enter_new_file_name">"Entrez le nouveau nom de fichier"</string>
     <string name="path">"Chemin: "</string>
-    <string name="extension">"Extension"</string>
-    <string name="readable">"Lisible "</string>
-    <string name="writeable">"Inscriptible: "</string>
     <string name="remove_file_msg">"Voulez-vous supprimer le fichier "</string>
     <string name="delete_file">"Supprimer le Fichier"</string>
     <string name="deleted">"Supprimé"</string>
@@ -49,7 +45,6 @@
     <string name="code_editor">"Éditeur de code"</string>
     <string name="word_wrap">"Sauter à la ligne"</string>
     <string name="font_z">"Taille de la police"</string>
-    <string name="font">"Police de caractère"</string>
     <string name="user_interface">"Interface utilisateur"</string>
     <string name="show_line">"Afficher le numéro de ligne"</string>
     <string name="find">"Trouver"</string>
@@ -66,10 +61,6 @@
     <string name="format_code">"Formatage de code"</string>
     <string name="information">"Information"</string>
     <string name="report_bug">"Rapportez une erreur"</string>
-    <string name="check_update">"Vérifier les mises à jour"</string>
-    <string name="email">"Email"</string>
-    <string name="describe_causes_an_error">"Décrit le cause de l'erreur"</string>
-    <string name="bug">"Bug"</string>
     <string name="word_wrap_desc">"Saut de ligne automatique lors du dépassement du text"</string>
     <string name="show_line_desc">"Afficher les numéros de ligne à gauche de l'éditeur"</string>
 
@@ -80,7 +71,6 @@
     <string name="show_hint_desc">"Afficher des suggestions lors de la saisie"</string>
     <string name="compile">"compile"</string>
     <string name="file">"Fichier"</string>
-    <string name="change_lang_msg">"Redémarrez l'application pour changer la langue."</string>
     <string name="data">"Données"</string>
     <string name="show_key_board">"Afficher le clavier"</string>
     <string name="undo">"Annuler"</string>
@@ -90,7 +80,6 @@
     <string name="pascal_for_android">"Pascal pour Android"</string>
     <string name="exit">"Quitter"</string>
     <string name="exit_mgs">"Voulez-vous quitter l'application?"</string>
-    <string name="setting_editor">"Réglage de l'éditeur"</string>
     <string name="cloud_database">"Base de données Cloud"</string>
     <string name="pas_file">"Fichier Pas (* .pas)"</string>
     <string name="inp_file">"Fichier Inp (* .inp)"</string>
@@ -106,50 +95,30 @@
     <string name="cant_redo">"Ne peut pas refaire"</string>
     <string name="back_to_undo">"Appuyez de retour pour annuler"</string>
     <string name="more_feature">"Ouvrez le tiroir"</string>
-    <string name="cant_close_file">"Impossible de fermer le fichier"</string>
     <string name="closed">"Fermé"</string>
     <string name="complete">"Terminé "</string>
     <string name="view_console">"Voir la console"</string>
-    <string name="resume_program">"Programme de reprise"</string>
     <string name="help_me_translate">"Aidez-moi à traduire l'application"</string>
-    <string name="your_name">"Votre nom"</string>
-    <string name="send_to_me">"Envoyer aux développeurs"</string>
     <string name="rerun">"Réexécuter le programme actuel"</string>
 
     <string name="translate">"Traduire"</string>
     <string name="license">"Licence"</string>
 
     <string name="console_screen">"Console"</string>
-    <string name="background_console">"Console en arrière plan"</string>
-    <string name="text_color_console">"Couleur de texte du console"</string>
-
-    <string name="frame_rate">"Fréquence d'images"</string>
-
-    <string name="max_buffer">"Longueur maximale du tampon"</string>
 
     <string name="write_code_here">"Écrivez le code ici ..."</string>
     <string name="can_not_save_file">"Impossible d'enregistrer le fichier!"</string>
-    <string name="saved">"enregistrée"</string>
-    <string name="file_exist">"Le fichier existe, entrez le nom de la valeur!"</string>
-    <string name="send_mail">"Envoyer un mail"</string>
-    <string name="no_mail_clients">"Il n\'y a pas de client mail installé"</string>
-    <string name="your_language">"Votre langue:"</string>
     <string name="other">"Autre"</string>
     <string name="logo">"Logo"</string>
-    <string name="auto_compile_summary">"Compile automatiquement en tapant. La performance de l'application diminuera si vous utilisez cette fonctionnalité, ce qui vous aidera à signaler l'erreur plus rapidement."</string>
-    <string name="auto_compile">"Compilation automatique"</string>
-    <string name="keyboard_shortcut">"Raccourci clavier"</string>
     <string name="program_structure">"Afficher la structure du programme"</string>
     <string name="show_symbol">"Symboles de la liste"</string>
     <string name="show_symbol_decs">"Afficher le symbole de la liste sous l'éditeur."</string>
     <string name="debug">""</string>
     <string name="add_watch">"Ajouter montre"</string>
-    <string name="var_name">"Nom de variable"</string>
     <string name="program_stopped">"Le programme est arrêté"</string>
     <string name="no_document">"Document No."</string>
     <string name="max_page_desc">"Nombre de pages maximale à afficher sur l'écran"</string>
     <string name="max_page">"Editeur de page max"</string>
-    <string name="implicitly">"implicitement"</string>
     <string name="enter_key_word">"Entrez votre mot-clé ..."</string>
     <string name="blog">"Blog de Pascal N-IDE"</string>
     <string name="title_activity_zxing">"ZxingActivity"</string>
@@ -164,8 +133,6 @@
     <string name="stack_size">"Taille de la pile"</string>
     <string name="copied">"Copier"</string>
     <string name="theme_font">"Code thème et police"</string>
-    <string name="do_you_want_to_create_your_theme">"Voulez-vous créer votre thème?"</string>
-    <string name="get_pro_version">"Acheter la Version Pro"</string>
     <string name="create_shortcut">"Créer un raccourci"</string>
     <string name="create_shortcut_msg">"Sélectionnez le fichier pour créer un raccourci"</string>
     <string name="shortcut_created">"Raccourci créé"</string>
@@ -173,36 +140,26 @@
     <string name="sort_name">"Trier par Nom"</string>
     <string name="sort_size">"Trier par Taille"</string>
     <string name="content">"Le Contenu"</string>
-    <string name="see_in_github_2">"Voir à Github"</string>
     <string name="insert_color">"Insérer une couleur"</string>
     <string name="permission_denied_storage">"Autorisation refusée de lire votre stockage externe"</string>
     <string name="inserted_color">"Couleur insérée"</string>
     <string name="unit_file">"Unité pascal (* .pas)"</string>
-    <string name="what_expect">"Qu'attend-tu ?"</string>
     <string name="auto_fix">"Correction automatique"</string>
     <string name="declare_variable">"Déclarez la variable"</string>
     <string name="declare_function">"Declare function"</string>
     <string name="declare_constant">"Déclarer constante"</string>
     <string name="can_not_exec_unit">"Impossible d'exécuter l'unité"</string>
-    <string name="insert">"Insérer"</string>
-    <string name="select_mode">"Mode Sélectionnez"</string>
-    <string name="select_token">"Sélectionnez le jeton"</string>
     <string name="enable_ime_keyboard">"Activer le clavier IME"</string>
     <string name="key_ime_keyboard" translatable="false">"Key_ime_keyboard"</string>
     <string name="frames">"Cadres (2101 - 2234)"</string>
     <string name="variables">"Variables"</string>
-    <string name="call_stack">"Pile d'appel"</string>
     <string name="step_info">"Step info"</string>
     <string name="step_over">"Enjamber"</string>
 
 
     <string name="notifications">"Notifications"</string>
     <string name="pref_title_new_message_notifications">"Nouvelles notifications de messages"</string>
-    <string name="pref_title_vibrate">"Vibreur"</string>
-    <string name="console_screen_">"Écran de la console"</string>
     <string name="keyboard">"Clavier"</string>
-    <string name="system_interface">"Interface système"</string>
-    <string name="maxline_console_desc">"Le nombre maximum de lignes que la console stockera, plus le nombre de lignes nécessite plus de mémoire."</string>
     <string name="text_color">"Couleur du texte"</string>
     <string name="default_text_color">"Couleur par défaut du texte"</string>
     <string name="def_bg_color">"Couleur de fond par défaut"</string>
@@ -219,20 +176,12 @@
 
 
     <!--DONATE-->
-    <string name="license_invalid">"Merci d'avoir acheté l'application de don! Malheureusement, la vérification de licence a échoué Veuillez réessayer plus tard. Si cela ne fonctionne toujours pas, contactez-moi. Vous avez besoin d'un accès Internet!"</string>
-    <string name="pirated">"On dirait que l'application de dons n'a pas été achetée via Play Store! Si vous l'avez piraté, alors hontez-vous!"</string>
     <string name="donate">"Faire un don"</string>
-    <string name="donate_summary">"Vous pouvez personnaliser le thème du code, plus de police, modifier la police de la console ... avec donate version \ n. Parce que cette application est open source, vous pouvez facilement la construire vous-même et supprimer cette vérification. Mais j'espère que vous soutenez les développeurs de toute façon. Merci d'utiliser Pascal NIDE! Une fois que vous avez acheté l'application de donation, vous devez redémarrer Pascal NIDE afin d'activer toutes les fonctionnalités."</string>
-    <string name="donate_nope">"Je ne vais pas tomber pour cette arnaque!"</string>
-    <string name="donate_yes">"J'adore cette application. Je doit faire un don!"</string>
 
     <!--Splash screen-->
-    <string name="more_font">"Obtenir plus de police"</string>
     <string name="editor_font">"Police d'éditeur"</string>
     <string name="console_font">"Police de la console"</string>
-    <string name="unknown">"Inconnu"</string>
     <string name="custom_theme">"Thème personnalisé"</string>
     <string name="save_and_apply">"Enregistrer et sauver"</string>
     <string name="create_new_theme">"Créer un nouveau thème"</string>
-    <string name="more_theme">"Obtenez une version premium. Créez votre propre thème"</string>
 </resources>

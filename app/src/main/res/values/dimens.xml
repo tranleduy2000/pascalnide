@@ -22,6 +22,5 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="toolbar_height">40dp</dimen>
     <dimen name="bottom_editor_height">40dp</dimen>
-    <dimen name="navigation_drawer_width">300dp</dimen>
     <dimen name="drag_handle_size">15dp</dimen>
 </resources>

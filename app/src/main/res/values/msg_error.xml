@@ -66,7 +66,6 @@
 
     <string name="InvalidNumericFormatException">Reported when a non-numeric value is read from a text file, and a numeric value was expected.</string>
     <string name="NonIntegerException">Value must be integers: \"%1$s\"</string>
-    <string name="ChangeValueConstantException">The value stored in a constant cannot be changed.</string>
     <string name="ChangeValueConstantException2">The value stored in a constant \"%1$s\" cannot be changed.</string>
     <string name="token_not_belong">The following name doesn\'t belong here: </string>
     <string name="SubRangeException">Upper bound of range is less than lower bound.\n

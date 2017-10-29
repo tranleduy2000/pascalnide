@@ -64,7 +64,6 @@
 
     <string name="InvalidNumericFormatException">Reported when a non-numeric value is read from a text file, and a numeric value was expected.</string>
     <string name="NonIntegerException">数值必须为整数: "%1$s"</string>
-    <string name="ChangeValueConstantException">储存在常数中的值无法更改。</string>
     <string name="token_not_belong">下列名称不归入于此: </string>
     <string name="SubRangeException">上界范围低于下界范围。\n
         当前下界为 "%1$s" , 上界为 "%2$s"</string>

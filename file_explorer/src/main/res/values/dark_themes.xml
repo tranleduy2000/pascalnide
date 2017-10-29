@@ -19,7 +19,6 @@
     <color name="darkColorControlNormal">@color/abc_secondary_text_material_dark</color>
     <color name="darkWindowBackground">#ff424242</color>
     <color name="darkDividerColor">#30ffffff</color>
-    <color name="darkDividerColor2">#ff0066</color>
 
     <style name="DarkTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!--全局字体-->

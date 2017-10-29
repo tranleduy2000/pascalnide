@@ -66,7 +66,6 @@
 
     <string name="InvalidNumericFormatException">Dilaporkan ketika nilai non-numerik dibaca dari file teks, dan nilai numerik diharapkan.</string>
     <string name="NonIntegerException">Nilai harus bilangan bulat: \"%1$s\"</string>
-    <string name="ChangeValueConstantException">Nilai yang tersimpan dalam konstanta tidak bisa diubah.</string>
     <string name="ChangeValueConstantException2">Nilai yang tersimpan dalam konstanta \"%1$s\" tidak dapat diubah.</string>
     <string name="token_not_belong">Nama berikut tidak termasuk di sini: </string>
     <string name="SubRangeException">Batas atas terikat kurang dari batas bawah.\n

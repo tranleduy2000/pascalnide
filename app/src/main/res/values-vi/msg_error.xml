@@ -51,7 +51,6 @@
 
     <string name="InvalidNumericFormatException">Lỗi khi đọc dữ liệu từ file, biến được đọc là số nhưng dữ liệu không phải là số</string>
     <string name="NonIntegerException">Giá trị phải là số nguyên: \"%1$s\"</string>
-    <string name="ChangeValueConstantException">Giá trị lưu trong hằng không thể bị thay đổi</string>
 
     <string name="UNFINISHED_BEGIN_END">Chưa kết thúc cấu trúc begin-end</string>
     <string name="UNFINISHED_PARENTHESES">Bạn quên đóng dấu ngoặc tròn</string>

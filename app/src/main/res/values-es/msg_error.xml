@@ -50,7 +50,6 @@
 
     <string name="InvalidNumericFormatException">Informado cuando un valor no-numerico se intenta leer desde un archivo de texto, startY se esperaba un valor numerico.</string>
     <string name="NonIntegerException">El valor debe ser integer: \"%1$s\"</string>
-    <string name="ChangeValueConstantException">El valor guardado en una constante no puede ser cambiado.</string>
 
     <string name="CanNotReadVariableException">No se pueden leer variables de este tipo</string>
     <string name="BadOperationTypeException">El operador \"%1$s\" no se puede aplicar a los argumentos \"%2$s\" y \"%3$s\".\n

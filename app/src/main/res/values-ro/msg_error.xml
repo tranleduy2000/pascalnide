@@ -66,7 +66,6 @@
 
     <string name="InvalidNumericFormatException">Raportat în momentul în care o valoare non-numerică este citită dintr-un fișier text, fiind așteptată o valoare numerică.</string>
     <string name="NonIntegerException">Valoarea trebuie să fie de tip întreg: \"%1$s\"</string>
-    <string name="ChangeValueConstantException">Valoarea stocată într-o constantă nu poate fi schimbată.</string>
     <string name="token_not_belong">Următorul nume nu aparține aici: </string>
     <string name="SubRangeException">Capătul superior al intervalului este mai mic decât capătul inferior.\n
         Capătul inferior este \"%1$s\", iar cel superior este \"%2$s\"</string>

@@ -47,7 +47,6 @@
     <string name="DivisionByZeroException">Aplikácia sa pokúsila vydeliť číslo nulou.</string>
     <string name="InvalidNumericFormatException">Nahlásené, ak bola z textového súboru prečítaná nečíslná hodnota a bola očakávaná číselná hodnota.</string>
     <string name="NonIntegerException">Hodnota musí byť celočíselná: \"%1$s\"</string>
-    <string name="ChangeValueConstantException">Hodnota uchovávaná v konštantnej nemôže byť zmenená.</string>
     <string name="UNFINISHED_BEGIN_END">Nedokončená konštrukcia begin - end </string>
     <string name="UNFINISHED_PARENTHESES">Zabudli ste zatvoriť okrúhle zátvorky</string>
     <string name="UNFINISHED_BRACKETS">Zabudli ste zatvoriť zátvorky</string>
