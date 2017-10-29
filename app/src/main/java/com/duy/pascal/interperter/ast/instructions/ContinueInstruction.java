@@ -8,6 +8,7 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 public class ContinueInstruction extends DebuggableNode {
+
     private LineInfo line;
 
     public ContinueInstruction(LineInfo line) {

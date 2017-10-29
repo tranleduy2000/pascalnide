@@ -12,7 +12,7 @@ public class UnhandledPascalException extends RuntimePascalException {
 
     @Override
     public String getMessage() {
-        return line + "\nUnhandled exception " + cause;
+        return line + " Runtime pascal exception.";
     }
 
     @Override

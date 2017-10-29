@@ -14,13 +14,19 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interperter.ast.instructions.assign_statement;
+package com.duy.pascal.interpreter;
 
-import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
-import com.duy.pascal.interperter.ast.instructions.Node;
+/**
+ * Created by Duy on 13-Jun-17.
+ */
 
-public interface AssignNode extends Node {
-
+public class AssignOpTest extends BaseTestCase {
     @Override
-    AssignNode compileTimeConstantTransform(CompileTimeContext c) throws Exception;
+    public String getDirTest() {
+        return "test_assign";
+    }
+
+    public void testCConstruct() {
+        run("c_construct.pas");
+    }
 }
