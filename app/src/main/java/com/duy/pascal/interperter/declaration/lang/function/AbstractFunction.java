@@ -19,8 +19,8 @@ package com.duy.pascal.interperter.declaration.lang.function;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.value.FunctionCall;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.NameEntityImpl;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;

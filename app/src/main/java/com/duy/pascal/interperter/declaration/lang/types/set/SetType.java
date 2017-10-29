@@ -19,12 +19,12 @@ package com.duy.pascal.interperter.declaration.lang.types.set;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime_value.value.EnumElementValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.interperter.ast.runtime_value.value.access.SetIndexAccess;
-import com.duy.pascal.interperter.ast.runtime_value.value.boxing.SetBoxer;
-import com.duy.pascal.interperter.ast.runtime_value.value.cloning.SetCloner;
+import com.duy.pascal.interperter.ast.runtime.value.EnumElementValue;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
+import com.duy.pascal.interperter.ast.runtime.value.access.SetIndexAccess;
+import com.duy.pascal.interperter.ast.runtime.value.boxing.SetBoxer;
+import com.duy.pascal.interperter.ast.runtime.value.cloning.SetCloner;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;

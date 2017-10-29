@@ -21,8 +21,8 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
-import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
+import com.duy.pascal.interperter.ast.runtime.references.PascalReference;
+import com.duy.pascal.interperter.ast.runtime.value.RecordValue;
 import com.duy.pascal.interperter.libraries.PascalLibrary;
 import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.libraries.exceptions.CanNotReadVariableException;

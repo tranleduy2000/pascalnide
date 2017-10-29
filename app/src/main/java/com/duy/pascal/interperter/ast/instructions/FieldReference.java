@@ -1,6 +1,6 @@
 package com.duy.pascal.interperter.ast.instructions;
 
-import com.duy.pascal.interperter.ast.runtime_value.references.Reference;
+import com.duy.pascal.interperter.ast.runtime.references.Reference;
 import com.duy.pascal.interperter.ast.variablecontext.ContainsVariables;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;

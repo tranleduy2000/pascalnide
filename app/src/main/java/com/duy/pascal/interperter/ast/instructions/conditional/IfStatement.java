@@ -1,38 +1,40 @@
 package com.duy.pascal.interperter.ast.instructions.conditional;
 
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
+import com.duy.pascal.interperter.ast.instructions.Node;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.interperter.debugable.DebuggableNode;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectThenTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.BasicToken;
 import com.duy.pascal.interperter.tokens.basic.ElseToken;
 import com.duy.pascal.interperter.tokens.basic.ThenToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
-import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 
 public class IfStatement extends DebuggableNode {
-    private RuntimeValue condition;
-    private Node instruction;
-    private Node elseInstruction;
+    private RuntimeValue mCondition;
+    private Node mStatement;
+    private Node mElseStatement;
     private LineInfo line;
 
-    public IfStatement(RuntimeValue condition, Node instruction,
-                       Node elseInstruction, LineInfo line) {
+    public IfStatement(RuntimeValue condition, Node statement,
+                       @Nullable Node elseStatement, LineInfo line) {
 
 
-        this.condition = condition;
-        this.instruction = instruction;
-        this.elseInstruction = elseInstruction;
+        this.mCondition = condition;
+        this.mStatement = statement;
+        this.mElseStatement = elseStatement;
         this.line = line;
     }
 
@@ -76,9 +78,9 @@ public class IfStatement extends DebuggableNode {
             elseCommand = grouperToken.getNextCommand(context);
         }
 
-        this.condition = condition;
-        this.instruction = command;
-        this.elseInstruction = elseCommand;
+        this.mCondition = condition;
+        this.mStatement = command;
+        this.mElseStatement = elseCommand;
         this.line = lineNumber;
     }
 
@@ -90,12 +92,12 @@ public class IfStatement extends DebuggableNode {
     @Override
     public ExecutionResult executeImpl(VariableContext context,
                                        RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        Boolean value = (Boolean) (condition.getValue(context, main));
+        Boolean value = (Boolean) (mCondition.getValue(context, main));
         if (value) {
-            return instruction.visit(context, main);
+            return mStatement.visit(context, main);
         } else {
-            if (elseInstruction != null) {
-                return elseInstruction.visit(context, main);
+            if (mElseStatement != null) {
+                return mElseStatement.visit(context, main);
             }
             return ExecutionResult.NOPE;
         }
@@ -103,24 +105,24 @@ public class IfStatement extends DebuggableNode {
 
     @Override
     public String toString() {
-        return "if [" + condition.toString() + "] then [\n" + instruction + ']';
+        return "if [" + mCondition.toString() + "] then [\n" + mStatement + ']';
     }
 
     @Override
     public Node compileTimeConstantTransform(CompileTimeContext c)
             throws Exception {
-        Object o = condition.compileTimeValue(c);
+        Object o = mCondition.compileTimeValue(c);
         if (o != null) {
             Boolean b = (Boolean) o;
             if (b) {
-                return instruction.compileTimeConstantTransform(c);
+                return mStatement.compileTimeConstantTransform(c);
             } else {
-                return elseInstruction.compileTimeConstantTransform(c);
+                return mElseStatement.compileTimeConstantTransform(c);
             }
         } else {
-            return new IfStatement(condition,
-                    instruction.compileTimeConstantTransform(c),
-                    elseInstruction.compileTimeConstantTransform(c), line);
+            return new IfStatement(mCondition,
+                    mStatement.compileTimeConstantTransform(c),
+                    mElseStatement.compileTimeConstantTransform(c), line);
         }
     }
 }

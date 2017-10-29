@@ -1,11 +1,11 @@
 package com.duy.pascal.interperter.declaration.lang.types;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
-import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.boxing.GetAddress;
+import com.duy.pascal.interperter.ast.runtime.references.PascalReference;
+import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
+import com.duy.pascal.interperter.ast.runtime.value.RecordValue;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.value.boxing.GetAddress;
 import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.interperter.declaration.lang.types.set.SetType;
 import com.duy.pascal.interperter.declaration.lang.types.util.TypeUtils;

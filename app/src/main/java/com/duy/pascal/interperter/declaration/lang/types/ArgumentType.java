@@ -2,8 +2,7 @@ package com.duy.pascal.interperter.declaration.lang.types;
 
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 
 import java.util.Iterator;
 

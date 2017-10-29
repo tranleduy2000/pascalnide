@@ -19,9 +19,9 @@ package com.duy.pascal.interperter.declaration.lang.types;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
+import com.duy.pascal.interperter.ast.runtime.value.RecordValue;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;

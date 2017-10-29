@@ -22,8 +22,8 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
-import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
-import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
+import com.duy.pascal.interperter.ast.runtime.references.PascalReference;
+import com.duy.pascal.interperter.ast.runtime.value.NullValue;
 import com.duy.pascal.interperter.config.ProgramMode;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 

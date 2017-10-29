@@ -17,9 +17,9 @@
 package com.duy.pascal.interperter.systemfunction.io;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.boxing.ArrayBoxer;
+import com.duy.pascal.interperter.ast.runtime.value.RecordValue;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.value.boxing.ArrayBoxer;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;

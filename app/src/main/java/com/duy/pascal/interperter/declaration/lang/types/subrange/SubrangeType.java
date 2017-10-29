@@ -21,8 +21,8 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime_value.value.EnumElementValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.value.EnumElementValue;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;

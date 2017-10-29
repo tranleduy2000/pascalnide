@@ -48,8 +48,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.interperter.ast.instructions.Node;
-import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.config.DebugMode;
 import com.duy.pascal.interperter.debugable.DebugListener;

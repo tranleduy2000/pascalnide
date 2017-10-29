@@ -20,7 +20,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.ui.view.exec_screen.console.TextConsole;
 
 import java.lang.reflect.Array;

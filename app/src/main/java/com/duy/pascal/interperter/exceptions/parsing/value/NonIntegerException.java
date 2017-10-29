@@ -18,7 +18,7 @@ package com.duy.pascal.interperter.exceptions.parsing.value;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
 import android.support.annotation.Nullable;

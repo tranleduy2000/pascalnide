@@ -18,7 +18,7 @@ package com.duy.pascal.interperter.utils;
 
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
+import com.duy.pascal.interperter.ast.runtime.value.NullValue;
 
 /**
  * Created by Duy on 13-Jun-17.

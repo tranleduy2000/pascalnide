@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.exceptions.parsing.operator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;

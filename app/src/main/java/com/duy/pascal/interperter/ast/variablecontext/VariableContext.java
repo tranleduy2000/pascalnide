@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.ast.variablecontext;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
+import com.duy.pascal.interperter.ast.runtime.value.NullValue;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 

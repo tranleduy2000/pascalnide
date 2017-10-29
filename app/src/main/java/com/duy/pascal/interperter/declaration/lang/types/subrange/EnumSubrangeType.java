@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.declaration.lang.types.subrange;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.interperter.ast.runtime_value.value.EnumElementValue;
+import com.duy.pascal.interperter.ast.runtime.value.EnumElementValue;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;

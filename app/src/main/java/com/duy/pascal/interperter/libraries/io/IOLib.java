@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
+import com.duy.pascal.interperter.ast.runtime.references.PascalReference;
 import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.exceptions.parsing.io.InputStreamNotFoundException;
 import com.duy.pascal.interperter.exceptions.runtime.InvalidNumericFormatException;

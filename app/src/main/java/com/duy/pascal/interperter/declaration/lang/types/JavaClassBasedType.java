@@ -3,10 +3,10 @@ package com.duy.pascal.interperter.declaration.lang.types;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime_value.value.NullValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.boxing.StringBoxer;
-import com.duy.pascal.interperter.ast.runtime_value.value.cloning.CloneableObjectCloner;
+import com.duy.pascal.interperter.ast.runtime.value.NullValue;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.value.boxing.StringBoxer;
+import com.duy.pascal.interperter.ast.runtime.value.cloning.CloneableObjectCloner;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
 import com.duy.pascal.interperter.linenumber.LineInfo;

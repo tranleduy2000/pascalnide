@@ -16,7 +16,7 @@
 
 package com.duy.pascal.interperter.libraries.exceptions;
 
-import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
+import com.duy.pascal.interperter.ast.runtime.references.PascalReference;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 /**

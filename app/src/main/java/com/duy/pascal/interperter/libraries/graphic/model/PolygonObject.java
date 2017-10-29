@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.libraries.graphic.model;
 import android.graphics.Canvas;
 import android.graphics.Path;
 
-import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
+import com.duy.pascal.interperter.ast.runtime.value.RecordValue;
 import com.duy.pascal.interperter.declaration.Name;
 
 /**

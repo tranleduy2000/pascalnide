@@ -8,8 +8,8 @@ import android.support.v4.util.Pair;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
 import com.duy.pascal.interperter.ast.instructions.Node;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.debug.CallStack;
 

@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
+import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
 

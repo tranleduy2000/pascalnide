@@ -19,8 +19,8 @@ package com.duy.pascal.interperter.libraries;
 import android.os.Build;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
-import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
+import com.duy.pascal.interperter.ast.runtime.references.PascalReference;
+import com.duy.pascal.interperter.ast.runtime.value.RecordValue;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RecordType;

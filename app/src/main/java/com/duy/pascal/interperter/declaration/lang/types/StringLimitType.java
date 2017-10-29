@@ -19,11 +19,11 @@ package com.duy.pascal.interperter.declaration.lang.types;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.access.StringIndex;
-import com.duy.pascal.interperter.ast.runtime_value.value.boxing.CharacterBoxer;
-import com.duy.pascal.interperter.ast.runtime_value.value.boxing.StringBoxer;
-import com.duy.pascal.interperter.ast.runtime_value.value.cloning.StringBuilderCloner;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.value.access.StringIndex;
+import com.duy.pascal.interperter.ast.runtime.value.boxing.CharacterBoxer;
+import com.duy.pascal.interperter.ast.runtime.value.boxing.StringBoxer;
+import com.duy.pascal.interperter.ast.runtime.value.cloning.StringBuilderCloner;
 import com.duy.pascal.interperter.declaration.lang.types.converter.StringBuilderLimitBoxer;
 import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;

@@ -20,9 +20,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.interperter.ast.runtime_value.references.PascalPointer;
-import com.duy.pascal.interperter.ast.runtime_value.references.PascalReference;
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.references.PascalPointer;
+import com.duy.pascal.interperter.ast.runtime.references.PascalReference;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;

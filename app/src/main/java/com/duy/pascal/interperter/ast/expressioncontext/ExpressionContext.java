@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.instructions.Node;
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.LabelDeclaration;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.NamedEntity;

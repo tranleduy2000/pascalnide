@@ -18,25 +18,25 @@ import com.duy.pascal.interperter.ast.instructions.assign_statement.DivAssignSta
 import com.duy.pascal.interperter.ast.instructions.assign_statement.MinusAssignStatement;
 import com.duy.pascal.interperter.ast.instructions.assign_statement.MulAssignStatement;
 import com.duy.pascal.interperter.ast.instructions.assign_statement.PlusAssignStatement;
-import com.duy.pascal.interperter.ast.instructions.case_statement.CaseInstruction;
+import com.duy.pascal.interperter.ast.instructions.case_statement.CaseOfNode;
 import com.duy.pascal.interperter.ast.instructions.conditional.IfStatement;
 import com.duy.pascal.interperter.ast.instructions.conditional.RepeatInstruction;
 import com.duy.pascal.interperter.ast.instructions.conditional.WhileStatement;
 import com.duy.pascal.interperter.ast.instructions.forstatement.ForStatement;
 import com.duy.pascal.interperter.ast.instructions.with_statement.WithStatement;
-import com.duy.pascal.interperter.ast.runtime_value.operators.BinaryOperatorEval;
-import com.duy.pascal.interperter.ast.runtime_value.operators.UnaryOperatorEval;
-import com.duy.pascal.interperter.ast.runtime_value.operators.pointer.DerefEval;
-import com.duy.pascal.interperter.ast.runtime_value.value.AssignableValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.ClassConstructorCall;
-import com.duy.pascal.interperter.ast.runtime_value.value.EnumElementValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
-import com.duy.pascal.interperter.ast.runtime_value.value.RecordValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.interperter.ast.runtime_value.value.access.ClassFunctionCall;
-import com.duy.pascal.interperter.ast.runtime_value.value.access.ClassVariableAccess;
-import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.interperter.ast.runtime_value.value.access.FieldAccess;
+import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorEval;
+import com.duy.pascal.interperter.ast.runtime.operators.UnaryOperatorEval;
+import com.duy.pascal.interperter.ast.runtime.operators.pointer.DerefEval;
+import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
+import com.duy.pascal.interperter.ast.runtime.value.ClassConstructorCall;
+import com.duy.pascal.interperter.ast.runtime.value.EnumElementValue;
+import com.duy.pascal.interperter.ast.runtime.value.FunctionCall;
+import com.duy.pascal.interperter.ast.runtime.value.RecordValue;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.value.access.ClassFunctionCall;
+import com.duy.pascal.interperter.ast.runtime.value.access.ClassVariableAccess;
+import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
+import com.duy.pascal.interperter.ast.runtime.value.access.FieldAccess;
 import com.duy.pascal.interperter.declaration.LabelDeclaration;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.MethodDeclaration;
@@ -924,7 +924,7 @@ public abstract class GrouperToken extends Token {
             return new RepeatInstruction(context, this, lineNumber);
 
         } else if (next instanceof CaseToken) {
-            return new CaseInstruction((CaseToken) next, context);
+            return new CaseOfNode((CaseToken) next, context);
 
         } else if (next instanceof SemicolonToken) {
             return new NopeInstruction(next.getLineNumber());

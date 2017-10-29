@@ -22,8 +22,8 @@ import android.support.annotation.Nullable;
 import android.support.annotation.Size;
 import android.text.SpannableString;
 
-import com.duy.pascal.interperter.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.interperter.ast.runtime_value.value.access.VariableAccess;
+import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
+import com.duy.pascal.interperter.ast.runtime.value.access.VariableAccess;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;

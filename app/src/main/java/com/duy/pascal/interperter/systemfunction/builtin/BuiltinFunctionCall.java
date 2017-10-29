@@ -16,7 +16,7 @@
 
 package com.duy.pascal.interperter.systemfunction.builtin;
 
-import com.duy.pascal.interperter.ast.runtime_value.value.FunctionCall;
+import com.duy.pascal.interperter.ast.runtime.value.FunctionCall;
 import com.duy.pascal.interperter.declaration.Name;
 
 /**
