@@ -23,7 +23,7 @@ import com.duy.pascal.ui.debug.CallStack;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.Node;
+import com.duy.pascal.interperter.ast.node.Node;
 import com.duy.pascal.interperter.ast.runtime.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;

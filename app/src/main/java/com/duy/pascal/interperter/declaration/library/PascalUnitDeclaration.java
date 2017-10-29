@@ -23,7 +23,7 @@ import com.duy.pascal.ui.runnable.ProgramHandler;
 import com.duy.pascal.interperter.ast.codeunit.ExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeUnitPascal;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.ast.instructions.Node;
+import com.duy.pascal.interperter.ast.node.Node;
 import com.duy.pascal.interperter.libraries.IPascalLibrary;
 import com.duy.pascal.interperter.datastructure.ArrayListMultimap;
 import com.duy.pascal.interperter.declaration.Name;

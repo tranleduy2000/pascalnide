@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.Node;
-import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
+import com.duy.pascal.interperter.ast.node.Node;
+import com.duy.pascal.interperter.ast.node.ExecutionResult;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;

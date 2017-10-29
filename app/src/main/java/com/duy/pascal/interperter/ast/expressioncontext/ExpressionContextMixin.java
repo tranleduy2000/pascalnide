@@ -7,7 +7,7 @@ import com.duy.pascal.interperter.ast.CodeUnitParsingException;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimePascalClass;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeUnitPascal;
-import com.duy.pascal.interperter.ast.instructions.Node;
+import com.duy.pascal.interperter.ast.node.Node;
 import com.duy.pascal.interperter.ast.runtime.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;

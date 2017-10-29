@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.ast.expressioncontext;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
-import com.duy.pascal.interperter.ast.instructions.Node;
+import com.duy.pascal.interperter.ast.node.Node;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.interperter.linenumber.LineInfo;

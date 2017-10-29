@@ -6,24 +6,24 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ClassExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.BreakInstruction;
-import com.duy.pascal.interperter.ast.instructions.CompoundStatement;
-import com.duy.pascal.interperter.ast.instructions.ContinueInstruction;
-import com.duy.pascal.interperter.ast.instructions.Node;
-import com.duy.pascal.interperter.ast.instructions.ExitInstruction;
-import com.duy.pascal.interperter.ast.instructions.LabelInstruction;
-import com.duy.pascal.interperter.ast.instructions.NopeInstruction;
-import com.duy.pascal.interperter.ast.instructions.assign_statement.AssignStatement;
-import com.duy.pascal.interperter.ast.instructions.assign_statement.DivAssignStatement;
-import com.duy.pascal.interperter.ast.instructions.assign_statement.MinusAssignStatement;
-import com.duy.pascal.interperter.ast.instructions.assign_statement.MulAssignStatement;
-import com.duy.pascal.interperter.ast.instructions.assign_statement.PlusAssignStatement;
-import com.duy.pascal.interperter.ast.instructions.case_statement.CaseOfNode;
-import com.duy.pascal.interperter.ast.instructions.conditional.IfNode;
-import com.duy.pascal.interperter.ast.instructions.conditional.RepeatNode;
-import com.duy.pascal.interperter.ast.instructions.conditional.WhileNode;
-import com.duy.pascal.interperter.ast.instructions.forstatement.ForStatement;
-import com.duy.pascal.interperter.ast.instructions.with_statement.WithStatement;
+import com.duy.pascal.interperter.ast.node.BreakNode;
+import com.duy.pascal.interperter.ast.node.CompoundStatement;
+import com.duy.pascal.interperter.ast.node.ContinueNode;
+import com.duy.pascal.interperter.ast.node.Node;
+import com.duy.pascal.interperter.ast.node.ExitNode;
+import com.duy.pascal.interperter.ast.node.LabelInstruction;
+import com.duy.pascal.interperter.ast.node.NopeInstruction;
+import com.duy.pascal.interperter.ast.node.assign_statement.AssignStatement;
+import com.duy.pascal.interperter.ast.node.assign_statement.DivAssignStatement;
+import com.duy.pascal.interperter.ast.node.assign_statement.MinusAssignStatement;
+import com.duy.pascal.interperter.ast.node.assign_statement.MulAssignStatement;
+import com.duy.pascal.interperter.ast.node.assign_statement.PlusAssignStatement;
+import com.duy.pascal.interperter.ast.node.case_statement.CaseOfNode;
+import com.duy.pascal.interperter.ast.node.conditional.IfNode;
+import com.duy.pascal.interperter.ast.node.conditional.RepeatNode;
+import com.duy.pascal.interperter.ast.node.conditional.WhileNode;
+import com.duy.pascal.interperter.ast.node.forstatement.ForStatement;
+import com.duy.pascal.interperter.ast.node.with_statement.WithStatement;
 import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorEval;
 import com.duy.pascal.interperter.ast.runtime.operators.UnaryOperatorEval;
 import com.duy.pascal.interperter.ast.runtime.operators.pointer.DerefEval;
@@ -930,16 +930,16 @@ public abstract class GrouperToken extends Token {
             return new NopeInstruction(next.getLineNumber());
 
         } else if (next instanceof BreakToken) {
-            return new BreakInstruction(next.getLineNumber());
+            return new BreakNode(next.getLineNumber());
 
         } else if (next instanceof ContinueToken) {
-            return new ContinueInstruction(next.getLineNumber());
+            return new ContinueNode(next.getLineNumber());
 
         } else if (next instanceof WithToken) {
             return (Node) new WithStatement(context, this).generate();
 
         } else if (next instanceof ExitToken) {
-            return new ExitInstruction(next.getLineNumber());
+            return new ExitNode(next.getLineNumber());
 
         } else if (next instanceof GotoToken) {
             throw new UnSupportTokenException(next);

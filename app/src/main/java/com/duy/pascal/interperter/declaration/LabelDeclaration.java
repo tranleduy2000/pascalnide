@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.declaration;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.ast.instructions.Node;
+import com.duy.pascal.interperter.ast.node.Node;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class LabelDeclaration implements NamedEntity, Cloneable{

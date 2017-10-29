@@ -24,7 +24,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.systemfunction.builtin.IMethodDeclaration;
-import com.duy.pascal.interperter.ast.instructions.Node;
+import com.duy.pascal.interperter.ast.node.Node;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;

@@ -21,7 +21,7 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.FieldReference;
+import com.duy.pascal.interperter.ast.node.FieldReference;
 import com.duy.pascal.interperter.ast.runtime.references.Reference;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;

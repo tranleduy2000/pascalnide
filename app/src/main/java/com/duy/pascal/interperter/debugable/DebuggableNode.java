@@ -1,8 +1,8 @@
 package com.duy.pascal.interperter.debugable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.interperter.ast.instructions.Node;
-import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
+import com.duy.pascal.interperter.ast.node.Node;
+import com.duy.pascal.interperter.ast.node.ExecutionResult;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.config.DebugMode;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;

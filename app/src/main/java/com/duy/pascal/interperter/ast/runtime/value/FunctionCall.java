@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.instructions.ExecutionResult;
+import com.duy.pascal.interperter.ast.node.ExecutionResult;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.debugable.DebuggableNodeReturnValue;
 import com.duy.pascal.interperter.declaration.Name;
