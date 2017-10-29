@@ -19,9 +19,9 @@ import com.duy.pascal.interperter.ast.instructions.assign_statement.MinusAssignS
 import com.duy.pascal.interperter.ast.instructions.assign_statement.MulAssignStatement;
 import com.duy.pascal.interperter.ast.instructions.assign_statement.PlusAssignStatement;
 import com.duy.pascal.interperter.ast.instructions.case_statement.CaseOfNode;
-import com.duy.pascal.interperter.ast.instructions.conditional.IfStatement;
-import com.duy.pascal.interperter.ast.instructions.conditional.RepeatInstruction;
-import com.duy.pascal.interperter.ast.instructions.conditional.WhileStatement;
+import com.duy.pascal.interperter.ast.instructions.conditional.IfNode;
+import com.duy.pascal.interperter.ast.instructions.conditional.RepeatNode;
+import com.duy.pascal.interperter.ast.instructions.conditional.WhileNode;
 import com.duy.pascal.interperter.ast.instructions.forstatement.ForStatement;
 import com.duy.pascal.interperter.ast.instructions.with_statement.WithStatement;
 import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorEval;
@@ -899,10 +899,10 @@ public abstract class GrouperToken extends Token {
         Token next = take();
         LineInfo lineNumber = next.getLineNumber();
         if (next instanceof IfToken) {
-            return new IfStatement(context, this, lineNumber);
+            return new IfNode(context, this, lineNumber);
 
         } else if (next instanceof WhileToken) {
-            return new WhileStatement(context, this, lineNumber);
+            return new WhileNode(context, this, lineNumber);
 
         } else if (next instanceof BeginEndToken) {
 
@@ -921,7 +921,7 @@ public abstract class GrouperToken extends Token {
         } else if (next instanceof ForToken) {
             return ForStatement.generateForStatement(this, context, lineNumber);
         } else if (next instanceof RepeatToken) {
-            return new RepeatInstruction(context, this, lineNumber);
+            return new RepeatNode(context, this, lineNumber);
 
         } else if (next instanceof CaseToken) {
             return new CaseOfNode((CaseToken) next, context);

@@ -32,32 +32,32 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class ConstantAccess<T> extends DebuggableReturnValue {
-    private T value;
+    private T mValue;
     private Type type;
     private LineInfo mLineNumber;
     @Nullable
     private Name name = null;
 
-    public ConstantAccess(@Nullable T o, @Nullable LineInfo mLineNumber) {
-        this.value = o;
+    public ConstantAccess(@Nullable T value, @Nullable LineInfo mLineNumber) {
+        this.mValue = value;
         this.mLineNumber = mLineNumber;
     }
 
     public ConstantAccess(@Nullable T o, @Nullable Type type, @Nullable LineInfo mLineNumber) {
-        this.value = o;
+        this.mValue = o;
         this.type = type;
         this.mLineNumber = mLineNumber;
     }
 
     public T getValue() {
-        return value;
+        return mValue;
     }
 
     public String toCode() {
-        if (value instanceof StringBuilder || value instanceof String || value instanceof Character) {
-            return "'" + value.toString() + "'";
+        if (mValue instanceof StringBuilder || mValue instanceof String || mValue instanceof Character) {
+            return "'" + mValue.toString() + "'";
         }
-        return value.toString();
+        return mValue.toString();
     }
 
     @NonNull
@@ -78,13 +78,13 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
 
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) {
-        return value;
+        return mValue;
     }
 
     @Override
     public String toString() {
         if (name == null) {
-            return String.valueOf(value);
+            return String.valueOf(mValue);
         } else {
             return name.toString();
         }
@@ -95,12 +95,12 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
         if (type != null) {
             return new RuntimeType(type, false);
         }
-        return new RuntimeType(BasicType.create(value.getClass()), false);
+        return new RuntimeType(BasicType.create(mValue.getClass()), false);
     }
 
     @Override
     public Object compileTimeValue(CompileTimeContext context) {
-        return value;
+        return mValue;
     }
 
     @Override
