@@ -124,5 +124,4 @@ public abstract class AbstractFunction extends NameEntityImpl {
     public int getModifiers() {
         return 0;
     }
-
 }

@@ -108,7 +108,7 @@ import java.util.Map;
 public class PascalLibraryManager {
     public static final Map<Name, Class<? extends IPascalLibrary>> MAP_LIBRARIES = new Hashtable<>();
     private static final String TAG = "PascalLibraryManager";
-    private static final HashMap<Class, ArrayList<AbstractFunction>> METHOD_CACHE = new HashMap<>();
+    private static final HashMap<Class, ArrayList<MethodDeclaration>> METHOD_CACHE = new HashMap<>();
 
     static {
         put(CrtLib.NAME, CrtLib.class);
@@ -291,7 +291,7 @@ public class PascalLibraryManager {
             library.declareVariables(mProgram);
         }
 
-        ArrayList<AbstractFunction> declarations = METHOD_CACHE.get(clazz);
+        ArrayList<MethodDeclaration> declarations = METHOD_CACHE.get(clazz);
         if (declarations == null) {
             declarations = new ArrayList<>();
             for (Method method : clazz.getDeclaredMethods()) {
@@ -340,6 +340,10 @@ public class PascalLibraryManager {
                 }
             });
             METHOD_CACHE.put(clazz, declarations);
+        } else {
+            for (MethodDeclaration declaration : declarations) {
+                declaration.setInstance(instance);
+            }
         }
         for (AbstractFunction declaration : declarations) {
             mProgram.declareFunction(declaration);

@@ -238,7 +238,14 @@ public class MethodDeclaration extends AbstractCallableFunction {
 
     @Override
     public LineInfo getLineNumber() {
-        return new LineInfo(-1, mInstance.getClass().getCanonicalName());
+        if (mInstance != null) {
+            return new LineInfo(-1, mInstance.getClass().getName());
+        }else {
+            return LineInfo.ANONYMOUS;
+        }
     }
 
+    public void setInstance(Object instance) {
+        this.mInstance = instance;
+    }
 }
