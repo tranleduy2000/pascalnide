@@ -16,12 +16,13 @@
 
 <resources>
 
-    <style name="AppThemeDark.NoActionBar" parent="AppThemeDark">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
 
-        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
-        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+    <style name="AppThemeLight" parent="BaseLightTheme">
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="AppThemeDark" parent="BaseDarkTheme">
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
 </resources>

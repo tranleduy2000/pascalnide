@@ -99,6 +99,7 @@ public abstract class BaseActivity extends AppCompatActivity
      * @param recreate - call method onCreate
      */
     protected void setTheme(boolean recreate) {
+        setTheme(R.style.AppThemeLight);
     }
 
     @Override

@@ -28,7 +28,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeDark.NoActionBar">
+        android:theme="@style/AppThemeDark">
         <activity
             android:name="com.duy.pascal.ui.activities.CreateShortcutActivity"
             android:label="@string/create_shortcut">
@@ -85,7 +85,8 @@
 
                 <data android:mimeType="text/plain" />
             </intent-filter>
-            <intent-filter>
+
+            <intent-filter android:scheme="http">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.BROWSABLE" />

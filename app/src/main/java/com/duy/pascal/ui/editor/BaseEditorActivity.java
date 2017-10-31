@@ -97,7 +97,7 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
     private FileListPagerFragment mFileExplorer;
     private FileClipboard mFileClipboard;
     private PopupMenu mFileMenu;
-    private MenuItem mPasteMenu;
+    private MenuItem mSortMenu;
 
     protected void onShowKeyboard() {
         hideAppBar();
@@ -178,7 +178,7 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
         getMenuInflater().inflate(R.menu.explorer_menu, menu);
         Pref pref = Pref.getInstance(this);
         menu.findItem(R.id.show_hidden_files_menu).setChecked(pref.isShowHiddenFiles());
-        mPasteMenu = menu.findItem(R.id.paste_menu);
+        mSortMenu = menu.findItem(R.id.paste_menu);
         int sortId;
         switch (pref.getFileSortType()) {
             case FileListSorter.SORT_DATE:
