@@ -18,19 +18,14 @@ package com.duy.pascal.ui.activities;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import com.duy.pascal.ui.LocaleHelper;
 import com.duy.pascal.ui.R;
@@ -63,26 +58,14 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     public void showStatusBar() {
-        if (Build.VERSION.SDK_INT < 30) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        } else {
-            View decorView = getWindow().getDecorView();
-            int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
-            decorView.setSystemUiVisibility(uiOptions);
-        }
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     public void hideStatusBar() {
-        if (android.os.Build.VERSION.SDK_INT < 30) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-        } else {
-            View decorView = getWindow().getDecorView();
-            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-            decorView.setSystemUiVisibility(uiOptions);
-        }
+        Window window = getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
     }
 
     @Override
@@ -130,50 +113,10 @@ public abstract class BaseActivity extends AppCompatActivity
         if (mPreferences != null) {
             mPreferences.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         }
-        if (mDialog != null) mDialog.dismiss();
+        if (mDialog != null && mDialog.isShowing()) {
+            mDialog.dismiss();
+        }
         super.onDestroy();
-    }
-
-    /**
-     * show dialog with title and messenger
-     *
-     * @param title - title
-     * @param msg   - messenger
-     */
-    protected void showDialog(String title, String msg) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title).setMessage(msg);
-        builder.setNegativeButton(this.getString(R.string.close), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-            }
-        });
-        builder.create().show();
-    }
-
-    protected void hideKeyboard(EditText editText) {
-        if (editText != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-        } else {
-            // Check if no view has focus:
-            View view = this.getCurrentFocus();
-            if (view != null) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
-        }
-    }
-
-    protected void hideKeyboard() {
-
-        // Check if no view has focus:
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
     }
 
     protected void setupToolbar() {

@@ -77,10 +77,8 @@ import java.util.ArrayList;
  */
 
 
-public abstract class BaseEditorActivity extends BaseActivity //for debug
-        implements SymbolListView.OnKeyListener,
-        EditorControl,
-        FileActionCallback,
+public abstract class BaseEditorActivity extends BaseActivity implements SymbolListView.OnKeyListener,
+        EditorControl, FileActionCallback,
         EditorContext, View.OnClickListener, PopupMenu.OnMenuItemClickListener {
     private static final String TAG = "BaseEditorActivity";
 
