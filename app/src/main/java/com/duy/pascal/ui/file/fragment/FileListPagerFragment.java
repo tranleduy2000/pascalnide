@@ -21,6 +21,7 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -52,9 +53,6 @@ import com.duy.pascal.ui.file.Pref;
 import com.duy.pascal.ui.file.activities.FileExplorerActivity;
 import com.duy.pascal.ui.file.adapter.FileListItemAdapter;
 import com.duy.pascal.ui.file.adapter.PathButtonAdapter;
-
-
-import com.duy.pascal.ui.file.listener.FileListResultListener;
 import com.duy.pascal.ui.file.listener.OnClipboardPasteFinishListener;
 import com.duy.pascal.ui.file.util.FileListSorter;
 import com.duy.pascal.ui.utils.DLog;
@@ -84,7 +82,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
         FileListPagerFragment f = new FileListPagerFragment();
         Bundle b = new Bundle();
-        b.putParcelable("path", path);
+        b.putSerializable("path", path);
         f.setArguments(b);
         return f;
     }
@@ -92,14 +90,14 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mPath = getArguments().getParcelable("path");
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mPath = (File) getArguments().getSerializable("path");
         binding = DataBindingUtil.inflate(inflater, R.layout.file_explorer_fragment, container, false);
         return binding.getRoot();
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FileClipboard fileClipboard = ((FileActionCallback) getActivity()).getFileClipboard();
         mAction = new FileExplorerAction(getContext(), this, fileClipboard, this);
@@ -346,7 +344,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
     @Override
     public void show(File file) {
-        mPath = new File(file);
+        mPath = file;
         onRefresh();
     }
 
@@ -386,28 +384,24 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
             final boolean showHiddenFiles = pref.isShowHiddenFiles();
             final int sortType = pref.getFileSortType();
             mUpdateRootInfo.onUpdate(mPath);
-            mPath.listFiles(new FileListResultListener() {
-                @Override
-                public void onResult(File[] result) {
-                    if (result.length == 0) {
-                        taskResult.setResult(result);
-                        return;
+            File[] result = mPath.listFiles();
+            if (result.length == 0) {
+                taskResult.setResult(result);
+                return;
+            }
+            if (!showHiddenFiles) {
+                List<File> list = new ArrayList<>(result.length);
+                for (File file : result) {
+                    if (file.getName().charAt(0) == '.') {
+                        continue;
                     }
-                    if (!showHiddenFiles) {
-                        List<File> list = new ArrayList<>(result.length);
-                        for (File file : result) {
-                            if (file.getName().charAt(0) == '.') {
-                                continue;
-                            }
-                            list.add(file);
-                        }
-                        result = new File[list.size()];
-                        list.toArray(result);
-                    }
-                    Arrays.sort(result, new FileListSorter(true, sortType, true));
-                    taskResult.setResult(result);
+                    list.add(file);
                 }
-            });
+                result = new File[list.size()];
+                list.toArray(result);
+            }
+            Arrays.sort(result, new FileListSorter(true, sortType, true));
+            taskResult.setResult(result);
         }
     }
 }

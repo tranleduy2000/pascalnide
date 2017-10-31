@@ -60,6 +60,7 @@ import com.duy.pascal.ui.file.FileManager;
 import com.duy.pascal.ui.file.Pref;
 import com.duy.pascal.ui.file.fragment.FileListPagerFragment;
 import com.duy.pascal.ui.file.util.FileListSorter;
+import com.duy.pascal.ui.file.util.FileUtils;
 import com.duy.pascal.ui.file.util.TabFileUtils;
 import com.duy.pascal.ui.setting.PascalPreferences;
 import com.duy.pascal.ui.utils.DLog;
@@ -383,7 +384,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 int position = mPagerAdapter.getPositionForTag(file.getPath());
-                boolean success = mFileManager.deleteFile(file);
+                boolean success = FileUtils.deleteRecursive(file);
                 if (success) {
                     if (position >= 0) {
                         removePage(position);

@@ -243,19 +243,15 @@ public class FileManager {
     }
 
     /**
-     * save file
+     * Save file
      *
      * @param filePath - name of file
      * @param text     - content of file
      */
     public boolean saveFile(@NonNull String filePath, String text) {
         try {
-            File file = new File(filePath);
-            if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                file.createNewFile();
-            }
-            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
+            FileOutputStream out = new FileOutputStream(filePath);
+            OutputStreamWriter writer = new OutputStreamWriter(out, "UTF-8");
             if (text.length() > 0) writer.write(text);
             writer.close();
             return true;
@@ -264,55 +260,15 @@ public class FileManager {
         }
     }
 
-    public String loadInMode(File file) {
-        String res = "";
-        try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF8"));
-
-            String line;
-            while ((line = in.readLine()) != null) {
-                res += line;
-            }
-            in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return res;
-    }
-
-    /**
-     * read content of file
-     *
-     * @param filename - file
-     * @return - string
-     */
-    public String loadInMode(String filename) {
-        String res = "";
-        try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    new FileInputStream(new File(getCurrentPath() + filename)), "UTF8"));
-
-            String line;
-            while ((line = in.readLine()) != null) {
-                res += line + "\n";
-            }
-            in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return res;
-    }
-
     /**
      * create new file in dir of application
      *
-     * @param fileName
+     * @param fileName - name of file to create
      * @return - path of file
      */
     public String createNewFileInMode(String fileName) {
         String name = getCurrentPath() + fileName;
         File file = new File(name);
-//       DLog.i(TAG, "createNewFileInMode: " + name);
         try {
             if (!file.exists()) {
                 new File(file.getParent()).mkdirs();
@@ -326,7 +282,7 @@ public class FileManager {
     }
 
     /**
-     * create new file
+     * Create new file
      *
      * @param path path to file
      * @return file path
@@ -350,23 +306,6 @@ public class FileManager {
         }
     }
 
-    public boolean deleteFile(File file) {
-        try {
-            return file.delete();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public String removeFile(File file) {
-        try {
-            file.delete();
-            return "";
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-    }
-
     /**
      * set content of file pas for generate, put it in internal storage
      *
@@ -375,15 +314,14 @@ public class FileManager {
     @Nullable
     public String setContentFileTemp(String content) {
         File file = new File(getCurrentPath(), FILE_TEMP_NAME);
-        FileOutputStream outputStream;
         try {
             if (!file.exists()) {
                 file.getParentFile().mkdirs();
                 file.createNewFile();
             }
-            outputStream = new FileOutputStream(file);
-            outputStream.write(content.getBytes());
-            outputStream.close();
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(content.getBytes());
+            fos.close();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

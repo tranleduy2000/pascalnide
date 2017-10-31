@@ -23,10 +23,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.duy.pascal.ui.common.listeners.OnItemClickListener;
 import com.jecelyin.android.file_explorer.R;
 
-import com.duy.pascal.ui.common.listeners.OnItemClickListener;
-
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -56,13 +56,13 @@ public class PathButtonAdapter extends RecyclerView.Adapter<PathButtonAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, final int position) {
         File path = pathList.get(position);
         String name = path.getName();
-        if("/".equals(name) || TextUtils.isEmpty(name))
+        if ("/".equals(name) || TextUtils.isEmpty(name))
             name = holder.textView.getContext().getString(R.string.root_path);
         holder.textView.setText(name);
         holder.textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onItemClickListener != null)
+                if (onItemClickListener != null)
                     onItemClickListener.onItemClick(position, v);
             }
         });
@@ -74,12 +74,12 @@ public class PathButtonAdapter extends RecyclerView.Adapter<PathButtonAdapter.Vi
     }
 
     public void setPath(File path) {
-        if(pathList == null)
+        if (pathList == null)
             pathList = new ArrayList<>();
         else
             pathList.clear();
 
-        for(;path != null;) {
+        for (; path != null; ) {
             pathList.add(path);
             path = path.getParentFile();
         }
@@ -94,7 +94,7 @@ public class PathButtonAdapter extends RecyclerView.Adapter<PathButtonAdapter.Vi
         public ViewHolder(View itemView) {
             super(itemView);
 
-            textView = (TextView)itemView;
+            textView = (TextView) itemView;
         }
     }
 }

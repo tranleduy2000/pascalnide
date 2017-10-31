@@ -23,24 +23,22 @@ import android.view.ViewGroup;
 
 import com.duy.pascal.ui.file.fragment.FileListPagerFragment;
 
-
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Jecelyin Peng <jecelyin@gmail.com>
- */
+
 public class FileListPagerAdapter extends FragmentPagerAdapter {
     private final List<File> pathList;
     private FileListPagerFragment mCurrentFragment;
 
-    public FileListPagerFragment getCurrentFragment() {
-        return mCurrentFragment;
-    }
-
     public FileListPagerAdapter(FragmentManager fm) {
         super(fm);
         this.pathList = new ArrayList<>();
+    }
+
+    public FileListPagerFragment getCurrentFragment() {
+        return mCurrentFragment;
     }
 
     public void addPath(File path) {

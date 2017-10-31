@@ -2,8 +2,6 @@
     package="com.jecelyin.android.file_explorer">
 
     <application>
-
-        <activity android:name="com.duy.pascal.ui.file.activities.FileExplorerActivity" />
     </application>
 
 </manifest>

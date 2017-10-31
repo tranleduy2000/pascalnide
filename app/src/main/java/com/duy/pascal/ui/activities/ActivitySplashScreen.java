@@ -29,14 +29,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.editor.EditorActivity;
 import com.duy.pascal.ui.file.FileManager;
 import com.duy.pascal.ui.runnable.ExecuteActivity;
+import com.duy.pascal.ui.utils.DLog;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -100,7 +101,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
         Intent data = getIntent();
         String action = data.getAction();
 
-        if (DLog.DEBUG)DLog.d(TAG, "startMainActivity: action = " + action);
+        if (DLog.DEBUG) DLog.d(TAG, "startMainActivity: action = " + action);
 
         String type = data.getType();
         final Intent intentEdit = new Intent(ActivitySplashScreen.this, EditorActivity.class);
@@ -141,10 +142,10 @@ public class ActivitySplashScreen extends AppCompatActivity {
 
     private void handleActionView(@NonNull Intent from,
                                   @NonNull Intent to) {
-       DLog.d(TAG, "handleActionView() called with: from = [" + from + "], to = [" + to + "]");
+        DLog.d(TAG, "handleActionView() called with: from = [" + from + "], to = [" + to + "]");
         if (from.getData().toString().endsWith(".pas") || from.getData().toString().endsWith(".txt")) {
             Uri uriPath = from.getData();
-           DLog.d(TAG, "handleActionView: " + uriPath.getPath());
+            DLog.d(TAG, "handleActionView: " + uriPath.getPath());
             try {
                 String path = FileManager.getPathFromUri(this, uriPath);
                 to.putExtra(CompileManager.FILE_PATH, path);
@@ -157,10 +158,10 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 //clone file
                 InputStream inputStream = getContentResolver().openInputStream(uri);
                 FileManager fileManager = new FileManager(this);
-                String filePath = fileManager.createRandomFile(this);
-                fileManager.copy(inputStream, new FileOutputStream(filePath));
+                File file = fileManager.createRandomFile(this);
+                fileManager.copy(inputStream, new FileOutputStream(file));
 
-                to.putExtra(CompileManager.FILE_PATH, filePath);
+                to.putExtra(CompileManager.FILE_PATH, file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -170,8 +171,8 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private void handleActionSend(Intent from, Intent to) {
         String text = from.getStringExtra(Intent.EXTRA_TEXT);
         FileManager fileManager = new FileManager(this);
-        String filePath = fileManager.createRandomFile(this);
-        fileManager.saveFile(filePath, text);
-        to.putExtra(CompileManager.FILE_PATH, filePath);
+        File file = fileManager.createRandomFile(this);
+        fileManager.saveFile(file, text);
+        to.putExtra(CompileManager.FILE_PATH, file);
     }
 }

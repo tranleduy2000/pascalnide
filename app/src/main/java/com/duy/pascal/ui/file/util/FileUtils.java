@@ -184,10 +184,11 @@ public class FileUtils {
      * @return true of delete success, otherwise return false
      */
     public static boolean deleteRecursive(File fileOrDirectory) {
-        if (fileOrDirectory.isDirectory())
-            for (File child : fileOrDirectory.listFiles())
+        if (fileOrDirectory.isDirectory()) {
+            for (File child : fileOrDirectory.listFiles()) {
                 deleteRecursive(child);
-
+            }
+        }
         return fileOrDirectory.delete();
     }
 }
