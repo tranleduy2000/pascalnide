@@ -78,7 +78,7 @@
     <string name="exit">Opustiť</string>
     <string name="exit_mgs">Naozaj chcete opustiť aplikáciu?</string>
     <string name="cloud_database">Cloud databáza</string>
-    <string name="pas_file">Súbor Pas (*.pas)</string>
+    <string name="program_file">Súbor Pas (*.pas)</string>
     <string name="inp_file">Súbor Inp (*.inp)</string>
     <string name="theme">Štýl kódu</string>
     <string name="select">Vybrať</string>

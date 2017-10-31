@@ -84,7 +84,7 @@
     <string name="exit">退出</string>
     <string name="exit_mgs">您是否要退出应用程序？</string>
     <string name="cloud_database">云端数据库</string>
-    <string name="pas_file">Pas文件(*.pas)</string>
+    <string name="program_file">Pas文件(*.pas)</string>
     <string name="inp_file">Inp文件(*.inp)</string>
     <string name="theme">代码类型</string>
     <string name="select">选择</string>

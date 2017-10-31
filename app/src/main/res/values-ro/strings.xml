@@ -84,7 +84,7 @@
     <string name="exit">Ieșire</string>
     <string name="exit_mgs">Dorești să închizi aplicația?</string>
     <string name="cloud_database">Bază de date Cloud</string>
-    <string name="pas_file">Fișier Pas</string>
+    <string name="program_file">Fișier Pas</string>
     <string name="inp_file">Fișier Inp</string>
     <string name="theme">Stilul codului</string>
     <string name="select">Selectează</string>

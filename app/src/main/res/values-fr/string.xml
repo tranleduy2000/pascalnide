@@ -81,7 +81,7 @@
     <string name="exit">"Quitter"</string>
     <string name="exit_mgs">"Voulez-vous quitter l'application?"</string>
     <string name="cloud_database">"Base de données Cloud"</string>
-    <string name="pas_file">"Fichier Pas (* .pas)"</string>
+    <string name="program_file">"Fichier Pas (* .pas)"</string>
     <string name="inp_file">"Fichier Inp (* .inp)"</string>
     <string name="theme">"Style de code"</string>
     <string name="select">"Sélectionner"</string>

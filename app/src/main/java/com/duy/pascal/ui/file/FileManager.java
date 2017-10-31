@@ -266,19 +266,9 @@ public class FileManager {
      * @param fileName - name of file to create
      * @return - path of file
      */
-    public String createNewFileInMode(String fileName) {
-        String name = getCurrentPath() + fileName;
-        File file = new File(name);
-        try {
-            if (!file.exists()) {
-                new File(file.getParent()).mkdirs();
-                file.createNewFile();
-            }
-            return file.getPath();
-        } catch (IOException e) {
-//           DLog.e("", "Could not create file.", e);
-            return "";
-        }
+    public File createNewFileInMode(String fileName) {
+        File file = new File(getCurrentPath(), fileName);
+        return createNewFile(file.getPath());
     }
 
     /**
@@ -338,7 +328,7 @@ public class FileManager {
         String name = getCurrentPath() + File.separatorChar + FILE_TEMP_NAME;
         File file = new File(name);
         if (!file.exists()) {
-            createNewFileInMode(name);
+            return createNewFileInMode(name);
         }
         return file;
     }

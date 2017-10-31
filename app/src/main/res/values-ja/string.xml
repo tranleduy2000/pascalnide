@@ -56,7 +56,7 @@
     <string name="copy_all">全てをコピー</string>
     <string name="exit">終了</string>
     <string name="exit_mgs">アプリを終了しますか？</string>
-    <string name="pas_file">Pasファイル (*.pas)</string>
+    <string name="program_file">Pasファイル (*.pas)</string>
     <string name="inp_file">Inpファイル (*.inp)</string>
     <string name="select">選択</string>
     <string name="folder">フォルダ</string>

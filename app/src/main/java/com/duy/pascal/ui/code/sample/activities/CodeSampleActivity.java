@@ -38,6 +38,7 @@ import com.duy.pascal.ui.runnable.ExecuteActivity;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -141,7 +142,8 @@ public class CodeSampleActivity extends BaseActivity implements CodeSampleAdapte
     @Override
     public void onEdit(String code) {
         //create file temp
-        String file = mFileManager.createNewFileInMode("sample_" + Integer.toHexString((int) System.currentTimeMillis()) + ".pas");
+        String suffix = Integer.toHexString((int) System.currentTimeMillis());
+        File file = mFileManager.createNewFileInMode("sample_" + suffix + ".pas");
         mFileManager.saveFile(file, code);
 
         //set file temp for generate

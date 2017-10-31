@@ -102,7 +102,7 @@
     <string name="navigation_drawer_close">Закрыть панель навигации</string>
     <string name="navigation_drawer_open">Открыть навигацию</string>
     <string name="other">Другой</string>
-    <string name="pas_file">Файл Pas (*.pas)</string>
+    <string name="program_file">Файл Pas (*.pas)</string>
     <string name="pascal_for_android">Pascal для Android</string>
     <string name="inp_file">Файл Inp (*.inp)</string>
     <string name="translate">Перевод</string>

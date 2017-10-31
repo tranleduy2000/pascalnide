@@ -217,8 +217,8 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
 
         if (mPagerAdapter.getCount() == 0) {
             String fileName = Integer.toHexString((int) System.currentTimeMillis()) + ".pas";
-            String filePath = mFileManager.createNewFileInMode(fileName);
-            addNewPageEditor(new File(filePath));
+            File filePath = mFileManager.createNewFileInMode(fileName);
+            addNewPageEditor(filePath);
         }
 
         int pos = getPreferences().getInt(PascalPreferences.TAB_POSITION_FILE);

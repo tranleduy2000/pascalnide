@@ -81,7 +81,7 @@
     <string name="exit">"Keluar"</string>
     <string name="exit_mgs">"Apakah Anda ingin keluar dari aplikasi?"</string>
     <string name="cloud_database">"Database awan"</string>
-    <string name="pas_file">"Pas file (* .pas)"</string>
+    <string name="program_file">"Program file (* .pas)"</string>
     <string name="inp_file">"Inp file (* .inp)"</string>
     <string name="theme">"Gaya kode"</string>
     <string name="select">"Memilih"</string>

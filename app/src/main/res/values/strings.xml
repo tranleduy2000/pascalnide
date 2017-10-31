@@ -81,7 +81,7 @@
     <string name="exit">Exit</string>
     <string name="exit_mgs">Do you want to exit application?</string>
     <string name="cloud_database">Cloud database</string>
-    <string name="pas_file">Pas file (*.pas)</string>
+    <string name="program_file">Program file (*.pas)</string>
     <string name="inp_file">Inp file (*.inp)</string>
     <string name="theme">Code style</string>
     <string name="select">Select</string>

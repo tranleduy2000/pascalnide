@@ -40,11 +40,11 @@
         android:orientation="vertical">
 
         <RadioButton
-            android:id="@+id/rad_pas"
+            android:id="@+id/rad_program"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="@string/pas_file" />
+            android:text="@string/program_file" />
 
         <RadioButton
             android:id="@+id/rad_unit"
