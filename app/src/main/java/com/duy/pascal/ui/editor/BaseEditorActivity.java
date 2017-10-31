@@ -72,8 +72,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.duy.pascal.ui.R.id.action_new_folder;
-
 /**
  * Created by Duy on 09-Mar-17.
  */
@@ -172,7 +170,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
 
         mFabMenu = findViewById(R.id.fab_menu);
         mFabMenu.findViewById(R.id.action_new_file).setOnClickListener(this);
-        mFabMenu.findViewById(action_new_folder).setOnClickListener(this);
+        mFabMenu.findViewById(R.id.action_new_folder).setOnClickListener(this);
 
         View menuAnchor = findViewById(R.id.img_file_menus);
         mFileMenu = new PopupMenu(this, menuAnchor);
@@ -587,7 +585,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
                 mFileExplorer.createNewFile();
                 mFabMenu.close(true);
                 break;
-            case action_new_folder:
+            case R.id.action_new_folder:
                 mFileExplorer.createNewFolder();
                 mFabMenu.close(true);
                 break;

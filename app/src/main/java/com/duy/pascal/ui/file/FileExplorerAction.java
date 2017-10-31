@@ -37,6 +37,7 @@ import android.widget.RadioButton;
 
 import com.duy.pascal.ui.BuildConfig;
 import com.duy.pascal.ui.R;
+import com.duy.pascal.ui.autocomplete.completion.Template;
 import com.duy.pascal.ui.common.utils.UIUtils;
 import com.duy.pascal.ui.file.listener.OnClipboardPasteFinishListener;
 import com.duy.pascal.ui.file.util.FileUtils;
@@ -359,23 +360,30 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
                 RadioButton isProgram = mDialog.findViewById(R.id.rad_program);
                 RadioButton isUnit = mDialog.findViewById(R.id.rad_unit);
                 RadioButton isInput = mDialog.findViewById(R.id.rad_inp);
-
-                if (isInput.isChecked() || isUnit.isChecked()) {
+                String template = "";
+                if (isInput.isChecked()) {
                     fileName += ".inp";
+                } else if (isUnit.isChecked()) {
+                    template = Template.createUnitTemplate(fileName);
+                    fileName += ".pas";
                 } else if (isProgram.isChecked()) {
+                    template = Template.createProgramTemplate(fileName);
                     fileName += ".pas";
                 }
 
                 File file = new File(mExplorerContext.getCurrentDirectory(), fileName);
-                boolean result = new FileManager(mContext).createNewFile(file.getPath()) != null;
+                FileManager fileManager = new FileManager(mContext);
+                boolean result = fileManager.createNewFile(file.getPath()) != null;
                 if (!result) {
                     editText.setError(mContext.getString(R.string.can_not_create_file));
                     return;
+                } else {
+                    fileManager.saveFile(file, template);
                 }
-                mView.refresh();
                 if (mCallback != null) {
                     mCallback.onSelectFile(new File(file.getPath()));
                 }
+                mView.refresh();
                 destroyActionMode();
                 mDialog.cancel();
             }

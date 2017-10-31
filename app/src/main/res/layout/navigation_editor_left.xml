@@ -85,6 +85,8 @@
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        app:menu_colorNormal="?colorAccent"
+        app:menu_colorPressed="?colorAccent"
         app:menu_fab_size="normal">
 
 
@@ -94,7 +96,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_insert_drive_file_white_24dp"
             app:fab_label="@string/new_file"
-            app:fab_size="mini" />
+            app:fab_size="normal" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/action_new_folder"
