@@ -62,6 +62,7 @@
         <item>Română</item>
         <item>Chinese simplified</item>
         <item>日本語</item>
+        <item>Indonesian</item>
     </string-array>
 
     <string-array name="language_code" translatable="false">
@@ -75,6 +76,7 @@
         <item>ro</item>
         <item>zh_rCN</item>
         <item>ja</item>
+        <item>id</item>
     </string-array>
 
 </resources>
