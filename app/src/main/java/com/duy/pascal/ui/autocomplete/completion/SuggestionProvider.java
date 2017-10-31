@@ -19,6 +19,7 @@ package com.duy.pascal.ui.autocomplete.completion;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.CodeUnitParsingException;
+import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.datastructure.ArrayListMultimap;
@@ -28,7 +29,6 @@ import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
-import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.autocomplete.completion.model.ConstantDescription;
@@ -83,11 +83,17 @@ public class SuggestionProvider {
 
             if (source.length() <= MAX_CHAR) {
                 try {
-                    PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(srcPath,
-                            new StringReader(source), null, null);
+                    CodeUnit codeUnit;
+                    if (source.startsWith("unit ")) {
+                        codeUnit = PascalCompiler.loadLibrary(srcPath,
+                                new StringReader(source), null, null);
+                    } else {
+                        codeUnit = PascalCompiler.loadPascal(srcPath,
+                                new StringReader(source), null, null);
+                    }
 
                     //the result
-                    addSuggestFromContext(suggestItems, pascalProgram.getContext());
+                    addSuggestFromContext(suggestItems, codeUnit.getContext());
                     mParsingException = null;
                 } catch (CodeUnitParsingException e) { //parsing error
                     addSuggestFromContext(suggestItems, e.getCodeUnit().getContext());

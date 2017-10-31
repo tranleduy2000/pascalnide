@@ -44,4 +44,5 @@
 
     <attr name="toolbarStyle" format="reference" />
     <attr name="appbarStyle" format="reference" />
+    <attr name="imageTintColor" format="color" />
 </resources>

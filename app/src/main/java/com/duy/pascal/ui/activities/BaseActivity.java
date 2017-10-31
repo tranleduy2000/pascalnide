@@ -45,7 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
         mPreferences = new PascalPreferences(this);
 
-        setTheme(false);  //set theme for app
+        setTheme();  //set theme for app
         setFullScreen();
     }
 
@@ -93,13 +93,8 @@ public abstract class BaseActivity extends AppCompatActivity
         super.onResume();
     }
 
-    /**
-     * set theme for app
-     *
-     * @param recreate - call method onCreate
-     */
-    protected void setTheme(boolean recreate) {
-        setTheme(R.style.AppThemeLight);
+    protected void setTheme() {
+        setTheme(R.style.AppThemeDark);
     }
 
     @Override

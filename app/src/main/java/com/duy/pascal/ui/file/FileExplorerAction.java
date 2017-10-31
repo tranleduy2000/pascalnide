@@ -331,15 +331,15 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
             mDialog.dismiss();
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle(R.string.new_file);
+//        builder.setTitle(R.string.new_file);
         builder.setView(R.layout.dialog_new_file);
 
         mDialog = builder.create();
         mDialog.show();
 
         final EditText editText = mDialog.findViewById(R.id.edit_input);
-        Button btnOK = mDialog.findViewById(R.id.btn_ok);
-        Button btnCancel = mDialog.findViewById(R.id.btn_cancel);
+        View btnOK = mDialog.findViewById(R.id.btn_ok);
+        View btnCancel = mDialog.findViewById(R.id.btn_cancel);
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -351,15 +351,17 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
             @Override
             public void onClick(View v) {
                 //get string path of in edit text
-                String fileName = editText.getText().toString();
-                if (TextUtils.isEmpty(fileName)) {
-                    editText.setError(mContext.getString(R.string.enter_new_file_name));
+                String fileName = editText.getText().toString().trim();
+                if (!FileManager.acceptPasFile(fileName)) {
+                    editText.setError(mContext.getString(R.string.invalid_file_name));
                     return;
                 }
+
 
                 RadioButton isProgram = mDialog.findViewById(R.id.rad_program);
                 RadioButton isUnit = mDialog.findViewById(R.id.rad_unit);
                 RadioButton isInput = mDialog.findViewById(R.id.rad_inp);
+
                 String template = "";
                 if (isInput.isChecked()) {
                     fileName += ".inp";

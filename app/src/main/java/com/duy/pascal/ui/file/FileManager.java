@@ -29,9 +29,11 @@ import android.support.v4.app.ActivityCompat;
 
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.activities.ActivitySplashScreen;
+import com.duy.pascal.ui.autocomplete.completion.Patterns;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.file.localdata.Database;
 import com.duy.pascal.ui.setting.PascalPreferences;
+import com.duy.pascal.ui.utils.DLog;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -46,6 +48,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 /**
  * File Manager
@@ -56,17 +59,17 @@ public class FileManager {
     /*storage path for save code*/
     private static final String EXTERNAL_DIR_CODE = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/";
     private static final String FILE_TEMP_NAME = "tmp.pas";
-
+    private static final String TAG = "FileManager";
     private Context mContext;
     private Database mDatabase;
     private PascalPreferences mPascalPreferences;
+
 
     public FileManager(Context context) {
         mContext = context;
         mDatabase = new Database(context);
         mPascalPreferences = new PascalPreferences(context);
     }
-
 
     /**
      * Read input stream
@@ -136,6 +139,23 @@ public class FileManager {
         return null;
     }
 
+    public static boolean acceptPasFile(@Nullable String fileName) {
+        DLog.d(TAG, "isPasFile() called with: fileName = [" + fileName + "]");
+        if (fileName == null) return false;
+        fileName = fileName.trim();
+        Matcher matcher = Patterns.KEYWORDS.matcher(fileName);
+        if (matcher.find()) {
+            if (matcher.group().equalsIgnoreCase(fileName)) {
+                DLog.d(TAG, "isPasFile() returned: " + true);
+                return false;
+            }
+        }
+        boolean matches = fileName.replace(".", "").matches(Patterns.IDENTIFIER.toString());
+        DLog.d(TAG, "isPasFile() returned: " + matches);
+        return matches;
+    }
+
+    @NonNull
     public StringBuilder fileToString(String path) {
         File file = new File(path);
         if (file.canRead()) {
@@ -153,7 +173,6 @@ public class FileManager {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
         }
         return new StringBuilder();
     }
@@ -162,17 +181,17 @@ public class FileManager {
         if (file.canRead()) {
             try {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-                String result = "";
+                StringBuilder result = new StringBuilder();
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
-                    result += line + "\n";
+                    result.append(line).append("\n");
                 }
                 try {
                     bufferedReader.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return result;
+                return result.toString();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -282,10 +301,8 @@ public class FileManager {
         File file = new File(path);
         try {
             if (!file.exists()) {
-                if (file.getParentFile().mkdirs()) {
-                    return null;
-                }
-                if (file.createNewFile()) {
+                file.getParentFile().mkdirs();
+                if (!file.createNewFile()) {
                     return null;
                 }
             }

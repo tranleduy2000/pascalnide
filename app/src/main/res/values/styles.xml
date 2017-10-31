@@ -27,6 +27,8 @@
         <item name="toolbarIconNormalColor">#ffffff</item>
         <item name="toolbarIconDisabledColor">#50ffffff</item>
         <item name="menuIconNormalColor">#829294</item>
+
+        <item name="imageTintColor">#FFFFFF</item>
     </style>
 
     <style name="BaseLightTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -41,6 +43,8 @@
         <item name="toolbarIconNormalColor">#ffffff</item>
         <item name="toolbarIconDisabledColor">#50ffffff</item>
         <item name="menuIconNormalColor">#829294</item>
+
+        <item name="imageTintColor">#000</item>
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

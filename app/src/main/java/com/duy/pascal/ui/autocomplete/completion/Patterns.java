@@ -32,7 +32,7 @@ public class Patterns {
                     "|procedure|program|repeat|until|shl|shr" +
                     "|then|type|var|end|function" +
                     "|true|false" +
-                    "|and|or|xor|not|break|exit" +
+                    "|or|xor|not|break|exit" +
                     "|integer|byte|word|shortint|smallint|cardinal" +
                     "|string|ansistring" +
                     "|single|real|extended|comp|curreny" +
@@ -53,7 +53,7 @@ public class Patterns {
             "(\\b)(sin|cos|sqrt|length" +
                     "|exp|tan|keyPressed|readKey|delay|random|randomize|inc|dec" +
                     "|ceil|trunc|frac|floor|abs|round|sqr|pred|succ|ln|arctan" +
-                    "|odd|int|halt|odd)(\\b)", Pattern.CASE_INSENSITIVE);
+                    "|int|halt|odd)(\\b)", Pattern.CASE_INSENSITIVE);
     /**
      * match some spacial symbol
      */

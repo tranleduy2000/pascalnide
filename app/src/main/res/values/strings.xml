@@ -212,5 +212,6 @@
     <string name="change_function_type">Change type of function \"%1$s\" to type \"%2$s\"</string>
     <string name="code">Code</string>
     <string name="enter_data">Enter data</string>
+    <string name="invalid_file_name">Invalid file name</string>
 </resources>
 

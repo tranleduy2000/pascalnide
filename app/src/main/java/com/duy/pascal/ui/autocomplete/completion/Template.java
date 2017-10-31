@@ -27,7 +27,7 @@ public class Template {
             "program %s;\n" +
                     "uses crt;\n" +
                     "begin\n" +
-                    "    \n" + AutoIndentEditText.CURSOR +
+                    "   " + AutoIndentEditText.CURSOR + "\n" +
                     "    readln;\n" +
                     "end.";
 
