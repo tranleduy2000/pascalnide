@@ -85,7 +85,7 @@ class ChangeTypeHelper {
                 String string = context.getString(R.string.change_function_type,
                         functionName.toString(),
                         newType.getName().toString());
-                return ExceptionManager.highlight(string);
+                return ExceptionManager.highlight(context, string);
             }
         };
     }
@@ -140,7 +140,7 @@ class ChangeTypeHelper {
                 String string = context.getString(R.string.change_var_type,
                         variable.getName().toString(),
                         newType.getName().toString());
-                return ExceptionManager.highlight(string);
+                return ExceptionManager.highlight(context, string);
             }
         };
 
@@ -196,7 +196,7 @@ class ChangeTypeHelper {
                 String string = context.getString(R.string.change_const_type,
                         constant.getName().toString(),
                         newType.getName().toString());
-                return ExceptionManager.highlight(string);
+                return ExceptionManager.highlight(context, string);
             }
         };
     }

@@ -124,7 +124,7 @@ public class AutoFixHelper {
             @Override
             public CharSequence getTitle(Context context) {
                 String string = context.getString(R.string.declare_type, exception.getMissingType());
-                return highlight(string);
+                return highlight(context, string);
             }
         };
     }
@@ -224,7 +224,7 @@ public class AutoFixHelper {
             @Override
             public CharSequence getTitle(Context context) {
                 String insertText = e.getMissingToken();
-                return highlight(context.getString(R.string.insert_token, insertText));
+                return highlight(context, context.getString(R.string.insert_token, insertText));
             }
         };
     }
@@ -304,7 +304,7 @@ public class AutoFixHelper {
             @Override
             public CharSequence getTitle(Context context) {
                 String str = context.getString(R.string.declare_constant_2, e.getName().getOriginName());
-                return highlight(str);
+                return highlight(context, str);
             }
         };
     }
@@ -370,7 +370,7 @@ public class AutoFixHelper {
             @Override
             public CharSequence getTitle(Context context) {
                 String str = context.getString(R.string.declare_variable_2, name, type);
-                return highlight(new SpannableString(str));
+                return highlight(context, new SpannableString(str));
             }
         };
     }
@@ -434,7 +434,7 @@ public class AutoFixHelper {
             @Override
             public CharSequence getTitle(Context context) {
                 String str = context.getString(R.string.declare_variable_2, name, type);
-                return highlight(new SpannableString(str));
+                return highlight(context, new SpannableString(str));
             }
         };
     }
@@ -520,7 +520,7 @@ public class AutoFixHelper {
                 ConstantAccess constant = e.getConst();
                 String string = context.getString(R.string.change_const_to_var, constant.getName(),
                         constant.getRuntimeType(null).getRawType().toString(), constant.getValue().toString());
-                return highlight(string);
+                return highlight(context, string);
             }
         };
 
@@ -544,7 +544,7 @@ public class AutoFixHelper {
             @NonNull
             @Override
             public CharSequence getTitle(Context context) {
-                return highlight(context.getString(R.string.add_begin_end));
+                return highlight(context, context.getString(R.string.add_begin_end));
             }
         };
     }
@@ -647,7 +647,7 @@ public class AutoFixHelper {
                 String str = insert ?
                         context.getString(R.string.insert_token_2, expect, current)
                         : context.getString(R.string.replace_token, current, expect);
-                return highlight(str);
+                return highlight(context, str);
             }
         };
     }
