@@ -35,7 +35,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
  * Created by Duy on 12-Mar-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+
 public class ThemeFontActivity extends BaseActivity
         implements ThemeFragment.OnThemeSelectListener {
 

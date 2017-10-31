@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -51,8 +52,8 @@ import com.duy.pascal.ui.file.Pref;
 import com.duy.pascal.ui.file.activities.FileExplorerActivity;
 import com.duy.pascal.ui.file.adapter.FileListItemAdapter;
 import com.duy.pascal.ui.file.adapter.PathButtonAdapter;
-import com.duy.pascal.ui.file.io.JecFile;
-import com.duy.pascal.ui.file.io.LocalFile;
+
+
 import com.duy.pascal.ui.file.listener.FileListResultListener;
 import com.duy.pascal.ui.file.listener.OnClipboardPasteFinishListener;
 import com.duy.pascal.ui.file.util.FileListSorter;
@@ -72,13 +73,13 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     public static final String TAG = "FileListPagerFragment";
     private FileListItemAdapter mAdapter;
     @Nullable
-    private JecFile mPath;
+    private File mPath;
     private FileExplorerFragmentBinding binding;
     private PathButtonAdapter mPathAdapter;
     private ScanFilesTask mTask;
-    private FileExplorerAction action;
+    private FileExplorerAction mAction;
 
-    public static Fragment newFragment(JecFile path) {
+    public static Fragment newFragment(File path) {
         DLog.d(TAG, "newFragment() called with: path = [" + path + "]");
 
         FileListPagerFragment f = new FileListPagerFragment();
@@ -101,9 +102,9 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FileClipboard fileClipboard = ((FileActionCallback) getActivity()).getFileClipboard();
-        action = new FileExplorerAction(getContext(), this, fileClipboard, this);
+        mAction = new FileExplorerAction(getContext(), this, fileClipboard, this);
         mAdapter = new FileListItemAdapter();
-        mAdapter.setOnCheckedChangeListener(action);
+        mAdapter.setOnCheckedChangeListener(mAction);
         mAdapter.setOnItemClickListener(this);
         mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -130,7 +131,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
         mPathAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view) {
-                JecFile file = mPathAdapter.getItem(position);
+                File file = mPathAdapter.getItem(position);
                 switchToPath(file);
             }
 
@@ -181,8 +182,8 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     public void onDestroyView() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
         pref.unregisterOnSharedPreferenceChangeListener(this);
-        if (action != null) {
-            action.destroy();
+        if (mAction != null) {
+            mAction.destroy();
         }
         super.onDestroyView();
     }
@@ -215,7 +216,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
             });
             item.setVisible(false);
         } else if (item.getItemId() == R.id.add_folder_menu) {
-            action.doCreateFolder(null);
+            mAction.doCreateFolder(null);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -226,12 +227,12 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
         UpdateRootInfo updateRootInfo = new UpdateRootInfo() {
             @Override
-            public void onUpdate(JecFile f) {
+            public void onUpdate(File f) {
                 mPath = f;
             }
         };
         mTask = new ScanFilesTask(getActivity(), mPath, updateRootInfo);
-        mTask.setTaskListener(new TaskListener<JecFile[]>() {
+        mTask.setTaskListener(new TaskListener<File[]>() {
             @Override
             public void onCompleted() {
                 if (binding.explorerSwipeRefreshLayout != null) {
@@ -245,7 +246,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
             }
 
             @Override
-            public void onSuccess(JecFile[] result) {
+            public void onSuccess(File[] result) {
                 if (mAdapter != null) {
                     mAdapter.setData(result);
                 }
@@ -272,7 +273,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     @Override
     public void onItemClick(int position, View view) {
         try {
-            JecFile file = mAdapter.getItem(position);
+            File file = mAdapter.getItem(position);
             FileActionCallback callback = (FileActionCallback) getActivity();
             if (!callback.onSelectFile(new File(file.getPath()))) {
                 if (file.isDirectory()) {
@@ -286,7 +287,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     @Override
     public boolean onItemLongClick(int position, View view) {
 //        try {
-//            JecFile file = adapter.getItem(position);
+//            File file = adapter.getItem(position);
 //            FileActionCallback callback = (FileActionCallback) getActivity();
 //            return callback.onFileLongClick(new File(file.getPath()));
 //        } catch (ClassCastException ignored) {
@@ -295,7 +296,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     }
 
     public boolean onBackPressed() {
-        JecFile parent = mPath.getParentFile();
+        File parent = mPath.getParentFile();
         if (parent == null || parent.getPath().startsWith(mPath.getPath())) {
             switchToPath(parent);
             return true;
@@ -303,7 +304,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
         return false;
     }
 
-    private void switchToPath(JecFile file) {
+    private void switchToPath(File file) {
         mPath = file;
         mPathAdapter.setPath(file);
         Pref.getInstance(getContext()).setLastOpenPath(file.getPath());
@@ -327,27 +328,30 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
     @Override
     public void finish() {
-        getActivity().finish();
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            activity.finish();
+        }
     }
 
     @Override
     public void createNewFolder() {
-        action.doCreateFolder((FileActionCallback) getActivity());
+        mAction.doCreateFolder((FileActionCallback) getActivity());
     }
 
     @Override
     public void createNewFile() {
-        action.showDialogCreateFile((FileActionCallback) getActivity());
+        mAction.showDialogCreateFile((FileActionCallback) getActivity());
     }
 
     @Override
     public void show(File file) {
-        mPath = new LocalFile(file);
+        mPath = new File(file);
         onRefresh();
     }
 
     @Override
-    public JecFile getCurrentDirectory() {
+    public File getCurrentDirectory() {
         return mPath;
     }
 
@@ -362,42 +366,42 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     }
 
     private interface UpdateRootInfo {
-        void onUpdate(JecFile path);
+        void onUpdate(File path);
     }
 
-    private static class ScanFilesTask extends JecAsyncTask<Void, Void, JecFile[]> {
-        private final UpdateRootInfo updateRootInfo;
-        private final Context context;
-        private JecFile path;
+    private static class ScanFilesTask extends JecAsyncTask<Void, Void, File[]> {
+        private UpdateRootInfo mUpdateRootInfo;
+        private Context mContext;
+        private File mPath;
 
-        private ScanFilesTask(Context context, JecFile path, UpdateRootInfo updateRootInfo) {
-            this.context = context.getApplicationContext();
-            this.path = path;
-            this.updateRootInfo = updateRootInfo;
+        private ScanFilesTask(Context context, File path, UpdateRootInfo updateRootInfo) {
+            this.mContext = context.getApplicationContext();
+            this.mPath = path;
+            this.mUpdateRootInfo = updateRootInfo;
         }
 
         @Override
-        protected void onRun(final TaskResult<JecFile[]> taskResult, Void... params) throws Exception {
-            Pref pref = Pref.getInstance(context);
+        protected void onRun(final TaskResult<File[]> taskResult, Void... params) throws Exception {
+            Pref pref = Pref.getInstance(mContext);
             final boolean showHiddenFiles = pref.isShowHiddenFiles();
             final int sortType = pref.getFileSortType();
-            updateRootInfo.onUpdate(path);
-            path.listFiles(new FileListResultListener() {
+            mUpdateRootInfo.onUpdate(mPath);
+            mPath.listFiles(new FileListResultListener() {
                 @Override
-                public void onResult(JecFile[] result) {
+                public void onResult(File[] result) {
                     if (result.length == 0) {
                         taskResult.setResult(result);
                         return;
                     }
                     if (!showHiddenFiles) {
-                        List<JecFile> list = new ArrayList<>(result.length);
-                        for (JecFile file : result) {
+                        List<File> list = new ArrayList<>(result.length);
+                        for (File file : result) {
                             if (file.getName().charAt(0) == '.') {
                                 continue;
                             }
                             list.add(file);
                         }
-                        result = new JecFile[list.size()];
+                        result = new File[list.size()];
                         list.toArray(result);
                     }
                     Arrays.sort(result, new FileListSorter(true, sortType, true));

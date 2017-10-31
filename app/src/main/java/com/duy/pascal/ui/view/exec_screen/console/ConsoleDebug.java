@@ -22,7 +22,7 @@ import com.duy.pascal.ui.utils.DLog;
  * Created by Duy on 26-Mar-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+
 public class ConsoleDebug {
     public final static String TAG = ConsoleDebug.class.getSimpleName();
     private static boolean DEBUG = false;

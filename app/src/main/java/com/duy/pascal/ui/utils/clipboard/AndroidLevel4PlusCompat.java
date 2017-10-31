@@ -19,7 +19,7 @@ package com.duy.pascal.ui.utils.clipboard;
 /**
  * Created by Duy on 26-Mar-17.
  */
-@SuppressWarnings("DefaultFileTemplate")
+
 class AndroidLevel4PlusCompat {
     static int getSDKInt() {
         return android.os.Build.VERSION.SDK_INT;

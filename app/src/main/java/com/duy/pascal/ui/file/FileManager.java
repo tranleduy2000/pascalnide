@@ -94,19 +94,23 @@ public class FileManager {
         return result;
     }
 
-    @NonNull
+    @Nullable
     public static File getSrcPath(Context context) {
-        int i = ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
         final String dirName = "PascalCompiler";
-        if (i == PackageManager.PERMISSION_GRANTED) {
-            File file = new File(Environment.getExternalStorageDirectory(), dirName);
-            if (!file.exists()) {
-                file.mkdirs();
+        int i = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            i = ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
+            if (i == PackageManager.PERMISSION_GRANTED) {
+                File file = new File(Environment.getExternalStorageDirectory(), dirName);
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+                return file;
             }
-            return file;
         } else {
             return new File(context.getFilesDir(), dirName);
         }
+        return null;
     }
 
     /**
@@ -327,17 +331,22 @@ public class FileManager {
      * @param path path to file
      * @return file path
      */
-    public String createNewFile(String path) {
+    @Nullable
+    public File createNewFile(@NonNull String path) {
         File file = new File(path);
         try {
             if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                file.createNewFile();
+                if (file.getParentFile().mkdirs()) {
+                    return null;
+                }
+                if (file.createNewFile()) {
+                    return null;
+                }
             }
-            return path;
+            return file;
         } catch (IOException e) {
             e.printStackTrace();
-            return "";
+            return null;
         }
     }
 
@@ -424,7 +433,7 @@ public class FileManager {
         mDatabase.removeFile(path);
     }
 
-    public String createRandomFile(Context context) {
+    public File createRandomFile(Context context) {
         File f = new File(getSrcPath(context), Integer.toHexString((int) System.currentTimeMillis()) + ".pas");
         return createNewFile(f.getPath());
     }

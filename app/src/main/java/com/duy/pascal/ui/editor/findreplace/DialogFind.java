@@ -35,7 +35,7 @@ import com.duy.pascal.ui.setting.PascalPreferences;
  * Created by Duy on 29-Apr-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+
 public class DialogFind extends AppCompatDialogFragment {
 
     public static final int ACTION_FIND = 1;

@@ -17,11 +17,10 @@
 package com.duy.pascal.ui.file.util;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.duy.pascal.ui.common.utils.IOUtils;
 import com.duy.pascal.ui.file.ExplorerException;
-import com.duy.pascal.ui.file.io.JecFile;
-import com.duy.pascal.ui.file.listener.BoolResultListener;
-import com.duy.pascal.ui.file.listener.FileListResultListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -61,7 +60,7 @@ public class FileUtils {
         return MimeTypes.getInstance().getMimeType(file).startsWith("text/");
     }
 
-    public static void copyDirectory(final JecFile srcDir, JecFile destDir
+    public static void copyDirectory(final File srcDir, File destDir
             , final boolean moveFile) {
         if (srcDir == null) {
             throw new NullPointerException("Source must not be null");
@@ -79,64 +78,52 @@ public class FileUtils {
             throw new ExplorerException("Source '" + srcDir + "' and destination '" + destDir + "' are the same");
         }
 
-        final JecFile destDir2 = destDir.newFile(srcDir.getName());
+        final File destDir2 = new File(destDir, srcDir.getName());
 
         // Cater for destination being directory within the source directory (see IO-141)
         if (destDir.getAbsolutePath().startsWith(srcDir.getAbsolutePath())) {
-            srcDir.listFiles(new FileListResultListener() {
-                @Override
-                public void onResult(JecFile[] srcFiles) {
-                    List<JecFile> exclusionList = null;
-                    if (srcFiles != null && srcFiles.length > 0) {
-                        exclusionList = new ArrayList<>(srcFiles.length);
-                        for (JecFile srcFile : srcFiles) {
-                            JecFile copiedFile = destDir2.newFile(srcFile.getName());
-                            exclusionList.add(copiedFile.getAbsoluteFile());
-                        }
-                    }
-                    doCopyDirectory(srcDir, destDir2, moveFile, exclusionList);
+            File[] srcFiles = srcDir.listFiles();
+            List<File> exclusionList = null;
+            if (srcFiles != null && srcFiles.length > 0) {
+                exclusionList = new ArrayList<>(srcFiles.length);
+                for (File srcFile : srcFiles) {
+                    File copiedFile = new File(destDir2, srcFile.getName());
+                    exclusionList.add(copiedFile.getAbsoluteFile());
                 }
-            });
+            }
+            doCopyDirectory(srcDir, destDir2, moveFile, exclusionList);
         } else {
             doCopyDirectory(srcDir, destDir2, moveFile, null);
         }
     }
 
-    private static void doCopyDirectory(final JecFile srcDir, final JecFile destDir,
-                                        final boolean moveFile, final List<JecFile> exclusionList) {
-        srcDir.listFiles(new FileListResultListener() {
-            @Override
-            public void onResult(final JecFile[] srcFiles) {
-                if (srcFiles == null) {  // null if abstract pathname does not denote a directory, or if an I/O error occurs
-                    throw new ExplorerException("Failed to list contents of " + srcDir);
-                }
-                if (destDir.exists()) {
-                    if (!destDir.isDirectory()) {
-                        throw new ExplorerException("Destination '" + destDir + "' exists but is not a directory");
-                    }
-                    doCopyDirectory(srcDir, destDir, srcFiles, moveFile, exclusionList);
-                } else {
-                    destDir.mkdirs(new BoolResultListener() {
-                        @Override
-                        public void onResult(boolean result) {
-                            if (!result && !destDir.isDirectory()) {
-                                throw new ExplorerException("Destination '" + destDir + "' directory cannot be created");
-                            }
-                            doCopyDirectory(srcDir, destDir, srcFiles, moveFile, exclusionList);
-                        }
-                    });
-                }
+    private static void doCopyDirectory(final File srcDir, final File destDir,
+                                        final boolean moveFile, final List<File> exclusionList) {
+        File[] srcFiles = srcDir.listFiles();
+        if (srcFiles == null) {  // null if abstract pathname does not denote a directory, or if an I/O error occurs
+            throw new ExplorerException("Failed to list contents of " + srcDir);
+        }
+        if (destDir.exists()) {
+            if (!destDir.isDirectory()) {
+                throw new ExplorerException("Destination '" + destDir + "' exists but is not a directory");
             }
-        });
+            doCopyDirectory(srcDir, destDir, srcFiles, moveFile, exclusionList);
+        } else {
+            boolean result = destDir.mkdirs();
+            if (!result && !destDir.isDirectory()) {
+                throw new ExplorerException("Destination '" + destDir + "' directory cannot be created");
+            }
+            doCopyDirectory(srcDir, destDir, srcFiles, moveFile, exclusionList);
+        }
     }
 
-    private static void doCopyDirectory(JecFile srcDir, final JecFile destDir, JecFile[] srcFiles,
-                                        final boolean moveFile, final List<JecFile> exclusionList) throws ExplorerException {
+    private static void doCopyDirectory(File srcDir, final File destDir, File[] srcFiles,
+                                        final boolean moveFile, final List<File> exclusionList) throws ExplorerException {
         if (!destDir.canWrite()) {
             throw new ExplorerException("Destination '" + destDir + "' cannot be written to");
         }
-        for (final JecFile srcFile : srcFiles) {
-            JecFile dstFile = destDir.newFile(srcFile.getName()); //new File(destDir, srcFile.getName());
+        for (final File srcFile : srcFiles) {
+            File dstFile = new File(destDir, srcFile.getName());
             if (exclusionList == null || !exclusionList.contains(srcFile.getAbsoluteFile())) {
                 if (srcFile.isDirectory()) {
                     doCopyDirectory(srcFile, dstFile, moveFile, exclusionList);
@@ -147,23 +134,17 @@ public class FileUtils {
         }
     }
 
-    public static void copyFile(final JecFile srcFile, final JecFile dstFile, boolean moveFile) {
+    public static void copyFile(final File srcFile, final File dstFile, boolean moveFile) {
         if (moveFile) {
-            srcFile.renameTo(dstFile, new BoolResultListener() {
-                @Override
-                public void onResult(boolean result) {
-                    if (!result)
-                        throw new ExplorerException("Source '" + srcFile + "' move to destination '" + dstFile + "' fail");
-                }
-            });
+            boolean result = srcFile.renameTo(dstFile);
+            if (!result) {
+                throw new ExplorerException("Source '" + srcFile + "' move to destination '" + dstFile + "' fail");
+            }
         } else {
-            srcFile.copyTo(dstFile, new BoolResultListener() {
-                @Override
-                public void onResult(boolean result) {
-                    if (!result)
-                        throw new ExplorerException("Source '" + srcFile + "' copy to destination '" + dstFile + "' fail");
-                }
-            });
+            boolean result = IOUtils.copyFile(srcFile, dstFile);
+            if (!result) {
+                throw new ExplorerException("Source '" + srcFile + "' copy to destination '" + dstFile + "' fail");
+            }
         }
     }
 
@@ -173,6 +154,40 @@ public class FileUtils {
                 (extension.equalsIgnoreCase(".txt") ||
                         extension.equalsIgnoreCase(".pas") ||
                         extension.endsWith(".out") ||
-                        extension.equalsIgnoreCase(".in"));
+                        extension.equalsIgnoreCase(".inp"));
+    }
+
+    /**
+     * Gets the extension of a file name, like ".png" or ".jpg".
+     *
+     * @return Extension don't including the dot("."); "" if there is no extension;
+     * null if uri was null.
+     */
+    public static String getExtension(@Nullable File file) {
+        if (file == null) {
+            return null;
+        }
+        String name = file.getName();
+        int dot = name.lastIndexOf(".");
+        if (dot >= 0) {
+            return name.substring(dot + 1);
+        } else {
+            // No extension.
+            return "";
+        }
+    }
+
+    /**
+     * delete fileOrDirectory and all child file
+     *
+     * @param fileOrDirectory - input file
+     * @return true of delete success, otherwise return false
+     */
+    public static boolean deleteRecursive(File fileOrDirectory) {
+        if (fileOrDirectory.isDirectory())
+            for (File child : fileOrDirectory.listFiles())
+                deleteRecursive(child);
+
+        return fileOrDirectory.delete();
     }
 }

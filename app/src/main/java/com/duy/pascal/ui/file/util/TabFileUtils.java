@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * Created by Duy on 17-Mar-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+
 public class TabFileUtils {
     public static ArrayList<File> getTabFiles(Context context) {
         ArrayList<File> files = new ArrayList<>();

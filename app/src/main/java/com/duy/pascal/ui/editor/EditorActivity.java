@@ -57,6 +57,7 @@ import com.duy.pascal.ui.autocomplete.completion.model.Description;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.code.sample.activities.DocumentActivity;
 import com.duy.pascal.ui.editor.view.EditorView;
+import com.duy.pascal.ui.file.FileManager;
 import com.duy.pascal.ui.file.util.FileUtils;
 import com.duy.pascal.ui.setting.PascalPreferences;
 import com.duy.pascal.ui.structure.DialogProgramStructure;
@@ -488,7 +489,7 @@ public class EditorActivity extends BaseEditorActivity implements
                     // Get the path
                     String path;
                     try {
-                        path = mFileManager.getPathFromUri(this, uri);
+                        path = FileManager.getPathFromUri(this, uri);
                         mFileManager.setWorkingFilePath(path);
                         addNewPageEditor(new File(path));
                     } catch (Exception e) {

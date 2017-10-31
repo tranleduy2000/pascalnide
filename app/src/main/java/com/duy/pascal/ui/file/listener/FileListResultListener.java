@@ -18,11 +18,11 @@
 
 package com.duy.pascal.ui.file.listener;
 
-import com.duy.pascal.ui.file.io.JecFile;
+
 
 /**
  * @author Jecelyin Peng <jecelyin@gmail.com>
  */
 public interface FileListResultListener {
-    void onResult(JecFile[] result);
+    void onResult(File[] result);
 }

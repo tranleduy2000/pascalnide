@@ -36,8 +36,8 @@ import com.duy.pascal.ui.databinding.FileExplorerActivityBinding;
 import com.duy.pascal.ui.file.FileClipboard;
 import com.duy.pascal.ui.file.Pref;
 import com.duy.pascal.ui.file.adapter.FileListPagerAdapter;
-import com.duy.pascal.ui.file.io.JecFile;
-import com.duy.pascal.ui.file.io.LocalFile;
+
+
 import com.duy.pascal.ui.file.listener.OnClipboardDataChangedListener;
 import com.duy.pascal.ui.file.util.FileListSorter;
 
@@ -138,7 +138,7 @@ public class FileExplorerActivity extends FullScreenActivity implements View.OnC
     private void initPager() {
         adapter = new FileListPagerAdapter(getSupportFragmentManager());
 
-        JecFile path = new LocalFile(lastPath);
+        File path = new File(lastPath);
         adapter.addPath(path);
         binding.viewPager.setAdapter(adapter);
     }
@@ -194,7 +194,7 @@ public class FileExplorerActivity extends FullScreenActivity implements View.OnC
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean onSelectFile(JecFile file) {
+    public boolean onSelectFile(File file) {
         if (file.isFile()) {
             if (mode == MODE_PICK_FILE) {
                 Intent it = new Intent();

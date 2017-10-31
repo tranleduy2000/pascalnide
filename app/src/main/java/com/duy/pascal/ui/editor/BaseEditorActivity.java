@@ -59,7 +59,6 @@ import com.duy.pascal.ui.file.FileExplorerView;
 import com.duy.pascal.ui.file.FileManager;
 import com.duy.pascal.ui.file.Pref;
 import com.duy.pascal.ui.file.fragment.FileListPagerFragment;
-import com.duy.pascal.ui.file.io.LocalFile;
 import com.duy.pascal.ui.file.util.FileListSorter;
 import com.duy.pascal.ui.file.util.TabFileUtils;
 import com.duy.pascal.ui.setting.PascalPreferences;
@@ -78,7 +77,7 @@ import static com.duy.pascal.ui.R.id.action_new_folder;
  * Created by Duy on 09-Mar-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+
 public abstract class BaseEditorActivity extends BaseActivity //for debug
         implements SymbolListView.OnKeyListener,
         EditorControl,
@@ -164,7 +163,7 @@ public abstract class BaseEditorActivity extends BaseActivity //for debug
         FragmentManager fragmentManager = getSupportFragmentManager();
         mFileExplorer = (FileListPagerFragment) fragmentManager.findFragmentByTag(FileListPagerFragment.TAG);
         if (mFileExplorer == null) {
-            LocalFile path = new LocalFile(FileManager.getSrcPath(this));
+            File path = FileManager.getSrcPath(this);
             mFileExplorer = (FileListPagerFragment) FileListPagerFragment.newFragment(path);
         }
         FragmentTransaction fm = fragmentManager.beginTransaction();

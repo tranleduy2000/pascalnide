@@ -18,11 +18,10 @@ package com.duy.pascal.ui.file.util;
 
 import android.support.annotation.IntDef;
 
-import com.duy.pascal.ui.file.io.JecFile;
-
+import java.io.File;
 import java.util.Comparator;
 
-public class FileListSorter implements Comparator<JecFile> {
+public class FileListSorter implements Comparator<File> {
     private boolean dirsOnTop = true;
     private boolean asc = true;
     int sort = 0;
@@ -50,7 +49,7 @@ public class FileListSorter implements Comparator<JecFile> {
     }
 
     @Override
-    public int compare(JecFile file1, JecFile file2) {
+    public int compare(File file1, File file2) {
         if (file1.isDirectory() && !file2.isDirectory()) {
             return dirsOnTop ? -1 : 1;
         } else if (file2.isDirectory() && !file1.isDirectory()) {

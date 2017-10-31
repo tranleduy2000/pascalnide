@@ -24,7 +24,7 @@ import android.graphics.RectF;
  * Created by Duy on 09-Apr-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+
 public class PieSliceObject extends GraphObject {
     private int x, y, radius, startAngel, endAngle;
 

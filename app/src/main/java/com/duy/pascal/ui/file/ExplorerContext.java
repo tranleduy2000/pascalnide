@@ -16,12 +16,13 @@
 
 package com.duy.pascal.ui.file;
 
-import com.duy.pascal.ui.file.io.JecFile;
+
+import java.io.File;
 
 /**
  * Created by jecelyin on 16/7/31.
  */
 
 public interface ExplorerContext {
-    JecFile getCurrentDirectory();
+    File getCurrentDirectory();
 }

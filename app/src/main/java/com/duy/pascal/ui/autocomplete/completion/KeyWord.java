@@ -22,7 +22,7 @@ import com.duy.pascal.interperter.utils.ArrayUtil;
  * Created by Duy on 30-Mar-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+
 public class KeyWord {
 
     public static final String[] RESERVED_KEY_WORDS;

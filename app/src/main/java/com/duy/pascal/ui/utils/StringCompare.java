@@ -20,7 +20,7 @@ package com.duy.pascal.ui.utils;
  * Created by Duy on 05-Apr-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+
 public class StringCompare {
     public static boolean isLessThan(String s1, String s2) {
         return s1.compareTo(s2) < 0;

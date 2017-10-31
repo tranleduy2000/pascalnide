@@ -31,12 +31,13 @@ import com.duy.pascal.ui.common.adapter.BindingViewHolder;
 import com.duy.pascal.ui.common.listeners.OnItemClickListener;
 import com.duy.pascal.ui.common.utils.StringUtils;
 import com.duy.pascal.ui.databinding.FileListItemBinding;
-import com.duy.pascal.ui.file.io.JecFile;
 import com.duy.pascal.ui.file.model.FileItemModel;
+import com.duy.pascal.ui.file.util.FileUtils;
 import com.duy.pascal.ui.file.util.MimeTypes;
 import com.duy.pascal.ui.file.util.OnCheckedChangeListener;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -46,10 +47,10 @@ import java.util.Calendar;
 public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<FileListItemBinding>> implements FastScrollRecyclerView.SectionedAdapter {
     private final String year;
     private final SparseIntArray checkedArray;
-    private JecFile[] data;
+    private File[] data;
     private OnCheckedChangeListener onCheckedChangeListener;
     private OnItemClickListener onItemClickListener;
-    private JecFile[] mOriginalValues;
+    private File[] mOriginalValues;
     private int itemCount;
 
     public FileListItemAdapter() {
@@ -58,7 +59,7 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
         checkedArray = new SparseIntArray();
     }
 
-    public void setData(JecFile[] data) {
+    public void setData(File[] data) {
         this.data = data;
         itemCount = data.length;
         mOriginalValues = data.clone();
@@ -76,11 +77,11 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
             return;
         }
 
-        data = new JecFile[mOriginalValues.length];
+        data = new File[mOriginalValues.length];
 
         filterText = filterText.toString().toLowerCase();
         int index = 0;
-        for (JecFile path : mOriginalValues) {
+        for (File path : mOriginalValues) {
             if (path.getName().toLowerCase().contains(filterText)) {
                 data[index++] = path;
             }
@@ -92,7 +93,7 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
     @NonNull
     @Override
     public String getSectionName(int position) {
-        JecFile file = getItem(position);
+        File file = getItem(position);
         char c = file.getName().charAt(0);
 
         if ((c >= '0' && c <= '9')
@@ -105,7 +106,7 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
         return "#";
     }
 
-    public JecFile getItem(int position) {
+    public File getItem(int position) {
         return data[position];
     }
 
@@ -131,7 +132,7 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
 
     @Override
     public void onBindViewHolder(final BindingViewHolder<FileListItemBinding> holder, final int position) {
-        JecFile path = data[position];
+        File path = data[position];
 
         MimeTypes mimeTypes = MimeTypes.getInstance();
         Resources res = holder.itemView.getResources();
@@ -173,7 +174,7 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
             icon = R.drawable.ic_code_white_24dp;
         } else {
             color = R.color.type_file;
-            icon = TextUtils.isEmpty(path.getExtension()) ? R.drawable.file_type_file : 0;
+            icon = TextUtils.isEmpty(FileUtils.getExtension(path)) ? R.drawable.file_type_file : 0;
         }
 
         final FileListItemBinding binding = holder.getBinding();
@@ -182,7 +183,7 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
 
         FileItemModel item = new FileItemModel();
         item.setName(path.getName());
-        item.setExt(icon == 0 && color == R.color.type_file ? path.getExtension() : "");
+        item.setExt(icon == 0 && color == R.color.type_file ? FileUtils.getExtension(path) : "");
         item.setDate(getDate(path.lastModified()));
         item.setSecondLine(path.isFile() ? StringUtils.formatSize(path.length()) : "");
         binding.setItem(item);

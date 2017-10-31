@@ -20,13 +20,13 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime.ObjectBasedPointer;
 import com.duy.pascal.interperter.ast.runtime.references.PascalPointer;
 import com.duy.pascal.interperter.ast.runtime.references.PascalReference;
-import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
-import com.duy.pascal.interperter.libraries.exceptions.InvalidFloatingPointOperation;
-import com.duy.pascal.interperter.libraries.exceptions.RangeCheckError;
 import com.duy.pascal.interperter.exceptions.parsing.value.OrdinalExpressionExpectedException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.ScriptTerminatedException;
 import com.duy.pascal.interperter.exceptions.runtime.WrongArgsException;
+import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
+import com.duy.pascal.interperter.libraries.exceptions.InvalidFloatingPointOperation;
+import com.duy.pascal.interperter.libraries.exceptions.RangeCheckError;
 
 import java.util.Random;
 
@@ -380,20 +380,23 @@ public class SystemLibrary extends PascalLibrary {
         }
     }
 
-    @PascalMethod(description = "Convert a string to all uppercase.")
-    public char UpCase(char s) {
-        return Character.toUpperCase(s);
-    }
 
     @PascalMethod(description = "Convert a string to all uppercase.")
     public StringBuilder UpCase(StringBuilder s) {
         return new StringBuilder(s.toString().toUpperCase());
     }
 
+    @PascalMethod(description = "Convert a string to all uppercase.")
+    public Character UpCase(Character s) {
+        return Character.toUpperCase(s);
+    }
+
     @PascalMethod(description = "Append one string to another")
-    public StringBuilder Concat(StringBuilder... agrs) {
+    public StringBuilder Concat(StringBuilder... args) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (StringBuilder s1 : agrs) stringBuilder.append(s1);
+        for (StringBuilder s1 : args) {
+            stringBuilder.append(s1);
+        }
         return stringBuilder;
     }
 
@@ -401,11 +404,6 @@ public class SystemLibrary extends PascalLibrary {
     public int Pos(StringBuilder substring, StringBuilder s) {
         return s.indexOf(substring.toString()) + 1;
     }
-
-//    @PascalMethod(getDescription = "Returns length of a string or array.")
-//    public int length(StringBuilder s) {
-//        return s.length();
-//    }
 
     @PascalMethod(description = "Set length of a string.")
     public void SetLength(PascalReference<StringBuilder> s, int length)

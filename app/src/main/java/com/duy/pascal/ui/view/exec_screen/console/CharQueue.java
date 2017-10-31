@@ -19,7 +19,7 @@ package com.duy.pascal.ui.view.exec_screen.console;
 /**
  * Created by Duy on 10-Feb-17.
  */
-@SuppressWarnings("DefaultFileTemplate")
+
 public class CharQueue {
     public static final int QUEUE_SIZE = 2 * 1024; //2MB ram
     public char text[];

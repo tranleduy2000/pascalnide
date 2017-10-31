@@ -26,7 +26,7 @@ import android.util.DisplayMetrics;
  * Created by Duy on 19-Apr-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+
 public class ImageUtils {
     public static Bitmap replaceColor(Bitmap src, int fromColor, int targetColor) {
         if (src == null) {

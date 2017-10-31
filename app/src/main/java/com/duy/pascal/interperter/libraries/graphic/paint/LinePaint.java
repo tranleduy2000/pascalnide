@@ -25,7 +25,7 @@ import com.duy.pascal.interperter.libraries.graphic.style.LineWidth;
  * Created by Duy on 20-Apr-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+
 public class LinePaint extends Paint implements Cloneable {
     private int lineWidth = LineWidth.NormWidth;
     private int lineStyle = LineStyle.SolidLn;

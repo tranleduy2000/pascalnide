@@ -38,10 +38,8 @@ import android.widget.RadioButton;
 import com.duy.pascal.ui.BuildConfig;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.common.utils.UIUtils;
-import com.duy.pascal.ui.file.io.JecFile;
-import com.duy.pascal.ui.file.io.LocalFile;
-import com.duy.pascal.ui.file.listener.BoolResultListener;
 import com.duy.pascal.ui.file.listener.OnClipboardPasteFinishListener;
+import com.duy.pascal.ui.file.util.FileUtils;
 import com.duy.pascal.ui.file.util.MimeTypes;
 import com.duy.pascal.ui.file.util.OnCheckedChangeListener;
 
@@ -54,12 +52,12 @@ import java.util.List;
  */
 
 public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.Callback, ShareActionProvider.OnShareTargetSelectedListener {
-    private final FileExplorerView view;
+    private final FileExplorerView mView;
     private final Context context;
     private final FileClipboard fileClipboard;
-    private final ExplorerContext explorerContext;
+    private final ExplorerContext mExplorerContext;
     private ActionMode mActionMode;
-    private List<JecFile> checkedList = new ArrayList<>();
+    private List<File> checkedList = new ArrayList<>();
     private ShareActionProvider mShareActionProvider;
     private MenuItem renameMenu;
     private MenuItem mShareMenu;
@@ -67,14 +65,14 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
     private Dialog mDialog;
 
     public FileExplorerAction(Context context, FileExplorerView view, FileClipboard fileClipboard, ExplorerContext explorerContext) {
-        this.view = view;
+        this.mView = view;
         this.context = context;
         this.fileClipboard = fileClipboard;
-        this.explorerContext = explorerContext;
+        this.mExplorerContext = explorerContext;
     }
 
     @Override
-    public void onCheckedChanged(JecFile file, int position, boolean checked) {
+    public void onCheckedChanged(File file, int position, boolean checked) {
         if (checked) {
             checkedList.add(file);
         } else {
@@ -86,7 +84,7 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
     public void onCheckedChanged(int checkedCount) {
         if (checkedCount > 0) {
             if (mActionMode == null) {
-                mActionMode = view.startActionMode(this);
+                mActionMode = mView.startActionMode(this);
             }
             mActionMode.setTitle(context.getString(R.string.selected_x_items, checkedCount));
         } else {
@@ -132,11 +130,11 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
         int id = item.getItemId();
         if (id == R.id.select_all) {
             if (!item.isChecked()) {
-                view.setSelectAll(true);
+                mView.setSelectAll(true);
                 item.setChecked(true);
                 item.setTitle(R.string.cancel_select_all);
             } else {
-                view.setSelectAll(false);
+                mView.setSelectAll(false);
             }
         } else if (id == R.id.copy && !checkedList.isEmpty()) {
             fileClipboard.setData(true, checkedList);
@@ -146,7 +144,7 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
             destroyActionMode();
         } else if (id == R.id.paste) {
             destroyActionMode();
-            fileClipboard.paste(context, explorerContext.getCurrentDirectory(), new OnClipboardPasteFinishListener() {
+            fileClipboard.paste(context, mExplorerContext.getCurrentDirectory(), new OnClipboardPasteFinishListener() {
                 @Override
                 public void onFinish(int count, String error) {
                     fileClipboard.showPasteResult(context, count, error);
@@ -169,7 +167,7 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
         mShareActionProvider.setOnShareTargetSelectedListener(null);
         mShareActionProvider = null;
         checkedList.clear();
-        view.setSelectAll(false);
+        mView.setSelectAll(false);
         renameMenu = null;
         mShareMenu = null;
         mActionMode = null;
@@ -188,8 +186,8 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
     }
 
     private boolean canShare() {
-        for (JecFile file : checkedList) {
-            if (!(file instanceof LocalFile) || !file.isFile())
+        for (File file : checkedList) {
+            if (!(file instanceof File) || !file.isFile())
                 return false;
         }
         return true;
@@ -199,7 +197,7 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
         if (checkedList.size() != 1)
             return;
 
-        final JecFile file = checkedList.get(0);
+        final File file = checkedList.get(0);
         UIUtils.showInputDialog(context, R.string.rename, 0, file.getName(), 0, new UIUtils.OnShowInputCallback() {
             @Override
             public void onConfirm(CharSequence input) {
@@ -210,17 +208,14 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
                     destroyActionMode();
                     return;
                 }
-                file.renameTo(file.getParentFile().newFile(input.toString()), new BoolResultListener() {
-                    @Override
-                    public void onResult(boolean result) {
-                        if (!result) {
-                            UIUtils.toast(context, R.string.rename_fail);
-                            return;
-                        }
-                        view.refresh();
-                        destroyActionMode();
-                    }
-                });
+                File dest = new File(file.getParentFile(), input.toString());
+                boolean result = file.renameTo(dest);
+                if (!result) {
+                    UIUtils.toast(context, R.string.rename_fail);
+                    return;
+                }
+                mView.refresh();
+                destroyActionMode();
             }
         });
     }
@@ -247,16 +242,16 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
                 shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
 
                 ArrayList<Uri> streams = new ArrayList<>();
-                for (JecFile file : checkedList) {
-                    if (!(file instanceof LocalFile)) {
-                        throw new ExplorerException(context.getString(R.string.can_not_share_x, file + " isn't LocalFile"));
+                for (File file : checkedList) {
+                    if (!(file instanceof File)) {
+                        throw new ExplorerException(context.getString(R.string.can_not_share_x, file + " isn't File"));
                     }
-                    File localFile = new File(file.getPath());
+                    File File = new File(file.getPath());
                     Uri fileUri;
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                        fileUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", localFile);
+                        fileUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", File);
                     } else {
-                        fileUri = Uri.fromFile(localFile);
+                        fileUri = Uri.fromFile(File);
                     }
                     streams.add(fileUri);
                 }
@@ -270,10 +265,10 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
     }
 
     private void doDeleteAction() {
-        for (JecFile file : checkedList) {
-            file.delete(null);
+        for (File file : checkedList) {
+            FileUtils.deleteRecursive(file);
         }
-        view.refresh();
+        mView.refresh();
         destroyActionMode();
     }
 
@@ -311,27 +306,23 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
                     editText.setError(context.getString(R.string.enter_new_file_name));
                     return;
                 }
-                final JecFile folder = explorerContext.getCurrentDirectory().newFile(input);
-                folder.mkdirs(new BoolResultListener() {
-                    @Override
-                    public void onResult(boolean result) {
-                        if (!result) {
-                            UIUtils.toast(context, R.string.can_not_create_folder);
-                            return;
-                        }
-                        view.refresh();
-                        if (callback != null) {
-                            callback.onSelectFile(new File(folder.getPath()));
-                        }
-                        destroyActionMode();
-                    }
-                });
+                final File folder = new File(mExplorerContext.getCurrentDirectory(), input);
+                boolean result = folder.mkdirs();
+                if (!result) {
+                    UIUtils.toast(context, R.string.can_not_create_folder);
+                    return;
+                }
+                mView.refresh();
+                if (callback != null) {
+                    callback.onSelectFile(new File(folder.getPath()));
+                }
+                destroyActionMode();
                 mDialog.cancel();
             }
         });
     }
 
-    public void showDialogCreateFile(@Nullable final FileActionCallback callback) {
+    public void showDialogCreateFile(@Nullable final FileActionCallback mCallback) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.new_file);
         builder.setView(R.layout.dialog_new_file);
@@ -353,8 +344,8 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
             @Override
             public void onClick(View v) {
                 //get string path of in edit text
-                String input = editText.getText().toString();
-                if (TextUtils.isEmpty(input)) {
+                String fileName = editText.getText().toString();
+                if (TextUtils.isEmpty(fileName)) {
                     editText.setError(context.getString(R.string.enter_new_file_name));
                     return;
                 }
@@ -363,26 +354,22 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
                 RadioButton checkBoxInp = mDialog.findViewById(R.id.rad_inp);
 
                 if (checkBoxInp != null && checkBoxInp.isChecked()) {
-                    input += ".inp";
+                    fileName += ".inp";
                 } else if (checkBoxPas.isChecked()) {
-                    input += ".pas";
+                    fileName += ".pas";
                 }
 
-                final JecFile file = explorerContext.getCurrentDirectory().newFile(input);
-                file.createNewFile(new BoolResultListener() {
-                    @Override
-                    public void onResult(boolean result) {
-                        if (!result) {
-                            editText.setError(context.getString(R.string.can_not_create_file));
-                            return;
-                        }
-                        view.refresh();
-                        if (callback != null) {
-                            callback.onSelectFile(new File(file.getPath()));
-                        }
-                        destroyActionMode();
-                    }
-                });
+                final File file = new File(mExplorerContext.getCurrentDirectory(), fileName);
+                boolean result = new FileManager(context).createNewFile(file.getPath()) != null;
+                if (!result) {
+                    editText.setError(context.getString(R.string.can_not_create_file));
+                    return;
+                }
+                mView.refresh();
+                if (mCallback != null) {
+                    mCallback.onSelectFile(new File(file.getPath()));
+                }
+                destroyActionMode();
                 mDialog.cancel();
             }
         });

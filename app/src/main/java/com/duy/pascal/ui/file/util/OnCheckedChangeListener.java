@@ -16,12 +16,13 @@
 
 package com.duy.pascal.ui.file.util;
 
-import com.duy.pascal.ui.file.io.JecFile;
+
+import java.io.File;
 
 /**
  * @author Jecelyin Peng <jecelyin@gmail.com>
  */
 public interface OnCheckedChangeListener {
-    void onCheckedChanged(JecFile file, int position, boolean checked);
+    void onCheckedChanged(File file, int position, boolean checked);
     void onCheckedChanged(int checkedCount);
 }

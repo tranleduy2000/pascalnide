@@ -27,8 +27,8 @@ public class DiagnosticCollectorTest extends BaseTestCase {
     public String getDirTest() {
         return "test_diagnostic";
     }
-//
-//    public void testAll() {
+
+    public void testAll() {
 //        runAll();
-//    }
+    }
 }

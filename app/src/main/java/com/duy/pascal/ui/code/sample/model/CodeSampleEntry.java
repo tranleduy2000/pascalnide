@@ -20,7 +20,7 @@ package com.duy.pascal.ui.code.sample.model;
  * Created by Duy on 08-Apr-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+
 public class CodeSampleEntry {
     /**
      * name of file code

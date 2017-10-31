@@ -80,7 +80,7 @@ import java.util.regex.Matcher;
  * Created by Duy on 11-Mar-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+
 public class ExceptionManager {
     public static final String TAG = ExceptionManager.class
             .getSimpleName();

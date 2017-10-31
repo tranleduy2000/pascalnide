@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * Created by Duy on 08-Apr-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+
 public class CodeCategory {
     private String title;
     private String description;

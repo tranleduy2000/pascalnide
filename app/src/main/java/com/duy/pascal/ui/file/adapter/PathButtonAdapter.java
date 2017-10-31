@@ -24,7 +24,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jecelyin.android.file_explorer.R;
-import com.duy.pascal.ui.file.io.JecFile;
+
 import com.duy.pascal.ui.common.listeners.OnItemClickListener;
 
 import java.util.ArrayList;
@@ -34,10 +34,10 @@ import java.util.Collections;
  * @author Jecelyin Peng <jecelyin@gmail.com>
  */
 public class PathButtonAdapter extends RecyclerView.Adapter<PathButtonAdapter.ViewHolder> {
-    private ArrayList<JecFile> pathList;
+    private ArrayList<File> pathList;
     private OnItemClickListener onItemClickListener;
 
-    public JecFile getItem(int position) {
+    public File getItem(int position) {
         return pathList.get(position);
     }
 
@@ -54,7 +54,7 @@ public class PathButtonAdapter extends RecyclerView.Adapter<PathButtonAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        JecFile path = pathList.get(position);
+        File path = pathList.get(position);
         String name = path.getName();
         if("/".equals(name) || TextUtils.isEmpty(name))
             name = holder.textView.getContext().getString(R.string.root_path);
@@ -73,7 +73,7 @@ public class PathButtonAdapter extends RecyclerView.Adapter<PathButtonAdapter.Vi
         return pathList == null ? 0 : pathList.size();
     }
 
-    public void setPath(JecFile path) {
+    public void setPath(File path) {
         if(pathList == null)
             pathList = new ArrayList<>();
         else

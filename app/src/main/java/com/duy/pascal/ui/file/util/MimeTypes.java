@@ -16,10 +16,10 @@
 
 package com.duy.pascal.ui.file.util;
 
+import android.support.annotation.NonNull;
 import android.webkit.MimeTypeMap;
 
-import com.duy.pascal.ui.file.io.JecFile;
-
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -125,7 +125,7 @@ public class MimeTypes {
                 || ext.equalsIgnoreCase("ogg") || ext.equalsIgnoreCase("m4a");
     }
 
-    public static boolean isPasFile(JecFile file) {
+    public static boolean isPasFile(File file) {
         return !file.isDirectory() && isPasFile(file.getName());
     }
 
@@ -196,7 +196,7 @@ public class MimeTypes {
      *
      * @return {@code true} if file is text, {@code false} if not.
      */
-    public boolean isTextFile(JecFile file) {
+    public boolean isTextFile(File file) {
         return !file.isDirectory() && isMimeText(getMimeType(file.getPath()));
     }
 
@@ -205,7 +205,7 @@ public class MimeTypes {
      *
      * @return {@code true} if file is image, {@code false} if not.
      */
-    public boolean isImageFile(JecFile file) {
+    public boolean isImageFile(File file) {
         return !file.isDirectory() && isImageFile(file.getName());
     }
 
@@ -214,13 +214,13 @@ public class MimeTypes {
      *
      * @return {@code true} if file is an Android App, {@code false} if not.
      */
-    public boolean isAPKFile(JecFile file) {
+    public boolean isAPKFile(File file) {
         return !file.isDirectory() && isAPKFile(file.getName());
     }
 
 
-    public boolean isArchive(JecFile file) {
-        return file.getExtension().equalsIgnoreCase("zip");
+    public boolean isArchive(@NonNull File file) {
+        return FileUtils.getExtension(file).equalsIgnoreCase("zip");
     }
 
     /**
@@ -230,15 +230,15 @@ public class MimeTypes {
      *
      * @return {@code true} if file is a video, {@code false} if not.
      */
-    public boolean isVideoFile(JecFile file) {
+    public boolean isVideoFile(File file) {
         return !file.isDirectory() && isVideoFile(file.getName());
     }
 
-    public boolean isAudioFile(JecFile file) {
+    public boolean isAudioFile(File file) {
         return !file.isDirectory() && isAudioFile(file.getName());
     }
 
-    public boolean isCodeFile(JecFile file) {
+    public boolean isCodeFile(File file) {
 //        return !isDirectory() && ModeProvider.instance.getModeForFile(getAbsolutePath(), null, null) != null;
         return false; // TODO: 16/3/11 add support
     }

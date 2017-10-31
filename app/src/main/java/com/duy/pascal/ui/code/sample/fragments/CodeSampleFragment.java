@@ -45,7 +45,7 @@ import java.util.Arrays;
  * Created by Duy on 28-Apr-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+
 public class CodeSampleFragment extends Fragment {
     private static final String TAG = "FragmentCodeSample";
 

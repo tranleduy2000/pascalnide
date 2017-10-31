@@ -40,7 +40,7 @@ import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
  * Created by Duy on 30-Mar-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+
 public class GraphScreen {
     private static final String TAG = GraphScreen.class.getSimpleName();
     private final Context context;

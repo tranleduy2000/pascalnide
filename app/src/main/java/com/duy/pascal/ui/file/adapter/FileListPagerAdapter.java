@@ -22,7 +22,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
 import com.duy.pascal.ui.file.fragment.FileListPagerFragment;
-import com.duy.pascal.ui.file.io.JecFile;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import java.util.List;
  * @author Jecelyin Peng <jecelyin@gmail.com>
  */
 public class FileListPagerAdapter extends FragmentPagerAdapter {
-    private final List<JecFile> pathList;
+    private final List<File> pathList;
     private FileListPagerFragment mCurrentFragment;
 
     public FileListPagerFragment getCurrentFragment() {
@@ -43,12 +43,12 @@ public class FileListPagerAdapter extends FragmentPagerAdapter {
         this.pathList = new ArrayList<>();
     }
 
-    public void addPath(JecFile path) {
+    public void addPath(File path) {
         pathList.add(path);
         notifyDataSetChanged();
     }
 
-    public void removePath(JecFile path) {
+    public void removePath(File path) {
         pathList.remove(path);
         notifyDataSetChanged();
     }

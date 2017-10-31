@@ -20,7 +20,7 @@ package com.duy.pascal.interperter.libraries.graphic.style;
  * Created by Duy on 08-Apr-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
+
 public class LineWidth {
     public static final int NormWidth = 1;
     //    Normal line width

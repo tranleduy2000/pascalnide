@@ -23,11 +23,11 @@ import com.duy.pascal.ui.common.app.ProgressDialog;
 import com.duy.pascal.ui.common.task.JecAsyncTask;
 import com.duy.pascal.ui.common.task.TaskResult;
 import com.duy.pascal.ui.common.utils.UIUtils;
-import com.duy.pascal.ui.file.io.JecFile;
 import com.duy.pascal.ui.file.listener.OnClipboardDataChangedListener;
 import com.duy.pascal.ui.file.listener.OnClipboardPasteFinishListener;
 import com.duy.pascal.ui.file.util.FileUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +36,7 @@ import java.util.List;
  */
 
 public class FileClipboard {
-    private List<JecFile> mClipList = new ArrayList<>();
+    private List<File> mClipList = new ArrayList<>();
     private boolean isCopy;
     private OnClipboardDataChangedListener mOnClipboardDataChangedListener;
 
@@ -44,7 +44,7 @@ public class FileClipboard {
         return !mClipList.isEmpty();
     }
 
-    public void setData(boolean isCopy, List<JecFile> data) {
+    public void setData(boolean isCopy, List<File> data) {
         this.isCopy = isCopy;
         mClipList.clear();
         mClipList.addAll(data);
@@ -53,7 +53,7 @@ public class FileClipboard {
         }
     }
 
-    public void paste(Context context, JecFile currentDirectory, OnClipboardPasteFinishListener listener) {
+    public void paste(Context context, File currentDirectory, OnClipboardPasteFinishListener listener) {
         if (!canPaste())
             return;
 
@@ -75,34 +75,34 @@ public class FileClipboard {
         this.mOnClipboardDataChangedListener = onClipboardDataChangedListener;
     }
 
-    private static class PasteTask extends JecAsyncTask<JecFile, JecFile, Integer> {
+    private static class PasteTask extends JecAsyncTask<File, File, Integer> {
         private final OnClipboardPasteFinishListener mListener;
         private StringBuilder errorMsg = new StringBuilder();
-        private List<JecFile> mClipList;
+        private List<File> mClipList;
         private boolean isCopy = false;
 
-        PasteTask(OnClipboardPasteFinishListener listener, List<JecFile> mClipList, boolean isCopy) {
+        PasteTask(OnClipboardPasteFinishListener listener, List<File> mClipList, boolean isCopy) {
             this.mListener = listener;
             this.mClipList = mClipList;
             this.isCopy = isCopy;
         }
 
         @Override
-        protected void onProgressUpdate(JecFile... values) {
+        protected void onProgressUpdate(File... values) {
             getProgress().setMessage(values[0].getPath());
         }
 
         @Override
-        protected void onRun(TaskResult<Integer> taskResult, JecFile... params) throws Exception {
-            JecFile currentDirectory = params[0];
+        protected void onRun(TaskResult<Integer> taskResult, File... params) throws Exception {
+            File currentDirectory = params[0];
             int count = 0;
-            for (JecFile file : mClipList) {
+            for (File file : mClipList) {
                 publishProgress(file);
                 try {
                     if (file.isDirectory()) {
                         FileUtils.copyDirectory(file, currentDirectory, !isCopy);
                     } else {
-                        FileUtils.copyFile(file, currentDirectory.newFile(file.getName()), !isCopy);
+                        FileUtils.copyFile(file, new File(currentDirectory, file.getName()), !isCopy);
                     }
                     count++;
                 } catch (Exception e) {
