@@ -67,7 +67,7 @@ public class EditorFontFragment extends Fragment implements SharedPreferences.On
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button btnDonate = view.findViewById(R.id.btn_donate);
+        Button btnDonate = view.findViewById(R.id.btn_create);
         btnDonate.setVisibility(View.GONE);
 
         mRecyclerView = view.findViewById(R.id.recycler_view);

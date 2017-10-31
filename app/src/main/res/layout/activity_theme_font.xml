@@ -27,14 +27,12 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="enterAlways|scroll" />
+            android:layout_height="?attr/actionBarSize" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="enterAlways|scroll"
             app:tabTextAppearance="@style/TextAppearance.AppCompat.Small">
 
         </android.support.design.widget.TabLayout>

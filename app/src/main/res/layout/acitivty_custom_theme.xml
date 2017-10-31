@@ -14,17 +14,18 @@
   ~ limitations under the License.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -45,7 +46,7 @@
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:gravity="start|top"
-                android:text="@string/code_preview"/>
+                android:text="@string/code_preview" />
         </android.support.v7.widget.CardView>
 
 
@@ -70,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Background"/>
+                    android:text="Background" />
 
                 <View
                     android:id="@+id/color_background"
@@ -80,7 +81,7 @@
                     android:layout_margin="4dp"
                     android:background="#fff"
                     android:clickable="true"
-                    android:foreground="?selectableItemBackground"/>
+                    android:foreground="?selectableItemBackground" />
             </TableRow>
 
             <TableRow
@@ -91,7 +92,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Normal"/>
+                    android:text="Normal" />
 
                 <View
                     android:id="@+id/color_normal"
@@ -101,7 +102,7 @@
                     android:layout_margin="4dp"
                     android:background="#fff"
                     android:clickable="true"
-                    android:foreground="?selectableItemBackground"/>
+                    android:foreground="?selectableItemBackground" />
             </TableRow>
 
             <TableRow
@@ -112,7 +113,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Keyword"/>
+                    android:text="Keyword" />
 
                 <View
                     android:id="@+id/color_keyword"
@@ -122,7 +123,7 @@
                     android:layout_margin="4dp"
                     android:background="#fff"
                     android:clickable="true"
-                    android:foreground="?selectableItemBackground"/>
+                    android:foreground="?selectableItemBackground" />
             </TableRow>
 
             <TableRow
@@ -133,7 +134,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Number"/>
+                    android:text="Number" />
 
                 <View
                     android:id="@+id/color_number"
@@ -143,7 +144,7 @@
                     android:layout_margin="4dp"
                     android:background="#fff"
                     android:clickable="true"
-                    android:foreground="?selectableItemBackground"/>
+                    android:foreground="?selectableItemBackground" />
             </TableRow>
 
             <TableRow
@@ -154,7 +155,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="String"/>
+                    android:text="String" />
 
                 <View
                     android:id="@+id/color_string"
@@ -164,7 +165,7 @@
                     android:layout_margin="4dp"
                     android:background="#fff"
                     android:clickable="true"
-                    android:foreground="?selectableItemBackground"/>
+                    android:foreground="?selectableItemBackground" />
             </TableRow>
 
 
@@ -176,7 +177,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Comment"/>
+                    android:text="Comment" />
 
                 <View
                     android:id="@+id/color_comment"
@@ -186,7 +187,7 @@
                     android:layout_margin="4dp"
                     android:background="#fff"
                     android:clickable="true"
-                    android:foreground="?selectableItemBackground"/>
+                    android:foreground="?selectableItemBackground" />
             </TableRow>
 
             <TableRow
@@ -197,7 +198,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Error"/>
+                    android:text="Error" />
 
                 <View
                     android:id="@+id/color_error"
@@ -207,7 +208,7 @@
                     android:layout_margin="4dp"
                     android:background="#fff"
                     android:clickable="true"
-                    android:foreground="?selectableItemBackground"/>
+                    android:foreground="?selectableItemBackground" />
             </TableRow>
 
             <TableRow
@@ -218,7 +219,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Operator"/>
+                    android:text="Operator" />
 
                 <View
                     android:id="@+id/color_opt"
@@ -228,7 +229,7 @@
                     android:layout_margin="4dp"
                     android:background="#fff"
                     android:clickable="true"
-                    android:foreground="?selectableItemBackground"/>
+                    android:foreground="?selectableItemBackground" />
             </TableRow>
 
         </TableLayout>

@@ -20,14 +20,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.duy.pascal.ui.R;
 
@@ -37,13 +38,13 @@ import com.duy.pascal.ui.R;
 
 public class ThemeFragment extends Fragment {
 
-    public static final int FONT = 0;
-    public static final int THEME = 1;
+    private static final int REQ_CREATE_NEW_THEME = 20023;
     @Nullable
     private ThemeAdapter mCodeThemeAdapter;
     private RecyclerView mRecyclerView;
     @Nullable
-    private OnThemeSelectListener onThemeSelect;
+    private OnThemeSelectListener mOnThemeSelect;
+    private FloatingActionButton mFabCreate;
 
     public static ThemeFragment newInstance() {
         Bundle args = new Bundle();
@@ -56,7 +57,7 @@ public class ThemeFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            onThemeSelect = (OnThemeSelectListener) getActivity();
+            mOnThemeSelect = (OnThemeSelectListener) getActivity();
         } catch (Exception ignored) {
 
         }
@@ -64,19 +65,20 @@ public class ThemeFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_theme, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button btnDonate = view.findViewById(R.id.btn_donate);
-        btnDonate.setText(R.string.create_new_theme);
-        btnDonate.setOnClickListener(new View.OnClickListener() {
+        mFabCreate = view.findViewById(R.id.btn_create);
+        // TODO: 10/31/2017 check premium
+        mFabCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(getActivity(), CustomThemeActivity.class), 1);
+                Intent intent = new Intent(getActivity(), CustomThemeActivity.class);
+                startActivityForResult(intent, REQ_CREATE_NEW_THEME);
             }
         });
 
@@ -87,22 +89,35 @@ public class ThemeFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mCodeThemeAdapter);
-        mCodeThemeAdapter.setOnThemeSelectListener(onThemeSelect);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && mFabCreate.isShown()) {
+                    mFabCreate.hide();
+                } else if (dy < 0 && !mFabCreate.isShown()) {
+                    mFabCreate.show();
+                }
+            }
+        });
+        mCodeThemeAdapter.setOnThemeSelectListener(mOnThemeSelect);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    if (mCodeThemeAdapter != null) {
-                        ThemeManager.reload(getContext());
-                        mCodeThemeAdapter.reload(getContext());
+        switch (requestCode) {
+            case REQ_CREATE_NEW_THEME:
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mCodeThemeAdapter != null) {
+                            ThemeManager.reload(getContext());
+                            mCodeThemeAdapter.reload(getContext());
+                        }
                     }
-                }
-            });
+                });
+                break;
         }
     }
 
