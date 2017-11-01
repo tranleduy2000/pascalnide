@@ -27,11 +27,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
-import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.code.ExceptionManager;
 import com.duy.pascal.ui.dialog.DialogHelper;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 
 import java.io.File;
@@ -172,14 +172,21 @@ public class ExecuteActivity extends AbstractExecActivity {
     }
 
     /**
-     * show error compile or runtime
+     * show error compile or runtime exception
      */
     @Override
-    public void onError(Exception e) {
-        ExceptionManager exceptionManager = new ExceptionManager(this);
-        Dialog dialog = DialogHelper.createFinishDialog(this, getString(R.string.runtime_error), exceptionManager.getMessage(e));
-        showDialog(dialog);
-        if (DLog.DEBUG)DLog.e(TAG, "onError: ", e);
+    public void onError(final Exception e) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ExceptionManager exceptionManager = new ExceptionManager(ExecuteActivity.this);
+                Dialog dialog = DialogHelper.createFinishDialog(ExecuteActivity.this,
+                        getString(R.string.runtime_error),
+                        exceptionManager.getMessage(e));
+                showDialog(dialog);
+                DLog.e(TAG, "onError: ", e);
+            }
+        });
     }
 
 

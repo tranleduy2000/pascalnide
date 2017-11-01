@@ -134,6 +134,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     protected void showDialog(Dialog dialog) {
         mDialog = dialog;
+        mDialog.show();
     }
 
     protected PascalPreferences getPreferences() {
