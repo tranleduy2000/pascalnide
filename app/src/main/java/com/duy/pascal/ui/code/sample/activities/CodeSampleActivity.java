@@ -127,7 +127,7 @@ public class CodeSampleActivity extends BaseActivity implements CodeSampleAdapte
     }
 
     @Override
-    public void onPlay(String code) {
+    public void onClickRun(String code) {
         //create file temp
         mFileManager.setContentFileTemp(code);
 
@@ -140,7 +140,7 @@ public class CodeSampleActivity extends BaseActivity implements CodeSampleAdapte
     }
 
     @Override
-    public void onEdit(String code) {
+    public void onClickEdit(String code) {
         //create file temp
         String suffix = Integer.toHexString((int) System.currentTimeMillis());
         File file = mFileManager.createNewFileInMode("sample_" + suffix + ".pas");

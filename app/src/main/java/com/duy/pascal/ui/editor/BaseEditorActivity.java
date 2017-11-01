@@ -345,9 +345,8 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         DLog.d(TAG, "onNewIntent() called with: intent = [" + intent + "]");
-        if (intent.getStringExtra(CompileManager.FILE_PATH) != null) {
-            String filePath = intent.getStringExtra(CompileManager.FILE_PATH);
-            File file = new File(filePath);
+        if (intent.getSerializableExtra(CompileManager.FILE_PATH) != null) {
+            File file = (File) intent.getSerializableExtra(CompileManager.FILE_PATH);
             if (!file.exists()) {
                 Toast.makeText(this, R.string.file_not_found, Toast.LENGTH_SHORT).show();
                 return;

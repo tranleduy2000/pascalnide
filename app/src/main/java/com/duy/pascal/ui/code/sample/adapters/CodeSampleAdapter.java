@@ -117,10 +117,10 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
 
 
     public interface OnCodeClickListener {
-        void onPlay(String code);
+        void onClickRun(String code);
 
         //            void onCopy(String code);
-        void onEdit(String code);
+        void onClickEdit(String code);
     }
 
 
@@ -162,13 +162,13 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
             btnPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (listener != null) listener.onPlay(content);
+                    if (listener != null) listener.onClickRun(content);
                 }
             });
             btnEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (listener != null) listener.onEdit(content);
+                    if (listener != null) listener.onClickEdit(content);
                 }
             });
             btnCopy.setOnClickListener(new View.OnClickListener() {
