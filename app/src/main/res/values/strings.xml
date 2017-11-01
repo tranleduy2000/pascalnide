@@ -155,7 +155,6 @@
     <string name="console_font">Console font</string>
     <string name="custom_theme">Custom theme</string>
     <string name="save_and_apply">Save and apply</string>
-    <string name="create_new_theme">Create new theme</string>
     <string name="auto_insert_bracket_summary">Insert ) when type (, ] when type […</string>
     <string name="auto_insert_bracket">Auto insert bracket</string>
     <string name="runtime_error">Runtime error</string>
@@ -204,7 +203,6 @@
     <string name="override_file_prompt">%s exists，do you override it？</string>
     <string name="filter_by_name">Filter by Name</string>
     <string name="can_not_create_folder">Can not create folder</string>
-    <string name="can_not_share_x">Can not share file: %s</string>
     <string name="cancel_select_all">Deselect All</string>
     <string name="copy">Copy</string>
     <string name="create_folder">Create folder</string>

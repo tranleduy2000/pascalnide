@@ -190,6 +190,14 @@ public class TypeConverter {
         return PRECEDENCE.get(clazz) != null;
     }
 
+    public static boolean isInteger(Type type) {
+        return type.equals(BasicType.Integer)
+                || type.equals(BasicType.Long)
+                || type.equals(BasicType.Short)
+                || type.equals(BasicType.Byte)
+                || type.equals(BasicType.Character);
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName();

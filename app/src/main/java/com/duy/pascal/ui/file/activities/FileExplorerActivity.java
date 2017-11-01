@@ -30,6 +30,7 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.duy.pascal.ui.R;
+import com.duy.pascal.ui.activities.BaseActivity;
 import com.duy.pascal.ui.common.utils.IOUtils;
 import com.duy.pascal.ui.common.utils.UIUtils;
 import com.duy.pascal.ui.databinding.FileExplorerActivityBinding;
@@ -50,7 +51,7 @@ import java.util.SortedMap;
 /**
  * @author Jecelyin Peng <jecelyin@gmail.com>
  */
-public class FileExplorerActivity extends FullScreenActivity implements View.OnClickListener, OnClipboardDataChangedListener {
+public class FileExplorerActivity extends BaseActivity implements View.OnClickListener, OnClipboardDataChangedListener {
     private static final int MODE_PICK_FILE = 1;
     private static final int MODE_PICK_PATH = 2;
     private FileExplorerActivityBinding binding;
@@ -275,7 +276,7 @@ public class FileExplorerActivity extends FullScreenActivity implements View.OnC
 
         final File newFile = new File(f, fileName);
         if (newFile.exists()) {
-            UIUtils.showConfirmDialog(getContext(), getString(R.string.override_file_prompt, fileName), new UIUtils.OnClickCallback() {
+            UIUtils.showConfirmDialog(this, getString(R.string.override_file_prompt, fileName), new UIUtils.OnClickCallback() {
                 @Override
                 public void onOkClick() {
                     saveAndFinish(newFile);

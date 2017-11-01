@@ -22,10 +22,6 @@
     <color name="dark.color_primary">#37474f</color>
     <color name="dark.color_accent">#60d9f1</color>
 
-    <color name="light.color_primary_dark">#1976d2</color>
-    <color name="light.color_primary">#42a5f5</color>
-    <color name="light.color_accent">#f50057</color>
-
 
     <color name="type_folder">#ffc661</color>
     <color name="type_media">#f06292</color>
@@ -36,7 +32,4 @@
     <color name="type_file">#9e9e9e</color>
     <color name="item_icon_select_status">#757575</color>
 
-    <color name="darkColorControlNormal">@color/abc_secondary_text_material_dark</color>
-    <color name="darkWindowBackground">#ff424242</color>
-    <color name="darkDividerColor">#30ffffff</color>
 </resources>

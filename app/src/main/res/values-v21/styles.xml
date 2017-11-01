@@ -17,10 +17,6 @@
 <resources>
 
 
-    <style name="AppThemeLight" parent="BaseLightTheme">
-        <item name="android:statusBarColor">@android:color/transparent</item>
-    </style>
-
     <style name="AppThemeDark" parent="BaseDarkTheme">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>

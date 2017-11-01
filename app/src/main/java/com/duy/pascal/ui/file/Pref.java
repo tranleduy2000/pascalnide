@@ -23,6 +23,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
 import android.text.TextUtils;
 
+import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.common.utils.StringUtils;
 import com.duy.pascal.ui.common.utils.SysUtils;
 import com.duy.pascal.ui.file.util.FileListSorter;
@@ -76,10 +77,7 @@ public class Pref implements SharedPreferences.OnSharedPreferenceChangeListener 
             , ",", ";", "'", "\"", "(", ")", "/", "\\", "%", "[", "]", "|", "#", "=", "$", ":"
             , "&", "?", "!", "@", "^", "+", "*", "-", "_", "`", "\\t", "\\n"});
 
-    public static final int[] THEMES = new int[]{
-            com.jecelyin.android.file_explorer.R.style.DefaultTheme,
-            com.jecelyin.android.file_explorer.R.style.DarkTheme
-    };
+
     private static final Object mContent = new Object();
     private static Pref instance;
 

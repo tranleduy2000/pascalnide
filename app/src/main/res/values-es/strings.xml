@@ -179,7 +179,6 @@
     <string name="donate">Donar</string>
     <string name="editor_font">Editor font</string>
     <string name="console_font">Console font</string>
-    <string name="create_new_theme">Create new theme</string>
     <string name="custom_theme">Custom theme</string>
     <string name="save_and_apply">Save and apply</string>
     <string name="auto_insert_bracket">Auto insert bracket</string>

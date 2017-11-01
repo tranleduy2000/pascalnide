@@ -183,5 +183,4 @@
     <string name="console_font">"Police de la console"</string>
     <string name="custom_theme">"Thème personnalisé"</string>
     <string name="save_and_apply">"Enregistrer et sauver"</string>
-    <string name="create_new_theme">"Créer un nouveau thème"</string>
 </resources>

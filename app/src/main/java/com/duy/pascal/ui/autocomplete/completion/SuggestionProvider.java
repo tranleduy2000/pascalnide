@@ -16,6 +16,7 @@
 
 package com.duy.pascal.ui.autocomplete.completion;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.CodeUnitParsingException;
@@ -25,17 +26,14 @@ import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.datastructure.ArrayListMultimap;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
-import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.ui.autocomplete.completion.model.ConstantDescription;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
 import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
-import com.duy.pascal.ui.autocomplete.completion.model.FunctionDescription;
-import com.duy.pascal.ui.autocomplete.completion.model.VariableDescription;
 import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.ui.utils.DLog;
 
@@ -45,8 +43,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static com.duy.pascal.ui.autocomplete.completion.SuggestionProvider.CompleteContext.CONTEXT_WORD;
+import static com.duy.pascal.ui.autocomplete.completion.CompleteContext.CONTEXT_AFTER_FOR;
+import static com.duy.pascal.ui.autocomplete.completion.CompleteContext.CONTEXT_NONE;
+import static com.duy.pascal.ui.autocomplete.completion.Patterns.END_ASSIGN;
+import static com.duy.pascal.ui.autocomplete.completion.Patterns.ID_ASSIGN;
 
 /**
  * Created by Duy on 17-Aug-17.
@@ -61,7 +64,7 @@ public class SuggestionProvider {
     private int mCursorCol;
     private String mIncomplete, mPreWord;
 
-    private CompleteContext mCompleteContext = CONTEXT_WORD;
+    private CompleteContext mCompleteContext = CONTEXT_NONE;
     private CodeSuggestsEditText.SymbolsTokenizer mSymbolsTokenizer;
     private ParsingException mParsingException;
 
@@ -84,13 +87,8 @@ public class SuggestionProvider {
             if (source.length() <= MAX_CHAR) {
                 try {
                     CodeUnit codeUnit;
-                    if (source.startsWith("unit ")) {
-                        codeUnit = PascalCompiler.loadLibrary(srcPath,
-                                new StringReader(source), null, null);
-                    } else {
-                        codeUnit = PascalCompiler.loadPascal(srcPath,
-                                new StringReader(source), null, null);
-                    }
+                    codeUnit = PascalCompiler.loadPascal(srcPath,
+                            new StringReader(source), null, null);
 
                     //the result
                     addSuggestFromContext(suggestItems, codeUnit.getContext());
@@ -99,7 +97,6 @@ public class SuggestionProvider {
                     addSuggestFromContext(suggestItems, e.getCodeUnit().getContext());
                     mParsingException = e.getParseException();
                 } catch (Exception ignored) {
-
                 }
             }
 
@@ -120,7 +117,7 @@ public class SuggestionProvider {
     private void addSuggestFromContext(ArrayList<Description> toAdd, ExpressionContextMixin exprContext) {
         switch (mCompleteContext) {
             case CONTEXT_AFTER_FOR:
-                completeFor(toAdd, exprContext);
+                completeFor(mIncomplete, toAdd, exprContext);
                 completeWord(toAdd, exprContext);
                 break;
             case CONTEXT_AFTER_TO:
@@ -130,14 +127,23 @@ public class SuggestionProvider {
                 completeWord(toAdd, exprContext);
                 break;
             default:
-            case CONTEXT_WORD:
+            case CONTEXT_NONE:
                 completeWord(toAdd, exprContext);
                 break;
         }
     }
 
-    private void completeFor(ArrayList<Description> toAdd, ExpressionContextMixin exprContext) {
-        String identifier = mPreWord;
+    private void completeFor(@NonNull String prefix,
+                             @NonNull ArrayList<Description> toAdd,
+                             @NonNull ExpressionContextMixin exprContext) {
+        for (VariableDeclaration var : exprContext.getVariables()) {
+            Type type = var.getType();
+            if (TypeConverter.isInteger(type)) {
+                if (var.getName().isPrefix(prefix)) {
+                    toAdd.add(CompletionFactory.makeVariable(var));
+                }
+            }
+        }
     }
 
     private void completeWord(ArrayList<Description> toAdd, ExpressionContextMixin exprContext) {
@@ -172,9 +178,9 @@ public class SuggestionProvider {
         String beforeIncomplete = mSource.substring(0, start);
 
         mPreWord = null;
-        mCompleteContext = CONTEXT_WORD;
+        mCompleteContext = CONTEXT_NONE;
         //complete assign
-       /* if (END_ASSIGN.matcher(beforeIncomplete).find()) { //:=|
+        if (END_ASSIGN.matcher(beforeIncomplete).find()) { //:=|
             mCompleteContext = CompleteContext.CONTEXT_ASSIGN;
             Matcher matcher = ID_ASSIGN.matcher(beforeIncomplete);
             if (matcher.find()) {
@@ -184,21 +190,22 @@ public class SuggestionProvider {
             start = mSymbolsTokenizer.findTokenEnd(beforeIncomplete, start);
             if (start >= 0) {
                 //get previous word
-                mPreWord = mSource.substring(start);
+                mPreWord = mSource.substring(0, start);
+                Pattern forStatement = Pattern.compile("\\s+(for)\\s+$");
+                Pattern toKeyword = Pattern.compile("\\s+(to)\\s+$");
                 //for keyword
                 //syntax "for <var>=integer_value to|downto integer_value do
-                if (mPreWord.equalsIgnoreCase("for")) {
-                    mCompleteContext = CompleteContext.CONTEXT_AFTER_FOR;
-                }
-                //syntax "for <var>=integer_value to|downto integer_value do
-                else if (mPreWord.equalsIgnoreCase("to")) {
+                if (forStatement.matcher(mPreWord).find()) {
+                    mCompleteContext = CONTEXT_AFTER_FOR;
+                } else if (toKeyword.matcher(mPreWord).find()) {
                     mCompleteContext = CompleteContext.CONTEXT_AFTER_TO;
                 }
 
             }
         }
+        System.out.println("mCompleteContext = " + mCompleteContext);
         DLog.d(TAG, "calculateIncomplete mIncomplete = '" + mIncomplete + "'");
-        DLog.d(TAG, "calculateIncomplete: mPreWord = '" + mPreWord + "'");*/
+        DLog.d(TAG, "calculateIncomplete: mPreWord = '" + mPreWord + "'");
     }
 
     private ArrayList<Description> sort(ArrayList<Description> items) {
@@ -223,10 +230,9 @@ public class SuggestionProvider {
 
         for (Map.Entry<Name, ConstantDefinition> entry : constants.entrySet()) {
             ConstantDefinition constant = entry.getValue();
-            LineInfo line = constant.getLineNumber();
             if (constant.getName().isPrefix(mIncomplete)) {
-                if (line != null && line.getLine() <= mCursorLine && line.getColumn() <= mCursorCol) {
-                    suggestItems.add(new ConstantDescription(constant));
+                if (beforeCursor(constant.getLineNumber())) {
+                    suggestItems.add(CompletionFactory.makeConstant(constant));
                 }
             }
         }
@@ -238,30 +244,25 @@ public class SuggestionProvider {
         ArrayList<Description> suggestItems = new ArrayList<>();
         for (VariableDeclaration variable : variables) {
             if (variable.getName().isPrefix(mIncomplete)) {
-                LineInfo line = variable.getLineNumber();
-                if (line != null && line.getLine() <= mCursorLine && line.getColumn() <= mCursorCol) {
-                    Name name = variable.getName();
-                    suggestItems.add(new VariableDescription(name, variable.getDescription(), variable.getType()));
+                if (beforeCursor(variable.getLineNumber())) {
+                    suggestItems.add(CompletionFactory.makeVariable(variable));
                 }
             }
         }
         return suggestItems;
     }
 
-    private ArrayList<Description> filterFunctions(
-            ArrayListMultimap<Name, AbstractFunction> allFunctions) {
-        if (mIncomplete.isEmpty()) return new ArrayList<>();
+    private ArrayList<Description> filterFunctions(ArrayListMultimap<Name, AbstractFunction> allFunctions) {
+        if (mIncomplete.isEmpty()) {
+            return new ArrayList<>();
+        }
         ArrayList<Description> suggestItems = new ArrayList<>();
         Collection<ArrayList<AbstractFunction>> values = allFunctions.values();
         for (ArrayList<AbstractFunction> list : values) {
             for (AbstractFunction function : list) {
                 if (function.getName().isPrefix(mIncomplete)) {
-                    LineInfo line = function.getLineNumber();
-                    if (line != null && line.getLine() <= mCursorLine && line.getColumn() <= mCursorCol) {
-                        Name name = function.getName();
-                        ArgumentType[] args = function.argumentTypes();
-                        Type type = function.returnType();
-                        suggestItems.add(new FunctionDescription(name, args, type));
+                    if (beforeCursor(function.getLineNumber())) {
+                        suggestItems.add(CompletionFactory.makeFunction(function));
                     }
                 }
             }
@@ -269,7 +270,9 @@ public class SuggestionProvider {
         return suggestItems;
     }
 
-    enum CompleteContext {
-        CONTEXT_AFTER_FOR, CONTEXT_AFTER_TO, CONTEXT_ASSIGN, CONTEXT_WORD
+    private boolean beforeCursor(LineInfo line) {
+        return line != null && line.getLine() <= mCursorLine && line.getColumn() <= mCursorCol;
     }
+
+
 }
