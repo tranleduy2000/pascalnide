@@ -37,7 +37,7 @@ import android.widget.RadioButton;
 
 import com.duy.pascal.ui.BuildConfig;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.autocomplete.completion.Template;
+import com.duy.pascal.ui.autocomplete.completion.util.CodeTemplate;
 import com.duy.pascal.ui.common.utils.UIUtils;
 import com.duy.pascal.ui.file.listener.OnClipboardPasteFinishListener;
 import com.duy.pascal.ui.file.util.FileUtils;
@@ -366,10 +366,10 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
                 if (isInput.isChecked()) {
                     fileName += ".inp";
                 } else if (isUnit.isChecked()) {
-                    template = Template.createUnitTemplate(fileName);
+                    template = CodeTemplate.createUnitTemplate(fileName);
                     fileName += ".pas";
                 } else if (isProgram.isChecked()) {
-                    template = Template.createProgramTemplate(fileName);
+                    template = CodeTemplate.createProgramTemplate(fileName);
                     fileName += ".pas";
                 }
 

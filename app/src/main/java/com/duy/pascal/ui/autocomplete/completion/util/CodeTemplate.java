@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.autocomplete.completion;
+package com.duy.pascal.ui.autocomplete.completion.util;
 
 import com.duy.pascal.ui.editor.view.AutoIndentEditText;
 
@@ -22,7 +22,7 @@ import com.duy.pascal.ui.editor.view.AutoIndentEditText;
  * Created by Duy on 22-May-17.
  */
 
-public class Template {
+public class CodeTemplate {
     public static final String PROGRAM_TEMPLATE =
             "program %s;\n" +
                     "uses crt;\n" +

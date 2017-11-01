@@ -39,7 +39,7 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
-import com.duy.pascal.ui.autocomplete.completion.KeyWord;
+import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;
 import com.duy.pascal.ui.editor.view.AutoIndentEditText;
 import com.duy.pascal.ui.editor.view.EditorView;
 import com.duy.pascal.ui.editor.view.LineUtils;

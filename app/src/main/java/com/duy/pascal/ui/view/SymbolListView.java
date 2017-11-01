@@ -24,7 +24,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.duy.pascal.ui.adapters.SymbolAdapter;
-import com.duy.pascal.ui.autocomplete.completion.KeyWord;
+import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;
 
 import java.util.ArrayList;
 

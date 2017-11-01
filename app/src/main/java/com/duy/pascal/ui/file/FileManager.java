@@ -29,7 +29,7 @@ import android.support.v4.app.ActivityCompat;
 
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.activities.ActivitySplashScreen;
-import com.duy.pascal.ui.autocomplete.completion.Patterns;
+import com.duy.pascal.ui.autocomplete.completion.util.Patterns;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.file.localdata.Database;
 import com.duy.pascal.ui.setting.PascalPreferences;

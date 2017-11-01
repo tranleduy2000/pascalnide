@@ -33,8 +33,8 @@ import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
-import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
 import com.duy.pascal.ui.autocomplete.completion.model.KeyWordDescription;
+import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;
 import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.ui.utils.DLog;
 
@@ -44,13 +44,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.duy.pascal.ui.autocomplete.completion.CompleteContext.CONTEXT_AFTER_FOR;
 import static com.duy.pascal.ui.autocomplete.completion.CompleteContext.CONTEXT_NONE;
-import static com.duy.pascal.ui.autocomplete.completion.Patterns.END_ASSIGN;
-import static com.duy.pascal.ui.autocomplete.completion.Patterns.ID_ASSIGN;
+import static com.duy.pascal.ui.autocomplete.completion.util.Patterns.END_ASSIGN;
 
 /**
  * Created by Duy on 17-Aug-17.
@@ -74,7 +71,8 @@ public class SuggestionProvider {
         mIncomplete = "";
     }
 
-    public ArrayList<Description> getSuggestion(String srcPath, String source,
+    @Nullable
+    public ArrayList<Description> getSuggestion(@Nullable String srcPath, @NonNull String source,
                                                 int cursorPos, int cursorLine, int cursorCol) {
         long time = System.currentTimeMillis();
         this.mSource = source;
@@ -115,7 +113,7 @@ public class SuggestionProvider {
         return mParsingException;
     }
 
-    private void addSuggestFromContext(ArrayList<Description> toAdd, ExpressionContextMixin exprContext) {
+    private void addSuggestFromContext(@NonNull ArrayList<Description> toAdd, @NonNull ExpressionContextMixin exprContext) {
         switch (mCompleteContext) {
             case CONTEXT_AFTER_FOR:
                 completeFor(mIncomplete, toAdd, exprContext);
@@ -134,6 +132,11 @@ public class SuggestionProvider {
         }
     }
 
+    /**
+     * Add suggestion for "for" statement, only accept integer variable
+     *
+     * @param prefix - incomplete
+     */
     private void completeFor(@NonNull String prefix,
                              @NonNull ArrayList<Description> toAdd,
                              @NonNull ExpressionContextMixin exprContext) {
@@ -160,7 +163,9 @@ public class SuggestionProvider {
 
     private ArrayList<Description> getKeyword() {
         ArrayList<Description> suggestItems = new ArrayList<>();
-        if (mIncomplete.isEmpty()) return suggestItems;
+        if (mIncomplete.isEmpty()) {
+            return suggestItems;
+        }
         for (String str : KeyWord.ALL_KEY_WORD) {
             if (str.toLowerCase().startsWith(mIncomplete.toLowerCase())
                     && !str.equalsIgnoreCase(mIncomplete)) {
@@ -170,6 +175,9 @@ public class SuggestionProvider {
         return suggestItems;
     }
 
+    /**
+     * Define context, incomplete word
+     */
     private void calculateIncomplete() {
         mIncomplete = "";
         int start = mSymbolsTokenizer.findTokenStart(mSource, mCursorPos);
@@ -182,31 +190,28 @@ public class SuggestionProvider {
         mCompleteContext = CONTEXT_NONE;
         //complete assign
         if (END_ASSIGN.matcher(beforeIncomplete).find()) { //:=|
-            mCompleteContext = CompleteContext.CONTEXT_ASSIGN;
-            Matcher matcher = ID_ASSIGN.matcher(beforeIncomplete);
-            if (matcher.find()) {
-                mPreWord = matcher.group(1);
-            }
+//            mCompleteContext = CompleteContext.CONTEXT_ASSIGN;
+//            Matcher matcher = ID_ASSIGN.matcher(beforeIncomplete);
+//            if (matcher.find()) {
+//                mPreWord = matcher.group(1);
+//            }
         } else {
             start = mSymbolsTokenizer.findTokenEnd(beforeIncomplete, start);
             if (start >= 0) {
                 //get previous word
                 mPreWord = mSource.substring(0, start);
-                Pattern forStatement = Pattern.compile("\\s+(for)\\s+$");
-                Pattern toKeyword = Pattern.compile("\\s+(to)\\s+$");
+                Pattern forStatement = Pattern.compile("\\s+(for)\\s+$", Pattern.CASE_INSENSITIVE);
+                Pattern toKeyword = Pattern.compile("\\s+(to)\\s+$", Pattern.CASE_INSENSITIVE);
                 //for keyword
                 //syntax "for <var>=integer_value to|downto integer_value do
                 if (forStatement.matcher(mPreWord).find()) {
-                    mCompleteContext = CONTEXT_AFTER_FOR;
+                    mCompleteContext = CompleteContext.CONTEXT_AFTER_FOR;
                 } else if (toKeyword.matcher(mPreWord).find()) {
                     mCompleteContext = CompleteContext.CONTEXT_AFTER_TO;
                 }
 
             }
         }
-        System.out.println("mCompleteContext = " + mCompleteContext);
-        DLog.d(TAG, "calculateIncomplete mIncomplete = '" + mIncomplete + "'");
-        DLog.d(TAG, "calculateIncomplete: mPreWord = '" + mPreWord + "'");
     }
 
     private ArrayList<Description> sort(ArrayList<Description> items) {

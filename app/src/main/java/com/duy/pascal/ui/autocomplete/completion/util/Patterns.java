@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.autocomplete.completion;
+package com.duy.pascal.ui.autocomplete.completion.util;
 
 import java.util.regex.Pattern;
 
