@@ -21,7 +21,7 @@ import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.widget.Checkable;
 
-import com.jecelyin.android.file_explorer.R;
+import com.duy.pascal.ui.R;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 /**
@@ -61,6 +61,11 @@ public class IconImageView extends RoundedImageView implements Checkable {
     }
 
     @Override
+    public boolean isChecked() {
+        return checked;
+    }
+
+    @Override
     public void setChecked(boolean checked) {
         this.checked = checked;
         if (checked) {
@@ -70,11 +75,6 @@ public class IconImageView extends RoundedImageView implements Checkable {
             setBackgroundColor(defaultBackgroundColor);
             setImageResource(defaultImageResource);
         }
-    }
-
-    @Override
-    public boolean isChecked() {
-        return checked;
     }
 
     @Override

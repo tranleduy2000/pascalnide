@@ -45,23 +45,22 @@ import java.util.Calendar;
  * @author Jecelyin Peng <jecelyin@gmail.com>
  */
 public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<FileListItemBinding>> implements FastScrollRecyclerView.SectionedAdapter {
-    private final String year;
-    private final SparseIntArray checkedArray;
+    private final String mYear;
+    private final SparseIntArray mCheckedArray;
     private File[] data;
-    private OnCheckedChangeListener onCheckedChangeListener;
+    private OnCheckedChangeListener mOnCheckedChangeListener;
     private OnItemClickListener onItemClickListener;
     private File[] mOriginalValues;
-    private int itemCount;
+    private int mItemCount;
 
     public FileListItemAdapter() {
-//        year = String.valueOf(new Date().getYear());
-        year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-        checkedArray = new SparseIntArray();
+        mYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+        mCheckedArray = new SparseIntArray();
     }
 
     public void setData(File[] data) {
         this.data = data;
-        itemCount = data.length;
+        mItemCount = data.length;
         mOriginalValues = data.clone();
         notifyDataSetChanged();
     }
@@ -72,7 +71,7 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
 
         if (TextUtils.isEmpty(filterText)) {
             data = mOriginalValues;
-            itemCount = mOriginalValues.length;
+            mItemCount = mOriginalValues.length;
             notifyDataSetChanged();
             return;
         }
@@ -86,7 +85,7 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
                 data[index++] = path;
             }
         }
-        itemCount = index;
+        mItemCount = index;
         notifyDataSetChanged();
     }
 
@@ -111,7 +110,7 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
     }
 
     public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
-        this.onCheckedChangeListener = onCheckedChangeListener;
+        this.mOnCheckedChangeListener = onCheckedChangeListener;
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -120,7 +119,7 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
 
     @Override
     public int getItemCount() {
-        return itemCount;
+        return mItemCount;
     }
 
     @Override
@@ -209,7 +208,7 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkedArray != null && checkedArray.size() > 0) {
+                if (mCheckedArray != null && mCheckedArray.size() > 0) {
                     toggleChecked(position, binding);
                     return;
                 }
@@ -238,28 +237,28 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
     private void toggleChecked(int position, FileListItemBinding binding) {
         boolean isChecked = isChecked(position);
         if (isChecked) {
-            checkedArray.delete(position);
+            mCheckedArray.delete(position);
         } else {
-            checkedArray.put(position, 1);
+            mCheckedArray.put(position, 1);
         }
 
         setViewCheckedStatus(!isChecked, binding);
 
-        if (onCheckedChangeListener != null) {
-            onCheckedChangeListener.onCheckedChanged(getItem(position), position, !isChecked);
-            onCheckedChangeListener.onCheckedChanged(checkedArray.size());
+        if (mOnCheckedChangeListener != null) {
+            mOnCheckedChangeListener.onCheckedChanged(getItem(position), position, !isChecked);
+            mOnCheckedChangeListener.onCheckedChanged(mCheckedArray.size());
         }
 
     }
 
     public boolean isChecked(int position) {
-        return checkedArray.get(position) == 1;
+        return mCheckedArray.get(position) == 1;
     }
 
     private String getDate(long f) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String date = (sdf.format(f));
-        if (date.substring(0, 4).equals(year))
+        if (date.substring(0, 4).equals(mYear))
             date = date.substring(5);
         return date;
     }
@@ -268,14 +267,19 @@ public class FileListItemAdapter extends RecyclerView.Adapter<BindingViewHolder<
         if (checked) {
             int count = getItemCount();
             for (int i = 0; i < count; i++) {
-                checkedArray.put(i, 1);
+                mCheckedArray.put(i, 1);
+                mOnCheckedChangeListener.onCheckedChanged(mOriginalValues[i], i, true);
             }
         } else {
-            checkedArray.clear();
+            int count = getItemCount();
+            for (int i = 0; i < count; i++) {
+                mOnCheckedChangeListener.onCheckedChanged(mOriginalValues[i], i, false);
+            }
+            mCheckedArray.clear();
         }
 
-        if (onCheckedChangeListener != null) {
-            onCheckedChangeListener.onCheckedChanged(checkedArray.size());
+        if (mOnCheckedChangeListener != null) {
+            mOnCheckedChangeListener.onCheckedChanged(mCheckedArray.size());
         }
 
         notifyDataSetChanged();

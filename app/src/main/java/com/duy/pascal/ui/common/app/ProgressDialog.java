@@ -28,8 +28,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.common.listeners.ProgressInterface;
-import com.jecelyin.android.file_explorer.R;
 
 import java.util.ArrayList;
 import java.util.List;

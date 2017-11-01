@@ -26,4 +26,17 @@
     <color name="light.color_primary">#42a5f5</color>
     <color name="light.color_accent">#f50057</color>
 
+
+    <color name="type_folder">#ffc661</color>
+    <color name="type_media">#f06292</color>
+    <color name="type_apk">#a4c439</color>
+    <color name="type_archive">#546813</color>
+    <color name="type_code">#00bfa5</color>
+    <color name="type_text">#e06055</color>
+    <color name="type_file">#9e9e9e</color>
+    <color name="item_icon_select_status">#757575</color>
+
+    <color name="darkColorControlNormal">@color/abc_secondary_text_material_dark</color>
+    <color name="darkWindowBackground">#ff424242</color>
+    <color name="darkDividerColor">#30ffffff</color>
 </resources>

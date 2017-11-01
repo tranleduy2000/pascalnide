@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright (C) 2016 Jecelyin Peng <jecelyin@gmail.com>
   ~
   ~ This file is part of 920 Text Editor.
@@ -16,17 +17,12 @@
   ~ limitations under the License.
   -->
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/textView"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:clickable="true"
-    android:drawablePadding="8dp"
-    android:drawableRight="@drawable/path_sp_icon"
-    android:foreground="?selectableItemBackground"
-    android:gravity="center_vertical"
-    android:paddingLeft="8dp"
-    android:text="Path"
-    android:textColor="#6f707a">
-
-</TextView>
+<resources>
+    <item name="select_all" type="id" />
+    <item name="copy" type="id" />
+    <item name="cut" type="id" />
+    <item name="paste" type="id" />
+    <item name="share" type="id" />
+    <item name="rename" type="id" />
+    <item name="delete" type="id" />
+</resources>

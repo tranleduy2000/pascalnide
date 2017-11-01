@@ -26,7 +26,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
-import com.jecelyin.android.file_explorer.R;
+import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.common.view.StatusBarUtil;
 
 /**

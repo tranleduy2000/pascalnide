@@ -15,26 +15,16 @@
   -->
 
 <resources>
-
-    <string name="cancel">Cancel</string>
-    <string name="save">Save</string>
-    <string name="ok">OK</string>
-    <string name="new_file">New source file</string>
     <string name="default_">System</string>
     <string name="language">Language</string>
-    <string name="run">Run</string>
     <string name="navigation_drawer_open">Open navigation</string>
     <string name="navigation_drawer_close">CLose navigation</string>
-    <string name="close">Close</string>
     <string name="rate">Rate app</string>
     <string name="more_app">More app</string>
     <string name="compile_error">Compile error</string>
     <string name="setting">Setting</string>
     <string name="document">See document</string>
     <string name="code_sample">Code sample</string>
-    <string name="edit">Edit</string>
-    <string name="copy">Copy</string>
-    <string name="save_as">Save as</string>
     <string name="enter_new_file_name">Enter new file name</string>
     <string name="path">"Path: "</string>
     <string name="remove_file_msg">"Do you want to delete file "</string>
@@ -47,17 +37,11 @@
     <string name="font_z">Font size</string>
     <string name="user_interface">User interface</string>
     <string name="show_line">Show line number</string>
-    <string name="find">Find</string>
-    <string name="find_replace">Find and replace</string>
     <string name="tool">Tool</string>
     <string name="find_what">Find what?</string>
     <string name="replace_with">Replace with</string>
-    <string name="replace">Replace</string>
     <string name="match_case">Match case</string>
-    <string name="regex">Regex</string>
     <string name="word_only">Word only</string>
-    <string name="auto_save">Auto save</string>
-    <string name="goto_line">Go to line</string>
     <string name="format_code">Format code</string>
     <string name="information">Information</string>
     <string name="report_bug">Report bug</string>
@@ -70,15 +54,10 @@
     <string name="show_suggest_popup">Hint popup</string>
     <string name="show_hint_desc">Show suggestions while typing</string>
     <string name="compile">Compile</string>
-    <string name="file">File</string>
     <string name="data">Data</string>
     <string name="show_key_board">Show key board</string>
-    <string name="undo">Undo</string>
-    <string name="redo">Redo</string>
-    <string name="paste">Paste</string>
     <string name="copy_all">Copy all</string>
     <string name="pascal_for_android">Pascal for Android</string>
-    <string name="exit">Exit</string>
     <string name="exit_mgs">Do you want to exit application?</string>
     <string name="cloud_database">Cloud database</string>
     <string name="program_file">Program file (*.pas)</string>
@@ -108,7 +87,6 @@
 
     <string name="write_code_here">Write code here…</string>
     <string name="can_not_save_file">Can not save file!</string>
-    <string name="other">Other</string>
     <string name="logo">Logo</string>
     <string name="program_structure">Show program structure</string>
     <string name="show_symbol">List symbols</string>
@@ -124,7 +102,6 @@
     <string name="title_activity_zxing">ZxingActivity</string>
     <string name="turn_on_flashlight">Turn on flashlight</string>
     <string name="turn_off_flashlight">Turn off flashlight</string>
-    <string name="open_file">Open file</string>
     <string name="insert_url_media">Insert url media</string>
     <string name="max_history_edit">Max history edit</string>
     <string name="max_history_edit_desc">The maximum number of steps can be undo redo</string>
@@ -139,8 +116,6 @@
     <string name="sort_date">Sort by date…</string>
     <string name="sort_name">Sort by name…</string>
     <string name="sort_size">Sort by size…</string>
-    <string name="content">Content</string>
-    <string name="insert_color">Insert color</string>
     <string name="permission_denied_storage">Permission denied to read your External storage</string>
     <string name="inserted_color">Inserted color</string>
     <string name="unit_file">Unit pascal (*.pas)</string>
@@ -213,5 +188,62 @@
     <string name="code">Code</string>
     <string name="enter_data">Enter data</string>
     <string name="invalid_file_name">Invalid file name</string>
+
+    <string name="can_not_be_empty">Can not be empty</string>
+    <string name="no_data">No Data</string>
+    <string name="selected_x_items">Selected %d Items</string>
+    <string name="filename">File Name:</string>
+    <string name="file_encoding">Encoding:</string>
+    <string name="file_save">Save</string>
+    <string name="root_path">Root</string>
+    <string name="auto_detection_encoding">Auto detection encoding</string>
+    <string name="illegal_filename">illegal filename</string>
+    <string name="unknown_path">unknown path</string>
+    <string name="open_file">Open File</string>
+    <string name="save_file">Save File</string>
+    <string name="override_file_prompt">%s exists，do you override it？</string>
+    <string name="filter_by_name">Filter by Name</string>
+    <string name="can_not_create_folder">Can not create folder</string>
+    <string name="can_not_share_x">Can not share file: %s</string>
+    <string name="cancel_select_all">Deselect All</string>
+    <string name="copy">Copy</string>
+    <string name="create_folder">Create folder</string>
+    <string name="cut">Cut</string>
+    <string name="delete">Delete</string>
+    <string name="paste">Paste</string>
+    <string name="rename">Rename</string>
+    <string name="rename_fail">Rename failure</string>
+    <string name="select_all">Select all</string>
+    <string name="share">Share</string>
+    <string name="show_hidden_files">Show hidden files</string>
+    <string name="sort_by_datetime">Sort by Date</string>
+    <string name="sort_by_name">Sort by Name</string>
+    <string name="sort_by_size">Sort by Size</string>
+    <string name="sort_by_type">Sort by Type</string>
+    <string name="replace">Replace</string>
+    <string name="find">Find</string>
+    <string name="new_file">New</string>
+    <string name="save">Save</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
+    <string name="save_as">Save as</string>
+    <string name="goto_line">Goto line</string>
+    <string name="insert_color">Insert color</string>
+    <string name="run">Run</string>
+    <string name="file">File</string>
+    <string name="other">Other</string>
+    <string name="edit">Edit</string>
+    <string name="ok">OK</string>
+    <string name="close">Close</string>
+    <string name="cancel">Cancel</string>
+    <string name="regex">Regular expression</string>
+    <string name="auto_save">Auto save file</string>
+    <string name="find_replace">Find/Replace</string>
+    <string name="editor_create_unknown_exception">Occurs unknown exception when create editor</string>
+    <string name="content">Content</string>
+    <string name="exit">Exit</string>
+    <string name="untitled_file_name">untitled.txt</string>
+    <string name="x_items_completed">%d items Completed</string>
+    <string name="x_items_completed_and_error_x">%1$d items Completed, but has some items occur error: %2$s</string>
 </resources>
 

@@ -19,6 +19,7 @@ package com.duy.pascal.ui.file;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.common.app.ProgressDialog;
 import com.duy.pascal.ui.common.task.JecAsyncTask;
 import com.duy.pascal.ui.common.task.TaskResult;
@@ -65,9 +66,9 @@ public class FileClipboard {
 
     public void showPasteResult(Context context, int count, String error) {
         if (TextUtils.isEmpty(error)) {
-            UIUtils.toast(context, com.jecelyin.android.file_explorer.R.string.x_items_completed, count);
+            UIUtils.toast(context, R.string.x_items_completed, count);
         } else {
-            UIUtils.toast(context, com.jecelyin.android.file_explorer.R.string.x_items_completed_and_error_x, count, error);
+            UIUtils.toast(context, R.string.x_items_completed_and_error_x, count, error);
         }
     }
 

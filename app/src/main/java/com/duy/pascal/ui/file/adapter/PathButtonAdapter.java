@@ -23,8 +23,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.common.listeners.OnItemClickListener;
-import com.jecelyin.android.file_explorer.R;
 
 import java.io.File;
 import java.util.ArrayList;

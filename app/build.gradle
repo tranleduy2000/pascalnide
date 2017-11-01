@@ -47,7 +47,6 @@ dependencies {
     compile project(':pager')
     compile project(':colorpicker')
     compile project(':splitview')
-    compile project(':file_explorer')
 
     compile "com.android.support:appcompat-v7:$android_support_version"
     compile "com.android.support:support-v4:$android_support_version"
@@ -71,6 +70,9 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.0.3'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
     compile 'org.apmem.tools:layouts:1.10@aar'
-    compile 'org.jetbrains:annotations-java5:15.0'
+    compile 'com.simplecityapps:recyclerview-fastscroll:1.0.16'
+    compile 'com.makeramen:roundedimageview:2.2.1'
+    compile 'com.yqritc:recyclerview-flexibledivider:1.2.9'
+    compile 'com.google.code.gson:gson:2.8.0'
 }
 apply plugin: 'com.google.gms.google-services'

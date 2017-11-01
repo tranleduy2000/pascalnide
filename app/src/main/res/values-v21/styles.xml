@@ -22,7 +22,6 @@
     </style>
 
     <style name="AppThemeDark" parent="BaseDarkTheme">
-
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 </resources>

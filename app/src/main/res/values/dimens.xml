@@ -23,4 +23,6 @@
     <dimen name="toolbar_height">40dp</dimen>
     <dimen name="bottom_editor_height">40dp</dimen>
     <dimen name="drag_handle_size">15dp</dimen>
+    <dimen name="file_list_item_divider_left_margin">70dp</dimen>
+
 </resources>

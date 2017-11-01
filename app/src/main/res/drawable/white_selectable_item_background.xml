@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (C) 2016 Jecelyin Peng <jecelyin@gmail.com>
-  ~
-  ~ This file is part of 920 Text Editor.
+  ~  Copyright (c) 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
   ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~     http://www.apache.org/licenses/LICENSE-2.0
   ~
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,19 +17,19 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:state_selected="true">
+            <color android:color="#EEEEEE" />
+        </item>
+        <item android:state_pressed="true">
+            <color android:color="#EEEEEE" />
+        </item>
 
-    <item android:state_selected="true">
-        <color android:color="#313131" />
-    </item>
+        <item android:state_activated="true">
+            <color android:color="#EEEEEE" />
+        </item>
 
-    <item android:state_pressed="true">
-        <color android:color="#555" />
-    </item>
-    <item android:state_activated="true">
-        <color android:color="#424242" />
-    </item>
+        <item>
+            <color android:color="#FFFFFF" />
+        </item>
 
-    <item>
-        <color android:color="@android:color/transparent" />
-    </item>
 </selector>
