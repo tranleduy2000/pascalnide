@@ -731,7 +731,6 @@ public class ConsoleView extends View implements GestureDetector.OnDoubleTapList
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        DLog.d(TAG, "onKeyDown: " + event);
         if (event.isSystem()) {
             return super.onKeyDown(keyCode, event);
         }
@@ -751,7 +750,6 @@ public class ConsoleView extends View implements GestureDetector.OnDoubleTapList
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        DLog.d(TAG, "onKeyUp: " + event);
         if (event.isSystem()) {
             return super.onKeyUp(keyCode, event);
         }
@@ -760,9 +758,6 @@ public class ConsoleView extends View implements GestureDetector.OnDoubleTapList
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        DLog.d(TAG, "onSizeChanged() called with: w = [" + w + "], h = [" + h +
-                "], oldw = [" + oldw + "], oldh = [" + oldh + "]");
-
         mGraphScreen.onSizeChange(w, h);
         updateSize();
     }

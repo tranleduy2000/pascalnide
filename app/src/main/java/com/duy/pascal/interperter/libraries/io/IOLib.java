@@ -151,7 +151,7 @@ public class IOLib extends PascalLibrary {
         try {
             variableBoxer.set(scanner.nextInt());
         } catch (InputMismatchException e) {
-            throw new InvalidNumericFormatException("read variable");
+            throw new InvalidNumericFormatException(e.getMessage());
         }
     }
 
@@ -160,7 +160,7 @@ public class IOLib extends PascalLibrary {
         try {
             variableBoxer.set(scanner.nextLong());
         } catch (InputMismatchException e) {
-            throw new InvalidNumericFormatException("read variable");
+            throw new InvalidNumericFormatException(/*"read variable"*/e.getMessage());
         }
     }
 
@@ -168,7 +168,7 @@ public class IOLib extends PascalLibrary {
         try {
             variableBoxer.set(scanner.nextDouble());
         } catch (InputMismatchException e) {
-            throw new InvalidNumericFormatException("read variable");
+            throw new InvalidNumericFormatException(/*"read variable"*/e.getMessage());
         }
     }
 

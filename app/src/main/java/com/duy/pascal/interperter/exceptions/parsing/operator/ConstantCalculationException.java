@@ -16,26 +16,23 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.operator;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
-import android.support.annotation.NonNull;
-
-public  class ConstantCalculationException extends ParsingException {
+public class ConstantCalculationException extends ParsingException {
     @NonNull
-    private RuntimePascalException e;
+    private final RuntimePascalException target;
 
     public ConstantCalculationException(@NonNull RuntimePascalException e) {
-        super(e.line, "Error while computing constant value: " + e.getMessage());
-        this.e = e;
+        super(e.getLineNumber(), "Error while computing constant value: " + e.getMessage());
+        this.target = e;
     }
 
     @NonNull
-    public final RuntimePascalException getE() {
-        return this.e;
+    public RuntimePascalException getException() {
+        return this.target;
     }
 
-    public final void setE(@NonNull RuntimePascalException var1) {
-        this.e = var1;
-    }
 }

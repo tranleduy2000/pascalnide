@@ -119,9 +119,6 @@ public class ExceptionManager {
             if (e instanceof ExpectedTokenException) {
                 return getExpectedTokenException((ExpectedTokenException) e);
             }
-//            if (e instanceof ExpectDoTokenException) {
-//
-//            }
             if (e instanceof StackOverflowException) {
                 return getMessageResource(e, R.string.StackOverflowException);
             }
@@ -263,6 +260,7 @@ public class ExceptionManager {
             }
             return new SpannableString(e.getLocalizedMessage());
         } catch (Exception err) {
+            err.printStackTrace();
             return new SpannableString(err.toString());
         }
     }
@@ -270,12 +268,12 @@ public class ExceptionManager {
     private Spanned getMessageResource(Throwable e, int resourceID, Object... arg) {
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
         if (e instanceof ParsingException) {
-            stringBuilder.append(((ParsingException) e).getLineInfo().toString());
+            stringBuilder.append(String.valueOf(((ParsingException) e).getLineInfo()));
             stringBuilder.append("\n").append("\n");
             stringBuilder.append(mContext.getString(resourceID, arg));
             return highlight(mContext, stringBuilder);
         } else if (e instanceof RuntimePascalException) {
-            stringBuilder.append(((RuntimePascalException) e).line.toString());
+            stringBuilder.append(String.valueOf(((RuntimePascalException) e).getLineNumber()));
             stringBuilder.append("\n").append("\n");
             stringBuilder.append(mContext.getString(resourceID, arg));
             return highlight(mContext, stringBuilder);
@@ -286,10 +284,10 @@ public class ExceptionManager {
     private Spanned getConstantCalculationException(Throwable e) {
         ConstantCalculationException exception = (ConstantCalculationException) e;
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
-        stringBuilder.append(exception.getLineInfo().toString());
+        stringBuilder.append(String.valueOf(exception.getLineInfo()));
         stringBuilder.append("\n").append("\n");
         String format = String.format(mContext.getString(R.string.ConstantCalculationException),
-                exception.getE().getLocalizedMessage());
+                exception.getException().getLocalizedMessage());
         stringBuilder.append(format);
         return stringBuilder;
 
@@ -298,7 +296,7 @@ public class ExceptionManager {
     private Spanned getNonIntegerException(Throwable e) {
         NonIntegerIndexException exception = (NonIntegerIndexException) e;
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
-        stringBuilder.append(exception.getLineInfo().toString());
+        stringBuilder.append(String.valueOf(exception.getLineInfo()));
         stringBuilder.append("\n").append("\n");
         String format = String.format(
                 mContext.getString(R.string.NonIntegerException),
@@ -310,7 +308,7 @@ public class ExceptionManager {
     private Spanned getNonIntegerIndexException(Throwable e) {
         NonIntegerIndexException exception = (NonIntegerIndexException) e;
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
-        stringBuilder.append(exception.getLineInfo().toString());
+        stringBuilder.append(String.valueOf(exception.getLineInfo()));
         stringBuilder.append("\n").append("\n");
         String format = String.format(mContext.getString(R.string.NonIntegerIndexException), exception.getValue().toString());
         stringBuilder.append(format);

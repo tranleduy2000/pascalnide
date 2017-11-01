@@ -1,14 +1,17 @@
 package com.duy.pascal.interperter.exceptions.runtime;
 
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class RuntimePascalException extends Exception {
+    @Nullable
     public LineInfo line;
 
     public RuntimePascalException() {
     }
 
-    public RuntimePascalException(LineInfo line) {
+    public RuntimePascalException(@Nullable LineInfo line) {
         this.line = line;
     }
 
@@ -16,11 +19,16 @@ public class RuntimePascalException extends Exception {
         super(ms);
     }
 
-    public RuntimePascalException(LineInfo line, String mes) {
+    public RuntimePascalException(@Nullable LineInfo line, String mes) {
         super(mes);
         this.line = line;
     }
 
     public RuntimePascalException(Exception e) {
+    }
+
+    @Nullable
+    public LineInfo getLineNumber() {
+        return line;
     }
 }
