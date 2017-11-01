@@ -17,23 +17,18 @@
 package com.duy.pascal.ui.autocomplete.completion.model;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
 
 /**
- * Created by Duy on 9/24/2017.
+ * Created by Duy on 11/1/2017.
  */
 
-public class VariableDescription extends DescriptionImpl {
-    public VariableDescription(@NonNull Name name, String description, Type type) {
-        super(KIND_VARIABLE, name, description, type);
-    }
-
-    @Override
-    public String getHeader() {
-        return name + ":" + type;
+public class KeyWordDescription extends DescriptionImpl {
+    public KeyWordDescription(@NonNull String name, @Nullable String description) {
+        super(KIND_KEYWORD, Name.create(name), description, null);
     }
 
     @Override

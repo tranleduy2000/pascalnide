@@ -40,7 +40,7 @@ public class FunctionDescription implements Description {
     }
 
     @Override
-    public String getOutput() {
+    public String getDisplayText() {
         return name.getOriginName() + "(" +
                 (args != null && args.length > 0 ? AutoIndentEditText.CURSOR + ")" : ")" + AutoIndentEditText.CURSOR);
     }

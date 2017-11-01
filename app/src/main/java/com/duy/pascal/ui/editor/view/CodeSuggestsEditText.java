@@ -36,15 +36,15 @@ import android.widget.ListAdapter;
 import android.widget.ListPopupWindow;
 import android.widget.MultiAutoCompleteTextView;
 
-import com.duy.pascal.ui.utils.DLog;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.completion.SuggestionProvider;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
 import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
 import com.duy.pascal.ui.editor.view.adapters.CodeSuggestAdapter;
 import com.duy.pascal.ui.structure.viewholder.StructureType;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.utils.DLog;
 
 import java.util.ArrayList;
 
@@ -66,7 +66,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     protected ArrayList<LineInfo> mLineErrors = new ArrayList<>();
     private CodeSuggestAdapter mAdapter;
     private SuggestionProvider pascalParserHelper;
-    private ParseDataTask parseTask;
+    private ParseDataTask mParseTask;
 
     private ListPopupWindow mPopup;
     private int mDropDownAnchorId;
@@ -107,6 +107,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         mPopup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         mPopup.setPromptPosition(ListPopupWindow.POSITION_PROMPT_BELOW);
         mPopup.setOnItemClickListener(new DropDownItemClickListener());
+        mPopup.setAnimationStyle(android.R.style.Animation_InputMethod);
 
         onDropdownChangeSize(getWidth(), getHeight());
     }
@@ -137,11 +138,11 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         if (mEnableSyntaxParser) {
             try {
                 if (mEditorSetting.isShowSuggestPopup()) {
-                    if (parseTask != null) {
-                        parseTask.cancel(true);
+                    if (mParseTask != null) {
+                        mParseTask.cancel(true);
                     }
-                    parseTask = new ParseDataTask(this, "");
-                    parseTask.execute();
+                    mParseTask = new ParseDataTask(this, "");
+                    mParseTask.execute();
                 }
             } catch (Exception ignored) {
             }
@@ -180,7 +181,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         Rect rect = new Rect();
         getWindowVisibleDisplayFrame(rect);
 
-       DLog.d(TAG, "onDropdownChangeSize: " + rect);
+        DLog.d(TAG, "onDropdownChangeSize: " + rect);
         w = rect.width();
         h = rect.height();
 
@@ -288,7 +289,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
                 selectedItem = mAdapter.getItem(position);
             }
             if (selectedItem == null) {
-               DLog.w(TAG, "performCompletion: no selected item");
+                DLog.w(TAG, "performCompletion: no selected item");
                 return;
             }
 
@@ -492,7 +493,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         protected void onPostExecute(ArrayList<Description> result) {
             super.onPostExecute(result);
             if (isCancelled()) {
-               DLog.d(TAG, "onPostExecute: cancel");
+                DLog.d(TAG, "onPostExecute: cancel");
                 return;
             }
             if (result == null) {

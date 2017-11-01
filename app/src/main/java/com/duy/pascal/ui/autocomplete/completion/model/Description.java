@@ -29,7 +29,7 @@ public interface Description {
     /**
      * output when user click suggestion
      */
-    public String getOutput();
+    public String getDisplayText();
 
     /**
      * uses for show in list suggest

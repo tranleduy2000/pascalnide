@@ -34,6 +34,7 @@ import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
 import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
+import com.duy.pascal.ui.autocomplete.completion.model.KeyWordDescription;
 import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.ui.utils.DLog;
 
@@ -160,10 +161,10 @@ public class SuggestionProvider {
     private ArrayList<Description> getKeyword() {
         ArrayList<Description> suggestItems = new ArrayList<>();
         if (mIncomplete.isEmpty()) return suggestItems;
-        for (String s : KeyWord.ALL_KEY_WORD) {
-            if (s.toLowerCase().startsWith(mIncomplete.toLowerCase())
-                    && !s.equalsIgnoreCase(mIncomplete)) {
-                suggestItems.add(new DescriptionImpl(DescriptionImpl.KIND_KEYWORD, s));
+        for (String str : KeyWord.ALL_KEY_WORD) {
+            if (str.toLowerCase().startsWith(mIncomplete.toLowerCase())
+                    && !str.equalsIgnoreCase(mIncomplete)) {
+                suggestItems.add(new KeyWordDescription(str, null));
             }
         }
         return suggestItems;

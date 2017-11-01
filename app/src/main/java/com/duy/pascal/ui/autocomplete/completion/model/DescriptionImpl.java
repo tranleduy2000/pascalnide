@@ -56,7 +56,7 @@ public class DescriptionImpl implements Comparable<Name>, Description {
     }
 
     @Override
-    public String getOutput() {
+    public String getDisplayText() {
         return name.getOriginName();
     }
 

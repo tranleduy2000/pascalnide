@@ -57,7 +57,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<Description> {
             if (resultValue == null) {
                 return "";
             }
-            return ((Description) resultValue).getOutput();
+            return ((Description) resultValue).getDisplayText();
         }
 
         @Override
