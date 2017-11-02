@@ -16,6 +16,8 @@
 
 package com.duy.pascal.ui.themefont.fonts;
 
+import com.duy.pascal.ui.themefont.model.FontEntry;
+
 public interface OnFontSelectListener {
     void onFontSelected(FontEntry fontEntry);
 

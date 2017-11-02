@@ -30,7 +30,7 @@ import android.view.View;
 
 import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.activities.BaseActivity;
+import com.duy.pascal.ui.BaseActivity;
 
 import java.util.ArrayList;
 

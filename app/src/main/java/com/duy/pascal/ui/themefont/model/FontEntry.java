@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.themefont.fonts;
+package com.duy.pascal.ui.themefont.model;
 
 public class FontEntry {
     public boolean isPremium;

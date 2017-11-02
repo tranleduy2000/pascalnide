@@ -20,7 +20,7 @@ package com.duy.pascal.ui.setting;
 import android.os.Bundle;
 
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.activities.BaseActivity;
+import com.duy.pascal.ui.BaseActivity;
 
 
 public class SettingsActivity extends BaseActivity {

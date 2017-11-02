@@ -20,7 +20,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.activities.BaseActivity;
+import com.duy.pascal.ui.BaseActivity;
 
 /**
  * Created by Duy on 27-Feb-17.

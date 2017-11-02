@@ -14,31 +14,34 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.themefont.fonts;
+package com.duy.pascal.ui.themefont.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
+import com.duy.pascal.ui.BaseFragment;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.setting.PascalPreferences;
+import com.duy.pascal.ui.themefont.adapter.FontAdapter2;
+import com.duy.pascal.ui.themefont.fonts.OnFontSelectListener;
+import com.duy.pascal.ui.themefont.model.FontEntry;
 
 /**
  * Created by Duy on 17-May-17.
  */
 
-public class EditorFontFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener, OnFontSelectListener {
+public class EditorFontFragment extends BaseFragment implements SharedPreferences.OnSharedPreferenceChangeListener, OnFontSelectListener {
 
     protected PascalPreferences mPref;
     private FontAdapter2 mFontAdapter;
@@ -60,12 +63,12 @@ public class EditorFontFragment extends Fragment implements SharedPreferences.On
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_font, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         mRecyclerView = view.findViewById(R.id.recycler_view);
@@ -99,12 +102,12 @@ public class EditorFontFragment extends Fragment implements SharedPreferences.On
     @Override
     public void onFontSelected(FontEntry fontEntry) {
         mPref.setEditorFont(fontEntry);
-        Toast.makeText(getContext(), getString(R.string.select) + " " + fontEntry.name,
-                Toast.LENGTH_SHORT).show();
+        String msg = String.format("%s %s", getString(R.string.select), fontEntry.name);
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onUpgradeClick() {
-
+        showDialogUpgrade();
     }
 }

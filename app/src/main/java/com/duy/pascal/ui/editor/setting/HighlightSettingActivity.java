@@ -21,7 +21,7 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.activities.BaseActivity;
+import com.duy.pascal.ui.BaseActivity;
 
 /**
  * Created by Duy on 18-Jun-17.

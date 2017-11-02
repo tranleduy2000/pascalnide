@@ -30,7 +30,7 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.activities.BaseActivity;
+import com.duy.pascal.ui.BaseActivity;
 import com.duy.pascal.ui.common.utils.IOUtils;
 import com.duy.pascal.ui.common.utils.UIUtils;
 import com.duy.pascal.ui.databinding.FileExplorerActivityBinding;

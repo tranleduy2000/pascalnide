@@ -27,7 +27,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.PascalApplication;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.activities.BaseActivity;
+import com.duy.pascal.ui.BaseActivity;
 import com.googlecode.sl4a.Constants;
 
 public class PascalActivity extends BaseActivity {

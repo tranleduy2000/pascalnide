@@ -24,6 +24,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Toast;
 
+import com.duy.pascal.ui.BaseActivity;
 import com.duy.pascal.ui.BuildConfig;
 import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;

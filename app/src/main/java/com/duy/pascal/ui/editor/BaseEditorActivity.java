@@ -51,7 +51,7 @@ import com.commonsware.cwac.pager.PageDescriptor;
 import com.commonsware.cwac.pager.SimplePageDescriptor;
 import com.duy.pascal.ui.EditorControl;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.activities.BaseActivity;
+import com.duy.pascal.ui.BaseActivity;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.file.FileActionCallback;
 import com.duy.pascal.ui.file.FileClipboard;

@@ -22,8 +22,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.themefont.fonts.ConsoleFontFragment;
-import com.duy.pascal.ui.themefont.fonts.EditorFontFragment;
+import com.duy.pascal.ui.themefont.fragments.ConsoleFontFragment;
+import com.duy.pascal.ui.themefont.fragments.EditorFontFragment;
 import com.duy.pascal.ui.themefont.themes.ThemeFragment;
 
 /**

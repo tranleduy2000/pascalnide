@@ -20,6 +20,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 
 import com.duy.pascal.ui.R;
+import com.duy.pascal.ui.themefont.model.FontEntry;
 
 import java.io.File;
 import java.io.IOException;

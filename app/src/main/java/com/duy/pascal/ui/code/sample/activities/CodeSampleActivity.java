@@ -27,7 +27,7 @@ import android.view.MenuItem;
 import com.commonsware.cwac.pager.PageDescriptor;
 import com.commonsware.cwac.pager.SimplePageDescriptor;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.activities.BaseActivity;
+import com.duy.pascal.ui.BaseActivity;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.code.sample.adapters.CodePagerAdapter;
 import com.duy.pascal.ui.code.sample.adapters.CodeSampleAdapter;

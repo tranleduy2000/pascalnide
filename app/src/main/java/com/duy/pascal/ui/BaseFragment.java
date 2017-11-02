@@ -14,24 +14,21 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.purchase.dialogs;
+package com.duy.pascal.ui;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
 
-import com.duy.pascal.ui.R;
+import android.support.v4.app.Fragment;
+
+import com.duy.pascal.ui.purchase.dialogs.PremiumDialog;
 
 /**
  * Created by Duy on 11/2/2017.
  */
+public class BaseFragment extends Fragment {
 
-class ThemeHelper {
-    @NonNull
-    public static LayoutInflater wrap(@NonNull Context context) {
-        int themeByName = R.style.AppThemeDark;
-        ContextThemeWrapper newContext = new ContextThemeWrapper(context, themeByName);
-        return LayoutInflater.from(newContext);
+    public void showDialogUpgrade() {
+        PremiumDialog dialog = PremiumDialog.newInstance();
+        dialog.show(getFragmentManager(), PremiumDialog.TAG);
     }
+
 }

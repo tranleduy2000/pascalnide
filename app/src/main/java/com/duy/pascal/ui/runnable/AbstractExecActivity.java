@@ -35,7 +35,7 @@ import com.duy.pascal.interperter.libraries.io.IOLib;
 import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.activities.BaseActivity;
+import com.duy.pascal.ui.BaseActivity;
 import com.duy.pascal.ui.file.FileManager;
 import com.duy.pascal.ui.runnable.model.InputData;
 import com.duy.pascal.ui.utils.DLog;

@@ -21,7 +21,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.ui.activities.BaseActivity;
+import com.duy.pascal.ui.BaseActivity;
 import com.duy.pascal.ui.purchase.dialogs.PremiumDialog;
 import com.google.firebase.analytics.FirebaseAnalytics;
 

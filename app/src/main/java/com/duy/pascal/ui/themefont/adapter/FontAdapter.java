@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.themefont.fonts;
+package com.duy.pascal.ui.themefont.adapter;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -26,43 +26,38 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.purchase.Premium;
 import com.duy.pascal.ui.setting.PascalPreferences;
+import com.duy.pascal.ui.themefont.model.FontEntry;
+import com.duy.pascal.ui.themefont.fonts.FontManager;
+import com.duy.pascal.ui.themefont.fonts.OnFontSelectListener;
 
 import java.util.ArrayList;
 
-
-/**
- * Created by Duy on 14-Jul-17.
- */
-
-public class FontAdapter2 extends RecyclerView.Adapter<FontAdapter2.ViewHolder> {
-    private final Context mContext;
+public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
     private LayoutInflater mInflater;
+    private Context mContext;
     private ArrayList<FontEntry> mListFonts = new ArrayList<>();
-    @Nullable
-    private OnFontSelectListener mListener;
     private PascalPreferences mPascalPreferences;
+    @Nullable
+    private OnFontSelectListener onFontSelectListener;
 
-    public FontAdapter2(Context context) {
+    public FontAdapter(Context context) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
-        this.mListFonts = FontManager.getAll(mContext);
         this.mPascalPreferences = new PascalPreferences(context);
-    }
-
-    public void setOnFontSelectListener(@Nullable OnFontSelectListener onFontSelectListener) {
-        this.mListener = onFontSelectListener;
+        this.mListFonts = FontManager.getAll(context);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(mInflater.inflate(R.layout.list_item_font_preview, parent, false));
+        View view = mInflater.inflate(R.layout.list_item_font_preview, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        final FontEntry fontEntry = mListFonts.get(position);
+    public void onBindViewHolder(ViewHolder holder, int pos) {
+        final FontEntry fontEntry = mListFonts.get(pos);
+
         holder.txtSample.setTextSize(mPascalPreferences.getEditorTextSize() * 2);
         holder.txtSample.setTypeface(FontManager.getFont(fontEntry, mContext));
         String name = fontEntry.name;
@@ -75,17 +70,8 @@ public class FontAdapter2 extends RecyclerView.Adapter<FontAdapter2.ViewHolder> 
         holder.btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mListener != null) {
-                    int pos = holder.getAdapterPosition();
-                    if (Premium.canUseAdvancedFeature(mContext)) {
-                        mListener.onFontSelected(mListFonts.get(pos));
-                    } else {
-                        if (mListFonts.get(pos).isPremium()) {
-                            mListener.onUpgradeClick();
-                        } else {
-                            mListener.onFontSelected(mListFonts.get(pos));
-                        }
-                    }
+                if (onFontSelectListener != null) {
+                    onFontSelectListener.onFontSelected(fontEntry);
                 }
             }
         });
@@ -96,11 +82,13 @@ public class FontAdapter2 extends RecyclerView.Adapter<FontAdapter2.ViewHolder> 
         return mListFonts.size();
     }
 
+    @Nullable
+    public OnFontSelectListener getOnFontSelectListener() {
+        return onFontSelectListener;
+    }
 
-    public interface OnFontClickListener {
-        void onFontClick(String name);
-
-        void onUpgradeClick();
+    public void setOnFontSelectListener(@Nullable OnFontSelectListener onFontSelectListener) {
+        this.onFontSelectListener = onFontSelectListener;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -113,7 +101,9 @@ public class FontAdapter2 extends RecyclerView.Adapter<FontAdapter2.ViewHolder> 
             txtSample = itemView.findViewById(R.id.txt_sample);
             txtName = itemView.findViewById(R.id.txt_name);
             btnSelect = itemView.findViewById(R.id.btn_select);
+
         }
     }
+
 
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.themefont.fonts;
+package com.duy.pascal.ui.themefont.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -27,11 +27,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
+import com.duy.pascal.ui.BaseFragment;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.setting.PascalPreferences;
+import com.duy.pascal.ui.themefont.adapter.FontAdapter2;
+import com.duy.pascal.ui.themefont.fonts.OnFontSelectListener;
+import com.duy.pascal.ui.themefont.model.FontEntry;
 
 /**
  * Created by Duy on 17-May-17.

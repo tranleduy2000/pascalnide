@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.activities;
+package com.duy.pascal.ui;
 
 import android.app.Dialog;
 import android.content.Context;
