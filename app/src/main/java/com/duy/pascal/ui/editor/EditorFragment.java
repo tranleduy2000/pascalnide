@@ -29,7 +29,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.EditorControl;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
@@ -38,6 +37,7 @@ import com.duy.pascal.ui.editor.indention.PascalFormatCode;
 import com.duy.pascal.ui.editor.view.EditorView;
 import com.duy.pascal.ui.editor.view.LineUtils;
 import com.duy.pascal.ui.file.FileManager;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.view.LockableScrollView;
 
 import java.io.File;
@@ -60,7 +60,7 @@ public class EditorFragment extends Fragment implements EditorController {
     public static EditorFragment newInstance(String filePath) {
         EditorFragment editorFragment = new EditorFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(CompileManager.FILE_PATH, filePath);
+        bundle.putSerializable(CompileManager.FILE, new File(filePath));
         editorFragment.setArguments(bundle);
         return editorFragment;
     }
@@ -98,8 +98,8 @@ public class EditorFragment extends Fragment implements EditorController {
                 }
             });
         }
-        mLoadCodeTask = new LoadCodeTask(getContext(), mCodeEditor);
-        mLoadCodeTask.execute(getArguments().getString(CompileManager.FILE_PATH));
+        mLoadCodeTask = new LoadCodeTask(mCodeEditor);
+        mLoadCodeTask.execute((File) getArguments().getSerializable(CompileManager.FILE));
     }
 
 
@@ -157,17 +157,15 @@ public class EditorFragment extends Fragment implements EditorController {
         if (mCodeEditor == null) {
             return;
         }
-        String filePath = getArguments().getString(CompileManager.FILE_PATH);
+        File file = (File) getArguments().getSerializable(CompileManager.FILE);
         boolean result;
-        if (filePath != null) {
+        if (file != null) {
             try {
                 String code = getCode();
-                result = mFileManager.saveFile(filePath, code);
-                if (result) {
-                    //do some thing
-                } else {
-                    Toast.makeText(getContext(), getString(R.string.can_not_save_file) + " " + (new File(filePath).getName()),
-                            Toast.LENGTH_SHORT).show();
+                result = mFileManager.saveFile(file, code);
+                if (!result) {
+                    String text = String.format("%s %s", getString(R.string.can_not_save_file), file.getName());
+                    Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -256,34 +254,27 @@ public class EditorFragment extends Fragment implements EditorController {
     }
 
     public String getFilePath() {
-        String path = getArguments().getString(CompileManager.FILE_PATH);
-        if (path == null) {
-            return "";
-        } else {
-            return path;
-        }
+        String path = ((File) getArguments().getSerializable(CompileManager.FILE)).getPath();
+        return path;
     }
 
-    private static class LoadCodeTask extends AsyncTask<String, Void, StringBuilder> {
-        private final Context context;
-        private final EditorView editorView;
+    private static class LoadCodeTask extends AsyncTask<File, Void, String> {
+        private EditorView mEditorView;
 
-        LoadCodeTask(Context context, EditorView editorView) {
-            this.context = context;
-            this.editorView = editorView;
+        LoadCodeTask(EditorView editorView) {
+            this.mEditorView = editorView;
         }
 
         @Override
-        protected StringBuilder doInBackground(String... params) {
-            FileManager fileManager = new FileManager(context);
-            return fileManager.fileToString(params[0]);
+        protected String doInBackground(File... params) {
+            return FileManager.fileToString(params[0]);
         }
 
         @Override
-        protected void onPostExecute(StringBuilder s) {
+        protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (!isCancelled()) {
-                editorView.setText(s);
+                mEditorView.setText(s);
             }
         }
     }

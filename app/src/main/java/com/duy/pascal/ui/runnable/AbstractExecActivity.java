@@ -23,15 +23,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
-import com.duy.pascal.ui.utils.DLog;
-import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.activities.BaseActivity;
-import com.duy.pascal.ui.runnable.model.InputData;
-import com.duy.pascal.ui.file.FileManager;
-import com.duy.pascal.ui.utils.StringCompare;
-import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.interperter.libraries.io.IOLib;
 import com.duy.pascal.interperter.config.DebugMode;
 import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.debugable.DebugListener;
@@ -39,8 +31,16 @@ import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.ScriptTerminatedException;
+import com.duy.pascal.interperter.libraries.io.IOLib;
 import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.source.ScriptSource;
+import com.duy.pascal.ui.R;
+import com.duy.pascal.ui.activities.BaseActivity;
+import com.duy.pascal.ui.file.FileManager;
+import com.duy.pascal.ui.runnable.model.InputData;
+import com.duy.pascal.ui.utils.DLog;
+import com.duy.pascal.ui.utils.StringCompare;
+import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 
 import java.io.File;
 import java.io.FileReader;
@@ -295,14 +295,14 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
     protected void createAndRunProgram(final String path) {
         DLog.d(TAG, "createAndRunProgram() called with: path = [" + path + "]");
 
-        StringBuilder code = mFileManager.fileToString(path);
-        if (code.toString().toLowerCase().startsWith("unit ")) {
+        String code = mFileManager.fileToString(path);
+        if (code.toLowerCase().startsWith("unit ")) {
             onError(new RuntimeException(getString(R.string.can_not_exec_unit)));
             return;
         }
 
         //clone file to internal storage
-        programFile = mFileManager.setContentFileTemp(code.toString());
+        programFile = mFileManager.setContentFileTemp(code);
 
         //show prompt
         this.println("execute file: " + path);

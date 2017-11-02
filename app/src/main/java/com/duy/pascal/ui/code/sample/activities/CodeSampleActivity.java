@@ -135,7 +135,7 @@ public class CodeSampleActivity extends BaseActivity implements CodeSampleAdapte
         Intent intent = new Intent(this, ExecuteActivity.class);
 
         //this code is verified, do not need compile
-        intent.putExtra(CompileManager.FILE_PATH, mFileManager.getTempFile().getPath());
+        intent.putExtra(CompileManager.FILE, mFileManager.getTempFile());
         startActivity(intent);
     }
 
@@ -150,7 +150,7 @@ public class CodeSampleActivity extends BaseActivity implements CodeSampleAdapte
         Intent intent = new Intent(this, EditorActivity.class);
 
         //this code is verified, do not need compile
-        intent.putExtra(CompileManager.FILE_PATH, file);
+        intent.putExtra(CompileManager.FILE, file);
         startActivity(intent);
     }
 

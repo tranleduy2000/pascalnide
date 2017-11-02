@@ -38,14 +38,12 @@ import com.duy.pascal.ui.utils.DLog;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -156,28 +154,12 @@ public class FileManager {
     }
 
     @NonNull
-    public StringBuilder fileToString(String path) {
-        File file = new File(path);
-        if (file.canRead()) {
-            try {
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-                StringBuilder stringBuilder = new StringBuilder();
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(line).append("\n");
-                }
-                return stringBuilder;
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return new StringBuilder();
+    public static String fileToString(String path) {
+        return fileToString(new File(path));
     }
 
-    public String fileToString(File file) {
+    @NonNull
+    public static String fileToString(File file) {
         if (file.canRead()) {
             try {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
@@ -252,12 +234,15 @@ public class FileManager {
      *
      * @param file
      */
-    public void saveFile(File file, String text) {
+    public boolean saveFile(File file, String text) {
         try {
             FileOutputStream out = new FileOutputStream(file);
             if (text.length() > 0) out.write(text.getBytes());
             out.close();
-        } catch (Exception ignored) {
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -268,15 +253,7 @@ public class FileManager {
      * @param text     - content of file
      */
     public boolean saveFile(@NonNull String filePath, String text) {
-        try {
-            FileOutputStream out = new FileOutputStream(filePath);
-            OutputStreamWriter writer = new OutputStreamWriter(out, "UTF-8");
-            if (text.length() > 0) writer.write(text);
-            writer.close();
-            return true;
-        } catch (Exception ignored) {
-            return false;
-        }
+        return saveFile(new File(filePath), text);
     }
 
     /**
@@ -425,7 +402,7 @@ public class FileManager {
         Intent intent = new Intent();
 
         Intent launchIntent = new Intent(context, ActivitySplashScreen.class);
-        launchIntent.putExtra(CompileManager.FILE_PATH, file.getPath());
+        launchIntent.putExtra(CompileManager.FILE, file);
         launchIntent.setAction("run_from_shortcut");
 
         intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent);

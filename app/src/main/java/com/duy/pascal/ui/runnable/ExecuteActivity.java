@@ -55,8 +55,10 @@ public class ExecuteActivity extends AbstractExecActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             if (savedInstanceState == null) {
-                mFilePath = extras.getString(CompileManager.FILE_PATH);
-                if (mFilePath == null || mFilePath.isEmpty()) return;
+                mFilePath = ((File) extras.getSerializable(CompileManager.FILE)).getPath();
+                if (mFilePath.isEmpty()) {
+                    return;
+                }
                 File file = new File(mFilePath);
                 if (!file.exists()) {
                     finish();

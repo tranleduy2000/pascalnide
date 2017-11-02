@@ -135,13 +135,13 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
     private void loadFileFromIntent() {
         DLog.d(TAG, "onResume() called");
         Intent intent = getIntent();
-        if (intent != null && intent.getStringExtra(CompileManager.FILE_PATH) != null) {
-            String filePath = intent.getStringExtra(CompileManager.FILE_PATH);
-            DLog.d(TAG, "onResume: path = " + filePath);
+        if (intent != null && intent.getSerializableExtra(CompileManager.FILE) != null) {
+            File file = (File) intent.getSerializableExtra(CompileManager.FILE);
+            DLog.d(TAG, "onResume: path = " + file);
             //No need save last file because it is the first file
-            addNewPageEditor(new File(filePath));
+            addNewPageEditor(file);
             //Remove path
-            intent.removeExtra(CompileManager.FILE_PATH);
+            intent.removeExtra(CompileManager.FILE);
         }
     }
 
@@ -344,15 +344,15 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         DLog.d(TAG, "onNewIntent() called with: intent = [" + intent + "]");
-        if (intent.getSerializableExtra(CompileManager.FILE_PATH) != null) {
-            File file = (File) intent.getSerializableExtra(CompileManager.FILE_PATH);
+        if (intent.getSerializableExtra(CompileManager.FILE) != null) {
+            File file = (File) intent.getSerializableExtra(CompileManager.FILE);
             if (!file.exists()) {
                 Toast.makeText(this, R.string.file_not_found, Toast.LENGTH_SHORT).show();
                 return;
             }
             addNewPageEditor(file);
             //remove path
-            intent.removeExtra(CompileManager.FILE_PATH);
+            intent.removeExtra(CompileManager.FILE);
         }
     }
 
