@@ -21,12 +21,12 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.editor.view.EditorView;
 
 /**
  * Created by Duy on 11/2/2017.
  */
+// TODO: 11/2/2017
 public class DeclareFunction implements AutoFixCommand {
     private UnknownIdentifierException e;
 

@@ -24,6 +24,7 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
+import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;
 import com.duy.pascal.ui.code.ExceptionManager;
 import com.duy.pascal.ui.editor.view.EditorView;
 import com.duy.pascal.ui.utils.DLog;
@@ -34,6 +35,15 @@ import java.util.regex.Pattern;
 import static com.duy.pascal.ui.autocomplete.autofix.EditorUtil.getText;
 
 /**
+ * Change type of function when wrong type
+ * <code>
+ * function func : string;  begin func := 2; end; begin  end.
+ * </code>
+ * <p>
+ * after
+ * <code>
+ * function func : integer;  begin func := 2; end; begin  end.
+ * </code>
  * Created by Duy on 11/2/2017.
  */
 public class ChangeTypeFunction implements AutoFixCommand {
@@ -58,7 +68,7 @@ public class ChangeTypeFunction implements AutoFixCommand {
                         "(\\s?)" + //white space                      //3
                         "(:)" +                                       //4
                         "(.*?)" + //type of function                  //5
-                        ";"); //end                                   //6
+                        ";"); //semicolon                             //6
         Matcher matcher = pattern.matcher(scope.getText());
         if (matcher.find()) {
             editable.disableTextWatcher();
@@ -69,8 +79,12 @@ public class ChangeTypeFunction implements AutoFixCommand {
 
             String insertText = " " + newType.toString();
             editable.getText().replace(start, end, insertText);
-            editable.setSelection(start, start + insertText.length());
+            editable.setSelection(start + 1, start + insertText.length());
+
+            editable.setSuggestData(KeyWord.DATA_TYPE);
+            editable.toast(R.string.select_type);
             editable.showKeyboard();
+
             editable.enableTextWatcher();
         } else {
             DLog.d(TAG, "changeTypeFunction: can not find " + pattern);

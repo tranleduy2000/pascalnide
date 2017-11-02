@@ -23,7 +23,6 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.define.TypeIdentifierExpectException;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.Patterns;
-import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
 import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;
 import com.duy.pascal.ui.editor.view.AutoIndentEditText;
@@ -35,6 +34,10 @@ import static com.duy.pascal.ui.autocomplete.autofix.EditorUtil.getText;
 import static com.duy.pascal.ui.code.ExceptionManager.highlight;
 
 /**
+ * Declare type when missing type
+ * <code>var i: long; begin end.</code>
+ * after
+ * <code>type long = longint; var i: long; begin end.</code>
  * Created by Duy on 11/2/2017.
  */
 public class DeclareType implements AutoFixCommand {
@@ -83,6 +86,7 @@ public class DeclareType implements AutoFixCommand {
         editable.disableTextWatcher();
         editable.getText().insert(insertPosition, textToInsert);
         editable.setSelection(insertPosition + textToInsert.length() - 3);
+        editable.toast(R.string.select_type);
         editable.setSuggestData(KeyWord.DATA_TYPE);
         editable.enableTextWatcher();
     }
