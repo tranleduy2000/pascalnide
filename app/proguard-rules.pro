@@ -83,7 +83,7 @@
 -dontwarn org.apache.commons.**
 -dontwarn java.awt.**
 
--keep class com.duy.pascal.** { *; }
+-keep class com.duy.pascal.interperter.** { *; }
 -keep class javax.** { *; }
 -keep class javax.annotation.**
 -keep class com.googlecode.sl4a.**

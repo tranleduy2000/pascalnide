@@ -95,7 +95,7 @@ public abstract class BaseActivity extends AppCompatActivity
         int appThemeDark = R.style.AppThemeDark;
         int appThemeLight = R.style.AppThemeLight;
 //        setTheme(mPreferences.useLightTheme() ? appThemeLight : appThemeDark);
-        setTheme(appThemeLight);
+//        setTheme(appThemeLight);
     }
 
     @Override
