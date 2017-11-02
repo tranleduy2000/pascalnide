@@ -31,6 +31,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -53,6 +54,7 @@ import com.duy.pascal.ui.BaseActivity;
 import com.duy.pascal.ui.EditorControl;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.CompileManager;
+import com.duy.pascal.ui.code.sample.activities.CodeSampleActivity;
 import com.duy.pascal.ui.file.FileActionCallback;
 import com.duy.pascal.ui.file.FileClipboard;
 import com.duy.pascal.ui.file.FileExplorerView;
@@ -157,6 +159,9 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
         mTabLayout = findViewById(R.id.tab_layout);
         mContainerSymbol = findViewById(R.id.container_symbol);
         mViewPager = findViewById(R.id.view_pager);
+        findViewById(R.id.row_open_drawer).setOnClickListener(this);
+        findViewById(R.id.row_open_file).setOnClickListener(this);
+        findViewById(R.id.row_open_code_sample).setOnClickListener(this);
     }
 
     private void initFileView() {
@@ -591,6 +596,16 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
             case R.id.img_home_dir:
                 mFileExplorer.show(FileManager.getSrcPath(this));
                 break;
+            case R.id.row_open_drawer:
+                mDrawerLayout.openDrawer(GravityCompat.END);
+                break;
+            case R.id.row_open_file:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                break;
+            case R.id.row_open_code_sample:
+                startActivity(new Intent(this, CodeSampleActivity.class));
+                break;
+
         }
     }
 

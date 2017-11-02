@@ -259,5 +259,7 @@
     </string>
     <string name="upgrade">upgrade</string>
     <string name="upgrade_msg">Thanks for using Pascal NIDE.  If you have found the IDE useful, please consider upgrade to PREMIUM version to support future development.</string>
+    <string name="open_or_create_new_file">Open or create new file</string>
+    <string name="open_drawer">Open drawer</string>
 </resources>
 
