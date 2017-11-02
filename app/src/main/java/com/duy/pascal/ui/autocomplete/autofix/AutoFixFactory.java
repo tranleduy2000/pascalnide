@@ -46,7 +46,7 @@ import com.duy.pascal.ui.autocomplete.autofix.command.DeclareFunction;
 import com.duy.pascal.ui.autocomplete.autofix.command.DeclareProcedure;
 import com.duy.pascal.ui.autocomplete.autofix.command.DeclareType;
 import com.duy.pascal.ui.autocomplete.autofix.command.DeclareVariable;
-import com.duy.pascal.ui.autocomplete.autofix.command.FixGrouper;
+import com.duy.pascal.ui.autocomplete.autofix.command.FixMissingEndToken;
 import com.duy.pascal.ui.autocomplete.autofix.command.InsertMainProgram;
 import com.duy.pascal.ui.autocomplete.autofix.command.InsertToken;
 import com.duy.pascal.ui.autocomplete.autofix.command.TransformConstantToVariable;
@@ -162,7 +162,7 @@ public class AutoFixFactory {
      */
     @NonNull
     private static AutoFixCommand fixGroupException(final GroupingException e) {
-        return new FixGrouper(e);
+        return new FixMissingEndToken(e);
     }
 
 

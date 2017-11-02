@@ -20,13 +20,14 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.editor.view.EditorView;
 import com.duy.pascal.ui.utils.DLog;
 
 import static com.duy.pascal.ui.code.ExceptionManager.highlight;
 
 /**
+ * Insert "begin end."
+ *
  * Created by Duy on 11/2/2017.
  */
 public class InsertMainProgram implements AutoFixCommand {
@@ -37,8 +38,8 @@ public class InsertMainProgram implements AutoFixCommand {
         DLog.d(TAG, "fixProgramNotFound() called with: editable = [" + editable + "]");
         editable.disableTextWatcher();
 
-        String tabCharacter = editable.getTabCharacter();
-        editable.getText().insert(editable.length(), "\nbegin\n" + tabCharacter + "\nend.\n");
+        String textToInsert = String.format("\nbegin\n%s\nend.\n", editable.getTabCharacter());
+        editable.getText().insert(editable.length(), textToInsert);
         editable.setSelection(editable.length() - "\nend.\n".length());
 
         editable.enableTextWatcher();
