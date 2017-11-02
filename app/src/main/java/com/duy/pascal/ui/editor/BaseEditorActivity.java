@@ -212,7 +212,6 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
         mPagerAdapter = new EditorPagerAdapter(getSupportFragmentManager(), pages);
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
-        invalidateTab();
 
         if (mPagerAdapter.getCount() == 0) {
             String fileName = Integer.toHexString((int) System.currentTimeMillis()) + ".pas";

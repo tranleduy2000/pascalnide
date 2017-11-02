@@ -122,7 +122,7 @@ public class EditorActivity extends BaseEditorActivity implements
     private void insertTab(View v) {
         EditorFragment currentFragment = mPagerAdapter.getCurrentFragment();
         if (currentFragment != null) {
-            currentFragment.exciteCommand(new AutoFixCommand() {
+            currentFragment.executeCommand(new AutoFixCommand() {
                 @Override
                 public void execute(EditorView editable) {
                     editable.insert(editable.getTabCharacter());
@@ -131,7 +131,7 @@ public class EditorActivity extends BaseEditorActivity implements
                 @NonNull
                 @Override
                 public CharSequence getTitle(Context context) {
-                    return null;
+                    return "Insert tab";
                 }
             });
         }
@@ -642,7 +642,7 @@ public class EditorActivity extends BaseEditorActivity implements
     public void executeCommand(AutoFixCommand command) {
         EditorFragment currentFragment = mPagerAdapter.getCurrentFragment();
         if (currentFragment != null) {
-            currentFragment.exciteCommand(command);
+            currentFragment.executeCommand(command);
         }
     }
 

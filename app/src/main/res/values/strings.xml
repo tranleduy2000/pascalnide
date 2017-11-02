@@ -105,7 +105,7 @@
     <string name="insert_url_media">Insert url media</string>
     <string name="max_history_edit">Max history edit</string>
     <string name="max_history_edit_desc">The maximum number of steps can be undo redo</string>
-    <string name="see_in_github">See project in Github https://github.com/tranleduy2000/pascalnide</string>
+    <string name="see_in_github">This project is open source, see project in GitHub https://github.com/tranleduy2000/pascalnide</string>
     <string name="stack_size_desc">Maximum stack size when running the program. On some devices, this parameter has no effect. The default is 40000. Minimum is 5000</string>
     <string name="stack_size">Stack size</string>
     <string name="copied">Copied</string>
@@ -258,5 +258,6 @@
         3. Create custom theme
     </string>
     <string name="upgrade">upgrade</string>
+    <string name="upgrade_msg">Thanks for using Pascal NIDE.  If you have found the IDE useful, please consider upgrade to PREMIUM version to support future development.</string>
 </resources>
 

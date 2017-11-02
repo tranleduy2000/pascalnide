@@ -128,7 +128,7 @@ public class EditorFragment extends Fragment implements EditorController {
         mCodeEditor.restoreHistory(getFilePath());
     }
 
-    public void exciteCommand(@NonNull AutoFixCommand command) {
+    public void executeCommand(@NonNull AutoFixCommand command) {
         command.execute(mCodeEditor);
     }
 

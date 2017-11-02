@@ -50,19 +50,12 @@ public class EditorDelegate {
     public EditorDelegate(@NonNull EditorActivity activity, @NonNull EditorControl listener) {
         this.mActivity = activity;
         this.listener = listener;
-        mPreference = new PascalPreferences(this.mActivity);
+        mPreference = new PascalPreferences(activity);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
         mActivity.getMenuInflater().inflate(R.menu.menu_tool, menu);
-
-//        menu.findItem(R.id.action_show_line).setChecked(mPreference.isShowLines());
-//        menu.findItem(R.id.action_show_symbol).setChecked(mPreference.isShowListSymbol());
-//        menu.findItem(R.id.action_show_popup).setChecked(mPreference.isShowSuggestPopup());
-//        menu.findItem(R.id.action_edit_word_wrap).setChecked(mPreference.isWrapText());
-//        menu.findItem(R.id.action_ime).setChecked(mPreference.useImeKeyboard());
-
         return true;
     }
 
@@ -75,7 +68,6 @@ public class EditorDelegate {
                 break;
             case R.id.action_find:
                 mActivity.showDialogFind();
-
                 break;
             case R.id.action_find_and_replace:
                 listener.findAndReplace();
