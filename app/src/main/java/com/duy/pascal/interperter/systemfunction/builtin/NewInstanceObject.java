@@ -92,8 +92,8 @@ public class NewInstanceObject implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
-            return new RuntimeType(pointer.getRuntimeType(f).declType, false);
+        public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
+            return new RuntimeType(pointer.getRuntimeType(exprContext).declType, false);
         }
 
         @NonNull

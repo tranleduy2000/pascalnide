@@ -79,8 +79,8 @@ public class ClassFunctionCall extends DebuggableNodeReturnValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
-        return function.getRuntimeType(f);
+    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
+        return function.getRuntimeType(exprContext);
     }
 
     @NonNull

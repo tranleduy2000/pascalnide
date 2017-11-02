@@ -46,8 +46,8 @@ public class SetIndexAccess extends DebuggableAssignableValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
-        RuntimeType r = (container.getRuntimeType(f));
+    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
+        RuntimeType r = (container.getRuntimeType(exprContext));
         return new RuntimeType(((SetType<?>) r.declType).getElementType(), r.writable);
     }
 

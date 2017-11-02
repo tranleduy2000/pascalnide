@@ -41,7 +41,7 @@ public class EnumBiOperatorEval extends BinaryOperatorEval {
 
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
+    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         switch (operator_type) {
             case EQUALS:
             case GREATEREQ:

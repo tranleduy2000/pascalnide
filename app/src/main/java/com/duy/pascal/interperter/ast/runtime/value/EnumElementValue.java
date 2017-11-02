@@ -61,7 +61,7 @@ public class EnumElementValue implements RuntimeValue, Comparable<EnumElementVal
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
+    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         return new RuntimeType(type, false);//this is a constant
     }
 

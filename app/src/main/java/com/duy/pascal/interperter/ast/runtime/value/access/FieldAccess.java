@@ -60,8 +60,8 @@ public class FieldAccess extends DebuggableAssignableValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
-        RuntimeType r = container.getRuntimeType(f);
+    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
+        RuntimeType r = container.getRuntimeType(exprContext);
         if (r.declType instanceof PascalClassType) {
             return new RuntimeType(((PascalClassType) (r.declType)).getMemberType(name), r.writable);
         } else if (r.declType instanceof ObjectType) {

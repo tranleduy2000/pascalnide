@@ -52,8 +52,8 @@ public class ArrayIndexAccess extends DebuggableAssignableValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
-        RuntimeType r = (container.getRuntimeType(f));
+    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
+        RuntimeType r = (container.getRuntimeType(exprContext));
         return new RuntimeType(((ArrayType<?>) r.declType).elementType,
                 r.writable);
     }

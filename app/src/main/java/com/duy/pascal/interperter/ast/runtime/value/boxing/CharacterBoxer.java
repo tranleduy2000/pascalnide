@@ -39,7 +39,7 @@ public class CharacterBoxer extends DebuggableReturnValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) {
+    public RuntimeType getRuntimeType(ExpressionContext exprContext) {
         return new RuntimeType(BasicType.StringBuilder, false);
     }
 

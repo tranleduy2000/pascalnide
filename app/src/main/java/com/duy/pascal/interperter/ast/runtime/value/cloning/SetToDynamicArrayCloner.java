@@ -46,8 +46,8 @@ public class SetToDynamicArrayCloner implements RuntimeValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
-        RuntimeType type = array.getRuntimeType(f);
+    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
+        RuntimeType type = array.getRuntimeType(exprContext);
         SetType setType = (SetType) type.declType;
         return new RuntimeType(new ArrayType<>(setType.getElementType(),
                 new IntegerSubrangeType(0, setType.getSize())), false); //dynamic array, non writable

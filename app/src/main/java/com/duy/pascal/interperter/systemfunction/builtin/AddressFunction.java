@@ -94,8 +94,8 @@ public class AddressFunction implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
-            RuntimeType pointertype = pointer.getRuntimeType(f);
+        public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
+            RuntimeType pointertype = pointer.getRuntimeType(exprContext);
             return new RuntimeType(((PointerType) pointertype.declType).pointedToType, true);
         }
 

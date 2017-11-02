@@ -46,7 +46,7 @@ public class ArrayBoxer extends DebuggableReturnValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
+    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         throw new ParsingException(
                 line,
                 "Attempted to get type of varargs boxer. This should not happen as" +

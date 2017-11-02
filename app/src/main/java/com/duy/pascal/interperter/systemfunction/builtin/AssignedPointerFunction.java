@@ -90,7 +90,7 @@ public class AssignedPointerFunction implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
+        public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
             return new RuntimeType(BasicType.Boolean, false);
         }
 

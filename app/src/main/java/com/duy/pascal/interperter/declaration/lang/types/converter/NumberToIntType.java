@@ -35,7 +35,7 @@ public class NumberToIntType implements RuntimeValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f)
+    public RuntimeType getRuntimeType(ExpressionContext exprContext)
             throws Exception {
         return new RuntimeType(BasicType.Integer, false);
     }

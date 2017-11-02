@@ -16,19 +16,19 @@
 
 package com.duy.pascal.ui.autocomplete.autofix;
 
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.Layout;
 import android.widget.EditText;
 
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
 import com.duy.pascal.ui.editor.view.EditorView;
-import com.duy.pascal.interperter.linenumber.LineInfo;
 
 /**
  * Created by Duy on 9/24/2017.
  */
-
-class EditorUtil {
+public class EditorUtil {
     private static final String TAG = "EditorUtil";
 
     /**
@@ -48,7 +48,8 @@ class EditorUtil {
         return "";
     }
 
-    static TextData getText(EditText editable, LineInfo startLine, LineInfo endLine) {
+    @NonNull
+    public static TextData getText(EditText editable, LineInfo startLine, LineInfo endLine) {
         int start = editable.getLayout().getLineStart(startLine.getLine());
         int end = editable.getLayout().getLineEnd(endLine.getLine());
 

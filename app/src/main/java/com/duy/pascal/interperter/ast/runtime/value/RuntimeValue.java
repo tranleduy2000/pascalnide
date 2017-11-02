@@ -23,7 +23,7 @@ public interface RuntimeValue {
     /**
      * @return type of variable, function, or constant
      */
-    RuntimeType getRuntimeType(ExpressionContext f) throws Exception;
+    RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception;
 
     /**
      * @return line of code

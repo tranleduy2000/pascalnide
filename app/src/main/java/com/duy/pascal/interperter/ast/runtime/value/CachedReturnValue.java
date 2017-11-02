@@ -19,8 +19,8 @@ public class CachedReturnValue implements RuntimeValue {
     }
 
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext f) throws Exception {
-        return other.getRuntimeType(f);
+    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
+        return other.getRuntimeType(exprContext);
     }
 
     @NonNull

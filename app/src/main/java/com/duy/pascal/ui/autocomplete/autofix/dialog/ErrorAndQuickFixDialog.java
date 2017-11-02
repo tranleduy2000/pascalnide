@@ -31,7 +31,7 @@ import android.widget.TextView;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.autocomplete.autofix.AutoFixHelper;
+import com.duy.pascal.ui.autocomplete.autofix.AutoFixFactory;
 import com.duy.pascal.ui.autocomplete.autofix.adapters.CommandAdapter;
 import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.code.ExceptionManager;
@@ -89,7 +89,7 @@ public class ErrorAndQuickFixDialog extends BottomSheetDialogFragment {
             RecyclerView listCommand = view.findViewById(R.id.list_command);
             listCommand.setLayoutManager(new LinearLayoutManager(getActivity()));
             listCommand.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-            final ArrayList<AutoFixCommand> commands = AutoFixHelper.buildCommands(exception);
+            final ArrayList<AutoFixCommand> commands = AutoFixFactory.buildCommands(exception);
             CommandAdapter commandAdapter = new CommandAdapter(getActivity(), commands);
             listCommand.setAdapter(commandAdapter);
             commandAdapter.setOnItemClickListener(new CommandAdapter.OnItemClickListener() {
