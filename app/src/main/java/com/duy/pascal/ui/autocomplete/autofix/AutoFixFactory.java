@@ -18,8 +18,6 @@ package com.duy.pascal.ui.autocomplete.autofix;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Size;
-import android.text.SpannableString;
 
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.ast.runtime.value.access.VariableAccess;
@@ -50,7 +48,6 @@ import com.duy.pascal.ui.autocomplete.autofix.command.FixMissingEndToken;
 import com.duy.pascal.ui.autocomplete.autofix.command.InsertMainProgram;
 import com.duy.pascal.ui.autocomplete.autofix.command.InsertToken;
 import com.duy.pascal.ui.autocomplete.autofix.command.TransformConstantToVariable;
-import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
 import com.duy.pascal.ui.editor.view.EditorView;
 import com.duy.pascal.ui.editor.view.LineUtils;
 
@@ -58,7 +55,6 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.duy.pascal.ui.autocomplete.autofix.EditorUtil.getText;
 import static com.duy.pascal.ui.autocomplete.autofix.EditorUtil.getTextInLine;
 import static com.duy.pascal.ui.code.ExceptionManager.highlight;
 
@@ -188,9 +184,8 @@ public class AutoFixFactory {
      */
     @NonNull
     private static AutoFixCommand declareVar(@NonNull VariableIdentifierExpectException e) {
-        LineInfo[] range = {e.getScope().getStartPosition(), e.getLineInfo()};
         String type = e.getExpectedType() != null ? e.getExpectedType().toString() : "";
-        return declareVar(range, e.getName(), type, null);
+        return declareVar(e.getScope().getStartPosition(), e.getLineInfo(), e.getName(), type, null);
     }
 
     /**
@@ -201,47 +196,15 @@ public class AutoFixFactory {
      */
     @NonNull
     public static AutoFixCommand declareVar(UnknownIdentifierException e) {
-        LineInfo[] range = {e.getScope().getStartPosition(), e.getLineInfo()};
-        return declareVar(range, e.getName(),
+        return declareVar(e.getScope().getStartPosition(), e.getLineInfo(), e.getName(),
                 "",//unknown type
                 null); //non init value
     }
 
     @NonNull
-    public static AutoFixCommand declareVar(@Size(2) LineInfo[] lines, Name name, String type, String initValue) {
-        return declareVar(lines[0], lines[1], name, type, initValue);
-    }
-
-    @NonNull
     public static AutoFixCommand declareVar(final LineInfo start, final LineInfo end, final Name name,
                                             final String type, final String initValue) {
-        return new AutoFixCommand() {
-            @Override
-            public void execute(EditorView editable) {
-                declareVar(getText(editable, start, end), name, type, initValue).execute(editable);
-            }
-
-            @NonNull
-            @Override
-            public CharSequence getTitle(Context context) {
-                String str = context.getString(R.string.declare_variable_2, name, type);
-                return highlight(context, new SpannableString(str));
-            }
-        };
-    }
-
-    /**
-     * Declare variable with name and type
-     *
-     * @param scope     - scope of variable
-     * @param name      - the name of variable will be declared
-     * @param type      - the type of variable will be declared
-     * @param initValue - init value
-     */
-    @NonNull
-    public static AutoFixCommand declareVar(final TextData scope, final Name name,
-                                            final String type, final String initValue) {
-        return new DeclareVariable(scope, name, type, initValue);
+        return new DeclareVariable(start, end, name, type, initValue);
     }
 
 

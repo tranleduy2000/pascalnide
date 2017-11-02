@@ -246,5 +246,9 @@
     <string name="untitled_file_name">untitled.txt</string>
     <string name="x_items_completed">%d items Completed</string>
     <string name="x_items_completed_and_error_x">%1$d items Completed, but has some items occur error: %2$s</string>
+
+    <string name="select_type">Select type</string>
+    <string name="declare_procedure">Declare procedure</string>
+    <string name="enter_value_of_constant">Enter value of constant %1$s</string>
 </resources>
 

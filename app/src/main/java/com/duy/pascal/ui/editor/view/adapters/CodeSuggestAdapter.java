@@ -145,6 +145,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<Description> {
                     txtHeader.setText("t");
                     break;
                 default:
+                    txtHeader.setVisibility(View.INVISIBLE);
                     break;
             }
             View btnInfo = convertView.findViewById(R.id.img_info);

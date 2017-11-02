@@ -786,8 +786,11 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     public void showKeyboard() {
         requestFocus();
-        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null) {
+            inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
+        }
     }
 
     public void highlightAll() {

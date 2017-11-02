@@ -26,9 +26,9 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
 import com.duy.pascal.interperter.declaration.lang.types.set.SetType;
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
-import com.duy.pascal.interperter.exceptions.parsing.define.VariableIdentifierExpectException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectDoTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.WrongStatementException;
@@ -56,8 +56,8 @@ public class ForStatement {
         RuntimeValue identifier = null;
         try {
             identifier = group.getNextTerm(context);
-        } catch (Exception e) {
-            reportErr(e, group, context);
+        } catch (UnknownIdentifierException e) {
+            throw ParsingException.makeVariableIdentifierExpectException(e, group, context);
         }
         AssignableValue varAssignable = identifier.asAssignableValue(context);
         RuntimeType varType = identifier.getRuntimeType(context);
@@ -163,23 +163,5 @@ public class ForStatement {
         return result;
     }
 
-    private static void reportErr(Exception e, GrouperToken group, ExpressionContext context) throws Exception {
-        VariableIdentifierExpectException exception;
-        if (e instanceof UnknownIdentifierException) {
-            exception = new VariableIdentifierExpectException((UnknownIdentifierException) e);
-            try {
-                Token next = group.take();
-                if ((next instanceof AssignmentToken || next instanceof OperatorToken)) {
-                    RuntimeValue firstValue = group.getNextExpression(context);
-                    Type declType = firstValue.getRuntimeType(context).declType;
-                    exception.setExpectedType(declType);
-                    throw exception;
-                }
-            } catch (Exception ignored) {
-            }
-            throw exception;
-        }
-        throw e;
-    }
 
 }

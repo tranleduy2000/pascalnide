@@ -19,8 +19,10 @@ package com.duy.pascal.ui.autocomplete.autofix.command;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
 
 import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.Patterns;
 import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
@@ -28,47 +30,62 @@ import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;
 import com.duy.pascal.ui.editor.view.EditorView;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import static com.duy.pascal.ui.autocomplete.autofix.EditorUtil.getText;
 import static com.duy.pascal.ui.code.ExceptionManager.highlight;
 
 /**
+ * Declare variable when missing variable
+ * <p>
+ * <code>
+ * begin  a := 2; end.
+ * </code>
+ *
+ * After
+ * <code>
+ *     var a: integer; begin a := 2;end.
+ * </code>
+ * <p>
  * Created by Duy on 11/2/2017.
  */
 public class DeclareVariable implements AutoFixCommand {
-    public static final Pattern DECLARE_VAR = Pattern.compile("(\\s(var)|^(var))\\s", Pattern.CASE_INSENSITIVE);
 
-    @NonNull
-    private final TextData scope;
+
     @NonNull
     private final Name name;
     @Nullable
     private final String type;
     @Nullable
     private final String initValue;
+    @NonNull
+    private final LineInfo start;
+    @NonNull
+    private final LineInfo end;
 
     /**
-     * @param scope     - scope of variable
      * @param name      - name of variable
      * @param type      - type of variable
      * @param initValue - init value, it can be null
      */
-    public DeclareVariable(@NonNull TextData scope, @NonNull Name name, @Nullable String type,
-                           @Nullable String initValue) {
-        this.scope = scope;
+    public DeclareVariable(@NonNull LineInfo start, @NonNull LineInfo end, @NonNull Name name,
+                           @Nullable String type, @Nullable String initValue) {
+        this.start = start;
+        this.end = end;
         this.name = name;
         this.type = type;
         this.initValue = initValue;
     }
 
     @Override
+    @UiThread
     public void execute(EditorView editable) {
         String textToInsert;
         int insertPosition = 0;
         int startSelect;
         int endSelect;
+        TextData scope = getText(editable, start, end);
         String type = this.type != null ? this.type : "";
-        Matcher matcher = DECLARE_VAR.matcher(scope.getText());
+        Matcher matcher = Patterns.VAR.matcher(scope.getText());
         if (matcher.find()) {
             insertPosition = matcher.end();
             textToInsert = "\n" + editable.getTabCharacter() + name + ": ";
@@ -100,6 +117,7 @@ public class DeclareVariable implements AutoFixCommand {
         editable.getText().insert(scope.getOffset() + insertPosition, textToInsert);
         editable.setSelection(selectStart, selectEnd);
         editable.setSuggestData(KeyWord.DATA_TYPE);
+        editable.toast(R.string.select_type);
         editable.enableTextWatcher();
     }
 

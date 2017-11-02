@@ -39,6 +39,6 @@ public class DeclareProcedure implements AutoFixCommand {
     @NonNull
     @Override
     public CharSequence getTitle(Context context) {
-        return context.getString(R.string.declare_function);
+        return context.getString(R.string.declare_procedure);
     }
 }

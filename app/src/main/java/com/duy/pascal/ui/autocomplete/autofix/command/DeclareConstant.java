@@ -67,7 +67,7 @@ public class DeclareConstant implements AutoFixCommand {
         Matcher matcher = Patterns.CONST.matcher(text.getText());
         if (matcher.find()) {
             insertPosition = matcher.end();
-            textToInsert = "\n" + editable.getTabCharacter() + name + " = %v ;";
+            textToInsert = "\n" + editable.getTabCharacter() + name + " =  ;";
         } else {
             if ((matcher = Patterns.PROGRAM.matcher(text.getText())).find()) {
                 insertPosition = matcher.end();
@@ -76,19 +76,15 @@ public class DeclareConstant implements AutoFixCommand {
             } else if ((matcher = Patterns.TYPE.matcher(text.getText())).find()) {
                 insertPosition = matcher.start();
             }
-            textToInsert = "\nconst \n" + editable.getTabCharacter() + name + " = %v ;";
+            textToInsert = "\nconst \n" + editable.getTabCharacter() + name + " =  ;";
         }
 
         insertPosition += text.getOffset();
 
-        matcher = Patterns.REPLACE_CURSOR.matcher(textToInsert);
-        if (matcher.find()) {
-            textToInsert = textToInsert.replaceAll("%\\w", "");
-
-            editable.getText().insert(insertPosition, textToInsert);
-            editable.setSelection(insertPosition + matcher.start());
-            editable.showKeyboard();
-        }
+        editable.getText().insert(insertPosition, textToInsert);
+        editable.setSelection(insertPosition + textToInsert.length() - 2);
+        editable.toast(R.string.enter_value_of_constant, name);
+        editable.showKeyboard();
     }
 
     @NonNull

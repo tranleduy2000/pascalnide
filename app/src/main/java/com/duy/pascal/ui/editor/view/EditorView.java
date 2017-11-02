@@ -18,6 +18,7 @@ package com.duy.pascal.ui.editor.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.Toast;
 
 /**
  * Created by Duy on 15-Mar-17.
@@ -31,10 +32,13 @@ public class EditorView extends UndoRedoSupportEditText {
 
     public EditorView(Context context) {
         super(context);
-
     }
+
     public EditorView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
+    public void toast(int resId, Object... arg) {
+        Toast.makeText(getContext(), getContext().getString(resId, arg), Toast.LENGTH_SHORT).show();
+    }
 }
