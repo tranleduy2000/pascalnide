@@ -49,9 +49,9 @@ import android.widget.Toast;
 
 import com.commonsware.cwac.pager.PageDescriptor;
 import com.commonsware.cwac.pager.SimplePageDescriptor;
+import com.duy.pascal.ui.BaseActivity;
 import com.duy.pascal.ui.EditorControl;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.BaseActivity;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.file.FileActionCallback;
 import com.duy.pascal.ui.file.FileClipboard;
@@ -132,12 +132,16 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
         loadFileFromIntent();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        invalidateTab();
+    }
+
     private void loadFileFromIntent() {
-        DLog.d(TAG, "onResume() called");
         Intent intent = getIntent();
         if (intent != null && intent.getSerializableExtra(CompileManager.FILE) != null) {
             File file = (File) intent.getSerializableExtra(CompileManager.FILE);
-            DLog.d(TAG, "onResume: path = " + file);
             //No need save last file because it is the first file
             addNewPageEditor(file);
             //Remove path
@@ -226,10 +230,14 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
         for (int index = 0; index < mPagerAdapter.getCount(); index++) {
             final TabLayout.Tab tab = mTabLayout.getTabAt(index);
             View view = LayoutInflater.from(this).inflate(R.layout.item_tab_file, null);
-            if (tab != null) tab.setCustomView(view);
-            View vClose = view.findViewById(R.id.img_close);
+            if (tab != null) {
+                tab.setCustomView(view);
+            } else {
+                DLog.d(TAG, "invalidateTab: null tab at " + index);
+            }
+            View close = view.findViewById(R.id.img_close);
             final int position = index;
-            vClose.setOnClickListener(new View.OnClickListener() {
+            close.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     removePage(position);
@@ -246,6 +254,7 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
             if (index == mViewPager.getCurrentItem()) {
                 if (tab != null) {
                     tab.select();
+                    txtTitle.setSelected(true);
                 }
             }
         }

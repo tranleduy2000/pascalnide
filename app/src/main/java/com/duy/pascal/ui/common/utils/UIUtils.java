@@ -77,8 +77,13 @@ public class UIUtils {
      * @see InputType#TYPE_MASK_VARIATION
      * @see InputType#TYPE_MASK_FLAGS
      */
-    public static AlertDialog showInputDialog(Context context, @StringRes int titleRes, @StringRes int hintRes, CharSequence value, int inputType, OnShowInputCallback callback) {
-        return showInputDialog(context, titleRes != 0 ? context.getString(titleRes) : null, hintRes != 0 ? context.getString(hintRes) : null, value, inputType, callback);
+    public static AlertDialog showInputDialog(Context context, @StringRes int titleRes,
+                                              @StringRes int hintRes,
+                                              CharSequence value,
+                                              int inputType,
+                                              OnShowInputCallback callback) {
+        return showInputDialog(context, titleRes != 0 ? context.getString(titleRes) : null,
+                hintRes != 0 ? context.getString(hintRes) : null, value, inputType, callback);
     }
 
     public static AlertDialog showInputDialog(Context context, CharSequence title, CharSequence hint,
@@ -86,20 +91,20 @@ public class UIUtils {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
         builder.setView(R.layout.dialog_input);
-        final AlertDialog mDialog = builder.create();
-        mDialog.show();
-        final EditText editText = mDialog.findViewById(R.id.edit_input);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        final EditText editText = dialog.findViewById(R.id.edit_input);
         editText.setInputType(inputType);
         editText.setText(value);
-        TextInputLayout textInputLayout = mDialog.findViewById(R.id.hint);
+        TextInputLayout textInputLayout = dialog.findViewById(R.id.hint);
         textInputLayout.setHint(hint);
 
-        Button btnOK = mDialog.findViewById(R.id.btn_ok);
-        Button btnCancel = mDialog.findViewById(R.id.btn_cancel);
+        Button btnOK = dialog.findViewById(R.id.btn_ok);
+        Button btnCancel = dialog.findViewById(R.id.btn_cancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDialog.cancel();
+                dialog.cancel();
             }
         });
         btnOK.setOnClickListener(new View.OnClickListener() {
@@ -110,10 +115,10 @@ public class UIUtils {
                 if (callback != null) {
                     callback.onConfirm(input);
                 }
-                mDialog.cancel();
+                dialog.cancel();
             }
         });
-        return mDialog;
+        return dialog;
     }
 
     public static void showConfirmDialog(Context context, @StringRes int messageRes, final OnClickCallback callback) {

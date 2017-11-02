@@ -31,8 +31,7 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="false">
+        android:layout_height="wrap_content">
 
         <FrameLayout
             android:id="@+id/toolbar_container"
@@ -58,7 +57,7 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             app:tabMode="scrollable"
             app:tabTextAppearance="@style/TextAppearance.AppCompat.Small">
 

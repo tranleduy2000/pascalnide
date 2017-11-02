@@ -30,7 +30,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,6 +55,7 @@ import com.duy.pascal.ui.autocomplete.autofix.dialog.ErrorAndQuickFixDialog;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.code.sample.activities.DocumentActivity;
+import com.duy.pascal.ui.common.utils.UIUtils;
 import com.duy.pascal.ui.editor.view.EditorView;
 import com.duy.pascal.ui.file.FileManager;
 import com.duy.pascal.ui.file.util.FileUtils;
@@ -72,6 +72,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class EditorActivity extends BaseEditorActivity implements
         DrawerLayout.DrawerListener {
@@ -288,7 +289,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
                 ArrayList<ScriptSource> searchPath = new ArrayList<>();
                 searchPath.add(new FileScriptSource(new File(filePath).getParent()));
-                 PascalCompiler.loadLibrary(new File(filePath).getName(),
+                PascalCompiler.loadLibrary(new File(filePath).getName(),
                         new FileReader(filePath),
                         searchPath,
                         new ProgramHandler(filePath));
@@ -415,31 +416,28 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void goToLine() {
-        final AppCompatEditText edittext = new AppCompatEditText(this);
-        edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
-        edittext.setMaxEms(5);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.goto_line)
-                .setView(edittext)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        String line = edittext.getText().toString();
-                        if (!line.isEmpty()) {
-                            EditorFragment editorFragment
-                                    = mPagerAdapter.getCurrentFragment();
-                            if (editorFragment != null) {
-                                editorFragment.goToLine(Integer.parseInt(line));
+        EditorFragment editorFragment = mPagerAdapter.getCurrentFragment();
+        if (editorFragment != null) {
+            int lineCount = editorFragment.getEditor().getLineCount();
+            String hint = String.format(Locale.US, "0-%d", lineCount);
+            UIUtils.showInputDialog(this, getString(R.string.goto_line), hint, null,
+                    InputType.TYPE_CLASS_NUMBER, new UIUtils.OnShowInputCallback() {
+                        @Override
+                        public void onConfirm(CharSequence input) {
+                            String line = input.toString();
+                            if (!line.isEmpty()) {
+                                EditorFragment editorFragment = mPagerAdapter.getCurrentFragment();
+                                if (editorFragment != null) {
+                                    try {
+                                        int lineNumber = Integer.parseInt(line);
+                                        editorFragment.goToLine(lineNumber);
+                                    } catch (NumberFormatException ignored) {
+                                    }
+                                }
                             }
                         }
-                        dialog.cancel();
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        builder.create().show();
+                    });
+        }
     }
 
     @Override

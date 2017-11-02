@@ -16,18 +16,24 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="40dp"
+    android:layout_width="150dp"
+    android:layout_height="@dimen/toolbar_height"
     android:orientation="horizontal">
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/txt_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:clickable="true"
+        android:ellipsize="marquee"
+        android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:gravity="center|start"
+        android:gravity="center_vertical"
+        android:marqueeRepeatLimit="marquee_forever"
         android:padding="4dp"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
         android:text="@string/code_sample" />
 
     <android.support.v7.widget.AppCompatImageView
@@ -37,9 +43,11 @@
         android:layout_gravity="end"
         android:clickable="true"
         android:contentDescription="@string/close"
+        android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center"
         android:padding="4dp"
+        android:tint="?imageTintColor"
         app:srcCompat="@drawable/ic_close_white_24dp" />
 
 </LinearLayout>

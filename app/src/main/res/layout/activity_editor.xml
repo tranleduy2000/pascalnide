@@ -49,6 +49,7 @@
                 android:layout_height="@dimen/toolbar_height"
                 android:clipChildren="true"
                 app:tabGravity="fill"
+                app:tabIndicatorHeight="2dp"
                 app:tabMode="scrollable"
                 app:tabPaddingEnd="0dp"
                 app:tabPaddingStart="0dp" />
