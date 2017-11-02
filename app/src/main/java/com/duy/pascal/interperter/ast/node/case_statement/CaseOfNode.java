@@ -77,7 +77,7 @@ public class CaseOfNode extends DebuggableNode {
                     token.take();
                     break;
                 } else {
-                    throw new ExpectedTokenException("[comma (,) or colon (:)]", token.take());
+                    throw new ExpectedTokenException(token.take(), ",", ":");
                 }
             }
             Node command = token.getNextCommand(context);

@@ -62,13 +62,13 @@ public class DeclareType implements AutoFixCommand {
             insertPosition = matcher.end();
             textToInsert = editable.getTabCharacter() + type + " = " + AutoIndentEditText.CURSOR + ";\n";
         } else {
-                    /*
-                    if not found "type" keyword, insert new type keyword
-                    type    <== keyword type must be above var
-                        ....
-                    var
-                        ....
-                    */
+            /*
+            if not found "type" keyword, insert new type keyword
+            type    <== "type" keyword  should be above "var" keyboard
+                ....
+            var
+                ....
+            */
             if ((matcher = Patterns.PROGRAM.matcher(scope.getText())).find()) {
                 insertPosition = matcher.end();
             } else if ((matcher = Patterns.VAR.matcher(scope.getText())).find()) {

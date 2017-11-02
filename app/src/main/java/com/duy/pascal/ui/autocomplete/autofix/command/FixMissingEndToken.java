@@ -25,6 +25,11 @@ import com.duy.pascal.ui.code.ExceptionManager;
 import com.duy.pascal.ui.editor.view.EditorView;
 
 /**
+ * Insert end token
+ * <code> begin begin end.</code>
+ *
+ *
+ *
  * Created by Duy on 11/2/2017.
  */
 public class FixMissingEndToken implements AutoFixCommand {

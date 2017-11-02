@@ -407,6 +407,7 @@ public abstract class GrouperToken extends Token {
         } else if (n instanceof ValueToken || n instanceof OperatorToken) {
             return SubrangeType.getRangeType(this, context, n);
         } else if (!(n instanceof WordToken)) {
+            // TODO: 11/2/2017 improve
             throw new ExpectedTokenException("[Type Identifier]", n);
         }
         Type declaredType = ((WordToken) n).toBasicType(context);
@@ -533,6 +534,7 @@ public abstract class GrouperToken extends Token {
                 take();
                 next = take();
                 if (!(next instanceof WordToken)) {
+                    // TODO: 11/2/2017 improve
                     throw new ExpectedTokenException("[Element Name]", next);
                 }
 
@@ -714,6 +716,7 @@ public abstract class GrouperToken extends Token {
                                 return classType.generateConstructor(idName, arguments,
                                         classType.getClassContext());
                             } else {
+// TODO: 11/2/2017 improve
                                 throw new ExpectedTokenException("[Constructor]", next);
                             }
                         } else {
@@ -776,6 +779,7 @@ public abstract class GrouperToken extends Token {
             do {//get list name of variable
                 next = take();
                 if (!(next instanceof WordToken)) {
+                    // TODO: 11/2/2017 improve
                     throw new ExpectedTokenException("[Variable Identifier]", next);
                 }
                 names.add((WordToken) next);

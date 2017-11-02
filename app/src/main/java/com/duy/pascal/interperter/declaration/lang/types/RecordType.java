@@ -52,6 +52,7 @@ public class RecordType extends CustomType implements Cloneable {
             while (group.hasNext()) {
                 Token name = group.take();
                 if (!(name instanceof WordToken)) {
+                    // TODO: 11/2/2017 improve
                     throw new ExpectedTokenException("[field identifier]", name);
                 }
                 VariableDeclaration field = recordType.findField(((WordToken) name).name);

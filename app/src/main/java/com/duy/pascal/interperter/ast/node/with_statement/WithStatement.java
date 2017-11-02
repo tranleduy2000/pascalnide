@@ -96,6 +96,7 @@ public class WithStatement {
                 }
                 references.add(runtimeValue);
             } else {
+                // TODO: 11/2/2017 improve
                 throw new ExpectedTokenException("[Variable identifier]", next);
             }
             next = grouperToken.peek();

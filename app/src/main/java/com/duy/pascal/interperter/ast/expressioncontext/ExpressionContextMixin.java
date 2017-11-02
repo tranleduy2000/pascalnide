@@ -383,6 +383,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         do {
             next = i.take();
             if (!(next instanceof WordToken)) {
+                // TODO: 11/2/2017  improve
                 throw new ExpectedTokenException("[Label Identifier]", next);
             }
 
@@ -409,7 +410,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
             if (!(next instanceof OperatorToken && ((OperatorToken) next).type == OperatorTypes.EQUALS)) {
                 ExpectedTokenException e = new ExpectedTokenException("=", next);
-                reportException(this, grouperToken, e);
+                reportException(this, e);
                 continue;
             }
 
@@ -454,13 +455,13 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
                         if (converted == null) {
                             NonIntegerException e = new NonIntegerException(unconverted);
-                            reportException(this, grouperToken, e);
+                            reportException(this, e);
                             continue;
                         }
 
                         if (bracketedToken.hasNext()) {
                             ExpectedTokenException e = new ExpectedTokenException("]", bracketedToken.take());
-                            reportException(this, grouperToken, e);
+                            reportException(this, e);
                             continue;
                         }
                     }
@@ -495,8 +496,9 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         do {
             next = grouperToken.take();
             if (!(next instanceof WordToken)) {
+                // TODO: 11/2/2017 improve
                 ExpectedTokenException e = new ExpectedTokenException("[Library Identifier]", next);
-                reportException(this, grouperToken, e);
+                reportException(this, e);
                 return;
             }
 
@@ -534,7 +536,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
             if (!found.get()) {
                 LibraryNotFoundException e = new LibraryNotFoundException(next.getLineNumber(), ((WordToken) next).getName());
-                reportException(this, grouperToken, e);
+                reportException(this, e);
                 return;
             }
             next = grouperToken.peek();
@@ -630,15 +632,15 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                             grouperToken.assertNextSemicolon();
                         }
                     } else { //missing init value
-                        reportException(parent, grouperToken, new ExpectedTokenException("[init value]", grouperToken.peek()));
+                        reportException(parent, new ExpectedTokenException("[init value]", grouperToken.peek()));
                     }
                 } catch (ParsingException e) { //type not found
-                    reportException(parent, grouperToken, e);
+                    reportException(parent, e);
                 }
             } else if (next instanceof OperatorToken) { //const a = 2; , non define operator
                 if (((OperatorToken) next).type != OperatorTypes.EQUALS) {//only accept equal token
                     ExpectedTokenException e = new ExpectedTokenException("=", name);
-                    reportException(parent, grouperToken, e);
+                    reportException(parent, e);
                 } else {
                     try {
                         RuntimeValue value = grouperToken.getNextExpression(this);
@@ -651,29 +653,19 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                         this.mConstants.put(c.getName(), c);
                         grouperToken.assertNextSemicolon();
                     } catch (ParsingException e) { //error when parsing expression value
-                        reportException(parent, grouperToken, e);
+                        reportException(parent, e);
                     }
                 }
             } else {
                 ExpectedTokenException e = new ExpectedTokenException("=", name);
-                reportException(parent, grouperToken, e);
+                reportException(parent, e);
             }
         }
 
     }
 
-    private void reportException(@Nullable ExpressionContext context, GrouperToken grouperToken, ParsingException e) throws Exception {
-        System.out.println("ExpressionContextMixin.reportException");
-        if (context == null) {
-            throw e;
-        }
-        DiagnosticsListener listener = context.getListener(DiagnosticsListener.class);
-        if (listener != null) {
-            listener.add(new Diagnostic(e));
-            grouperToken.nextStatement();
-        } else {
-            throw e;
-        }
+    private void reportException(@Nullable ExpressionContext context, ParsingException e) throws Exception {
+        throw e;
     }
 
     @Override

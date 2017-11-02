@@ -19,7 +19,6 @@ package com.duy.pascal.interperter.tokens;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
@@ -37,6 +36,7 @@ public abstract class Token {
 
     @NonNull
     public WordToken getWordValue() throws Exception {
+        // TODO: 11/2/2017 improve
         throw new ExpectedTokenException("[Identifier]", this);
     }
 

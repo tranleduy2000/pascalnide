@@ -88,6 +88,7 @@ public class EnumGroupType extends TypeInfo implements Containable<EnumElementVa
         while (group.hasNext()) {
             Token token = group.take();
             if (!(token instanceof WordToken)) {
+                // TODO: 11/2/2017  improve
                 throw new ExpectedTokenException("identifier", token);
             }
             WordToken wordToken = (WordToken) token;
