@@ -38,12 +38,25 @@ public class CodeTheme implements Serializable {
 
     private static final String TAG = "CodeTheme";
     private final boolean builtin;
+    private boolean premium = false;
     private HashMap<String, Integer> colors = new HashMap<>();
     private String name;
 
-
     public CodeTheme(boolean builtin) {
         this.builtin = builtin;
+    }
+
+    public CodeTheme(boolean premium, boolean builtin) {
+        this.premium = premium;
+        this.builtin = builtin;
+    }
+
+    public boolean isPremium() {
+        return premium;
+    }
+
+    public void setPremium(boolean premium) {
+        this.premium = premium;
     }
 
     public String getName() {

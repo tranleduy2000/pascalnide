@@ -33,8 +33,8 @@ import com.duy.pascal.ui.code.CodeSample;
 import com.duy.pascal.ui.editor.view.EditorView;
 import com.duy.pascal.ui.setting.PascalPreferences;
 import com.duy.pascal.ui.themefont.fragments.ThemeFragment;
-import com.duy.pascal.ui.themefont.themes.ThemeManager;
 import com.duy.pascal.ui.themefont.model.CodeTheme;
+import com.duy.pascal.ui.themefont.themes.ThemeManager;
 import com.duy.pascal.ui.themefont.themes.database.ThemeDatabase;
 
 import java.util.ArrayList;
@@ -64,6 +64,12 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private void loadTheme(Context context) {
         HashMap<String, CodeTheme> all = ThemeManager.getAll(context);
         for (Map.Entry<String, CodeTheme> entry : all.entrySet()) mThemes.add(entry.getValue());
+        Collections.sort(mThemes, new Comparator<CodeTheme>() {
+            @Override
+            public int compare(CodeTheme codeTheme, CodeTheme t1) {
+                return codeTheme.getName().compareTo(t1.getName());
+            }
+        });
     }
 
     public void clear() {

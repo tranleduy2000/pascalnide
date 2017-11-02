@@ -89,18 +89,16 @@ public class HighlightEditor extends CodeSuggestsEditText
      * the Max size of the view
      */
     protected Point mMaxSize;
-    //Colors
-    private boolean mAutoCompile = false;
-    private CodeTheme codeTheme = new CodeTheme(true);
+    private CodeTheme mCodeTheme = new CodeTheme(true);
     private Context mContext;
-    private boolean canEdit = true;
+    private boolean mCanEdit = true;
     @Nullable
     private ScrollView verticalScroll;
     private int lastPinLine = -1;
-    private LineUtils lineUtils;
-    private boolean[] isGoodLineArray;
-    private int[] realLines;
-    private int lineCount;
+    private LineUtils mLineUtils;
+    private boolean[] mIsGoodLineArray;
+    private int[] mRealLines;
+    private int mLineCount;
     private boolean isFinding = false;
     /**
      * Disconnect this undo/redo from the text
@@ -144,11 +142,11 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     public CodeTheme getCodeTheme() {
-        return codeTheme;
+        return mCodeTheme;
     }
 
     public void setCodeTheme(CodeTheme codeTheme) {
-        this.codeTheme = codeTheme;
+        this.mCodeTheme = codeTheme;
         this.mCodeHighlighter.setCodeTheme(codeTheme);
         mBracketHighlighter.setCodeTheme(codeTheme);
         setTextColor(codeTheme.getTextColor());
@@ -157,24 +155,18 @@ public class HighlightEditor extends CodeSuggestsEditText
         refresh();
     }
 
-
-    public boolean isAutoCompile() {
-        return mAutoCompile;
-    }
-
-
-    public boolean isCanEdit() {
-        return canEdit;
+    public boolean canEdit() {
+        return mCanEdit;
     }
 
     public void setCanEdit(boolean canEdit) {
-        this.canEdit = canEdit;
+        this.mCanEdit = canEdit;
     }
 
     private void setup(Context context) {
         this.mContext = context;
 
-        lineUtils = new LineUtils();
+        mLineUtils = new LineUtils();
         mPaintNumbers = new Paint();
         mPaintNumbers.setColor(getResources().getColor(R.color.color_number_color));
         mPaintNumbers.setAntiAlias(true);
@@ -189,7 +181,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         mGestureDetector = new GestureDetector(getContext(), HighlightEditor.this);
         mChangeListener = new EditTextChangeListener();
         mCodeHighlighter = new CodeHighlighter(this);
-        mBracketHighlighter = new BracketHighlighter(this, codeTheme);
+        mBracketHighlighter = new BracketHighlighter(this, mCodeTheme);
 
         updateFromSettings();
         enableTextChangedListener();
@@ -207,14 +199,10 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
     }
 
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
-
         super.onTouchEvent(event);
-        if (mGestureDetector != null) {
-            return mGestureDetector.onTouchEvent(event);
-        }
-
-        return true;
+        return mGestureDetector == null || mGestureDetector.onTouchEvent(event);
     }
 
     @Override
@@ -229,17 +217,16 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     @Override
     public boolean onSingleTapUp(MotionEvent arg0) {
-        // TODO Auto-generated method stub
         if (isEnabled()) {
-            ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(this,
-                    InputMethodManager.SHOW_IMPLICIT);
+            InputMethodManager inputMethodManager =
+                    (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
         }
         return true;
     }
 
     @Override
     public boolean onScroll(MotionEvent arg0, MotionEvent arg1, float arg2, float arg3) {
-        // TODO Auto-generated method stub
         return true;
     }
 
@@ -255,8 +242,8 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
 
         if (mTedScroller != null) {
-            mTedScroller.fling(getScrollX(), getScrollY(), -(int) velocityX, -(int) velocityY, 0, mMaxSize.x, 0,
-                    mMaxSize.y);
+            mTedScroller.fling(getScrollX(), getScrollY(), -(int) velocityX, -(int) velocityY,
+                    0, mMaxSize.x, 0, mMaxSize.y);
         }
         return true;
     }
@@ -264,11 +251,11 @@ public class HighlightEditor extends CodeSuggestsEditText
     @Override
     public void onDraw(@NonNull Canvas canvas) {
         int lineX, baseline;
-        if (lineCount != getLineCount()) {
-            lineCount = getLineCount();
-            lineUtils.updateHasNewLineArray(lineCount, getLayout(), getText().toString());
-            isGoodLineArray = lineUtils.getGoodLines();
-            realLines = lineUtils.getRealLines();
+        if (mLineCount != getLineCount()) {
+            mLineCount = getLineCount();
+            mLineUtils.updateHasNewLineArray(mLineCount, getLayout(), getText().toString());
+            mIsGoodLineArray = mLineUtils.getGoodLines();
+            mRealLines = mLineUtils.getRealLines();
         }
         if (mShowLines) {
             int padding = calculateLinePadding();
@@ -281,16 +268,16 @@ public class HighlightEditor extends CodeSuggestsEditText
         getDrawingRect(mDrawingRect);
         lineX = mDrawingRect.left + mLinePadding - mPadding;
         int min = 0;
-        int max = lineCount;
+        int max = mLineCount;
         getLineBounds(0, mLineBounds);
         int startBottom = mLineBounds.bottom;
         int startTop = mLineBounds.top;
-        getLineBounds(lineCount - 1, mLineBounds);
+        getLineBounds(mLineCount - 1, mLineBounds);
         int endBottom = mLineBounds.bottom;
         int endTop = mLineBounds.top;
-        if (lineCount > 1 && endBottom > startBottom && endTop > startTop) {
-            min = Math.max(min, ((mDrawingRect.top - startBottom) * (lineCount - 1)) / (endBottom - startBottom));
-            max = Math.min(max, ((mDrawingRect.bottom - startTop) * (lineCount - 1)) / (endTop - startTop) + 1);
+        if (mLineCount > 1 && endBottom > startBottom && endTop > startTop) {
+            min = Math.max(min, ((mDrawingRect.top - startBottom) * (mLineCount - 1)) / (endBottom - startBottom));
+            max = Math.min(max, ((mDrawingRect.bottom - startTop) * (mLineCount - 1)) / (endTop - startTop) + 1);
         }
         for (int i = min; i < max; i++) {
             baseline = getLineBounds(i, mLineBounds);
@@ -302,8 +289,8 @@ public class HighlightEditor extends CodeSuggestsEditText
             if ((i == mHighlightedLine) && (!mWordWrap)) {
                 canvas.drawRect(mLineBounds, mPaintHighlight);
             }
-            if (mShowLines && isGoodLineArray[i]) {
-                int realLine = realLines[i];
+            if (mShowLines && mIsGoodLineArray[i]) {
+                int realLine = mRealLines[i];
                 canvas.drawText("" + (realLine), mDrawingRect.left, baseline, mPaintNumbers);
             }
         }
@@ -311,7 +298,7 @@ public class HighlightEditor extends CodeSuggestsEditText
             canvas.drawLine(lineX, mDrawingRect.top, lineX, mDrawingRect.bottom, mPaintNumbers);
         }
 
-        getLineBounds(lineCount - 1, mLineBounds);
+        getLineBounds(mLineCount - 1, mLineBounds);
         if (mMaxSize != null) {
             mMaxSize.y = mLineBounds.bottom;
             mMaxSize.x = Math.max(mMaxSize.x + mPadding - mDrawingRect.width(), 0);
@@ -349,7 +336,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         } else {
             setPadding(mPadding, mPadding, mPadding, mPadding);
         }
-        mAutoCompile = mEditorSetting.isAutoCompile();
         mWordWrap = mEditorSetting.isWrapText();
         if (mWordWrap) {
             setHorizontalScrollBarEnabled(false);
@@ -473,7 +459,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                 Layout layout = getLayout();
                 int line = lineInfo.getLine();
                 int temp = line;
-                while (realLines[temp] < line) temp++;
+                while (mRealLines[temp] < line) temp++;
                 line = temp;
                 if (layout != null && line < getLineCount()) {
                     int lineStart = getLayout().getLineStart(line);
@@ -491,7 +477,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                     lineEnd = Math.min(lineEnd, getText().length());
 
                     if (lineStart < lineEnd) {
-                        e.setSpan(new ErrorSpan(codeTheme.getErrorColor()),
+                        e.setSpan(new ErrorSpan(mCodeTheme.getErrorColor()),
                                 lineStart,
                                 lineEnd,
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -656,7 +642,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         //set span
 
         for (Matcher m = pattern.matcher(e); m.find(); ) {
-            e.setSpan(new BackgroundColorSpan(codeTheme.getErrorColor()),
+            e.setSpan(new BackgroundColorSpan(mCodeTheme.getErrorColor()),
                     m.start(),
                     m.end(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -688,7 +674,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                 lineEnd = Math.min(lineEnd, getText().length());
 
                 if (lineStart < lineEnd) {
-                    e.setSpan(new BackgroundColorSpan(codeTheme.getErrorColor()),
+                    e.setSpan(new BackgroundColorSpan(mCodeTheme.getErrorColor()),
                             lineStart,
                             lineEnd,
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
