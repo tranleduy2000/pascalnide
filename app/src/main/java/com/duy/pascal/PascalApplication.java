@@ -40,7 +40,7 @@ public class PascalApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         mTaskExecutor = new PascalActivityTaskExecutor(this);
-        if (BuildConfig.DEBUG) FirebaseCrash.setCrashCollectionEnabled(false);
+        FirebaseCrash.setCrashCollectionEnabled(!BuildConfig.DEBUG);
     }
 
 }

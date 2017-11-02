@@ -59,10 +59,9 @@ public class PremiumDialog extends BaseDialogFragment {
 
     private void clickUpgrade() {
         dismiss();
-        try {
+        if (getActivity() instanceof InAppPurchaseActivity) {
             InAppPurchaseActivity activity = (InAppPurchaseActivity) getActivity();
             activity.clickUpgrade();
-        } catch (Exception ignored) {
         }
     }
 }

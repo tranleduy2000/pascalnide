@@ -33,6 +33,8 @@ import java.util.Hashtable;
 
 public class FontManager {
     private static final String PATH_TO_FONT = "fonts/";
+    private static final String PATH_TO_FONT_PREMIUM = "fonts_premium/";
+
     private static final String TAG = "Typefaces";
     private static final Hashtable<String, Typeface> cache = new Hashtable<>();
 
@@ -52,6 +54,10 @@ public class FontManager {
     }
 
     public synchronized static Typeface getFontFromAsset(Context context, String name) {
+        if (name == null || name.isEmpty()) {
+            return Typeface.MONOSPACE;
+        }
+
         try {
             if (name.equalsIgnoreCase(context.getString(R.string.font_consolas))) {
                 return get(context, PATH_TO_FONT + "consolas.ttf");
@@ -67,7 +73,10 @@ public class FontManager {
                 return get(context, PATH_TO_FONT + name);
             }
         } catch (Exception e) {
-
+        }
+        try {
+            return get(context, PATH_TO_FONT_PREMIUM + name);
+        } catch (Exception e1) { //can not find font
         }
         return Typeface.MONOSPACE;
     }
@@ -121,7 +130,6 @@ public class FontManager {
     }
 
     public static Typeface getFont(FontEntry fontEntry, Context context) {
-        return fontEntry.isPremium ? getFontFromStorage(context, fontEntry.name) :
-                getFontFromAsset(context, fontEntry.name);
+        return getFontFromAsset(context, fontEntry.getName());
     }
 }
