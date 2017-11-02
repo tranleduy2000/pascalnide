@@ -32,6 +32,7 @@ import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.purchase.Premium;
 import com.duy.pascal.ui.themefont.activities.CustomThemeActivity;
 import com.duy.pascal.ui.themefont.adapter.ThemeAdapter;
+import com.duy.pascal.ui.themefont.model.CodeTheme;
 import com.duy.pascal.ui.themefont.themes.ThemeManager;
 
 /**
@@ -135,7 +136,7 @@ public class ThemeFragment extends BaseFragment {
     }
 
     public interface OnThemeSelectListener {
-        void onThemeSelect(String name);
+        void onThemeSelected(CodeTheme name);
     }
 
 }

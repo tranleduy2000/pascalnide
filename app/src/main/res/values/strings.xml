@@ -255,6 +255,7 @@
     <string name="msg_premium">
         1. More fonts\n
         2. More code theme\n
+        3. Create custom theme
     </string>
     <string name="upgrade">upgrade</string>
 </resources>

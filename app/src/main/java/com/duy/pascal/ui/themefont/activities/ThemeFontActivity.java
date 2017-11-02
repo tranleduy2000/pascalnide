@@ -23,11 +23,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.duy.pascal.ui.R;
+import com.duy.pascal.ui.purchase.Premium;
 import com.duy.pascal.ui.purchase.activities.InAppPurchaseActivity;
 import com.duy.pascal.ui.themefont.adapter.SectionPageAdapter;
 import com.duy.pascal.ui.themefont.fragments.ThemeFragment;
+import com.duy.pascal.ui.themefont.model.CodeTheme;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 
@@ -86,8 +89,14 @@ public class ThemeFontActivity extends InAppPurchaseActivity implements ThemeFra
     }
 
     @Override
-    public void onThemeSelect(String name) {
-
+    public void onThemeSelected(CodeTheme codeTheme) {
+        if (codeTheme.isPremium() && !Premium.isPremiumUser(this)) {
+            showDialogUpgrade();
+        } else {
+            getPreferences().setTheme(codeTheme.getName());
+            String text = getString(R.string.select) + " " + codeTheme.getName();
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        }
     }
 
 

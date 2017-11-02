@@ -31,7 +31,7 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.CodeSample;
 import com.duy.pascal.ui.editor.view.EditorView;
-import com.duy.pascal.ui.setting.PascalPreferences;
+import com.duy.pascal.ui.purchase.Premium;
 import com.duy.pascal.ui.themefont.fragments.ThemeFragment;
 import com.duy.pascal.ui.themefont.model.CodeTheme;
 import com.duy.pascal.ui.themefont.themes.ThemeManager;
@@ -46,32 +46,36 @@ import java.util.Map;
 public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.CodeThemeHolder> {
     private ArrayList<CodeTheme> mThemes = new ArrayList<>();
     private LayoutInflater mInflater;
-    private PascalPreferences mPascalPreferences;
     private Activity mContext;
 
     @Nullable
-    private ThemeFragment.OnThemeSelectListener onThemeSelectListener;
+    private ThemeFragment.OnThemeSelectListener mOnThemeSelectListener;
     private ThemeDatabase mDatabase;
 
     public ThemeAdapter(Activity context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-        mPascalPreferences = new PascalPreferences(context);
         loadTheme(context);
         mDatabase = new ThemeDatabase(context);
     }
 
     private void loadTheme(Context context) {
         HashMap<String, CodeTheme> all = ThemeManager.getAll(context);
-        for (Map.Entry<String, CodeTheme> entry : all.entrySet()) mThemes.add(entry.getValue());
+        mThemes.clear();
+        for (Map.Entry<String, CodeTheme> entry : all.entrySet()) {
+            mThemes.add(entry.getValue());
+        }
         Collections.sort(mThemes, new Comparator<CodeTheme>() {
             @Override
             public int compare(CodeTheme codeTheme, CodeTheme t1) {
                 if (codeTheme.isPremium() || t1.isPremium()) {
+                    if (codeTheme.isPremium() && t1.isPremium()) {
+                        return codeTheme.getName().compareTo(t1.getName());
+                    }
                     if (codeTheme.isPremium()) {
-                        return -1;
-                    } else {
                         return 1;
+                    } else {
+                        return -1;
                     }
                 }
                 return codeTheme.getName().compareTo(t1.getName());
@@ -111,14 +115,17 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.CodeThemeHol
         holder.editorView.setCodeTheme(entry);
         holder.editorView.setTextHighlighted(CodeSample.DEMO_THEME);
         holder.txtTitle.setText(entry.getName());
+
+        if (entry.isPremium() && !Premium.isPremiumUser(mContext)) {
+            holder.btnSelect.setText(R.string.premium_version);
+        } else {
+            holder.btnSelect.setText(R.string.select);
+        }
         holder.btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPascalPreferences.setTheme(entry.getName());
-                Toast.makeText(mContext, mContext.getString(R.string.select) + " " + entry.getName(),
-                        Toast.LENGTH_SHORT).show();
-                if (onThemeSelectListener != null) {
-                    onThemeSelectListener.onThemeSelect(String.valueOf(entry));
+                if (mOnThemeSelectListener != null) {
+                    mOnThemeSelectListener.onThemeSelected(entry);
                 }
             }
         });
@@ -136,11 +143,11 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.CodeThemeHol
 
     @Nullable
     public ThemeFragment.OnThemeSelectListener getOnThemeSelectListener() {
-        return onThemeSelectListener;
+        return mOnThemeSelectListener;
     }
 
     public void setOnThemeSelectListener(@Nullable ThemeFragment.OnThemeSelectListener onThemeSelectListener) {
-        this.onThemeSelectListener = onThemeSelectListener;
+        this.mOnThemeSelectListener = onThemeSelectListener;
     }
 
     public void reload(Context context) {

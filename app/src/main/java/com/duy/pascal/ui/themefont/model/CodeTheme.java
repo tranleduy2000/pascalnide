@@ -51,6 +51,16 @@ public class CodeTheme implements Serializable {
         this.builtin = builtin;
     }
 
+    @Override
+    public String toString() {
+        return "CodeTheme{" +
+                "builtin=" + builtin +
+                ", premium=" + premium +
+                ", colors=" + colors +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public boolean isPremium() {
         return premium;
     }
@@ -81,11 +91,6 @@ public class CodeTheme implements Serializable {
 
     public void setTextColor(int integer) {
         putColor(NORMAL, integer);
-    }
-
-    @Override
-    public String toString() {
-        return colors.toString();
     }
 
 
