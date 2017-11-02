@@ -29,7 +29,7 @@
         android:layout_height="match_parent"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        app:fastScrollAutoHide="false"
+        app:fastScrollAutoHide="true"
         app:fastScrollAutoHideDelay="1500"
         app:fastScrollPopupBackgroundSize="88dp"
         app:fastScrollPopupBgColor="?attr/colorAccent"
