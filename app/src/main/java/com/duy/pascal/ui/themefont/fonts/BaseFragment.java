@@ -16,28 +16,19 @@
 
 package com.duy.pascal.ui.themefont.fonts;
 
-public class FontEntry {
-    public boolean isPremium;
-    public String name;
 
-    public FontEntry(boolean premium, String name) {
-        this.isPremium = premium;
-        this.name = name;
+import android.support.v4.app.Fragment;
+
+import com.duy.pascal.ui.purchase.dialogs.PremiumDialog;
+
+/**
+ * Created by Duy on 11/2/2017.
+ */
+public class BaseFragment extends Fragment {
+
+    public void showDialogUpgrade() {
+        PremiumDialog dialog = PremiumDialog.newInstance();
+        dialog.show(getFragmentManager(), PremiumDialog.TAG);
     }
 
-    public boolean isPremium() {
-        return isPremium;
-    }
-
-    public void setPremium(boolean premium) {
-        isPremium = premium;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

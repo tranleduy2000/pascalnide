@@ -23,8 +23,8 @@ import com.duy.pascal.ui.R;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.LinkedList;
 
 /**
  * Created by Duy on 18-Mar-17.
@@ -95,33 +95,32 @@ public class FontManager {
         return name.toLowerCase().endsWith(".ttf") || name.toLowerCase().endsWith(".otf");
     }
 
-    public static LinkedList<FontEntry> getAll(Context context) {
-        LinkedList<FontEntry> fontEntries = new LinkedList<>();
+    public static ArrayList<FontEntry> getAll(Context context) {
+        ArrayList<FontEntry> fontEntries = new ArrayList<>();
         try {
+            fontEntries.add(new FontEntry(false, "monospace"));
             String[] fonts = context.getAssets().list("fonts");
             for (String font : fonts) {
                 if (isFontFile(font)) {
                     fontEntries.add(new FontEntry(false, font));
                 }
             }
-            fontEntries.addFirst(new FontEntry(false, "monospace"));
         } catch (IOException e) {
-            e.printStackTrace();
         }
-        File parent = new File(context.getFilesDir(), "fonts");
-        if (parent.exists() && parent.isDirectory()) {
-            File[] files = parent.listFiles();
-            for (File f : files) {
-                if (isFontFile(f.getName())) {
-                    fontEntries.add(new FontEntry(true, f.getName()));
+        try {
+            String[] fonts = context.getAssets().list("fonts_premium");
+            for (String font : fonts) {
+                if (isFontFile(font)) {
+                    fontEntries.add(new FontEntry(true, font));
                 }
             }
+        } catch (IOException e) {
         }
         return fontEntries;
     }
 
     public static Typeface getFont(FontEntry fontEntry, Context context) {
-        return fontEntry.fromStorage ? getFontFromStorage(context, fontEntry.name) :
+        return fontEntry.isPremium ? getFontFromStorage(context, fontEntry.name) :
                 getFontFromAsset(context, fontEntry.name);
     }
 }

@@ -37,11 +37,16 @@ public class Premium {
 
     /**
      * Purchase user
+     *
+     * @param context
      */
     public static boolean isPremiumUser(Context context) {
         return IS_PREMIUM || FileUtil.licenseCached(context);
     }
 
+    /**
+     * Purchase user
+     */
     public static void setPremiumUser(Context context, boolean isPremium) {
         IS_PREMIUM = isPremium;
         if (isPremium) {
@@ -49,6 +54,10 @@ public class Premium {
         } else {
             FileUtil.clearLicence(context);
         }
+    }
+
+    public static boolean canUseAdvancedFeature(Context context) {
+        return isPremiumUser(context);
     }
 
 

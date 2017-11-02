@@ -21,7 +21,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,13 +37,13 @@ import com.duy.pascal.ui.setting.PascalPreferences;
  * Created by Duy on 17-May-17.
  */
 
-public class ConsoleFontFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener, OnFontSelectListener {
+public class ConsoleFontFragment extends BaseFragment implements SharedPreferences.OnSharedPreferenceChangeListener, OnFontSelectListener {
 
     public static final int FONT = 0;
     public static final int THEME = 1;
-    FontAdapter mFontAdapter;
-    private RecyclerView mRecyclerView;
     protected PascalPreferences mPref;
+    private FontAdapter2 mFontAdapter;
+    private RecyclerView mRecyclerView;
 
     public static ConsoleFontFragment newInstance() {
         Bundle args = new Bundle();
@@ -70,11 +69,8 @@ public class ConsoleFontFragment extends Fragment implements SharedPreferences.O
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button btnDonate = view.findViewById(R.id.btn_create);
-        btnDonate.setVisibility(View.GONE);
-
         mRecyclerView = view.findViewById(R.id.recycler_view);
-        mFontAdapter = new FontAdapter(getContext());
+        mFontAdapter = new FontAdapter2(getContext());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mFontAdapter);
@@ -93,7 +89,6 @@ public class ConsoleFontFragment extends Fragment implements SharedPreferences.O
         super.onStop();
         PreferenceManager.getDefaultSharedPreferences(getContext())
                 .unregisterOnSharedPreferenceChangeListener(this);
-
     }
 
     @Override
@@ -104,7 +99,12 @@ public class ConsoleFontFragment extends Fragment implements SharedPreferences.O
     @Override
     public void onFontSelected(FontEntry fontEntry) {
         mPref.setConsoleFont(fontEntry);
-        Toast.makeText(getContext(), getString(R.string.select) + " " + fontEntry.name,
-                Toast.LENGTH_SHORT).show();
+        String msg = String.format("%s %s", getString(R.string.select), fontEntry.name);
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onUpgradeClick() {
+        showDialogUpgrade();
     }
 }

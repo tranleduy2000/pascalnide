@@ -26,35 +26,43 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.duy.pascal.ui.R;
+import com.duy.pascal.ui.purchase.Premium;
 import com.duy.pascal.ui.setting.PascalPreferences;
 
 import java.util.ArrayList;
 
-public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
-    private LayoutInflater mInflater;
-    private Context mContext;
-    private ArrayList<FontEntry> mListFonts = new ArrayList<>();
-    private PascalPreferences mPascalPreferences;
-    @Nullable
-    private OnFontSelectListener onFontSelectListener;
 
-    public FontAdapter(Context context) {
+/**
+ * Created by Duy on 14-Jul-17.
+ */
+
+public class FontAdapter2 extends RecyclerView.Adapter<FontAdapter2.ViewHolder> {
+    private final Context mContext;
+    private LayoutInflater mInflater;
+    private ArrayList<FontEntry> mListFonts = new ArrayList<>();
+    @Nullable
+    private OnFontSelectListener mListener;
+    private PascalPreferences mPascalPreferences;
+
+    public FontAdapter2(Context context) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
+        this.mListFonts = FontManager.getAll(mContext);
         this.mPascalPreferences = new PascalPreferences(context);
-        this.mListFonts = FontManager.getAll(context);
+    }
+
+    public void setOnFontSelectListener(@Nullable OnFontSelectListener onFontSelectListener) {
+        this.mListener = onFontSelectListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.list_item_font_preview, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(mInflater.inflate(R.layout.list_item_font_preview, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int pos) {
-        final FontEntry fontEntry = mListFonts.get(pos);
-
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final FontEntry fontEntry = mListFonts.get(position);
         holder.txtSample.setTextSize(mPascalPreferences.getEditorTextSize() * 2);
         holder.txtSample.setTypeface(FontManager.getFont(fontEntry, mContext));
         String name = fontEntry.name;
@@ -67,8 +75,17 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
         holder.btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onFontSelectListener != null) {
-                    onFontSelectListener.onFontSelected(fontEntry);
+                if (mListener != null) {
+                    int pos = holder.getAdapterPosition();
+                    if (Premium.canUseAdvancedFeature(mContext)) {
+                        mListener.onFontSelected(mListFonts.get(pos));
+                    } else {
+                        if (mListFonts.get(pos).isPremium()) {
+                            mListener.onUpgradeClick();
+                        } else {
+                            mListener.onFontSelected(mListFonts.get(pos));
+                        }
+                    }
                 }
             }
         });
@@ -79,13 +96,11 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
         return mListFonts.size();
     }
 
-    @Nullable
-    public OnFontSelectListener getOnFontSelectListener() {
-        return onFontSelectListener;
-    }
 
-    public void setOnFontSelectListener(@Nullable OnFontSelectListener onFontSelectListener) {
-        this.onFontSelectListener = onFontSelectListener;
+    public interface OnFontClickListener {
+        void onFontClick(String name);
+
+        void onUpgradeClick();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -98,9 +113,7 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
             txtSample = itemView.findViewById(R.id.txt_sample);
             txtName = itemView.findViewById(R.id.txt_name);
             btnSelect = itemView.findViewById(R.id.btn_select);
-
         }
     }
-
 
 }

@@ -18,4 +18,6 @@ package com.duy.pascal.ui.themefont.fonts;
 
 public interface OnFontSelectListener {
     void onFontSelected(FontEntry fontEntry);
+
+    void onUpgradeClick();
 }

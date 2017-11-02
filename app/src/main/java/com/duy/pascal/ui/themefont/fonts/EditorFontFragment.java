@@ -41,7 +41,7 @@ import com.duy.pascal.ui.setting.PascalPreferences;
 public class EditorFontFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener, OnFontSelectListener {
 
     protected PascalPreferences mPref;
-    private FontAdapter mFontAdapter;
+    private FontAdapter2 mFontAdapter;
     private RecyclerView mRecyclerView;
 
     public static EditorFontFragment newInstance() {
@@ -67,11 +67,9 @@ public class EditorFontFragment extends Fragment implements SharedPreferences.On
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button btnDonate = view.findViewById(R.id.btn_create);
-        btnDonate.setVisibility(View.GONE);
 
         mRecyclerView = view.findViewById(R.id.recycler_view);
-        mFontAdapter = new FontAdapter(getContext());
+        mFontAdapter = new FontAdapter2(getContext());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mFontAdapter);
@@ -103,5 +101,10 @@ public class EditorFontFragment extends Fragment implements SharedPreferences.On
         mPref.setEditorFont(fontEntry);
         Toast.makeText(getContext(), getString(R.string.select) + " " + fontEntry.name,
                 Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onUpgradeClick() {
+
     }
 }

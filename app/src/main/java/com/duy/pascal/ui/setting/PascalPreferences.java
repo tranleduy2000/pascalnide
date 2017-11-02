@@ -246,7 +246,7 @@ public class PascalPreferences {
 
     public void setEditorFont(FontEntry fontEntry) {
         put("key_pref_editor_font", fontEntry.name);
-        put("key_pref_editor_font_from_storage", fontEntry.fromStorage);
+        put("key_pref_editor_font_from_storage", fontEntry.isPremium);
     }
 
     public Typeface getConsoleFont() {
@@ -258,7 +258,7 @@ public class PascalPreferences {
 
     public void setConsoleFont(FontEntry fontEntry) {
         put("key_pref_console_font", fontEntry.name);
-        put("key_pref_console_font_from_storage", fontEntry.fromStorage);
+        put("key_pref_console_font_from_storage", fontEntry.isPremium);
     }
 
     public boolean isShowLines() {
