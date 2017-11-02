@@ -16,8 +16,11 @@
 
 package com.duy.pascal.interperter.exceptions.parsing;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.SpannableString;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
@@ -51,5 +54,9 @@ public class ParsingException extends Exception {
 
     public boolean canQuickFix() {
         return false;
+    }
+
+    public Spanned getMessage(@NonNull Context context) {
+        return new SpannableString(super.getMessage());
     }
 }

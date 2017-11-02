@@ -16,8 +16,10 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.convert;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
@@ -25,6 +27,10 @@ import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.ast.runtime.value.access.VariableAccess;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.utils.NullSafety;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.getMessageResource;
 
 
 public class UnConvertibleTypeException extends ParsingException {
@@ -99,5 +105,24 @@ public class UnConvertibleTypeException extends ParsingException {
         return identifier instanceof VariableAccess
                 || value instanceof VariableAccess
                 || identifier instanceof ConstantAccess;
+    }
+
+    @Override
+    public Spanned getMessage(@NonNull Context context) {
+        UnConvertibleTypeException e = this;
+        if (NullSafety.isNullPointer(e.getIdentifier())) {
+            int id = R.string.UnConvertibleTypeException;
+            return getMessageResource(e, context, id, e.getValue(), e.getValueType(), e.getTargetType());
+        } else {
+            int id;
+            if (e.getIdentifier() instanceof VariableAccess) {
+                id = R.string.UnConvertibleTypeVariable;
+            } else if (e.getIdentifier() instanceof ConstantAccess) {
+                id = R.string.UnConvertibleTypeConstant;
+            } else {
+                id = R.string.UnConvertibleTypeException2;
+            }
+            return getMessageResource(e, context, id, e.getValue(), e.getValueType(), e.getTargetType(), e.getIdentifier());
+        }
     }
 }

@@ -24,7 +24,6 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
 import com.duy.pascal.ui.code.ExceptionManager;
 import com.duy.pascal.ui.editor.view.EditorView;
@@ -36,6 +35,16 @@ import java.util.regex.Pattern;
 import static com.duy.pascal.ui.autocomplete.autofix.EditorUtil.getText;
 
 /**
+ * Change type of constant when wrong type
+ * eg.
+ * <code>
+ * const i: integer = 'string'; begin end.
+ * </code>
+ * <p>
+ * This class will be change to
+ * <p><code>
+ * <p>const i: string = 'string'; begin end.
+ * </code>
  * Created by Duy on 11/2/2017.
  */
 public class ChangeTypeConstant implements AutoFixCommand {

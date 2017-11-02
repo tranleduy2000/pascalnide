@@ -110,6 +110,22 @@ public class ExceptionManager {
         return highlight(context, new SpannableString(spannable));
     }
 
+    public static Spanned getMessageResource(Throwable e, Context mContext, int resourceID, Object... arg) {
+        SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
+        if (e instanceof ParsingException) {
+            stringBuilder.append(String.valueOf(((ParsingException) e).getLineInfo()));
+            stringBuilder.append("\n").append("\n");
+            stringBuilder.append(mContext.getString(resourceID, arg));
+            return highlight(mContext, stringBuilder);
+        } else if (e instanceof RuntimePascalException) {
+            stringBuilder.append(String.valueOf(((RuntimePascalException) e).getLineNumber()));
+            stringBuilder.append("\n").append("\n");
+            stringBuilder.append(mContext.getString(resourceID, arg));
+            return highlight(mContext, stringBuilder);
+        }
+        return new SpannableString(e.getLocalizedMessage());
+    }
+
     public Spanned getMessage(Throwable e) {
         if (e == null) {
             return new SpannableString("null");
@@ -130,7 +146,7 @@ public class ExceptionManager {
                 return getMessageResource(e, R.string.MissingCommaTokenException,
                         ((MissingCommaTokenException) e).getLineInfo().getLine());
             } else if (e instanceof MissingTokenException) {
-                return getMessageResource(e, R.string.missing_token_exception,
+                return getMessageResource(e, R.string.MissingTokenException,
                         ((MissingTokenException) e).getMissingToken());
             }
 
@@ -186,15 +202,7 @@ public class ExceptionManager {
             }
 
             if (e instanceof UnConvertibleTypeException) {
-                UnConvertibleTypeException exception = (UnConvertibleTypeException) e;
-                if (exception.getIdentifier() == null) {
-                    return getMessageResource(e, R.string.UnConvertibleTypeException,
-                            exception.getValue(), exception.getValueType(), exception.getTargetType());
-                } else {
-
-                    return getMessageResource(e, R.string.UnConvertibleTypeException2,
-                            exception.getValue(), exception.getValueType(), exception.getTargetType(), exception.getIdentifier());
-                }
+                return new SpannableString(((UnConvertibleTypeException) e).getMessage(mContext));
             }
             if (e instanceof LibraryNotFoundException) {
                 return getMessageResource(e, R.string.LibraryNotFoundException,
@@ -265,20 +273,8 @@ public class ExceptionManager {
         }
     }
 
-    private Spanned getMessageResource(Throwable e, int resourceID, Object... arg) {
-        SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
-        if (e instanceof ParsingException) {
-            stringBuilder.append(String.valueOf(((ParsingException) e).getLineInfo()));
-            stringBuilder.append("\n").append("\n");
-            stringBuilder.append(mContext.getString(resourceID, arg));
-            return highlight(mContext, stringBuilder);
-        } else if (e instanceof RuntimePascalException) {
-            stringBuilder.append(String.valueOf(((RuntimePascalException) e).getLineNumber()));
-            stringBuilder.append("\n").append("\n");
-            stringBuilder.append(mContext.getString(resourceID, arg));
-            return highlight(mContext, stringBuilder);
-        }
-        return new SpannableString(e.getLocalizedMessage());
+    public  Spanned getMessageResource(Throwable e, int resourceID, Object... arg) {
+        return getMessageResource(e, mContext, resourceID, arg);
     }
 
     private Spanned getConstantCalculationException(Throwable e) {

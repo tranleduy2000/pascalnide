@@ -36,6 +36,7 @@ import android.text.method.MovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -46,6 +47,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
 import android.widget.Scroller;
 
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.editor.highlight.BracketHighlighter;
 import com.duy.pascal.ui.editor.highlight.CodeHighlighter;
@@ -53,7 +55,6 @@ import com.duy.pascal.ui.editor.view.spans.ErrorSpan;
 import com.duy.pascal.ui.themefont.themes.ThemeManager;
 import com.duy.pascal.ui.themefont.themes.database.CodeTheme;
 import com.duy.pascal.ui.themefont.themes.database.CodeThemeUtils;
-import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -722,6 +723,7 @@ public class HighlightEditor extends CodeSuggestsEditText
     private void clearSpans(Editable e, int start, int end) {
         removeSpan(e, ForegroundColorSpan.class, start, end);
         removeSpan(e, BackgroundColorSpan.class, start, end);
+        removeSpan(e, UnderlineSpan.class, start, end);
         removeSpan(e, StyleSpan.class, start, end);
     }
 

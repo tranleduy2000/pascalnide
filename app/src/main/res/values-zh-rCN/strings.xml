@@ -182,6 +182,6 @@
     <string name="save_and_apply">Save and apply</string>
     <string name="auto_insert_bracket">Auto insert bracket</string>
     <string name="auto_insert_bracket_summary">Insert ) when type (, ] when type [...</string>
-    <string name="missing_token_exception">Missing token \"%1$s\"</string>
+    <string name="MissingTokenException">Missing token \"%1$s\"</string>
 </resources>
 
