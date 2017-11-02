@@ -32,6 +32,20 @@ import static com.duy.pascal.ui.autocomplete.autofix.EditorUtil.getText;
 import static com.duy.pascal.ui.code.ExceptionManager.highlight;
 
 /**
+ * Declare constant
+ * eg.
+ * <code>
+ * begin writeln(a); end.
+ * </code>
+ * <p>
+ * After
+ * <code>
+ * const a = 'string';
+ * begin
+ * writeln(a);
+ * end.
+ * </code>
+ * <p>
  * Created by Duy on 11/2/2017.
  */
 public class DeclareConstant implements AutoFixCommand {

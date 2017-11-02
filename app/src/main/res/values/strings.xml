@@ -172,10 +172,12 @@
     <string name="thank_you_for_your_support_for_open_source_software">Thank you for supporting open source software.</string>
     <string name="some_suggestion">Some suggestion</string>
 
+    <!--Quick fix-->
     <string name="add_begin_end">Add \"begin end.\"</string>
     <string name="add_end_at_the_end_of_program">Add \"end\" keyword to the end of program</string>
     <string name="declare_constant_2">Declare constant \"%1$s\"</string>
     <string name="declare_variable_2">Declare variable \"%1$s\" with type is \"%2$s\"</string>
+    <string name="declare_variable_3">Declare variable \"%1$s\"</string>
     <string name="change_const_to_var">Change constant \"%1$s\" to variable with type is \"%2$s\", init value is \"%3$s\"</string>
     <string name="declare_type">Declare type \"%1$s\"</string>
     <string name="insert_token">Insert token \"%1$s\"</string>
@@ -184,10 +186,11 @@
     <string name="change_var_type">Change type of variable \"%1$s\" to type \"%2$s\"</string>
     <string name="change_const_type">Change type of constant \"%1$s\" to type \"%2$s\"</string>
     <string name="change_function_type">Change type of function \"%1$s\" to type \"%2$s\"</string>
+
+
     <string name="code">Code</string>
     <string name="enter_data">Enter data</string>
     <string name="invalid_file_name">Invalid file name</string>
-
     <string name="can_not_be_empty">Can not be empty</string>
     <string name="no_data">No Data</string>
     <string name="selected_x_items">Selected %d Items</string>

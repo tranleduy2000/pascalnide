@@ -36,6 +36,15 @@ import static com.duy.pascal.ui.autocomplete.autofix.EditorUtil.getText;
 
 
 /**
+ * Change type of variable when wrong type
+ * eg.
+ * <code>
+ * Var i : string; begin i := 2; end.
+ * </code>
+ * Change to
+ * <code>
+ * Var i: Integer; begin i := 2; end.
+ * </code>
  * Created by Duy on 11/2/2017.
  */
 public class ChangeTypeVariable implements AutoFixCommand {

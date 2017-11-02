@@ -18,16 +18,17 @@ package com.duy.pascal.ui.autocomplete.autofix.command;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.Patterns;
-import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
 import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;
 import com.duy.pascal.ui.editor.view.EditorView;
 
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.duy.pascal.ui.code.ExceptionManager.highlight;
 
@@ -35,9 +36,15 @@ import static com.duy.pascal.ui.code.ExceptionManager.highlight;
  * Created by Duy on 11/2/2017.
  */
 public class DeclareVariable implements AutoFixCommand {
+    public static final Pattern DECLARE_VAR = Pattern.compile("(\\s(var)|^(var))\\s", Pattern.CASE_INSENSITIVE);
+
+    @NonNull
     private final TextData scope;
+    @NonNull
     private final Name name;
+    @Nullable
     private final String type;
+    @Nullable
     private final String initValue;
 
     /**
@@ -46,7 +53,8 @@ public class DeclareVariable implements AutoFixCommand {
      * @param type      - type of variable
      * @param initValue - init value, it can be null
      */
-    public DeclareVariable(TextData scope, Name name, String type, String initValue) {
+    public DeclareVariable(@NonNull TextData scope, @NonNull Name name, @Nullable String type,
+                           @Nullable String initValue) {
         this.scope = scope;
         this.name = name;
         this.type = type;
@@ -59,8 +67,8 @@ public class DeclareVariable implements AutoFixCommand {
         int insertPosition = 0;
         int startSelect;
         int endSelect;
-
-        Matcher matcher = Patterns.VAR.matcher(scope.getText());
+        String type = this.type != null ? this.type : "";
+        Matcher matcher = DECLARE_VAR.matcher(scope.getText());
         if (matcher.find()) {
             insertPosition = matcher.end();
             textToInsert = "\n" + editable.getTabCharacter() + name + ": ";
@@ -99,7 +107,12 @@ public class DeclareVariable implements AutoFixCommand {
     @NonNull
     @Override
     public CharSequence getTitle(Context context) {
-        String str = context.getString(R.string.declare_variable_2, name, type);
+        String str;
+        if (type == null || type.isEmpty()) {
+            str = context.getString(R.string.declare_variable_3, name);
+        } else {
+            str = context.getString(R.string.declare_variable_2, name, type);
+        }
         return highlight(context, str);
     }
 }
