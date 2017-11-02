@@ -21,6 +21,7 @@ import android.content.IntentFilter;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.ui.BuildConfig;
+import com.duy.pascal.ui.purchase.activities.InAppPurchaseActivity;
 import com.duy.pascal.ui.utils.DLog;
 
 import aidl.util.IabBroadcastReceiver;
@@ -147,8 +148,10 @@ public class InAppPurchaseHelper {
     }
 
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-        boolean handled = mIabHelper.handleActivityResult(requestCode, resultCode, data);
-        return handled;
+        if (requestCode == InAppPurchaseHelper.RC_REQUEST_UPGRADE) {
+            return mIabHelper.handleActivityResult(requestCode, resultCode, data);
+        }
+        return false;
     }
 
     public void onDestroy() {

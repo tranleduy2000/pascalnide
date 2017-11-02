@@ -23,7 +23,7 @@ import android.view.View;
 
 import com.duy.pascal.ui.BaseDialogFragment;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.purchase.InAppPurchaseActivity;
+import com.duy.pascal.ui.purchase.activities.InAppPurchaseActivity;
 
 /**
  * Created by Duy on 10/5/2017.

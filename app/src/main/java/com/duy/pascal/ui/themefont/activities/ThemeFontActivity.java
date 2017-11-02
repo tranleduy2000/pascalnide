@@ -25,7 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.purchase.InAppPurchaseActivity;
+import com.duy.pascal.ui.purchase.activities.InAppPurchaseActivity;
 import com.duy.pascal.ui.themefont.adapter.SectionPageAdapter;
 import com.duy.pascal.ui.themefont.themes.ThemeFragment;
 import com.google.firebase.analytics.FirebaseAnalytics;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.purchase;
+package com.duy.pascal.ui.purchase.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.ui.BaseActivity;
+import com.duy.pascal.ui.purchase.InAppPurchaseHelper;
 import com.duy.pascal.ui.purchase.dialogs.PremiumDialog;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
