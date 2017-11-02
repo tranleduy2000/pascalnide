@@ -23,16 +23,14 @@ import android.content.Context;
  */
 
 public class Premium {
-    public static final String BASE64_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn4Xvt++eGeg45VnbYFKGY1U67loQRW7jq0e0gp1YmH8N5tsBJHfMloWrgdliNY3Z0jEpaPvQyL5APBxbhGtZCnSSAC3hnsqvkoTdKdeeWq5KpwxvgddMzkzsZPIg0IzOBkFseax4l/SwOW78pkUr6BcUfzn6594eYe7Hogyb77oPOmBdqeInDBWA6pbbJoNLa3ddp/sjTTC+6/esQVfThbRbOzIAKmB7HoTmA2KwoJ2yroCXR8mwOTYr95FYBBaEyrr0C0NHXEap4puXye+t4x2VxGxi4co/WtGGXGdAmAz7dN48tOcGlrxUM+x91G2MDYtcrJZAkuS1cCTuuviCMQIDAQAB";
-    public static final String SKU_PREMIUM = "pascal_premium";
+    static final String BASE64_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnjkPE18aPiqzuAwjbDtDfhC/acit6VdvHa5e2Se6cPNXuQotpbY7IdNba1yUGKs+uxfathiU5VEB8mILAQZ/Cp2X37Fjn9E4A00b3iP1XjbLRr5wdJ2c6ddAbs7W8KrQ56EtYfmniM+1WAirBHjYHxuDMUsSweGKH5QkwB69rXdRJ8Cvc5olxw+icJgd5dpvEcdHYb7tZjlqjGgAHWRLnDy2+G1hBRo7LJBeSo38J3W1PsSKK7HIyHxagCdl1ijHdHyodTiilJSoLtEJWcrOWdMbOBniM9opQD3HtWYdlD0OV5J6+VBWAsujfSnarrRU1Q62NR1rctq6ubwHiMDguQIDAQAB";
+    static final String SKU_PREMIUM = "pascal_premium";
 
     private static boolean IS_PREMIUM = false;
 
 
     /**
      * Purchase user
-     *
-     * @param context
      */
     public static boolean isPremiumUser(Context context) {
         return IS_PREMIUM || FileUtil.licenseCached(context);

@@ -26,8 +26,8 @@ import android.view.MenuItem;
 
 import com.commonsware.cwac.pager.PageDescriptor;
 import com.commonsware.cwac.pager.SimplePageDescriptor;
-import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.BaseActivity;
+import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.code.sample.adapters.CodePagerAdapter;
 import com.duy.pascal.ui.code.sample.adapters.CodeSampleAdapter;
@@ -35,7 +35,6 @@ import com.duy.pascal.ui.code.sample.fragments.CodeSampleFragment;
 import com.duy.pascal.ui.editor.EditorActivity;
 import com.duy.pascal.ui.file.FileManager;
 import com.duy.pascal.ui.runnable.ExecuteActivity;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.io.File;
@@ -57,8 +56,6 @@ public class CodeSampleActivity extends BaseActivity implements CodeSampleAdapte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        FirebaseAnalytics.getInstance(getApplicationContext()).logEvent("open_code_sample", new Bundle());
 
         mFileManager = new FileManager(getApplicationContext());
 
