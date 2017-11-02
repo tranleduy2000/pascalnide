@@ -22,7 +22,7 @@ import android.widget.EditText;
 
 import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.editor.view.spans.BracketSpan;
-import com.duy.pascal.ui.themefont.themes.database.CodeTheme;
+import com.duy.pascal.ui.themefont.model.CodeTheme;
 
 /**
  * Created by Duy on 21-Jul-17.

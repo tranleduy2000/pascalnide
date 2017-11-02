@@ -30,7 +30,7 @@ import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.debug.utils.SpanUtils;
 import com.duy.pascal.ui.themefont.themes.ThemeManager;
-import com.duy.pascal.ui.themefont.themes.database.CodeTheme;
+import com.duy.pascal.ui.themefont.model.CodeTheme;
 
 import java.util.ArrayList;
 import java.util.List;

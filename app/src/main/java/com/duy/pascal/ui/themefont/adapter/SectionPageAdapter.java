@@ -24,7 +24,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.themefont.fragments.ConsoleFontFragment;
 import com.duy.pascal.ui.themefont.fragments.EditorFontFragment;
-import com.duy.pascal.ui.themefont.themes.ThemeFragment;
+import com.duy.pascal.ui.themefont.fragments.ThemeFragment;
 
 /**
  * Created by Duy on 17-May-17.

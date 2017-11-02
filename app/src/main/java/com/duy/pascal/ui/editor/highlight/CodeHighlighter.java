@@ -25,7 +25,7 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 
 import com.duy.pascal.ui.editor.view.HighlightEditor;
-import com.duy.pascal.ui.themefont.themes.database.CodeTheme;
+import com.duy.pascal.ui.themefont.model.CodeTheme;
 
 import java.util.ArrayList;
 import java.util.Collections;

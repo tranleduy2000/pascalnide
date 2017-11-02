@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.themefont.themes.database;
+package com.duy.pascal.ui.themefont.model;
 
 import android.graphics.Color;
+
 import com.duy.pascal.ui.utils.DLog;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import static com.duy.pascal.ui.themefont.themes.database.CodeThemeContract.CodeThemeEntry.BACKGROUND;
+import static com.duy.pascal.ui.themefont.themes.database.CodeThemeContract.CodeThemeEntry.BOOLEAN;
+import static com.duy.pascal.ui.themefont.themes.database.CodeThemeContract.CodeThemeEntry.COMMENT;
+import static com.duy.pascal.ui.themefont.themes.database.CodeThemeContract.CodeThemeEntry.ERROR;
+import static com.duy.pascal.ui.themefont.themes.database.CodeThemeContract.CodeThemeEntry.KEY_WORD;
+import static com.duy.pascal.ui.themefont.themes.database.CodeThemeContract.CodeThemeEntry.NORMAL;
+import static com.duy.pascal.ui.themefont.themes.database.CodeThemeContract.CodeThemeEntry.NUMBER;
+import static com.duy.pascal.ui.themefont.themes.database.CodeThemeContract.CodeThemeEntry.OPERATOR;
+import static com.duy.pascal.ui.themefont.themes.database.CodeThemeContract.CodeThemeEntry.STRING;
+
 public class CodeTheme implements Serializable {
-    public static final String TABLE_NAME = "tbl_theme";
-    public static final String NAME = "theme_name";
-    public static final String BACKGROUND = "background_color";
-    public static final String NORMAL = "normal_text_color";
-    public static final String KEY_WORD = "key_word_color";
-    public static final String BOOLEAN = "boolean_color";
-    public static final String ERROR = "error_color";
-    public static final String NUMBER = "number_color";
-    public static final String OPERATOR = "opt_color";
-    public static final String COMMENT = "comment_color";
-    public static final String STRING = "string_color";
 
     private static final String TAG = "CodeTheme";
     private final boolean builtin;
@@ -145,7 +145,7 @@ public class CodeTheme implements Serializable {
         float[] hsv = new float[3];
         Color.colorToHSV(background, hsv);
         hsv[2] = Math.min(1, Math.max(0.1f, hsv[2]) * 1.25f);//brightness color
-       DLog.d(TAG, "getDebugColor: " + Arrays.toString(hsv));
+        DLog.d(TAG, "getDebugColor: " + Arrays.toString(hsv));
         return Color.HSVToColor(hsv);
     }
 

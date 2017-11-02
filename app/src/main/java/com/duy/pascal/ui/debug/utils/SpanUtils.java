@@ -27,7 +27,7 @@ import com.duy.pascal.interperter.ast.variablecontext.ContainsVariables;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
-import com.duy.pascal.ui.themefont.themes.database.CodeTheme;
+import com.duy.pascal.ui.themefont.model.CodeTheme;
 
 import java.util.List;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.themefont.themes;
+package com.duy.pascal.ui.themefont.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,20 +23,22 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
+import com.duy.pascal.ui.BaseFragment;
 import com.duy.pascal.ui.R;
+import com.duy.pascal.ui.purchase.Premium;
+import com.duy.pascal.ui.themefont.activities.CustomThemeActivity;
+import com.duy.pascal.ui.themefont.adapter.ThemeAdapter;
+import com.duy.pascal.ui.themefont.themes.ThemeManager;
 
 /**
  * Created by Duy on 17-May-17.
  */
 
-public class ThemeFragment extends Fragment {
+public class ThemeFragment extends BaseFragment {
 
     private static final int REQ_CREATE_NEW_THEME = 20023;
     @Nullable
@@ -63,28 +65,29 @@ public class ThemeFragment extends Fragment {
         }
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_theme, container, false);
+    protected int getRootId() {
+        return (R.layout.fragment_theme);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mFabCreate = view.findViewById(R.id.btn_create);
-        // TODO: 10/31/2017 check premium
         mFabCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), CustomThemeActivity.class);
-                startActivityForResult(intent, REQ_CREATE_NEW_THEME);
+                if (Premium.isPremiumUser(getActivity())) {
+                    Intent intent = new Intent(getActivity(), CustomThemeActivity.class);
+                    startActivityForResult(intent, REQ_CREATE_NEW_THEME);
+                } else {
+                    showDialogUpgrade();
+                }
             }
         });
 
 
         mRecyclerView = view.findViewById(R.id.recycler_view);
-
         mCodeThemeAdapter = new ThemeAdapter(getActivity());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setHasFixedSize(true);

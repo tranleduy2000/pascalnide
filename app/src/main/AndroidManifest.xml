@@ -117,7 +117,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.duy.pascal.interperter.libraries.android.activity.PascalActivity" />
         <activity android:name="com.duy.pascal.ui.code.sample.activities.SearchResultSampleActivity" />
-        <activity android:name="com.duy.pascal.ui.themefont.themes.CustomThemeActivity" />
+        <activity android:name="com.duy.pascal.ui.themefont.activities.CustomThemeActivity" />
 
         <!-- Scan bar code activity -->
         <activity

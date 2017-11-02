@@ -17,7 +17,6 @@
 package com.duy.pascal.ui.editor.view;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
@@ -52,9 +51,8 @@ import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.editor.highlight.BracketHighlighter;
 import com.duy.pascal.ui.editor.highlight.CodeHighlighter;
 import com.duy.pascal.ui.editor.view.spans.ErrorSpan;
+import com.duy.pascal.ui.themefont.model.CodeTheme;
 import com.duy.pascal.ui.themefont.themes.ThemeManager;
-import com.duy.pascal.ui.themefont.themes.database.CodeTheme;
-import com.duy.pascal.ui.themefont.themes.database.CodeThemeUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -65,11 +63,11 @@ public class HighlightEditor extends CodeSuggestsEditText
     public static final int SYNTAX_DELAY_MILLIS_SHORT = 100;
     public static final int SYNTAX_DELAY_MILLIS_LONG = 700;
     public static final int CHARS_TO_COLOR = 2500;
-    private final Handler updateHandler = new Handler();
+    private final Handler mHandler = new Handler();
     private final Object objectThread = new Object();
 
-    public boolean showLines = true;
-    public boolean wordWrap = true;
+    public boolean mShowLines = true;
+    public boolean mWordWrap = true;
 
     protected Paint mPaintNumbers;
     protected Paint mPaintHighlight;
@@ -92,7 +90,7 @@ public class HighlightEditor extends CodeSuggestsEditText
      */
     protected Point mMaxSize;
     //Colors
-    private boolean autoCompile = false;
+    private boolean mAutoCompile = false;
     private CodeTheme codeTheme = new CodeTheme(true);
     private Context mContext;
     private boolean canEdit = true;
@@ -113,7 +111,6 @@ public class HighlightEditor extends CodeSuggestsEditText
      * The change listener.
      */
     private EditTextChangeListener mChangeListener;
-    private float numberWidth = 0;
     private CodeHighlighter mCodeHighlighter;
     private final Runnable colorRunnable_duringEditing =
             new Runnable() {
@@ -162,7 +159,7 @@ public class HighlightEditor extends CodeSuggestsEditText
 
 
     public boolean isAutoCompile() {
-        return autoCompile;
+        return mAutoCompile;
     }
 
 
@@ -273,7 +270,7 @@ public class HighlightEditor extends CodeSuggestsEditText
             isGoodLineArray = lineUtils.getGoodLines();
             realLines = lineUtils.getRealLines();
         }
-        if (showLines) {
+        if (mShowLines) {
             int padding = calculateLinePadding();
             if (mLinePadding != padding) {
                 mLinePadding = padding;
@@ -302,15 +299,15 @@ public class HighlightEditor extends CodeSuggestsEditText
                 mMaxSize.x = mLineBounds.right;
             }
 
-            if ((i == mHighlightedLine) && (!wordWrap)) {
+            if ((i == mHighlightedLine) && (!mWordWrap)) {
                 canvas.drawRect(mLineBounds, mPaintHighlight);
             }
-            if (showLines && isGoodLineArray[i]) {
+            if (mShowLines && isGoodLineArray[i]) {
                 int realLine = realLines[i];
                 canvas.drawText("" + (realLine), mDrawingRect.left, baseline, mPaintNumbers);
             }
         }
-        if (showLines) {
+        if (mShowLines) {
             canvas.drawLine(lineX, mDrawingRect.top, lineX, mDrawingRect.bottom, mPaintNumbers);
         }
 
@@ -334,12 +331,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         CodeTheme theme = ThemeManager.getTheme(name, getContext());
         setCodeTheme(theme);
 
-        int style = CodeThemeUtils.getCodeTheme(mContext, "");
-        TypedArray typedArray = mContext.obtainStyledAttributes(style,
-                R.styleable.CodeTheme);
-        this.canEdit = typedArray.getBoolean(R.styleable.CodeTheme_can_edit, true);
-        typedArray.recycle();
-
         Typeface editorFont = mEditorSetting.getEditorFont();
         setTypeface(editorFont);
         mPaintNumbers.setTypeface(editorFont);
@@ -350,17 +341,17 @@ public class HighlightEditor extends CodeSuggestsEditText
         setTextSize(mEditorSetting.getEditorTextSize());
         mPaintNumbers.setTextSize(getTextSize());
 
-        showLines = mEditorSetting.isShowLines();
+        mShowLines = mEditorSetting.isShowLines();
 
-        if (showLines) {
+        if (mShowLines) {
             mLinePadding = calculateLinePadding();
             setPadding(mLinePadding, mPadding, mPadding, mPadding);
         } else {
             setPadding(mPadding, mPadding, mPadding, mPadding);
         }
-        autoCompile = mEditorSetting.isAutoCompile();
-        wordWrap = mEditorSetting.isWrapText();
-        if (wordWrap) {
+        mAutoCompile = mEditorSetting.isAutoCompile();
+        mWordWrap = mEditorSetting.isWrapText();
+        if (mWordWrap) {
             setHorizontalScrollBarEnabled(false);
         } else {
             setHorizontalScrollBarEnabled(true);
@@ -390,8 +381,8 @@ public class HighlightEditor extends CodeSuggestsEditText
         int count = getLineCount();
         int result = (int) (Math.floor(Math.log10(count)) + 1);
 
-        numberWidth = mPaintNumbers.measureText("0", 0, 1);
-        result = (int) ((result * numberWidth) + numberWidth * 0.5f + mPadding);
+        float width = mPaintNumbers.measureText("0", 0, 1);
+        result = (int) ((result * width) + width * 0.5f + mPadding);
         return result;
     }
 
@@ -415,9 +406,9 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     public void refresh() {
-        updateHandler.removeCallbacks(colorRunnable_duringEditing);
-        updateHandler.removeCallbacks(colorRunnable_duringScroll);
-        updateHandler.postDelayed(colorRunnable_duringEditing, SYNTAX_DELAY_MILLIS_SHORT);
+        mHandler.removeCallbacks(colorRunnable_duringEditing);
+        mHandler.removeCallbacks(colorRunnable_duringScroll);
+        mHandler.postDelayed(colorRunnable_duringEditing, SYNTAX_DELAY_MILLIS_SHORT);
     }
 
     public String getCleanText() {
@@ -776,12 +767,12 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     public void updateTextHighlight() {
-        if (hasSelection() || updateHandler == null) {
+        if (hasSelection() || mHandler == null) {
             return;
         }
-        updateHandler.removeCallbacks(colorRunnable_duringEditing);
-        updateHandler.removeCallbacks(colorRunnable_duringScroll);
-        updateHandler.postDelayed(colorRunnable_duringEditing, SYNTAX_DELAY_MILLIS_LONG);
+        mHandler.removeCallbacks(colorRunnable_duringEditing);
+        mHandler.removeCallbacks(colorRunnable_duringScroll);
+        mHandler.postDelayed(colorRunnable_duringEditing, SYNTAX_DELAY_MILLIS_LONG);
     }
 
     public void showKeyboard() {

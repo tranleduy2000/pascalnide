@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.themefont.themes;
+package com.duy.pascal.ui.themefont.activities;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -33,7 +33,8 @@ import com.duy.pascal.ui.BaseActivity;
 import com.duy.pascal.ui.editor.view.EditorView;
 import com.duy.pascal.ui.file.FileManager;
 import com.duy.pascal.ui.setting.PascalPreferences;
-import com.duy.pascal.ui.themefont.themes.database.CodeTheme;
+import com.duy.pascal.ui.themefont.themes.ThemeManager;
+import com.duy.pascal.ui.themefont.model.CodeTheme;
 import com.duy.pascal.ui.themefont.themes.database.ThemeDatabase;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;

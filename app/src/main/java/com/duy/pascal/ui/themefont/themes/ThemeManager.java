@@ -23,8 +23,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.themefont.themes.database.CodeTheme;
-import com.duy.pascal.ui.themefont.themes.database.CodeThemeUtils;
+import com.duy.pascal.ui.themefont.model.CodeTheme;
 import com.duy.pascal.ui.themefont.themes.database.ThemeDatabase;
 
 import java.io.IOException;
@@ -56,14 +55,22 @@ public class ThemeManager {
 
 
     public static HashMap<String, CodeTheme> getAll(Context context) {
-        loadAll(context);
-        HashMap<String, CodeTheme> hm = new HashMap<>(builtinThemes);
-        hm.putAll(customThemes);
-        return hm;
+        loadAll(context); //ensure load all theme
+        HashMap<String, CodeTheme> result = new HashMap<>();
+        String[] names = context.getResources().getStringArray(R.array.code_themes);
+        for (String name : names) {
+            CodeTheme codeTheme = new CodeTheme(true);
+            loadFromXml(name, codeTheme, context);
+            result.put(name, codeTheme);
+        }
+
+        result.putAll(builtinThemes);
+        result.putAll(customThemes);
+        return result;
     }
 
-    private static void loadFromXML(String name, @NonNull CodeTheme codeTheme, Context context) {
-        int style = CodeThemeUtils.getCodeTheme(context, name);
+    private static void loadFromXml(String name, @NonNull CodeTheme codeTheme, Context context) {
+        int style = getStyleFromName(context, name);
         TypedArray typedArray = context.obtainStyledAttributes(style, R.styleable.CodeTheme);
         typedArray.getInteger(R.styleable.CodeTheme_background_color, R.color.color_background_color);
 
@@ -89,7 +96,27 @@ public class ThemeManager {
         typedArray.recycle();
     }
 
-    private static void loadBuiltinThemes(Context context) {
+    public static int getStyleFromName(Context context, String name) {
+        if (name.equals(context.getString(R.string.default_theme))) {
+            return R.style.CodeTheme;
+        } else if (name.equals(context.getString(R.string.BrightYellow))) {
+            return R.style.CodeTheme_BrightYellow;
+        } else if (name.equals(context.getString(R.string.DarkGray))) {
+            return R.style.CodeTheme_DarkGray;
+        } else if (name.equals(context.getString(R.string.EspressoLibre))) {
+            return R.style.CodeTheme_EspressoLibre;
+        } else if (name.equals(context.getString(R.string.Idel))) {
+            return R.style.CodeTheme_Idel;
+        } else if (name.equals(context.getString(R.string.KFT2))) {
+            return R.style.CodeTheme_KFT2;
+        } else if (name.equals(context.getString(R.string.Modnokai_Coffee))) {
+            return R.style.CodeTheme_ModnokaiCoffee;
+        } else {
+            return R.style.CodeTheme;
+        }
+    }
+
+    private static void loadFromFile(Context context) {
         builtinThemes = new HashMap<>();
 
         //load from asset
@@ -124,7 +151,7 @@ public class ThemeManager {
         String[] names = context.getResources().getStringArray(R.array.code_themes);
         for (String name : names) {
             CodeTheme codeTheme = new CodeTheme(true);
-            loadFromXML(name, codeTheme, context);
+            loadFromXml(name, codeTheme, context);
             builtinThemes.put(name, codeTheme);
         }
 
@@ -139,15 +166,13 @@ public class ThemeManager {
 
 
     public static CodeTheme getTheme(String name, Context context) {
-        if (builtinThemes == null) loadBuiltinThemes(context);
+        loadAll(context);
         if (builtinThemes.containsKey(name)) return builtinThemes.get(name);
-
-        if (customThemes == null) loadCustomThemes(context);
         if (customThemes.containsKey(name)) return customThemes.get(name);
 
         //default theme
         CodeTheme codeTheme = new CodeTheme(true);
-        loadFromXML(name, codeTheme, context);
+        loadFromXml(name, codeTheme, context);
         return codeTheme;
     }
 
@@ -167,8 +192,12 @@ public class ThemeManager {
     }
 
     public synchronized static void loadAll(Context context) {
-        if (builtinThemes == null) loadBuiltinThemes(context);
-        if (customThemes == null) loadCustomThemes(context);
+        if (builtinThemes == null) {
+            loadFromFile(context);
+        }
+        if (customThemes == null) {
+            loadCustomThemes(context);
+        }
     }
 
     public synchronized static void reload(Context context) {
