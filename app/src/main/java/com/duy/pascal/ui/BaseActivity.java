@@ -27,8 +27,6 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.duy.pascal.ui.LocaleHelper;
-import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.setting.PascalPreferences;
 
 
@@ -96,7 +94,8 @@ public abstract class BaseActivity extends AppCompatActivity
     protected void setTheme() {
         int appThemeDark = R.style.AppThemeDark;
         int appThemeLight = R.style.AppThemeLight;
-//        setTheme(appThemeLight);
+//        setTheme(mPreferences.useLightTheme() ? appThemeLight : appThemeDark);
+        setTheme(appThemeLight);
     }
 
     @Override

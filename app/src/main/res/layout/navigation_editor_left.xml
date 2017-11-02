@@ -53,6 +53,7 @@
                 android:clickable="true"
                 android:foreground="?selectableItemBackground"
                 android:padding="8dp"
+                android:tint="?imageTintColor"
                 app:srcCompat="@drawable/ic_home_white_24dp" />
 
             <android.support.v7.widget.AppCompatImageView
@@ -63,8 +64,10 @@
                 android:layout_gravity="right"
                 android:clickable="true"
                 android:foreground="?selectableItemBackground"
+
                 android:padding="8dp"
-                android:src="@drawable/ic_more_horiz_white_24dp" />
+                android:src="@drawable/ic_more_horiz_white_24dp"
+                android:tint="?imageTintColor" />
         </LinearLayout>
 
         <FrameLayout

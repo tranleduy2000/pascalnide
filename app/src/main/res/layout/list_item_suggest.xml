@@ -28,6 +28,7 @@
         android:background="#3d5afe"
         android:gravity="center"
         android:text="p"
+        android:textColor="@color/white"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -42,7 +43,6 @@
             android:layout_weight="1"
             android:ellipsize="middle"
             android:gravity="center|start"
-            android:maxLines="1"
             android:paddingLeft="2dp"
             android:singleLine="true"
             android:text="@string/save"
@@ -56,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_gravity="right"
+            android:tint="?imageTintColor"
             app:srcCompat="@drawable/ic_info_white_24dp" />
     </LinearLayout>
 

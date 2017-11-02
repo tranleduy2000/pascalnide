@@ -36,7 +36,7 @@
 
             <LinearLayout
                 android:id="@+id/row_open_file"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
@@ -61,7 +61,7 @@
 
             <LinearLayout
                 android:id="@+id/row_open_code_sample"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
@@ -86,7 +86,7 @@
 
             <LinearLayout
                 android:id="@+id/row_open_drawer"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"

@@ -219,9 +219,9 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
         mTabLayout.setupWithViewPager(mViewPager);
 
         if (mPagerAdapter.getCount() == 0) {
-            String fileName = Integer.toHexString((int) System.currentTimeMillis()) + ".pas";
-            File filePath = mFileManager.createNewFileInMode(fileName);
-            addNewPageEditor(filePath);
+//            String fileName = Integer.toHexString((int) System.currentTimeMillis()) + ".pas";
+//            File filePath = mFileManager.createNewFileInMode(fileName);
+//            addNewPageEditor(filePath);
         }
 
         int pos = getPreferences().getInt(PascalPreferences.TAB_POSITION_FILE);
