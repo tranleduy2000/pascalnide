@@ -523,11 +523,6 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
     }
 
     @Override
-    public void openTool() {
-
-    }
-
-    @Override
     public void undo() {
 
     }

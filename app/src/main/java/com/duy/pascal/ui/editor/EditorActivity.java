@@ -456,11 +456,6 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     @Override
-    public void openTool() {
-        mDrawerLayout.openDrawer(GravityCompat.END);
-    }
-
-    @Override
     public void undo() {
         EditorFragment editorFragment = mPagerAdapter.getCurrentFragment();
         if (editorFragment != null) {

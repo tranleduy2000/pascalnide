@@ -45,6 +45,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
 import android.widget.Scroller;
+import android.widget.Toast;
 
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.R;
@@ -64,7 +65,6 @@ public class HighlightEditor extends CodeSuggestsEditText
     public static final int SYNTAX_DELAY_MILLIS_LONG = 700;
     public static final int CHARS_TO_COLOR = 2500;
     private final Handler mHandler = new Handler();
-    private final Object objectThread = new Object();
 
     public boolean mShowLines = true;
     public boolean mWordWrap = true;
@@ -93,13 +93,13 @@ public class HighlightEditor extends CodeSuggestsEditText
     private Context mContext;
     private boolean mCanEdit = true;
     @Nullable
-    private ScrollView verticalScroll;
+    private ScrollView mVerticalScroll;
     private int lastPinLine = -1;
     private LineUtils mLineUtils;
     private boolean[] mIsGoodLineArray;
     private int[] mRealLines;
     private int mLineCount;
-    private boolean isFinding = false;
+    private boolean mIsFinding = false;
     /**
      * Disconnect this undo/redo from the text
      * view.
@@ -407,8 +407,8 @@ public class HighlightEditor extends CodeSuggestsEditText
     @SuppressWarnings("unused")
     public int getFirstLineIndex() {
         int scrollY;
-        if (verticalScroll != null) {
-            scrollY = verticalScroll.getScrollY();
+        if (mVerticalScroll != null) {
+            scrollY = mVerticalScroll.getScrollY();
         } else {
             scrollY = getScrollY();
         }
@@ -426,14 +426,14 @@ public class HighlightEditor extends CodeSuggestsEditText
      */
     public int getLastLineIndex() {
         int height;
-        if (verticalScroll != null) {
-            height = verticalScroll.getHeight();
+        if (mVerticalScroll != null) {
+            height = mVerticalScroll.getHeight();
         } else {
             height = getHeight();
         }
         int scrollY;
-        if (verticalScroll != null) {
-            scrollY = verticalScroll.getScrollY();
+        if (mVerticalScroll != null) {
+            scrollY = mVerticalScroll.getScrollY();
         } else {
             scrollY = getScrollY();
         }
@@ -542,16 +542,16 @@ public class HighlightEditor extends CodeSuggestsEditText
 
             if (gravity == Gravity.BOTTOM) {
                 y = baseline + ascent;
-                if (verticalScroll != null) {
-                    offsetVertical = (int) ((y + mCharHeight) - verticalScroll.getScrollY());
+                if (mVerticalScroll != null) {
+                    offsetVertical = (int) ((y + mCharHeight) - mVerticalScroll.getScrollY());
                 } else {
                     offsetVertical = (int) ((y + mCharHeight) - getScrollY());
                 }
                 return new Point(offsetHorizontal, offsetVertical);
             } else if (gravity == Gravity.TOP) {
                 y = layout.getLineTop(line);
-                if (verticalScroll != null) {
-                    offsetVertical = (int) (y - verticalScroll.getScrollY());
+                if (mVerticalScroll != null) {
+                    offsetVertical = (int) (y - mVerticalScroll.getScrollY());
                 } else {
                     offsetVertical = (int) (y - getScrollY());
                 }
@@ -581,8 +581,8 @@ public class HighlightEditor extends CodeSuggestsEditText
 
                 int heightVisible = getHeightVisible();
                 int offsetVertical = 0;
-                if (verticalScroll != null) {
-                    offsetVertical = (int) ((y + mCharHeight) - verticalScroll.getScrollY());
+                if (mVerticalScroll != null) {
+                    offsetVertical = (int) ((y + mCharHeight) - mVerticalScroll.getScrollY());
                 } else {
                     offsetVertical = (int) ((y + mCharHeight) - getScrollY());
                 }
@@ -601,7 +601,7 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     public void setVerticalScroll(@Nullable ScrollView verticalScroll) {
-        this.verticalScroll = verticalScroll;
+        this.mVerticalScroll = verticalScroll;
     }
 
     /**
@@ -635,18 +635,16 @@ public class HighlightEditor extends CodeSuggestsEditText
             }
         }
         Editable e = getEditableText();
-        //remove all span
-        BackgroundColorSpan spans[] = e.getSpans(0, e.length(), BackgroundColorSpan.class);
-        for (int n = spans.length; n-- > 0; )
-            e.removeSpan(spans[n]);
-        //set span
-
+        int count = 0;
         for (Matcher m = pattern.matcher(e); m.find(); ) {
+            count++;
             e.setSpan(new BackgroundColorSpan(mCodeTheme.getErrorColor()),
                     m.start(),
                     m.end(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
+        Toast.makeText(getContext(), "Count: " + count, Toast.LENGTH_SHORT).show();
+        mIsFinding = true;
     }
 
     public void pinLine(@Nullable LineInfo lineInfo) {
@@ -686,7 +684,7 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     public void highlightText() {
-        if (isFinding) return;
+        if (mIsFinding) return;
 
         disableTextChangedListener();
         highlight(false);
@@ -713,12 +711,12 @@ public class HighlightEditor extends CodeSuggestsEditText
         int firstVisibleIndex;
         int lastVisibleIndex;
         if (!newText && editorHeight > 0) {
-            if (verticalScroll != null && getLayout() != null) {
+            if (mVerticalScroll != null && getLayout() != null) {
                 firstVisibleIndex = getLayout().getLineStart(getFirstLineIndex());
             } else {
                 firstVisibleIndex = 0;
             }
-            if (verticalScroll != null && getLayout() != null) {
+            if (mVerticalScroll != null && getLayout() != null) {
                 lastVisibleIndex = getLayout().getLineStart(getLastLineIndex());
             } else {
                 lastVisibleIndex = getText().length();
@@ -803,7 +801,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            isFinding = false;
+            mIsFinding = false;
         }
 
         public void afterTextChanged(Editable s) {

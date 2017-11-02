@@ -41,8 +41,6 @@ public interface EditorControl {
 
     void reportBug();
 
-    void openTool();
-
     void undo();
 
     void redo();
