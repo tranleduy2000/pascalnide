@@ -31,6 +31,7 @@
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
+            style="?actionBarTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true">

@@ -35,6 +35,9 @@ import static com.duy.pascal.ui.autocomplete.autofix.EditorUtil.getText;
 import static com.duy.pascal.ui.code.ExceptionManager.highlight;
 
 /**
+ * Change constant to variable
+ * <code>const i = 2; begin i := 3; end.</code>
+ * <p>
  * Created by Duy on 11/2/2017.
  */
 public class TransformConstantToVariable implements AutoFixCommand {

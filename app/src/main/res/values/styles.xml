@@ -21,17 +21,26 @@
         <item name="colorPrimaryDark">@color/dark.color_primary_dark</item>
         <item name="colorAccent">@color/dark.color_accent</item>
 
-        <!--<item name="tabBackground">@drawable/drawer_tab_item_dark_background</item>-->
-        <!--<item name="listItemBackground">@drawable/gray_selectable_item_background</item>-->
-        <!--<item name="highlightBackground">#545454</item>-->
-        <!--<item name="toolbarIconNormalColor">#ffffff</item>-->
-        <!--<item name="toolbarIconDisabledColor">#50ffffff</item>-->
-        <!--<item name="menuIconNormalColor">#829294</item>-->
-
         <item name="imageTintColor">#FFFFFF</item>
     </style>
 
+    <style name="BaseLightTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/light.color_primary</item>
+        <item name="colorPrimaryDark">@color/light.color_primary_dark</item>
+        <item name="colorAccent">@color/light.color_accent</item>
+
+        <item name="imageTintColor">#000000</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="AppThemeDark" parent="BaseDarkTheme">
+
+    </style>
+
+    <style name="AppThemeLight" parent="BaseLightTheme">
 
     </style>
 
