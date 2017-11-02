@@ -60,11 +60,11 @@ public class FontManager {
 
         try {
             if (name.equalsIgnoreCase(context.getString(R.string.font_consolas))) {
-                return get(context, PATH_TO_FONT + "consolas.ttf");
+                return get(context, PATH_TO_FONT + "Consolas.ttf");
             } else if (name.equalsIgnoreCase(context.getString(R.string.font_courier_new))) {
-                return get(context, PATH_TO_FONT + "courier_new.ttf");
+                return get(context, PATH_TO_FONT + "CourierNew.ttf");
             } else if (name.equalsIgnoreCase(context.getString(R.string.font_lucida_sans_typewriter))) {
-                return get(context, PATH_TO_FONT + "lucida_sans_typewriter_regular.ttf");
+                return get(context, PATH_TO_FONT + "LucidaSansTypewriterRegular.ttf");
             } else if (name.equalsIgnoreCase(context.getString(R.string.font_monospace))) {
                 return Typeface.MONOSPACE;
             } else if (name.equalsIgnoreCase(context.getString(R.string.font_source_code_pro))) {

@@ -59,7 +59,7 @@ public class ThemeManager {
         HashMap<String, CodeTheme> result = new HashMap<>();
         String[] names = context.getResources().getStringArray(R.array.code_themes);
         for (String name : names) {
-            CodeTheme codeTheme = new CodeTheme(true);
+            CodeTheme codeTheme = new CodeTheme(false, true);
             loadFromXml(name, codeTheme, context);
             result.put(name, codeTheme);
         }
@@ -127,7 +127,7 @@ public class ThemeManager {
             int id = 1;
             while (true) {
                 try {
-                    CodeTheme codeTheme = new CodeTheme(true);
+                    CodeTheme codeTheme = new CodeTheme(true, true);
                     codeTheme.putColor("background_color", loadColor(properties, id, "background_color"));
                     codeTheme.putColor("normal_text_color", loadColor(properties, id, "normal_text_color"));
                     codeTheme.putColor("number_color", loadColor(properties, id, "number_color"));
@@ -181,6 +181,7 @@ public class ThemeManager {
         ThemeDatabase themeDatabase = new ThemeDatabase(context);
         ArrayList<CodeTheme> all = themeDatabase.getAll();
         for (CodeTheme codeTheme : all) {
+            codeTheme.setPremium(true);
             customThemes.put(codeTheme.getName(), codeTheme);
         }
     }

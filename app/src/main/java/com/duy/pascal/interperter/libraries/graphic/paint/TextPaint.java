@@ -123,7 +123,7 @@ public class TextPaint extends Paint implements Cloneable {
                 font = FontManager.getFontFromAsset(context, "graph/comic.ttf");
                 break;
             case TextFont.TSCRFont:
-                font = FontManager.getFontFromAsset(context, "courier_new.ttf");
+                font = FontManager.getFontFromAsset(context, "CourierNew.ttf");
                 break;
             default:
                 font = Typeface.MONOSPACE;

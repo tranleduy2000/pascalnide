@@ -92,7 +92,7 @@ public class ThemeDatabase extends SQLiteOpenHelper {
         ArrayList<CodeTheme> codeThemes = new ArrayList<>();
         Cursor cursor = db.query(CodeThemeEntry.TABLE_NAME, PROJECTION, null, null, null, null, null);
         while (cursor.moveToNext()) {
-            CodeTheme codeTheme = new CodeTheme(false);
+            CodeTheme codeTheme = new CodeTheme(true, false);
             codeTheme.setName(cursor.getString(cursor.getColumnIndex(CodeThemeEntry.NAME)));
             codeTheme.setBackgroundColor(cursor.getInt(cursor.getColumnIndex(CodeThemeEntry.BACKGROUND)));
             codeTheme.setTextColor(cursor.getInt(cursor.getColumnIndex(CodeThemeEntry.NORMAL)));

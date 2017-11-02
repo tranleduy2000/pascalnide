@@ -43,7 +43,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.CodeThemeHolder> {
     private ArrayList<CodeTheme> mThemes = new ArrayList<>();
     private LayoutInflater mInflater;
     private PascalPreferences mPascalPreferences;
@@ -67,6 +67,13 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         Collections.sort(mThemes, new Comparator<CodeTheme>() {
             @Override
             public int compare(CodeTheme codeTheme, CodeTheme t1) {
+                if (codeTheme.isPremium() || t1.isPremium()) {
+                    if (codeTheme.isPremium()) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                }
                 return codeTheme.getName().compareTo(t1.getName());
             }
         });
@@ -79,33 +86,32 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CodeThemeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.list_item_theme, parent, false);
         return new CodeThemeHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int pos) {
-        CodeThemeHolder view = (CodeThemeHolder) holder;
-        final CodeTheme entry = mThemes.get(pos);
+    public void onBindViewHolder(CodeThemeHolder holder, final int position) {
+        final CodeTheme entry = mThemes.get(position);
         if (entry.isBuiltin()) {
-            view.imgDelete.setVisibility(View.GONE);
+            holder.imgDelete.setVisibility(View.GONE);
         } else {
-            view.imgDelete.setVisibility(View.VISIBLE);
-            view.imgDelete.setOnClickListener(new View.OnClickListener() {
+            holder.imgDelete.setVisibility(View.VISIBLE);
+            holder.imgDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mDatabase.delete(entry);
-                    remove(pos);
+                    remove(position);
                     Toast.makeText(mContext, R.string.deleted, Toast.LENGTH_SHORT).show();
                 }
             });
         }
-        view.editorView.setLineError(new LineInfo(3, 0, ""));
-        view.editorView.setCodeTheme(entry);
-        view.editorView.setTextHighlighted(CodeSample.DEMO_THEME);
-        view.txtTitle.setText(entry.getName());
-        view.btnSelect.setOnClickListener(new View.OnClickListener() {
+        holder.editorView.setLineError(new LineInfo(3, 0, ""));
+        holder.editorView.setCodeTheme(entry);
+        holder.editorView.setTextHighlighted(CodeSample.DEMO_THEME);
+        holder.txtTitle.setText(entry.getName());
+        holder.btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPascalPreferences.setTheme(entry.getName());
@@ -143,8 +149,8 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    private static class CodeThemeHolder extends RecyclerView.ViewHolder {
-        public View imgDelete;
+    static class CodeThemeHolder extends RecyclerView.ViewHolder {
+        View imgDelete;
         EditorView editorView;
         TextView txtTitle;
         Button btnSelect;
