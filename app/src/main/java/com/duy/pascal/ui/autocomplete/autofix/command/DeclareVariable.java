@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.autocomplete.autofix;
+package com.duy.pascal.ui.autocomplete.autofix.command;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.ui.R;
+import com.duy.pascal.ui.autocomplete.autofix.Patterns;
 import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
 import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;

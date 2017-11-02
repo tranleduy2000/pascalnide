@@ -14,39 +14,31 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.autocomplete.autofix;
+package com.duy.pascal.ui.autocomplete.autofix.command;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.editor.view.EditorView;
-import com.duy.pascal.ui.utils.DLog;
-
-import static com.duy.pascal.ui.code.ExceptionManager.highlight;
 
 /**
  * Created by Duy on 11/2/2017.
  */
-public class InsertMainProgram implements AutoFixCommand {
-    private static final String TAG = "InsertMainProgram";
+public class DeclareProcedure implements AutoFixCommand {
+
+    public DeclareProcedure(UnknownIdentifierException exception) {
+    }
 
     @Override
     public void execute(EditorView editable) {
-        DLog.d(TAG, "fixProgramNotFound() called with: editable = [" + editable + "]");
-        editable.disableTextWatcher();
 
-        String tabCharacter = editable.getTabCharacter();
-        editable.getText().insert(editable.length(), "\nbegin\n" + tabCharacter + "\nend.\n");
-        editable.setSelection(editable.length() - "\nend.\n".length());
-
-        editable.enableTextWatcher();
     }
 
     @NonNull
     @Override
     public CharSequence getTitle(Context context) {
-        return highlight(context, context.getString(R.string.add_begin_end));
+        return context.getString(R.string.declare_function);
     }
 }
