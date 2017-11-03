@@ -79,11 +79,7 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        if (mPreferences != null) {
-            mPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        }
-
-
+        mPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override

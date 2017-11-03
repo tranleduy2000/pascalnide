@@ -30,7 +30,6 @@
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
-            style="?actionBarTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true">
@@ -38,7 +37,9 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/toolbar_height">
+                android:layout_height="@dimen/toolbar_height"
+                android:theme="?toolbarTheme"
+                app:popupTheme="?toolbarPopupTheme">
 
             </android.support.v7.widget.Toolbar>
 
@@ -48,7 +49,6 @@
                 android:layout_height="@dimen/toolbar_height"
                 android:clipChildren="true"
                 app:tabGravity="fill"
-                app:tabIndicatorHeight="2dp"
                 app:tabMode="scrollable"
                 app:tabPaddingEnd="0dp"
                 app:tabPaddingStart="0dp" />

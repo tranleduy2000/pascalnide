@@ -17,19 +17,22 @@
 <resources>
 
     <style name="BaseDarkTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="toolbarTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+
         <item name="colorPrimary">@color/dark.color_primary</item>
         <item name="colorPrimaryDark">@color/dark.color_primary_dark</item>
         <item name="colorAccent">@color/dark.color_accent</item>
-
         <item name="imageTintColor">#FFFFFF</item>
     </style>
 
     <style name="BaseLightTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="toolbarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="colorPrimary">@color/light.color_primary</item>
         <item name="colorPrimaryDark">@color/light.color_primary_dark</item>
         <item name="colorAccent">@color/light.color_accent</item>
-
         <item name="imageTintColor">#000000</item>
 
         <item name="windowActionBar">false</item>
@@ -49,8 +52,6 @@
         <item name="android:paddingLeft">20dp</item>
         <item name="android:layout_width">match_parent</item>
     </style>
-
-
 </resources>
 
 
