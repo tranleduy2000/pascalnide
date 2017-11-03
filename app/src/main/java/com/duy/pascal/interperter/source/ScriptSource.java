@@ -16,9 +16,9 @@ public interface ScriptSource {
     /**
      * Open a stream to a given source content.
      *
-     * @param scriptname The name of the source
+     * @param fileName The name of the source
      * @return A reader attached to that source
      */
     @Nullable
-    Reader read(String scriptname);
+    Reader read(String fileName);
 }

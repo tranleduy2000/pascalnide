@@ -285,19 +285,14 @@ public class EditorActivity extends BaseEditorActivity implements
         if (filePath.isEmpty()) return false;
         try {
             CodeUnit codeUnit;
+            ArrayList<ScriptSource> searchPath = new ArrayList<>();
+            searchPath.add(new FileScriptSource(new File(filePath)));
             if (getCode().trim().toLowerCase().startsWith("unit ")) {
-
-                ArrayList<ScriptSource> searchPath = new ArrayList<>();
-                searchPath.add(new FileScriptSource(new File(filePath).getParent()));
                 PascalCompiler.loadLibrary(new File(filePath).getName(),
                         new FileReader(filePath),
                         searchPath,
                         new ProgramHandler(filePath));
             } else {
-
-                ArrayList<ScriptSource> searchPath = new ArrayList<>();
-                searchPath.add(new FileScriptSource(new File(filePath).getParent()));
-
                 codeUnit = PascalCompiler.loadPascal(new File(filePath).getName(),
                         new FileReader(filePath), searchPath, new ProgramHandler(filePath));
                 if (((PascalProgramDeclaration) codeUnit).root == null) {

@@ -63,10 +63,6 @@ public class ChangeTypeVariable implements AutoFixCommand {
     public void execute(EditorView editable) {
         //get a part of text
         TextData scope = getText(editable, exception.getScope().getStartPosition(), exception.getLineInfo());
-
-        DLog.d(TAG, "changeTypeVar() called with: editable = [" + editable + "], text = [" + scope + "], identifier = [" + variable + "], valueType = [" + newType + "]");
-
-
         final Name name = variable.getName();
         Pattern pattern = Pattern.compile("(^var\\s+|\\s+var\\s+)" + //match "var"  //1
                 "(.*?)" + //other variable                                  //2

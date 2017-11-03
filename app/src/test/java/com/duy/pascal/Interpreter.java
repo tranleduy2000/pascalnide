@@ -61,7 +61,7 @@ public class Interpreter {
         }
         final StringBuilder output = new StringBuilder();
         ArrayList<ScriptSource> searchPath = new ArrayList<>();
-        searchPath.add(new FileScriptSource(new File(programPath).getParent()));
+        searchPath.add(new FileScriptSource(new File(programPath)));
 
         DiagnosticCollector diagnosticCollector = new DiagnosticCollector();
 
@@ -186,7 +186,7 @@ public class Interpreter {
         final File programFile = new File(programPath);
 
         ArrayList<ScriptSource> searchPath = new ArrayList<>();
-        searchPath.add(new FileScriptSource(new File(programPath).getParent()));
+        searchPath.add(new FileScriptSource(new File(programPath)));
         try {
             PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(
                     new File(programPath).getName(), new FileReader(programPath), searchPath,

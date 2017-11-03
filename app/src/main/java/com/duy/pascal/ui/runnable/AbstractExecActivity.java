@@ -34,8 +34,8 @@ import com.duy.pascal.interperter.exceptions.runtime.ScriptTerminatedException;
 import com.duy.pascal.interperter.libraries.io.IOLib;
 import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.source.ScriptSource;
-import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.BaseActivity;
+import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.file.FileManager;
 import com.duy.pascal.ui.runnable.model.InputData;
 import com.duy.pascal.ui.utils.DLog;
@@ -141,7 +141,7 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
             try {
                 try {
                     ArrayList<ScriptSource> searchPath = new ArrayList<>();
-                    searchPath.add(new FileScriptSource(new File(mFilePath).getParent()));
+                    searchPath.add(new FileScriptSource(new File(mFilePath)));
                     PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(
                             new File(programFile).getName(),
                             new FileReader(programFile),

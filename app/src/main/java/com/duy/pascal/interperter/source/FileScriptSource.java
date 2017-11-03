@@ -7,19 +7,21 @@ import java.io.FileReader;
 import java.io.Reader;
 
 public class FileScriptSource implements ScriptSource {
-    private File directory;
+    private File mParent;
+    private File mFile;
 
-    public FileScriptSource(File directory) {
-        this.directory = directory;
+    public FileScriptSource(File file) {
+        if (!file.isFile()) {
+            throw new RuntimeException(file + " is not a file");
+        }
+        this.mFile = file;
+        this.mParent = file.getParentFile();
     }
 
-    public FileScriptSource(String directory) {
-        this.directory = new File(directory);
-    }
 
     @Override
     public String[] list() {
-        File[] children = directory.listFiles(new FileFilter() {
+        File[] children = mParent.listFiles(new FileFilter() {
 
             @Override
             public boolean accept(File pathname) {
@@ -39,7 +41,7 @@ public class FileScriptSource implements ScriptSource {
     @Override
     public Reader read(String fileName) {
         try {
-            return new FileReader(new File(directory, fileName));
+            return new FileReader(new File(mParent, fileName));
         } catch (FileNotFoundException e) {
             return null;
         }

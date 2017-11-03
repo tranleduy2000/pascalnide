@@ -37,7 +37,7 @@ public abstract class BaseLexerTest extends BaseTestCase {
     public boolean parse(String fileName) {
         String programPath = dir + fileName;
         ArrayList<ScriptSource> searchPath = new ArrayList<>();
-        searchPath.add(new FileScriptSource(new File(programPath).getParent()));
+        searchPath.add(new FileScriptSource(new File(programPath)));
 
         try {
             GroupParser lexer = new GroupParser(new FileReader(dir + fileName), fileName, searchPath);
@@ -57,7 +57,7 @@ public abstract class BaseLexerTest extends BaseTestCase {
     public boolean parse(String fileName, String expectResult) {
         String programPath = dir + fileName;
         ArrayList<ScriptSource> searchPath = new ArrayList<>();
-        searchPath.add(new FileScriptSource(new File(programPath).getParent()));
+        searchPath.add(new FileScriptSource(new File(programPath)));
 
         try {
             GroupParser lexer = new GroupParser(new FileReader(dir + fileName), fileName, searchPath);
