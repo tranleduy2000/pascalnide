@@ -49,6 +49,7 @@ import com.duy.pascal.interperter.libraries.PascalLibraryManager;
 import com.duy.pascal.interperter.libraries.file.FileLib;
 import com.duy.pascal.interperter.libraries.io.IOLib;
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokens.OperatorToken;
 import com.duy.pascal.interperter.tokens.Token;
@@ -522,7 +523,8 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                     PascalUnitDeclaration library = null;
                     try {
                         String name = ((WordToken) next).getName().getOriginName();
-                        library = new PascalUnitDeclaration(reader, name, new ArrayList<ScriptSource>(), mHandler);
+                        library = new PascalUnitDeclaration(new FileScriptSource(reader, name),
+                                new ArrayList<ScriptSource>(), mHandler);
                     } catch (CodeUnitParsingException e) {
                         e.printStackTrace();
                         throw e.getParseException();

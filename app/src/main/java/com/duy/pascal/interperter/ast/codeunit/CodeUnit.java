@@ -3,7 +3,6 @@ package com.duy.pascal.interperter.ast.codeunit;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.ui.runnable.ProgramHandler;
 import com.duy.pascal.interperter.ast.CodeUnitParsingException;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
@@ -11,23 +10,20 @@ import com.duy.pascal.interperter.ast.node.Node;
 import com.duy.pascal.interperter.config.ProgramConfig;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
-import com.duy.pascal.interperter.exceptions.DiagnosticsListener;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokenizer.GroupParser;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
+import com.duy.pascal.ui.runnable.ProgramHandler;
 
-import java.io.Reader;
 import java.util.List;
 
 public abstract class CodeUnit {
     public ExpressionContextMixin context;
-    @Nullable
-    protected Name programName;
     protected ProgramConfig config = new ProgramConfig();
-    private String sourceName;
+    private ScriptSource mSource;
     private List<ScriptSource> includeDirectories;
 
     public CodeUnit() {
@@ -38,21 +34,19 @@ public abstract class CodeUnit {
         this.context = createExpressionContext(handler);
     }
 
-    public CodeUnit(@NonNull Reader program, @NonNull String sourceName,
-                    @Nullable List<ScriptSource> includeDirectories,
+    public CodeUnit(@NonNull ScriptSource source, @Nullable List<ScriptSource> include,
                     @Nullable ProgramHandler handler, @Nullable DiagnosticCollector diagnosticCollector)
             throws Exception {
         this(handler);
+        this.mSource = source;
         this.context = createExpressionContext(handler);
-        this.context.put(DiagnosticsListener.class, diagnosticCollector);
 
-        this.sourceName = sourceName;
-        this.includeDirectories = includeDirectories;
+        this.includeDirectories = include;
 
         long time = System.currentTimeMillis();
         GroupParser lexer;
         try {
-            lexer = new GroupParser(program, sourceName, includeDirectories);
+            lexer = new GroupParser(source, include);
         } catch (ParsingException e) {
             throw new CodeUnitParsingException(this, e);
         }
@@ -71,7 +65,7 @@ public abstract class CodeUnit {
     }
 
     public String getSourceName() {
-        return sourceName;
+        return mSource.getName();
     }
 
     public ExpressionContextMixin getContext() {
@@ -98,7 +92,7 @@ public abstract class CodeUnit {
 
     @Nullable
     public Name getProgramName() {
-        return programName;
+        return Name.create(mSource.getName());
     }
 
     public List<ScriptSource> getIncludeDirectories() {

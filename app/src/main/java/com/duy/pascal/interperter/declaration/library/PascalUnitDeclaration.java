@@ -19,12 +19,10 @@ package com.duy.pascal.interperter.declaration.library;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.ui.runnable.ProgramHandler;
 import com.duy.pascal.interperter.ast.codeunit.ExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeUnitPascal;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.node.Node;
-import com.duy.pascal.interperter.libraries.IPascalLibrary;
 import com.duy.pascal.interperter.datastructure.ArrayListMultimap;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
@@ -33,6 +31,7 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.define.MissingBodyFunctionException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.MisplacedDeclarationException;
+import com.duy.pascal.interperter.libraries.IPascalLibrary;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokens.EOFToken;
@@ -48,8 +47,8 @@ import com.duy.pascal.interperter.tokens.basic.ProcedureToken;
 import com.duy.pascal.interperter.tokens.closing.EndToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.interperter.tokens.grouping.UnitToken;
+import com.duy.pascal.ui.runnable.ProgramHandler;
 
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,12 +57,11 @@ import java.util.Map;
 public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascalLibrary {
     private ProgramHandler handler;
 
-    public PascalUnitDeclaration(Reader program,
-                                 String sourceName,
-                                 List<ScriptSource> includeDirectories,
+    public PascalUnitDeclaration(@NonNull ScriptSource source,
+                                 @Nullable List<ScriptSource> include,
                                  @Nullable ProgramHandler handler)
             throws Exception {
-        super(program, sourceName, includeDirectories, handler, null);
+        super(source, include, handler, null);
         this.handler = handler;
     }
 
@@ -173,7 +171,6 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
             if (next instanceof UnitToken) {
                 GrouperToken container = (GrouperToken) next;
                 this.startLine = next.getLineNumber();
-                programName = container.nextWordValue();
                 container.assertNextSemicolon();
 
                 if (!(container.peek() instanceof InterfaceToken))

@@ -1,13 +1,15 @@
 package com.duy.pascal.interperter.core;
 
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.ui.runnable.ProgramHandler;
 
-import java.io.Reader;
 import java.util.List;
 
 
@@ -27,10 +29,10 @@ public class PascalCompiler {
      * @param stream     - Input Reader
      * @param handler    - handler for variable and function, debug, input and output to screen, ....
      */
-    public static PascalProgramDeclaration loadPascal(String sourceName, Reader stream,
+    public static PascalProgramDeclaration loadPascal(@NonNull ScriptSource source,
                                                       List<ScriptSource> searchPath,
                                                       ProgramHandler handler) throws Exception {
-        return new PascalProgramDeclaration(stream, sourceName, searchPath, handler, null);
+        return new PascalProgramDeclaration(source, searchPath, handler, null);
     }
 
     /**
@@ -39,17 +41,18 @@ public class PascalCompiler {
      * @param handler    - handler for variable and function, debug, input and output to screen, ....
      * @param collector  - collect error when parsing
      */
-    public static PascalProgramDeclaration loadPascal(String sourcename, Reader in,
-                                                      List<ScriptSource> includeSearchPath,
-                                                      ProgramHandler handler, DiagnosticCollector collector) throws Exception {
-        return new PascalProgramDeclaration(in, sourcename, includeSearchPath, handler, collector);
+    public static PascalProgramDeclaration loadPascal(@NonNull ScriptSource source,
+                                                      @Nullable List<ScriptSource> include,
+                                                      @Nullable ProgramHandler handler,
+                                                      @Nullable DiagnosticCollector collector) throws Exception {
+        return new PascalProgramDeclaration(source, include, handler, collector);
     }
 
 
-    public static PascalUnitDeclaration loadLibrary(String sourcename, Reader in,
-                                                    List<ScriptSource> searchPath,
-                                                    ProgramHandler handler) throws Exception {
-        return new PascalUnitDeclaration(in, sourcename, searchPath, handler);
+    public static PascalUnitDeclaration loadLibrary(@NonNull ScriptSource source,
+                                                    @Nullable List<ScriptSource> searchPath,
+                                                    @Nullable ProgramHandler handler) throws Exception {
+        return new PascalUnitDeclaration(source, searchPath, handler);
     }
 
 }

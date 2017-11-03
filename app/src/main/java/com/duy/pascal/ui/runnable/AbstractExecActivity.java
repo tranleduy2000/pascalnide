@@ -43,7 +43,6 @@ import com.duy.pascal.ui.utils.StringCompare;
 import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 
 import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -133,19 +132,15 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
      */
     protected boolean debugging = false;
     protected RuntimeExecutableCodeUnit mProgram;
-    protected String programFile;
-
     private final Runnable runProgram = new Runnable() {
         @Override
         public void run() {
             try {
                 try {
-                    ArrayList<ScriptSource> searchPath = new ArrayList<>();
-                    searchPath.add(new FileScriptSource(new File(mFilePath)));
-                    PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(
-                            new File(programFile).getName(),
-                            new FileReader(programFile),
-                            searchPath,
+                    ArrayList<ScriptSource> include = new ArrayList<>();
+                    FileScriptSource source = new FileScriptSource(new File(mFilePath));
+                    include.add(source);
+                    PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(source, include,
                             AbstractExecActivity.this);
 
                     mProgram = pascalProgram.generate();
@@ -173,6 +168,7 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
             }
         }
     };
+    protected String programFile;
     protected FileManager mFileManager;
 
     @Override

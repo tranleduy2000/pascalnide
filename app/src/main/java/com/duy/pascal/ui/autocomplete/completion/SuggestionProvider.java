@@ -32,6 +32,7 @@ import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
 import com.duy.pascal.ui.autocomplete.completion.model.KeyWordDescription;
 import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;
@@ -85,9 +86,8 @@ public class SuggestionProvider {
 
             if (source.length() <= MAX_CHAR) {
                 try {
-                    CodeUnit codeUnit;
-                    codeUnit = PascalCompiler.loadPascal(srcPath,
-                            new StringReader(source), null, null);
+                    FileScriptSource scriptSource = new FileScriptSource(new StringReader(mSource), srcPath);
+                    CodeUnit codeUnit = PascalCompiler.loadPascal(scriptSource, null, null);
 
                     //the result
                     addSuggestFromContext(suggestItems, codeUnit.getContext());

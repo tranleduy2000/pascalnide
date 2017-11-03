@@ -21,4 +21,8 @@ public interface ScriptSource {
      */
     @Nullable
     Reader read(String fileName);
+
+    Reader stream();
+
+    String getName();
 }

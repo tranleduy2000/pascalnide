@@ -33,17 +33,15 @@ import com.duy.pascal.interperter.tokens.basic.ProgramToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.ui.runnable.ProgramHandler;
 
-import java.io.Reader;
 import java.util.List;
 
 public class PascalProgramDeclaration extends ExecutableCodeUnit {
     public Node root;
 
-    public PascalProgramDeclaration(Reader stream,
-                                    String sourceName, List<ScriptSource> includeDirectories,
+    public PascalProgramDeclaration(ScriptSource source, List<ScriptSource> include,
                                     ProgramHandler handler, DiagnosticCollector collector)
             throws Exception {
-        super(stream, sourceName, includeDirectories, handler, collector);
+        super(source, include, handler, collector);
     }
 
     @Override
@@ -65,14 +63,14 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
         @NonNull
         @Override
         public LineInfo getStartPosition() {
-            return new LineInfo(0, programName == null ? getSourceName() : programName.getOriginName());
+            return new LineInfo(0, getSourceName());
         }
 
         @Override
         protected boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken grouperToken)
                 throws Exception {
             if (next instanceof ProgramToken) {
-                programName = grouperToken.nextWordValue();
+//                programName = grouperToken.nextWordValue();
                 grouperToken.assertNextSemicolon();
                 return true;
             }

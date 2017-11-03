@@ -42,8 +42,7 @@ public final class RuntimeUnitPascal extends RuntimeExecutableCodeUnit {
     }
 
     public void runFinal() throws RuntimePascalException {
-        ExpressionContextMixin var10000 = ((PascalUnitDeclaration) this.declaration).context;
-        PascalUnitDeclaration.UnitExpressionContext context = (PascalUnitDeclaration.UnitExpressionContext) var10000;
+        PascalUnitDeclaration.UnitExpressionContext context = (PascalUnitDeclaration.UnitExpressionContext) ((PascalUnitDeclaration) this.declaration).context;
         Node var2 = context.getFinalInstruction();
         if (var2 != null) {
             var2.visit(this, this);
@@ -60,7 +59,7 @@ public final class RuntimeUnitPascal extends RuntimeExecutableCodeUnit {
 
     @NonNull
     public String toString() {
-        Name programName = ((PascalUnitDeclaration) this.declaration).programName;
+        Name programName = this.declaration.getProgramName();
         return programName == null ? "" : programName.toString();
     }
 }

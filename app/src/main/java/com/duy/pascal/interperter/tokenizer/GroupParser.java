@@ -1,8 +1,11 @@
 package com.duy.pascal.interperter.tokenizer;
 
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokens.EOFToken;
 import com.duy.pascal.interperter.tokens.Token;
@@ -13,48 +16,46 @@ import com.duy.pascal.interperter.tokens.ignore.CompileDirectiveToken;
 import com.duy.pascal.interperter.tokens.ignore.GroupingExceptionToken;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.util.List;
 import java.util.Stack;
 
 public class GroupParser {
-    private BaseGrouperToken tokenQueue;
-    private Stack<GrouperToken> groupers;
-    private Lexer lexer;
+    private BaseGrouperToken mTokenQueue;
+    private Stack<GrouperToken> mGroupers;
+    private Lexer mLexer;
 
-    public GroupParser(Reader reader, String sourceName,
-                       List<ScriptSource> searchDirectories) throws GroupingException {
-        this.lexer = new Lexer(reader, sourceName, searchDirectories);
-        groupers = new Stack<>();
-        tokenQueue = new BaseGrouperToken(new LineInfo(0, sourceName));
-        groupers.push(tokenQueue);
+    public GroupParser(@NonNull ScriptSource source, @Nullable List<ScriptSource> include) throws GroupingException {
+        this.mLexer = new Lexer(source.stream(), source.getName(), include);
+        this.mGroupers = new Stack<>();
+        this.mTokenQueue = new BaseGrouperToken(new LineInfo(0, source.getName()));
+        this.mGroupers.push(mTokenQueue);
     }
 
     public BaseGrouperToken getTokenQueue() {
-        return tokenQueue;
+        return mTokenQueue;
     }
 
     private void TossException(GroupingException e) {
         GroupingExceptionToken t = new GroupingExceptionToken(e);
-        for (GrouperToken g : groupers) {
+        for (GrouperToken g : mGroupers) {
             g.put(t);
         }
     }
 
     private void TossException(LineInfo line, GroupingException.Type t) {
         GroupingExceptionToken gt = new GroupingExceptionToken(line, t);
-        for (GrouperToken g : groupers) {
+        for (GrouperToken g : mGroupers) {
             g.put(gt);
         }
     }
 
     public void parse() {
         while (true) {
-            GrouperToken topOfStack = groupers.peek();
+            GrouperToken topOfStack = mGroupers.peek();
             try {
-                Token t = lexer.yylex();
+                Token t = mLexer.yylex();
                 if (t instanceof EOFToken) {
-                    if (groupers.size() != 1) {
+                    if (mGroupers.size() != 1) {
                         TossException(((EOFToken) t).getClosingException(topOfStack));
                     } else {
                         topOfStack.put(t);
@@ -65,7 +66,7 @@ public class GroupParser {
                     if (g == null) {
                         topOfStack.put(new EOFToken(t.getLineNumber()));
                         topOfStack.setEndLine(t.getLineNumber());
-                        groupers.pop();
+                        mGroupers.pop();
                         continue;
                     } else {
                         TossException(g);
@@ -80,7 +81,7 @@ public class GroupParser {
                 // Everything else passes through normally.
                 topOfStack.put(t);
                 if (t instanceof GrouperToken) {
-                    groupers.push((GrouperToken) t);
+                    mGroupers.push((GrouperToken) t);
                 }
             } catch (IOException e) {
                 GroupingException g = new GroupingException(topOfStack.getLineNumber(),

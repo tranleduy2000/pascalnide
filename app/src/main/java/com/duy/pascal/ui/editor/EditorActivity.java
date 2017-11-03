@@ -70,7 +70,6 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -288,13 +287,12 @@ public class EditorActivity extends BaseEditorActivity implements
             ArrayList<ScriptSource> searchPath = new ArrayList<>();
             searchPath.add(new FileScriptSource(new File(filePath)));
             if (getCode().trim().toLowerCase().startsWith("unit ")) {
-                PascalCompiler.loadLibrary(new File(filePath).getName(),
-                        new FileReader(filePath),
+                PascalCompiler.loadLibrary(new FileScriptSource(new File(filePath)),
                         searchPath,
                         new ProgramHandler(filePath));
             } else {
-                codeUnit = PascalCompiler.loadPascal(new File(filePath).getName(),
-                        new FileReader(filePath), searchPath, new ProgramHandler(filePath));
+                codeUnit = PascalCompiler.loadPascal(new FileScriptSource(new File(filePath)),
+                        searchPath, new ProgramHandler(filePath));
                 if (((PascalProgramDeclaration) codeUnit).root == null) {
                     showErrorDialog(new MainProgramNotFoundException());
                     return false;
@@ -590,7 +588,7 @@ public class EditorActivity extends BaseEditorActivity implements
         try {
             String filePath = getCurrentFilePath();
             PascalProgramDeclaration pascalProgram = PascalCompiler
-                    .loadPascal(filePath, new FileReader(filePath),
+                    .loadPascal(new FileScriptSource(new File(filePath)),
                             new ArrayList<ScriptSource>(), null);
 
             if (pascalProgram.root == null) {

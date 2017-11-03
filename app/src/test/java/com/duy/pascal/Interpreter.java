@@ -60,13 +60,13 @@ public class Interpreter {
             input = new Scanner(new FileReader(fileIn));
         }
         final StringBuilder output = new StringBuilder();
-        ArrayList<ScriptSource> searchPath = new ArrayList<>();
-        searchPath.add(new FileScriptSource(new File(programPath)));
+        ArrayList<ScriptSource> include = new ArrayList<>();
+        include.add(new FileScriptSource(new File(programPath)));
 
         DiagnosticCollector diagnosticCollector = new DiagnosticCollector();
 
         PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(
-                new File(programPath).getName(), new FileReader(programPath), searchPath,
+                new TestSource(programFile), include,
                 new ProgramHandler() {
                     @Override
                     public String getCurrentDirectory() {
@@ -188,8 +188,8 @@ public class Interpreter {
         ArrayList<ScriptSource> searchPath = new ArrayList<>();
         searchPath.add(new FileScriptSource(new File(programPath)));
         try {
-            PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(
-                    new File(programPath).getName(), new FileReader(programPath), searchPath,
+            PascalCompiler.loadPascal(
+                    new TestSource(programFile), searchPath,
                     new ProgramHandler() {
                         @Override
                         public String getCurrentDirectory() {
@@ -271,5 +271,12 @@ public class Interpreter {
             return false;
         }
         return true;
+    }
+
+    private static class TestSource extends FileScriptSource {
+        public TestSource(File file) {
+            super(file);
+
+        }
     }
 }
