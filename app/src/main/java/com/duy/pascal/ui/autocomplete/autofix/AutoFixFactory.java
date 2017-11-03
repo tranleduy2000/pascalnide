@@ -28,7 +28,7 @@ import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeEx
 import com.duy.pascal.interperter.exceptions.parsing.define.MainProgramNotFoundException;
 import com.duy.pascal.interperter.exceptions.parsing.define.TypeIdentifierExpectException;
 import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
-import com.duy.pascal.interperter.exceptions.parsing.define.VariableIdentifierExpectException;
+import com.duy.pascal.interperter.exceptions.parsing.define.VariableExpectedException;
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
 import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
@@ -183,7 +183,7 @@ public class AutoFixFactory {
      * Then insert new variable
      */
     @NonNull
-    private static AutoFixCommand declareVar(@NonNull VariableIdentifierExpectException e) {
+    private static AutoFixCommand declareVar(@NonNull VariableExpectedException e) {
         String type = e.getExpectedType() != null ? e.getExpectedType().toString() : "";
         return declareVar(e.getScope().getStartPosition(), e.getLineInfo(), e.getName(), type, null);
     }
@@ -270,8 +270,8 @@ public class AutoFixFactory {
             commands.add(declareFunction((UnknownIdentifierException) e));
             //add missing procedure
             commands.add(declareProcedure((UnknownIdentifierException) e));
-        } else if (e instanceof VariableIdentifierExpectException) {
-            commands.add(declareVar((VariableIdentifierExpectException) e));
+        } else if (e instanceof VariableExpectedException) {
+            commands.add(declareVar((VariableExpectedException) e));
 
         } else if (e instanceof UnConvertibleTypeException) {
             fixUnConvertType(commands, (UnConvertibleTypeException) e);

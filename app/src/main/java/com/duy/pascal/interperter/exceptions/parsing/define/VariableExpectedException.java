@@ -25,7 +25,7 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
 
-public class VariableIdentifierExpectException extends ParsingException {
+public class VariableExpectedException extends ParsingException {
     @NonNull
     private final Name name;
     @NonNull
@@ -33,7 +33,7 @@ public class VariableIdentifierExpectException extends ParsingException {
     @Nullable
     private Type expectedType;
 
-    public VariableIdentifierExpectException(UnknownIdentifierException e) {
+    public VariableExpectedException(UnknownIdentifierException e) {
         super(e.getLineInfo());
         this.name = e.getName();
         this.scope = e.getScope();

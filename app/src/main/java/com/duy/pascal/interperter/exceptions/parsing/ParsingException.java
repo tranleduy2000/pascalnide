@@ -26,7 +26,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
-import com.duy.pascal.interperter.exceptions.parsing.define.VariableIdentifierExpectException;
+import com.duy.pascal.interperter.exceptions.parsing.define.VariableExpectedException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.OperatorToken;
 import com.duy.pascal.interperter.tokens.Token;
@@ -47,9 +47,9 @@ public class ParsingException extends Exception {
         this.lineInfo = lineInfo;
     }
 
-    public static VariableIdentifierExpectException makeVariableIdentifierExpectException(@NonNull UnknownIdentifierException e, GrouperToken group,
-                                                                                          ExpressionContext context) throws Exception {
-        VariableIdentifierExpectException exception = new VariableIdentifierExpectException(e);
+    public static VariableExpectedException makeVariableIdentifierExpectException(@NonNull UnknownIdentifierException e, GrouperToken group,
+                                                                                  ExpressionContext context) throws Exception {
+        VariableExpectedException exception = new VariableExpectedException(e);
         try {
             Token next = group.take();
             if ((next instanceof AssignmentToken || next instanceof OperatorToken)) {
