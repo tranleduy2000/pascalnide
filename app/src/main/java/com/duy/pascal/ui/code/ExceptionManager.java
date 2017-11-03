@@ -402,7 +402,7 @@ public class ExceptionManager {
     private Spannable getBadFunctionCallException(Throwable throwable) {
         BadFunctionCallException e = (BadFunctionCallException) throwable;
         boolean functionExists = e.getFunctionExists();
-        boolean argsMatch = e.getArgsMatch();
+        boolean argsMatch = e.isArgMatched();
         if (functionExists) { //function is exist, but wrong argument
             SpannableStringBuilder result = new SpannableStringBuilder();
             result.append(e.getLineInfo().toString()).append("\n\n");

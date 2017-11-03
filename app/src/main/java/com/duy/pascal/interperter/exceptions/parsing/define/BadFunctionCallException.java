@@ -16,55 +16,44 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.define;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import java.util.ArrayList;
-import java.util.List;
 
 
-public  class BadFunctionCallException extends ParsingException {
-    private boolean argsMatch;
+public class BadFunctionCallException extends ParsingException {
     @Nullable
-    private List args;
+    private final ArrayList<String> args;
     @NonNull
-    private Name functionName;
-    private boolean functionExists;
+    private final Name functionName;
     @NonNull
-    private ArrayList functions;
+    private final ArrayList<String> functions;
     @NonNull
-    private ExpressionContext scope;
+    private final ExpressionContext scope;
+    private final boolean functionExists;
+    private final boolean argsMatch;
 
-    public BadFunctionCallException(@NonNull LineInfo line, @NonNull Name functionName, boolean functionExists, boolean numargsMatch, @NonNull ArrayList args, @NonNull ArrayList functions, @NonNull ExpressionContext scope) {
+    public BadFunctionCallException(@NonNull LineInfo line, @NonNull Name functionName,
+                                    boolean functionExists, boolean numargsMatch,
+                                    @NonNull ArrayList<String> args,
+                                    @NonNull ArrayList<String> functions, @NonNull ExpressionContext scope) {
         super(line);
         this.functionName = functionName;
         this.functionExists = functionExists;
         this.functions = functions;
         this.scope = scope;
         this.argsMatch = numargsMatch;
-        this.args = (List) args;
+        this.args = args;
     }
 
-    public final boolean getArgsMatch() {
+    public boolean isArgMatched() {
         return this.argsMatch;
-    }
-
-    public final void setArgsMatch(boolean var1) {
-        this.argsMatch = var1;
-    }
-
-    @Nullable
-    public final List getArgs() {
-        return this.args;
-    }
-
-    public final void setArgs(@Nullable List var1) {
-        this.args = var1;
     }
 
     @Nullable
@@ -77,16 +66,8 @@ public  class BadFunctionCallException extends ParsingException {
         return this.functionName;
     }
 
-    public final void setFunctionName(@NonNull Name var1) {
-        this.functionName = var1;
-    }
-
     public final boolean getFunctionExists() {
         return this.functionExists;
-    }
-
-    public final void setFunctionExists(boolean var1) {
-        this.functionExists = var1;
     }
 
     @NonNull
@@ -94,16 +75,9 @@ public  class BadFunctionCallException extends ParsingException {
         return this.functions;
     }
 
-    public final void setFunctions(@NonNull ArrayList var1) {
-        this.functions = var1;
-    }
-
     @NonNull
     public final ExpressionContext getScope() {
         return this.scope;
     }
 
-    public final void setScope(@NonNull ExpressionContext var1) {
-        this.scope = var1;
-    }
 }

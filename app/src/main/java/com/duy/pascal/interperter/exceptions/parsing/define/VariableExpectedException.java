@@ -41,7 +41,7 @@ public class VariableExpectedException extends ParsingException {
 
     @Nullable
     public String getMessage() {
-        return "Variable identifier expected: name";
+        return "Variable identifier expected: " + name;
     }
 
     @NonNull

@@ -59,14 +59,12 @@ import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.Diagnostic;
 import com.duy.pascal.interperter.exceptions.DiagnosticsListener;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.UnSupportTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.define.DuplicateIdentifierException;
 import com.duy.pascal.interperter.exceptions.parsing.define.MethodNotFoundException;
 import com.duy.pascal.interperter.exceptions.parsing.define.UnknownFieldException;
-import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonIntegerIndexException;
 import com.duy.pascal.interperter.exceptions.parsing.missing.MissingCommaTokenException;
@@ -724,12 +722,7 @@ public abstract class GrouperToken extends Token {
                         }
                     }
                 }
-                RuntimeValue identifier = null;
-                try {
-                    identifier = context.getIdentifierValue(name);
-                } catch (UnknownIdentifierException e) {
-                    throw ParsingException.makeVariableIdentifierExpectException(e, this, context);
-                }
+                RuntimeValue identifier = context.getIdentifierValue(name);
                 //uses for show line error
                 if (identifier.getLineNumber() != null) {
                     identifier.getLineNumber().setLength(name.name.getLength());
