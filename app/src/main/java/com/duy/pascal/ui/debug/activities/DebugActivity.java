@@ -28,12 +28,12 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -43,6 +43,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,7 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.code.ExceptionManager;
+import com.duy.pascal.ui.common.utils.IOUtils;
 import com.duy.pascal.ui.debug.CallStack;
 import com.duy.pascal.ui.debug.fragments.FragmentFrame;
 import com.duy.pascal.ui.dialog.DialogHelper;
@@ -72,10 +74,10 @@ import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import static android.view.ViewGroup.LayoutParams;
 
 
 public class DebugActivity extends AbstractExecActivity implements DebugListener, ProgramHandler {
@@ -195,7 +197,9 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     public void showKeyBoard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mConsoleView.requestFocus();
-        imm.showSoftInput(mConsoleView, InputMethodManager.SHOW_IMPLICIT);
+        if (imm != null) {
+            imm.showSoftInput(mConsoleView, InputMethodManager.SHOW_IMPLICIT);
+        }
     }
 
     @Override
@@ -209,7 +213,14 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
                 finish();
                 return;
             }
-            String code = mFileManager.fileToString(file);
+            String code = null;
+            try {
+                code = IOUtils.toString(new FileReader(file));
+            } catch (IOException e) {
+                e.printStackTrace();
+                finish();
+                return;
+            }
             mCodeView.setTextHighlighted(code);
             mCodeView.highlightAll();
 
@@ -228,9 +239,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         if (lineInfo == null) {
             return;
         }
-
         scrollTo(lineInfo);
-
     }
 
     private void scrollTo(@NonNull final LineInfo lineInfo) {
@@ -472,25 +481,26 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
             @Override
             public void run() {
                 AlertDialog.Builder builder = new AlertDialog.Builder(DebugActivity.this);
-                final AppCompatEditText editText = new AppCompatEditText(DebugActivity.this);
-                editText.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-                editText.setPadding(8, 8, 8, 8);
-                builder.setView(editText);
-                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (mLock instanceof IOLib) {
-                            ((IOLib) mLock).setInputBuffer(editText.getText().toString());
-                        }
-                        mConsoleView.writeString(editText.getText().toString());
-                        dialog.cancel();
-                    }
-                });
-                builder.setTitle(R.string.enter_data);
+                builder.setView(R.layout.dialog_input);
+                mAlertDialog = builder.create();
                 mAlertDialog = builder.create();
                 mAlertDialog.setCanceledOnTouchOutside(false);
                 if (!isFinishing()) {
                     mAlertDialog.show();
+                    final EditText editText = mAlertDialog.findViewById(R.id.edit_input);
+                    ((TextInputLayout) mAlertDialog.findViewById(R.id.hint)).setHint(getString(R.string.enter_data));
+                    View.OnClickListener onClickListener = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (mLock instanceof IOLib) {
+                                ((IOLib) mLock).setInputBuffer(editText.getText().toString());
+                            }
+                            mConsoleView.writeString(editText.getText().toString());
+                            mAlertDialog.cancel();
+                        }
+                    };
+                    mAlertDialog.findViewById(R.id.btn_ok).setOnClickListener(onClickListener);
+                    mAlertDialog.findViewById(R.id.btn_cancel).setVisibility(View.GONE);
                 }
             }
         });

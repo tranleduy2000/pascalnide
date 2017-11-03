@@ -75,7 +75,7 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
     }
 
     public void addCodes(ArrayList<CodeSampleEntry> listCodeCategories) {
-        DLog.d(TAG, "addCodes() called with: listCodeCategories = [" + listCodeCategories + "]");
+//        DLog.d(TAG, "addCodes() called with: listCodeCategories = [" + listCodeCategories + "]");
 
         this.originalData.addAll(listCodeCategories);
         this.mItems.addAll(listCodeCategories);
