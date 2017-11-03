@@ -300,7 +300,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
                 codeUnit = PascalCompiler.loadPascal(new File(filePath).getName(),
                         new FileReader(filePath), searchPath, new ProgramHandler(filePath));
-                if (((PascalProgramDeclaration) codeUnit).main == null) {
+                if (((PascalProgramDeclaration) codeUnit).root == null) {
                     showErrorDialog(new MainProgramNotFoundException());
                     return false;
                 }
@@ -598,7 +598,7 @@ public class EditorActivity extends BaseEditorActivity implements
                     .loadPascal(filePath, new FileReader(filePath),
                             new ArrayList<ScriptSource>(), null);
 
-            if (pascalProgram.main == null) {
+            if (pascalProgram.root == null) {
                 showErrorDialog(new MainProgramNotFoundException());
             }
             ExpressionContextMixin program = pascalProgram.getProgram();

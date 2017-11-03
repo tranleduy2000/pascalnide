@@ -29,8 +29,8 @@ import java.util.Set;
 
 public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgramDeclaration> {
 
-    public RuntimePascalProgram(PascalProgramDeclaration p) {
-        super(p);
+    public RuntimePascalProgram(PascalProgramDeclaration declaration) {
+        super(declaration);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
         }
 
         if (isDebug()) getDebugListener().onVariableChange(new CallStack(this));
-        getDeclaration().main.visit(this, this);
+        getDeclaration().root.visit(this, this);
 
         //generate final code library
         for (Map.Entry<PascalUnitDeclaration, RuntimeUnitPascal> entry : entries) {

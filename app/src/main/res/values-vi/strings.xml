@@ -200,7 +200,7 @@
     <string name="file_explorer">Quản lý file</string>
     <string name="can_not_create_file">Không thể tạo file</string>
     <string name="file_not_found">Không tìm thấy file</string>
-    <string name="declare_variable_3">Khai báo biến %1$s</string>
+    <string name="declare_variable_3">Khai báo biến \"%1$s\"</string>
     <string name="code">Code</string>
     <string name="enter_data">Nhập dữ liệu</string>
     <string name="invalid_file_name">Tên file không hợp lệ</string>
@@ -221,7 +221,7 @@
     <string name="sort_by_name">Sắp xếp theo tên</string>
     <string name="sort_by_size">Sắp xếp theo cỡ</string>
     <string name="sort_by_type">Sắp xếp theo kiểu</string>
-    <string name="declare_procedure">Khai báo thủ tục %1$s</string>
+    <string name="declare_procedure">Khai báo thủ tục \"%1$s\"</string>
     <string name="enter_value_of_constant">Nhập giá trị của hằng %1$s</string>
     <string name="premium_version">Phiên bản cao cấp</string>
     <string name="upgrade">Nâng cấp</string>

@@ -107,7 +107,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         mPopup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         mPopup.setPromptPosition(ListPopupWindow.POSITION_PROMPT_BELOW);
         mPopup.setOnItemClickListener(new DropDownItemClickListener());
-        mPopup.setAnimationStyle(android.R.style.Animation_InputMethod);
+        mPopup.setAnimationStyle(android.R.style.Animation_Dialog);
 
         onDropdownChangeSize(getWidth(), getHeight());
     }

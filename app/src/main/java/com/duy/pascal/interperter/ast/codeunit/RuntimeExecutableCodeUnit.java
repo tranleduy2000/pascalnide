@@ -31,16 +31,16 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
-public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUnit> extends RuntimeCodeUnit<parent>
-        implements ScriptControl {
-    private static final String TAG = "RuntimeExecutable";
+public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUnit>
+        extends RuntimeCodeUnit<parent> implements ScriptControl {
 
     private volatile long MAX_STACK = 45000;
-    private volatile ControlMode runMode = ControlMode.RUNNING;
-    private volatile boolean doneExecuting = false;
-    private volatile long stack = 0;
-    private volatile boolean debug = false;
+    private volatile ControlMode mStatus = ControlMode.RUNNING;
+    private volatile boolean mIsFinished = false;
+    private final AtomicLong mStackSize = new AtomicLong(0);
+    private volatile boolean mIsDebug = false;
 
 
     private DebugMode debugMode;
@@ -51,16 +51,16 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
     }
 
     public boolean isDebug() {
-        return debug;
+        return mIsDebug;
     }
 
     public void setDebug(boolean debug) {
-        this.debug = debug;
+        this.mIsDebug = debug;
     }
 
-    public RuntimeUnitPascal getLibraryContext(PascalUnitDeclaration l) {
-        HashMap<PascalUnitDeclaration, RuntimeUnitPascal> unitsMap = declaration.getContext().getRuntimeUnitMap();
-        return unitsMap.get(l);
+    public RuntimeUnitPascal getLibraryContext(PascalUnitDeclaration declaration) {
+        HashMap<PascalUnitDeclaration, RuntimeUnitPascal> unitsMap = this.declaration.getContext().getRuntimeUnitMap();
+        return unitsMap.get(declaration);
     }
 
     public RuntimePascalClass getRuntimePascalClassContext(Name identifier) {
@@ -79,35 +79,35 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
         try {
             runImpl();
         } catch (RuntimePascalException e) {
-            this.doneExecuting = true;
+            this.mIsFinished = true;
             throw e;
         }
-        this.doneExecuting = true;
+        this.mIsFinished = true;
     }
 
     public abstract void runImpl() throws RuntimePascalException;
 
     @Override
     public boolean doneExecuting() {
-        return doneExecuting;
+        return mIsFinished;
     }
 
     @Override
     public void pause() {
-        runMode = ControlMode.PAUSED;
+        mStatus = ControlMode.PAUSED;
     }
 
     public void enableDebug() {
-        debug = true;
+        mIsDebug = true;
     }
 
     public void disableDebug() {
-        debug = false;
+        mIsDebug = false;
     }
 
     @Override
     public void resume() {
-        runMode = ControlMode.RUNNING;
+        mStatus = ControlMode.RUNNING;
         synchronized (this) {
             this.notifyAll();
         }
@@ -115,15 +115,14 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
 
     @Override
     public void terminate() {
-        runMode = ControlMode.TERMINATED;
+        mStatus = ControlMode.TERMINATED;
         synchronized (this) {
             this.notifyAll();
         }
     }
 
-    public void scriptControlCheck(LineInfo line)
-            throws ScriptTerminatedException {
-        scriptControlCheck(line, debug);
+    public void scriptControlCheck(LineInfo line) throws ScriptTerminatedException {
+        scriptControlCheck(line, mIsDebug);
     }
 
     /**
@@ -134,7 +133,7 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
      */
     public void scriptControlCheck(LineInfo line, boolean debug) throws ScriptTerminatedException {
         do {
-            if (runMode == ControlMode.PAUSED || debug) {
+            if (mStatus == ControlMode.PAUSED || debug) {
                 synchronized (this) {
                     try {
                         this.wait();
@@ -142,10 +141,10 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
                     }
                 }
             }
-            if (runMode == ControlMode.RUNNING) {
+            if (mStatus == ControlMode.RUNNING) {
                 return;
             }
-            if (runMode == ControlMode.TERMINATED) {
+            if (mStatus == ControlMode.TERMINATED) {
                 List<AbstractFunction> shutdown =
                         getDeclaration().getProgram().getCallableFunctionsLocal(Name.create("shutdown"));
                 for (AbstractFunction function : shutdown) {
@@ -171,18 +170,18 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
 
 
     public boolean isRunning() {
-        return doneExecuting;
+        return mIsFinished;
     }
 
     public void incStack(LineInfo lineInfo) throws StackOverflowException {
-        stack++;
-        if (stack > MAX_STACK) {
+        mStackSize.getAndIncrement();
+        if (mStackSize.get() > MAX_STACK) {
             throw new StackOverflowException(lineInfo);
         }
     }
 
     public void decStack() {
-        stack--;
+        mStackSize.getAndDecrement();
     }
 
     public void setMaxStackSize(long maxStackSize) {

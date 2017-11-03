@@ -37,9 +37,9 @@ public class FileScriptSource implements ScriptSource {
     }
 
     @Override
-    public Reader read(String scriptname) {
+    public Reader read(String fileName) {
         try {
-            return new FileReader(new File(directory, scriptname));
+            return new FileReader(new File(directory, fileName));
         } catch (FileNotFoundException e) {
             return null;
         }
