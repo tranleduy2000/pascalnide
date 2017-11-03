@@ -22,7 +22,7 @@ import android.support.annotation.Nullable;
 import java.io.Serializable;
 
 
-public class LineInfo implements Serializable, Cloneable {
+public class LineInfo implements Serializable, Cloneable, Comparable<LineInfo> {
     public static final LineInfo SYSTEM_LINE = new LineInfo(-1, "system");
     public static final LineInfo ANONYMOUS = new LineInfo(-1, "anonymous");
     private int line;
@@ -90,4 +90,14 @@ public class LineInfo implements Serializable, Cloneable {
         return "Line " + this.line + (this.column >= 0 ? ":" + this.column : "") + " " + this.sourceFile;
     }
 
+    @Override
+    public int compareTo(@NonNull LineInfo o) {
+        if (this.getLine() < o.getLength()) {
+            return -1;
+        }
+        if (getLine() > o.getLine()) {
+            return 1;
+        }
+        return Integer.valueOf(getColumn()).compareTo(o.getColumn());
+    }
 }

@@ -39,7 +39,7 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
 
     public RuntimeCodeUnit(parent declaration) {
         this.declaration = declaration;
-        for (VariableDeclaration v : declaration.context.variables) v.initialize(unitVariables);
+        for (VariableDeclaration v : declaration.mContext.variables) v.initialize(unitVariables);
     }
 
     public HashMap<PascalUnitDeclaration, RuntimeUnitPascal> getRuntimeUnitMap() {
@@ -68,7 +68,7 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
 
     @Override
     public ArrayList<Name> getUserDefineVariableNames() {
-        ArrayList<VariableDeclaration> variables = declaration.context.variables;
+        ArrayList<VariableDeclaration> variables = declaration.mContext.variables;
         ArrayList<Name> varNames = new ArrayList<>();
         for (VariableDeclaration variable : variables) {
             varNames.add(variable.getName());

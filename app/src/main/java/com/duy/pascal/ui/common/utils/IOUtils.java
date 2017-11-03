@@ -95,14 +95,17 @@ public class IOUtils {
     }
 
     public static String toString(InputStream inputStream) throws IOException {
-        return toString(inputStream, 16*1024, "UTF-8");
+        return toString(new InputStreamReader(inputStream), 16 * 1024, "UTF-8");
     }
 
-    public static String toString(InputStream inputStream, final int bufferSize, String encoding) throws IOException {
+    public static String toString(Reader reader) throws IOException {
+        return toString(reader, 16 * 1024, "UTF-8");
+    }
+
+    public static String toString(Reader in, final int bufferSize, String encoding) throws IOException {
         final char[] buffer = new char[bufferSize];
         final StringBuilder out = new StringBuilder();
 
-        Reader in = new InputStreamReader(inputStream, encoding);
         for (; ; ) {
             int rsz = in.read(buffer, 0, buffer.length);
             if (rsz < 0)
@@ -130,7 +133,7 @@ public class IOUtils {
         byte[] data = null;
         try {
             int size = in.available();
-            if(size > 1024) size = 1024;
+            if (size > 1024) size = 1024;
             data = new byte[size];
             in.read(data);
             in.close();

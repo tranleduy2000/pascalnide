@@ -181,11 +181,11 @@ public class PascalClassType extends ObjectType {
     }
 
     public void addPrivateFunction(FunctionDeclaration functionDeclaration) {
-        mPascalClassDeclaration.context.declareFunction(functionDeclaration);
+        mPascalClassDeclaration.mContext.declareFunction(functionDeclaration);
     }
 
     public void addPublicFunction(FunctionDeclaration functionDeclaration) {
-        mPascalClassDeclaration.context.declareFunction(functionDeclaration);
+        mPascalClassDeclaration.mContext.declareFunction(functionDeclaration);
     }
 
     @Override
@@ -210,7 +210,7 @@ public class PascalClassType extends ObjectType {
 
     public void addPrivateField(ArrayList<VariableDeclaration> vars) {
         for (VariableDeclaration var : vars) {
-            mPascalClassDeclaration.context.declareVariable(var);
+            mPascalClassDeclaration.mContext.declareVariable(var);
         }
         // TODO: 16-Jun-17
     }
@@ -218,7 +218,7 @@ public class PascalClassType extends ObjectType {
     public void addPublicFields(List<VariableDeclaration> vars) {
         // TODO: 16-Jun-17
         for (VariableDeclaration var : vars) {
-            mPascalClassDeclaration.context.declareVariable(var);
+            mPascalClassDeclaration.mContext.declareVariable(var);
         }
     }
 

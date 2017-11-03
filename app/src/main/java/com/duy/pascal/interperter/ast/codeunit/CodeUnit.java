@@ -21,27 +21,24 @@ import com.duy.pascal.ui.runnable.ProgramHandler;
 import java.util.List;
 
 public abstract class CodeUnit {
-    public ExpressionContextMixin context;
+    public ExpressionContextMixin mContext;
     protected ProgramConfig config = new ProgramConfig();
     private ScriptSource mSource;
-    private List<ScriptSource> includeDirectories;
+    private List<ScriptSource> mIncludeDirectories;
 
     public CodeUnit() {
-
     }
 
     public CodeUnit(@Nullable ProgramHandler handler) {
-        this.context = createExpressionContext(handler);
+        this.mContext = createExpressionContext(handler);
     }
 
     public CodeUnit(@NonNull ScriptSource source, @Nullable List<ScriptSource> include,
                     @Nullable ProgramHandler handler, @Nullable DiagnosticCollector diagnosticCollector)
             throws Exception {
-        this(handler);
         this.mSource = source;
-        this.context = createExpressionContext(handler);
-
-        this.includeDirectories = include;
+        this.mContext = createExpressionContext(handler);
+        this.mIncludeDirectories = include;
 
         long time = System.currentTimeMillis();
         GroupParser lexer;
@@ -53,6 +50,10 @@ public abstract class CodeUnit {
         lexer.parse();
         parseTree(lexer.getTokenQueue());
         System.out.println("parse time " + (System.currentTimeMillis() - time));
+    }
+
+    public ScriptSource getSource() {
+        return mSource;
     }
 
     @Override
@@ -69,11 +70,11 @@ public abstract class CodeUnit {
     }
 
     public ExpressionContextMixin getContext() {
-        return context;
+        return mContext;
     }
 
     public ExpressionContextMixin getProgram() {
-        return context;
+        return mContext;
     }
 
     protected abstract ExpressionContextMixin createExpressionContext(ProgramHandler handler);
@@ -81,7 +82,7 @@ public abstract class CodeUnit {
     private void parseTree(GrouperToken tokens) throws Exception {
         try {
             while (tokens.hasNext()) {
-                context.addNextDeclaration(tokens);
+                mContext.addNextDeclaration(tokens);
             }
         } catch (ParsingException e) {
             throw new CodeUnitParsingException(this, e);
@@ -96,7 +97,7 @@ public abstract class CodeUnit {
     }
 
     public List<ScriptSource> getIncludeDirectories() {
-        return includeDirectories;
+        return mIncludeDirectories;
     }
 
     protected abstract class CodeUnitExpressionContext extends ExpressionContextMixin {

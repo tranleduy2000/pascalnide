@@ -110,20 +110,12 @@ public class HighlightEditor extends CodeSuggestsEditText
      */
     private EditTextChangeListener mChangeListener;
     private CodeHighlighter mCodeHighlighter;
-    private final Runnable colorRunnable_duringEditing =
-            new Runnable() {
-                @Override
-                public void run() {
-                    highlightText();
-                }
-            };
-    private final Runnable colorRunnable_duringScroll =
-            new Runnable() {
-                @Override
-                public void run() {
-                    highlightText();
-                }
-            };
+    private final Runnable mPostHighlight = new Runnable() {
+        @Override
+        public void run() {
+            highlightText();
+        }
+    };
     private BracketHighlighter mBracketHighlighter;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
@@ -392,9 +384,8 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     public void refresh() {
-        mHandler.removeCallbacks(colorRunnable_duringEditing);
-        mHandler.removeCallbacks(colorRunnable_duringScroll);
-        mHandler.postDelayed(colorRunnable_duringEditing, SYNTAX_DELAY_MILLIS_SHORT);
+        mHandler.removeCallbacks(mPostHighlight);
+        mHandler.postDelayed(mPostHighlight, SYNTAX_DELAY_MILLIS_SHORT);
     }
 
     public String getCleanText() {
@@ -754,9 +745,8 @@ public class HighlightEditor extends CodeSuggestsEditText
         if (hasSelection() || mHandler == null) {
             return;
         }
-        mHandler.removeCallbacks(colorRunnable_duringEditing);
-        mHandler.removeCallbacks(colorRunnable_duringScroll);
-        mHandler.postDelayed(colorRunnable_duringEditing, SYNTAX_DELAY_MILLIS_LONG);
+        mHandler.removeCallbacks(mPostHighlight);
+        mHandler.postDelayed(mPostHighlight, SYNTAX_DELAY_MILLIS_LONG);
     }
 
     public void showKeyboard() {

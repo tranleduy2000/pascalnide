@@ -31,6 +31,11 @@ public abstract class HierarchicalExpressionContext implements ExpressionContext
         return parent;
     }
 
+    @Override
+    public CodeUnit getRoot() {
+        return root;
+    }
+
     /**
      * This method will be check duplicate identifier
      */
@@ -54,6 +59,7 @@ public abstract class HierarchicalExpressionContext implements ExpressionContext
         }
         return result;
     }
+
 
     @Override
     public void verifyNonConflictingSymbol(NamedEntity n)

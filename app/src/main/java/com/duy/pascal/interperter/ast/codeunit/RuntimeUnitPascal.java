@@ -33,7 +33,7 @@ public final class RuntimeUnitPascal extends RuntimeExecutableCodeUnit {
     }
 
     public void runInit() throws RuntimePascalException {
-        ExpressionContextMixin var10000 = ((PascalUnitDeclaration) this.declaration).context;
+        ExpressionContextMixin var10000 = ((PascalUnitDeclaration) this.declaration).mContext;
         PascalUnitDeclaration.UnitExpressionContext context = (PascalUnitDeclaration.UnitExpressionContext) var10000;
         Node var2 = context.getInitInstruction();
         if (var2 != null) {
@@ -42,7 +42,7 @@ public final class RuntimeUnitPascal extends RuntimeExecutableCodeUnit {
     }
 
     public void runFinal() throws RuntimePascalException {
-        PascalUnitDeclaration.UnitExpressionContext context = (PascalUnitDeclaration.UnitExpressionContext) ((PascalUnitDeclaration) this.declaration).context;
+        PascalUnitDeclaration.UnitExpressionContext context = (PascalUnitDeclaration.UnitExpressionContext) ((PascalUnitDeclaration) this.declaration).mContext;
         Node var2 = context.getFinalInstruction();
         if (var2 != null) {
             var2.visit(this, this);

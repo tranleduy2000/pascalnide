@@ -143,9 +143,9 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         super(root, parent);
 
         this.mHandler = handler;
-        mLibraryManager = new PascalLibraryManager(this, handler);
-        mFileHandler = new FileLib(handler);
-        mIOHandler = new IOLib(handler);
+        this.mLibraryManager = new PascalLibraryManager(this, handler);
+        this.mFileHandler = new FileLib(handler);
+        this.mIOHandler = new IOLib(handler);
         try {
             //load system function
             mLibraryManager.loadSystemLibrary();

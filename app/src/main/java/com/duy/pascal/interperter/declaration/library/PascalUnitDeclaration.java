@@ -100,7 +100,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
 
     @Override
     public void declareTypes(ExpressionContextMixin parentContext) {
-        HashMap<Name, Type> typedefs = context.getTypedefs();
+        HashMap<Name, Type> typedefs = mContext.getTypedefs();
         for (Map.Entry<Name, Type> type : typedefs.entrySet()) {
             parentContext.declareTypedef(type.getKey(), type.getValue());
         }
@@ -123,9 +123,9 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
         // get list name interface instead of get map function
         // because I don't want to add built in function twice,
         //this is bad performance when match argument and leak memory
-        ArrayList<Name> forwardFunctions = ((UnitExpressionContext) context).getForwardFunctions();
+        ArrayList<Name> forwardFunctions = ((UnitExpressionContext) mContext).getForwardFunctions();
 
-        ArrayListMultimap<Name, AbstractFunction> callableFunctions = context.getCallableFunctions();
+        ArrayListMultimap<Name, AbstractFunction> callableFunctions = mContext.getCallableFunctions();
         for (Name name : forwardFunctions) {
             List<AbstractFunction> abstractFunctions = callableFunctions.get(name);
             for (AbstractFunction function : abstractFunctions) {

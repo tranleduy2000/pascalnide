@@ -39,4 +39,8 @@ public class TextData {
     public String toString() {
         return text + "\n" + "offset = " + offset;
     }
+
+    public int length() {
+        return text.length();
+    }
 }

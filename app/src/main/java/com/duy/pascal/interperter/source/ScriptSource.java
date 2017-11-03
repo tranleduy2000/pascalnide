@@ -2,7 +2,11 @@ package com.duy.pascal.interperter.source;
 
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.interperter.tokens.Token;
+
+import java.io.IOException;
 import java.io.Reader;
+import java.util.LinkedList;
 
 public interface ScriptSource {
     /**
@@ -25,4 +29,8 @@ public interface ScriptSource {
     Reader stream();
 
     String getName();
+
+    String getContent();
+
+    LinkedList<Token> toTokens() throws IOException;
 }

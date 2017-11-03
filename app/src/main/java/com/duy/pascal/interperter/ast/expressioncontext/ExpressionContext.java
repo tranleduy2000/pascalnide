@@ -27,7 +27,9 @@ public interface ExpressionContext extends CompileTimeContext {
     LineInfo getStartPosition();
 
     RuntimeValue getIdentifierValue(WordToken name)
-           throws Exception;
+            throws Exception;
+
+    CodeUnit getRoot();
 
     void verifyNonConflictingSymbol(NamedEntity n) throws DuplicateIdentifierException;
 
@@ -54,10 +56,10 @@ public interface ExpressionContext extends CompileTimeContext {
     CodeUnit root();
 
     Node handleUnrecognizedStatement(Token next, GrouperToken container)
-           throws Exception;
+            throws Exception;
 
     boolean handleUnrecognizedDeclaration(Token next, GrouperToken container)
-           throws Exception;
+            throws Exception;
 
     public <T> T getListener(Class<T> c);
 }

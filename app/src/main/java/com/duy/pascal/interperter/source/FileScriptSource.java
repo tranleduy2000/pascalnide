@@ -3,15 +3,19 @@ package com.duy.pascal.interperter.source;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.interperter.tokenizer.Lexer;
+import com.duy.pascal.interperter.tokens.EOFToken;
+import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.ui.common.utils.IOUtils;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class FileScriptSource implements ScriptSource {
     private File mParent;
@@ -26,6 +30,7 @@ public class FileScriptSource implements ScriptSource {
         }
         this.mFile = file;
         this.mParent = file.getParentFile();
+        this.mName = mFile.getName();
     }
 
     public FileScriptSource(@NonNull Reader reader, @NonNull String name) {
@@ -35,17 +40,13 @@ public class FileScriptSource implements ScriptSource {
 
     @Override
     public String toString() {
-        if (mSourceCode != null) {
-            return mSourceCode;
-        }
-        try {
-            if (mFile != null) {
-                mSourceCode = IOUtils.toString(new FileInputStream(mFile));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return super.toString();
+        return "FileScriptSource{" +
+                "mParent=" + mParent +
+                ", mFile=" + mFile +
+                ", mSourceCode='" + mSourceCode + '\'' +
+                ", mReader=" + mReader +
+                ", mName='" + mName + '\'' +
+                '}';
     }
 
     @Override
@@ -80,12 +81,16 @@ public class FileScriptSource implements ScriptSource {
     @Nullable
     @Override
     public Reader stream() {
-        if (mReader != null) return mReader;
+        if (mReader != null) {
+            try {
+                mReader.reset();
+                return mReader;
+            } catch (IOException e) {
+            }
+        }
         try {
             mReader = new FileReader(mFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
+        } catch (FileNotFoundException ignored) {
         }
         return mReader;
     }
@@ -96,6 +101,31 @@ public class FileScriptSource implements ScriptSource {
             return mName;
         }
         return mFile.getName();
+    }
+
+    @Override
+    public String getContent() {
+        if (mSourceCode != null) {
+            return mSourceCode;
+        }
+        try {
+            mSourceCode = IOUtils.toString(stream());
+        } catch (IOException ignored) {
+        }
+        return mSourceCode;
+    }
+
+    @Override
+    public LinkedList<Token> toTokens() throws IOException {
+        Lexer lexer = new Lexer(stream(), getName(), new ArrayList<ScriptSource>());
+        LinkedList<Token> stack = new LinkedList<>();
+        Token token = lexer.yylex();
+        while (!(token instanceof EOFToken)) {
+            stack.add(token);
+            token = lexer.yylex();
+        }
+        stack.add(token);
+        return stack;
     }
 
 }

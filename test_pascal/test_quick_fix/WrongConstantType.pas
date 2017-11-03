@@ -1,5 +1,5 @@
 const
-  i : Integer = 'String';
+i : Integer = 'String';
 begin
 end.
 //un convertiable type

@@ -61,7 +61,22 @@ public class EditorUtil {
         if (offset < 0) {
             offset = 0;
         }
-        TextData textData = new TextData(text, offset);
-        return textData;
+        return new TextData(text, offset);
+    }
+
+    @NonNull
+    public static String getIndentLine(String text, int cursor) {
+        while (cursor >= 0 && text.charAt(cursor) != '\n') {
+            cursor--;
+        }
+        StringBuilder indent = new StringBuilder();
+        if ((cursor >= 0 && text.charAt(cursor) == '\n') || (cursor == 0)) {
+            cursor++;
+            while (cursor < text.length() && text.charAt(cursor) == ' ') {
+                indent.append(" ");
+                cursor++;
+            }
+        }
+        return indent.toString();
     }
 }

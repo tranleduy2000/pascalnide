@@ -42,7 +42,7 @@ public class PascalClassDeclaration extends CodeUnit implements Cloneable {
         this.root = root;
         this.parent = parent;
         this.handler = handler;
-        this.context = createExpressionContext(handler);
+        this.mContext = createExpressionContext(handler);
     }
 
     @Override
