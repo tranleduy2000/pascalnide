@@ -76,5 +76,6 @@
         Where, S1 and S2 are different statements. Please note that the statement S1 is not followed by a "semicolon" (;).</string>
     <string name="ExpectedTokenException_3">Lỗi cú pháp, \"%1$s\" dự kiến nhưng \"%2$s\" được tìm thấy</string>
     <string name="UnConvertibleTypeException2">Biểu thức hoặc biến \"%1$s\" có kiểu là \"%2$s\" ,nó không thể chuyển sang kiểu \"%3$s\" của biểu thức hoặc biến \"%4$s\"</string>
+    <string name="VariableIdentifierExpectException">%1$s không phải là một biến</string>
 
 </resources>

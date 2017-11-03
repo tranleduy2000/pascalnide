@@ -247,8 +247,8 @@
     <string name="x_items_completed">%d items Completed</string>
     <string name="x_items_completed_and_error_x">%1$d items Completed, but has some items occur error: %2$s</string>
 
-    <string name="select_type">Select type</string>
-    <string name="declare_procedure">Declare procedure</string>
+    <string name="select_type">Select data type</string>
+    <string name="declare_procedure">Declare procedure %1$s</string>
     <string name="enter_value_of_constant">Enter value of constant %1$s</string>
     <string name="premium_version">Premium version</string>
 
@@ -257,7 +257,7 @@
         2. More code theme\n
         3. Create custom theme
     </string>
-    <string name="upgrade">upgrade</string>
+    <string name="upgrade">Upgrade</string>
     <string name="upgrade_msg">Thanks for using Pascal NIDE.  If you have found the IDE useful, please consider upgrade to PREMIUM version to support future development.</string>
     <string name="open_or_create_new_file">Open or create new file</string>
     <string name="open_drawer">Open drawer</string>
