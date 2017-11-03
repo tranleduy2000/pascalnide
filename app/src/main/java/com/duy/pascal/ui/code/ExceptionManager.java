@@ -218,7 +218,7 @@ public class ExceptionManager {
                 return getMessageResource(e, R.string.NonConstantExpressionException);
             }
             if (e instanceof NotAStatementException) {
-                return getMessageResource(e, R.string.NotAStatementException,
+                return getMessageResource(e, R.string.NotAStatementException2,
                         ((NotAStatementException) e).getRuntimeValue().toString());
             }
             if (e instanceof DuplicateIdentifierException) {
@@ -273,7 +273,7 @@ public class ExceptionManager {
         }
     }
 
-    public  Spanned getMessageResource(Throwable e, int resourceID, Object... arg) {
+    public Spanned getMessageResource(Throwable e, int resourceID, Object... arg) {
         return getMessageResource(e, mContext, resourceID, arg);
     }
 

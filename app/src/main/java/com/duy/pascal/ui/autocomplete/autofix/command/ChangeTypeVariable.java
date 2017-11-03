@@ -76,72 +76,74 @@ public class ChangeTypeVariable implements AutoFixCommand {
             return;
         }
         LineInfo start = exception.getScope().getStartPosition();
-        LineInfo end = exception.getLineInfo();
+        LineInfo end;
 
         try {
             LinkedList<Token> list = source.toTokens();
             Token token = list.peekFirst();
             LineInfo line = token.getLineNumber();
             //find scope
-            while (line.compareTo(start) < 0) {
+            while (!list.isEmpty() && line.compareTo(start) < 0) {
                 list.removeFirst();
                 token = list.peekFirst();
                 line = token.getLineNumber();
             }
             //find var
-            while (!(list.peekFirst() instanceof VarToken)) {
+            while (!list.isEmpty() && !(list.peekFirst() instanceof VarToken)) {
                 list.removeFirst();
             }
             //ensure the first token is VarToken
-            list.removeFirst();
-            ArrayList<WordToken> variables = new ArrayList<>();
-            Token type = null;
-            start = null;
-            end = null;
-            whileloop:
-            while (list.peekFirst() instanceof WordToken) {
-                WordToken name = (WordToken) list.removeFirst();
-                variables.add(name);
-                if (start == null) {
-                    start = name.getLineNumber();
-                }
-                if (list.peekFirst() instanceof CommaToken) { //,
-                    list.removeFirst();
-                } else if (list.peekFirst() instanceof ColonToken) { //:
-                    list.removeFirst();
-                    type = list.removeFirst(); //type
-                    end = list.removeFirst().getLineNumber();  //remove semicolon;
-                    for (WordToken wordToken : variables) {
-                        if (wordToken.getName().equals(mVariable.getName())) {
-                            variables.remove(wordToken);
-                            break whileloop;
-                        }
+            if (list.removeFirst() instanceof VarToken) {
+                ArrayList<WordToken> variables = new ArrayList<>();
+                Token type = null;
+                start = null;
+                end = null;
+                loop:
+                while (list.peekFirst() instanceof WordToken) {
+                    WordToken name = (WordToken) list.removeFirst();
+                    variables.add(name);
+                    if (start == null) {
+                        start = name.getLineNumber();
                     }
-                    variables.clear();
-                    type = null;
-                    start = null;
-                    end = null;
+                    if (list.peekFirst() instanceof CommaToken) { //,
+                        list.removeFirst();
+                    } else if (list.peekFirst() instanceof ColonToken) { //:
+                        list.removeFirst();
+                        type = list.removeFirst(); //type
+                        end = list.removeFirst().getLineNumber();  //remove semicolon;
+                        for (WordToken wordToken : variables) {
+                            if (wordToken.getName().equals(mVariable.getName())) {
+                                variables.remove(wordToken);
+                                break loop;
+                            }
+                        }
+                        variables.clear();
+                        type = null;
+                        start = null;
+                        end = null;
+                    }
                 }
-            }
-            TextData text = getText(editable, start, end);
-            System.out.println("variables = " + variables);
-            System.out.println("type = " + type);
-            System.out.println("start = " + start);
-            System.out.println("end = " + end);
-            System.out.println("text = " + text);
-            String indent = EditorUtil.getIndentLine(hash, text.getOffset());
-            StringBuilder code = new StringBuilder();
-            for (WordToken variable : variables) {
-                code.append(variable).append(":").append(type).append(";\n").append(indent);
-            }
-            code.append(mVariable.getName()).append(": ").append(newType).append(";\n");
+                TextData text = getText(editable, start, end);
+                System.out.println("variables = " + variables);
+                System.out.println("type = " + type);
+                System.out.println("start = " + start);
+                System.out.println("end = " + end);
+                System.out.println("text = " + text);
+                String indent = EditorUtil.getIndentLine(hash, text.getOffset());
+                StringBuilder code = new StringBuilder();
+                for (WordToken variable : variables) {
+                    code.append(variable).append(":").append(type).append(";\n").append(indent);
+                }
+                code.append(mVariable.getName()).append(": ").append(newType).append(";");
 
-            editable.disableTextWatcher();
-            editable.getText().delete(text.getOffset(), text.getOffset() + text.length() - 1);
-            editable.getText().insert(text.getOffset(), code);
-            editable.updateTextHighlight();
-            editable.enableTextWatcher();
-            editable.showKeyboard();
+                editable.disableTextWatcher();
+                editable.getText().delete(text.getOffset(), text.getOffset() + text.length() - 1);
+                editable.getText().insert(text.getOffset(), code);
+                editable.setLineError(null);
+                editable.updateTextHighlight();
+                editable.enableTextWatcher();
+                editable.showKeyboard();
+            }
         } catch (IOException ignored) {
         }
 

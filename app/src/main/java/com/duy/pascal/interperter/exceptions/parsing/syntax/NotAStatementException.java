@@ -16,12 +16,12 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.syntax;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 
-import android.support.annotation.NonNull;
-
-public  class NotAStatementException extends ParsingException {
+public class NotAStatementException extends ParsingException {
     @NonNull
     private RuntimeValue runtimeValue;
 
@@ -38,4 +38,6 @@ public  class NotAStatementException extends ParsingException {
     public final void setRuntimeValue(@NonNull RuntimeValue var1) {
         this.runtimeValue = var1;
     }
+
+
 }

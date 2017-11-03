@@ -22,13 +22,8 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.autocomplete.autofix.Patterns;
-import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
 import com.duy.pascal.ui.editor.view.EditorView;
 
-import java.util.regex.Matcher;
-
-import static com.duy.pascal.ui.autocomplete.autofix.EditorUtil.getText;
 import static com.duy.pascal.ui.code.ExceptionManager.highlight;
 
 /**
@@ -49,38 +44,70 @@ import static com.duy.pascal.ui.code.ExceptionManager.highlight;
  * Created by Duy on 11/2/2017.
  */
 public class DeclareConstant implements AutoFixCommand {
-    private UnknownIdentifierException e;
+    private static final String TAG = "DeclareConstant";
+    private UnknownIdentifierException exception;
 
-    public DeclareConstant(UnknownIdentifierException e) {
-        this.e = e;
+    public DeclareConstant(UnknownIdentifierException exception) {
+        this.exception = exception;
     }
 
     @Override
     public void execute(EditorView editable) {
-        //sub string from 0 to position error
-        TextData text = getText(editable, e.getScope().getStartPosition(), e.getLineInfo());
+        /*ScriptSource source = exception.getScope().getRoot().getSource();
+        String hash = source.getContent();
+        if (!editable.getText().toString().equals(hash)) {
+            DLog.d(TAG, "execute: content has been modified");
+            return;
+        }
+        LineInfo start = exception.getScope().getStartPosition();
+        LineInfo end;
+
+        try {
+            LinkedList<Token> list = source.toTokens();
+            Token token = list.peekFirst();
+            LineInfo line = token.getLineNumber();
+            //find scope
+            while (!list.isEmpty() && line.compareTo(start) < 0) {
+                list.removeFirst();
+                token = list.peekFirst();
+                line = token.getLineNumber();
+            }
+            //find var
+            while (!list.isEmpty() && !(list.peekFirst() instanceof ConstToken)) {
+                list.removeFirst();
+            }
+            //ensure the first token is VarToken
+            if (list.peekFirst() instanceof ConstToken) {
+                Token constToken = list.peekFirst();
+
+                TextData text = getText(editable, start, end);
+                System.out.println("variables = " + variables);
+                System.out.println("type = " + type);
+                System.out.println("start = " + start);
+                System.out.println("end = " + end);
+                System.out.println("text = " + text);
+                String indent = EditorUtil.getIndentLine(hash, text.getOffset());
+                StringBuilder code = new StringBuilder();
+                for (WordToken variable : variables) {
+                    code.append(variable).append(":").append(type).append(";\n").append(indent);
+                }
+                code.append(mVariable.getName()).append(": ").append(newType).append(";");
+
+                editable.disableTextWatcher();
+                editable.getText().delete(text.getOffset(), text.getOffset() + text.length() - 1);
+                editable.getText().insert(text.getOffset(), code);
+                editable.setLineError(null);
+                editable.updateTextHighlight();
+                editable.enableTextWatcher();
+                editable.showKeyboard();
+            }
+        } catch (IOException ignored) {
+        }*/
 
         String textToInsert;
         int insertPosition = 0;
-        Name name = e.getName();
-
-        Matcher matcher = Patterns.CONST.matcher(text.getText());
-        if (matcher.find()) {
-            insertPosition = matcher.end();
-            textToInsert = "\n" + editable.getTabCharacter() + name + " =  ;";
-        } else {
-            if ((matcher = Patterns.PROGRAM.matcher(text.getText())).find()) {
-                insertPosition = matcher.end();
-            } else if ((matcher = Patterns.USES.matcher(text.getText())).find()) {
-                insertPosition = matcher.end();
-            } else if ((matcher = Patterns.TYPE.matcher(text.getText())).find()) {
-                insertPosition = matcher.start();
-            }
-            textToInsert = "\nconst \n" + editable.getTabCharacter() + name + " =  ;";
-        }
-
-        insertPosition += text.getOffset();
-
+        Name name = exception.getName();
+        textToInsert = String.format("const %s = ;\n", name);
         editable.getText().insert(insertPosition, textToInsert);
         editable.setSelection(insertPosition + textToInsert.length() - 2);
         editable.toast(R.string.enter_value_of_constant, name);
@@ -90,7 +117,7 @@ public class DeclareConstant implements AutoFixCommand {
     @NonNull
     @Override
     public CharSequence getTitle(Context context) {
-        String str = context.getString(R.string.declare_constant_2, e.getName().getOriginName());
+        String str = context.getString(R.string.declare_constant_2, exception.getName().getOriginName());
         return highlight(context, str);
     }
 }

@@ -21,6 +21,7 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
 import com.duy.pascal.ui.R;
+import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;
 import com.duy.pascal.ui.editor.view.EditorView;
 
 /**
@@ -28,15 +29,28 @@ import com.duy.pascal.ui.editor.view.EditorView;
  */
 // TODO: 11/2/2017
 public class DeclareFunction implements AutoFixCommand {
-    private UnknownIdentifierException e;
+    private UnknownIdentifierException exception;
 
-    public DeclareFunction(UnknownIdentifierException e) {
-        this.e = e;
+    public DeclareFunction(UnknownIdentifierException exception) {
+        this.exception = exception;
     }
 
     @Override
     public void execute(EditorView editable) {
-
+        int length = 0;
+        StringBuilder code = new StringBuilder();
+        code.append("function ").append(exception.getName())
+                .append("(): ");
+        length = code.length();
+        code.append(";\n")
+                .append("begin\n")
+                .append("\n")
+                .append("end;\n");
+        editable.disableTextWatcher();
+        editable.getText().insert(0, code);
+        editable.setSelection(length);
+        editable.setSuggestData(KeyWord.DATA_TYPE);
+        editable.enableTextWatcher();
     }
 
     @NonNull

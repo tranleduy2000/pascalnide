@@ -128,9 +128,11 @@ public class AutoFixFactory {
         }
 
         //value
-        if (exception.getValue() instanceof ConstantAccess
-                && ((ConstantAccess) exception.getValue()).getName() != null) {
-            toAdd.add(changeTypeConst(exception, (ConstantAccess) exception.getValue(), exception.getTargetType()));
+        if (exception.getValue() instanceof ConstantAccess) {
+            ConstantAccess constant = (ConstantAccess) exception.getValue();
+            if (constant.getName() != null) { //identifier
+                toAdd.add(changeTypeConst(exception, constant, exception.getTargetType()));
+            }
         }
         if (exception.getValue() instanceof VariableAccess) {
             if (exception.getScope() instanceof FunctionDeclaration.FunctionExpressionContext) {

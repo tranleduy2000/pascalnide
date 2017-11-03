@@ -70,7 +70,7 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
         protected boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken grouperToken)
                 throws Exception {
             if (next instanceof ProgramToken) {
-//                programName = grouperToken.nextWordValue();
+                /*programName =*/ grouperToken.nextWordValue();
                 grouperToken.assertNextSemicolon();
                 return true;
             }
