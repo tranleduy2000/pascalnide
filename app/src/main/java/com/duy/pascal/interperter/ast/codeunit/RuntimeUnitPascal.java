@@ -27,13 +27,13 @@ import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 
-public final class RuntimeUnitPascal extends RuntimeExecutableCodeUnit {
+public final class RuntimeUnitPascal extends RuntimeExecutableCodeUnit<PascalUnitDeclaration> {
     public RuntimeUnitPascal(@NonNull PascalUnitDeclaration unitPascal) {
         super(unitPascal);
     }
 
     public void runInit() throws RuntimePascalException {
-        ExpressionContextMixin var10000 = ((PascalUnitDeclaration) this.declaration).mContext;
+        ExpressionContextMixin var10000 = this.declaration.mContext;
         PascalUnitDeclaration.UnitExpressionContext context = (PascalUnitDeclaration.UnitExpressionContext) var10000;
         Node var2 = context.getInitInstruction();
         if (var2 != null) {
@@ -42,7 +42,7 @@ public final class RuntimeUnitPascal extends RuntimeExecutableCodeUnit {
     }
 
     public void runFinal() throws RuntimePascalException {
-        PascalUnitDeclaration.UnitExpressionContext context = (PascalUnitDeclaration.UnitExpressionContext) ((PascalUnitDeclaration) this.declaration).mContext;
+        PascalUnitDeclaration.UnitExpressionContext context = (PascalUnitDeclaration.UnitExpressionContext) this.declaration.mContext;
         Node var2 = context.getFinalInstruction();
         if (var2 != null) {
             var2.visit(this, this);

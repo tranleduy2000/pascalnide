@@ -46,7 +46,7 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
 
     @Override
     protected PascalProgramExpressionContext createExpressionContext(ProgramHandler handler) {
-        return new PascalProgramExpressionContext(handler);
+        return new PascalProgramExpressionContext(this, handler);
     }
 
     @Override
@@ -55,9 +55,9 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
     }
 
     protected class PascalProgramExpressionContext extends CodeUnitExpressionContext {
-        PascalProgramExpressionContext(@NonNull ProgramHandler handler) {
-            super(handler);
-            config.setLibrary(false);
+        PascalProgramExpressionContext(PascalProgramDeclaration root, @NonNull ProgramHandler handler) {
+            super(root, handler);
+            root.getConfig().setLibrary(false);
         }
 
         @NonNull
@@ -70,7 +70,8 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
         protected boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken grouperToken)
                 throws Exception {
             if (next instanceof ProgramToken) {
-                /*programName =*/ grouperToken.nextWordValue();
+                /*programName =*/
+                grouperToken.nextWordValue();
                 grouperToken.assertNextSemicolon();
                 return true;
             }

@@ -4,12 +4,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.CodeUnitParsingException;
-import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.node.Node;
 import com.duy.pascal.interperter.config.ProgramConfig;
 import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
 import com.duy.pascal.interperter.source.ScriptSource;
@@ -34,7 +32,7 @@ public abstract class CodeUnit {
     }
 
     public CodeUnit(@NonNull ScriptSource source, @Nullable List<ScriptSource> include,
-                    @Nullable ProgramHandler handler, @Nullable DiagnosticCollector diagnosticCollector)
+                    @Nullable ProgramHandler handler)
             throws Exception {
         this.mSource = source;
         this.mContext = createExpressionContext(handler);
@@ -44,10 +42,10 @@ public abstract class CodeUnit {
         GroupParser lexer;
         try {
             lexer = new GroupParser(source, include);
+            lexer.parse();
         } catch (ParsingException e) {
             throw new CodeUnitParsingException(this, e);
         }
-        lexer.parse();
         parseTree(lexer.getTokenQueue());
         System.out.println("parse time " + (System.currentTimeMillis() - time));
     }
@@ -100,13 +98,9 @@ public abstract class CodeUnit {
         return mIncludeDirectories;
     }
 
-    protected abstract class CodeUnitExpressionContext extends ExpressionContextMixin {
-        public CodeUnitExpressionContext(@NonNull ProgramHandler handler) {
-            super(CodeUnit.this, null, handler);
-        }
-
-        public CodeUnitExpressionContext(ExpressionContext parent) {
-            super(CodeUnit.this, parent);
+    protected static abstract class CodeUnitExpressionContext extends ExpressionContextMixin {
+        public CodeUnitExpressionContext(@NonNull CodeUnit root, @NonNull ProgramHandler handler) {
+            super(root, null, handler);
         }
 
         @Override

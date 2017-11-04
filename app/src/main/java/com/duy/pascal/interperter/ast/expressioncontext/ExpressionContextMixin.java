@@ -83,8 +83,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public abstract class ExpressionContextMixin extends HierarchicalExpressionContext
-        implements Cloneable, Serializable {
+public abstract class ExpressionContextMixin extends HierarchicalExpressionContext implements Cloneable, Serializable {
     private static final String TAG = "ExpressionContextMixin";
 
     /**

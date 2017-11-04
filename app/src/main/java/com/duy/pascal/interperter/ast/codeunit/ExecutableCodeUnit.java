@@ -16,7 +16,7 @@ public abstract class ExecutableCodeUnit extends CodeUnit {
                               @Nullable List<ScriptSource> include,
                               @Nullable ProgramHandler handler,
                               @Nullable DiagnosticCollector diagnosticCollector) throws Exception {
-        super(source, include, handler, diagnosticCollector);
+        super(source, include, handler);
     }
 
     @Override

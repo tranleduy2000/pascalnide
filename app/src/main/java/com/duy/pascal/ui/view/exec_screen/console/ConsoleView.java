@@ -368,8 +368,6 @@ public class ConsoleView extends View implements GestureDetector.OnDoubleTapList
 
     public boolean updateSize(@IntRange(from = 1) int newWidth,
                               @IntRange(from = 1) int newHeight) throws ArrayIndexOutOfBoundsException {
-//       DLog.d(TAG, "updateSize() called with: newWidth = [" + newWidth + "], newHeight = [" + newHeight + "]");
-
         int newColumn = newWidth / mTextRenderer.getCharWidth();
         int i, j;
         int newFirstIndex = 0;
@@ -378,7 +376,6 @@ public class ConsoleView extends View implements GestureDetector.OnDoubleTapList
         mConsoleScreen.consoleRow = newRow;
         if (newColumn != mConsoleScreen.consoleColumn) {
             int newScreenSize = mConsoleScreen.getMaxLines() * newColumn;
-//            DLog.d(TAG, "updateSize: " + newScreenSize + " " + mConsoleScreen.getMaxLines() + " " + newColumn);
             TextConsole newScreenBuffer[] = new TextConsole[newScreenSize];
             for (i = 0; i < newScreenSize; i++) {
                 newScreenBuffer[i] = new TextConsole();

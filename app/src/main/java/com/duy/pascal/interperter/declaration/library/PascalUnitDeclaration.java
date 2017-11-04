@@ -28,7 +28,9 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.exceptions.parsing.IllegalUnitNameException;
 import com.duy.pascal.interperter.exceptions.parsing.define.MissingBodyFunctionException;
+import com.duy.pascal.interperter.exceptions.parsing.missing.MissingDotTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.MisplacedDeclarationException;
 import com.duy.pascal.interperter.libraries.IPascalLibrary;
@@ -36,6 +38,7 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokens.EOFToken;
 import com.duy.pascal.interperter.tokens.Token;
+import com.duy.pascal.interperter.tokens.WordToken;
 import com.duy.pascal.interperter.tokens.basic.FinalizationToken;
 import com.duy.pascal.interperter.tokens.basic.ForwardToken;
 import com.duy.pascal.interperter.tokens.basic.FunctionToken;
@@ -59,15 +62,14 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
 
     public PascalUnitDeclaration(@NonNull ScriptSource source,
                                  @Nullable List<ScriptSource> include,
-                                 @Nullable ProgramHandler handler)
-            throws Exception {
+                                 @Nullable ProgramHandler handler) throws Exception {
         super(source, include, handler, null);
         this.handler = handler;
     }
 
     @Override
     protected UnitExpressionContext createExpressionContext(ProgramHandler handler) {
-        return new UnitExpressionContext(handler);
+        return new UnitExpressionContext(this, handler);
     }
 
     @Override
@@ -135,8 +137,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
 
     }
 
-    public class UnitExpressionContext extends CodeUnitExpressionContext {
-        private boolean isParsed = false;
+    public static class UnitExpressionContext extends CodeUnitExpressionContext {
         @Nullable
         private Node initInstruction;
         @Nullable
@@ -148,9 +149,9 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
         @Nullable
         private LineInfo startLine;
 
-        UnitExpressionContext(@NonNull ProgramHandler handler) {
-            super(handler);
-            config.setLibrary(true);
+        UnitExpressionContext(@NonNull PascalUnitDeclaration root, @NonNull ProgramHandler handler) {
+            super(root, handler);
+            root.config.setLibrary(true);
         }
 
         @NonNull
@@ -171,10 +172,22 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
             if (next instanceof UnitToken) {
                 GrouperToken container = (GrouperToken) next;
                 this.startLine = next.getLineNumber();
+                String sourceName = getRoot().getSource().getName();
+                if (sourceName.contains(".")) {
+                    sourceName = sourceName.substring(0, sourceName.lastIndexOf("."));
+                }
+                Token token = container.take();
+                if (!(token instanceof WordToken)) {
+                    throw new ExpectedTokenException(sourceName, token);
+                }
+                if (!((WordToken) token).getName().equals(sourceName)) {
+                    throw new IllegalUnitNameException(token);
+                }
                 container.assertNextSemicolon();
 
-                if (!(container.peek() instanceof InterfaceToken))
+                if (!(container.peek() instanceof InterfaceToken)) {
                     throw new ExpectedTokenException("interface", container.peek());
+                }
 
                 while (container.hasNext()) {
                     this.addNextDeclaration(container);
@@ -184,7 +197,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
                 if (i.peek() instanceof PeriodToken) {
                     i.take();
                 } else {
-                    throw new ExpectedTokenException(".", i.take());
+                    throw new MissingDotTokenException(i.peek().getLineNumber());
                 }
                 return true;
             } else if (next instanceof InterfaceToken) {
@@ -205,20 +218,21 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
                 return true;
 
             }
-            //end region
             return false;
         }
 
         private void declareInterface(GrouperToken i) throws Exception {
             while (!(i.peek() instanceof ImplementationToken ||
-                    i.peek() instanceof EndToken || i.peek() instanceof InitializationToken ||
+                    i.peek() instanceof EndToken ||
+                    i.peek() instanceof InitializationToken ||
                     i.peek() instanceof FinalizationToken ||
                     i.peek() instanceof EOFToken)) {
                 Token next = i.peek();
-                if (next.canDeclareInInterface())
+                if (next.canDeclareInInterface()) {
                     this.addNextDeclaration(i);
-                else
+                } else {
                     throw new ExpectedTokenException("implementation", next);
+                }
             }
         }
 
