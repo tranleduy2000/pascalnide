@@ -20,9 +20,9 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
 
 /**
  * item for suggest adapter of {@link CodeSuggestsEditText}
@@ -34,15 +34,15 @@ public class DescriptionImpl implements Comparable<Name>, Description {
     public static final int KIND_TYPE = KIND_FUNCTION + 1;
     public static final int KIND_PROCEDURE = KIND_TYPE + 1;
     public static final int KIND_KEYWORD = KIND_PROCEDURE + 1;
-
-    @ItemKind
-    private int kind;
+    public static final int KIND_UNDEFINED = KIND_KEYWORD + 1;
     @NonNull
     protected Name name;
     @Nullable
-    private String description = null;
-    @Nullable
     protected Type type;
+    @ItemKind
+    private int kind;
+    @Nullable
+    private String description = null;
 
     public DescriptionImpl(int kind, @NonNull Name name, @Nullable String description, Type type) {
         this.name = name;
@@ -105,7 +105,7 @@ public class DescriptionImpl implements Comparable<Name>, Description {
         return name.toString();
     }
 
-    @IntDef({KIND_CONST, KIND_FUNCTION, KIND_PROCEDURE, KIND_TYPE, KIND_VARIABLE, KIND_KEYWORD})
+    @IntDef({KIND_CONST, KIND_FUNCTION, KIND_PROCEDURE, KIND_TYPE, KIND_VARIABLE, KIND_KEYWORD, KIND_UNDEFINED})
     public @interface ItemKind {
     }
 

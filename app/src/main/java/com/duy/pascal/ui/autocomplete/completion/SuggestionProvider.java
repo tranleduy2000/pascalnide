@@ -39,6 +39,7 @@ import com.duy.pascal.interperter.tokens.basic.ForToken;
 import com.duy.pascal.interperter.tokens.basic.ToToken;
 import com.duy.pascal.interperter.tokens.basic.UsesToken;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
+import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
 import com.duy.pascal.ui.autocomplete.completion.model.KeyWordDescription;
 import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;
 import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
@@ -124,7 +125,7 @@ public class SuggestionProvider {
     private void init(FileScriptSource scriptSource) throws IOException {
         calculateIncomplete();
         mSourceTokens = scriptSource.toTokens();
-        int column = mCursorCol - mIncomplete.length() + 1;
+        int column = mCursorCol - mIncomplete.length() ;
         mStatement = SourceHelper.getStatement(mSourceTokens, mCursorLine, column);
         defineContext();
     }
@@ -138,6 +139,7 @@ public class SuggestionProvider {
 
 
     private void addSuggestFromContext(@NonNull ArrayList<Description> toAdd, @NonNull ExpressionContextMixin exprContext) {
+        System.out.println("mCompleteContext = " + mCompleteContext);
         switch (mCompleteContext) {
             case CONTEXT_AFTER_FOR:
                 completeFor(mIncomplete, toAdd, exprContext);
@@ -167,7 +169,7 @@ public class SuggestionProvider {
 
     private void completeAddToken(ArrayList<Description> toAdd, ExpressionContextMixin exprContext, String... token) {
         for (String str : token) {
-            toAdd.add(new KeyWordDescription(str, null));
+            toAdd.add(new DescriptionImpl(DescriptionImpl.KIND_UNDEFINED, str));
         }
     }
 
@@ -243,12 +245,13 @@ public class SuggestionProvider {
         } else if (last instanceof ToToken) {
             mCompleteContext = CompleteContext.CONTEXT_AFTER_TO;
         } else if (first instanceof UsesToken) {
-            if (last instanceof CommaToken || mStatement.size() == 1) {
+//            if (last instanceof CommaToken || mStatement.size() == 1) {
                 mCompleteContext = CompleteContext.CONTEXT_USES;
-            } else {
-                mCompleteContext = CompleteContext.CONTEXT_COMMA_SEMICOLON;
-            }
+//            } /*else {
+//                mCompleteContext = CompleteContext.CONTEXT_COMMA_SEMICOLON;
+//            }*/
         }
+
     }
 
     private ArrayList<Description> sort(ArrayList<Description> items) {
