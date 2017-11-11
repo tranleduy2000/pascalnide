@@ -332,7 +332,12 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         clearComposingText();
 
         int end = getSelectionEnd();
-        int start = mTokenizer.findTokenStart(getText(), end);
+        int start;
+        if (SymbolsTokenizer.TOKEN.contains(text)) {
+            start = end;
+        } else {
+            start = mTokenizer.findTokenStart(getText(), end);
+        }
 
         Editable editable = getText();
         String original = TextUtils.substring(editable, start, end);
