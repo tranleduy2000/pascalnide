@@ -28,7 +28,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.activities.ActivitySplashScreen;
+import com.duy.pascal.ui.activities.SplashScreenActivity;
 import com.duy.pascal.ui.autocomplete.completion.util.Patterns;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.file.localdata.Database;
@@ -401,7 +401,7 @@ public class FileManager {
 
         Intent intent = new Intent();
 
-        Intent launchIntent = new Intent(context, ActivitySplashScreen.class);
+        Intent launchIntent = new Intent(context, SplashScreenActivity.class);
         launchIntent.putExtra(CompileManager.EXTRA_FILE, file);
         launchIntent.setAction("run_from_shortcut");
 

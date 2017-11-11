@@ -34,25 +34,28 @@ public class SourceHelper {
     private static final String TAG = "SourceHelper";
 
     /**
-     * Search back from the cursor position till meeting 'begin' or ';'.
-     *
-     * @return
+     * Search back from the cursor position till meeting 'begin', 'end' or ';'.
      */
-
     public static List<Token> getStatement(LinkedList<Token> source, int line, int column) {
         LineInfo cursor = new LineInfo(line, column, "");
         int last = 0;
         for (int i = 0; i < source.size(); i++) {
-            if (source.get(i).getLineNumber().compareTo(cursor) <= 0) {
+            if (source.get(i).getLineNumber().compareTo(cursor) < 0) {
                 last = i;
             } else {
                 break;
             }
         }
         int index = last;
-        while (index > 0 && !isStatementSeparator(source.get(index - 1))) {
-            index--;
+        while (index >= 0) {
+            if (isStatementSeparator(source.get(index))) {
+                index++;
+                break;
+            } else {
+                index--;
+            }
         }
+        if (index < 0) index = 0;
         List<Token> tokens = source.subList(index, last + 1);
         DLog.d(TAG, "getStatement() returned: " + tokens);
         return tokens;

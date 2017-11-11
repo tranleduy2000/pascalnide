@@ -40,8 +40,9 @@
         </activity>
 
         <activity
-            android:name="com.duy.pascal.ui.activities.ActivitySplashScreen"
-            android:configChanges="orientation">
+            android:name="com.duy.pascal.ui.activities.SplashScreenActivity"
+            android:configChanges="orientation"
+          >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />

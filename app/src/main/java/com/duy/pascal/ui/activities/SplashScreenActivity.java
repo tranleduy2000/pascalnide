@@ -44,9 +44,9 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 
 
-public class ActivitySplashScreen extends AppCompatActivity {
+public class SplashScreenActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST = 11;
-    private static final String TAG = "ActivitySplashScreen";
+    private static final String TAG = "SplashScreenActivity";
     private static final int REQUEST_CHECK_LICENSE = 1;
 
     @Override
@@ -104,7 +104,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
         if (DLog.DEBUG) DLog.d(TAG, "startMainActivity: action = " + action);
 
         String type = data.getType();
-        final Intent intentEdit = new Intent(ActivitySplashScreen.this, EditorActivity.class);
+        final Intent intentEdit = new Intent(SplashScreenActivity.this, EditorActivity.class);
         if (action != null && Intent.ACTION_SEND.equals(action) && type != null) {
             FirebaseAnalytics.getInstance(this).logEvent("open_from_clipboard", new Bundle());
             if (type.equals("text/plain")) {
@@ -123,8 +123,8 @@ public class ActivitySplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 intentEdit.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                overridePendingTransition(0, 0);
                 startActivity(intentEdit);
+                overridePendingTransition(0, 0);
                 finish();
             }
         }, 100);

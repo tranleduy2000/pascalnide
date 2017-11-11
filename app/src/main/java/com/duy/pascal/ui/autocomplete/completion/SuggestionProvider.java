@@ -72,6 +72,7 @@ public class SuggestionProvider {
     private CodeSuggestsEditText.SymbolsTokenizer mSymbolsTokenizer;
     private ParsingException mParsingException;
     private LinkedList<Token> mSourceTokens;
+    private List<Token> mStatement;
 
     public SuggestionProvider() {
         mSymbolsTokenizer = new CodeSuggestsEditText.SymbolsTokenizer();
@@ -116,7 +117,16 @@ public class SuggestionProvider {
 
     private void init(FileScriptSource scriptSource) throws IOException {
         mSourceTokens = scriptSource.toTokens();
+        mStatement = SourceHelper.getStatement(mSourceTokens, mCursorLine, mCursorCol);
         calculateIncomplete();
+        defineContext();
+    }
+
+    private void calculateIncomplete() {
+        int start = mSymbolsTokenizer.findTokenStart(mSource, mCursorPos);
+        mIncomplete = mSource.substring(start, mCursorPos).trim();
+        System.out.println("mIncomplete = " + mIncomplete);
+        mPreWord = null;
     }
 
     @Nullable
@@ -203,18 +213,15 @@ public class SuggestionProvider {
     /**
      * Define context, incomplete word
      */
-    private void calculateIncomplete() {
-        int start = mSymbolsTokenizer.findTokenStart(mSource, mCursorPos);
-        mIncomplete = mSource.substring(start, mCursorPos).trim();
-        mPreWord = null;
+    private void defineContext() {
+
         mCompleteContext = CONTEXT_NONE;
-        List<Token> statement = SourceHelper.getStatement(mSourceTokens, mCursorLine, mCursorCol);
-        if (statement.isEmpty()) {
+        if (mStatement.isEmpty()) {
             return;
         }
 
-        Token last = statement.get(statement.size() - 1);
-        Token first = statement.get(0);
+        Token last = mStatement.get(mStatement.size() - 1);
+        Token first = mStatement.get(0);
         System.out.println("first = " + first);
         System.out.println("last = " + last);
 
