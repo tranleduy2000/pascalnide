@@ -60,7 +60,7 @@ public class EditorFragment extends Fragment implements EditorController {
     public static EditorFragment newInstance(String filePath) {
         EditorFragment editorFragment = new EditorFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(CompileManager.FILE, new File(filePath));
+        bundle.putSerializable(CompileManager.EXTRA_FILE, new File(filePath));
         editorFragment.setArguments(bundle);
         return editorFragment;
     }
@@ -99,7 +99,7 @@ public class EditorFragment extends Fragment implements EditorController {
             });
         }
         mLoadCodeTask = new LoadCodeTask(mCodeEditor);
-        mLoadCodeTask.execute((File) getArguments().getSerializable(CompileManager.FILE));
+        mLoadCodeTask.execute((File) getArguments().getSerializable(CompileManager.EXTRA_FILE));
     }
 
 
@@ -157,7 +157,7 @@ public class EditorFragment extends Fragment implements EditorController {
         if (mCodeEditor == null) {
             return;
         }
-        File file = (File) getArguments().getSerializable(CompileManager.FILE);
+        File file = (File) getArguments().getSerializable(CompileManager.EXTRA_FILE);
         boolean result;
         if (file != null) {
             try {
@@ -254,7 +254,7 @@ public class EditorFragment extends Fragment implements EditorController {
     }
 
     public String getFilePath() {
-        String path = ((File) getArguments().getSerializable(CompileManager.FILE)).getPath();
+        String path = ((File) getArguments().getSerializable(CompileManager.EXTRA_FILE)).getPath();
         return path;
     }
 

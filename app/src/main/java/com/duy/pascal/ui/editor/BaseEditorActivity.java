@@ -142,12 +142,12 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
 
     private void loadFileFromIntent() {
         Intent intent = getIntent();
-        if (intent != null && intent.getSerializableExtra(CompileManager.FILE) != null) {
-            File file = (File) intent.getSerializableExtra(CompileManager.FILE);
+        if (intent != null && intent.getSerializableExtra(CompileManager.EXTRA_FILE) != null) {
+            File file = (File) intent.getSerializableExtra(CompileManager.EXTRA_FILE);
             //No need save last file because it is the first file
             addNewPageEditor(file);
             //Remove path
-            intent.removeExtra(CompileManager.FILE);
+            intent.removeExtra(CompileManager.EXTRA_FILE);
         }
     }
 
@@ -357,15 +357,15 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         DLog.d(TAG, "onNewIntent() called with: intent = [" + intent + "]");
-        if (intent.getSerializableExtra(CompileManager.FILE) != null) {
-            File file = (File) intent.getSerializableExtra(CompileManager.FILE);
+        if (intent.getSerializableExtra(CompileManager.EXTRA_FILE) != null) {
+            File file = (File) intent.getSerializableExtra(CompileManager.EXTRA_FILE);
             if (!file.exists()) {
                 Toast.makeText(this, R.string.file_not_found, Toast.LENGTH_SHORT).show();
                 return;
             }
             addNewPageEditor(file);
             //remove path
-            intent.removeExtra(CompileManager.FILE);
+            intent.removeExtra(CompileManager.EXTRA_FILE);
         }
     }
 

@@ -402,7 +402,7 @@ public class FileManager {
         Intent intent = new Intent();
 
         Intent launchIntent = new Intent(context, ActivitySplashScreen.class);
-        launchIntent.putExtra(CompileManager.FILE, file);
+        launchIntent.putExtra(CompileManager.EXTRA_FILE, file);
         launchIntent.setAction("run_from_shortcut");
 
         intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent);

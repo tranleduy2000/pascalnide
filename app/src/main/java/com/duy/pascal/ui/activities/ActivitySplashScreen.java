@@ -133,8 +133,8 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private void handleRunProgram(Intent data) {
         Intent runIntent = new Intent(this, ExecuteActivity.class);
         runIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        runIntent.putExtra(CompileManager.FILE,
-                data.getSerializableExtra(CompileManager.FILE));
+        runIntent.putExtra(CompileManager.EXTRA_FILE,
+                data.getSerializableExtra(CompileManager.EXTRA_FILE));
         overridePendingTransition(0, 0);
         startActivity(runIntent);
         finish();
@@ -148,7 +148,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
             DLog.d(TAG, "handleActionView: " + uriPath.getPath());
             try {
                 String filePath = FileManager.getPathFromUri(this, uriPath);
-                to.putExtra(CompileManager.FILE, new File(filePath));
+                to.putExtra(CompileManager.EXTRA_FILE, new File(filePath));
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
@@ -161,7 +161,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 File file = fileManager.createRandomFile(this);
                 fileManager.copy(inputStream, new FileOutputStream(file));
 
-                to.putExtra(CompileManager.FILE, file);
+                to.putExtra(CompileManager.EXTRA_FILE, file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -173,6 +173,6 @@ public class ActivitySplashScreen extends AppCompatActivity {
         FileManager fileManager = new FileManager(this);
         File file = fileManager.createRandomFile(this);
         fileManager.saveFile(file, text);
-        to.putExtra(CompileManager.FILE, file);
+        to.putExtra(CompileManager.EXTRA_FILE, file);
     }
 }

@@ -36,6 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity
     protected PascalPreferences mPreferences;
     @Nullable
     protected Dialog mDialog;
+    protected Toolbar mToolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,7 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        mPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        mPreferences.getPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -104,7 +105,7 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         if (mPreferences != null) {
-            mPreferences.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+            mPreferences.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
         }
         if (mDialog != null && mDialog.isShowing()) {
             mDialog.dismiss();
@@ -113,9 +114,9 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     protected void setupToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
+        mToolbar = findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }

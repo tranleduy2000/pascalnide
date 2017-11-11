@@ -205,8 +205,8 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     @Override
     public void debugProgram() {
         Bundle extras = getIntent().getExtras();
-        if (extras != null && extras.getSerializable(CompileManager.FILE) != null) {
-            mFilePath = ((File) extras.getSerializable(CompileManager.FILE)).getPath();
+        if (extras != null && extras.getSerializable(CompileManager.EXTRA_FILE) != null) {
+            mFilePath = ((File) extras.getSerializable(CompileManager.EXTRA_FILE)).getPath();
             if (mFilePath.isEmpty()) return;
             File file = new File(mFilePath);
             if (!file.exists()) {

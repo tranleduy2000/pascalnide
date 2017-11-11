@@ -18,6 +18,7 @@ package com.duy.pascal.ui.code;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 
 import com.duy.pascal.ui.debug.activities.DebugActivity;
 import com.duy.pascal.ui.editor.EditorActivity;
@@ -31,7 +32,7 @@ import java.io.File;
 
 public class CompileManager {
 
-    public static final String FILE = "file";
+    public static final String EXTRA_FILE = "file";
     public static final String IS_NEW = "is_new";
     public static final String INITIAL_POS = "initial_pos";
     public static final int ACTIVITY_EDITOR = 1001;
@@ -43,33 +44,34 @@ public class CompileManager {
 
     public static void execute(Activity activity, String filePath) {
         Intent intent = new Intent(activity, ExecuteActivity.class);
-        intent.putExtra(FILE, new File(filePath));
-        activity.finish();
+        intent.putExtra(EXTRA_FILE, new File(filePath));
         activity.startActivity(intent);
     }
 
     public static void debug(Activity mActivity, String filePath) {
         Intent intent = new Intent(mActivity, DebugActivity.class);
-        intent.putExtra(FILE, new File(filePath));
+        intent.putExtra(EXTRA_FILE, new File(filePath));
         mActivity.startActivity(intent);
     }
 
     // Execute compiled file
-    public void execute(String filePath) {
-        Intent intent = new Intent(mActivity, ExecuteActivity.class);
-        intent.putExtra(FILE, new File(filePath));
-        mActivity.startActivity(intent);
+    public void execute(@NonNull String filePath) {
+        if (!filePath.isEmpty()) {
+            Intent intent = new Intent(mActivity, ExecuteActivity.class);
+            intent.putExtra(EXTRA_FILE, new File(filePath));
+            mActivity.startActivity(intent);
+        }
     }
 
     public void debug(String filePath) {
         Intent intent = new Intent(mActivity, DebugActivity.class);
-        intent.putExtra(FILE, new File(filePath));
+        intent.putExtra(EXTRA_FILE, new File(filePath));
         mActivity.startActivity(intent);
     }
 
     public void edit(String filePath, Boolean isNew) {
         Intent intent = new Intent(mActivity, EditorActivity.class);
-        intent.putExtra(FILE, new File(filePath));
+        intent.putExtra(EXTRA_FILE, new File(filePath));
         intent.putExtra(IS_NEW, isNew);
         intent.putExtra(INITIAL_POS, 0);
         mActivity.startActivityForResult(intent, ACTIVITY_EDITOR);

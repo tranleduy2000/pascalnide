@@ -81,7 +81,7 @@ public class PascalPreferences {
     }
 
     @NonNull
-    public SharedPreferences getSharedPreferences() {
+    public SharedPreferences getPreferences() {
         return sharedPreferences;
     }
 

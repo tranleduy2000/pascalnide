@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -38,59 +37,62 @@ import java.io.File;
 
 
 public class ExecuteActivity extends AbstractExecActivity {
+    private static final String FIRST_LAUNCHER_KEY = "first_launcher";
     public ConsoleView mConsoleView;
-    public Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_console);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        mConsoleView = (ConsoleView) findViewById(R.id.console);
         setupToolbar();
+        mConsoleView = findViewById(R.id.console);
 
         getConsoleView().updateSize();
         getConsoleView().showPrompt();
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            if (savedInstanceState == null) {
-                mFilePath = ((File) extras.getSerializable(CompileManager.FILE)).getPath();
-                if (mFilePath.isEmpty()) {
-                    return;
-                }
-                File file = new File(mFilePath);
-                if (!file.exists()) {
-                    finish();
-                    return;
-                }
-
-                //set title in in toolbar
-                setTitle(file.getName());
-
-                //disable debug mode
-                setEnableDebug(false);
-
-                //execute file
-                createAndRunProgram(mFilePath);
-            } else {
-
+        File file = (File) getIntent().getSerializableExtra(CompileManager.EXTRA_FILE);
+        if (file != null) {
+            mFilePath = file.getPath();
+            if (!file.exists()) {
+                finish();
+                return;
             }
+
+            //set title in in toolbar
+            setTitle(file.getName());
+
+            //disable debug mode
+            setEnableDebug(false);
+
+            //execute file
+            createAndRunProgram(mFilePath);
         } else {
             finish();
+            return;
         }
+
+        boolean firstLauncher = mPreferences.getPreferences().getBoolean(FIRST_LAUNCHER_KEY, true);
+        if (firstLauncher) {
+            performFirstLauncher();
+        }
+    }
+
+    private void performFirstLauncher() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.keyboard_problem);
+        builder.setMessage(R.string.keyboard_problem_msg);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mPreferences.getPreferences().edit().putBoolean(FIRST_LAUNCHER_KEY, true).apply();
+                dialog.cancel();
+            }
+        }).create().show();
     }
 
     @Override
     public void debugProgram() {
     }
 
-
-    protected void setupToolbar() {
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -115,6 +117,7 @@ public class ExecuteActivity extends AbstractExecActivity {
                 mProgram.resume();
                 break;
             case R.id.action_rerun:
+                finish();
                 CompileManager.execute(this, mFilePath);
                 break;
         }
@@ -136,7 +139,9 @@ public class ExecuteActivity extends AbstractExecActivity {
      */
     public void showKeyBoard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(getConsoleView(), 0);
+        if (imm != null) {
+            imm.showSoftInput(getConsoleView(), InputMethodManager.SHOW_IMPLICIT);
+        }
     }
 
     public void toggleSoftInput() {

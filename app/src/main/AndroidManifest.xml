@@ -102,7 +102,7 @@
 
         <activity
             android:name="com.duy.pascal.ui.runnable.ExecuteActivity"
-            android:configChanges="screenSize"
+            android:configChanges="screenSize|orientation"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
 
