@@ -101,7 +101,7 @@ public class KeyWord {
 
         COMMON_TYPE = new String[]{"String", "Char", "Integer", "Real"};
         REAL_TYPE = new String[]{"Real", /*"Single", "Double",*/ "Extended"/*, "Comp", "Currency"*/};
-        INTEGER_TYPE = new String[]{"Byte", /*"ShortInt", "Smallint",*/ "Word", "Integer", /*"Cardinal",*/ "Longint",/* "Longword", */"Int64", "QWord"};
+        INTEGER_TYPE = new String[]{"Byte", /*"ShortInt", "Smallint",*/ "Word", "Integer", /*"Cardinal",*/ "LongInt",/* "Longword", */"Int64", "QWord"};
         STRING_TYPE = new String[]{"String", "AnsiString", "Char"};
         BOOLEAN_TYPE = new String[]{"Boolean", "ByteBool", "WordBool", "LongBool"};
 

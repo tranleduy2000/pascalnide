@@ -16,13 +16,15 @@ import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.ui.runnable.ProgramHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CodeUnit {
     public ExpressionContextMixin mContext;
     protected ProgramConfig config = new ProgramConfig();
     private ScriptSource mSource;
-    private List<ScriptSource> mIncludeDirectories;
+    @NonNull
+    private List<ScriptSource> mIncludeDirectories = new ArrayList<>();
 
     public CodeUnit() {
     }
@@ -36,7 +38,9 @@ public abstract class CodeUnit {
             throws Exception {
         this.mSource = source;
         this.mContext = createExpressionContext(handler);
-        this.mIncludeDirectories = include;
+        if (include != null) {
+            this.mIncludeDirectories = include;
+        }
 
         long time = System.currentTimeMillis();
         GroupParser lexer;

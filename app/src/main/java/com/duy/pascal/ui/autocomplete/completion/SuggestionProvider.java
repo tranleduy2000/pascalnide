@@ -34,7 +34,8 @@ import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.tokens.Token;
-import com.duy.pascal.interperter.tokens.basic.CommaToken;
+import com.duy.pascal.interperter.tokens.WordToken;
+import com.duy.pascal.interperter.tokens.basic.ColonToken;
 import com.duy.pascal.interperter.tokens.basic.ForToken;
 import com.duy.pascal.interperter.tokens.basic.ToToken;
 import com.duy.pascal.interperter.tokens.basic.UsesToken;
@@ -105,6 +106,7 @@ public class SuggestionProvider {
                     addSuggestFromContext(suggestItems, e.getCodeUnit().getContext());
                     mParsingException = e.getParseException();
                 } catch (Exception ignored) {
+                    ignored.printStackTrace();
                 }
             }
 
@@ -125,14 +127,14 @@ public class SuggestionProvider {
     private void init(FileScriptSource scriptSource) throws IOException {
         calculateIncomplete();
         mSourceTokens = scriptSource.toTokens();
-        int column = mCursorCol - mIncomplete.length() ;
+        int column = mCursorCol - mIncomplete.length();
         mStatement = SourceHelper.getStatement(mSourceTokens, mCursorLine, column);
         defineContext();
     }
 
     private void calculateIncomplete() {
         int start = mSymbolsTokenizer.findTokenStart(mSource, mCursorPos);
-        mIncomplete = mSource.substring(start, mCursorPos).trim();
+        mIncomplete = mSource.substring(start, mCursorPos);
         System.out.println("mIncomplete = " + mIncomplete);
         mPreWord = null;
     }
@@ -154,17 +156,25 @@ public class SuggestionProvider {
             case CONTEXT_USES:
                 completeUses(toAdd, exprContext);
                 break;
-            case CONTEXT_COMMA_SEMICOLON:
-                completeAddToken(toAdd, exprContext, ",", ";");
+            case CONTEXT_AFTER_COLON:
+                //most of case
+                completeSuggestType(toAdd, exprContext);
                 break;
             case CONTEXT_CONST:
             case CONTEXT_TYPE:
             case CONTEXT_VAR:
-            default:
             case CONTEXT_NONE:
+            default:
                 completeWord(toAdd, exprContext);
                 break;
         }
+    }
+
+    private void completeSuggestType(ArrayList<Description> toAdd, ExpressionContextMixin exprContext) {
+        for (String str : KeyWord.DATA_TYPE) {
+            toAdd.add(new DescriptionImpl(DescriptionImpl.KIND_UNDEFINED, str));
+        }
+        toAdd.add(new DescriptionImpl(DescriptionImpl.KIND_UNDEFINED, "array"));
     }
 
     private void completeAddToken(ArrayList<Description> toAdd, ExpressionContextMixin exprContext, String... token) {
@@ -245,11 +255,13 @@ public class SuggestionProvider {
         } else if (last instanceof ToToken) {
             mCompleteContext = CompleteContext.CONTEXT_AFTER_TO;
         } else if (first instanceof UsesToken) {
-//            if (last instanceof CommaToken || mStatement.size() == 1) {
-                mCompleteContext = CompleteContext.CONTEXT_USES;
-//            } /*else {
-//                mCompleteContext = CompleteContext.CONTEXT_COMMA_SEMICOLON;
-//            }*/
+            mCompleteContext = CompleteContext.CONTEXT_USES;
+        } else if (last instanceof ColonToken) {
+            if (mStatement.size() >= 2) {
+                if (mStatement.get(mStatement.size() - 2) instanceof WordToken) {
+                    mCompleteContext = CompleteContext.CONTEXT_AFTER_COLON;
+                }
+            }
         }
 
     }
