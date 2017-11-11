@@ -116,6 +116,11 @@ public class SuggestionProvider {
         return null;
     }
 
+    /**
+     * Prepare for parsing
+     *
+     * @param scriptSource - source code from editor
+     */
     private void init(FileScriptSource scriptSource) throws IOException {
         calculateIncomplete();
         mSourceTokens = scriptSource.toTokens();
@@ -147,7 +152,7 @@ public class SuggestionProvider {
             case CONTEXT_USES:
                 completeUses(toAdd, exprContext);
                 break;
-            case CONTEXT_ADD_COMMA_SEMICOLON:
+            case CONTEXT_COMMA_SEMICOLON:
                 completeAddToken(toAdd, exprContext, ",", ";");
                 break;
             case CONTEXT_CONST:
@@ -162,10 +167,7 @@ public class SuggestionProvider {
 
     private void completeAddToken(ArrayList<Description> toAdd, ExpressionContextMixin exprContext, String... token) {
         for (String str : token) {
-            if (str.toLowerCase().startsWith(mIncomplete.toLowerCase())
-                    && !str.equalsIgnoreCase(mIncomplete)) {
-                toAdd.add(new KeyWordDescription(str, null));
-            }
+            toAdd.add(new KeyWordDescription(str, null));
         }
     }
 
@@ -244,7 +246,7 @@ public class SuggestionProvider {
             if (last instanceof CommaToken || mStatement.size() == 1) {
                 mCompleteContext = CompleteContext.CONTEXT_USES;
             } else {
-                mCompleteContext = CompleteContext.CONTEXT_ADD_COMMA_SEMICOLON;
+                mCompleteContext = CompleteContext.CONTEXT_COMMA_SEMICOLON;
             }
         }
     }
