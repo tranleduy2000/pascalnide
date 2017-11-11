@@ -43,7 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.file.FileActionCallback;
+import com.duy.pascal.ui.file.FileActionListener;
 import com.duy.pascal.ui.file.FileExplorerView;
 import com.duy.pascal.ui.file.FileManager;
 import com.duy.pascal.ui.file.PreferenceHelper;
@@ -80,7 +80,7 @@ public class FragmentFileManager extends Fragment implements
     private static final int SORT_BY_SIZE = 2;
     private static final int SORT_BY_DATE = 3;
     private final Handler handler = new Handler();
-    private FileActionCallback mListener;
+    private FileActionListener mListener;
     private FloatingActionMenu mFabMenu;
     private RecyclerView mRecycleView;
     private String mCurrentFolder;
@@ -131,7 +131,7 @@ public class FragmentFileManager extends Fragment implements
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mListener = (FileActionCallback) getActivity();
+            mListener = (FileActionListener) getActivity();
         } catch (Exception ignored) {
             mListener = null;
         }
@@ -231,6 +231,11 @@ public class FragmentFileManager extends Fragment implements
                 alertDialog.cancel();
             }
         });
+
+    }
+
+    @Override
+    public void onPrepareDeleteFile(File file) {
 
     }
 
@@ -366,7 +371,7 @@ public class FragmentFileManager extends Fragment implements
 
             if (selectedFile.isFile() && mWantAFile) {
                 // TODO: 15-Mar-17
-                if (mListener != null) mListener.onSelectFile(selectedFile);
+                if (mListener != null) mListener.onFileSelected(selectedFile);
             } else if (selectedFile.isDirectory()) {
                 new UpdateList(selectedFile.getAbsolutePath()).execute();
             }

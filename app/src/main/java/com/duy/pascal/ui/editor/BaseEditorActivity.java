@@ -55,7 +55,7 @@ import com.duy.pascal.ui.EditorControl;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.code.sample.activities.CodeSampleActivity;
-import com.duy.pascal.ui.file.FileActionCallback;
+import com.duy.pascal.ui.file.FileActionListener;
 import com.duy.pascal.ui.file.FileClipboard;
 import com.duy.pascal.ui.file.FileExplorerView;
 import com.duy.pascal.ui.file.FileManager;
@@ -80,7 +80,7 @@ import java.util.ArrayList;
 
 
 public abstract class BaseEditorActivity extends BaseActivity implements SymbolListView.OnKeyListener,
-        EditorControl, FileActionCallback,
+        EditorControl, FileActionListener,
         EditorContext, View.OnClickListener, PopupMenu.OnMenuItemClickListener {
     private static final String TAG = "BaseEditorActivity";
 
@@ -372,17 +372,16 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
     protected abstract String getCode();
 
     @Override
-    public boolean onSelectFile(@NonNull File file) {
+    public boolean onFileSelected(@NonNull File file) {
         return false;
     }
 
     @Override
-    public boolean onFileLongClick(@NonNull File file) {
-        return false;
+    public void onFileLongClick(@NonNull File file) {
     }
 
     @Override
-    public boolean doRemoveFile(@NonNull final File file) {
+    public void doRemoveFile(@NonNull final File file) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getString(R.string.remove_file_msg) + " " + file.getName());
         builder.setTitle(R.string.delete_file);
@@ -397,8 +396,9 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
                         removePage(position);
                     }
                     Toast.makeText(getApplicationContext(), R.string.deleted, Toast.LENGTH_SHORT).show();
-                } else
+                } else {
                     Toast.makeText(getApplicationContext(), R.string.failed, Toast.LENGTH_SHORT).show();
+                }
 
                 //reload file
                 FileExplorerView controller = (FileExplorerView) getSupportFragmentManager().findFragmentByTag("fragment_file_view");
@@ -416,7 +416,14 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
             }
         });
         builder.create().show();
-        return false;
+    }
+
+    @Override
+    public void onPrepareDeleteFile(@NonNull File file) {
+        int position = mPagerAdapter.getPositionForTag(file.getPath());
+        if (position >= 0) {
+            removePage(position);
+        }
     }
 
     @NonNull

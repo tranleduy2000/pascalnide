@@ -47,7 +47,6 @@
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/toolbar_height"
-                android:clipChildren="true"
                 app:tabGravity="fill"
                 app:tabMode="scrollable"
                 app:tabPaddingEnd="0dp"

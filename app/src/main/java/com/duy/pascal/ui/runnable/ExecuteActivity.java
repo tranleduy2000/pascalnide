@@ -45,7 +45,7 @@ public class ExecuteActivity extends AbstractExecActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_console);
         setupToolbar();
-        mConsoleView = findViewById(R.id.console);
+        mConsoleView = findViewById(R.id.console_view);
 
         getConsoleView().updateSize();
         getConsoleView().showPrompt();
@@ -71,9 +71,7 @@ public class ExecuteActivity extends AbstractExecActivity {
         }
 
         boolean firstLauncher = mPreferences.getPreferences().getBoolean(FIRST_LAUNCHER_KEY, true);
-        if (firstLauncher) {
-            performFirstLauncher();
-        }
+        if (firstLauncher) performFirstLauncher();
     }
 
     private void performFirstLauncher() {

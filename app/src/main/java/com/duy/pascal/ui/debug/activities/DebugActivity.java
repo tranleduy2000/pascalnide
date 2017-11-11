@@ -126,7 +126,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mConsoleView = findViewById(R.id.console);
+        mConsoleView = findViewById(R.id.console_view);
         mCodeView = findViewById(R.id.code_editor);
         mScrollView = findViewById(R.id.vertical_scroll);
         mCodeView.setVerticalScroll(mScrollView);

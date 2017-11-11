@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.ui.BaseActivity;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.file.FileActionCallback;
+import com.duy.pascal.ui.file.FileActionListener;
 import com.duy.pascal.ui.file.FileClipboard;
 import com.duy.pascal.ui.file.FileManager;
 import com.duy.pascal.ui.file.fragment.FragmentFileManager;
@@ -33,7 +33,9 @@ import com.duy.pascal.ui.file.fragment.FragmentFileManager;
 import java.io.File;
 
 public class CreateShortcutActivity extends BaseActivity
-        implements FileActionCallback {
+        implements FileActionListener {
+
+    private FileClipboard mFileClipboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class CreateShortcutActivity extends BaseActivity
     }
 
     @Override
-    public boolean onSelectFile(@NonNull File file) {
+    public boolean onFileSelected(@NonNull File file) {
         FileManager fileManager = new FileManager(this);
         Intent intent = fileManager.createShortcutIntent(this, file);
         setResult(RESULT_OK, intent);
@@ -61,15 +63,17 @@ public class CreateShortcutActivity extends BaseActivity
     }
 
     @Override
-    public boolean onFileLongClick(@NonNull File file) {
-        return true;
+    public void onFileLongClick(@NonNull File file) {
     }
 
     @Override
-    public boolean doRemoveFile(@NonNull File file) {
-        return false;
+    public void doRemoveFile(@NonNull File file) {
     }
 
+    @Override
+    public void onPrepareDeleteFile(@NonNull File file) {
+
+    }
 
     @NonNull
     @Override
@@ -79,6 +83,5 @@ public class CreateShortcutActivity extends BaseActivity
         }
         return mFileClipboard;
     }
-    private FileClipboard mFileClipboard;
 
 }

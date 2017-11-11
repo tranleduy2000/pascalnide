@@ -371,7 +371,7 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     @Override
-    public boolean onSelectFile(@NonNull File file) {
+    public boolean onFileSelected(@NonNull File file) {
         if (FileUtils.canEdit(file)) {
             //save current file
             addNewPageEditor(file);
@@ -383,9 +383,8 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     @Override
-    public boolean onFileLongClick(@NonNull File file) {
+    public void onFileLongClick(@NonNull File file) {
         showFileInfo(file);
-        return false;
     }
 
 

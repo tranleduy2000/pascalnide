@@ -37,5 +37,7 @@ public interface FileExplorerView {
 
     void createNewFile();
 
+    void onPrepareDeleteFile(File file);
+
     void show(File file);
 }

@@ -262,6 +262,6 @@
     <string name="open_or_create_new_file">Open or create new file</string>
     <string name="open_drawer">Open drawer</string>
     <string name="keyboard_problem">Keyboard problem</string>
-    <string name="keyboard_problem_msg">If you can enter data via keyboard, please change keyboard (Gboard is recommended)</string>
+    <string name="keyboard_problem_msg">If you cannot enter data via keyboard, please change keyboard (Gboard is recommended)</string>
 </resources>
 

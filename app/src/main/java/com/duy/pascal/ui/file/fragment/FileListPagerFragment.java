@@ -44,8 +44,9 @@ import com.duy.pascal.ui.common.task.TaskListener;
 import com.duy.pascal.ui.common.task.TaskResult;
 import com.duy.pascal.ui.common.utils.UIUtils;
 import com.duy.pascal.ui.databinding.FileExplorerFragmentBinding;
+import com.duy.pascal.ui.editor.EditorActivity;
 import com.duy.pascal.ui.file.ExplorerContext;
-import com.duy.pascal.ui.file.FileActionCallback;
+import com.duy.pascal.ui.file.FileActionListener;
 import com.duy.pascal.ui.file.FileClipboard;
 import com.duy.pascal.ui.file.FileExplorerAction;
 import com.duy.pascal.ui.file.FileExplorerView;
@@ -99,7 +100,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FileClipboard fileClipboard = ((FileActionCallback) getActivity()).getFileClipboard();
+        FileClipboard fileClipboard = ((FileActionListener) getActivity()).getFileClipboard();
         mAction = new FileExplorerAction(getContext(), this, fileClipboard, this);
         mAdapter = new FileListItemAdapter();
         mAdapter.setOnCheckedChangeListener(mAction);
@@ -272,8 +273,8 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     public void onItemClick(int position, View view) {
         try {
             File file = mAdapter.getItem(position);
-            FileActionCallback callback = (FileActionCallback) getActivity();
-            if (!callback.onSelectFile(new File(file.getPath()))) {
+            FileActionListener callback = (FileActionListener) getActivity();
+            if (!callback.onFileSelected(new File(file.getPath()))) {
                 if (file.isDirectory()) {
                     switchToPath(file);
                 }
@@ -286,7 +287,7 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
     public boolean onItemLongClick(int position, View view) {
 //        try {
 //            File file = adapter.getItem(position);
-//            FileActionCallback callback = (FileActionCallback) getActivity();
+//            FileActionListener callback = (FileActionListener) getActivity();
 //            return callback.onFileLongClick(new File(file.getPath()));
 //        } catch (ClassCastException ignored) {
 //        }
@@ -334,12 +335,20 @@ public class FileListPagerFragment extends Fragment implements SwipeRefreshLayou
 
     @Override
     public void createNewFolder() {
-        mAction.doCreateFolder((FileActionCallback) getActivity());
+        mAction.doCreateFolder((FileActionListener) getActivity());
     }
 
     @Override
     public void createNewFile() {
-        mAction.showDialogCreateFile((FileActionCallback) getActivity());
+        mAction.showDialogCreateFile((FileActionListener) getActivity());
+    }
+
+    @Override
+    public void onPrepareDeleteFile(File file) {
+        EditorActivity activity = (EditorActivity) getActivity();
+        if (activity != null) {
+            activity.onPrepareDeleteFile(file);
+        }
     }
 
     @Override

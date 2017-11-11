@@ -20,12 +20,14 @@ import android.support.annotation.NonNull;
 
 import java.io.File;
 
-public interface FileActionCallback {
-    boolean onSelectFile(@NonNull File file);
+public interface FileActionListener {
+    boolean onFileSelected(@NonNull File file);
 
-    boolean onFileLongClick(@NonNull File file);
+    void onFileLongClick(@NonNull File file);
 
-    boolean doRemoveFile(@NonNull File file);
+    void doRemoveFile(@NonNull File file);
+
+    void onPrepareDeleteFile(@NonNull File file);
 
     @NonNull
     FileClipboard getFileClipboard();

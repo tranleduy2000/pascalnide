@@ -267,6 +267,7 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
 
     private void doDeleteAction() {
         for (File file : mCheckedList) {
+            mView.onPrepareDeleteFile(file);
             FileUtils.deleteRecursive(file);
         }
         mView.refresh();
@@ -279,7 +280,7 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
         return false;
     }
 
-    public void doCreateFolder(@Nullable final FileActionCallback callback) {
+    public void doCreateFolder(@Nullable final FileActionListener callback) {
         if (mDialog != null && mDialog.isShowing()) {
             mDialog.cancel();
         }
@@ -318,7 +319,7 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
                 }
                 mView.refresh();
                 if (callback != null) {
-                    callback.onSelectFile(new File(folder.getPath()));
+                    callback.onFileSelected(new File(folder.getPath()));
                 }
                 destroyActionMode();
                 mDialog.cancel();
@@ -326,7 +327,7 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
         });
     }
 
-    public void showDialogCreateFile(@Nullable final FileActionCallback mCallback) {
+    public void showDialogCreateFile(@Nullable final FileActionListener mCallback) {
         if (mDialog != null && mDialog.isShowing()) {
             mDialog.dismiss();
         }
@@ -383,7 +384,7 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
                     fileManager.saveFile(file, template);
                 }
                 if (mCallback != null) {
-                    mCallback.onSelectFile(new File(file.getPath()));
+                    mCallback.onFileSelected(new File(file.getPath()));
                 }
                 mView.refresh();
                 destroyActionMode();
