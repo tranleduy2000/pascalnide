@@ -149,7 +149,7 @@ public class SuggestOperation {
                 completeWord(mIncomplete, toAdd, exprContext);
                 break;
             case CONTEXT_AFTER_TO:
-                completeWord(mIncomplete, toAdd, exprContext);
+                completeNeedType(mIncomplete, toAdd, exprContext, BasicType.Long);
                 break;
             case CONTEXT_ASSIGN:
                 completeWord(mIncomplete, toAdd, exprContext);
@@ -179,6 +179,18 @@ public class SuggestOperation {
         }
     }
 
+    private void completeNeedType(String mIncomplete, ArrayList<Description> toAdd,
+                                  ExpressionContextMixin exprContext, BasicType type) {
+        ArrayList<VariableDeclaration> variables = exprContext.getVariables();
+        toAdd.addAll(sort(filterVariables(mIncomplete, variables, type)));
+
+        Map<Name, ConstantDefinition> constants = exprContext.getConstants();
+        toAdd.addAll(sort(filterConst(mIncomplete, constants, type)));
+
+        ArrayListMultimap<Name, AbstractFunction> callableFunctions = exprContext.getCallableFunctions();
+        toAdd.addAll(sort(filterFunctions(mIncomplete, callableFunctions, type)));
+    }
+
     /**
      * Add suggestion for "for" statement, only accept integer variable
      *
@@ -201,7 +213,7 @@ public class SuggestOperation {
 
     private ArrayList<Description> filterConst(String mIncomplete, Map<Name, ConstantDefinition> constants,
                                                @Nullable Type type) {
-        if (mIncomplete.isEmpty()) return new ArrayList<>();
+        if (mIncomplete.isEmpty() && type == null) return new ArrayList<>();
 
         ArrayList<Description> suggestItems = new ArrayList<>();
 
@@ -218,7 +230,7 @@ public class SuggestOperation {
 
     private ArrayList<Description> filterVariables(String mIncomplete, ArrayList<VariableDeclaration> variables,
                                                    @Nullable Type type) {
-        if (mIncomplete.isEmpty()) return new ArrayList<>();
+        if (mIncomplete.isEmpty() && type == null) return new ArrayList<>();
         ArrayList<Description> suggestItems = new ArrayList<>();
         for (VariableDeclaration variable : variables) {
             if (variable.getName().isPrefix(mIncomplete) && canConvertType(variable.getType(), type)) {
@@ -241,7 +253,7 @@ public class SuggestOperation {
 
     private ArrayList<Description> filterFunctions(String mIncomplete, ArrayListMultimap<Name, AbstractFunction> allFunctions,
                                                    @Nullable Type type) {
-        if (mIncomplete.isEmpty()) {
+        if (mIncomplete.isEmpty() && type == null) {
             return new ArrayList<>();
         }
         ArrayList<Description> suggestItems = new ArrayList<>();
@@ -305,9 +317,11 @@ public class SuggestOperation {
             if (isFor >= 0) {
                 switch (isFor) {
                     case 1:// {ValueToken}, suggest variable integer
+                        mCompleteContext = CompleteContext.CONTEXT_AFTER_FOR;
+                        break;
                     case 3://after assign, as before assign, suggest variable integer
                     case 5://after to, as after 'for'
-                        mCompleteContext = CompleteContext.CONTEXT_AFTER_FOR;
+                        mCompleteContext = CompleteContext.CONTEXT_AFTER_TO;
                         break;
                     case 2: //after value, assign token,
                         mCompleteContext = CompleteContext.CONTEXT_INSERT_ASSIGN;

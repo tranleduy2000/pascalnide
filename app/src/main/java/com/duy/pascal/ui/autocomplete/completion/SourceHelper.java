@@ -93,13 +93,13 @@ public class SourceHelper {
                     if (!(token instanceof AssignmentToken)) return -1;
                     break;
                 case 3:
-                    if (!(token instanceof ValueToken)) return -1;
+                    if (!(token instanceof WordToken)) return -1;
                     break;
                 case 4:
                     if (!(token instanceof ToToken || token instanceof DowntoToken)) return -1;
                     break;
                 case 5:
-                    if (!(token instanceof ValueToken)) return -1;
+                    if (!(token instanceof WordToken)) return -1;
                     break;
                 case 6:
                     if (!(token instanceof DoToken)) return -1;
