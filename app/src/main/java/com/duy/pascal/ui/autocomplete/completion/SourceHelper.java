@@ -18,9 +18,16 @@ package com.duy.pascal.ui.autocomplete.completion;
 
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.Token;
+import com.duy.pascal.interperter.tokens.WordToken;
+import com.duy.pascal.interperter.tokens.basic.AssignmentToken;
+import com.duy.pascal.interperter.tokens.basic.DoToken;
+import com.duy.pascal.interperter.tokens.basic.DowntoToken;
+import com.duy.pascal.interperter.tokens.basic.ForToken;
 import com.duy.pascal.interperter.tokens.basic.SemicolonToken;
+import com.duy.pascal.interperter.tokens.basic.ToToken;
 import com.duy.pascal.interperter.tokens.closing.EndToken;
 import com.duy.pascal.interperter.tokens.grouping.BeginEndToken;
+import com.duy.pascal.interperter.tokens.value.ValueToken;
 import com.duy.pascal.ui.utils.DLog;
 
 import java.util.LinkedList;
@@ -66,5 +73,41 @@ public class SourceHelper {
                 /*|| token instanceof VarToken || token instanceof UsesToken
                 || token instanceof ConstToken || token instanceof ProgramToken*/
                 || token instanceof SemicolonToken;
+    }
+
+    /**
+     * Syntax
+     * For {@link WordToken} := {@link ValueToken} [To|Downto] {@link ValueToken} do
+     */
+    public static int isForNumberStructure(List<Token> tokens) {
+        for (int i = 0, tokensSize = tokens.size(); i < tokensSize; i++) {
+            Token token = tokens.get(i);
+            switch (i) {
+                case 0:
+                    if (!(token instanceof ForToken)) return -1;
+                    break;
+                case 1:
+                    if (!(token instanceof WordToken)) return -1;
+                    break;
+                case 2:
+                    if (!(token instanceof AssignmentToken)) return -1;
+                    break;
+                case 3:
+                    if (!(token instanceof ValueToken)) return -1;
+                    break;
+                case 4:
+                    if (!(token instanceof ToToken || token instanceof DowntoToken)) return -1;
+                    break;
+                case 5:
+                    if (!(token instanceof ValueToken)) return -1;
+                    break;
+                case 6:
+                    if (!(token instanceof DoToken)) return -1;
+                    break;
+                default:
+                    return i;
+            }
+        }
+        return tokens.size();
     }
 }

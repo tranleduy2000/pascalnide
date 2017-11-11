@@ -40,7 +40,6 @@ import com.duy.pascal.interperter.tokens.basic.ForToken;
 import com.duy.pascal.interperter.tokens.basic.ToToken;
 import com.duy.pascal.interperter.tokens.basic.UsesToken;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
-import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
 import com.duy.pascal.ui.autocomplete.completion.model.KeyWordDescription;
 import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;
 import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
@@ -50,20 +49,21 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import static com.duy.pascal.ui.autocomplete.completion.CompleteContext.CONTEXT_NONE;
+import static com.duy.pascal.ui.autocomplete.completion.SuggestProvider.completeSuggestType;
+import static com.duy.pascal.ui.autocomplete.completion.SuggestProvider.completeUses;
+import static com.duy.pascal.ui.autocomplete.completion.SuggestProvider.sort;
 
 /**
  * Created by Duy on 17-Aug-17.
  */
 
-public class SuggestionProvider {
-    private static final String TAG = "SuggestionProvider";
+public class SuggestOperation {
+    private static final String TAG = "SuggestOperation";
     private static final int MAX_CHAR = 1000;
     private String mSource;
     private int mCursorPos;
@@ -77,7 +77,7 @@ public class SuggestionProvider {
     private LinkedList<Token> mSourceTokens;
     private List<Token> mStatement;
 
-    public SuggestionProvider() {
+    public SuggestOperation() {
         mSymbolsTokenizer = new CodeSuggestsEditText.SymbolsTokenizer();
         mIncomplete = "";
     }
@@ -110,7 +110,7 @@ public class SuggestionProvider {
                 }
             }
 
-            suggestItems.addAll(sort(getKeyword()));
+            suggestItems.addAll(sort(filterKeyword(mIncomplete)));
             DLog.d(TAG, "getSuggestion: time = " + (System.currentTimeMillis() - time));
             return suggestItems;
         } catch (Exception e) {
@@ -118,6 +118,54 @@ public class SuggestionProvider {
         }
         return null;
     }
+
+    private ArrayList<Description> filterConst(String mIncomplete, Map<Name, ConstantDefinition> constants) {
+        if (mIncomplete.isEmpty()) return new ArrayList<>();
+
+        ArrayList<Description> suggestItems = new ArrayList<>();
+
+        for (Map.Entry<Name, ConstantDefinition> entry : constants.entrySet()) {
+            ConstantDefinition constant = entry.getValue();
+            if (constant.getName().isPrefix(mIncomplete)) {
+                if (beforeCursor(constant.getLineNumber())) {
+                    suggestItems.add(CompletionFactory.makeConstant(constant));
+                }
+            }
+        }
+        return suggestItems;
+    }
+
+    private ArrayList<Description> filterVariables(String mIncomplete, ArrayList<VariableDeclaration> variables) {
+        if (mIncomplete.isEmpty()) return new ArrayList<>();
+        ArrayList<Description> suggestItems = new ArrayList<>();
+        for (VariableDeclaration variable : variables) {
+            if (variable.getName().isPrefix(mIncomplete)) {
+                if (beforeCursor(variable.getLineNumber())) {
+                    suggestItems.add(CompletionFactory.makeVariable(variable));
+                }
+            }
+        }
+        return suggestItems;
+    }
+
+    private ArrayList<Description> filterFunctions(String mIncomplete, ArrayListMultimap<Name, AbstractFunction> allFunctions) {
+        if (mIncomplete.isEmpty()) {
+            return new ArrayList<>();
+        }
+        ArrayList<Description> suggestItems = new ArrayList<>();
+        Collection<ArrayList<AbstractFunction>> values = allFunctions.values();
+        for (ArrayList<AbstractFunction> list : values) {
+            for (AbstractFunction function : list) {
+                if (function.getName().isPrefix(mIncomplete)) {
+                    if (beforeCursor(function.getLineNumber())) {
+                        suggestItems.add(CompletionFactory.makeFunction(function));
+                    }
+                }
+            }
+        }
+        return suggestItems;
+    }
+
 
     /**
      * Prepare for parsing
@@ -139,56 +187,41 @@ public class SuggestionProvider {
         mPreWord = null;
     }
 
-
     private void addSuggestFromContext(@NonNull ArrayList<Description> toAdd, @NonNull ExpressionContextMixin exprContext) {
         System.out.println("mCompleteContext = " + mCompleteContext);
         switch (mCompleteContext) {
             case CONTEXT_AFTER_FOR:
                 completeFor(mIncomplete, toAdd, exprContext);
-                completeWord(toAdd, exprContext);
+                completeWord(mIncomplete, toAdd, exprContext);
                 break;
             case CONTEXT_AFTER_TO:
-                completeWord(toAdd, exprContext);
+                completeWord(mIncomplete, toAdd, exprContext);
                 break;
             case CONTEXT_ASSIGN:
-                completeWord(toAdd, exprContext);
+                completeWord(mIncomplete, toAdd, exprContext);
                 break;
             case CONTEXT_USES:
-                completeUses(toAdd, exprContext);
+                completeUses(mIncomplete, toAdd, exprContext);
                 break;
             case CONTEXT_AFTER_COLON:
                 //most of case
-                completeSuggestType(toAdd, exprContext);
+                completeSuggestType(mIncomplete, toAdd, exprContext);
                 break;
+            case CONTEXT_INSERT_DO:
+                SuggestProvider.completeAddKeyWordToken(mIncomplete, toAdd, exprContext, "do");
+                break;
+            case CONTEXT_INSERT_TO:
+                SuggestProvider.completeAddKeyWordToken(mIncomplete, toAdd, exprContext, "to");
+                break;
+            case CONTEXT_INSERT_ASSIGN:
+            case CONTEXT_COMMA_SEMICOLON:
             case CONTEXT_CONST:
             case CONTEXT_TYPE:
             case CONTEXT_VAR:
             case CONTEXT_NONE:
             default:
-                completeWord(toAdd, exprContext);
+                completeWord(mIncomplete, toAdd, exprContext);
                 break;
-        }
-    }
-
-    private void completeSuggestType(ArrayList<Description> toAdd, ExpressionContextMixin exprContext) {
-        for (String str : KeyWord.DATA_TYPE) {
-            toAdd.add(new DescriptionImpl(DescriptionImpl.KIND_UNDEFINED, str));
-        }
-        toAdd.add(new DescriptionImpl(DescriptionImpl.KIND_UNDEFINED, "array"));
-    }
-
-    private void completeAddToken(ArrayList<Description> toAdd, ExpressionContextMixin exprContext, String... token) {
-        for (String str : token) {
-            toAdd.add(new DescriptionImpl(DescriptionImpl.KIND_UNDEFINED, str));
-        }
-    }
-
-    private void completeUses(ArrayList<Description> toAdd, ExpressionContextMixin exprContext) {
-        for (String str : KeyWord.BUILTIN_LIBS) {
-            if (str.toLowerCase().startsWith(mIncomplete.toLowerCase())
-                    && !str.equalsIgnoreCase(mIncomplete)) {
-                toAdd.add(new KeyWordDescription(str, null));
-            }
         }
     }
 
@@ -210,18 +243,18 @@ public class SuggestionProvider {
         }
     }
 
-    private void completeWord(ArrayList<Description> toAdd, ExpressionContextMixin exprContext) {
+    private void completeWord(String mIncomplete, ArrayList<Description> toAdd, ExpressionContextMixin exprContext) {
         ArrayList<VariableDeclaration> variables = exprContext.getVariables();
-        toAdd.addAll(sort(filterVariables(variables)));
+        toAdd.addAll(sort(filterVariables(mIncomplete, variables)));
 
         Map<Name, ConstantDefinition> constants = exprContext.getConstants();
-        toAdd.addAll(sort(filterConst(constants)));
+        toAdd.addAll(sort(filterConst(mIncomplete, constants)));
 
         ArrayListMultimap<Name, AbstractFunction> callableFunctions = exprContext.getCallableFunctions();
-        toAdd.addAll(sort(filterFunctions(callableFunctions)));
+        toAdd.addAll(sort(filterFunctions(mIncomplete, callableFunctions)));
     }
 
-    private ArrayList<Description> getKeyword() {
+    private ArrayList<Description> filterKeyword(String mIncomplete) {
         ArrayList<Description> suggestItems = new ArrayList<>();
         if (mIncomplete.isEmpty()) {
             return suggestItems;
@@ -252,6 +285,26 @@ public class SuggestionProvider {
         if (last instanceof ForToken) {
             //for to do
             mCompleteContext = CompleteContext.CONTEXT_AFTER_FOR;
+        } else if (first instanceof ForToken) {
+            int isFor = SourceHelper.isForNumberStructure(mStatement);
+            if (isFor >= 0) {
+                switch (isFor) {
+                    case 1:// {ValueToken}, suggest variable integer
+                    case 3://after assign, as before assign, suggest variable integer
+                    case 5://after to, as after 'for'
+                        mCompleteContext = CompleteContext.CONTEXT_AFTER_FOR;
+                        break;
+                    case 2: //after value, assign token,
+                        mCompleteContext = CompleteContext.CONTEXT_INSERT_ASSIGN;
+                        break;
+                    case 4: //after value, suggest to
+                        mCompleteContext = CompleteContext.CONTEXT_INSERT_TO;
+                        break;
+                    case 6: //after value, insert do
+                        mCompleteContext = CompleteContext.CONTEXT_INSERT_DO;
+                        break;
+                }
+            }
         } else if (last instanceof ToToken) {
             mCompleteContext = CompleteContext.CONTEXT_AFTER_TO;
         } else if (first instanceof UsesToken) {
@@ -264,68 +317,6 @@ public class SuggestionProvider {
             }
         }
 
-    }
-
-    private ArrayList<Description> sort(ArrayList<Description> items) {
-        //sort by type -> name
-        Collections.sort(items, new Comparator<Description>() {
-            @Override
-            public int compare(Description o1, Description o2) {
-                if (!o1.getKind().equals(o2.getKind())) {
-                    return o1.getKind().compareTo(o2.getKind());
-                } else {
-                    return o1.getHeader().compareTo(o2.getHeader());
-                }
-            }
-        });
-        return items;
-    }
-
-    private ArrayList<Description> filterConst(Map<Name, ConstantDefinition> constants) {
-        if (mIncomplete.isEmpty()) return new ArrayList<>();
-
-        ArrayList<Description> suggestItems = new ArrayList<>();
-
-        for (Map.Entry<Name, ConstantDefinition> entry : constants.entrySet()) {
-            ConstantDefinition constant = entry.getValue();
-            if (constant.getName().isPrefix(mIncomplete)) {
-                if (beforeCursor(constant.getLineNumber())) {
-                    suggestItems.add(CompletionFactory.makeConstant(constant));
-                }
-            }
-        }
-        return suggestItems;
-    }
-
-    private ArrayList<Description> filterVariables(ArrayList<VariableDeclaration> variables) {
-        if (mIncomplete.isEmpty()) return new ArrayList<>();
-        ArrayList<Description> suggestItems = new ArrayList<>();
-        for (VariableDeclaration variable : variables) {
-            if (variable.getName().isPrefix(mIncomplete)) {
-                if (beforeCursor(variable.getLineNumber())) {
-                    suggestItems.add(CompletionFactory.makeVariable(variable));
-                }
-            }
-        }
-        return suggestItems;
-    }
-
-    private ArrayList<Description> filterFunctions(ArrayListMultimap<Name, AbstractFunction> allFunctions) {
-        if (mIncomplete.isEmpty()) {
-            return new ArrayList<>();
-        }
-        ArrayList<Description> suggestItems = new ArrayList<>();
-        Collection<ArrayList<AbstractFunction>> values = allFunctions.values();
-        for (ArrayList<AbstractFunction> list : values) {
-            for (AbstractFunction function : list) {
-                if (function.getName().isPrefix(mIncomplete)) {
-                    if (beforeCursor(function.getLineNumber())) {
-                        suggestItems.add(CompletionFactory.makeFunction(function));
-                    }
-                }
-            }
-        }
-        return suggestItems;
     }
 
     private boolean beforeCursor(LineInfo line) {

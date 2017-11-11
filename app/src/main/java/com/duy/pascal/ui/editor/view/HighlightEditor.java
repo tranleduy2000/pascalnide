@@ -578,9 +578,9 @@ public class HighlightEditor extends CodeSuggestsEditText
                     offsetVertical = (int) ((y + mCharHeight) - getScrollY());
                 }
 
-                int tmp = offsetVertical + getDropDownHeight() + mCharHeight;
+                int tmp = offsetVertical + getDropDownHeight() + mCharHeight * 2;
                 if (tmp < heightVisible) {
-                    tmp = offsetVertical + mCharHeight / 2;
+                    tmp = offsetVertical + mCharHeight ;
                     setDropDownVerticalOffset(tmp);
                 } else {
                     tmp = offsetVertical - getDropDownHeight() - mCharHeight;

@@ -40,7 +40,7 @@ import android.widget.MultiAutoCompleteTextView;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.autocomplete.completion.SuggestionProvider;
+import com.duy.pascal.ui.autocomplete.completion.SuggestOperation;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
 import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
 import com.duy.pascal.ui.editor.view.adapters.CodeSuggestAdapter;
@@ -66,7 +66,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     @NonNull
     protected ArrayList<LineInfo> mLineErrors = new ArrayList<>();
     private CodeSuggestAdapter mAdapter;
-    private SuggestionProvider pascalParserHelper;
+    private SuggestOperation pascalParserHelper;
     private ParseDataTask mParseTask;
 
     private ListPopupWindow mPopup;
@@ -476,13 +476,13 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     private class ParseDataTask extends AsyncTask<Object, Object, ArrayList<Description>> {
         private String source;
         private String srcPath;
-        private SuggestionProvider pascalParserHelper;
+        private SuggestOperation pascalParserHelper;
         private int cursorPos, cursorLine, cursorCol;
 
         private ParseDataTask(EditText editText, String srcPath) {
             this.source = editText.getText().toString();
             this.srcPath = srcPath;
-            this.pascalParserHelper = new SuggestionProvider();
+            this.pascalParserHelper = new SuggestOperation();
             calculateCursor(editText);
         }
 
