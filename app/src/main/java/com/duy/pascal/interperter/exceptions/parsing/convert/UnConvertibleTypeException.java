@@ -46,7 +46,7 @@ public class UnConvertibleTypeException extends ParsingException {
     private ExpressionContext scope;
 
     public UnConvertibleTypeException(@NonNull RuntimeValue value, @NonNull Type targetType,
-                                      @NonNull Type valueType, @NonNull ExpressionContext scope) {
+                                      @Nullable Type valueType, @NonNull ExpressionContext scope) {
         super(value.getLineNumber(), String.format("The expression or variable \"%s\" is of type \"%s\", which cannot be converted to the type \"%s\"", value, valueType, targetType));
         this.value = value;
         this.valueType = valueType;

@@ -36,6 +36,7 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.WordToken;
+import com.duy.pascal.interperter.tokens.basic.AssignmentToken;
 import com.duy.pascal.interperter.tokens.basic.ColonToken;
 import com.duy.pascal.interperter.tokens.basic.ForToken;
 import com.duy.pascal.interperter.tokens.basic.ToToken;
@@ -71,13 +72,17 @@ public class SuggestOperation {
     private int mCursorPos;
     private int mCursorLine;
     private int mCursorCol;
+
+    private CodeSuggestsEditText.SymbolsTokenizer mSymbolsTokenizer;
+    private LinkedList<Token> mSourceTokens;
+
+    private List<Token> mStatement;
     private String mIncomplete, mPreWord;
 
+    private Name mIdentifierType;
     private CompleteContext mCompleteContext = CONTEXT_NONE;
-    private CodeSuggestsEditText.SymbolsTokenizer mSymbolsTokenizer;
     private ParsingException mParsingException;
-    private LinkedList<Token> mSourceTokens;
-    private List<Token> mStatement;
+
 
     public SuggestOperation() {
         mSymbolsTokenizer = new CodeSuggestsEditText.SymbolsTokenizer();
@@ -149,8 +154,12 @@ public class SuggestOperation {
                 completeVariable(mIncomplete, toAdd, exprContext, BasicType.Long);
                 completeWord(mIncomplete, toAdd, exprContext);
                 break;
-            case CONTEXT_AFTER_TO:
+            case CONTEXT_NEED_TYPE_INTEGER:
                 completeNeedType(mIncomplete, toAdd, exprContext, BasicType.Long);
+                break;
+            case CONTEXT_NEED_TYPE:
+                Type type = findTypeOf(exprContext, mIdentifierType);
+                completeNeedType(mIncomplete, toAdd, exprContext, type);
                 break;
             case CONTEXT_ASSIGN:
                 completeWord(mIncomplete, toAdd, exprContext);
@@ -184,8 +193,37 @@ public class SuggestOperation {
         }
     }
 
+    private Type findTypeOf(ExpressionContextMixin exprContext, Name id) {
+        for (VariableDeclaration variable : exprContext.getVariables()) {
+            if (variable.getName().equals(id)) {
+                if (beforeCursor(variable.getLineNumber())) {
+                    return variable.getType();
+                }
+            }
+        }
+        for (Map.Entry<Name, ConstantDefinition> entry : exprContext.getConstants().entrySet()) {
+            ConstantDefinition constant = entry.getValue();
+            if (constant.getName().equals(id)) {
+                if (beforeCursor(constant.getLineNumber())) {
+                    return constant.getType();
+                }
+            }
+        }
+        Collection<ArrayList<AbstractFunction>> values = exprContext.getCallableFunctions().values();
+        for (ArrayList<AbstractFunction> list : values) {
+            for (AbstractFunction function : list) {
+                if (function.getName().equals(id)) {
+                    if (beforeCursor(function.getLineNumber())) {
+                        return function.returnType();
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     private void completeNeedType(String mIncomplete, ArrayList<Description> toAdd,
-                                  ExpressionContextMixin exprContext, BasicType type) {
+                                  ExpressionContextMixin exprContext, Type type) {
         ArrayList<VariableDeclaration> variables = exprContext.getVariables();
         toAdd.addAll(sort(filterVariables(mIncomplete, variables, type)));
 
@@ -251,6 +289,9 @@ public class SuggestOperation {
         if (to == null) return true;
         if (from == null) return false;
         if (from instanceof BasicType && to instanceof BasicType) {
+            if (TypeConverter.isInteger(from) && TypeConverter.isInteger(to)) {
+                return true;
+            }
             return TypeConverter.isLowerThanPrecedence(from.getStorageClass(), to.getStorageClass());
         }
         return from.getStorageClass().equals(to.getStorageClass());
@@ -326,7 +367,7 @@ public class SuggestOperation {
                         break;
                     case 3://after assign, as before assign, suggest variable integer
                     case 5://after to, as after 'for'
-                        mCompleteContext = CompleteContext.CONTEXT_AFTER_TO;
+                        mCompleteContext = CompleteContext.CONTEXT_NEED_TYPE_INTEGER;
                         break;
                     case 2: //after value, assign token,
                         mCompleteContext = CompleteContext.CONTEXT_INSERT_ASSIGN;
@@ -340,7 +381,7 @@ public class SuggestOperation {
                 }
             }
         } else if (last instanceof ToToken) {
-            mCompleteContext = CompleteContext.CONTEXT_AFTER_TO;
+            mCompleteContext = CompleteContext.CONTEXT_NEED_TYPE_INTEGER;
         } else if (first instanceof UsesToken) {
             mCompleteContext = CompleteContext.CONTEXT_USES;
         } else if (last instanceof ColonToken) {
@@ -351,6 +392,14 @@ public class SuggestOperation {
             }
         } else if (last instanceof BeginEndToken) {
             mCompleteContext = CompleteContext.CONTEXT_AFTER_BEGIN;
+        } else if (last instanceof AssignmentToken) {
+            if (mStatement.size() >= 2) {
+                Token token = mStatement.get(mStatement.size() - 2);
+                if (token instanceof WordToken) {
+                    mIdentifierType = ((WordToken) token).getName();
+                    mCompleteContext = CompleteContext.CONTEXT_NEED_TYPE;
+                }
+            }
         }
 
     }

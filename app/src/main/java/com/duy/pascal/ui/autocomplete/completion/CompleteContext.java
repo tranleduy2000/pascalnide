@@ -19,7 +19,7 @@ package com.duy.pascal.ui.autocomplete.completion;
 public enum CompleteContext {
     CONTEXT_NONE,
     CONTEXT_AFTER_FOR,
-    CONTEXT_AFTER_TO,
+    CONTEXT_NEED_TYPE_INTEGER,
     CONTEXT_AFTER_BEGIN,
     CONTEXT_ASSIGN,
     CONTEXT_USES,
@@ -30,5 +30,5 @@ public enum CompleteContext {
     CONTEXT_INSERT_ASSIGN,
     CONTEXT_INSERT_TO,
     CONTEXT_INSERT_DO,
-    CONTEXT_AFTER_COLON
+    CONTEXT_NEED_TYPE, CONTEXT_AFTER_COLON
 }

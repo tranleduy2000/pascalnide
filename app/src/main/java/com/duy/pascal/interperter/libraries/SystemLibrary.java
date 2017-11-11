@@ -381,10 +381,10 @@ public class SystemLibrary extends PascalLibrary {
     }
 
 
-    @PascalMethod(description = "Convert a string to all uppercase.")
-    public StringBuilder UpCase(StringBuilder s) {
-        return new StringBuilder(s.toString().toUpperCase());
-    }
+//    @PascalMethod(description = "Convert a string to all uppercase.")
+//    public StringBuilder UpCase(StringBuilder s) {
+//        return new StringBuilder(s.toString().toUpperCase());
+//    }
 
     @PascalMethod(description = "Convert a string to all uppercase.")
     public Character UpCase(Character s) {
