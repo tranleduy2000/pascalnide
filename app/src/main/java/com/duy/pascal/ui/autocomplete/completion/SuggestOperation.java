@@ -40,6 +40,7 @@ import com.duy.pascal.interperter.tokens.basic.ColonToken;
 import com.duy.pascal.interperter.tokens.basic.ForToken;
 import com.duy.pascal.interperter.tokens.basic.ToToken;
 import com.duy.pascal.interperter.tokens.basic.UsesToken;
+import com.duy.pascal.interperter.tokens.grouping.BeginEndToken;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
 import com.duy.pascal.ui.autocomplete.completion.model.KeyWordDescription;
 import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;
@@ -167,8 +168,12 @@ public class SuggestOperation {
             case CONTEXT_INSERT_TO:
                 SuggestProvider.completeAddKeyWordToken(mIncomplete, toAdd, exprContext, "to");
                 break;
+            case CONTEXT_AFTER_BEGIN:
+                SuggestProvider.completeAddKeyWordToken(mIncomplete, toAdd, exprContext, "end");
+                break;
             case CONTEXT_INSERT_ASSIGN:
             case CONTEXT_COMMA_SEMICOLON:
+                break;
             case CONTEXT_CONST:
             case CONTEXT_TYPE:
             case CONTEXT_VAR:
@@ -344,6 +349,8 @@ public class SuggestOperation {
                     mCompleteContext = CompleteContext.CONTEXT_AFTER_COLON;
                 }
             }
+        } else if (last instanceof BeginEndToken) {
+            mCompleteContext = CompleteContext.CONTEXT_AFTER_BEGIN;
         }
 
     }
