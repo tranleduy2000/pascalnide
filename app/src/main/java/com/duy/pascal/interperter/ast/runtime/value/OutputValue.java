@@ -77,6 +77,7 @@ public class OutputValue implements RuntimeValue {
         }
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         return new RuntimeType(BasicType.StringBuilder, false);

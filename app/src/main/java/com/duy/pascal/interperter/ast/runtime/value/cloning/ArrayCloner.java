@@ -22,6 +22,7 @@ public class ArrayCloner<T> implements RuntimeValue {
         this.r = r2;
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         return r.getRuntimeType(exprContext);

@@ -45,6 +45,7 @@ public class SetToDynamicArrayCloner implements RuntimeValue {
         this.array = array;
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         RuntimeType type = array.getRuntimeType(exprContext);

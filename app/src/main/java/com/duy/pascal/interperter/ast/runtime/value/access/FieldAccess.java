@@ -59,6 +59,7 @@ public class FieldAccess extends DebuggableAssignableValue {
         return container.toString() + "." + name;
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         RuntimeType r = container.getRuntimeType(exprContext);

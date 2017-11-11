@@ -58,8 +58,7 @@ public enum BasicType implements Type {
         }
 
         @Override
-        public RuntimeValue convert(RuntimeValue other, ExpressionContext f)
-                throws Exception {
+        public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws Exception {
             if (other instanceof ConstantAccess) {
                 Name name = ((ConstantAccess) other).getName();
                 if (name != null && name.equals("null")) {
@@ -68,6 +67,9 @@ public enum BasicType implements Type {
             }
 
             RuntimeType otherType = other.getRuntimeType(f);
+            if (otherType == null){
+                return null;
+            }
             if (otherType.declType instanceof BasicType) {
                 if (this.equals(otherType.declType)) {
                     return new StringBuilderBoxer(other);

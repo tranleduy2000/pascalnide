@@ -45,6 +45,7 @@ public class ArrayBoxer extends DebuggableReturnValue {
 
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         throw new ParsingException(

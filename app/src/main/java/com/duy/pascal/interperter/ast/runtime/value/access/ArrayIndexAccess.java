@@ -51,6 +51,7 @@ public class ArrayIndexAccess extends DebuggableAssignableValue {
         return container + "[" + index + "]";
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         RuntimeType r = (container.getRuntimeType(exprContext));

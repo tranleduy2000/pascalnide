@@ -1,6 +1,8 @@
 package com.duy.pascal.interperter.ast.runtime.operators.number;
 
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
@@ -40,6 +42,7 @@ public class BoolBiOperatorEval extends BinaryOperatorEval {
     }
 
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         return new RuntimeType(BasicType.Boolean, false);

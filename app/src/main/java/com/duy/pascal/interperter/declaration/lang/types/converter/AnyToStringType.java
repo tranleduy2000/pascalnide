@@ -33,6 +33,7 @@ public class AnyToStringType implements RuntimeValue {
         return value.toString();
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext)
             throws Exception {

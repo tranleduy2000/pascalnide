@@ -81,6 +81,7 @@ public class WithNode extends DebuggableNodeReturnValue {
         return ExecutionResult.NOPE;
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) {
         return null;

@@ -93,6 +93,7 @@ public class AddressFunction implements IMethodDeclaration {
             return ref.get();
         }
 
+        @NonNull
         @Override
         public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
             RuntimeType pointertype = pointer.getRuntimeType(exprContext);

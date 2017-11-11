@@ -1,6 +1,8 @@
 package com.duy.pascal.interperter.ast.runtime.operators.number;
 
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorEval;
@@ -21,6 +23,7 @@ public class DoubleBiOperatorEval extends BinaryOperatorEval {
         super(operon1, operon2, operator, line);
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         switch (operator_type) {

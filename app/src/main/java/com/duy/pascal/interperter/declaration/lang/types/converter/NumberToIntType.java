@@ -34,6 +34,7 @@ public class NumberToIntType implements RuntimeValue {
         return i.intValue();
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext)
             throws Exception {

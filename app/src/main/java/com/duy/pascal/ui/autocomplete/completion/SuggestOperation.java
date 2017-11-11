@@ -22,6 +22,7 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.interperter.ast.CodeUnitParsingException;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.interperter.ast.runtime.value.NullValue;
 import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.datastructure.ArrayListMultimap;
 import com.duy.pascal.interperter.declaration.Name;
@@ -292,7 +293,7 @@ public class SuggestOperation {
             if (TypeConverter.isInteger(from) && TypeConverter.isInteger(to)) {
                 return true;
             }
-            return TypeConverter.isLowerThanPrecedence(from.getStorageClass(), to.getStorageClass());
+            return TypeConverter.autoConvert(to, NullValue.get(), from) != null;
         }
         return from.getStorageClass().equals(to.getStorageClass());
     }

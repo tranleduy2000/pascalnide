@@ -35,6 +35,7 @@ public class CharToIntType implements RuntimeValue {
         return (int) i;
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext)
             throws Exception {

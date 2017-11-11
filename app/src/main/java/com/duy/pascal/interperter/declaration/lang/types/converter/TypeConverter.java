@@ -1,6 +1,7 @@
 package com.duy.pascal.interperter.declaration.lang.types.converter;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
@@ -41,9 +42,8 @@ public class TypeConverter {
         //end region
     }
 
-    public static RuntimeValue autoConvert(Type outType,
-                                           RuntimeValue target, Type inType) {
-        if (inType == outType) {
+    public static RuntimeValue autoConvert(Type outType, @Nullable RuntimeValue target, Type inType) {
+        if (inType.equals(outType)) {
             return target;
         }
         Integer inPrecedence = PRECEDENCE.get(inType.getTransferClass());
@@ -75,8 +75,9 @@ public class TypeConverter {
         return false;
     }
 
-    public static RuntimeValue autoConvertRequired(BasicType outType, RuntimeValue target,
-                                                   BasicType inType, ExpressionContext c)
+    @NonNull
+    public static RuntimeValue autoConvertRequired(@NonNull BasicType outType, @NonNull RuntimeValue target,
+                                                   @NonNull BasicType inType, @NonNull ExpressionContext c)
             throws UnConvertibleTypeException {
         RuntimeValue result = autoConvert(outType, target, inType);
         if (result == null) {
@@ -85,8 +86,9 @@ public class TypeConverter {
         return result;
     }
 
-    public static RuntimeValue forceConvertRequired(Type outType, RuntimeValue value,
-                                                    Type inType, ExpressionContext c)
+    @NonNull
+    public static RuntimeValue forceConvertRequired(@NonNull Type outType, @NonNull RuntimeValue value,
+                                                    @NonNull Type inType, @NonNull ExpressionContext c)
             throws UnConvertibleTypeException {
         RuntimeValue result = forceConvert(outType, value, inType);
         if (result == null) {
@@ -95,8 +97,7 @@ public class TypeConverter {
         return result;
     }
 
-    public static RuntimeValue forceConvert(Type outType,
-                                            RuntimeValue target, Type inType) {
+    public static RuntimeValue forceConvert(@NonNull Type outType, @Nullable RuntimeValue target,@NonNull Type inType) {
         if (outType.equals(inType)) {
             return target;
         }

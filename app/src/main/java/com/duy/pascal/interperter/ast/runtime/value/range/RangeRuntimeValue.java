@@ -16,6 +16,7 @@
 
 package com.duy.pascal.interperter.ast.runtime.value.range;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 
@@ -56,6 +57,7 @@ public class RangeRuntimeValue extends DebuggableReturnValue {
         return new Pair<>(value, value1);
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         return null;

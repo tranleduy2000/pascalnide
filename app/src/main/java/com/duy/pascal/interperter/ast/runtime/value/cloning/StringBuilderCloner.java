@@ -20,6 +20,7 @@ public class StringBuilderCloner implements RuntimeValue {
         this.value = value;
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         return value.getRuntimeType(exprContext);

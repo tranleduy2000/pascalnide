@@ -51,6 +51,7 @@ public class NumberToByteType implements RuntimeValue {
         return i.byteValue();
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext)
             throws Exception {

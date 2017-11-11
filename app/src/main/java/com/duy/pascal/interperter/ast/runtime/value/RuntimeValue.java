@@ -8,8 +8,8 @@ import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
-import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public interface RuntimeValue {
 
@@ -23,6 +23,7 @@ public interface RuntimeValue {
     /**
      * @return type of variable, function, or constant
      */
+    @NonNull
     RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception;
 
     /**

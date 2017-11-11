@@ -58,6 +58,7 @@ public class DerefEval extends DebuggableAssignableValue {
         return (Reference) pointer.getValue(f, main);
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         RuntimeType pointertype = pointer.getRuntimeType(exprContext);

@@ -38,6 +38,7 @@ public class StringBoxer extends DebuggableReturnValue {
 
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) {
         return new RuntimeType(BasicType.StringBuilder, false);

@@ -129,6 +129,7 @@ public abstract class UnaryOperatorEval extends DebuggableReturnValue {
         return operator + "" + operon;
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         return operon.getRuntimeType(exprContext);

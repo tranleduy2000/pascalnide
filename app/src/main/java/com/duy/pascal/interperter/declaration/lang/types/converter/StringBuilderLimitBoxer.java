@@ -65,6 +65,7 @@ public class StringBuilderLimitBoxer implements RuntimeValue {
         }
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext)
             throws Exception {

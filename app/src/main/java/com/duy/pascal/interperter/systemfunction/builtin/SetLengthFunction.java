@@ -99,6 +99,7 @@ public class SetLengthFunction implements IMethodDeclaration {
         }
 
 
+        @NonNull
         @Override
         public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
             return null;

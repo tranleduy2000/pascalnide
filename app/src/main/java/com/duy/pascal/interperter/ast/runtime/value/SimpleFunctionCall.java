@@ -83,6 +83,7 @@ public class SimpleFunctionCall extends FunctionCall {
         return result;
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) {
         return new RuntimeType(function.returnType(), false);

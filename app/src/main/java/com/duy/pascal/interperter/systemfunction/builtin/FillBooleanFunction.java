@@ -82,6 +82,7 @@ public class FillBooleanFunction implements IMethodDeclaration {
             this.line = line;
         }
 
+        @NonNull
         @Override
         public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
             return new RuntimeType(BasicType.create(Object.class), false);

@@ -35,6 +35,7 @@ public class NumberToLongType implements RuntimeValue {
         return i.longValue();
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext)
             throws Exception {

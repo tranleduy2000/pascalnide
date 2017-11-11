@@ -87,6 +87,7 @@ public class VariableAccess extends DebuggableAssignableValue {
         return name.toString();
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         return new RuntimeType(declaration.getVariableDefinition(name).type, true);

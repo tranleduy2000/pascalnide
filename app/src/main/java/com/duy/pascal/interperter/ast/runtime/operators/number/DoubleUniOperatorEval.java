@@ -1,5 +1,7 @@
 package com.duy.pascal.interperter.ast.runtime.operators.number;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.operators.UnaryOperatorEval;
@@ -18,6 +20,7 @@ public class DoubleUniOperatorEval extends UnaryOperatorEval {
         super(operon, operator, line);
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         return new RuntimeType(BasicType.Double, false);

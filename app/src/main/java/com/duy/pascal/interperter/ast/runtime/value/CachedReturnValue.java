@@ -18,6 +18,7 @@ public class CachedReturnValue implements RuntimeValue {
         this.other = other;
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         return other.getRuntimeType(exprContext);

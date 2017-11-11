@@ -94,6 +94,7 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
             this.line = line;
         }
 
+        @NonNull
         @Override
         public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
             return new RuntimeType(new JavaClassBasedType(Object.class), false);

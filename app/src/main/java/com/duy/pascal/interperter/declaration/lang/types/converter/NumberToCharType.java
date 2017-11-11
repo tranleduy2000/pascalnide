@@ -30,6 +30,7 @@ public class NumberToCharType implements RuntimeValue {
         return (char) i.longValue();
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext)
             throws Exception {

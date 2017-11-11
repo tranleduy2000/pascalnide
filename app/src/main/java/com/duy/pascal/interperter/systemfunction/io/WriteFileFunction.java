@@ -93,6 +93,7 @@ public class WriteFileFunction implements IMethodDeclaration {
             this.line = line;
         }
 
+        @NonNull
         @Override
         public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
             return null;

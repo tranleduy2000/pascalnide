@@ -62,6 +62,7 @@ public class SetBoxer extends DebuggableReturnValue {
         this.line = lineNumber;
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         SetType<Type> setType = new SetType<>(elementType, line);

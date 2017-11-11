@@ -41,6 +41,7 @@ public class SetCloner<T> implements RuntimeValue {
         this.list = container;
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         return list.getRuntimeType(exprContext);

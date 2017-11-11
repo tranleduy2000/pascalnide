@@ -34,6 +34,7 @@ public class NumberToRealType implements RuntimeValue {
         return i.doubleValue();
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext)
             throws Exception {

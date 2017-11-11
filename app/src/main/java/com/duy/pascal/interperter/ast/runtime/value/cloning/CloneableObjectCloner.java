@@ -22,6 +22,7 @@ public class CloneableObjectCloner implements RuntimeValue {
         this.r = r;
     }
 
+    @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
         return r.getRuntimeType(exprContext);
