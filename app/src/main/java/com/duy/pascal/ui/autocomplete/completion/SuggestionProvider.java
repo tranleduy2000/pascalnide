@@ -34,6 +34,7 @@ import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.tokens.Token;
+import com.duy.pascal.interperter.tokens.basic.CommaToken;
 import com.duy.pascal.interperter.tokens.basic.ForToken;
 import com.duy.pascal.interperter.tokens.basic.ToToken;
 import com.duy.pascal.interperter.tokens.basic.UsesToken;
@@ -116,9 +117,10 @@ public class SuggestionProvider {
     }
 
     private void init(FileScriptSource scriptSource) throws IOException {
-        mSourceTokens = scriptSource.toTokens();
-        mStatement = SourceHelper.getStatement(mSourceTokens, mCursorLine, mCursorCol);
         calculateIncomplete();
+        mSourceTokens = scriptSource.toTokens();
+        int column = mCursorCol - mIncomplete.length();
+        mStatement = SourceHelper.getStatement(mSourceTokens, mCursorLine, column);
         defineContext();
     }
 
@@ -129,10 +131,6 @@ public class SuggestionProvider {
         mPreWord = null;
     }
 
-    @Nullable
-    public ParsingException getParsingException() {
-        return mParsingException;
-    }
 
     private void addSuggestFromContext(@NonNull ArrayList<Description> toAdd, @NonNull ExpressionContextMixin exprContext) {
         switch (mCompleteContext) {
@@ -214,7 +212,6 @@ public class SuggestionProvider {
      * Define context, incomplete word
      */
     private void defineContext() {
-
         mCompleteContext = CONTEXT_NONE;
         if (mStatement.isEmpty()) {
             return;
@@ -226,11 +223,14 @@ public class SuggestionProvider {
         System.out.println("last = " + last);
 
         if (last instanceof ForToken) {
+            //for to do
             mCompleteContext = CompleteContext.CONTEXT_AFTER_FOR;
         } else if (last instanceof ToToken) {
             mCompleteContext = CompleteContext.CONTEXT_AFTER_TO;
         } else if (first instanceof UsesToken) {
-            mCompleteContext = CompleteContext.CONTEXT_USES;
+            if (last instanceof CommaToken || mStatement.size() == 1) {
+                mCompleteContext = CompleteContext.CONTEXT_USES;
+            }
         }
     }
 
@@ -300,5 +300,9 @@ public class SuggestionProvider {
         return line != null && line.getLine() <= mCursorLine && line.getColumn() <= mCursorCol;
     }
 
+    @Nullable
+    public ParsingException getParsingException() {
+        return mParsingException;
+    }
 
 }
