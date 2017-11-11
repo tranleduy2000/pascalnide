@@ -26,6 +26,7 @@ import com.duy.pascal.interperter.core.PascalCompiler;
 import com.duy.pascal.interperter.datastructure.ArrayListMultimap;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
+import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
@@ -119,53 +120,6 @@ public class SuggestOperation {
         return null;
     }
 
-    private ArrayList<Description> filterConst(String mIncomplete, Map<Name, ConstantDefinition> constants) {
-        if (mIncomplete.isEmpty()) return new ArrayList<>();
-
-        ArrayList<Description> suggestItems = new ArrayList<>();
-
-        for (Map.Entry<Name, ConstantDefinition> entry : constants.entrySet()) {
-            ConstantDefinition constant = entry.getValue();
-            if (constant.getName().isPrefix(mIncomplete)) {
-                if (beforeCursor(constant.getLineNumber())) {
-                    suggestItems.add(CompletionFactory.makeConstant(constant));
-                }
-            }
-        }
-        return suggestItems;
-    }
-
-    private ArrayList<Description> filterVariables(String mIncomplete, ArrayList<VariableDeclaration> variables) {
-        if (mIncomplete.isEmpty()) return new ArrayList<>();
-        ArrayList<Description> suggestItems = new ArrayList<>();
-        for (VariableDeclaration variable : variables) {
-            if (variable.getName().isPrefix(mIncomplete)) {
-                if (beforeCursor(variable.getLineNumber())) {
-                    suggestItems.add(CompletionFactory.makeVariable(variable));
-                }
-            }
-        }
-        return suggestItems;
-    }
-
-    private ArrayList<Description> filterFunctions(String mIncomplete, ArrayListMultimap<Name, AbstractFunction> allFunctions) {
-        if (mIncomplete.isEmpty()) {
-            return new ArrayList<>();
-        }
-        ArrayList<Description> suggestItems = new ArrayList<>();
-        Collection<ArrayList<AbstractFunction>> values = allFunctions.values();
-        for (ArrayList<AbstractFunction> list : values) {
-            for (AbstractFunction function : list) {
-                if (function.getName().isPrefix(mIncomplete)) {
-                    if (beforeCursor(function.getLineNumber())) {
-                        suggestItems.add(CompletionFactory.makeFunction(function));
-                    }
-                }
-            }
-        }
-        return suggestItems;
-    }
-
 
     /**
      * Prepare for parsing
@@ -191,7 +145,7 @@ public class SuggestOperation {
         System.out.println("mCompleteContext = " + mCompleteContext);
         switch (mCompleteContext) {
             case CONTEXT_AFTER_FOR:
-                completeFor(mIncomplete, toAdd, exprContext);
+                completeVariable(mIncomplete, toAdd, exprContext, BasicType.Long);
                 completeWord(mIncomplete, toAdd, exprContext);
                 break;
             case CONTEXT_AFTER_TO:
@@ -230,12 +184,13 @@ public class SuggestOperation {
      *
      * @param prefix - incomplete
      */
-    private void completeFor(@NonNull String prefix,
-                             @NonNull ArrayList<Description> toAdd,
-                             @NonNull ExpressionContextMixin exprContext) {
+    private void completeVariable(@NonNull String prefix,
+                                  @NonNull ArrayList<Description> toAdd,
+                                  @NonNull ExpressionContextMixin exprContext,
+                                  @NonNull BasicType needType) {
         for (VariableDeclaration var : exprContext.getVariables()) {
             Type type = var.getType();
-            if (TypeConverter.isInteger(type)) {
+            if (TypeConverter.isLowerThanPrecedence(type.getStorageClass(), needType.getStorageClass())) {
                 if (var.getName().isPrefix(prefix)) {
                     toAdd.add(CompletionFactory.makeVariable(var));
                 }
@@ -243,15 +198,75 @@ public class SuggestOperation {
         }
     }
 
+
+    private ArrayList<Description> filterConst(String mIncomplete, Map<Name, ConstantDefinition> constants,
+                                               @Nullable Type type) {
+        if (mIncomplete.isEmpty()) return new ArrayList<>();
+
+        ArrayList<Description> suggestItems = new ArrayList<>();
+
+        for (Map.Entry<Name, ConstantDefinition> entry : constants.entrySet()) {
+            ConstantDefinition constant = entry.getValue();
+            if (constant.getName().isPrefix(mIncomplete) && canConvertType(constant.getType(), type)) {
+                if (beforeCursor(constant.getLineNumber())) {
+                    suggestItems.add(CompletionFactory.makeConstant(constant));
+                }
+            }
+        }
+        return suggestItems;
+    }
+
+    private ArrayList<Description> filterVariables(String mIncomplete, ArrayList<VariableDeclaration> variables,
+                                                   @Nullable Type type) {
+        if (mIncomplete.isEmpty()) return new ArrayList<>();
+        ArrayList<Description> suggestItems = new ArrayList<>();
+        for (VariableDeclaration variable : variables) {
+            if (variable.getName().isPrefix(mIncomplete) && canConvertType(variable.getType(), type)) {
+                if (beforeCursor(variable.getLineNumber())) {
+                    suggestItems.add(CompletionFactory.makeVariable(variable));
+                }
+            }
+        }
+        return suggestItems;
+    }
+
+    private boolean canConvertType(@Nullable Type from, @Nullable Type to) {
+        if (to == null) return true;
+        if (from == null) return false;
+        if (from instanceof BasicType && to instanceof BasicType) {
+            return TypeConverter.isLowerThanPrecedence(from.getStorageClass(), to.getStorageClass());
+        }
+        return from.getStorageClass().equals(to.getStorageClass());
+    }
+
+    private ArrayList<Description> filterFunctions(String mIncomplete, ArrayListMultimap<Name, AbstractFunction> allFunctions,
+                                                   @Nullable Type type) {
+        if (mIncomplete.isEmpty()) {
+            return new ArrayList<>();
+        }
+        ArrayList<Description> suggestItems = new ArrayList<>();
+        Collection<ArrayList<AbstractFunction>> values = allFunctions.values();
+        for (ArrayList<AbstractFunction> list : values) {
+            for (AbstractFunction function : list) {
+                if (function.getName().isPrefix(mIncomplete) && canConvertType(function.returnType(), type)) {
+                    if (beforeCursor(function.getLineNumber())) {
+                        suggestItems.add(CompletionFactory.makeFunction(function));
+                    }
+                }
+            }
+        }
+        return suggestItems;
+    }
+
     private void completeWord(String mIncomplete, ArrayList<Description> toAdd, ExpressionContextMixin exprContext) {
         ArrayList<VariableDeclaration> variables = exprContext.getVariables();
-        toAdd.addAll(sort(filterVariables(mIncomplete, variables)));
+        toAdd.addAll(sort(filterVariables(mIncomplete, variables, null)));
 
         Map<Name, ConstantDefinition> constants = exprContext.getConstants();
-        toAdd.addAll(sort(filterConst(mIncomplete, constants)));
+        toAdd.addAll(sort(filterConst(mIncomplete, constants, null)));
 
         ArrayListMultimap<Name, AbstractFunction> callableFunctions = exprContext.getCallableFunctions();
-        toAdd.addAll(sort(filterFunctions(mIncomplete, callableFunctions)));
+        toAdd.addAll(sort(filterFunctions(mIncomplete, callableFunctions, null)));
     }
 
     private ArrayList<Description> filterKeyword(String mIncomplete) {
