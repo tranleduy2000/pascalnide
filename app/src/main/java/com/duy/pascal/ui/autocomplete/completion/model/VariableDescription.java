@@ -37,7 +37,7 @@ public class VariableDescription extends DescriptionImpl {
     }
 
     @Override
-    public String getDisplayText() {
+    public String getInsertText() {
         return name.getOriginName() + " " + CodeSuggestsEditText.CURSOR;
     }
 }

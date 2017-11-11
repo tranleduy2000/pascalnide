@@ -19,7 +19,6 @@ package com.duy.pascal.interperter.declaration.lang.function;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.ui.debug.CallStack;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
@@ -49,6 +48,7 @@ import com.duy.pascal.interperter.tokens.basic.SemicolonToken;
 import com.duy.pascal.interperter.tokens.basic.VarToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.interperter.tokens.grouping.ParenthesizedToken;
+import com.duy.pascal.ui.debug.CallStack;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -56,6 +56,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FunctionDeclaration extends AbstractCallableFunction {
+    public static final Name RESULT_VAR = Name.create("result");
     private static final String TAG = "FunctionDeclaration";
     public ExpressionContextMixin declaration;
     /**
@@ -63,18 +64,14 @@ public class FunctionDeclaration extends AbstractCallableFunction {
      */
     public Name name;
     public Node instructions;
-
     public LineInfo startPosition;
     public LineInfo endPosition;
-
     public Name[] argumentNames;
     public RuntimeType[] argumentTypes;
-
     /*field store value of function*/
     private VariableDeclaration resultDefinition;
     private boolean isProcedure = false;
     private boolean bodyDeclared;
-
     private int modifier = Modifier.PUBLIC;
 
     public FunctionDeclaration(Name name, ExpressionContext parent, GrouperToken grouperToken,
@@ -129,7 +126,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             }
             //define variable result of function, the name of variable same as name function
             if (parent.root().getConfig().getMode() == ProgramMode.DELPHI) {
-                resultDefinition = new VariableDeclaration(Name.create("result"),
+                resultDefinition = new VariableDeclaration(RESULT_VAR,
                         grouperToken.getNextPascalType(parent), startPosition);
             } else {
                 resultDefinition = new VariableDeclaration(name,
@@ -194,8 +191,8 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public Object call(VariableContext f, RuntimeExecutableCodeUnit<?> main,
-                       Object[] arguments) throws RuntimePascalException {
+    public Object visit(VariableContext f, RuntimeExecutableCodeUnit<?> main,
+                        Object[] arguments) throws RuntimePascalException {
         if (this.declaration.root() instanceof PascalUnitDeclaration) {
             f = main.getLibraryContext((PascalUnitDeclaration) declaration.root());
         }
@@ -203,7 +200,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         if (main.isDebug()) {
             main.getDebugListener().onVariableChange(new CallStack(functionOnStack));
         }
-        Object execute = functionOnStack.execute();
+        Object execute = functionOnStack.visit();
         if (main.isDebug()) {
             main.getDebugListener().onVariableChange(new CallStack(f));
         }

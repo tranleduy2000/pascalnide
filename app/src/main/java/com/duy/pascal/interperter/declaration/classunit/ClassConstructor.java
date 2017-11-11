@@ -80,11 +80,11 @@ public class ClassConstructor extends FunctionDeclaration {
         if (main.isDebug()) {
             main.getDebugListener().onVariableChange(new CallStack(functionOnStack));
         }
-        return functionOnStack.execute();
+        return functionOnStack.visit();
     }
 
     @Override
-    public Object call(VariableContext f, RuntimeExecutableCodeUnit<?> main, Object[] arguments) throws RuntimePascalException {
+    public Object visit(VariableContext f, RuntimeExecutableCodeUnit<?> main, Object[] arguments) throws RuntimePascalException {
         return new RuntimePascalClass(classType.getDeclaration());
     }
 

@@ -29,24 +29,24 @@ public interface Description {
     /**
      * output when user click suggestion
      */
-    public String getDisplayText();
+    String getInsertText();
 
     /**
      * uses for show in list suggest
      */
-    public String getHeader();
+    String getHeader();
 
-    public String getDescription();
+    String getDescription();
 
     /**
      * @return name of item, uses for compare with input
      */
-    public String getName();
+    String getName();
 
     @DescriptionImpl.ItemKind
-    public Integer getKind();
+    Integer getKind();
 
     @Nullable
-    public Type getType();
+    Type getType();
 
 }

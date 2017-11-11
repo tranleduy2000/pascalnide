@@ -268,7 +268,9 @@ public class SuggestionProvider {
             for (AbstractFunction function : list) {
                 if (function.getName().isPrefix(mIncomplete)) {
                     if (beforeCursor(function.getLineNumber())) {
-                        suggestItems.add(CompletionFactory.makeFunction(function));
+                        if (function.returnType() == null) {
+                            suggestItems.add(CompletionFactory.makeFunction(function));
+                        }
                     }
                 }
             }

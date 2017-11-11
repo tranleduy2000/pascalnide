@@ -51,7 +51,7 @@ public class ClassDestructor extends FunctionDeclaration {
     }
 
     @Override
-    public Object call(VariableContext f, RuntimeExecutableCodeUnit<?> main, Object[] arguments) throws RuntimePascalException {
+    public Object visit(VariableContext f, RuntimeExecutableCodeUnit<?> main, Object[] arguments) throws RuntimePascalException {
         return new RuntimePascalClass(classType.getDeclaration());
     }
 

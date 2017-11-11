@@ -60,23 +60,23 @@ public class MethodDeclaration extends AbstractCallableFunction {
 
     /**
      * @param owner - parent class
-     * @param m     - method of class
+     * @param method     - method of class
      */
-    public MethodDeclaration(@Nullable Object owner, @NonNull Method m) {
+    public MethodDeclaration(@Nullable Object owner, @NonNull Method method) {
         this.mInstance = owner;
-        this.mMethod = m;
+        this.mMethod = method;
     }
 
-    public MethodDeclaration(@Nullable Object owner, @NonNull Method m, @Nullable String description) {
+    public MethodDeclaration(@Nullable Object owner, @NonNull Method method, @Nullable String description) {
         this.mInstance = owner;
-        this.mMethod = m;
+        this.mMethod = method;
         this.mDescription = description;
     }
 
-    public MethodDeclaration(@Nullable Object owner, @NonNull Method m, @Nullable String description,
+    public MethodDeclaration(@Nullable Object owner, @NonNull Method method, @Nullable String description,
                              @Nullable ArrayList<String> listParams) {
         this.mInstance = owner;
-        mMethod = m;
+        this.mMethod = method;
         this.mDescription = description;
     }
 
@@ -163,13 +163,11 @@ public class MethodDeclaration extends AbstractCallableFunction {
             }
         }
         Iterator<IntegerSubrangeType> iterator = arrayinfo.iterator();
-
         return convertReferenceType(javatype, iterator);
     }
 
     @Override
-    public Object call(VariableContext f,
-                       RuntimeExecutableCodeUnit<?> main, Object[] arguments)
+    public Object visit(VariableContext f, RuntimeExecutableCodeUnit<?> main, Object[] arguments)
             throws IllegalArgumentException, IllegalAccessException,
             InvocationTargetException,
             RuntimePascalException {
@@ -240,7 +238,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
     public LineInfo getLineNumber() {
         if (mInstance != null) {
             return new LineInfo(-1, mInstance.getClass().getName());
-        }else {
+        } else {
             return LineInfo.ANONYMOUS;
         }
     }

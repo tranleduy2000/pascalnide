@@ -19,20 +19,21 @@ package com.duy.pascal.interperter.ast.variablecontext;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
-import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.ast.runtime.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime.value.NullValue;
 import com.duy.pascal.interperter.config.ProgramMode;
+import com.duy.pascal.interperter.declaration.Name;
+import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
+import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class FunctionOnStack extends VariableContext {
+import static com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration.RESULT_VAR;
 
+public class FunctionOnStack extends VariableContext {
     private HashMap<Name, Object> mapVars = new HashMap<>();
     private HashMap<Name, PascalReference> mapReferences = new HashMap<>();
 
@@ -81,11 +82,11 @@ public class FunctionOnStack extends VariableContext {
         return localVarsName;
     }
 
-    public Object execute() throws RuntimePascalException {
+    public Object visit() throws RuntimePascalException {
         prototype.instructions.visit(this, main);
         //get result of prototype, name of variable is name of prototype
         if (main.getDeclaration().getConfig().getMode() == ProgramMode.DELPHI) {
-            return mapVars.get("result");
+            return mapVars.get(RESULT_VAR);
         } else {
             return mapVars.get(prototype.name);
         }

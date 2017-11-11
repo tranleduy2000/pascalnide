@@ -45,6 +45,11 @@ public class CompletionFactory {
         Name name = function.getName();
         ArgumentType[] args = function.argumentTypes();
         Type type = function.returnType();
-        return new FunctionDescription(name, args, type);
+        boolean isProcedure = type == null;
+        if (!isProcedure) {
+            isProcedure |= type.getStorageClass().equals(Void.class)
+                    || type.getStorageClass().equals(void.class);
+        }
+        return new FunctionDescription(name, args, type, isProcedure);
     }
 }

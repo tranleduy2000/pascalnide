@@ -150,7 +150,7 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
                 for (AbstractFunction function : shutdown) {
                     if (function instanceof MethodDeclaration) {
                         try {
-                            ((MethodDeclaration) function).call(this, this, new Object[]{});
+                            ((MethodDeclaration) function).visit(this, this, new Object[]{});
                         } catch (Exception ignored) {
                         }
                     }
