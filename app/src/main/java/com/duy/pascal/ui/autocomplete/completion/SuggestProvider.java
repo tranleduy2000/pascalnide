@@ -50,18 +50,27 @@ public class SuggestProvider {
     }
 
     public static void completeSuggestType(String mIncomplete, ArrayList<Description> toAdd, ExpressionContextMixin exprContext) {
-        for (String str : KeyWord.DATA_TYPE) {
+        String[] dataType = KeyWord.DATA_TYPE;
+        for (String str : dataType) {
+            if (str.toLowerCase().startsWith(mIncomplete.toLowerCase())
+                    && !str.equalsIgnoreCase(mIncomplete)) {
+                toAdd.add(new DescriptionImpl(DescriptionImpl.KIND_UNDEFINED, str));
+            }
+        }
+        String str = "array";
+        if (str.toLowerCase().startsWith(mIncomplete.toLowerCase())
+                && !str.equalsIgnoreCase(mIncomplete)) {
             toAdd.add(new DescriptionImpl(DescriptionImpl.KIND_UNDEFINED, str));
         }
-        toAdd.add(new DescriptionImpl(DescriptionImpl.KIND_UNDEFINED, "array"));
     }
 
     public static void completeAddToken(String mIncomplete, ArrayList<Description> toAdd,
                                         ExpressionContextMixin exprContext, String... token) {
         for (String str : token) {
             if (str.toLowerCase().startsWith(mIncomplete.toLowerCase())
-                    && !str.equalsIgnoreCase(mIncomplete))
+                    && !str.equalsIgnoreCase(mIncomplete)) {
                 toAdd.add(new DescriptionImpl(DescriptionImpl.KIND_UNDEFINED, str));
+            }
         }
     }
 
