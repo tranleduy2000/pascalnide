@@ -67,6 +67,7 @@ public class LineUtils {
     /**
      * Gets the lineInfo from the index of the letter in the text
      */
+    @NonNull
     public static Pair<Integer, Integer> getLineColFromIndex(int index, int lineCount, Layout layout) {
         int line;
         int currentIndex = 0, oldIndex = 0;

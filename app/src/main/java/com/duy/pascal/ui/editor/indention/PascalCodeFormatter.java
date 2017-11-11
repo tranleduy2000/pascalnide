@@ -84,7 +84,7 @@ import java.util.LinkedList;
  * <p>
  * Created by Duy on 07-May-17.
  */
-public class PascalFormatCode {
+public class PascalCodeFormatter {
     public static final Class[] NON_NEED_SPACE = new Class[]{
             DotDotToken.class, PeriodToken.class, /*AssignmentToken.class,*/
             ColonToken.class, CommaToken.class, SemicolonToken.class, BracketedToken.class,
@@ -107,7 +107,6 @@ public class PascalFormatCode {
             SemicolonToken.class, PeriodToken.class
     };
 
-
     public static final String TAG = "IndentCode";
     public static final String TAB = "  "; //2 space
     private int mode;
@@ -116,22 +115,20 @@ public class PascalFormatCode {
     private LinkedList<Token> stack = new LinkedList<>();
     private StringBuilder mResult;
 
-    public PascalFormatCode(Reader source) throws IOException {
+    public PascalCodeFormatter(Reader source) throws IOException {
         this.source = source;
         loadInput();
         parse();
     }
 
-    public PascalFormatCode() {
+    public PascalCodeFormatter() {
     }
 
     public static void main(String[] args) throws IOException {
         File dir = new File("C:\\Users\\Duy\\IdeaProjects\\JSPIIJ\\tests\\basic");
         for (File file : dir.listFiles()) {
             if (file.getName().endsWith(".pas")) {
-                PascalFormatCode indentCode = new PascalFormatCode(new FileReader(file));
-////                System.out.println(indentCode.getResult());
-////                System.out.println("------------------------");
+                PascalCodeFormatter indentCode = new PascalCodeFormatter(new FileReader(file));
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {

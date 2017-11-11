@@ -33,22 +33,27 @@ import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.source.FileScriptSource;
+import com.duy.pascal.interperter.tokens.Token;
+import com.duy.pascal.interperter.tokens.basic.ForToken;
+import com.duy.pascal.interperter.tokens.basic.ToToken;
+import com.duy.pascal.interperter.tokens.basic.UsesToken;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
 import com.duy.pascal.ui.autocomplete.completion.model.KeyWordDescription;
 import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;
 import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.ui.utils.DLog;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import static com.duy.pascal.ui.autocomplete.completion.CompleteContext.CONTEXT_NONE;
-import static com.duy.pascal.ui.autocomplete.completion.util.Patterns.END_ASSIGN;
 
 /**
  * Created by Duy on 17-Aug-17.
@@ -66,6 +71,7 @@ public class SuggestionProvider {
     private CompleteContext mCompleteContext = CONTEXT_NONE;
     private CodeSuggestsEditText.SymbolsTokenizer mSymbolsTokenizer;
     private ParsingException mParsingException;
+    private LinkedList<Token> mSourceTokens;
 
     public SuggestionProvider() {
         mSymbolsTokenizer = new CodeSuggestsEditText.SymbolsTokenizer();
@@ -81,12 +87,12 @@ public class SuggestionProvider {
         this.mCursorLine = cursorLine;
         this.mCursorCol = cursorCol;
         try {
-            calculateIncomplete();
+            FileScriptSource scriptSource = new FileScriptSource(new StringReader(mSource), srcPath);
+            init(scriptSource);
             ArrayList<Description> suggestItems = new ArrayList<>();
 
             if (source.length() <= MAX_CHAR) {
                 try {
-                    FileScriptSource scriptSource = new FileScriptSource(new StringReader(mSource), srcPath);
                     CodeUnit codeUnit = PascalCompiler.loadPascal(scriptSource, null, null);
 
                     //the result
@@ -108,6 +114,11 @@ public class SuggestionProvider {
         return null;
     }
 
+    private void init(FileScriptSource scriptSource) throws IOException {
+        mSourceTokens = scriptSource.toTokens();
+        calculateIncomplete();
+    }
+
     @Nullable
     public ParsingException getParsingException() {
         return mParsingException;
@@ -125,10 +136,24 @@ public class SuggestionProvider {
             case CONTEXT_ASSIGN:
                 completeWord(toAdd, exprContext);
                 break;
+            case CONTEXT_USES:
+                completeUses(toAdd, exprContext);
+                break;
+            case CONTEXT_TYPE:
+            case CONTEXT_VAR:
             default:
             case CONTEXT_NONE:
                 completeWord(toAdd, exprContext);
                 break;
+        }
+    }
+
+    private void completeUses(ArrayList<Description> toAdd, ExpressionContextMixin exprContext) {
+        for (String str : KeyWord.BUILTIN_LIBS) {
+            if (str.toLowerCase().startsWith(mIncomplete.toLowerCase())
+                    && !str.equalsIgnoreCase(mIncomplete)) {
+                toAdd.add(new KeyWordDescription(str, null));
+            }
         }
     }
 
@@ -179,38 +204,26 @@ public class SuggestionProvider {
      * Define context, incomplete word
      */
     private void calculateIncomplete() {
-        mIncomplete = "";
         int start = mSymbolsTokenizer.findTokenStart(mSource, mCursorPos);
-        mIncomplete = mSource.substring(start, mCursorPos);
-
-        mIncomplete = mIncomplete.trim();
-        String beforeIncomplete = mSource.substring(0, start);
-
+        mIncomplete = mSource.substring(start, mCursorPos).trim();
         mPreWord = null;
         mCompleteContext = CONTEXT_NONE;
-        //complete assign
-        if (END_ASSIGN.matcher(beforeIncomplete).find()) { //:=|
-//            mCompleteContext = CompleteContext.CONTEXT_ASSIGN;
-//            Matcher matcher = ID_ASSIGN.matcher(beforeIncomplete);
-//            if (matcher.find()) {
-//                mPreWord = matcher.group(1);
-//            }
-        } else {
-            start = mSymbolsTokenizer.findTokenEnd(beforeIncomplete, start);
-            if (start >= 0) {
-                //get previous word
-                mPreWord = mSource.substring(0, start);
-                Pattern forStatement = Pattern.compile("\\s+(for)\\s+$", Pattern.CASE_INSENSITIVE);
-                Pattern toKeyword = Pattern.compile("\\s+(to)\\s+$", Pattern.CASE_INSENSITIVE);
-                //for keyword
-                //syntax "for <var>=integer_value to|downto integer_value do
-                if (forStatement.matcher(mPreWord).find()) {
-                    mCompleteContext = CompleteContext.CONTEXT_AFTER_FOR;
-                } else if (toKeyword.matcher(mPreWord).find()) {
-                    mCompleteContext = CompleteContext.CONTEXT_AFTER_TO;
-                }
+        List<Token> statement = SourceHelper.getStatement(mSourceTokens, mCursorLine, mCursorCol);
+        if (statement.isEmpty()) {
+            return;
+        }
 
-            }
+        Token last = statement.get(statement.size() - 1);
+        Token first = statement.get(0);
+        System.out.println("first = " + first);
+        System.out.println("last = " + last);
+
+        if (last instanceof ForToken) {
+            mCompleteContext = CompleteContext.CONTEXT_AFTER_FOR;
+        } else if (last instanceof ToToken) {
+            mCompleteContext = CompleteContext.CONTEXT_AFTER_TO;
+        } else if (first instanceof UsesToken) {
+            mCompleteContext = CompleteContext.CONTEXT_USES;
         }
     }
 
@@ -268,9 +281,7 @@ public class SuggestionProvider {
             for (AbstractFunction function : list) {
                 if (function.getName().isPrefix(mIncomplete)) {
                     if (beforeCursor(function.getLineNumber())) {
-                        if (function.returnType() == null) {
-                            suggestItems.add(CompletionFactory.makeFunction(function));
-                        }
+                        suggestItems.add(CompletionFactory.makeFunction(function));
                     }
                 }
             }

@@ -33,7 +33,7 @@ import com.duy.pascal.ui.EditorControl;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.code.CompileManager;
-import com.duy.pascal.ui.editor.indention.PascalFormatCode;
+import com.duy.pascal.ui.editor.indention.PascalCodeFormatter;
 import com.duy.pascal.ui.editor.view.EditorView;
 import com.duy.pascal.ui.editor.view.LineUtils;
 import com.duy.pascal.ui.file.FileManager;
@@ -182,7 +182,7 @@ public class EditorFragment extends Fragment implements EditorController {
     public void formatCode() {
         String text = getCode();
         try {
-            PascalFormatCode autoIndentCode = new PascalFormatCode(new StringReader(text));
+            PascalCodeFormatter autoIndentCode = new PascalCodeFormatter(new StringReader(text));
             StringBuilder result = autoIndentCode.getResult();
             mCodeEditor.setTextHighlighted(result);
             mCodeEditor.applyTabWidth(mCodeEditor.getText(), 0, mCodeEditor.getText().length());

@@ -38,6 +38,6 @@ public class VariableDescription extends DescriptionImpl {
 
     @Override
     public String getInsertText() {
-        return name.getOriginName() + " " + CodeSuggestsEditText.CURSOR;
+        return String.format("%s%s", name.getOriginName(), CodeSuggestsEditText.CURSOR);
     }
 }

@@ -92,7 +92,7 @@ public class LineInfo implements Serializable, Cloneable, Comparable<LineInfo> {
 
     @Override
     public int compareTo(@NonNull LineInfo o) {
-        if (this.getLine() < o.getLength()) {
+        if (this.getLine() < o.getLine()) {
             return -1;
         }
         if (getLine() > o.getLine()) {

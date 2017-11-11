@@ -479,6 +479,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
             calculateCursor(editText);
         }
 
+        @SuppressWarnings("ConstantConditions")
         private void calculateCursor(EditText editText) {
             this.cursorPos = editText.getSelectionStart();
             Pair<Integer, Integer> lineColFromIndex = LineUtils.getLineColFromIndex(cursorPos,

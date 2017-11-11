@@ -34,6 +34,7 @@ begin
   until i > j;
   sort(i, r);
   sort(l, j);
+
 end;
 
 //goi bit[i] la so luong so nho hon nut i

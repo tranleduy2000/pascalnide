@@ -39,6 +39,8 @@ public class KeyWord {
     public static final String[] BOOLEAN_TYPE;
     public static final String[] ALL_KEY_WORD;
     public static final String[] DATA_TYPE;
+    public static final String[] BUILTIN_LIBS = new String[]{"Crt", "Graph", "Math", "SysUtil",
+            "Dos", "aDialog", "aLocation", "BarCode"};
 
     static {
         RESERVED_KEY_WORDS = new String[]{
@@ -105,7 +107,7 @@ public class KeyWord {
 
         DATA_TYPE = ArrayUtil.join(String.class, COMMON_TYPE, INTEGER_TYPE, REAL_TYPE, STRING_TYPE, BOOLEAN_TYPE);
 
-        ALL_KEY_WORD = ArrayUtil.join(String.class,  RESERVED_KEY_WORDS, REAL_TYPE, INTEGER_TYPE, STRING_TYPE, BOOLEAN_TYPE);
+        ALL_KEY_WORD = ArrayUtil.join(String.class, RESERVED_KEY_WORDS, REAL_TYPE, INTEGER_TYPE, STRING_TYPE, BOOLEAN_TYPE);
 
         SYMBOL_KEY = new String[]{":=", ";", ".", "[", "]", ":", "'", "(", ")", "<", ">", "=", "<>", "<=", ">=", "{", "}", "+", "-", "*", "/", "_"};
 

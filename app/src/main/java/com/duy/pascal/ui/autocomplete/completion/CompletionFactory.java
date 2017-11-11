@@ -47,7 +47,7 @@ public class CompletionFactory {
         Type type = function.returnType();
         boolean isProcedure = type == null;
         if (!isProcedure) {
-            isProcedure |= type.getStorageClass().equals(Void.class)
+            isProcedure = type.getStorageClass().equals(Void.class)
                     || type.getStorageClass().equals(void.class);
         }
         return new FunctionDescription(name, args, type, isProcedure);
