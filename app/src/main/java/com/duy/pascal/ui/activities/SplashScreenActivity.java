@@ -41,7 +41,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -52,9 +51,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-        // Here, this is the current activity
         PreferenceManager.setDefaultValues(this, R.xml.pref_settings, false);
+        setContentView(R.layout.activity_splash);
         if (!permissionGranted()) {
             requestPermission();
         } else {
@@ -68,10 +66,13 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private boolean permissionGranted() {
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED)
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            }
+        return false;
     }
 
     @Override
@@ -100,11 +101,10 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void startMainActivity() {
         Intent data = getIntent();
         String action = data.getAction();
-
-        if (DLog.DEBUG) DLog.d(TAG, "startMainActivity: action = " + action);
+        DLog.d(TAG, "startMainActivity: action = " + action);
 
         String type = data.getType();
-        final Intent intentEdit = new Intent(SplashScreenActivity.this, EditorActivity.class);
+        final Intent intentEdit = new Intent(this, EditorActivity.class);
         if (action != null && Intent.ACTION_SEND.equals(action) && type != null) {
             FirebaseAnalytics.getInstance(this).logEvent("open_from_clipboard", new Bundle());
             if (type.equals("text/plain")) {
@@ -140,16 +140,20 @@ public class SplashScreenActivity extends AppCompatActivity {
         finish();
     }
 
-    private void handleActionView(@NonNull Intent from,
-                                  @NonNull Intent to) {
+    private void handleActionView(@NonNull Intent from, @NonNull Intent to) {
+        if (from.getData() == null || from.getType() == null) {
+            return;
+        }
         DLog.d(TAG, "handleActionView() called with: from = [" + from + "], to = [" + to + "]");
         if (from.getData().toString().endsWith(".pas") || from.getData().toString().endsWith(".txt")) {
             Uri uriPath = from.getData();
             DLog.d(TAG, "handleActionView: " + uriPath.getPath());
             try {
                 String filePath = FileManager.getPathFromUri(this, uriPath);
-                to.putExtra(CompileManager.EXTRA_FILE, new File(filePath));
-            } catch (URISyntaxException e) {
+                if (filePath != null) {
+                    to.putExtra(CompileManager.EXTRA_FILE, new File(filePath));
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (from.getType().equals("text/x-pascal")) {

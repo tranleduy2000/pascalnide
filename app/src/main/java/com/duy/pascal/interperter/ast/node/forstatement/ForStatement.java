@@ -81,10 +81,10 @@ public class ForStatement {
             firstValue = convert;
 
             next = group.take();
-            boolean downto = false;
+            boolean isDownto = false;
             //case: for i := ... to[downto] ..
             if (next instanceof DowntoToken) {
-                downto = true;
+                isDownto = true;
             } else if (!(next instanceof ToToken)) {
                 throw new ExpectedTokenException(next, "to", "downto");
             }
@@ -106,12 +106,14 @@ public class ForStatement {
             }
 
             if (varType.getRawType() instanceof EnumGroupType) {
+                Node command = group.getNextCommand(context);
                 result = new ForEnumNode(varAssignable, firstValue,
-                        lastValue, group.getNextCommand(context),
-                        (EnumGroupType) varType.getRawType(), lineNumber, downto);
+                        lastValue, command,
+                        (EnumGroupType) varType.getRawType(), lineNumber, isDownto);
             } else {
+                Node command = group.getNextCommand(context);
                 result = new ForNumberNode(context, varAssignable, firstValue,
-                        lastValue, group.getNextCommand(context), lineNumber, downto);
+                        lastValue, command, lineNumber, isDownto);
             }
         } else {
             //case: for <var> in <range>

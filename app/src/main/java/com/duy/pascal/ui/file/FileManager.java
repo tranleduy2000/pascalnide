@@ -124,12 +124,17 @@ public class FileManager {
             Cursor cursor;
             try {
                 cursor = context.getContentResolver().query(uri, projection, null, null, null);
-                int column_index = cursor.getColumnIndexOrThrow("_data");
+                if (cursor == null) {
+                    return null;
+                }
+                int index = cursor.getColumnIndexOrThrow("_data");
                 if (cursor.moveToFirst()) {
-                    return cursor.getString(column_index);
+                    String path = cursor.getString(index);
+                    cursor.close();
+                    return path;
                 }
             } catch (Exception e) {
-                // Eat it
+                e.printStackTrace();
             }
         } else if ("file".equalsIgnoreCase(uri.getScheme())) {
             return uri.getPath();
@@ -297,20 +302,16 @@ public class FileManager {
      */
     @Nullable
     public String setContentFileTemp(String content) {
-        File file = new File(getCurrentPath(), FILE_TEMP_NAME);
         try {
-            if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                file.createNewFile();
-            }
+            File file = getTempFile();
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(content.getBytes());
             fos.close();
+            return file.getPath();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-        return file.getPath();
     }
 
     /**
@@ -319,11 +320,8 @@ public class FileManager {
      * @return - pascal file
      */
     public File getTempFile() {
-        String name = getCurrentPath() + File.separatorChar + FILE_TEMP_NAME;
-        File file = new File(name);
-        if (!file.exists()) {
-            return createNewFileInMode(name);
-        }
+        File file = new File(mContext.getFilesDir(), FILE_TEMP_NAME);
+        if (!file.exists()) createNewFile(file.getPath());
         return file;
     }
 

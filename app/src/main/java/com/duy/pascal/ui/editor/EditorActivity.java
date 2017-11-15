@@ -537,8 +537,8 @@ public class EditorActivity extends BaseEditorActivity implements DrawerLayout.D
             return;
         }
 
-        if (getPreferences().getBoolean(getString(R.string.key_back_undo))) {
-            undo();
+        if (getPreferences().getBoolean(getString(R.string.key_back_undo)) && getEditorFragment() != null) {
+            getEditorFragment().undo();
             return;
         }
 

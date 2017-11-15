@@ -84,7 +84,8 @@ public class ExecuteActivity extends AbstractExecActivity {
                 mPreferences.getPreferences().edit().putBoolean(FIRST_LAUNCHER_KEY, false).apply();
                 dialog.cancel();
             }
-        }).create().show();
+        });
+        showDialog(builder.create());
     }
 
     @Override

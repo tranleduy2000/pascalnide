@@ -17,6 +17,7 @@
 package com.duy.pascal.ui.runnable;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -56,6 +57,7 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
     protected static final int SHOW_KEYBOARD = 6;
 
     protected final AtomicBoolean mIsRunning = new AtomicBoolean(true);
+    @SuppressLint("HandlerLeak")
     protected final Handler mMessageHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -301,8 +303,8 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
         programFile = mFileManager.setContentFileTemp(code);
 
         //show prompt
-        this.println("execute file: " + path);
-        this.println("---------------------------" + "\n");
+        println(String.format("execute file: %s", path));
+        println("---------------------------\n");
 
         //create new thread and run program
         mMessageHandler.postDelayed(new Runnable() {

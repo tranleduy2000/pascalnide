@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -29,13 +30,14 @@ import android.view.WindowManager;
 
 import com.duy.pascal.ui.setting.PascalPreferences;
 
+import java.util.ArrayList;
+
 
 public abstract class BaseActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String TAG = "MainActivity";
     protected PascalPreferences mPreferences;
-    @Nullable
-    protected Dialog mDialog;
+    protected ArrayList<Dialog> mDialogs = new ArrayList<>();
     protected Toolbar mToolbar;
 
     @Override
@@ -107,8 +109,10 @@ public abstract class BaseActivity extends AppCompatActivity
         if (mPreferences != null) {
             mPreferences.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
         }
-        if (mDialog != null && mDialog.isShowing()) {
-            mDialog.dismiss();
+        for (Dialog dialog : mDialogs) {
+            if (dialog.isShowing()) {
+                dialog.cancel();
+            }
         }
         super.onDestroy();
     }
@@ -117,7 +121,10 @@ public abstract class BaseActivity extends AppCompatActivity
         mToolbar = findViewById(R.id.toolbar);
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
         }
     }
 
@@ -131,8 +138,8 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     protected void showDialog(Dialog dialog) {
-        mDialog = dialog;
-        mDialog.show();
+        mDialogs.add(dialog);
+        dialog.show();
     }
 
     protected PascalPreferences getPreferences() {

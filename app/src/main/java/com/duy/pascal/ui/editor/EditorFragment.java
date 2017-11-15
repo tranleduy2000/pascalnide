@@ -49,11 +49,12 @@ import java.io.StringReader;
  */
 public class EditorFragment extends Fragment implements EditorController {
     private static final String TAG = "EditorFragment";
+    private final Handler mHandler = new Handler();
+
     private EditorView mCodeEditor;
     @Nullable
     private LockableScrollView mScrollView;
     private FileManager mFileManager;
-    private Handler handler = new Handler();
     private LoadCodeTask mLoadCodeTask;
 
     public static EditorFragment newInstance(String filePath) {
@@ -104,6 +105,7 @@ public class EditorFragment extends Fragment implements EditorController {
 
     @Override
     public void onDestroyView() {
+        DLog.d(TAG, "onDestroyView() called");
         if (mLoadCodeTask != null) {
             mLoadCodeTask.cancel(true);
         }
@@ -232,7 +234,7 @@ public class EditorFragment extends Fragment implements EditorController {
     public void setLineError(@NonNull final LineInfo lineInfo) {
         mCodeEditor.setLineError(lineInfo);
         mCodeEditor.refresh();
-        handler.postDelayed(new Runnable() {
+        mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (mScrollView != null) {
