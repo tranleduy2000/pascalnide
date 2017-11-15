@@ -49,7 +49,7 @@ public class SourceHelper {
         DLog.d(TAG, "getStatement() called with: line = [" + line + "], column = [" + column + "]");
 
         LineInfo cursor = new LineInfo(line, column, "");
-        int last = 0;
+        int last = -1;
         for (int i = 0; i < source.size(); i++) {
             if (source.get(i).getLineNumber().compareTo(cursor) < 0) {
                 last = i;

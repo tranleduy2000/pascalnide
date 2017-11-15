@@ -204,7 +204,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         mPopup.setHeight(height);
     }
 
-    public void showDropDown() {
+    public void showDropDown() throws Exception {
         if (mPopup.getAnchorView() == null) {
             if (mDropDownAnchorId != View.NO_ID) {
                 mPopup.setAnchorView(getRootView().findViewById(mDropDownAnchorId));
@@ -245,7 +245,11 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         if (data.size() > 0) {
             onPopupChangePosition();
             onDropdownChangeSize(getWidth(), getHeight());
-            showDropDown();
+            try {
+                showDropDown();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else if (data.size() == 0) {
             dismissDropDown();
         }
@@ -522,7 +526,6 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
                 setSuggestData(new ArrayList<Description>());
             } else {
                 setSuggestData(result);
-                showDropDown();
             }
             if (pascalParserHelper.getParsingException() != null) {
                 ParsingException parsingException = pascalParserHelper.getParsingException();

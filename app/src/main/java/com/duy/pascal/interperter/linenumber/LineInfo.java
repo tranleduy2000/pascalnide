@@ -60,7 +60,7 @@ public class LineInfo implements Serializable, Cloneable, Comparable<LineInfo> {
         this.line = var1;
     }
 
-    public int getColumn() {
+    public Integer getColumn() {
         return this.column;
     }
 
@@ -99,6 +99,6 @@ public class LineInfo implements Serializable, Cloneable, Comparable<LineInfo> {
             return 1; //greater than
         }
         //line is equal
-        return Integer.valueOf(getColumn()).compareTo(o.getColumn());
+        return this.getColumn().compareTo(o.getColumn());
     }
 }
