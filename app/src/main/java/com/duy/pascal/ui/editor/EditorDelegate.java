@@ -43,16 +43,16 @@ public class EditorDelegate {
     @NonNull
     private EditorActivity mActivity;
     @NonNull
-    private EditorControl listener;
+    private EditorControl mListener;
     private Menu menu;
     private PascalPreferences mPreference;
     private FirebaseAnalytics mAnalytics;
 
     public EditorDelegate(@NonNull EditorActivity activity, @NonNull EditorControl listener) {
         this.mActivity = activity;
-        this.listener = listener;
-        mPreference = new PascalPreferences(activity);
-        mAnalytics = FirebaseAnalytics.getInstance(activity);
+        this.mListener = listener;
+        this.mPreference = new PascalPreferences(activity);
+        this.mAnalytics = FirebaseAnalytics.getInstance(activity);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -71,18 +71,17 @@ public class EditorDelegate {
                 break;
             case R.id.action_find:
                 mAnalytics.logEvent("action_find", new Bundle());
-
                 mActivity.showDialogFind();
                 break;
             case R.id.action_find_and_replace:
                 mAnalytics.logEvent("action_find_and_replace", new Bundle());
-                listener.findAndReplace();
+                mListener.findAndReplace();
                 break;
             case R.id.action_doc:
-                listener.showDocumentActivity();
+                mListener.showDocumentActivity();
                 break;
             case R.id.action_new_file:
-                listener.createNewSourceFile(null);
+                mListener.createNewSourceFile(null);
                 break;
             case R.id.action_code_sample:
                 mAnalytics.logEvent("action_code_sample", new Bundle());
@@ -97,43 +96,55 @@ public class EditorDelegate {
                 StoreUtil.moreApp(mActivity);
                 break;
             case R.id.nav_run:
-                listener.runProgram();
+                mListener.runProgram();
                 break;
             case R.id.action_compile:
-                listener.doCompile();
+                mListener.doCompile();
                 break;
-            case R.id.action_save:
-                listener.saveFile();
+            case R.id.action_save: {
+                EditorFragment fragment = mActivity.getEditorFragment();
+                if (fragment != null) fragment.saveFile();
                 break;
+            }
             case R.id.action_save_as:
-                listener.saveAs();
+                mListener.saveAs();
                 break;
             case R.id.action_goto_line:
                 mAnalytics.logEvent("action_goto_line", new Bundle());
-                listener.goToLine();
+                mListener.goToLine();
                 break;
-            case R.id.action_format:
+            case R.id.action_format: {
                 mAnalytics.logEvent("action_format", new Bundle());
-                listener.formatCode();
+                EditorFragment fragment = mActivity.getEditorFragment();
+                if (fragment != null) fragment.formatCode();
                 break;
+            }
             case R.id.action_report_bug:
-                listener.reportBug();
+                mListener.reportBug();
                 break;
-            case R.id.action_undo:
-                listener.undo();
+            case R.id.action_undo: {
+                EditorFragment fragment = mActivity.getEditorFragment();
+                if (fragment != null) fragment.undo();
                 break;
-            case R.id.action_redo:
-                listener.redo();
+            }
+            case R.id.action_redo: {
+                EditorFragment fragment = mActivity.getEditorFragment();
+                if (fragment != null) fragment.redo();
                 break;
-            case R.id.action_paste:
-                listener.paste();
+            }
+            case R.id.action_paste: {
+                EditorFragment fragment = mActivity.getEditorFragment();
+                if (fragment != null) fragment.paste();
                 break;
-            case R.id.action_copy_all:
-                listener.copyAll();
+            }
+            case R.id.action_copy_all: {
+                EditorFragment fragment = mActivity.getEditorFragment();
+                if (fragment != null) fragment.copyAll();
                 break;
+            }
             case R.id.action_select_theme:
                 mAnalytics.logEvent("action_select_theme", new Bundle());
-                listener.selectThemeFont();
+                mListener.selectThemeFont();
                 break;
             case R.id.action_more_feature:
                 mActivity.openDrawer(GravityCompat.END);
@@ -184,11 +195,11 @@ public class EditorDelegate {
 
     @NonNull
     public EditorControl getListener() {
-        return listener;
+        return mListener;
     }
 
     public void setListener(@NonNull EditorControl listener) {
-        this.listener = listener;
+        this.mListener = listener;
     }
 
     boolean getChecked(int action_auto_save) {

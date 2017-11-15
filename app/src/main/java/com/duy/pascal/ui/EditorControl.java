@@ -27,8 +27,6 @@ public interface EditorControl {
 
     void runProgram();
 
-    boolean isAutoSave();
-
     void saveFile();
 
     void showDocumentActivity();
@@ -46,8 +44,6 @@ public interface EditorControl {
     void redo();
 
     void paste();
-
-    void copyAll();
 
     void selectThemeFont();
 }

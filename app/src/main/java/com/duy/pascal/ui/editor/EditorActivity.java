@@ -196,11 +196,6 @@ public class EditorActivity extends BaseEditorActivity implements DrawerLayout.D
         if (doCompile()) mCompileManager.execute(getCurrentFilePath());
     }
 
-    @Override
-    public boolean isAutoSave() {
-        return mEditorDelegate.getChecked(R.id.action_auto_save);
-    }
-
     /**
      * replace dialog find
      */
@@ -496,16 +491,16 @@ public class EditorActivity extends BaseEditorActivity implements DrawerLayout.D
     }
 
     @Override
-    public void onDrawerSlide(View drawerView, float slideOffset) {
+    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
     }
 
     @Override
-    public void onDrawerOpened(View drawerView) {
+    public void onDrawerOpened(@NonNull View drawerView) {
         closeKeyBoard();
     }
 
     @Override
-    public void onDrawerClosed(View drawerView) {
+    public void onDrawerClosed(@NonNull View drawerView) {
         if (mFabMenu.isOpened()) {
             mFabMenu.close(false);
         }
@@ -519,12 +514,9 @@ public class EditorActivity extends BaseEditorActivity implements DrawerLayout.D
         }
     }
 
-    @Override
-    public void copyAll() {
-        EditorFragment editorFragment = mPagerAdapter.getCurrentFragment();
-        if (editorFragment != null) {
-            editorFragment.copyAll();
-        }
+    @Nullable
+    public EditorFragment getEditorFragment() {
+        return mPagerAdapter.getCurrentFragment();
     }
 
     @Override

@@ -81,7 +81,7 @@ import java.util.ArrayList;
 
 public abstract class BaseEditorActivity extends BaseActivity implements SymbolListView.OnKeyListener,
         EditorControl, FileActionListener,
-        EditorContext, View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+        EditorContext, View.OnClickListener, PopupMenu.OnMenuItemClickListener, DrawerLayout.DrawerListener {
     private static final String TAG = "BaseEditorActivity";
 
     protected FileManager mFileManager;
@@ -278,7 +278,7 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         // Set the drawer toggle as the DrawerListener
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
         //attach listener hide/show keyboard
@@ -502,11 +502,6 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
     }
 
     @Override
-    public boolean isAutoSave() {
-        return false;
-    }
-
-    @Override
     public void saveFile() {
 
     }
@@ -522,56 +517,15 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
     }
 
     @Override
-    public void goToLine() {
-
-    }
-
-    @Override
-    public void formatCode() {
-
-    }
-
-    @Override
-    public void reportBug() {
-
-    }
-
-    @Override
-    public void undo() {
-
-    }
-
-    @Override
-    public void redo() {
-
-    }
-
-    @Override
-    public void paste() {
-
-    }
-
-    @Override
-    public void copyAll() {
-
-    }
-
-    @Override
-    public void selectThemeFont() {
-
-    }
-
-    @Override
     protected void onDestroy() {
-        super.onDestroy();
         closeKeyBoard();
         mDrawerLayout.getViewTreeObserver()
                 .removeGlobalOnLayoutListener(mKeyBoardListener);
-
+        super.onDestroy();
     }
 
     // closes the soft keyboard
-    protected void closeKeyBoard() throws NullPointerException {
+    protected void closeKeyBoard() {
         // Central system API to the overall input method framework (IMF) architecture
         InputMethodManager inputManager =
                 (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -585,7 +539,9 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
             int hideType = InputMethodManager.HIDE_NOT_ALWAYS;
 
             // Hide the KeyBoard
-            inputManager.hideSoftInputFromWindow(windowToken, hideType);
+            if (inputManager != null) {
+                inputManager.hideSoftInputFromWindow(windowToken, hideType);
+            }
         }
     }
 
@@ -661,6 +617,26 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
         RateThisApp.onStart(this);
         // If the criteria is satisfied, "Rate this app" dialog will be shown
         RateThisApp.showRateDialogIfNeeded(this);
+    }
+
+    @Override
+    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(@NonNull View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerClosed(@NonNull View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
     }
 
     private class KeyBoardEventListener implements ViewTreeObserver.OnGlobalLayoutListener {

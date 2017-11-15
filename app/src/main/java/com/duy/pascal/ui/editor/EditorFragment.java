@@ -16,7 +16,6 @@
 
 package com.duy.pascal.ui.editor;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -108,17 +107,16 @@ public class EditorFragment extends Fragment implements EditorController {
         if (mLoadCodeTask != null) {
             mLoadCodeTask.cancel(true);
         }
-        saveFile();
+        if (isAutoSave()) saveFile();
         if (mCodeEditor != null && getFilePath() != null) {
-            DLog.d(TAG, "onStop: save edit history " + getFilePath());
+            DLog.d(TAG, "onDestroyView: save edit history " + getFilePath());
             mCodeEditor.saveHistory(getFilePath());
         }
         super.onDestroyView();
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    private boolean isAutoSave() {
+        return true;
     }
 
     @Override
@@ -130,11 +128,6 @@ public class EditorFragment extends Fragment implements EditorController {
 
     public void executeCommand(@NonNull AutoFixCommand command) {
         command.execute(mCodeEditor);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
     }
 
     @Override
@@ -170,6 +163,8 @@ public class EditorFragment extends Fragment implements EditorController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else {
+            DLog.d(TAG, "saveFile: file is null");
         }
     }
 
@@ -182,8 +177,8 @@ public class EditorFragment extends Fragment implements EditorController {
     public void formatCode() {
         String text = getCode();
         try {
-            PascalCodeFormatter autoIndentCode = new PascalCodeFormatter(new StringReader(text));
-            StringBuilder result = autoIndentCode.getResult();
+            PascalCodeFormatter formatter = new PascalCodeFormatter(new StringReader(text));
+            StringBuilder result = formatter.getResult();
             mCodeEditor.setTextHighlighted(result);
             mCodeEditor.applyTabWidth(mCodeEditor.getText(), 0, mCodeEditor.getText().length());
         } catch (IOException e) {
@@ -254,8 +249,8 @@ public class EditorFragment extends Fragment implements EditorController {
     }
 
     public String getFilePath() {
-        String path = ((File) getArguments().getSerializable(CompileManager.EXTRA_FILE)).getPath();
-        return path;
+        File file = (File) getArguments().getSerializable(CompileManager.EXTRA_FILE);
+        return file.getPath();
     }
 
     private static class LoadCodeTask extends AsyncTask<File, Void, String> {
@@ -271,10 +266,10 @@ public class EditorFragment extends Fragment implements EditorController {
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
             if (!isCancelled()) {
-                mEditorView.setText(s);
+                mEditorView.setText(result);
             }
         }
     }
