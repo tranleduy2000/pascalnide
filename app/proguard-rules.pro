@@ -87,5 +87,6 @@
 -keep class javax.** { *; }
 -keep class javax.annotation.**
 -keep class com.googlecode.sl4a.**
+-keep class com.simplecityapps.**
 -dontwarn com.squareup.picasso.**
 

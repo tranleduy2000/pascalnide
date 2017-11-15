@@ -31,7 +31,7 @@
     <string name="MISSING_INCLUDE">Berkas untuk disertakan hilang</string>
     <string name="NEWLINE_IN_QUOTES">Anda harus menutup tanda kutip Anda sebelum memulai baris baru</string>
 
-    <string name="multi_define_main">Definisi utama ganda</string>
+    <string name="multi_define_main">Definisi Main ganda</string>
     <string name="main_program_not_define">Main program tidak ditemukan</string>
 
     <string name="BadOperationTypeException">Operator \"%1$s\" tidak dapat diaplikasikan untuk argumen \"%2$s\" dan \"%3$s\".\n
