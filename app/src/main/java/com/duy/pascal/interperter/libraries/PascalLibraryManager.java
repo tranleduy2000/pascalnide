@@ -271,7 +271,7 @@ public class PascalLibraryManager {
     public void addMethodFromLibrary(Class<? extends IPascalLibrary> clazz,
                                      @Nullable Object instance, @Nullable LineInfo line) throws PermissionDeniedException {
 
-        if (instance instanceof IAndroidLibrary) {
+        if (instance instanceof IAndroidLibrary && mHandler != null && mHandler.getApplicationContext() != null) {
             String[] permissions = ((IAndroidLibrary) instance).needPermission();
             for (String permission : permissions) {
                 if (DLog.ANDROID) {
