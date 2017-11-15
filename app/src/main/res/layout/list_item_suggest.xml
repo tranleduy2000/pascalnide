@@ -27,6 +27,7 @@
         android:layout_height="match_parent"
         android:background="#3d5afe"
         android:gravity="center"
+        android:singleLine="false"
         android:text="p"
         android:textColor="@color/white"
         android:textStyle="bold" />

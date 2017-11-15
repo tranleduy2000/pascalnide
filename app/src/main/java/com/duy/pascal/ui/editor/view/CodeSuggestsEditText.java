@@ -136,15 +136,11 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     @Override
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
-        if (mEnableSyntaxParser && hasFocus()) {
+        if (mEnableSyntaxParser && hasFocus() && mEditorSetting.isShowSuggestPopup()) {
             try {
-                if (mEditorSetting.isShowSuggestPopup()) {
-                    if (mParseTask != null) {
-                        mParseTask.cancel(true);
-                    }
-                    mParseTask = new ParseDataTask(this, "");
-                    mParseTask.execute();
-                }
+                if (mParseTask != null) mParseTask.cancel(true);
+                mParseTask = new ParseDataTask(this, "");
+                mParseTask.execute();
             } catch (Exception ignored) {
             }
             onPopupChangePosition();
@@ -387,6 +383,9 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (!hasFocus()) {
+            requestFocus();
+        }
         if (mPopup.onKeyDown(keyCode, event)) {
             return true;
         }

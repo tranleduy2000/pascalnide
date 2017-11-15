@@ -62,7 +62,7 @@ public class DescriptionImpl implements Comparable<Name>, Description {
 
     @Override
     public String getHeader() {
-        return name.getOriginName();
+        return name.getOriginName().replace(CodeSuggestsEditText.CURSOR, "");
     }
 
     @ItemKind
