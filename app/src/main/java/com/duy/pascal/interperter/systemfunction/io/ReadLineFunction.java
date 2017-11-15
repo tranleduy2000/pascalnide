@@ -49,7 +49,7 @@ public class ReadLineFunction implements IMethodDeclaration {
 
     @Override
     public Name getName() {
-        return Name.create("readln");
+        return Name.create("ReadLn");
     }
 
     @Override
@@ -123,7 +123,7 @@ public class ReadLineFunction implements IMethodDeclaration {
 
         @Override
         protected Name getFunctionName() {
-            return Name.create("readln");
+            return Name.create("ReadLn");
         }
 
         @Override
