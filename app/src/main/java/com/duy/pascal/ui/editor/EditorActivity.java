@@ -64,6 +64,7 @@ import com.duy.pascal.ui.structure.DialogProgramStructure;
 import com.duy.pascal.ui.structure.viewholder.StructureItem;
 import com.duy.pascal.ui.themefont.activities.ThemeFontActivity;
 import com.duy.pascal.ui.utils.DLog;
+import com.duy.pascal.ui.utils.StoreUtil;
 import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
@@ -556,7 +557,14 @@ public class EditorActivity extends BaseEditorActivity implements DrawerLayout.D
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
-                }).create().show();
+                })
+                .setNeutralButton(R.string.get_more_app, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        StoreUtil.moreApp(EditorActivity.this);
+                    }
+                });
+        showDialog(builder.create());
     }
 
     public void openDrawer(int gravity) {
