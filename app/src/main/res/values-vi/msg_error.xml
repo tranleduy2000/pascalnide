@@ -77,5 +77,9 @@
     <string name="ExpectedTokenException_3">Lỗi cú pháp, \"%1$s\" dự kiến nhưng \"%2$s\" được tìm thấy</string>
     <string name="UnConvertibleTypeException2">Biểu thức hoặc biến \"%1$s\" có kiểu là \"%2$s\" ,nó không thể chuyển sang kiểu \"%3$s\" của biểu thức hoặc biến \"%4$s\"</string>
     <string name="VariableIdentifierExpectException">%1$s không phải là một biến</string>
+    <string name="ChangeValueConstantException2">Giá trị lưu trong hằng %1$s không thể bị thay đổi.</string>
+    <string name="UnConvertibleTypeVariable">The type of expression %1$s is %2$s, which cannot be converted to the type %3$s of variable %4$s</string>
+    <string name="UnConvertibleTypeConstant">The type of expression %1$s is %2$s, which cannot be converted to the type %3$s of constant %4$s</string>
+    <string name="NotAStatementException2">%1$s is not a statement.</string>
 
 </resources>

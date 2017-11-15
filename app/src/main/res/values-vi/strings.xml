@@ -229,4 +229,8 @@
     <string name="open_or_create_new_file">Mở hoặc tạo tập tin mới</string>
     <string name="open_drawer">Mở ngăn kéo</string>
     <string name="select_type">Chọn kiểu dữ liệu</string>
+
+     <string name="keyboard_problem_msg">Nếu bạn có vấn đề trong việc nhập dữ liệu bằng bàn phím, vui lòng thay đổi bàn phím khác (Khuyến khích sử dụng bàn phím Gboard)</string>
+    <string name="keyboard_problem">Vấn đề về bàn phím</string>
+    <string name="editor_create_unknown_exception">Occurs unknown exception when create editor</string>
 </resources>

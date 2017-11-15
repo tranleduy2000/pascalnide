@@ -55,7 +55,6 @@
                 app:stl_defaultTabTextMinWidth="0dp"
                 app:stl_defaultTabTextSize="12sp"
                 app:stl_distributeEvenly="false"
-
                 app:stl_dividerThickness="1dp"
                 app:stl_drawDecorationAfterTab="false"
                 app:stl_indicatorAlwaysInCenter="false"
@@ -75,17 +74,28 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
-
-    <include
-        layout="@layout/navigation_editor_left"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start" />
-
-    <include
-        layout="@layout/navigation_editor_right"
+    <android.support.design.widget.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="end" />
+        android:layout_gravity="start"
+        android:fitsSystemWindows="false">
+
+        <include
+            layout="@layout/navigation_editor_left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.design.widget.NavigationView>
+
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/menu_nav">
+
+    </android.support.design.widget.NavigationView>
+
 
 </android.support.v4.widget.DrawerLayout>
