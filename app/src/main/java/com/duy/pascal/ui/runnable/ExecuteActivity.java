@@ -70,8 +70,11 @@ public class ExecuteActivity extends AbstractExecActivity {
             return;
         }
 
-        boolean firstLauncher = mPreferences.getPreferences().getBoolean(FIRST_LAUNCHER_KEY, true);
-        if (firstLauncher) performFirstLauncher();
+        if (isFirstLauncher()) performFirstLauncher();
+    }
+
+    private boolean isFirstLauncher() {
+        return mPreferences.getPreferences().getBoolean(FIRST_LAUNCHER_KEY, true);
     }
 
     private void performFirstLauncher() {

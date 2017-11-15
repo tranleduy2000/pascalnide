@@ -19,7 +19,6 @@ package com.duy.pascal.ui.editor;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -27,11 +26,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -43,6 +42,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -69,6 +69,7 @@ import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.view.SymbolListView;
 import com.github.clans.fab.FloatingActionMenu;
 import com.kobakei.ratethisapp.RateThisApp;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import java.io.File;
 import java.io.IOException;
@@ -91,7 +92,7 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
     protected DrawerLayout mDrawerLayout;
     protected SymbolListView mKeyList;
     protected NavigationView mNavigationView;
-    protected TabLayout mTabLayout;
+    protected SmartTabLayout mTabLayout;
     protected View mContainerSymbol;
     protected ViewPager mViewPager;
     protected FloatingActionMenu mFabMenu;
@@ -134,11 +135,6 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
         loadFileFromIntent();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        invalidateTab();
-    }
 
     private void loadFileFromIntent() {
         Intent intent = getIntent();
@@ -219,12 +215,13 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
         }
         mPagerAdapter = new EditorPagerAdapter(getSupportFragmentManager(), pages);
         mViewPager.setAdapter(mPagerAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+        addCustomTab();
+        mTabLayout.setViewPager(mViewPager);
 
-        if (mPagerAdapter.getCount() == 0) {
-//            String fileName = Integer.toHexString((int) System.currentTimeMillis()) + ".pas";
-//            File filePath = mFileManager.createNewFileInMode(fileName);
-//            addNewPageEditor(filePath);
+        if (isFirstLauncher()) {
+            String fileName = Integer.toHexString((int) System.currentTimeMillis()) + ".pas";
+            File filePath = mFileManager.createNewFileInMode(fileName);
+            addNewPageEditor(filePath);
         }
 
         int pos = getPreferences().getInt(PascalPreferences.TAB_POSITION_FILE);
@@ -233,38 +230,40 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
         }
     }
 
-    private void invalidateTab() {
-        for (int index = 0; index < mPagerAdapter.getCount(); index++) {
-            final TabLayout.Tab tab = mTabLayout.getTabAt(index);
-            View view = LayoutInflater.from(this).inflate(R.layout.item_tab_file, null);
-            if (tab != null) {
-                tab.setCustomView(view);
-            } else {
-                DLog.d(TAG, "invalidateTab: null tab at " + index);
-            }
-            View close = view.findViewById(R.id.img_close);
-            final int position = index;
-            close.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    removePage(position);
-                }
-            });
-            TextView txtTitle = view.findViewById(R.id.txt_name);
-            txtTitle.setText(mPagerAdapter.getPageTitle(index));
-            txtTitle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mViewPager.setCurrentItem(position);
-                }
-            });
-            if (index == mViewPager.getCurrentItem()) {
-                if (tab != null) {
-                    tab.select();
+    private boolean isFirstLauncher() {
+        String firstLauncherKey = BaseEditorActivity.class.getName();
+        boolean result = mPreferences.getPreferences().getBoolean(firstLauncherKey, true);
+        mPreferences.getPreferences().edit().putBoolean(firstLauncherKey, false).apply();
+        return result;
+    }
+
+    private void addCustomTab() {
+        mTabLayout.setCustomTabView(new SmartTabLayout.TabProvider() {
+            @Override
+            public View createTabView(ViewGroup container, final int position, PagerAdapter adapter) {
+                LayoutInflater inflater = LayoutInflater.from(BaseEditorActivity.this);
+                View view = inflater.inflate(R.layout.item_tab_file, container, false);
+                View close = view.findViewById(R.id.img_close);
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        removePage(position);
+                    }
+                });
+                TextView txtTitle = view.findViewById(R.id.txt_name);
+                txtTitle.setText(adapter.getPageTitle(position));
+                txtTitle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mViewPager.setCurrentItem(position);
+                    }
+                });
+                if (position == mViewPager.getCurrentItem()) {
                     txtTitle.setSelected(true);
                 }
+                return view;
             }
-        }
+        });
     }
 
     protected void setupToolbar() {
@@ -290,26 +289,19 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
      * remove a page in <code>position</code>
      */
     protected void removePage(int position) {
-        Fragment existingFragment = mPagerAdapter.getExistingFragment(position);
-        if (existingFragment == null) {
-            if (DLog.DEBUG) DLog.d(TAG, "removePage: " + "null page " + position);
+        Fragment fragment = mPagerAdapter.getExistingFragment(position);
+        if (fragment == null) {
+            DLog.d(TAG, "removePage: " + "null page " + position);
             return;
         }
         //delete in database
-        String filePath = existingFragment.getTag();
+        String filePath = fragment.getTag();
         mFileManager.removeTabFile(filePath);
-
         //remove page
         mPagerAdapter.remove(position);
-        invalidateTab();
+        mTabLayout.setViewPager(mViewPager);
         String msg = getString(R.string.closed) + " " + new File(filePath).getName();
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        invalidateTab();
     }
 
     /**
@@ -322,11 +314,7 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
         DLog.d(TAG, "addNewPageEditor() called with: file = [" + file + "]");
         int position = mPagerAdapter.getPositionForTag(file.getPath());
         if (position != -1) { //existed in list file
-            TabLayout.Tab tab = mTabLayout.getTabAt(position);
-            if (tab != null) {
-                tab.select();
-                mViewPager.setCurrentItem(position);
-            }
+            mViewPager.setCurrentItem(position);
         } else { //new file
             if (mPagerAdapter.getCount() >= getPreferences().getMaxPage()) {
                 Fragment existingFragment = mPagerAdapter.getExistingFragment(0);
@@ -337,23 +325,18 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
             }
             //add to database
             mFileManager.addNewPath(file.getPath());
-
             //new page
             mPagerAdapter.add(new SimplePageDescriptor(file.getPath(), file.getName()));
-            invalidateTab();
-            int indexOfNewPage = mPagerAdapter.getCount() - 1;
-            TabLayout.Tab tab = mTabLayout.getTabAt(indexOfNewPage);
-            if (tab != null) {
-                tab.select();
-                mViewPager.setCurrentItem(indexOfNewPage);
-            }
+            mPagerAdapter.notifyDataSetChanged();
+            mViewPager.setCurrentItem(mPagerAdapter.getCount() - 1);
+            mTabLayout.setViewPager(mViewPager);
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        getPreferences().put(PascalPreferences.TAB_POSITION_FILE, mTabLayout.getSelectedTabPosition());
+        getPreferences().put(PascalPreferences.TAB_POSITION_FILE, mViewPager.getCurrentItem());
     }
 
     @Override

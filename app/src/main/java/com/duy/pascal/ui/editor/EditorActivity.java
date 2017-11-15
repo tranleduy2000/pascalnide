@@ -98,7 +98,7 @@ public class EditorActivity extends BaseEditorActivity implements DrawerLayout.D
         findViewById(R.id.img_tab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insertTab(v);
+                insertTabCharacter(v);
             }
         });
     }
@@ -114,7 +114,7 @@ public class EditorActivity extends BaseEditorActivity implements DrawerLayout.D
         super.invalidateOptionsMenu();
     }
 
-    private void insertTab(View v) {
+    private void insertTabCharacter(View v) {
         EditorFragment currentFragment = mPagerAdapter.getCurrentFragment();
         if (currentFragment != null) {
             currentFragment.executeCommand(new AutoFixCommand() {
@@ -134,7 +134,7 @@ public class EditorActivity extends BaseEditorActivity implements DrawerLayout.D
 
     @Override
     public void onKeyClick(View view, String text) {
-        EditorFragment currentFragment = mPagerAdapter.getCurrentFragment();
+        EditorFragment currentFragment = getEditorFragment();
         if (currentFragment != null) {
             currentFragment.insert(text);
         }
@@ -142,7 +142,7 @@ public class EditorActivity extends BaseEditorActivity implements DrawerLayout.D
 
     @Override
     public void onKeyLongClick(String text) {
-        EditorFragment currentFragment = mPagerAdapter.getCurrentFragment();
+        EditorFragment currentFragment = getEditorFragment();
         if (currentFragment != null) {
             currentFragment.insert(text);
         }
