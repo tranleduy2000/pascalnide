@@ -443,14 +443,12 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
 
         @Override
         public int findTokenStart(CharSequence text, int cursor) {
-            int i = cursor - 1;
-            while (i >= 0) {
-                if (!TOKEN.contains(Character.toString(text.charAt(i)))) {
-                    i--;
-                } else {
-                    i++;
-                    break;
-                }
+            int i = cursor;
+            while (i > 0 && !TOKEN.contains(Character.toString(text.charAt(i - 1)))) {
+                i--;
+            }
+            while (i < cursor && text.charAt(i) == ' ') {
+                i++;
             }
             return i;
         }

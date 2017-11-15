@@ -46,6 +46,8 @@ public class SourceHelper {
      * Search back from the cursor position till meeting 'begin', 'end' or ';'.
      */
     public static StatementItem getStatement(LinkedList<Token> source, int line, int column) {
+        DLog.d(TAG, "getStatement() called with: line = [" + line + "], column = [" + column + "]");
+
         LineInfo cursor = new LineInfo(line, column, "");
         int last = 0;
         for (int i = 0; i < source.size(); i++) {

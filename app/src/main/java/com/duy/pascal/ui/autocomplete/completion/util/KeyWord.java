@@ -39,7 +39,7 @@ public class KeyWord {
     public static final String[] BOOLEAN_TYPE;
     public static final String[] ALL_KEY_WORD;
     public static final String[] DATA_TYPE;
-    public static final String[] BUILTIN_LIBS = new String[]{"Crt", "Graph", "Math", "SysUtil",
+    public static final String[] BUILTIN_LIBS = new String[]{"Crt", "Graph", "Math", "SysUtils",
             "Dos", "aDialog", "aLocation", "BarCode"};
 
     static {

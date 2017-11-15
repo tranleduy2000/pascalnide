@@ -145,7 +145,7 @@ public class PascalLibraryManager {
 
     @NonNull
     private ExpressionContextMixin mProgram;
-    @NonNull
+    @Nullable
     private ProgramHandler mHandler;
     private AndroidLibraryManager mFacadeManager;
 

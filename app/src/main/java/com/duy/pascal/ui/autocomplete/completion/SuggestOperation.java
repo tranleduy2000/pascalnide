@@ -39,6 +39,7 @@ import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.WordToken;
 import com.duy.pascal.interperter.tokens.basic.AssignmentToken;
 import com.duy.pascal.interperter.tokens.basic.ColonToken;
+import com.duy.pascal.interperter.tokens.basic.CommaToken;
 import com.duy.pascal.interperter.tokens.basic.ForToken;
 import com.duy.pascal.interperter.tokens.basic.ToToken;
 import com.duy.pascal.interperter.tokens.basic.UsesToken;
@@ -146,7 +147,7 @@ public class SuggestOperation {
     private void calculateIncomplete() {
         int start = mSymbolsTokenizer.findTokenStart(mSource, mCursorPos);
         mIncomplete = start >= 0 ? mSource.substring(start, mCursorPos) : "";
-        System.out.println("mIncomplete = " + mIncomplete);
+        System.out.println("mIncomplete = " + mIncomplete + " length = " + mIncomplete.length());
         mPreWord = null;
     }
 
@@ -393,7 +394,9 @@ public class SuggestOperation {
             } else if (last instanceof ToToken) {
                 mCompleteContext = CompleteContext.CONTEXT_NEED_TYPE_INTEGER;
             } else if (first instanceof UsesToken) {
-                mCompleteContext = CompleteContext.CONTEXT_USES;
+                if (statement.size() == 1 || last instanceof CommaToken) { //only uses token or after ','
+                    mCompleteContext = CompleteContext.CONTEXT_USES;
+                }
             } else if (last instanceof ColonToken) {
                 if (statement.size() >= 2) {
                     if (statement.get(statement.size() - 2) instanceof WordToken) {
