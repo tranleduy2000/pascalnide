@@ -136,7 +136,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     @Override
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
-        if (mEnableSyntaxParser) {
+        if (mEnableSyntaxParser && hasFocus()) {
             try {
                 if (mEditorSetting.isShowSuggestPopup()) {
                     if (mParseTask != null) {
@@ -297,7 +297,12 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
             }
 
             mBlockCompletion = true;
-            replaceText(convertSelectionToString(selectedItem));
+            try {
+                replaceText(convertSelectionToString(selectedItem));
+            } catch (Exception ignored) {
+                //something wrong when start app
+                ignored.printStackTrace();
+            }
             mBlockCompletion = false;
 
             if (mItemClickListener != null) {
@@ -338,7 +343,8 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         } else {
             start = mTokenizer.findTokenStart(getText(), end);
         }
-
+        start = Math.max(start, 0);
+        end = Math.max(end, 0);
         Editable editable = getText();
         String original = TextUtils.substring(editable, start, end);
 
@@ -423,6 +429,14 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      */
     public void performValidation() {
 
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        if (mPopup.isShowing()) {
+            mPopup.dismiss();
+        }
+        super.onDetachedFromWindow();
     }
 
     public static class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
@@ -519,6 +533,5 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
             }
         }
     }
-
 }
 

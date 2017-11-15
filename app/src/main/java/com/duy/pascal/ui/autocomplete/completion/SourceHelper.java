@@ -17,6 +17,7 @@
 package com.duy.pascal.ui.autocomplete.completion;
 
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.tokens.EOFToken;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.WordToken;
 import com.duy.pascal.interperter.tokens.basic.AssignmentToken;
@@ -28,6 +29,7 @@ import com.duy.pascal.interperter.tokens.basic.ToToken;
 import com.duy.pascal.interperter.tokens.closing.EndToken;
 import com.duy.pascal.interperter.tokens.grouping.BeginEndToken;
 import com.duy.pascal.interperter.tokens.value.ValueToken;
+import com.duy.pascal.ui.autocomplete.completion.model.StatementItem;
 import com.duy.pascal.ui.utils.DLog;
 
 import java.util.LinkedList;
@@ -43,7 +45,7 @@ public class SourceHelper {
     /**
      * Search back from the cursor position till meeting 'begin', 'end' or ';'.
      */
-    public static List<Token> getStatement(LinkedList<Token> source, int line, int column) {
+    public static StatementItem getStatement(LinkedList<Token> source, int line, int column) {
         LineInfo cursor = new LineInfo(line, column, "");
         int last = 0;
         for (int i = 0; i < source.size(); i++) {
@@ -53,9 +55,11 @@ public class SourceHelper {
                 break;
             }
         }
+        Token separator = null;
         int index = last;
         while (index >= 0) {
             if (isStatementSeparator(source.get(index))) {
+                separator = source.get(index);
                 index++;
                 break;
             } else {
@@ -64,8 +68,12 @@ public class SourceHelper {
         }
         if (index < 0) index = 0;
         List<Token> tokens = source.subList(index, last + 1);
-        DLog.d(TAG, "getStatement() returned: " + tokens);
-        return tokens;
+        if (tokens.size() >= 1 && tokens.get(tokens.size() - 1) instanceof EOFToken) {
+            tokens.remove(tokens.size() - 1);
+        }
+        StatementItem statementItem = new StatementItem(tokens, separator);
+        DLog.d(TAG, "getStatement() returned: " + statementItem);
+        return statementItem;
     }
 
     private static boolean isStatementSeparator(Token token) {
@@ -110,4 +118,5 @@ public class SourceHelper {
         }
         return tokens.size();
     }
+
 }

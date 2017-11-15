@@ -28,11 +28,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import static com.duy.pascal.ui.editor.view.AutoIndentEditText.CURSOR;
+import static com.duy.pascal.ui.editor.view.AutoIndentEditText.TAB_STR;
+
 /**
  * Created by Duy on 11/11/2017.
  */
 
 public class SuggestProvider {
+    private static final String[] DECLARE_SNIPPET = new String[]{
+            String.format("program %s;\nbegin%s\nend.", CURSOR, TAB_STR),
+            "uses", "const", "var",
+            String.format("begin\n%s%s\nend.", TAB_STR, CURSOR),
+            String.format("procedure %s;\nbegin\n%s\nend;", CURSOR, TAB_STR)
+    };
+
     @NonNull
     public static ArrayList<Description> sort(ArrayList<Description> items) {
         //sort by type -> name
@@ -89,6 +99,12 @@ public class SuggestProvider {
                     && !str.equalsIgnoreCase(mIncomplete)) {
                 toAdd.add(new KeyWordDescription(str, null));
             }
+        }
+    }
+
+    public static void completeAddDeclareToken(ArrayList<Description> toAdd) {
+        for (String str : DECLARE_SNIPPET) {
+            toAdd.add(new KeyWordDescription(str, null));
         }
     }
 }

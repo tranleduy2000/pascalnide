@@ -33,6 +33,10 @@ public class KeyWordDescription extends DescriptionImpl {
 
     @Override
     public String getInsertText() {
-        return name.getOriginName() + " " + CodeSuggestsEditText.CURSOR;
+        if (!name.getOriginName().contains(CodeSuggestsEditText.CURSOR)) {
+            return name.getOriginName() + " " + CodeSuggestsEditText.CURSOR;
+        } else {
+            return name.getOriginName();
+        }
     }
 }

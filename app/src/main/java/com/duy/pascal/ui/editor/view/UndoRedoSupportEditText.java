@@ -231,7 +231,7 @@ public class UndoRedoSupportEditText extends HighlightEditor {
                     int start, end;
                     start = Math.max(getSelectionStart(), 0);
                     end = Math.max(getSelectionEnd(), 0);
-                    getText().replace(Math.min(start, end), Math.max(start, end), mTabStr, 0, mTabStr.length());
+                    getText().replace(Math.min(start, end), Math.max(start, end), TAB_STR, 0, TAB_STR.length());
                     return true;
                 default:
                     try {
@@ -334,5 +334,15 @@ public class UndoRedoSupportEditText extends HighlightEditor {
 
     public void copyAll() {
         mClipboardManager.setText(getText());
+    }
+
+    @Override
+    protected void disableUndoRedoHelper() {
+        super.disableUndoRedoHelper();
+    }
+
+    @Override
+    protected void enableUndoRedoHelper() {
+        super.enableUndoRedoHelper();
     }
 }

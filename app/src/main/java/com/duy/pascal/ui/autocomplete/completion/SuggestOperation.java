@@ -45,6 +45,7 @@ import com.duy.pascal.interperter.tokens.basic.UsesToken;
 import com.duy.pascal.interperter.tokens.grouping.BeginEndToken;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
 import com.duy.pascal.ui.autocomplete.completion.model.KeyWordDescription;
+import com.duy.pascal.ui.autocomplete.completion.model.StatementItem;
 import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;
 import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.ui.utils.DLog;
@@ -57,6 +58,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static com.duy.pascal.ui.autocomplete.completion.CompleteContext.CONTEXT_DECLARE_KEYWORD;
 import static com.duy.pascal.ui.autocomplete.completion.CompleteContext.CONTEXT_NONE;
 import static com.duy.pascal.ui.autocomplete.completion.SuggestProvider.completeSuggestType;
 import static com.duy.pascal.ui.autocomplete.completion.SuggestProvider.completeUses;
@@ -77,7 +79,7 @@ public class SuggestOperation {
     private CodeSuggestsEditText.SymbolsTokenizer mSymbolsTokenizer;
     private LinkedList<Token> mSourceTokens;
 
-    private List<Token> mStatement;
+    private StatementItem mStatement;
     private String mIncomplete, mPreWord;
 
     private Name mIdentifierType;
@@ -143,7 +145,7 @@ public class SuggestOperation {
 
     private void calculateIncomplete() {
         int start = mSymbolsTokenizer.findTokenStart(mSource, mCursorPos);
-        mIncomplete = mSource.substring(start, mCursorPos);
+        mIncomplete = start >= 0 ? mSource.substring(start, mCursorPos) : "";
         System.out.println("mIncomplete = " + mIncomplete);
         mPreWord = null;
     }
@@ -169,7 +171,8 @@ public class SuggestOperation {
                 completeUses(mIncomplete, toAdd, exprContext);
                 break;
             case CONTEXT_AFTER_COLON:
-                //most of case
+                //most of case, behind the colon is data type
+                //var i: integer; function a(v: integer): integer;
                 completeSuggestType(mIncomplete, toAdd, exprContext);
                 break;
             case CONTEXT_INSERT_DO:
@@ -180,6 +183,10 @@ public class SuggestOperation {
                 break;
             case CONTEXT_AFTER_BEGIN:
                 SuggestProvider.completeAddKeyWordToken(mIncomplete, toAdd, exprContext, "end");
+                completeWord(mIncomplete, toAdd, exprContext);
+                break;
+            case CONTEXT_DECLARE_KEYWORD:
+                SuggestProvider.completeAddDeclareToken(toAdd);
                 break;
             case CONTEXT_INSERT_ASSIGN:
             case CONTEXT_COMMA_SEMICOLON:
@@ -346,60 +353,66 @@ public class SuggestOperation {
      * Define context, incomplete word
      */
     private void defineContext() {
-        mCompleteContext = CONTEXT_NONE;
-        if (mStatement.isEmpty()) {
+        if (mSource.trim().isEmpty()) { //program const uses var begin end.
+            mCompleteContext = CONTEXT_DECLARE_KEYWORD;
             return;
         }
+        mCompleteContext = CONTEXT_NONE; //default context, suggest keyword
+        List<Token> statement = mStatement.getStatement();
+        if (!statement.isEmpty()) {
+            Token last = statement.get(statement.size() - 1);
+            Token first = statement.get(0);
+            System.out.println("first = " + first);
+            System.out.println("last = " + last);
 
-        Token last = mStatement.get(mStatement.size() - 1);
-        Token first = mStatement.get(0);
-        System.out.println("first = " + first);
-        System.out.println("last = " + last);
-
-        if (last instanceof ForToken) {
-            //for to do
-            mCompleteContext = CompleteContext.CONTEXT_AFTER_FOR;
-        } else if (first instanceof ForToken) {
-            int isFor = SourceHelper.isForNumberStructure(mStatement);
-            if (isFor >= 0) {
-                switch (isFor) {
-                    case 1:// {ValueToken}, suggest variable integer
-                        mCompleteContext = CompleteContext.CONTEXT_AFTER_FOR;
-                        break;
-                    case 3://after assign, as before assign, suggest variable integer
-                    case 5://after to, as after 'for'
-                        mCompleteContext = CompleteContext.CONTEXT_NEED_TYPE_INTEGER;
-                        break;
-                    case 2: //after value, assign token,
-                        mCompleteContext = CompleteContext.CONTEXT_INSERT_ASSIGN;
-                        break;
-                    case 4: //after value, suggest to
-                        mCompleteContext = CompleteContext.CONTEXT_INSERT_TO;
-                        break;
-                    case 6: //after value, insert do
-                        mCompleteContext = CompleteContext.CONTEXT_INSERT_DO;
-                        break;
+            if (last instanceof ForToken) {
+                //for to do
+                mCompleteContext = CompleteContext.CONTEXT_AFTER_FOR;
+            } else if (first instanceof ForToken) {
+                int isFor = SourceHelper.isForNumberStructure(statement);
+                if (isFor >= 0) {
+                    switch (isFor) {
+                        case 1:// {ValueToken}, suggest variable integer
+                            mCompleteContext = CompleteContext.CONTEXT_AFTER_FOR;
+                            break;
+                        case 3://after assign, as before assign, suggest variable integer
+                        case 5://after to, as after 'for'
+                            mCompleteContext = CompleteContext.CONTEXT_NEED_TYPE_INTEGER;
+                            break;
+                        case 2: //after value, assign token,
+                            mCompleteContext = CompleteContext.CONTEXT_INSERT_ASSIGN;
+                            break;
+                        case 4: //after value, suggest to
+                            mCompleteContext = CompleteContext.CONTEXT_INSERT_TO;
+                            break;
+                        case 6: //after value, insert do
+                            mCompleteContext = CompleteContext.CONTEXT_INSERT_DO;
+                            break;
+                    }
+                }
+            } else if (last instanceof ToToken) {
+                mCompleteContext = CompleteContext.CONTEXT_NEED_TYPE_INTEGER;
+            } else if (first instanceof UsesToken) {
+                mCompleteContext = CompleteContext.CONTEXT_USES;
+            } else if (last instanceof ColonToken) {
+                if (statement.size() >= 2) {
+                    if (statement.get(statement.size() - 2) instanceof WordToken) {
+                        mCompleteContext = CompleteContext.CONTEXT_AFTER_COLON;
+                    }
+                }
+            } else if (last instanceof AssignmentToken) {
+                if (statement.size() >= 2) {
+                    Token token = statement.get(statement.size() - 2);
+                    if (token instanceof WordToken) {
+                        mIdentifierType = ((WordToken) token).getName();
+                        mCompleteContext = CompleteContext.CONTEXT_NEED_TYPE;
+                    }
                 }
             }
-        } else if (last instanceof ToToken) {
-            mCompleteContext = CompleteContext.CONTEXT_NEED_TYPE_INTEGER;
-        } else if (first instanceof UsesToken) {
-            mCompleteContext = CompleteContext.CONTEXT_USES;
-        } else if (last instanceof ColonToken) {
-            if (mStatement.size() >= 2) {
-                if (mStatement.get(mStatement.size() - 2) instanceof WordToken) {
-                    mCompleteContext = CompleteContext.CONTEXT_AFTER_COLON;
-                }
-            }
-        } else if (last instanceof BeginEndToken) {
-            mCompleteContext = CompleteContext.CONTEXT_AFTER_BEGIN;
-        } else if (last instanceof AssignmentToken) {
-            if (mStatement.size() >= 2) {
-                Token token = mStatement.get(mStatement.size() - 2);
-                if (token instanceof WordToken) {
-                    mIdentifierType = ((WordToken) token).getName();
-                    mCompleteContext = CompleteContext.CONTEXT_NEED_TYPE;
-                }
+        } else {
+            Token token = mStatement.getSeparator();
+            if (token instanceof BeginEndToken) {
+                mCompleteContext = CompleteContext.CONTEXT_AFTER_BEGIN;
             }
         }
 

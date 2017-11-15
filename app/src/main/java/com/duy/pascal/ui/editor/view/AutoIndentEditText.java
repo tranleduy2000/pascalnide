@@ -36,7 +36,7 @@ import com.duy.pascal.ui.utils.DLog;
 public class AutoIndentEditText extends AppCompatEditText {
     public static final String CURSOR = "\u2622";
     private static final String TAG = "AutoIndentEditText";
-    protected String mTabStr = "  ";
+    public static String TAB_STR = "  ";
     protected EditorSetting mEditorSetting;
     private TextWatcher mBracketWatcher = new TextWatcher() {
         private int start;
@@ -59,8 +59,10 @@ public class AutoIndentEditText extends AppCompatEditText {
                 CharSequence newText = editable.subSequence(start, start + count);
                 int i = newText.toString().indexOf(CURSOR);
                 if (i > -1) {
+                    disableUndoRedoHelper();
                     editable.delete(start + i, start + i + 1);
                     setSelection(start);
+                    enableUndoRedoHelper();
                 }
             }
         }
@@ -100,6 +102,14 @@ public class AutoIndentEditText extends AppCompatEditText {
         init(context);
     }
 
+    protected void enableUndoRedoHelper() {
+
+    }
+
+    protected void disableUndoRedoHelper() {
+
+    }
+
     public void applyTabWidth(Editable text, int start, int end) {
         /*String str = text.toString();
         float tabWidth = getPaint().measureText(INDEX_CHAR) * TAB_NUMBER;
@@ -119,7 +129,7 @@ public class AutoIndentEditText extends AppCompatEditText {
 
     private void init(Context context) {
         mEditorSetting = new EditorSetting(context);
-        mTabStr = mEditorSetting.getTabCharacter();
+        TAB_STR = mEditorSetting.getTabCharacter();
         setFilters(new InputFilter[]{mInputFilter});
         addTextChangedListener(mBracketWatcher);
     }
@@ -223,7 +233,7 @@ public class AutoIndentEditText extends AppCompatEditText {
             indent += dest.subSequence(indexStart, indexEnd);
         }
         if (parenthesesCount < 0) {
-            indent += mTabStr;
+            indent += TAB_STR;
         }
         DLog.d(TAG, "indentLine: " + dest.charAt(dend) + " " + dest.charAt(dstart));
 
@@ -249,6 +259,6 @@ public class AutoIndentEditText extends AppCompatEditText {
     }
 
     public String getTabCharacter() {
-        return mTabStr;
+        return TAB_STR;
     }
 }
