@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -7,8 +9,8 @@ android {
         applicationId "com.duy.pascal.compiler"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 422
-        versionName "4.2.2"
+        versionCode 423
+        versionName "4.2.3"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -56,8 +58,8 @@ dependencies {
     compile "com.android.support:support-annotations:$android_support_version"
     compile "com.android.support:multidex:1.0.2"
 
-    compile 'com.google.firebase:firebase-core:11.4.2'
-    compile 'com.google.firebase:firebase-crash:11.4.2'
+    compile 'com.google.firebase:firebase-core:11.6.0'
+    compile 'com.google.firebase:firebase-crash:11.6.0'
 
     compile 'io.github.kobakei:ratethisapp:1.2.0'
     compile 'commons-io:commons-io:2.4'
@@ -74,5 +76,9 @@ dependencies {
     compile 'com.makeramen:roundedimageview:2.2.1'
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.9'
     compile 'com.google.code.gson:gson:2.8.0'
+
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+        transitive = true
+    }
 }
 apply plugin: 'com.google.gms.google-services'

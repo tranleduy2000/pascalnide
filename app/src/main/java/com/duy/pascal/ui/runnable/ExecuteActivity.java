@@ -81,7 +81,7 @@ public class ExecuteActivity extends AbstractExecActivity {
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mPreferences.getPreferences().edit().putBoolean(FIRST_LAUNCHER_KEY, true).apply();
+                mPreferences.getPreferences().edit().putBoolean(FIRST_LAUNCHER_KEY, false).apply();
                 dialog.cancel();
             }
         }).create().show();

@@ -153,12 +153,15 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
 
     private void bindView() {
         mDrawerLayout = findViewById(R.id.drawer_layout);
+        mDrawerLayout.addDrawerListener(this);
+
         mKeyList = findViewById(R.id.recycler_view);
         mFileManager = new FileManager(this);
         mNavigationView = findViewById(R.id.navigation_view);
         mTabLayout = findViewById(R.id.tab_layout);
         mContainerSymbol = findViewById(R.id.container_symbol);
         mViewPager = findViewById(R.id.view_pager);
+
         findViewById(R.id.row_open_drawer).setOnClickListener(this);
         findViewById(R.id.row_open_file).setOnClickListener(this);
         findViewById(R.id.row_open_code_sample).setOnClickListener(this);
@@ -275,7 +278,7 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         // Set the drawer toggle as the DrawerListener
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
         //attach listener hide/show keyboard

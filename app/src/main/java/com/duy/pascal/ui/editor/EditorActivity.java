@@ -73,8 +73,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class EditorActivity extends BaseEditorActivity implements
-        DrawerLayout.DrawerListener {
+public class EditorActivity extends BaseEditorActivity implements DrawerLayout.DrawerListener {
 
     public static final int ACTION_FILE_SELECT_CODE = 1012;
     public static final int ACTION_PICK_MEDIA_URL = 1013;
@@ -87,10 +86,7 @@ public class EditorActivity extends BaseEditorActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mCompileManager = new CompileManager(this);
-        mDrawerLayout.addDrawerListener(this);
-
         mEditorDelegate = new EditorDelegate(this, this);
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
