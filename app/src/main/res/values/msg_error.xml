@@ -83,4 +83,5 @@
     <string name="UnConvertibleTypeVariable">The type of expression \"%1$s\" is \"%2$s\", which cannot be converted to the type \"%3$s\" of variable \"%4$s\"</string>
     <string name="UnConvertibleTypeConstant">The type of expression \"%1$s\" is \"%2$s\", which cannot be converted to the type \"%3$s\" of constant \"%4$s\"</string>
     <string name="MissingTokenException">Missing token \"%1$s\"</string>
+    <string name="UnknownFunctionException">Can not resolve function or procedure \"%1$s(%2$s)\"</string>
 </resources>

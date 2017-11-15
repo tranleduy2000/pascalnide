@@ -81,7 +81,8 @@ public class ParsingException extends Exception {
         return false;
     }
 
-    public Spanned getMessage(@NonNull Context context) {
+    public Spanned getLocalizedMessage(@NonNull Context context) {
         return new SpannableString(super.getMessage());
     }
+
 }

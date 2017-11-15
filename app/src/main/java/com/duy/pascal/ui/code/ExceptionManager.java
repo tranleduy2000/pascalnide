@@ -202,7 +202,7 @@ public class ExceptionManager {
             }
 
             if (e instanceof UnConvertibleTypeException) {
-                return new SpannableString(((UnConvertibleTypeException) e).getMessage(mContext));
+                return new SpannableString(((UnConvertibleTypeException) e).getLocalizedMessage(mContext));
             }
             if (e instanceof LibraryNotFoundException) {
                 return getMessageResource(e, R.string.LibraryNotFoundException,
@@ -260,12 +260,15 @@ public class ExceptionManager {
                 }
             }
             if (e instanceof ParsingException) {
-                return new SpannableString(((ParsingException) e).getLineInfo() + "\n\n" + e.getLocalizedMessage());
+                return new SpannableStringBuilder(((ParsingException) e).getLineInfo() + "")
+                        .append("\n\n")
+                        .append(((ParsingException) e).getLocalizedMessage(mContext));
             }
 
             if (e instanceof DivisionByZeroException) {
                 return getMessageResource(e, R.string.DivisionByZeroException);
             }
+
             return new SpannableString(e.getLocalizedMessage());
         } catch (Exception err) {
             err.printStackTrace();

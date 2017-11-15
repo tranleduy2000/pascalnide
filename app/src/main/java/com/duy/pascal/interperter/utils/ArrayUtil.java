@@ -122,6 +122,30 @@ public class ArrayUtil {
     /**
      * uses for function pascal, such as textColor(integer)
      */
+    public static String argToString(Object[] argumentTypes, boolean addParentheses) {
+        if (argumentTypes == null) return addParentheses ? "()" : "";
+        int iMax = argumentTypes.length - 1;
+        StringBuilder b = new StringBuilder();
+        if (addParentheses) b.append('(');
+        for (int i = 0; i < argumentTypes.length; i++) {
+            b.append(argumentTypes[i].toString());
+            if (i == iMax) {
+                if (addParentheses) {
+                    b.append(')');
+                }
+                break;
+            }
+            b.append(", ");
+        }
+        if (argumentTypes.length == 0 && addParentheses) {
+            b.append(")");
+        }
+        return b.toString();
+    }
+
+    /**
+     * uses for function pascal, such as textColor(integer)
+     */
     public static String argToString(List<RuntimeValue> args) {
         if (args == null) return "()";
         return argToString(args.toArray());

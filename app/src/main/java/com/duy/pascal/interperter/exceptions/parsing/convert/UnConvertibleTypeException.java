@@ -108,7 +108,7 @@ public class UnConvertibleTypeException extends ParsingException {
     }
 
     @Override
-    public Spanned getMessage(@NonNull Context context) {
+    public Spanned getLocalizedMessage(@NonNull Context context) {
         UnConvertibleTypeException e = this;
         if (NullSafety.isNullPointer(e.getIdentifier())) {
             int id = R.string.UnConvertibleTypeException;

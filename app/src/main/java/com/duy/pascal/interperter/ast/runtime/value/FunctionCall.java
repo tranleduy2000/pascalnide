@@ -12,6 +12,7 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.exceptions.parsing.define.AmbiguousFunctionCallException;
 import com.duy.pascal.interperter.exceptions.parsing.define.BadFunctionCallException;
+import com.duy.pascal.interperter.exceptions.parsing.define.UnknownFunctionException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.WordToken;
@@ -77,6 +78,9 @@ public abstract class FunctionCall extends DebuggableNodeReturnValue {
                 for (AbstractFunction function : possibility) {
                     listFunctions.add(function.toString());
                 }
+            }
+            if (possibilities.isEmpty()) {
+                throw new UnknownFunctionException(name, argsType, expressionContext);
             }
             throw new BadFunctionCallException(name.getLineNumber(),
                     name.name, !possibilities.isEmpty(), matching, argsType, listFunctions, expressionContext);
