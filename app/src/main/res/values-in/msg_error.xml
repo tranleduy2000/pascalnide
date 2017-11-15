@@ -15,7 +15,6 @@
   -->
 
 <resources>
-
     <string name="ExpectedTokenException_3">Kesalahan sintaks, diharapkan \"%1$s\" ,  namun \"%2$s\" ditemukan</string>
     <string name="BadFunctionCallException_1">Satu atau lebih argumen memiliki tipe yang salah saat memanggil fungsi \"%1$s\"</string>
     <string name="BadFunctionCallException_2">Entah terlalu sedikit atau dua argumen banyak dilewatkan ke fungsi \"%1$s\"</string>
