@@ -327,12 +327,11 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
         });
     }
 
-    public void showDialogCreateFile(@Nullable final FileActionListener mCallback) {
+    public void showDialogCreateFile(@Nullable final FileActionListener callback) {
         if (mDialog != null && mDialog.isShowing()) {
             mDialog.dismiss();
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-//        builder.setTitle(R.string.new_file);
         builder.setView(R.layout.dialog_new_file);
 
         mDialog = builder.create();
@@ -383,8 +382,8 @@ public class FileExplorerAction implements OnCheckedChangeListener, ActionMode.C
                 } else {
                     fileManager.saveFile(file, template);
                 }
-                if (mCallback != null) {
-                    mCallback.onFileSelected(new File(file.getPath()));
+                if (callback != null) {
+                    callback.onFileSelected(new File(file.getPath()));
                 }
                 mView.refresh();
                 destroyActionMode();

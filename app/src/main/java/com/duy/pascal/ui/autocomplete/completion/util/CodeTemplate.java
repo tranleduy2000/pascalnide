@@ -24,7 +24,7 @@ import com.duy.pascal.ui.editor.view.AutoIndentEditText;
 
 public class CodeTemplate {
     public static final String PROGRAM_TEMPLATE =
-            "program %s;\n" +
+            "program %1$s;\n" +
                     "uses crt;\n" +
                     "begin\n" +
                     "   " + AutoIndentEditText.CURSOR + "\n" +
