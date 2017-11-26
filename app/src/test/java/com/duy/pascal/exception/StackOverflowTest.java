@@ -18,6 +18,8 @@ package com.duy.pascal.exception;
 
 import com.duy.pascal.interpreter.BaseTestCase;
 
+import static com.duy.pascal.Interpreter.runProgram;
+
 /**
  * Created by Duy on 11/26/2017.
  */
@@ -30,6 +32,12 @@ public class StackOverflowTest extends BaseTestCase {
     }
 
     public void test1() {
-        run("test_stack_overflow_error.pas");
+        try {
+            runProgram(dir + "test_stack_overflow_error.pas");
+            assertFalse(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue(true);
+        }
     }
 }

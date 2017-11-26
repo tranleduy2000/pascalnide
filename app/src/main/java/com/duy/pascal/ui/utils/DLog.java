@@ -123,7 +123,9 @@ public class DLog {
     }
 
     public static void reportException(Throwable e) {
-        FirebaseCrash.report(e);
+        if (ANDROID) {
+            FirebaseCrash.report(e);
+        }
     }
 
 

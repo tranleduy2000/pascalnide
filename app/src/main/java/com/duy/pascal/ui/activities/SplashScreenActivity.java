@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -42,7 +41,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -104,7 +102,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         DLog.d(TAG, "startMainActivity: action = " + action);
 
         String type = data.getType();
-        final Intent intentEdit = new Intent(this, EditorActivity.class);
+        Intent intentEdit = new Intent(this, EditorActivity.class);
         if (action != null && Intent.ACTION_SEND.equals(action) && type != null) {
             FirebaseAnalytics.getInstance(this).logEvent("open_from_clipboard", new Bundle());
             if (type.equals("text/plain")) {
@@ -119,15 +117,11 @@ public class SplashScreenActivity extends AppCompatActivity {
             return;
         }
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                intentEdit.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intentEdit);
-                overridePendingTransition(0, 0);
-                finish();
-            }
-        }, 100);
+        intentEdit.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intentEdit);
+        overridePendingTransition(0, 0);
+        finish();
+
     }
 
     private void handleRunProgram(Intent data) {

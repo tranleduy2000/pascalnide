@@ -28,7 +28,7 @@ public abstract class DebuggableNodeReturnValue implements Node, RuntimeValue {
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {
-            throw new UnhandledPascalException(this.getLineNumber(), e);
+            throw new UnhandledPascalException(getLineNumber(), e);
         } catch (Throwable throwable) {
             throw new UnhandledPascalException(getLineNumber(), throwable);
         }
