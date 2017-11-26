@@ -59,7 +59,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static com.duy.pascal.ui.autocomplete.completion.CompleteContext.CONTEXT_DECLARE_KEYWORD;
+import static com.duy.pascal.ui.autocomplete.completion.CompleteContext.CONTEXT_EMPTY;
 import static com.duy.pascal.ui.autocomplete.completion.CompleteContext.CONTEXT_NONE;
 import static com.duy.pascal.ui.autocomplete.completion.SuggestProvider.completeSuggestType;
 import static com.duy.pascal.ui.autocomplete.completion.SuggestProvider.completeUses;
@@ -71,7 +71,7 @@ import static com.duy.pascal.ui.autocomplete.completion.SuggestProvider.sort;
 
 public class SuggestOperation {
     private static final String TAG = "SuggestOperation";
-    private static final int MAX_CHAR = 1000;
+    private static final int LIMIT_CHAR = 1000;
     private String mSource;
     private int mCursorPos;
     private int mCursorLine;
@@ -86,6 +86,7 @@ public class SuggestOperation {
     private Name mIdentifierType;
     private CompleteContext mCompleteContext = CONTEXT_NONE;
     private ParsingException mParsingException;
+    private FileScriptSource mScriptSource;
 
 
     public SuggestOperation() {
@@ -94,7 +95,7 @@ public class SuggestOperation {
     }
 
     @Nullable
-    public ArrayList<Description> getSuggestion(@Nullable String srcPath, @NonNull String source,
+    public ArrayList<Description> getSuggestion(@NonNull String srcName, @NonNull String source,
                                                 int cursorPos, int cursorLine, int cursorCol) {
         long time = System.currentTimeMillis();
         this.mSource = source;
@@ -102,22 +103,23 @@ public class SuggestOperation {
         this.mCursorLine = cursorLine;
         this.mCursorCol = cursorCol;
         try {
-            FileScriptSource scriptSource = new FileScriptSource(new StringReader(mSource), srcPath);
+            FileScriptSource scriptSource = new FileScriptSource(new StringReader(mSource), srcName);
             init(scriptSource);
+
+            //the result
             ArrayList<Description> suggestItems = new ArrayList<>();
 
-            if (source.length() <= MAX_CHAR) {
+            if (source.length() <= LIMIT_CHAR) {
                 try {
                     CodeUnit codeUnit = PascalCompiler.loadPascal(scriptSource, null, null);
-
                     //the result
                     addSuggestFromContext(suggestItems, codeUnit.getContext());
                     mParsingException = null;
                 } catch (CodeUnitParsingException e) { //parsing error
                     addSuggestFromContext(suggestItems, e.getCodeUnit().getContext());
                     mParsingException = e.getParseException();
-                } catch (Exception ignored) {
-                    ignored.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -137,8 +139,9 @@ public class SuggestOperation {
      * @param scriptSource - source code from editor
      */
     private void init(FileScriptSource scriptSource) throws IOException {
-        calculateIncomplete();
+        mScriptSource = scriptSource;
         mSourceTokens = scriptSource.toTokens();
+        calculateIncomplete();
         int column = mCursorCol - mIncomplete.length();
         mStatement = SourceHelper.getStatement(mSourceTokens, mCursorLine, column);
         defineContext();
@@ -186,8 +189,8 @@ public class SuggestOperation {
                 SuggestProvider.completeAddKeyWordToken(mIncomplete, toAdd, exprContext, "end");
                 completeWord(mIncomplete, toAdd, exprContext);
                 break;
-            case CONTEXT_DECLARE_KEYWORD:
-                SuggestProvider.completeAddDeclareToken(toAdd);
+            case CONTEXT_EMPTY:
+                SuggestProvider.completeEmpty(mScriptSource, toAdd);
                 break;
             case CONTEXT_INSERT_ASSIGN:
             case CONTEXT_COMMA_SEMICOLON:
@@ -355,7 +358,7 @@ public class SuggestOperation {
      */
     private void defineContext() {
         if (mSource.trim().isEmpty()) { //program const uses var begin end.
-            mCompleteContext = CONTEXT_DECLARE_KEYWORD;
+            mCompleteContext = CONTEXT_EMPTY;
             return;
         }
         mCompleteContext = CONTEXT_NONE; //default context, suggest keyword

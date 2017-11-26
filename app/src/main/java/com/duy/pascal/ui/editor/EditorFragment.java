@@ -82,6 +82,7 @@ public class EditorFragment extends Fragment implements EditorController {
         super.onViewCreated(view, savedInstanceState);
         mCodeEditor = view.findViewById(R.id.code_editor);
         mCodeEditor.setDropDownAnchorId(R.id.app_bar);
+        mCodeEditor.setSrcPath(new File(getFilePath()).getName());
         mScrollView = view.findViewById(R.id.vertical_scroll);
 
         try {

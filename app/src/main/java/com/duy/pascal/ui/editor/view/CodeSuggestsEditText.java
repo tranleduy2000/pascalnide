@@ -78,6 +78,12 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     private Filter mFilter;
     private int mLastKeyCode;
 
+    /**
+     * Current source name
+     */
+    @NonNull
+    private String mSrcName = "undefine";
+
     public CodeSuggestsEditText(Context context) {
         super(context);
         init(context);
@@ -442,6 +448,13 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         super.onDetachedFromWindow();
     }
 
+    public void setSrcPath(@NonNull String mSrcPath) {
+        if (mSrcPath.contains(".")) {
+            mSrcPath = mSrcPath.substring(0, mSrcPath.indexOf("."));
+        }
+        this.mSrcName = mSrcPath;
+    }
+
     public static class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
         static final String TOKEN = "!@#$%^&*()_+-={}|[]:;'<>/<.,? \r\n\t";
 
@@ -490,11 +503,12 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
 
     private class ParseDataTask extends AsyncTask<Object, Object, ArrayList<Description>> {
         private String source;
+        @NonNull
         private String srcPath;
         private SuggestOperation pascalParserHelper;
         private int cursorPos, cursorLine, cursorCol;
 
-        private ParseDataTask(EditText editText, String srcPath) {
+        private ParseDataTask(EditText editText, @NonNull String srcPath) {
             this.source = editText.getText().toString();
             this.srcPath = srcPath;
             this.pascalParserHelper = new SuggestOperation();

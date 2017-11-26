@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,30 +27,30 @@ public class CodeTemplate {
             "program %1$s;\n" +
                     "uses crt;\n" +
                     "begin\n" +
-                    "   " + AutoIndentEditText.CURSOR + "\n" +
-                    "    readln;\n" +
+                    "  " + AutoIndentEditText.CURSOR + "\n" +
+                    "  readln;\n" +
                     "end.";
 
     public static final String UNIT_TEMPlATE =
             "unit %s;\n" +
                     "interface\n" +
-                    "    \n" +
+                    "  \n" +
                     "implementation\n" +
-                    "    \n" +
+                    "  \n" +
                     "initialization\n" +
                     "begin\n" +
-                    "    \n" +
+                    "  \n" +
                     "end;\n" +
                     "finalization\n" +
                     "begin\n" +
-                    "    \n" +
+                    "  \n" +
                     "end;\n" +
                     "end.";
 
     public static final String FUNCTION_TEMPLATE =
             "\nfunction %1$s( ) : ;\n" +
                     "begin\n" +
-                    "    \n" +
+                    "  \n" +
                     "end;\n";
 
     public static String createProgramTemplate(String name) {

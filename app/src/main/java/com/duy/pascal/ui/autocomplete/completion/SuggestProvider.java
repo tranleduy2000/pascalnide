@@ -19,6 +19,7 @@ package com.duy.pascal.ui.autocomplete.completion;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
 import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
 import com.duy.pascal.ui.autocomplete.completion.model.KeyWordDescription;
@@ -36,13 +37,6 @@ import static com.duy.pascal.ui.editor.view.AutoIndentEditText.TAB_STR;
  */
 
 public class SuggestProvider {
-    private static final String[] DECLARE_SNIPPET = new String[]{
-            String.format("program %s;\nbegin%s\nend.", CURSOR, TAB_STR),
-            "uses", "const", "var",
-            String.format("begin\n%s%s\nend.", TAB_STR, CURSOR),
-            String.format("procedure %s;\nbegin\n%s\nend;", CURSOR, TAB_STR)
-    };
-
     @NonNull
     public static ArrayList<Description> sort(ArrayList<Description> items) {
         //sort by type -> name
@@ -102,8 +96,14 @@ public class SuggestProvider {
         }
     }
 
-    public static void completeAddDeclareToken(ArrayList<Description> toAdd) {
-        for (String str : DECLARE_SNIPPET) {
+    public static void completeEmpty(FileScriptSource mScriptSource, ArrayList<Description> toAdd) {
+        String name = mScriptSource.getName();
+        String[] data = new String[]{
+                String.format("program %s;\nbegin%s%s\nend.", name, TAB_STR, TAB_STR),
+                "uses", "const", "var",
+                String.format("begin\n%s%s\nend.", TAB_STR, CURSOR),
+                String.format("procedure %s;\nbegin\n%s%s\nend;", name, TAB_STR, CURSOR)};
+        for (String str : data) {
             toAdd.add(new KeyWordDescription(str, null));
         }
     }
