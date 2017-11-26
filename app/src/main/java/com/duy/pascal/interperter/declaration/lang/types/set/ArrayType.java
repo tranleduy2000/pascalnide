@@ -165,7 +165,7 @@ public class ArrayType<ELEMENT extends Type> extends BaseSetType {
      */
     @NonNull
     @Override
-    public Object initialize() throws RuntimePascalException{
+    public Object initialize() throws RuntimePascalException {
         try {
             Object result = Array.newInstance(elementType.getTransferClass(), bound == null ? 0 : bound.getSize());
             if (bound != null) {
