@@ -264,5 +264,6 @@
     <string name="keyboard_problem">Keyboard problem</string>
     <string name="keyboard_problem_msg">If you cannot enter data via keyboard, please change keyboard (Gboard is recommended)</string>
     <string name="get_more_app">Get more app</string>
+    <string name="enable_permission">Enable permission</string>
 </resources>
 
