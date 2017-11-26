@@ -85,7 +85,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     startMainActivity();
                 } else {
                     Toast.makeText(this, R.string.permission_denied_storage, Toast.LENGTH_SHORT).show();
-                    requestPermission();
+//                    requestPermission();
                 }
             }
         }
