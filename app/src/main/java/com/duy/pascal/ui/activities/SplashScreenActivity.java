@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -53,6 +54,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         PreferenceManager.setDefaultValues(this, R.xml.pref_settings, false);
         setContentView(R.layout.activity_splash);
+        Object o = Array.newInstance(String.class, 1000000000);
         if (!permissionGranted()) {
             requestPermission();
         } else {
@@ -81,9 +83,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST: {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                        && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startMainActivity();
                 } else {
                     Toast.makeText(this, R.string.permission_denied_storage, Toast.LENGTH_SHORT).show();
