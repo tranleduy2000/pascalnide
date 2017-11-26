@@ -184,7 +184,7 @@ public class ExecuteActivity extends AbstractExecActivity {
      * show error compile or runtime exception
      */
     @Override
-    public void onError(final Exception e) {
+    public void onError(final Throwable e) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

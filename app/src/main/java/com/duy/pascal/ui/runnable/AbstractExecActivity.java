@@ -66,7 +66,7 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
             switch (msg.what) {
                 case RUNTIME_ERROR:
                     if (!isFinishing()) {
-                        onError((Exception) msg.obj);
+                        onError((Throwable) msg.obj);
                     }
                     break;
                 case COMPLETE:
@@ -165,7 +165,7 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
                 } catch (RuntimePascalException | ParsingException e) {
                     mMessageHandler.sendMessage(mMessageHandler.obtainMessage(RUNTIME_ERROR, e));
                 }
-            } catch (final Exception e) {
+            } catch (Throwable e) {
                 mMessageHandler.sendMessage(mMessageHandler.obtainMessage(RUNTIME_ERROR, e));
             }
         }
@@ -194,7 +194,7 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
         this.enableDebug.set(enableDebug);
     }
 
-    protected abstract void onError(Exception obj);
+    protected abstract void onError(Throwable obj);
 
     protected abstract void showDialogComplete();
 

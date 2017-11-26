@@ -151,7 +151,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     @Override
-    public void onError(Exception e) {
+    public void onError(Throwable e) {
         if (isFinishing()) return;
 
         ExceptionManager exceptionManager = new ExceptionManager(this);

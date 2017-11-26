@@ -102,7 +102,7 @@ public class DLog {
         }
     }
 
-    public static void e(String TAG, String msg, Exception e) {
+    public static void e(String TAG, String msg, Throwable e) {
         if (DEBUG) {
             if (ANDROID) {
                 Log.e(TAG, msg, e);
