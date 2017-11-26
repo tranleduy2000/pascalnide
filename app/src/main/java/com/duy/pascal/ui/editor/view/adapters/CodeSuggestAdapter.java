@@ -21,6 +21,7 @@ import android.graphics.Typeface;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,11 +115,11 @@ public class CodeSuggestAdapter extends ArrayAdapter<Description> {
             TextView txtHeader = convertView.findViewById(R.id.txt_header);
             txtHeader.setVisibility(View.VISIBLE);
             txtHeader.setTypeface(Typeface.MONOSPACE);
-            txtHeader.setTextSize(mSetting.getEditorTextSize());
+            txtHeader.setTextSize(TypedValue.COMPLEX_UNIT_SP, mSetting.getEditorTextSize());
 
             TextView txtName = convertView.findViewById(R.id.txt_name);
             txtName.setTypeface(Typeface.MONOSPACE);
-            txtName.setTextSize(mSetting.getEditorTextSize());
+            txtName.setTextSize(TypedValue.COMPLEX_UNIT_SP, mSetting.getEditorTextSize());
             txtName.setText(item.getHeader());
             switch (item.getKind()) {
                 case DescriptionImpl.KIND_KEYWORD:

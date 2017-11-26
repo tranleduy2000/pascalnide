@@ -19,6 +19,7 @@ package com.duy.pascal.ui.themefont.adapter;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +68,7 @@ public class FontAdapter2 extends RecyclerView.Adapter<FontAdapter2.ViewHolder> 
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final FontEntry fontEntry = mListFonts.get(position);
 
-        holder.txtSample.setTextSize(mPascalPreferences.getEditorTextSize() * 2);
+        holder.txtSample.setTextSize(TypedValue.COMPLEX_UNIT_SP, mPascalPreferences.getEditorTextSize() * 2);
         holder.txtSample.setTypeface(FontManager.getFont(fontEntry, mContext));
 
         String name = fontEntry.name;

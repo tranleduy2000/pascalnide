@@ -37,6 +37,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -317,7 +318,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         setHorizontallyScrolling(!mEditorSetting.isWrapText());
         setOverScrollMode(OVER_SCROLL_ALWAYS);
 
-        setTextSize(mEditorSetting.getEditorTextSize());
+        setTextSize(TypedValue.COMPLEX_UNIT_SP, mEditorSetting.getEditorTextSize());
         mPaintNumbers.setTextSize(getTextSize());
 
         mShowLines = mEditorSetting.isShowLines();
