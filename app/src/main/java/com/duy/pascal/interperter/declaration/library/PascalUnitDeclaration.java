@@ -33,6 +33,7 @@ import com.duy.pascal.interperter.exceptions.parsing.define.MissingBodyFunctionE
 import com.duy.pascal.interperter.exceptions.parsing.missing.MissingDotTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.MisplacedDeclarationException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.libraries.IPascalLibrary;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.source.ScriptSource;
@@ -73,7 +74,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
     }
 
     @Override
-    public RuntimeUnitPascal generate() {
+    public RuntimeUnitPascal generate() throws RuntimePascalException {
         return new RuntimeUnitPascal(this);
     }
 

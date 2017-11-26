@@ -440,8 +440,10 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
 
     }
 
+
     @Override
     protected void onDetachedFromWindow() {
+        DLog.d(TAG, "onDetachedFromWindow() called");
         if (mPopup.isShowing()) {
             mPopup.dismiss();
         }

@@ -37,6 +37,8 @@ public abstract class DebuggableAssignableValue implements AssignableValue {
             throw e;
         } catch (Exception e) {
             throw new UnhandledPascalException(this.getLineNumber(), e);
+        } catch (Throwable e) {
+            throw new UnhandledPascalException(getLineNumber(), e);
         }
     }
 
@@ -58,6 +60,8 @@ public abstract class DebuggableAssignableValue implements AssignableValue {
             throw e;
         } catch (Exception e) {
             throw new UnhandledPascalException(this.getLineNumber(), e);
+        } catch (Throwable e) {
+            throw new UnhandledPascalException(getLineNumber(), e);
         }
     }
 

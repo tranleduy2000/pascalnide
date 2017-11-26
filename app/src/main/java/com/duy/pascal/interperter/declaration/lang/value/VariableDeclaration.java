@@ -23,6 +23,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.NameEntityImpl;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.util.Map;
@@ -98,7 +99,7 @@ public class VariableDeclaration extends NameEntityImpl implements Cloneable {
     }
 
 
-    public Object initialize(Map<Name, Object> map) {
+    public Object initialize(Map<Name, Object> map) throws RuntimePascalException {
         Object value = initialValue == null ? type.initialize() : initialValue;
         map.put(name, value);
         return value;

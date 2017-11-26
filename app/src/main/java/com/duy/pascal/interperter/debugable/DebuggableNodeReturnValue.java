@@ -4,19 +4,21 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.node.Node;
 import com.duy.pascal.interperter.ast.node.ExecutionResult;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.ast.node.Node;
 import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.config.DebugMode;
-import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.UnhandledPascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.utils.NullSafety;
 
 public abstract class DebuggableNodeReturnValue implements Node,
         RuntimeValue {
+
+    private LineInfo lineNumber;
 
     @NonNull
     @Override
@@ -28,6 +30,8 @@ public abstract class DebuggableNodeReturnValue implements Node,
             throw e;
         } catch (Exception e) {
             throw new UnhandledPascalException(this.getLineNumber(), e);
+        } catch (Throwable throwable) {
+            throw new UnhandledPascalException(getLineNumber(), throwable);
         }
     }
 
@@ -37,8 +41,14 @@ public abstract class DebuggableNodeReturnValue implements Node,
     }
 
     @Override
+    public LineInfo getLineNumber() {
+        return lineNumber;
+    }
+
+    @Override
     public void setLineNumber(LineInfo lineNumber) {
 
+        this.lineNumber = lineNumber;
     }
 
     public abstract Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
@@ -69,7 +79,9 @@ public abstract class DebuggableNodeReturnValue implements Node,
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {
-            throw new UnhandledPascalException(this.getLineNumber(), e);
+            throw new UnhandledPascalException(getLineNumber(), e);
+        } catch (Throwable e) {
+            throw new UnhandledPascalException(getLineNumber(), e);
         }
     }
 

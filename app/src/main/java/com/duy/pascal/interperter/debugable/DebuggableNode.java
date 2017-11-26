@@ -39,6 +39,8 @@ public abstract class DebuggableNode implements Node {
             throw e;
         } catch (Exception e) {
             throw new UnhandledPascalException(this.getLineNumber(), e);
+        } catch (Throwable throwable) {
+            throw new UnhandledPascalException(getLineNumber(), throwable);
         }
     }
 

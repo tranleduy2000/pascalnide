@@ -23,6 +23,7 @@ import com.duy.pascal.interperter.config.RunMode;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.utils.NullSafety;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
     private HashMap<Name, RuntimePascalClass> mRuntimePascalClassMap = new HashMap<>();
     private HashMap<PascalUnitDeclaration, RuntimeUnitPascal> mRuntimeUnitMap = new HashMap<>();
 
-    public RuntimeCodeUnit(parent declaration) {
+    public RuntimeCodeUnit(parent declaration) throws RuntimePascalException {
         this.declaration = declaration;
         for (VariableDeclaration v : declaration.mContext.variables) v.initialize(unitVariables);
     }

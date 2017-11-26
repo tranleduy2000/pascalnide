@@ -26,6 +26,8 @@ public abstract class DebuggableReturnValue implements RuntimeValue {
             throw e;
         } catch (Exception e) {
             throw new UnhandledPascalException(this.getLineNumber(), e);
+        } catch (Throwable e) {
+            throw new UnhandledPascalException(getLineNumber(), e);
         }
     }
 

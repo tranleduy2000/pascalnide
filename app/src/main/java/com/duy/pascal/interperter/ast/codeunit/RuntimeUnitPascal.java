@@ -28,7 +28,7 @@ import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 
 public final class RuntimeUnitPascal extends RuntimeExecutableCodeUnit<PascalUnitDeclaration> {
-    public RuntimeUnitPascal(@NonNull PascalUnitDeclaration unitPascal) {
+    public RuntimeUnitPascal(@NonNull PascalUnitDeclaration unitPascal) throws RuntimePascalException {
         super(unitPascal);
     }
 

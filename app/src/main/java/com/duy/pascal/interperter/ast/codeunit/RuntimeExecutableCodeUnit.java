@@ -46,7 +46,7 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
     private DebugMode debugMode;
     private DebugListener debugListener;
 
-    public RuntimeExecutableCodeUnit(parent definition) {
+    public RuntimeExecutableCodeUnit(parent definition) throws RuntimePascalException {
         super(definition);
     }
 

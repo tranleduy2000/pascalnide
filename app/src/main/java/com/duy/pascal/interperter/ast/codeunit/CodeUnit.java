@@ -10,6 +10,7 @@ import com.duy.pascal.interperter.config.ProgramConfig;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokenizer.GroupParser;
 import com.duy.pascal.interperter.tokens.Token;
@@ -91,7 +92,7 @@ public abstract class CodeUnit {
         }
     }
 
-    public abstract RuntimeCodeUnit<? extends CodeUnit> generate();
+    public abstract RuntimeCodeUnit<? extends CodeUnit> generate() throws RuntimePascalException;
 
     @Nullable
     public Name getProgramName() {

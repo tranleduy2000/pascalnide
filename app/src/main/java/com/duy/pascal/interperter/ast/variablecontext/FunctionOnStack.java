@@ -49,7 +49,7 @@ public class FunctionOnStack extends VariableContext {
 
     public FunctionOnStack(VariableContext parentContext,
                            RuntimeExecutableCodeUnit<?> main, FunctionDeclaration declaration,
-                           Object[] arguments) {
+                           Object[] arguments) throws RuntimePascalException {
         this.prototype = declaration;
         this.parentContext = parentContext;
         this.main = main;

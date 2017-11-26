@@ -10,6 +10,11 @@ public class UnhandledPascalException extends RuntimePascalException {
         this.cause = cause;
     }
 
+    public UnhandledPascalException(LineInfo lineNumber, Throwable e) {
+        super(lineNumber);
+        this.cause = new RuntimeException(e);
+    }
+
     @Override
     public String getMessage() {
         return line + " Runtime pascal exception.";
