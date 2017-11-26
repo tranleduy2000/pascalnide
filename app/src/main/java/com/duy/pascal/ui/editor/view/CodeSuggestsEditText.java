@@ -16,6 +16,7 @@
 
 package com.duy.pascal.ui.editor.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.AsyncTask;
@@ -145,7 +146,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         if (mEnableSyntaxParser && hasFocus() && mEditorSetting.isShowSuggestPopup()) {
             try {
                 if (mParseTask != null) mParseTask.cancel(true);
-                mParseTask = new ParseDataTask(this, "");
+                mParseTask = new ParseDataTask(this, mSrcName);
                 mParseTask.execute();
             } catch (Exception ignored) {
             }
@@ -240,24 +241,25 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      * invalidate data for auto suggest
      */
     public void setSuggestData(ArrayList<Description> data) {
-        if (mAdapter != null) {
-            mAdapter.clearAllData();
-            mAdapter.addData(data);
-            mAdapter.notifyDataSetChanged();
-        } else {
-            mAdapter = new CodeSuggestAdapter(getContext(), R.layout.list_item_suggest, data);
-            setAdapter(mAdapter);
-        }
-        if (data.size() > 0) {
-            onPopupChangePosition();
-            onDropdownChangeSize(getWidth(), getHeight());
-            try {
-                showDropDown();
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            if (mAdapter != null) {
+                mAdapter.clearAllData();
+                mAdapter.addData(data);
+                mAdapter.notifyDataSetChanged();
+            } else {
+                mAdapter = new CodeSuggestAdapter(getContext(), R.layout.list_item_suggest, data);
+                setAdapter(mAdapter);
             }
-        } else if (data.size() == 0) {
-            dismissDropDown();
+            if (data.size() > 0) {
+                onPopupChangePosition();
+                onDropdownChangeSize(getWidth(), getHeight());
+                showDropDown();
+
+            } else if (data.size() == 0) {
+                dismissDropDown();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -503,16 +505,17 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class ParseDataTask extends AsyncTask<Object, Object, ArrayList<Description>> {
         private String source;
         @NonNull
-        private String srcPath;
+        private String srcName;
         private SuggestOperation pascalParserHelper;
         private int cursorPos, cursorLine, cursorCol;
 
-        private ParseDataTask(EditText editText, @NonNull String srcPath) {
+        private ParseDataTask(EditText editText, @NonNull String srcName) {
             this.source = editText.getText().toString();
-            this.srcPath = srcPath;
+            this.srcName = srcName;
             this.pascalParserHelper = new SuggestOperation();
             calculateCursor(editText);
         }
@@ -528,7 +531,15 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
 
         @Override
         protected ArrayList<Description> doInBackground(Object... params) {
-            return pascalParserHelper.getSuggestion(srcPath, source, cursorPos, cursorLine, cursorCol);
+            if (!isCancelled()) {
+                return pascalParserHelper.getSuggestion(srcName, source, cursorPos, cursorLine, cursorCol);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
         }
 
         @Override

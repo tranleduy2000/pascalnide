@@ -21,7 +21,7 @@ import android.text.Spanned;
 import android.widget.EditText;
 
 import com.duy.pascal.ui.utils.DLog;
-import com.duy.pascal.ui.editor.view.spans.BracketSpan;
+import com.duy.pascal.ui.editor.highlight.spans.BracketSpan;
 import com.duy.pascal.ui.themefont.model.CodeTheme;
 
 /**

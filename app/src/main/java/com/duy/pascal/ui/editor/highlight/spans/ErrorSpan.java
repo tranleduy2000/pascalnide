@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.editor.view.spans;
+package com.duy.pascal.ui.editor.highlight.spans;
 
 import android.text.style.BackgroundColorSpan;
 

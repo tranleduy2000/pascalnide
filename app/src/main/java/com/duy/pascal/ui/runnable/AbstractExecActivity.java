@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.config.DebugMode;
@@ -263,7 +262,7 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
     private void stopProgram() {
         try {
             mProgram.terminate();
-            Toast.makeText(this, R.string.program_stopped, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, R.string.program_stopped, Toast.LENGTH_SHORT).show();
         } catch (Exception ignored) {
             if (DLog.DEBUG) {
                 DLog.d(TAG, "onDestroy: Program is STOPPED");

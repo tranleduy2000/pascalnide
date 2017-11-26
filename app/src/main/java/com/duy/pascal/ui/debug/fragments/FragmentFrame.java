@@ -18,6 +18,7 @@ package com.duy.pascal.ui.debug.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -70,12 +71,12 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_frame, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mListFrame = view.findViewById(R.id.group_frame);
 
@@ -94,7 +95,7 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
         ArrayList<VariableContext> stacks = callStack.getStacks();
         mListFrame.removeAllViews();
         for (int i = 0; i < stacks.size(); i++) {
-            MonospaceRadioButton radioButton = new MonospaceRadioButton(getActivity());
+            MonospaceRadioButton radioButton = new MonospaceRadioButton(getContext());
             radioButton.setLayoutParams(new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));

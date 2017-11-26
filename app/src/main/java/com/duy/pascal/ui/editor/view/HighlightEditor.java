@@ -52,7 +52,7 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.editor.highlight.BracketHighlighter;
 import com.duy.pascal.ui.editor.highlight.CodeHighlighter;
-import com.duy.pascal.ui.editor.view.spans.ErrorSpan;
+import com.duy.pascal.ui.editor.highlight.spans.ErrorSpan;
 import com.duy.pascal.ui.themefont.model.CodeTheme;
 import com.duy.pascal.ui.themefont.themes.ThemeManager;
 

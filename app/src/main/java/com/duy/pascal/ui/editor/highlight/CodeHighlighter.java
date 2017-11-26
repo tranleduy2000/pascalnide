@@ -123,23 +123,20 @@ public class CodeHighlighter implements Highlighter {
 
         int startIndex, endIndex;
         if (region.size() > 0 && start < region.get(0).first - 1) {
-            highlightOther(allText,
-                    allText.subSequence(start, region.get(0).first - 1), start);
+            highlightOther(allText, allText.subSequence(start, region.get(0).first - 1), start);
         }
         for (int i = 0; i < region.size() - 1; i++) {
             startIndex = region.get(i).second + 1;
             endIndex = region.get(i + 1).first - 1;
             if (startIndex < endIndex) {
-                highlightOther(allText,
-                        allText.subSequence(startIndex, endIndex), startIndex);
+                highlightOther(allText, allText.subSequence(startIndex, endIndex), startIndex);
             }
         }
         if (region.size() > 0) {
             startIndex = region.get(region.size() - 1).second + 1;
             endIndex = start + textToHighlight.length();
             if (startIndex <= endIndex) {
-                highlightOther(allText,
-                        allText.subSequence(startIndex, endIndex), startIndex);
+                highlightOther(allText, allText.subSequence(startIndex, endIndex), startIndex);
             }
         }
     }
