@@ -175,7 +175,9 @@ public class ExecuteActivity extends AbstractExecActivity {
                     }
                 });
         try {
-            builder.create().show();
+            if (!isFinishing()) {
+                builder.create().show();
+            }
         } catch (Exception ignored) {
         }
     }
