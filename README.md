@@ -140,10 +140,3 @@ If you want to help me write a tutorial, please email to me.
 
 ## Developer
  Trần Lê Duy
-
-## Release note
-
-### v4.8.3
-1. Change tab view
-2. Improve suggestion
-3. Update language
