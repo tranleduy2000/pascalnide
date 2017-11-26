@@ -40,7 +40,8 @@ public abstract class BaseLexerTest extends BaseTestCase {
         searchPath.add(new FileScriptSource(new File(programPath)));
 
         try {
-            GroupParser lexer = new GroupParser(new FileReader(dir + fileName), fileName, searchPath);
+            FileReader fileReader = new FileReader(dir + fileName);
+            GroupParser lexer = new GroupParser(new FileScriptSource(fileReader, fileName), searchPath);
             lexer.parse();
             BaseGrouperToken tokenQueue = lexer.getTokenQueue();
             System.out.println(tokenQueue.toCode());
@@ -60,7 +61,8 @@ public abstract class BaseLexerTest extends BaseTestCase {
         searchPath.add(new FileScriptSource(new File(programPath)));
 
         try {
-            GroupParser lexer = new GroupParser(new FileReader(dir + fileName), fileName, searchPath);
+            FileReader fileReader = new FileReader(dir + fileName);
+            GroupParser lexer = new GroupParser(new FileScriptSource(fileReader, fileName), searchPath);
             lexer.parse();
             System.out.println(lexer.getTokenQueue());
         } catch (GroupingException e) {

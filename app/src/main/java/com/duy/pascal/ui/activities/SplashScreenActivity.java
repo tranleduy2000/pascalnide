@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.lang.reflect.Array;
 
 
@@ -133,8 +134,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void handleRunProgram(Intent data) {
         Intent runIntent = new Intent(this, ExecuteActivity.class);
         runIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        runIntent.putExtra(CompileManager.EXTRA_FILE,
-                data.getSerializableExtra(CompileManager.EXTRA_FILE));
+        Serializable file = data.getSerializableExtra(CompileManager.EXTRA_FILE);
+        runIntent.putExtra(CompileManager.EXTRA_FILE, file);
         overridePendingTransition(0, 0);
         startActivity(runIntent);
         finish();
