@@ -15,8 +15,7 @@ import com.duy.pascal.interperter.exceptions.runtime.UnhandledPascalException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.utils.NullSafety;
 
-public abstract class DebuggableNodeReturnValue implements Node,
-        RuntimeValue {
+public abstract class DebuggableNodeReturnValue implements Node, RuntimeValue {
 
     private LineInfo lineNumber;
 
@@ -58,23 +57,13 @@ public abstract class DebuggableNodeReturnValue implements Node,
     public ExecutionResult visit(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
-            if (main.isDebug()) {
-                main.getDebugListener().onLine((Node) this, getLineNumber());
-            }
-            main.scriptControlCheck(getLineNumber());
-            //backup mode
+
             boolean last = main.isDebug();
-            if (main.isDebug()) {
-                if (main.getDebugMode().equals(DebugMode.STEP_OVER)) {
-                    main.setDebug(false);
-                }
-            }
-            main.incStack(getLineNumber());
+            onPreExecute(main);
 
             ExecutionResult result = executeImpl(context, main);
 
-            main.setDebug(last);
-            main.decStack();
+            onPostExecute(main, last);
             return result;
         } catch (RuntimePascalException e) {
             throw e;
@@ -82,6 +71,25 @@ public abstract class DebuggableNodeReturnValue implements Node,
             throw new UnhandledPascalException(getLineNumber(), e);
         } catch (Throwable e) {
             throw new UnhandledPascalException(getLineNumber(), e);
+        }
+    }
+
+    private void onPostExecute(RuntimeExecutableCodeUnit<?> main, boolean last) {
+        main.setDebug(last);
+        main.decStack();
+    }
+
+    private void onPreExecute(RuntimeExecutableCodeUnit<?> main) {
+        if (main.isDebug()) {
+            main.getDebugListener().onLine((Node) this, getLineNumber());
+        }
+        main.scriptControlCheck(getLineNumber());
+
+        main.incStack(getLineNumber());
+        if (main.isDebug()) {
+            if (main.getDebugMode().equals(DebugMode.STEP_OVER)) {
+                main.setDebug(false);
+            }
         }
     }
 

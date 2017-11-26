@@ -17,7 +17,7 @@ public class UnhandledPascalException extends RuntimePascalException {
 
     @Override
     public String getMessage() {
-        return line + " Runtime pascal exception.";
+        return String.format("%s Runtime pascal exception.\nCaused by: %s", line, cause.getMessage());
     }
 
     @Override
