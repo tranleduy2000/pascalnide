@@ -63,6 +63,7 @@
         <item>Chinese simplified</item>
         <item>日本語</item>
         <item>Bahasa Indonesia</item>
+        <item>Portuguese (Portugal)</item>
     </string-array>
 
     <string-array name="language_code" translatable="false">
@@ -77,6 +78,7 @@
         <item>zh_rCN</item>
         <item>ja</item>
         <item>in</item>
+        <item>zh_rPT</item>
     </string-array>
 
 </resources>
