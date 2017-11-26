@@ -17,8 +17,8 @@
 package com.duy.pascal.interperter.ast.codeunit;
 
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.config.RunMode;
+import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.ui.debug.CallStack;
@@ -29,7 +29,7 @@ import java.util.Set;
 
 public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgramDeclaration> {
 
-    public RuntimePascalProgram(PascalProgramDeclaration declaration) {
+    public RuntimePascalProgram(PascalProgramDeclaration declaration) throws RuntimePascalException {
         super(declaration);
     }
 

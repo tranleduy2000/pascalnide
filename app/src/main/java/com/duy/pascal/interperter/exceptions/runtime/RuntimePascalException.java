@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-public class RuntimePascalException extends Exception {
+public class RuntimePascalException extends RuntimeException {
     @Nullable
     public LineInfo line;
 

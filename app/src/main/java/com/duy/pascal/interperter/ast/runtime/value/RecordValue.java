@@ -22,6 +22,7 @@ import com.duy.pascal.interperter.ast.variablecontext.ContainsVariables;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +36,7 @@ public class RecordValue implements ContainsVariables {
     protected HashMap<Name, Object> variableMap = new HashMap<>();
     protected ArrayList<VariableDeclaration> variables = new ArrayList<>();
 
-    public RecordValue(ArrayList<VariableDeclaration> variables) {
+    public RecordValue(ArrayList<VariableDeclaration> variables) throws RuntimePascalException {
         this.variables = variables;
         for (VariableDeclaration declaration : variables) {
             Type returnType = declaration.getType();

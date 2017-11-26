@@ -9,6 +9,7 @@ import com.duy.pascal.interperter.declaration.Member;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.NamedEntity;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public interface Type extends NamedEntity, Member {
@@ -18,7 +19,7 @@ public interface Type extends NamedEntity, Member {
      * example init value for integer variable is 0, long is 0, string is ""
      */
     @NonNull
-    Object initialize();
+    Object initialize() throws RuntimePascalException;
 
     @NonNull
     Class getTransferClass();

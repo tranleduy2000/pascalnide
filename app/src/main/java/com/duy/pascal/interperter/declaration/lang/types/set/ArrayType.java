@@ -31,6 +31,8 @@ import com.duy.pascal.interperter.declaration.lang.types.subrange.IntegerRange;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.IntegerSubrangeType;
 import com.duy.pascal.interperter.declaration.lang.types.util.TypeUtils;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
+import com.duy.pascal.interperter.exceptions.runtime.OutOfMemoryException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.interperter.tokens.grouping.ParenthesizedToken;
@@ -163,14 +165,17 @@ public class ArrayType<ELEMENT extends Type> extends BaseSetType {
      */
     @NonNull
     @Override
-    public Object initialize() {
-        Object result = Array.newInstance(elementType.getTransferClass(),
-                bound == null ? 0 : bound.getSize());
-        if (bound != null) {
-            for (int i = 0; i < bound.getSize(); i++)
-                Array.set(result, i, elementType.initialize());
+    public Object initialize() throws RuntimePascalException{
+        try {
+            Object result = Array.newInstance(elementType.getTransferClass(), bound == null ? 0 : bound.getSize());
+            if (bound != null) {
+                for (int i = 0; i < bound.getSize(); i++)
+                    Array.set(result, i, elementType.initialize());
+            }
+            return result;
+        } catch (OutOfMemoryError e) {
+            throw new OutOfMemoryException(e);
         }
-        return result;
     }
 
     @NonNull

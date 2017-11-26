@@ -18,6 +18,7 @@ package com.duy.pascal.interperter.ast.codeunit;
 
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.classunit.PascalClassDeclaration;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 /**
  * Created by Duy on 16-Jun-17.
@@ -25,7 +26,7 @@ import com.duy.pascal.interperter.declaration.classunit.PascalClassDeclaration;
 
 public class RuntimePascalClass extends RuntimeCodeUnit<PascalClassDeclaration> {
 
-    public RuntimePascalClass(PascalClassDeclaration declaration) {
+    public RuntimePascalClass(PascalClassDeclaration declaration) throws RuntimePascalException {
         super(declaration);
     }
 

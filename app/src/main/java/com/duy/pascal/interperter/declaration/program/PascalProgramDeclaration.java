@@ -25,6 +25,7 @@ import com.duy.pascal.interperter.ast.node.Node;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.exceptions.parsing.define.MultipleDefinitionsMainException;
 import com.duy.pascal.interperter.exceptions.parsing.missing.MissingDotTokenException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokens.Token;
@@ -50,7 +51,7 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
     }
 
     @Override
-    public RuntimeExecutableCodeUnit<PascalProgramDeclaration> generate() {
+    public RuntimeExecutableCodeUnit<PascalProgramDeclaration> generate() throws RuntimePascalException {
         return new RuntimePascalProgram(this);
     }
 
