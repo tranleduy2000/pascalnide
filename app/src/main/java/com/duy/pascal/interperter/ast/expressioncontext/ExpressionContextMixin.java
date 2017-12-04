@@ -566,7 +566,8 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     }
 
     public boolean functionExistsLocal(Name name) {
-        return callableFunctions.containsKey(name);
+        ArrayList<AbstractFunction> abstractFunctions = callableFunctions.get(name);
+        return !abstractFunctions.isEmpty();
     }
 
     public ConstantDefinition getConstantDefinitionLocal(Name identifier) {

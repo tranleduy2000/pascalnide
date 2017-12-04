@@ -26,10 +26,10 @@ import android.view.KeyEvent;
 import com.duy.pascal.ui.EditorControl;
 import com.duy.pascal.ui.keyboard.KeyListener;
 import com.duy.pascal.ui.keyboard.KeySettings;
+import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.utils.UndoRedoHelper;
 import com.duy.pascal.ui.utils.clipboard.ClipboardManagerCompat;
 import com.duy.pascal.ui.utils.clipboard.ClipboardManagerCompatFactory;
-import com.google.firebase.crash.FirebaseCrash;
 
 //import com.duy.pascal.ui.utils.DLog;
 
@@ -284,7 +284,7 @@ public class UndoRedoSupportEditText extends HighlightEditor {
             mClipboardManager.setText(getText().subSequence(selectionStart, selectionEnd));
             getEditableText().delete(selectionStart, selectionEnd);
         } catch (Exception e) {
-            FirebaseCrash.report(e);
+            DLog.report(e);
         }
     }
 
@@ -309,7 +309,7 @@ public class UndoRedoSupportEditText extends HighlightEditor {
             getText().delete(selectionStart, selectionEnd);
             getText().insert(selectionStart, delta);
         } catch (Exception ignored) {
-            FirebaseCrash.report(ignored);
+            DLog.report(ignored);
         }
     }
 
@@ -323,7 +323,7 @@ public class UndoRedoSupportEditText extends HighlightEditor {
         try {
             mClipboardManager.setText(getText().subSequence(selectionStart, selectionEnd));
         } catch (Exception ignored) {
-            FirebaseCrash.report(ignored);
+            DLog.report(ignored);
         }
     }
 

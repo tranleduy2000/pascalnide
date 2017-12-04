@@ -39,7 +39,7 @@ public class ArrayListMultimap<K, V> implements Serializable {
         return new ArrayListMultimap<>();
     }
 
-    public void put(K key, V value) {
+    public void put(@NonNull K key, V value) {
         ArrayList<V> list = this.map.get(key);
         if (list == null) {
             list = new ArrayList<>();
@@ -48,7 +48,8 @@ public class ArrayListMultimap<K, V> implements Serializable {
         list.add(value);
     }
 
-    public ArrayList<V> get(K key) {
+    @NonNull
+    public ArrayList<V> get(@NonNull K key) {
         ArrayList<V> list = map.get(key);
         if (list == null) {
             list = new ArrayList<>();

@@ -122,6 +122,7 @@ public class DLog {
         }
     }
 
+    @Deprecated
     public static void reportException(Throwable e) {
         if (ANDROID) {
             Crashlytics.logException(e);
@@ -234,5 +235,9 @@ public class DLog {
     public static void i(Context context, String message, Throwable e) {
         toast(context, message);
         Log.i(TAG, message, e);
+    }
+
+    public static void report(Exception e) {
+        reportException(e);
     }
 }

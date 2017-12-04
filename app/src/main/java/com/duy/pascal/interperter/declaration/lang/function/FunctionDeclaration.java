@@ -91,8 +91,8 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         parseHeader(name, parent, grouperToken, isProcedure);
     }
 
-    public FunctionDeclaration(ExpressionContext p) {
-        this.declaration = new FunctionExpressionContext(this, p);
+    public FunctionDeclaration(ExpressionContext parent) {
+        this.declaration = new FunctionExpressionContext(this, parent);
         this.argumentNames = new Name[0];
         this.argumentTypes = new RuntimeType[0];
     }
