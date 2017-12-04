@@ -12,6 +12,8 @@ See app on Google Play Store
 
 The application is a Pascal interpreter on Android. This application is confusing for everyone to learn Pascal on the mobile without a computer, so that we can practice anytime, anywhere.
 
+If you want to translate this app, please visit this link http://osewnui.oneskyapp.com/collaboration/project/272800
+
 ## The main features of the IDE:
 
   1. Compile Pascal programs and run them without Internet.
