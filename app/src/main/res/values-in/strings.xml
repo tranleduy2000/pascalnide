@@ -176,11 +176,88 @@
 
 
     <!--DONATE-->
-    <string name="donate">"Donasi"</string>
-
-    <!--Splash screen-->
-    <string name="editor_font">"Editor Font"</string>
-    <string name="console_font">"Font konsol"</string>
-    <string name="custom_theme">"Tema khusus"</string>
-    <string name="save_and_apply">"Simpan dan terapkan"</string>
+    <string name="donate">Menyumbangkan</string>
+    <string name="editor_font">Editor Font</string>
+    <string name="console_font">Font konsol</string>
+    <string name="custom_theme">Tema khusus</string>
+    <string name="save_and_apply">Simpan dan terapkan</string>
+    <!--Donate-->
+    <!--Quick fix-->
+    <string name="open_file">Membuka file</string>
+    <string name="copy">Salinan</string>
+    <string name="paste">Tempel</string>
+    <string name="replace">Menggantikan</string>
+    <string name="find">Menemukan</string>
+    <string name="new_file">File sumber baru</string>
+    <string name="save">Menyimpan</string>
+    <string name="undo">Membuka</string>
+    <string name="redo">Mengulangi</string>
+    <string name="save_as">Simpan Sebagai ...</string>
+    <string name="goto_line">Pergi ke baris</string>
+    <string name="insert_color">Masukkan warna</string>
+    <string name="run">lari</string>
+    <string name="file">Mengajukan</string>
+    <string name="other">Lain</string>
+    <string name="edit">Mengedit</string>
+    <string name="ok">Oke</string>
+    <string name="close">Tutup</string>
+    <string name="cancel">Batal</string>
+    <string name="regex">Regex</string>
+    <string name="auto_save">Penyimpanan otomatis</string>
+    <string name="find_replace">Temukan dan ganti</string>
+    <string name="content">kadar</string>
+    <string name="exit">Keluar</string>
+    <string name="extension">Ekstensi</string>
+    <string name="readable">"Dapat dibaca:"</string>
+    <string name="writeable">"Dapat ditulis:"</string>
+    <string name="font">Huruf</string>
+    <string name="check_update">Cek pembaruan</string>
+    <string name="email">E-mail</string>
+    <string name="describe_causes_an_error">Jelaskan penyebab kesalahan</string>
+    <string name="bug">Bug</string>
+    <string name="change_lang_msg">Hidupkan ulang aplikasi untuk mengubah bahasa.</string>
+    <string name="setting_editor">Pengaturan editor</string>
+    <string name="pas_file">Pas file (* .pas)</string>
+    <string name="cant_close_file">Tidak bisa menutup file</string>
+    <string name="resume_program">Lanjutkan program</string>
+    <string name="your_name">Namamu</string>
+    <string name="send_to_me">Kirim ke dev</string>
+    <string name="background_console">Konsol latar belakang</string>
+    <string name="text_color_console">Konsol warna teks</string>
+    <string name="frame_rate">Frame rate</string>
+    <string name="max_buffer">Maksimum buffer</string>
+    <string name="auto_compile_summary">Kompilasi secara otomatis saat mengetik. Kinerja aplikasi akan berkurang jika menggunakan fitur ini, namun akan membantu kita melaporkan kesalahan lebih cepat.</string>
+    <string name="auto_compile">Kompilasi otomatis</string>
+    <string name="keyboard_shortcut">Papan tombol pintas</string>
+    <string name="var_name">Nama Variabel</string>
+    <string name="implicitly">Secara implisit</string>
+    <string name="do_you_want_to_create_your_theme">Apakah Anda ingin membuat tema Anda?</string>
+    <string name="get_pro_version">Dapatkan Versi Pro</string>
+    <string name="what_expect">Apa yang kamu harapkan?</string>
+    <string name="insert">Memasukkan</string>
+    <string name="select_mode">Pilih mode</string>
+    <string name="select_token">Pilih token</string>
+    <string name="key_ime_keyboard">Key_ime_keyboard</string>
+    <string name="call_stack">Call stack</string>
+    <string name="pref_title_vibrate">Getaran</string>
+    <string name="console_screen_">Layar konsol</string>
+    <string name="system_interface">Antarmuka sistem</string>
+    <string name="maxline_console_desc">Jumlah maksimum baris yang akan disimpan konsol, semakin besar jumlah baris yang membutuhkan lebih banyak memori.</string>
+    <!--DONATE-->
+    <string name="license_invalid">Terima kasih telah membeli aplikasi donasi! Sayangnya cek lisensi gagal. Silakan coba lagi nanti. Jika masih belum berfungsi, tolong hubungi saya. Anda membutuhkan akses internet!</string>
+    <string name="pirated">Sepertinya aplikasi donasi tidak dibeli melalui Play Store! Jika Anda membajaknya, maka rasa malu pada Anda!</string>
+    <string name="donate_summary">Anda dapat memilih tema kode khusus, lebih banyak font, mengubah font konsol ... dengan versi donasi \ n. Karena aplikasi ini adalah open source Anda dapat dengan mudah membangunnya sendiri dan menghapus cek ini. Tapi saya harap Anda mendukung pengembang. Terima kasih telah menggunakan Pascal NIDE! Setelah Anda membeli aplikasi donasi Anda harus me-restart Pascal NIDE untuk mengaktifkan semua fitur.</string>
+    <string name="donate_nope">Aku tidak akan jatuh untuk penipuan ini!</string>
+    <string name="donate_yes">Saya suka aplikasi ini. Harus disumbangkan!</string>
+    <string name="more_font">Dapatkan lebih banyak font</string>
+    <string name="unknown">tidak diketahui</string>
+    <string name="create_new_theme">Buat tema baru</string>
+    <string name="more_theme">Dapatkan versi premium. Buat tema khusus Anda!</string>
+    <string name="see_in_github_2">Lihat di Github</string>
+    <string name="saved">disimpan</string>
+    <string name="file_exist">File ada, silahkan masukkan nama value!</string>
+    <string name="send_mail">Kirim surat ...</string>
+    <string name="no_mail_clients">Tidak ada klien email terinstall.</string>
+    <string name="your_language">BAHASA ANDA:</string>
+    <string name="title_activity_code_sample">Contoh kode</string>
 </resources>
