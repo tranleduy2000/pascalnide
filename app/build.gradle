@@ -59,7 +59,6 @@ dependencies {
     compile "com.android.support:multidex:1.0.2"
 
     compile 'com.google.firebase:firebase-core:11.6.0'
-    compile 'com.google.firebase:firebase-crash:11.6.0'
 
     compile 'io.github.kobakei:ratethisapp:1.2.0'
     compile 'commons-io:commons-io:2.4'

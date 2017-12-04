@@ -3,11 +3,16 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\github\pascalnide\app\app.iml" filepath="C:\github\pascalnide\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/colorpicker/colorpicker.iml" filepath="$PROJECT_DIR$/colorpicker/colorpicker.iml" />
+      <module fileurl="file://C:\github\pascalnide\colorpicker\colorpicker.iml" filepath="C:\github\pascalnide\colorpicker\colorpicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/pager/pager.iml" filepath="$PROJECT_DIR$/pager/pager.iml" />
+      <module fileurl="file://C:\github\pascalnide\pager\pager.iml" filepath="C:\github\pascalnide\pager\pager.iml" />
       <module fileurl="file://$PROJECT_DIR$/pascalnide.iml" filepath="$PROJECT_DIR$/pascalnide.iml" />
+      <module fileurl="file://C:\github\pascalnide\pascalnide.iml" filepath="C:\github\pascalnide\pascalnide.iml" />
       <module fileurl="file://C:\github\pascalnide\pascalnide-public.iml" filepath="C:\github\pascalnide\pascalnide-public.iml" />
       <module fileurl="file://$PROJECT_DIR$/splitview/splitview.iml" filepath="$PROJECT_DIR$/splitview/splitview.iml" />
+      <module fileurl="file://C:\github\pascalnide\splitview\splitview.iml" filepath="C:\github\pascalnide\splitview\splitview.iml" />
     </modules>
   </component>
 </project>

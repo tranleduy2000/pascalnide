@@ -20,8 +20,8 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.duy.pascal.ui.BuildConfig;
-import com.google.firebase.crash.FirebaseCrash;
 
 /**
  * Created by Duy on 27-Mar-17.
@@ -124,7 +124,7 @@ public class DLog {
 
     public static void reportException(Throwable e) {
         if (ANDROID) {
-            FirebaseCrash.report(e);
+            Crashlytics.logException(e);
         }
     }
 

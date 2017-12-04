@@ -17,11 +17,13 @@
 package com.duy.pascal;
 
 import android.support.annotation.NonNull;
+import android.support.multidex.BuildConfig;
 import android.support.multidex.MultiDexApplication;
 
+import com.crashlytics.android.Crashlytics;
 import com.duy.pascal.interperter.libraries.android.activity.PascalActivityTaskExecutor;
-import com.duy.pascal.ui.BuildConfig;
-import com.google.firebase.crash.FirebaseCrash;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by Duy on 17-May-17.
@@ -40,7 +42,9 @@ public class PascalApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         mTaskExecutor = new PascalActivityTaskExecutor(this);
-        FirebaseCrash.setCrashCollectionEnabled(!BuildConfig.DEBUG);
+        if (!BuildConfig.DEBUG) {
+            Fabric.with(this, new Crashlytics());
+        }
     }
 
 }
