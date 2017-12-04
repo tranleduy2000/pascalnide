@@ -33,7 +33,7 @@ public class StackOverflowTest extends BaseTestCase {
 
     public void test1() {
         try {
-            runProgram(dir + "test_stack_overflow_error.pas");
+            runProgram(userDir + "test_stack_overflow_error.pas");
             assertFalse(true);
         } catch (Exception e) {
             e.printStackTrace();

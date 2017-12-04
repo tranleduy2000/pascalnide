@@ -31,7 +31,7 @@ import static com.duy.pascal.Interpreter.runProgram;
 
 public abstract class BaseTestCase extends TestCase {
 
-    protected String dir;
+    protected String userDir;
 
     public abstract String getDirTest();
 
@@ -40,11 +40,11 @@ public abstract class BaseTestCase extends TestCase {
         super.setUp();
         DLog.ANDROID = false;
 
-        dir = System.getProperty("user.dir");
-        System.out.println("current dir = " + dir);
-        dir += File.separator + "test_pascal" + File.separator + getDirTest() + File.separator;
-        if (!(new File(dir).exists())) {
-            dir = getDirTest() + File.separator;
+        userDir = System.getProperty("user.dir");
+        System.out.println("current dir = " + userDir);
+        userDir += File.separator + "test_pascal" + File.separator + getDirTest() + File.separator;
+        if (!(new File(userDir).exists())) {
+            userDir = getDirTest() + File.separator;
         }
     }
 
@@ -56,7 +56,7 @@ public abstract class BaseTestCase extends TestCase {
     protected void run(String fileName) {
         long time = System.currentTimeMillis();
         try {
-            runProgram(dir + fileName);
+            runProgram(userDir + fileName);
             assertTrue(true);
             System.out.printf("Time execution: %dms%n", System.currentTimeMillis() - time);
         } catch (Throwable e) {
@@ -69,7 +69,7 @@ public abstract class BaseTestCase extends TestCase {
     protected boolean parse(String fileName) {
         File file1 = new File(fileName);
         if (!file1.exists()) {
-            fileName = dir + fileName;
+            fileName = userDir + fileName;
         }
         return checkSyntax(fileName);
     }
@@ -82,7 +82,7 @@ public abstract class BaseTestCase extends TestCase {
      */
     protected void run(String file, String in) {
         try {
-            runProgram(dir + file);
+            runProgram(userDir + file);
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,7 +92,7 @@ public abstract class BaseTestCase extends TestCase {
 
     public void runAll() {
         boolean success = true;
-        File parent = new File(dir);
+        File parent = new File(userDir);
         for (File file : parent.listFiles()) {
             try {
                 if (file.getName().endsWith(".pas")
@@ -109,7 +109,7 @@ public abstract class BaseTestCase extends TestCase {
 
     public void parseAll() {
         boolean success = true;
-        File parent = new File(dir);
+        File parent = new File(userDir);
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 success = (checkSyntax(file.getPath()));

@@ -157,7 +157,7 @@ public class IndentCodeTest extends BaseTestCase {
     }
 
     public void atestAll() throws IOException, InterruptedException {
-        File parent = new File(dir);
+        File parent = new File(userDir);
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 run(file.getName());
@@ -173,7 +173,7 @@ public class IndentCodeTest extends BaseTestCase {
             if (file.exists()) {
                 indentCode = new PascalCodeFormatter(new FileReader(fileName));
             } else {
-                indentCode = new PascalCodeFormatter(new FileReader(new File(dir, fileName)));
+                indentCode = new PascalCodeFormatter(new FileReader(new File(userDir, fileName)));
             }
         } catch (IOException e) {
             e.printStackTrace();

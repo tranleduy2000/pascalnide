@@ -27,7 +27,8 @@ public class CompileDirectiveTest extends BaseLexerTest {
     }
 
     public void test1() {
-        assertTrue(parse("test1.pas"));
+        boolean result = parse("test1.pas");
+        assertTrue(result);
     }
 
     public void testInterpreter() {

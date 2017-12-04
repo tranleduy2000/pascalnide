@@ -84,13 +84,16 @@ public class FileScriptSource implements ScriptSource {
         if (mReader != null) {
             try {
                 mReader.reset();
+                mReader.reset();
                 return mReader;
             } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         try {
             mReader = new FileReader(mFile);
-        } catch (FileNotFoundException ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return mReader;
     }

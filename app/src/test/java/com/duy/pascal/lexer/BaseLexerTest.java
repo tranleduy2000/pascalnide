@@ -35,12 +35,12 @@ import java.util.ArrayList;
 public abstract class BaseLexerTest extends BaseTestCase {
 
     public boolean parse(String fileName) {
-        String programPath = dir + fileName;
+        File source = new File(new File(userDir), fileName);
         ArrayList<ScriptSource> searchPath = new ArrayList<>();
-        searchPath.add(new FileScriptSource(new File(programPath)));
+        searchPath.add(new FileScriptSource(source));
 
         try {
-            FileReader fileReader = new FileReader(dir + fileName);
+            FileReader fileReader = new FileReader(source);
             GroupParser lexer = new GroupParser(new FileScriptSource(fileReader, fileName), searchPath);
             lexer.parse();
             BaseGrouperToken tokenQueue = lexer.getTokenQueue();
@@ -56,12 +56,12 @@ public abstract class BaseLexerTest extends BaseTestCase {
     }
 
     public boolean parse(String fileName, String expectResult) {
-        String programPath = dir + fileName;
+        String programPath = userDir + fileName;
         ArrayList<ScriptSource> searchPath = new ArrayList<>();
         searchPath.add(new FileScriptSource(new File(programPath)));
 
         try {
-            FileReader fileReader = new FileReader(dir + fileName);
+            FileReader fileReader = new FileReader(userDir + fileName);
             GroupParser lexer = new GroupParser(new FileScriptSource(fileReader, fileName), searchPath);
             lexer.parse();
             System.out.println(lexer.getTokenQueue());
