@@ -49,4 +49,8 @@ public class TestIssue extends BaseTestCase {
         run("test7.pas");
     }
 
+    public void testFib() {
+        run("test_fib.pas");
+    }
+
 }
