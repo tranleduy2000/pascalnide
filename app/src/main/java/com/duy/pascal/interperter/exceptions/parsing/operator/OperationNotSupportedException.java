@@ -24,7 +24,6 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class OperationNotSupportedException extends RuntimePascalException {
     public OperationNotSupportedException() {
-        super(resId, args);
     }
 
     public OperationNotSupportedException(@NonNull LineInfo line) {

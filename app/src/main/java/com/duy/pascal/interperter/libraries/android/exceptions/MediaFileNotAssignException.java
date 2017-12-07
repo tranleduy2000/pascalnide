@@ -10,6 +10,5 @@ public class MediaFileNotAssignException extends RuntimePascalException {
 
     public MediaFileNotAssignException(String key) {
 
-        super(resId, args);
     }
 }

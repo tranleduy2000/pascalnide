@@ -27,6 +27,5 @@ public class RangeCheckError extends RuntimePascalException {
 
     public RangeCheckError(PascalReference<Object> boxer) {
 
-        super(resId, args);
     }
 }

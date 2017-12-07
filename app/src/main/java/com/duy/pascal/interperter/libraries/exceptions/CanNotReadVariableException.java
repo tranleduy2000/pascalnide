@@ -31,11 +31,9 @@ public class CanNotReadVariableException extends RuntimePascalException {
     }
 
     public CanNotReadVariableException() {
-        super(resId, args);
     }
 
     public CanNotReadVariableException(Object o) {
-        super(resId, args);
         this.object = o;
     }
 }

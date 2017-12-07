@@ -27,7 +27,6 @@ public class OrdinalExpressionExpectedException extends RuntimePascalException {
     }
 
     public OrdinalExpressionExpectedException() {
-        super(resId, args);
     }
 
     public OrdinalExpressionExpectedException(@NonNull LineInfo line, @NonNull String mes) {

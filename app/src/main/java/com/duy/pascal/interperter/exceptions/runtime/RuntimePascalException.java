@@ -42,18 +42,20 @@ public class RuntimePascalException extends RuntimeException implements Localize
         this.args = args;
     }
 
+    public RuntimePascalException() {
+    }
 
     public RuntimePascalException(@Nullable LineInfo line) {
         this.line = line;
     }
 
-    public RuntimePascalException(String ms) {
-        super(ms);
+    public RuntimePascalException(@Nullable LineInfo line, String message) {
+        super(message);
+        this.line = line;
     }
 
-    public RuntimePascalException(@Nullable LineInfo line, String mes) {
-        super(mes);
-        this.line = line;
+    public RuntimePascalException(String message) {
+        super(message);
     }
 
     public RuntimePascalException(Exception e) {

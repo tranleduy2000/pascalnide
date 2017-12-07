@@ -28,7 +28,6 @@ public class InvalidFloatingPointOperation extends RuntimePascalException {
     private Object object;
 
     public InvalidFloatingPointOperation(Object d) {
-        super(resId, args);
         this.object = d;
     }
 }

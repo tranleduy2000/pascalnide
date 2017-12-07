@@ -22,7 +22,6 @@ package com.duy.pascal.interperter.exceptions.runtime;
 
 public class CompileException extends RuntimePascalException {
     public CompileException() {
-        super(resId, args);
     }
 
     @Override
