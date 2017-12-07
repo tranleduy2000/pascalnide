@@ -17,6 +17,7 @@
 package com.duy.pascal.ui.editor.view;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
@@ -260,5 +261,14 @@ public class AutoIndentEditText extends AppCompatEditText {
 
     public String getTabCharacter() {
         return TAB_STR;
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        try {
+            return super.onSaveInstanceState();
+        } catch (Exception e) {
+            return BaseSavedState.EMPTY_STATE;
+        }
     }
 }
