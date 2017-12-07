@@ -39,7 +39,7 @@ import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.operator.BadOperationTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.operator.ConstantCalculationException;
-import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
+import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 import com.duy.pascal.interperter.linenumber.LineInfo;

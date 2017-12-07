@@ -28,7 +28,7 @@ import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.exceptions.runtime.CompileException;
-import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
+import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 

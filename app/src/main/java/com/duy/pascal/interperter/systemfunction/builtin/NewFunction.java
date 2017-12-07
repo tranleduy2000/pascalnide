@@ -134,26 +134,6 @@ public class NewFunction implements IMethodDeclaration {
             PointerType pointerType = (PointerType) ((PointerType) type.declType).pointedToType;
             Type type = pointerType.pointedToType;
             pointer.set(new ObjectBasedPointer<>(type.initialize()));
-           /* if (type instanceof ArrayType) {
-                pointer.set(new ObjectBasedPointer<>(new Object[]{}));
-            } else if (BasicType.Byte.equals(type)) {
-                pointer.set(new ObjectBasedPointer<>((byte) 0));
-            } else if (BasicType.Short.equals(type)) {
-                pointer.set(new ObjectBasedPointer<>((short) 0));
-            } else if (BasicType.Integer.equals(type)) {
-                pointer.set(new ObjectBasedPointer<>(0));
-            } else if (BasicType.Long.equals(type)) {
-                pointer.set(new ObjectBasedPointer<>(0L));
-            } else if (BasicType.Double.equals(type)) {
-                pointer.set(new ObjectBasedPointer<>(0d));
-            } else if (BasicType.Character.equals(type)) {
-                pointer.set(new ObjectBasedPointer<>((char) 0));
-            } else if (BasicType.StringBuilder.equals(type)) {
-                pointer.set(new ObjectBasedPointer<>(""));
-            } else if (type instanceof JavaClassBasedType) {
-                Object initialize = type.initialize();
-                pointer.set(new ObjectBasedPointer<>(initialize));
-            }*/
             return null;
         }
     }

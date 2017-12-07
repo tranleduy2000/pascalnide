@@ -27,6 +27,7 @@ import com.duy.pascal.interperter.exceptions.runtime.WrongArgsException;
 import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.libraries.exceptions.InvalidFloatingPointOperation;
 import com.duy.pascal.interperter.libraries.exceptions.RangeCheckError;
+import com.duy.pascal.ui.R;
 
 import java.util.Random;
 
@@ -263,11 +264,11 @@ public class SystemLibrary extends PascalLibrary {
     }
 
     @PascalMethod(description = "Calculate the square root of a value")
-    public double Sqrt(double d) throws InvalidFloatingPointOperation {
-        if (d < 0) {
-            throw new InvalidFloatingPointOperation(d);
+    public double Sqrt(double value) throws InvalidFloatingPointOperation {
+        if (value < 0) {
+            throw new RuntimePascalException(R.string.lower_than_zero, value);
         }
-        return Math.sqrt(d);
+        return Math.sqrt(value);
     }
 
     @PascalMethod(description = "Return previous element for an ordinal type")
@@ -284,11 +285,11 @@ public class SystemLibrary extends PascalLibrary {
      * logarithm function
      */
     @PascalMethod(description = "system lib")
-    public double ln(double d) throws InvalidFloatingPointOperation {
-        if (d < 0) {
-            throw new InvalidFloatingPointOperation(d);
+    public double ln(double value) throws InvalidFloatingPointOperation {
+        if (value < 0) {
+            throw new RuntimePascalException(R.string.lower_than_zero, value);
         }
-        return Math.log(d);
+        return Math.log(value);
     }
 
     @PascalMethod(description = "Calculate inverse tangent")
@@ -381,12 +382,7 @@ public class SystemLibrary extends PascalLibrary {
     }
 
 
-//    @PascalMethod(description = "Convert a string to all uppercase.")
-//    public StringBuilder UpCase(StringBuilder s) {
-//        return new StringBuilder(s.toString().toUpperCase());
-//    }
-
-    @PascalMethod(description = "Convert a string to all uppercase.")
+    @PascalMethod(description = "Convert a char to uppercase.")
     public char UpCase(char s) {
         return Character.toUpperCase(s);
     }
@@ -399,8 +395,8 @@ public class SystemLibrary extends PascalLibrary {
     @PascalMethod(description = "Append one string to another")
     public StringBuilder Concat(StringBuilder... args) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (StringBuilder s1 : args) {
-            stringBuilder.append(s1);
+        for (StringBuilder arg : args) {
+            stringBuilder.append(arg);
         }
         return stringBuilder;
     }
@@ -411,8 +407,7 @@ public class SystemLibrary extends PascalLibrary {
     }
 
     @PascalMethod(description = "Set length of a string.")
-    public void SetLength(PascalReference<StringBuilder> s, int length)
-            throws RuntimePascalException {
+    public void SetLength(PascalReference<StringBuilder> s, int length) {
         String filler = "!@#$%";
         StringBuilder old = s.get();
         if (length <= old.length()) {
@@ -433,14 +428,12 @@ public class SystemLibrary extends PascalLibrary {
 
     @PascalMethod(description = "Insert one string in another.")
     public void Insert(StringBuilder s, PascalReference<StringBuilder> s1, int pos)
-            throws RuntimePascalException {
-        System.out.println("s = [" + s + "], s1 = [" + s1 + "], pos = [" + pos + "]");
+            {
         s1.set(new StringBuilder(s1.get()).insert(pos - 1, s));
     }
 
     @PascalMethod(description = "Copy part of a string")
     public StringBuilder Copy(StringBuilder s, int from, int count) {
-        System.out.println("s = [" + s + "], from = [" + from + "], count = [" + count + "]");
         if (from - 1 + count > s.length()) {
             return new StringBuilder(s.substring(from - 1, s.length()));
         }
@@ -451,7 +444,6 @@ public class SystemLibrary extends PascalLibrary {
     @PascalMethod(description = "Delete part of a string")
     public void Delete(PascalReference<StringBuilder> s, int start, int count)
             throws RuntimePascalException {
-        System.out.println("s = [" + s + "], start = [" + start + "], count = [" + count + "]");
         s.set(s.get().delete(start - 1, start + count - 1));
     }
 
@@ -462,13 +454,11 @@ public class SystemLibrary extends PascalLibrary {
 
     @PascalMethod(description = "Allocate new memory on the heap")
     public void GetMem(PascalPointer pascalPointer, long size) {
-
     }
 
     @PascalMethod(description = "Allocate new memory on the heap")
-    @SuppressWarnings("unchecked")
     public PascalPointer GetMem(long size) {
-        return new ObjectBasedPointer(new Object());
+        return new ObjectBasedPointer<>(new Object());
     }
 
     public StringBuilder CreateNull() {

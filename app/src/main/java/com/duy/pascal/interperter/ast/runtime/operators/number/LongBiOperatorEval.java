@@ -8,7 +8,7 @@ import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorEval;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
+import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;

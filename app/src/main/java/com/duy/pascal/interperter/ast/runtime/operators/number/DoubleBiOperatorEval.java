@@ -10,7 +10,7 @@ import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.operator.DivisionByZeroException;
-import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
+import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;

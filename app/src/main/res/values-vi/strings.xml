@@ -233,4 +233,6 @@
      <string name="keyboard_problem_msg">Nếu bạn có vấn đề trong việc nhập dữ liệu bằng bàn phím, vui lòng thay đổi bàn phím khác (Khuyến khích sử dụng bàn phím Gboard)</string>
     <string name="keyboard_problem">Vấn đề về bàn phím</string>
     <string name="editor_create_unknown_exception">Occurs unknown exception when create editor</string>
+    <string name="lower_than_zero">%1$s nhỏ hơn 0.</string>
+
 </resources>

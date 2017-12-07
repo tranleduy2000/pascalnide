@@ -61,7 +61,7 @@ import com.duy.pascal.interperter.exceptions.parsing.value.NonIntegerException;
 import com.duy.pascal.interperter.exceptions.parsing.value.UnAssignableTypeException;
 import com.duy.pascal.interperter.exceptions.runtime.InvalidNumericFormatException;
 import com.duy.pascal.interperter.exceptions.runtime.MethodCallException;
-import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
+import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.StackOverflowException;
 import com.duy.pascal.interperter.libraries.exceptions.CanNotReadVariableException;

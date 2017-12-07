@@ -30,10 +30,12 @@ public abstract class FileException extends RuntimePascalException {
     public String filePath = "";
 
     public FileException(@NonNull String filePath) {
+        super(resId, args);
         this.filePath = filePath;
     }
 
     public FileException(@NonNull File file) {
+        super(resId, args);
         this.filePath = file.getPath();
     }
 }

@@ -29,7 +29,7 @@ import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
 import com.duy.pascal.interperter.exceptions.runtime.CompileException;
-import com.duy.pascal.interperter.exceptions.runtime.PascalArithmeticException;
+import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.utils.NullSafety;
 

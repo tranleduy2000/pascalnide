@@ -8,6 +8,7 @@ public class WrongArgsException extends RuntimePascalException {
     private String method;
 
     public WrongArgsException() {
+        super(resId, args);
     }
 
     public WrongArgsException(String message) {

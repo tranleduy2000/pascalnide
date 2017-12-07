@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 Tran Le Duy
+ *  Copyright (c) 2017 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interperter.libraries.exceptions;
+package com.duy.pascal.interperter.exceptions;
 
-import com.duy.pascal.interperter.ast.runtime.references.PascalReference;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.text.Spanned;
 
 /**
- * Created by Duy on 08-Apr-17.
+ * Created by Duy on 07-Dec-17.
  */
 
-public class RangeCheckError extends RuntimePascalException {
-
-    public RangeCheckError(PascalReference<Object> boxer) {
-
-        super(resId, args);
-    }
+public interface Localized {
+    public Spanned getLocalizedMessage(@NonNull Context context);
 }

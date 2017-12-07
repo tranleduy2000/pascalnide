@@ -25,6 +25,7 @@ import android.text.Spanned;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.exceptions.Localized;
 import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
 import com.duy.pascal.interperter.exceptions.parsing.define.VariableExpectedException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
@@ -34,7 +35,7 @@ import com.duy.pascal.interperter.tokens.basic.AssignmentToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 
 
-public class ParsingException extends Exception {
+public class ParsingException extends Exception implements Localized {
     @Nullable
     private LineInfo lineInfo;
 
@@ -81,6 +82,7 @@ public class ParsingException extends Exception {
         return false;
     }
 
+    @Override
     public Spanned getLocalizedMessage(@NonNull Context context) {
         return new SpannableString(super.getMessage());
     }

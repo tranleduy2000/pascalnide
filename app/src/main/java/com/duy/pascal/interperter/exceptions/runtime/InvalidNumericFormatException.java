@@ -7,5 +7,6 @@ package com.duy.pascal.interperter.exceptions.runtime;
 
 public class InvalidNumericFormatException extends RuntimePascalException {
     public InvalidNumericFormatException(String s) {
+        super(s);
     }
 }
