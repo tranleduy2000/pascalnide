@@ -366,7 +366,7 @@ public class PascalSuggestionOperation {
      */
     private void defineContext() {
         if (!PascalCompleteConfident.shouldDisplayPopup(mStatement, mCursorLine, mCursorCol)) {
-            mCompleteContext = CONTEXT_EMPTY;
+            mCompleteContext = CONTEXT_NONE;
             return; //in comment
         }
         if (mSource.trim().isEmpty()) { //program const uses var begin end.

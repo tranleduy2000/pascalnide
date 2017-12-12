@@ -20,16 +20,18 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.ignore.CommentToken;
 import com.duy.pascal.ui.autocomplete.completion.ast.PascalStatement;
+import com.duy.pascal.ui.utils.DLog;
 
 /**
  * Created by Duy on 12-Dec-17.
  */
 
 public class PascalCompleteConfident {
+    private static final String TAG = "PascalCompleteConfident";
+
     public static boolean shouldDisplayPopup(PascalStatement statement, int line, int column) {
         return isInComment(statement, line, column);
     }
-
 
     /**
      * @param line   - current line of cursor, start at 0
@@ -40,14 +42,16 @@ public class PascalCompleteConfident {
         for (Token token : statement.getStatement()) {
             if (token instanceof CommentToken) {
                 LineInfo lineNumber = token.getLineNumber();
-                if (lineNumber.getLine() != line) return false;
-
-                int length = lineNumber.getLength();
-                return (column > lineNumber.getColumn()) && (column <= lineNumber.getLine());
+                if (lineNumber.getLine() != line) {
+                    return false;
+                }
+                int endPosition = lineNumber.getColumn() + lineNumber.getLength() - 1;
+                int startPosition = lineNumber.getColumn();
+                boolean inComment = (column > startPosition) && (column <= endPosition);
+                DLog.d(TAG, "isInComment() returned: " + inComment);
+                return inComment;
             }
         }
         return false;
     }
-
-
 }
