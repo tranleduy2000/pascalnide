@@ -37,4 +37,5 @@ public enum CompleteContext {
     CONTEXT_NEED_TYPE,
     CONTEXT_EMPTY,
     CONTEXT_NONE,
+    CONTEXT_IN_COMMENT,
 }

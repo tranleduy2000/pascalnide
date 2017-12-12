@@ -200,6 +200,8 @@ public class PascalSuggestionOperation {
             case CONTEXT_EMPTY:
                 PascalSuggestionProvider.completeEmpty(mScriptSource, toAdd);
                 break;
+            case CONTEXT_IN_COMMENT: //don't add complete in comment
+                return;
             case CONTEXT_INSERT_ASSIGN:
             case CONTEXT_COMMA_SEMICOLON:
                 break;
