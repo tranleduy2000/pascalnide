@@ -220,8 +220,10 @@ public abstract class BaseEditorActivity extends BaseActivity implements SymbolL
 
         if (isFirstLauncher()) {
             String fileName = Integer.toHexString((int) System.currentTimeMillis()) + ".pas";
-            File filePath = mFileManager.createNewFileInMode(fileName);
-            addNewPageEditor(filePath);
+            File file = mFileManager.createNewFileInMode(fileName);
+            if (file != null) {
+                addNewPageEditor(file);
+            }
         }
 
         int pos = getPreferences().getInt(PascalPreferences.TAB_POSITION_FILE);

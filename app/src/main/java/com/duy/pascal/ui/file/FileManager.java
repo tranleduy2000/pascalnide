@@ -55,8 +55,8 @@ import java.util.regex.Matcher;
 
 public class FileManager {
     /*storage path for save code*/
-    private static final String EXTERNAL_DIR_CODE = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/";
     private static final String FILE_TEMP_NAME = "tmp.pas";
+    private static final String SRC_DIR = "PascalCompiler";
     private static final String TAG = "FileManager";
     private Context mContext;
     private Database mDatabase;
@@ -267,8 +267,9 @@ public class FileManager {
      * @param fileName - name of file to create
      * @return - path of file
      */
+    @Nullable
     public File createNewFileInMode(String fileName) {
-        File file = new File(getCurrentPath(), fileName);
+        File file = new File(getSrcDir(), fileName);
         return createNewFile(file.getPath());
     }
 
@@ -325,11 +326,11 @@ public class FileManager {
         return file;
     }
 
-    private String getCurrentPath() {
+    private File getSrcDir() {
         if (!permissionGranted()) {
-            return mContext.getFilesDir().getPath() + File.separatorChar;
+            return new File(mContext.getFilesDir().getPath(), SRC_DIR);
         } else {
-            return Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/";
+            return new File(Environment.getExternalStorageDirectory().getPath(), SRC_DIR);
         }
     }
 
