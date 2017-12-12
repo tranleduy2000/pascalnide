@@ -652,7 +652,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                             throw new NonConstantExpressionException(value);
                         }
                         ConstantDefinition c = new ConstantDefinition(name.getName(), type.declType, constVal, name.getLineNumber());
-                        this.mConstants.put(c.getName(), c);
+                        declareConst(c);
                         grouperToken.assertNextSemicolon();
                     } catch (ParsingException e) { //error when parsing expression value
                         reportException(parent, e);

@@ -77,8 +77,7 @@ public class ConsoleView extends View implements GestureDetector.OnDoubleTapList
     private ConsoleScreen mConsoleScreen; // store screen size and dimen
     private ConsoleCursor mCursor; // Cursor of console
     private Context mContext;
-    private ScreenBuffer mScreenBufferData = new ScreenBuffer();    //      Data of console
-    private Rect visibleRect = new Rect();
+    private ScreenBuffer mScreenBufferData = new ScreenBuffer();    //text data
     private Runnable checkSize = new Runnable() {
         public void run() {
             if (updateSize()) {
@@ -97,10 +96,8 @@ public class ConsoleView extends View implements GestureDetector.OnDoubleTapList
     };
     private float mScrollRemainder;
     private GestureDetectorCompat mGestureDetector;
-    private boolean filterKey = false;
     private PascalPreferences mPascalPreferences;
     private String mImeBuffer = "";
-    private TextConsole[] textImeBuffer;
     private boolean mAntiAlias = false;
 
 
@@ -151,7 +148,7 @@ public class ConsoleView extends View implements GestureDetector.OnDoubleTapList
 
         mPascalPreferences = new PascalPreferences(context);
 
-        this.mAntiAlias = mPascalPreferences.useAntiAlias();
+        mAntiAlias = mPascalPreferences.useAntiAlias();
 
         mGraphScreen = new GraphScreen(context, this);
         mGraphScreen.setAntiAlias(mAntiAlias);

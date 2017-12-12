@@ -63,7 +63,7 @@ public class SetType<T extends Type> extends BaseSetType {
     public SetType(T elementType, LineInfo lineInfo) {
         this.elementType = elementType;
         this.lineInfo = lineInfo;
-    }
+     }
 
     /**
      * @param typeReference - type of set (example: set of char => type is "char")
@@ -232,7 +232,11 @@ public class SetType<T extends Type> extends BaseSetType {
     public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f) throws Exception {
         RuntimeType other = runtimeValue.getRuntimeType(f);
         if (other.declType instanceof SetType) {
-            if (((SetType) other.declType).getElementType().equals(this.getElementType())) {
+            Type otherType = ((SetType) other.declType).getElementType();
+            if (otherType == null) { //empty set
+                return cloneValue(runtimeValue);
+            }
+            if (otherType.equals(this.getElementType())) {
                 return cloneValue(runtimeValue);
             }
         }

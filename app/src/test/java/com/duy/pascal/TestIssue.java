@@ -53,4 +53,8 @@ public class TestIssue extends BaseTestCase {
         run("test_fib.pas");
     }
 
+    public void testSetOfChar() {
+        run("test_set_of_char.pas");
+    }
+
 }
