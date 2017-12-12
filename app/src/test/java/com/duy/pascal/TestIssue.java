@@ -57,4 +57,7 @@ public class TestIssue extends BaseTestCase {
         run("test_set_of_char.pas");
     }
 
+    public void testCompareString() {
+        run("test_compare_string.pas");
+    }
 }

@@ -8,12 +8,12 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorEval;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
-import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
+import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class StringBiOperatorEval extends BinaryOperatorEval {
 
@@ -29,6 +29,10 @@ public class StringBiOperatorEval extends BinaryOperatorEval {
         switch (operator_type) {
             case EQUALS:
             case NOTEQUAL:
+            case LESSEQ:
+            case LESSTHAN:
+            case GREATEREQ:
+            case GREATERTHAN:
                 return new RuntimeType(BasicType.Boolean, false);
             default:
                 return new RuntimeType(BasicType.StringBuilder, false);
@@ -38,23 +42,23 @@ public class StringBiOperatorEval extends BinaryOperatorEval {
     @Override
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException, InternalInterpreterException {
-        String v1 = value1.toString();
-        String v2 = value2.toString();
+        String left = value1.toString();
+        String right = value2.toString();
         switch (operator_type) {
             case EQUALS:
-                return v1.equals(v2);
+                return left.equals(right); //left == right
             case NOTEQUAL:
-                return !v1.equals(v2);
+                return !left.equals(right); //left != right
             case LESSTHAN:
-                return v1.compareTo(v2) < 0;
+                return left.compareTo(right) < 0; // left < right
             case LESSEQ:
-                return v1.compareTo(v2) <= 0;
+                return left.compareTo(right) <= 0; //left <= right
             case GREATEREQ:
-                return v1.compareTo(v2) >= 0;
+                return left.compareTo(right) >= 0; //left >= right
             case GREATERTHAN:
-                return v1.compareTo(v2) > 0;
+                return left.compareTo(right) > 0; //left > right
             case PLUS:
-                return new StringBuilder(v1).append(v2);
+                return new StringBuilder(left).append(right);
             default:
                 throw new InternalInterpreterException(line);
         }
