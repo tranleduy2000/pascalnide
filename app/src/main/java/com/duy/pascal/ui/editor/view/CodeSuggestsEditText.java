@@ -41,7 +41,7 @@ import android.widget.MultiAutoCompleteTextView;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.autocomplete.completion.SuggestOperation;
+import com.duy.pascal.ui.autocomplete.completion.PascalSuggestionOperation;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
 import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
 import com.duy.pascal.ui.editor.view.adapters.CodeSuggestAdapter;
@@ -67,7 +67,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     @NonNull
     protected ArrayList<LineInfo> mLineErrors = new ArrayList<>();
     private CodeSuggestAdapter mAdapter;
-    private SuggestOperation pascalParserHelper;
+    private PascalSuggestionOperation pascalParserHelper;
     private ParseDataTask mParseTask;
 
     private ListPopupWindow mPopup;
@@ -146,8 +146,10 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         if (mEnableSyntaxParser && hasFocus() && mEditorSetting.isShowSuggestPopup()) {
             try {
                 if (mParseTask != null) mParseTask.cancel(true);
-                mParseTask = new ParseDataTask(this, mSrcName);
-                mParseTask.execute();
+                if (getSelectionStart() == getSelectionEnd()) {
+                    mParseTask = new ParseDataTask(this, mSrcName);
+                    mParseTask.execute();
+                }
             } catch (Exception ignored) {
             }
             onPopupChangePosition();
@@ -510,20 +512,20 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         private String source;
         @NonNull
         private String srcName;
-        private SuggestOperation pascalParserHelper;
+        private PascalSuggestionOperation pascalParserHelper;
         private int cursorPos, cursorLine, cursorCol;
 
         private ParseDataTask(EditText editText, @NonNull String srcName) {
             this.source = editText.getText().toString();
             this.srcName = srcName;
-            this.pascalParserHelper = new SuggestOperation();
+            this.pascalParserHelper = new PascalSuggestionOperation();
             calculateCursor(editText);
         }
 
         @SuppressWarnings("ConstantConditions")
         private void calculateCursor(EditText editText) {
             this.cursorPos = editText.getSelectionStart();
-            Pair<Integer, Integer> lineColFromIndex = LineUtils.getLineColFromIndex(cursorPos,
+            Pair<Integer, Integer> lineColFromIndex = LineUtils.getLineColFromIndex(cursorPos, length(),
                     editText.getLayout().getLineCount(), editText.getLayout());
             this.cursorLine = lineColFromIndex.first;
             this.cursorCol = lineColFromIndex.second;

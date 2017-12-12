@@ -29,7 +29,7 @@ import com.duy.pascal.interperter.tokens.basic.ToToken;
 import com.duy.pascal.interperter.tokens.closing.EndToken;
 import com.duy.pascal.interperter.tokens.grouping.BeginEndToken;
 import com.duy.pascal.interperter.tokens.value.ValueToken;
-import com.duy.pascal.ui.autocomplete.completion.model.StatementItem;
+import com.duy.pascal.ui.autocomplete.completion.ast.PascalStatement;
 import com.duy.pascal.ui.utils.DLog;
 
 import java.util.LinkedList;
@@ -45,7 +45,7 @@ public class SourceHelper {
     /**
      * Search back from the cursor position till meeting 'begin', 'end' or ';'.
      */
-    public static StatementItem getStatement(LinkedList<Token> source, int line, int column) {
+    public static PascalStatement getStatement(LinkedList<Token> source, int line, int column) {
         DLog.d(TAG, "getStatement() called with: line = [" + line + "], column = [" + column + "]");
 
         LineInfo cursor = new LineInfo(line, column, "");
@@ -73,9 +73,9 @@ public class SourceHelper {
         if (tokens.size() >= 1 && tokens.get(tokens.size() - 1) instanceof EOFToken) {
             tokens.remove(tokens.size() - 1);
         }
-        StatementItem statementItem = new StatementItem(tokens, separator);
-        DLog.d(TAG, "getStatement() returned: " + statementItem);
-        return statementItem;
+        PascalStatement pascalStatement = new PascalStatement(tokens, separator);
+        DLog.d(TAG, "getStatement() returned: " + pascalStatement);
+        return pascalStatement;
     }
 
     private static boolean isStatementSeparator(Token token) {

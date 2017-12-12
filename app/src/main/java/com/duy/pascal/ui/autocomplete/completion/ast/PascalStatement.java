@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.autocomplete.completion.model;
+package com.duy.pascal.ui.autocomplete.completion.ast;
 
 import android.support.annotation.Nullable;
 
@@ -26,18 +26,19 @@ import java.util.List;
  * Created by Duy on 11/15/2017.
  */
 
-public class StatementItem {
+public class PascalStatement {
     /**
      * List token of statement
      */
     private final List<Token> statement;
+
     /**
      * Token separator statement, 'begin', ';', 'end'
      */
     @Nullable
     private final Token separator;
 
-    public StatementItem(List<Token> statement, @Nullable Token separator) {
+    public PascalStatement(List<Token> statement, @Nullable Token separator) {
         this.statement = statement;
         this.separator = separator;
     }
@@ -55,7 +56,7 @@ public class StatementItem {
 
     @Override
     public String toString() {
-        return "StatementItem{" +
+        return "PascalStatement{" +
                 "statement=" + statement +
                 ", separator=" + separator +
                 '}';

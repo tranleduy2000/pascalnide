@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 /**
  * Created by Duy on 11/26/2017.
  */
-public class SuggestProviderTest extends TestCase {
+public class PascalSuggestionProviderTest extends TestCase {
     public void testSort() throws Exception {
     }
 

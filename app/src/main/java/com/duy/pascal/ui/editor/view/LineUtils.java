@@ -23,7 +23,10 @@ import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.ScrollView;
 
+import com.duy.pascal.ui.utils.DLog;
+
 public class LineUtils {
+    private static final String TAG = "LineUtils";
     private boolean[] toCountLinesArray;
     private int[] realLines;
 
@@ -65,21 +68,35 @@ public class LineUtils {
     }
 
     /**
-     * Gets the lineInfo from the index of the letter in the text
+     * Gets the line from the index of the letter in the text
+     * <p>
+     * 1  2  3  |
+     * ^  ^  ^  ^
+     * 0  1  2  cursor at 4, return (line;col) = (0;4), line start at 0, column start at 0
      */
     @NonNull
-    public static Pair<Integer, Integer> getLineColFromIndex(int index, int lineCount, Layout layout) {
+    public static Pair<Integer, Integer> getLineColFromIndex(int cursorIndex, int length, int lineCount, Layout layout) {
         int line;
         int currentIndex = 0, oldIndex = 0;
 
-        for (line = 0; line < lineCount; line++) {
+        line = 0;
+        while (line < lineCount) {
             oldIndex = currentIndex;
             currentIndex += layout.getLineEnd(line) - layout.getLineStart(line);
-            if (currentIndex > index) {
+            if (currentIndex > cursorIndex) {
+                break;
+            }
+            if (line < lineCount - 1) {
+                line++;
+            } else {
                 break;
             }
         }
-        return new Pair<>(line, index - oldIndex);
+        Pair<Integer, Integer> result = new Pair<>(line, cursorIndex - oldIndex);
+        DLog.d(TAG, "getLineColFromIndex() returned: " + result);
+        return result;
+
+
     }
 
     public static int getStartIndexAtLine(EditText editable, int line) {

@@ -44,9 +44,9 @@ import com.duy.pascal.interperter.tokens.basic.ForToken;
 import com.duy.pascal.interperter.tokens.basic.ToToken;
 import com.duy.pascal.interperter.tokens.basic.UsesToken;
 import com.duy.pascal.interperter.tokens.grouping.BeginEndToken;
+import com.duy.pascal.ui.autocomplete.completion.ast.PascalStatement;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
 import com.duy.pascal.ui.autocomplete.completion.model.KeyWordDescription;
-import com.duy.pascal.ui.autocomplete.completion.model.StatementItem;
 import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;
 import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
 import com.duy.pascal.ui.utils.DLog;
@@ -61,16 +61,16 @@ import java.util.Map;
 
 import static com.duy.pascal.ui.autocomplete.completion.CompleteContext.CONTEXT_EMPTY;
 import static com.duy.pascal.ui.autocomplete.completion.CompleteContext.CONTEXT_NONE;
-import static com.duy.pascal.ui.autocomplete.completion.SuggestProvider.completeSuggestType;
-import static com.duy.pascal.ui.autocomplete.completion.SuggestProvider.completeUses;
-import static com.duy.pascal.ui.autocomplete.completion.SuggestProvider.sort;
+import static com.duy.pascal.ui.autocomplete.completion.PascalSuggestionProvider.completeSuggestType;
+import static com.duy.pascal.ui.autocomplete.completion.PascalSuggestionProvider.completeUses;
+import static com.duy.pascal.ui.autocomplete.completion.PascalSuggestionProvider.sort;
 
 /**
  * Created by Duy on 17-Aug-17.
  */
 
-public class SuggestOperation {
-    private static final String TAG = "SuggestOperation";
+public class PascalSuggestionOperation {
+    private static final String TAG = "PascalSuggestionOperation";
     private static final int LIMIT_CHAR = 1000;
     private String mSource;
     private int mCursorPos;
@@ -80,7 +80,7 @@ public class SuggestOperation {
     private CodeSuggestsEditText.SymbolsTokenizer mSymbolsTokenizer;
     private LinkedList<Token> mSourceTokens;
 
-    private StatementItem mStatement;
+    private PascalStatement mStatement;
     private String mIncomplete, mPreWord;
 
     private Name mIdentifierType;
@@ -89,11 +89,19 @@ public class SuggestOperation {
     private FileScriptSource mScriptSource;
 
 
-    public SuggestOperation() {
+    public PascalSuggestionOperation() {
         mSymbolsTokenizer = new CodeSuggestsEditText.SymbolsTokenizer();
         mIncomplete = "";
     }
 
+    /**
+     * @param srcName    - file name
+     * @param source     - current source code
+     * @param cursorPos  - cursor index
+     * @param cursorLine - line
+     * @param cursorCol  - column
+     * @return a list items contains some suggestion
+     */
     @Nullable
     public ArrayList<Description> getSuggestion(@NonNull String srcName, @NonNull String source,
                                                 int cursorPos, int cursorLine, int cursorCol) {
@@ -180,17 +188,17 @@ public class SuggestOperation {
                 completeSuggestType(mIncomplete, toAdd, exprContext);
                 break;
             case CONTEXT_INSERT_DO:
-                SuggestProvider.completeAddKeyWordToken(mIncomplete, toAdd, exprContext, "do");
+                PascalSuggestionProvider.completeAddKeyWordToken(mIncomplete, toAdd, exprContext, "do");
                 break;
             case CONTEXT_INSERT_TO:
-                SuggestProvider.completeAddKeyWordToken(mIncomplete, toAdd, exprContext, "to");
+                PascalSuggestionProvider.completeAddKeyWordToken(mIncomplete, toAdd, exprContext, "to");
                 break;
             case CONTEXT_AFTER_BEGIN:
-                SuggestProvider.completeAddKeyWordToken(mIncomplete, toAdd, exprContext, "end");
+                PascalSuggestionProvider.completeAddKeyWordToken(mIncomplete, toAdd, exprContext, "end");
                 completeWord(mIncomplete, toAdd, exprContext);
                 break;
             case CONTEXT_EMPTY:
-                SuggestProvider.completeEmpty(mScriptSource, toAdd);
+                PascalSuggestionProvider.completeEmpty(mScriptSource, toAdd);
                 break;
             case CONTEXT_INSERT_ASSIGN:
             case CONTEXT_COMMA_SEMICOLON:
@@ -357,12 +365,18 @@ public class SuggestOperation {
      * Define context, incomplete word
      */
     private void defineContext() {
+        if (!PascalCompleteConfident.shouldDisplayPopup(mStatement, mCursorLine, mCursorCol)) {
+            mCompleteContext = CONTEXT_EMPTY;
+            return; //in comment
+        }
         if (mSource.trim().isEmpty()) { //program const uses var begin end.
             mCompleteContext = CONTEXT_EMPTY;
             return;
         }
         mCompleteContext = CONTEXT_NONE; //default context, suggest keyword
         List<Token> statement = mStatement.getStatement();
+
+
         if (!statement.isEmpty()) {
             Token last = statement.get(statement.size() - 1);
             Token first = statement.get(0);

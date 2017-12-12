@@ -36,7 +36,7 @@ import static com.duy.pascal.ui.editor.view.AutoIndentEditText.TAB_STR;
  * Created by Duy on 11/11/2017.
  */
 
-public class SuggestProvider {
+public class PascalSuggestionProvider {
     @NonNull
     public static ArrayList<Description> sort(ArrayList<Description> items) {
         //sort by type -> name
