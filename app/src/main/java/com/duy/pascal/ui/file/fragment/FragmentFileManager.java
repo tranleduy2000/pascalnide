@@ -254,8 +254,8 @@ public class FragmentFileManager extends Fragment implements
         final TextInputLayout textInputLayout = alertDialog.findViewById(R.id.hint);
         
         textInputLayout.setHint(getString(R.string.enter_new_folder_name));
-        Button btnOK = alertDialog.findViewById(R.id.btn_ok);
-        Button btnCancel = alertDialog.findViewById(R.id.btn_cancel);
+        View btnOK = alertDialog.findViewById(R.id.btn_ok);
+        View btnCancel = alertDialog.findViewById(R.id.btn_cancel);
         
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override

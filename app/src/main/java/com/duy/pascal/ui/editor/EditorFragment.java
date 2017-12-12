@@ -181,7 +181,7 @@ public class EditorFragment extends Fragment implements EditorController {
         String text = getCode();
         try {
             PascalCodeFormatter formatter = new PascalCodeFormatter(new StringReader(text));
-            StringBuilder result = formatter.getResult();
+            String result = formatter.getResult();
             mCodeEditor.setTextHighlighted(result);
             mCodeEditor.applyTabWidth(mCodeEditor.getText(), 0, mCodeEditor.getText().length());
         } catch (IOException e) {

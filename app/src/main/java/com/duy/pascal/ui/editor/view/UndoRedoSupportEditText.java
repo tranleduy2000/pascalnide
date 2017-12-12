@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 
@@ -45,6 +46,7 @@ public class UndoRedoSupportEditText extends HighlightEditor {
     private KeySettings mSettings;
     private KeyListener mKeyListener;
     private ClipboardManagerCompat mClipboardManager;
+    @Nullable
     private EditorControl mEditorControl;
 
     public UndoRedoSupportEditText(Context context, AttributeSet attrs) {
@@ -62,6 +64,15 @@ public class UndoRedoSupportEditText extends HighlightEditor {
         init();
     }
 
+    @Nullable
+    public EditorControl getEditorControl() {
+        return mEditorControl;
+    }
+
+    public void setEditorControl(EditorControl editorControl) {
+        this.mEditorControl = editorControl;
+    }
+
     private void init() {
         mUndoRedoHelper = new UndoRedoHelper(this);
         mUndoRedoHelper.setMaxHistorySize(mEditorSetting.getMaxHistoryEdit());
@@ -71,7 +82,6 @@ public class UndoRedoSupportEditText extends HighlightEditor {
         mKeyListener = new KeyListener();
         mClipboardManager = ClipboardManagerCompatFactory.newInstance(getContext());
     }
-
 
     /**
      * undo text
@@ -326,11 +336,6 @@ public class UndoRedoSupportEditText extends HighlightEditor {
             DLog.report(ignored);
         }
     }
-
-    public void setEditorControl(EditorControl editorControl) {
-        this.mEditorControl = editorControl;
-    }
-
 
     public void copyAll() {
         mClipboardManager.setText(getText());

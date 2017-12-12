@@ -95,7 +95,7 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
         ArrayList<VariableContext> stacks = callStack.getStacks();
         mListFrame.removeAllViews();
         for (int i = 0; i < stacks.size(); i++) {
-            MonospaceRadioButton radioButton = new MonospaceRadioButton(getContext());
+            MonospaceRadioButton radioButton = new MonospaceRadioButton(getActivity());
             radioButton.setLayoutParams(new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));

@@ -266,5 +266,6 @@
     <string name="get_more_app">Get more app</string>
     <string name="enable_permission">Enable permission</string>
     <string name="lower_than_zero">%1$s lower than zero.</string>
+    <string name="duplicate">Duplicate</string>
 </resources>
 

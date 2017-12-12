@@ -121,9 +121,6 @@ public class PascalCodeFormatter {
         parse();
     }
 
-    public PascalCodeFormatter() {
-    }
-
     public static void main(String[] args) throws IOException {
         File dir = new File("C:\\Users\\Duy\\IdeaProjects\\JSPIIJ\\tests\\basic");
         for (File file : dir.listFiles()) {
@@ -154,11 +151,8 @@ public class PascalCodeFormatter {
         return result;
     }
 
-    public StringBuilder getResult() {
-        String string = mResult.toString();
-        while (string.indexOf("\n\n\n") > 0)
-            string = string.replace("\n\n\n", "\n\n");
-        return new StringBuilder(string);
+    public String getResult() {
+       return  mResult.toString();
     }
 
     private void loadInput() throws IOException {
