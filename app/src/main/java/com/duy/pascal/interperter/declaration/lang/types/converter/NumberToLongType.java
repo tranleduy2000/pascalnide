@@ -29,15 +29,15 @@ public class NumberToLongType implements RuntimeValue {
 
     @NonNull
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        Number i = (Number) other.getValue(f, main);
+        Number i = (Number) other.getValue(context, main);
         return i.longValue();
     }
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext)
+    public RuntimeType getRuntimeType(ExpressionContext context)
             throws Exception {
         return new RuntimeType(BasicType.Long, false);
     }
@@ -71,7 +71,7 @@ public class NumberToLongType implements RuntimeValue {
     }
 
     @Override
-    public AssignableValue asAssignableValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext context) {
         return null;
     }
 }

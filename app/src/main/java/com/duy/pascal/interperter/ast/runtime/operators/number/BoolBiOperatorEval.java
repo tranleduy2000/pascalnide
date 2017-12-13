@@ -44,7 +44,7 @@ public class BoolBiOperatorEval extends BinaryOperatorEval {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         return new RuntimeType(BasicType.Boolean, false);
     }
 

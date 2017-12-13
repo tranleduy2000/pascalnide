@@ -60,8 +60,8 @@ public class DerefEval extends DebuggableAssignableValue {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
-        RuntimeType pointertype = pointer.getRuntimeType(exprContext);
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
+        RuntimeType pointertype = pointer.getRuntimeType(context);
         return new RuntimeType(((PointerType) pointertype.declType).pointedToType, true);
     }
 

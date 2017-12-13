@@ -55,17 +55,17 @@ public class OutputValue implements RuntimeValue {
 
     @NonNull
     @Override
-    public StringBuilder getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        Object value = target.getValue(f, main);
+    public StringBuilder getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+        Object value = target.getValue(context, main);
         if (outputFormat != null) {
             StringBuilder out = new StringBuilder(OutputFormatter.getValueOutput(value));
             boolean formatDouble = outputFormat[1] != null;
             if (formatDouble) {
-                int sizeOfReal = (int) outputFormat[1].getValue(f, main);
+                int sizeOfReal = (int) outputFormat[1].getValue(context, main);
                 out = OutputFormatter.formatDecimal(sizeOfReal, out);
             }
             if (outputFormat[0] != null) {
-                int column = (int) outputFormat[0].getValue(f, main);
+                int column = (int) outputFormat[0].getValue(context, main);
                 while (out.length() < column) {
                     out.insert(0, " ");
                 }
@@ -79,7 +79,7 @@ public class OutputValue implements RuntimeValue {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         return new RuntimeType(BasicType.StringBuilder, false);
     }
 
@@ -128,7 +128,7 @@ public class OutputValue implements RuntimeValue {
 
     @Nullable
     @Override
-    public AssignableValue asAssignableValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext context) {
         return null;
     }
 }

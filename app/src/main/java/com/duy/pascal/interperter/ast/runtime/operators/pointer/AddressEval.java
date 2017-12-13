@@ -52,8 +52,8 @@ public class AddressEval extends DebuggableReturnValue {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
-        return new RuntimeType(new PointerType(target.getRuntimeType(exprContext).declType), false);
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
+        return new RuntimeType(new PointerType(target.getRuntimeType(context).declType), false);
     }
 
     @NonNull

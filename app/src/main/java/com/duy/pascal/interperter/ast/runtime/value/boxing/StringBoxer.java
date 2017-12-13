@@ -40,7 +40,7 @@ public class StringBoxer extends DebuggableReturnValue {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) {
+    public RuntimeType getRuntimeType(ExpressionContext context) {
         return new RuntimeType(BasicType.StringBuilder, false);
     }
 

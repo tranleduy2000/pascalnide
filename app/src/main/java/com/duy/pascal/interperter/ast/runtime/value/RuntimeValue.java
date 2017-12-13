@@ -17,14 +17,14 @@ public interface RuntimeValue {
      * @return value of variable or function, or constant
      */
     @NonNull
-    Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException;
 
     /**
      * @return type of variable, function, or constant
      */
     @NonNull
-    RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception;
+    RuntimeType getRuntimeType(ExpressionContext context) throws Exception;
 
     /**
      * @return line of code
@@ -46,6 +46,6 @@ public interface RuntimeValue {
      * reference of variable, set and get value
      */
     @Nullable
-    AssignableValue asAssignableValue(ExpressionContext f);
+    AssignableValue asAssignableValue(ExpressionContext context);
 
 }

@@ -27,8 +27,8 @@ public class GetAddress extends DebuggableReturnValue {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
-        return new RuntimeType(new PointerType(target.getRuntimeType(exprContext).declType),
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
+        return new RuntimeType(new PointerType(target.getRuntimeType(context).declType),
                 false);
     }
 

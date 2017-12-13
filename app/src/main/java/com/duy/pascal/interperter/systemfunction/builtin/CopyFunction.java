@@ -102,7 +102,7 @@ public class CopyFunction implements IMethodDeclaration {
 
         @NonNull
         @Override
-        public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
+        public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
             return new RuntimeType(new ArrayType<>(type.getElementType(), null), false);
         }
 

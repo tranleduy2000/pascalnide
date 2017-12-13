@@ -5,18 +5,18 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class CharToIntType implements RuntimeValue {
-    RuntimeValue other;
+    private RuntimeValue other;
 
-    public CharToIntType(RuntimeValue other) {
+    CharToIntType(RuntimeValue other) {
         this.other = other;
     }
 
@@ -29,15 +29,15 @@ public class CharToIntType implements RuntimeValue {
 
     @NonNull
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        Character i = (Character) other.getValue(f, main);
+        Character i = (Character) other.getValue(context, main);
         return (int) i;
     }
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext)
+    public RuntimeType getRuntimeType(ExpressionContext context)
             throws Exception {
         return new RuntimeType(BasicType.Integer, false);
     }
@@ -71,7 +71,7 @@ public class CharToIntType implements RuntimeValue {
     }
 
     @Override
-    public AssignableValue asAssignableValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext context) {
         return null;
     }
 }

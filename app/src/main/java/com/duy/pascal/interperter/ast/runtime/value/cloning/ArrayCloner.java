@@ -24,16 +24,16 @@ public class ArrayCloner<T> implements RuntimeValue {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
-        return r.getRuntimeType(exprContext);
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
+        return r.getRuntimeType(context);
     }
 
 
     @NonNull
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        Object arr = r.getValue(f, main);
+        Object arr = r.getValue(context, main);
         Object[] value = (Object[]) arr;
         return value.clone();
     }
@@ -71,7 +71,7 @@ public class ArrayCloner<T> implements RuntimeValue {
     }
 
     @Override
-    public AssignableValue asAssignableValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext context) {
         return null;
     }
 }

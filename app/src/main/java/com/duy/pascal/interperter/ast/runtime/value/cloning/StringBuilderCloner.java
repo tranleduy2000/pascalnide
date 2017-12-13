@@ -22,15 +22,15 @@ public class StringBuilderCloner implements RuntimeValue {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
-        return value.getRuntimeType(exprContext);
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
+        return value.getRuntimeType(context);
     }
 
     @NonNull
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        Object result = value.getValue(f, main);
+        Object result = value.getValue(context, main);
         if (result instanceof NullValue) {
             return result;
         }
@@ -70,7 +70,7 @@ public class StringBuilderCloner implements RuntimeValue {
     }
 
     @Override
-    public AssignableValue asAssignableValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext context) {
         return null;
     }
 

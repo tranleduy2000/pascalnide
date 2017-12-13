@@ -20,8 +20,8 @@ public class CachedReturnValue implements RuntimeValue {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
-        return other.getRuntimeType(exprContext);
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
+        return other.getRuntimeType(context);
     }
 
     @NonNull
@@ -49,15 +49,15 @@ public class CachedReturnValue implements RuntimeValue {
     }
 
     @Override
-    public AssignableValue asAssignableValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext context) {
         return null;
     }
 
     @NonNull
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        cache = other.getValue(f, main);
+        cache = other.getValue(context, main);
         return cache;
     }
 

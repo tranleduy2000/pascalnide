@@ -101,7 +101,7 @@ public class ClassConstructorCall extends FunctionCall {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) {
+    public RuntimeType getRuntimeType(ExpressionContext context) {
         return new RuntimeType(constructor.returnType(), false);
     }
 

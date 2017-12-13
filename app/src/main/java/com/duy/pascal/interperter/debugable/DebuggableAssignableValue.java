@@ -19,7 +19,7 @@ public abstract class DebuggableAssignableValue implements AssignableValue {
 
     @NonNull
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
             if (canDebug() && main.isDebug()) {
@@ -32,7 +32,7 @@ public abstract class DebuggableAssignableValue implements AssignableValue {
             } else {
                 main.scriptControlCheck(getLineNumber(), false);
             }
-            return NullSafety.zReturn(getValueImpl(f, main));
+            return NullSafety.zReturn(getValueImpl(context, main));
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {
@@ -43,7 +43,7 @@ public abstract class DebuggableAssignableValue implements AssignableValue {
     }
 
     @Override
-    public AssignableValue asAssignableValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext context) {
         return this;
     }
 

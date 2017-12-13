@@ -88,7 +88,7 @@ public class WriteLineFunction implements IMethodDeclaration {
 
         @NonNull
         @Override
-        public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
+        public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
             return null;
         }
 

@@ -53,13 +53,13 @@ public class NullValue implements RuntimeValue {
 
     @NonNull
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+    public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         return null;
     }
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         return null;
     }
 
@@ -87,7 +87,7 @@ public class NullValue implements RuntimeValue {
 
     @Nullable
     @Override
-    public AssignableValue asAssignableValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext context) {
         return null;
     }
 }

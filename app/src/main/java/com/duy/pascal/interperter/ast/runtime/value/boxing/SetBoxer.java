@@ -64,7 +64,7 @@ public class SetBoxer extends DebuggableReturnValue {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         SetType<Type> setType = new SetType<>(elementType, line);
         return new RuntimeType(setType, false);
     }

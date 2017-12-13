@@ -47,8 +47,8 @@ public class SetToDynamicArrayCloner implements RuntimeValue {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
-        RuntimeType type = array.getRuntimeType(exprContext);
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
+        RuntimeType type = array.getRuntimeType(context);
         SetType setType = (SetType) type.declType;
         return new RuntimeType(new ArrayType<>(setType.getElementType(),
                 new IntegerSubrangeType(0, setType.getSize())), false); //dynamic array, non writable
@@ -57,9 +57,9 @@ public class SetToDynamicArrayCloner implements RuntimeValue {
 
     @NonNull
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        LinkedList arr = (LinkedList) array.getValue(f, main);
+        LinkedList arr = (LinkedList) array.getValue(context, main);
         return arr.toArray().clone();
 
     }
@@ -97,7 +97,7 @@ public class SetToDynamicArrayCloner implements RuntimeValue {
     }
 
     @Override
-    public AssignableValue asAssignableValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext context) {
         return null;
     }
 }

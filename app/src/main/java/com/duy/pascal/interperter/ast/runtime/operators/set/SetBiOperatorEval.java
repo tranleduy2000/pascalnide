@@ -44,13 +44,13 @@ public class SetBiOperatorEval extends BinaryOperatorEval {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         switch (operator_type) {
             case PLUS:
             case MULTIPLY:
             case MINUS:
             case DIFFERENT:
-                SetType type = (SetType) operon1.getRuntimeType(exprContext).declType;
+                SetType type = (SetType) operon1.getRuntimeType(context).declType;
                 return new RuntimeType(type, false);
 
             case EQUALS:

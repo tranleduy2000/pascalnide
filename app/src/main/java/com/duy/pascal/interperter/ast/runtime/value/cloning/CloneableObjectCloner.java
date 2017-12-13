@@ -24,8 +24,8 @@ public class CloneableObjectCloner implements RuntimeValue {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
-        return r.getRuntimeType(exprContext);
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
+        return r.getRuntimeType(context);
     }
 
 
@@ -36,9 +36,9 @@ public class CloneableObjectCloner implements RuntimeValue {
 
     @NonNull
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        Object value = r.getValue(f, main);
+        Object value = r.getValue(context, main);
         if (value instanceof ContainsVariables) {
             ContainsVariables c = (ContainsVariables) value;
             return zReturn(c.clone());
@@ -70,7 +70,7 @@ public class CloneableObjectCloner implements RuntimeValue {
     }
 
     @Override
-    public AssignableValue asAssignableValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext context) {
         return null;
     }
 }

@@ -22,9 +22,9 @@ public class AnyToStringType implements RuntimeValue {
 
     @NonNull
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        Object value = this.value.getValue(f, main);
+        Object value = this.value.getValue(context, main);
         return value.toString();
     }
 
@@ -35,7 +35,7 @@ public class AnyToStringType implements RuntimeValue {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext)
+    public RuntimeType getRuntimeType(ExpressionContext context)
             throws Exception {
         return new RuntimeType(BasicType.create(String.class), false);
     }
@@ -69,7 +69,7 @@ public class AnyToStringType implements RuntimeValue {
     }
 
     @Override
-    public AssignableValue asAssignableValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext context) {
         return null;
     }
 }

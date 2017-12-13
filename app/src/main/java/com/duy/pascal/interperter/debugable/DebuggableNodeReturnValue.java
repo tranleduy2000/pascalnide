@@ -21,10 +21,10 @@ public abstract class DebuggableNodeReturnValue implements Node, RuntimeValue {
 
     @NonNull
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
-            return NullSafety.zReturn(getValueImpl(f, main));
+            return NullSafety.zReturn(getValueImpl(context, main));
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {
@@ -35,7 +35,7 @@ public abstract class DebuggableNodeReturnValue implements Node, RuntimeValue {
     }
 
     @Override
-    public AssignableValue asAssignableValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext context) {
         return null;
     }
 

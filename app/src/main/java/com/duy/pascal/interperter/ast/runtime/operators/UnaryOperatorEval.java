@@ -131,8 +131,8 @@ public abstract class UnaryOperatorEval extends DebuggableReturnValue {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
-        return operon.getRuntimeType(exprContext);
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
+        return operon.getRuntimeType(context);
     }
 
     @Override

@@ -51,13 +51,13 @@ public class StringBuilderLimitBoxer implements RuntimeValue {
 
     @NonNull
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         if (length == null)
-            return new StringBuilder(value.getValue(f, main).toString());
+            return new StringBuilder(value.getValue(context, main).toString());
 
-        String original = value.getValue(f, main).toString();
-        int len = (int) length.getValue(f, main);
+        String original = value.getValue(context, main).toString();
+        int len = (int) length.getValue(context, main);
         if (len > original.length()) {
             return new StringBuilder(original);
         } else {
@@ -67,7 +67,7 @@ public class StringBuilderLimitBoxer implements RuntimeValue {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext)
+    public RuntimeType getRuntimeType(ExpressionContext context)
             throws Exception {
         return new RuntimeType(BasicType.StringBuilder, false);
     }
@@ -106,7 +106,7 @@ public class StringBuilderLimitBoxer implements RuntimeValue {
     }
 
     @Override
-    public AssignableValue asAssignableValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext context) {
         return null;
     }
 }

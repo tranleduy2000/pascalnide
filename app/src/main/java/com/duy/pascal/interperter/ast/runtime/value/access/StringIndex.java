@@ -68,8 +68,8 @@ public class StringIndex extends DebuggableAssignableValue {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
-        boolean writable = string.getRuntimeType(exprContext).writable;
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
+        boolean writable = string.getRuntimeType(context).writable;
         return new RuntimeType(BasicType.Character, writable);
     }
 

@@ -43,15 +43,15 @@ public class SetCloner<T> implements RuntimeValue {
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
-        return list.getRuntimeType(exprContext);
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
+        return list.getRuntimeType(context);
     }
 
     @NonNull
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        LinkedList linkedList = (LinkedList) list.getValue(f, main);
+        LinkedList linkedList = (LinkedList) list.getValue(context, main);
         return linkedList.clone();
     }
 
@@ -88,7 +88,7 @@ public class SetCloner<T> implements RuntimeValue {
     }
 
     @Override
-    public AssignableValue asAssignableValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext context) {
         return null;
     }
 }

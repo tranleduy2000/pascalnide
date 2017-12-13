@@ -56,13 +56,13 @@ public class EnumElementValue implements RuntimeValue, Comparable<EnumElementVal
 
     @NonNull
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+    public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         return index;
     }
 
     @NonNull
     @Override
-    public RuntimeType getRuntimeType(ExpressionContext exprContext) throws Exception {
+    public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         return new RuntimeType(type, false);//this is a constant
     }
 
@@ -89,7 +89,7 @@ public class EnumElementValue implements RuntimeValue, Comparable<EnumElementVal
     }
 
     @Override
-    public AssignableValue asAssignableValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext context) {
         return null;
     }
 
