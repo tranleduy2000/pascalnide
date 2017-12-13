@@ -16,24 +16,28 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.operator;
 
-import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.SpannableString;
+import android.text.Spanned;
 
-public class DivisionByZeroException extends InternalInterpreterException {
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.R;
+
+public class DivisionByZeroException extends RuntimePascalException {
     public DivisionByZeroException(@NonNull LineInfo line) {
         super(line);
     }
 
-    @NonNull
-    public String getInternalError() {
-        return "Division by zero";
-    }
-
     @Nullable
     public String getMessage() {
-        return "Internal Interpreter Error: " + this.getInternalError();
+        return "Division by zero at line " + getLineNumber();
+    }
+
+    @Override
+    public Spanned getLocalizedMessage(@NonNull Context context) {
+        return new SpannableString(context.getString(R.string.division_by_zero));
     }
 }

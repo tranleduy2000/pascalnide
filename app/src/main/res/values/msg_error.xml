@@ -85,5 +85,6 @@
     <string name="MissingTokenException">Missing token \"%1$s\"</string>
     <string name="UnknownFunctionException">Can not resolve function or procedure \"%1$s(%2$s)\"</string>
     <string name="string_index_out_of_range">String index out of range:</string>
+    <string name="division_by_zero">Division by zero</string>
 
 </resources>

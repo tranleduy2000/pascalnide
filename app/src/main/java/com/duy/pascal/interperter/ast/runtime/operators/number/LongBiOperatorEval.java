@@ -7,11 +7,12 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorEval;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.exceptions.parsing.operator.DivisionByZeroException;
+import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 
 public class LongBiOperatorEval extends BinaryOperatorEval {
@@ -43,45 +44,49 @@ public class LongBiOperatorEval extends BinaryOperatorEval {
     @Override
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException {
-//        long v1 = (long) value1;
-        long v1 = Long.parseLong(String.valueOf(value1));
-//        long v2 = (long) value2;
-        long v2 = Long.parseLong(String.valueOf(value2));
+        long left = Long.parseLong(String.valueOf(value1));
+        long right = Long.parseLong(String.valueOf(value2));
         switch (operator_type) {
             case AND:
-                return v1 & v2;
+                return left & right;
             case DIV:
-                return v1 / v2;
+                if (right == 0) {
+                    throw new DivisionByZeroException(getLineNumber());
+                }
+                return left / right;
             case DIVIDE:
-                return (double) v1 / (double) v2;
+                if (right == 0.0d) {
+                    throw new DivisionByZeroException(getLineNumber());
+                }
+                return (double) left / (double) right;
             case EQUALS:
-                return v1 == v2;
+                return left == right;
             case GREATEREQ:
-                return v1 >= v2;
+                return left >= right;
             case GREATERTHAN:
-                return v1 > v2;
+                return left > right;
             case LESSEQ:
-                return v1 <= v2;
+                return left <= right;
             case LESSTHAN:
-                return v1 < v2;
+                return left < right;
             case MINUS:
-                return v1 - v2;
+                return left - right;
             case MOD:
-                return v1 % v2;
+                return left % right;
             case MULTIPLY:
-                return v1 * v2;
+                return left * right;
             case NOTEQUAL:
-                return v1 != v2;
+                return left != right;
             case OR:
-                return v1 | v2;
+                return left | right;
             case PLUS:
-                return v1 + v2;
+                return left + right;
             case SHIFTLEFT:
-                return v1 << v2;
+                return left << right;
             case SHIFTRIGHT:
-                return v1 >> v2;
+                return left >> right;
             case XOR:
-                return v1 ^ v2;
+                return left ^ right;
             default:
                 return null;
         }

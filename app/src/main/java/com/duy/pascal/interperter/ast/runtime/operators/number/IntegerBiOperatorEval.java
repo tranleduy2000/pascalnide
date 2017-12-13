@@ -43,49 +43,49 @@ public class IntegerBiOperatorEval extends BinaryOperatorEval {
     @Override
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException, InternalInterpreterException {
-        int v1 = Integer.parseInt(String.valueOf(value1));
-        int v2 = Integer.parseInt(String.valueOf(value2));
+        int left = Integer.parseInt(String.valueOf(value1));
+        int right = Integer.parseInt(String.valueOf(value2));
         switch (operator_type) {
             case AND:
-                return v1 & v2;
+                return left & right;
             case DIV:
-                if (v2 == 0) {
+                if (right == 0) {
                     throw new DivisionByZeroException(line);
                 }
-                return v1 / v2;
+                return left / right;
             case DIVIDE:
-                if (Math.abs(v2) == 0) {
+                if (right == 0) {
                     throw new DivisionByZeroException(line);
                 }
-                return (double) v1 / (double) v2;
+                return (double) left / (double) right;
             case EQUALS:
-                return v1 == v2;
+                return left == right;
             case GREATEREQ:
-                return v1 >= v2;
+                return left >= right;
             case GREATERTHAN:
-                return v1 > v2;
+                return left > right;
             case LESSEQ:
-                return v1 <= v2;
+                return left <= right;
             case LESSTHAN:
-                return v1 < v2;
+                return left < right;
             case MINUS:
-                return v1 - v2;
+                return left - right;
             case MOD:
-                return v1 % v2;
+                return left % right;
             case MULTIPLY:
-                return v1 * v2;
+                return left * right;
             case NOTEQUAL:
-                return v1 != v2;
+                return left != right;
             case OR:
-                return v1 | v2;
+                return left | right;
             case PLUS:
-                return v1 + v2;
+                return left + right;
             case SHIFTLEFT:
-                return v1 << v2;
+                return left << right;
             case SHIFTRIGHT:
-                return v1 >> v2;
+                return left >> right;
             case XOR:
-                return v1 ^ v2;
+                return left ^ right;
             default:
                 throw new InternalInterpreterException(line);
         }
