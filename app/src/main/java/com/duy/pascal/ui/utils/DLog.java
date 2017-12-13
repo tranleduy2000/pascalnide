@@ -126,6 +126,9 @@ public class DLog {
     public static void reportException(Throwable e) {
         if (ANDROID) {
             Crashlytics.logException(e);
+        } else {
+            System.err.println("Fatal exception : ");
+            e.printStackTrace();
         }
     }
 

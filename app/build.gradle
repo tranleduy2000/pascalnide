@@ -9,8 +9,8 @@ android {
         applicationId "com.duy.pascal.compiler"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 426
-        versionName "4.2.5"
+        versionCode 427
+        versionName "4.2.7"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
