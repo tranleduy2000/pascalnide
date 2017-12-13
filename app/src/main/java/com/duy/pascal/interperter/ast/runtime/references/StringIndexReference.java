@@ -16,6 +16,7 @@
 
 package com.duy.pascal.interperter.ast.runtime.references;
 
+import com.duy.pascal.interperter.exceptions.runtime.PascalStringIndexOutOfBoundsException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 public class StringIndexReference implements Reference {
@@ -29,12 +30,20 @@ public class StringIndexReference implements Reference {
 
     @Override
     public void set(Object value) {
-        container.setCharAt(index - 1, (char) value);
+        try {
+            container.setCharAt(index - 1, (char) value);
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new PascalStringIndexOutOfBoundsException(index);
+        }
     }
 
     @Override
     public Object get() throws RuntimePascalException {
-        return container.charAt(index - 1);
+        try {
+            return container.charAt(index - 1);
+        }catch (StringIndexOutOfBoundsException e){
+            throw new PascalStringIndexOutOfBoundsException(index);
+        }
     }
 
     @Override

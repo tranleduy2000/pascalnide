@@ -23,13 +23,13 @@ import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.StringIndex;
 import com.duy.pascal.interperter.ast.runtime.value.boxing.CharacterBoxer;
 import com.duy.pascal.interperter.ast.runtime.value.boxing.StringBoxer;
+import com.duy.pascal.interperter.ast.runtime.value.boxing.StringBuilderLimitBoxer;
 import com.duy.pascal.interperter.ast.runtime.value.cloning.StringBuilderCloner;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.JavaClassBasedType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.TypeInfo;
-import com.duy.pascal.interperter.declaration.lang.types.converter.StringBuilderLimitBoxer;
 import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
 

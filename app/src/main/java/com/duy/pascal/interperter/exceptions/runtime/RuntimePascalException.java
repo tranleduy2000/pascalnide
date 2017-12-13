@@ -36,6 +36,7 @@ public class RuntimePascalException extends RuntimeException implements Localize
     private Integer resourceId = null;
     @Nullable
     private Object[] args;
+    private Exception cause;
 
     public RuntimePascalException(int resId, @Nullable Object... args) {
         this.resourceId = resId;
@@ -59,6 +60,13 @@ public class RuntimePascalException extends RuntimeException implements Localize
     }
 
     public RuntimePascalException(Exception e) {
+        this.cause = e;
+    }
+
+    @Override
+    public synchronized Throwable getCause() {
+        if (cause != null) return cause;
+        return super.getCause();
     }
 
     @Nullable

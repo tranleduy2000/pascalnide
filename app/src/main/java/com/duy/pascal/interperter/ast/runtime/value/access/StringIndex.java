@@ -22,15 +22,16 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.references.Reference;
 import com.duy.pascal.interperter.ast.runtime.references.StringIndexReference;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.debugable.DebuggableAssignableValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.exceptions.runtime.PascalStringIndexOutOfBoundsException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class StringIndex extends DebuggableAssignableValue {
     private RuntimeValue string;
@@ -56,7 +57,11 @@ public class StringIndex extends DebuggableAssignableValue {
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         StringBuilder str = (StringBuilder) string.getValue(f, main);
         int ind = (int) index.getValue(f, main);
-        return str.charAt(ind - 1);
+        try {
+            return str.charAt(ind - 1);
+        }  catch (StringIndexOutOfBoundsException e) {
+            throw new PascalStringIndexOutOfBoundsException(ind);
+        }
     }
 
     @Override

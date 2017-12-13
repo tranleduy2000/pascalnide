@@ -12,7 +12,7 @@ import com.duy.pascal.interperter.ast.runtime.value.boxing.StringBuilderBoxer;
 import com.duy.pascal.interperter.ast.runtime.value.cloning.StringBuilderCloner;
 import com.duy.pascal.interperter.declaration.Modifier;
 import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.declaration.lang.types.converter.StringBuilderLimitBoxer;
+import com.duy.pascal.interperter.ast.runtime.value.boxing.StringBuilderLimitBoxer;
 import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter;
 import com.duy.pascal.interperter.declaration.lang.types.string.StringLimitType;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.SubrangeType;

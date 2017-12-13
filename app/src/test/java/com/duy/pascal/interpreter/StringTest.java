@@ -44,4 +44,7 @@ public class StringTest extends BaseTestCase {
         run("test_string_index.pas");
     }
 
+    public void testStringIndex2() {
+
+    }
 }
