@@ -139,8 +139,8 @@ public abstract class SubrangeType<T extends Comparable> extends TypeInfo implem
 
     @Nullable
     @Override
-    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws Exception {
-        RuntimeType other_type = other.getRuntimeType(f);
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext context) throws Exception {
+        RuntimeType other_type = other.getRuntimeType(context);
         if (this.equals(other_type.declType)) {
             return cloneValue(other);
         }
@@ -148,11 +148,11 @@ public abstract class SubrangeType<T extends Comparable> extends TypeInfo implem
     }
 
     @Override
-    public boolean equals(Type obj) {
-        if (obj instanceof SubrangeType) {
-            SubrangeType other = (SubrangeType) obj;
+    public boolean equals(Type otherType) {
+        if (otherType instanceof SubrangeType) {
+            SubrangeType other = (SubrangeType) otherType;
             return this.first.equals(other.first) && last.equals(other.last);
-        } else if (obj.getStorageClass() == this.getStorageClass()) {
+        } else if (otherType.getStorageClass() == this.getStorageClass()) {
             return true;
         }
         return false;
@@ -161,8 +161,8 @@ public abstract class SubrangeType<T extends Comparable> extends TypeInfo implem
 
     @Nullable
     @Override
-    public RuntimeValue cloneValue(RuntimeValue r) {
-        return r;
+    public RuntimeValue cloneValue(RuntimeValue value) {
+        return value;
     }
 
     @Nullable

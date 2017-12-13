@@ -185,8 +185,8 @@ public class EnumGroupType extends TypeInfo implements Containable<EnumElementVa
 
 
     @Override
-    public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f) throws Exception {
-        RuntimeType other = runtimeValue.getRuntimeType(f);
+    public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext context) throws Exception {
+        RuntimeType other = runtimeValue.getRuntimeType(context);
         if (this.equals(other.declType)) {
             return cloneValue(runtimeValue);
         }
@@ -199,19 +199,19 @@ public class EnumGroupType extends TypeInfo implements Containable<EnumElementVa
     }
 
     @Override
-    public boolean equals(Type other) {
-        if (this == other) {
+    public boolean equals(Type otherType) {
+        if (this == otherType) {
             return true;
         }
-        if (other instanceof EnumGroupType) {
-            EnumGroupType otherEnum = (EnumGroupType) other;
+        if (otherType instanceof EnumGroupType) {
+            EnumGroupType otherEnum = (EnumGroupType) otherType;
             if (this.list.size() != otherEnum.list.size()) {
                 return false;
             }
             if (this.list.equals(otherEnum.list)) {
                 return true;
             }
-        } else if (other instanceof JavaClassBasedType && other.getStorageClass() ==
+        } else if (otherType instanceof JavaClassBasedType && otherType.getStorageClass() ==
                 EnumElementValue.class) {
             return true;
         }
@@ -219,8 +219,8 @@ public class EnumGroupType extends TypeInfo implements Containable<EnumElementVa
     }
 
     @Override
-    public RuntimeValue cloneValue(RuntimeValue r) {
-        return r;
+    public RuntimeValue cloneValue(RuntimeValue value) {
+        return value;
     }
 
     @NonNull

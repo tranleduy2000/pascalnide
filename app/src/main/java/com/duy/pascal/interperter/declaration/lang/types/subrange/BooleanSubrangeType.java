@@ -34,8 +34,8 @@ public class BooleanSubrangeType extends SubrangeType<Boolean> {
 
     @Nullable
     @Override
-    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws Exception {
-        return BasicType.Boolean.convert(other, f);
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext context) throws Exception {
+        return BasicType.Boolean.convert(other, context);
     }
 
     @Override

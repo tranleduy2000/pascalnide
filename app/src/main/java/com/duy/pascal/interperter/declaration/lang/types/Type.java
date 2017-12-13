@@ -33,13 +33,13 @@ public interface Type extends NamedEntity, Member {
      * byte a = 6 -> integer b = a;
      */
     @Nullable
-    RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws Exception;
+    RuntimeValue convert(RuntimeValue other, ExpressionContext context) throws Exception;
 
-    boolean equals(Type other);
+    boolean equals(Type otherType);
 
 
     @Nullable
-    RuntimeValue cloneValue(RuntimeValue r);
+    RuntimeValue cloneValue(RuntimeValue value);
 
     @Nullable
     RuntimeValue generateArrayAccess(RuntimeValue array, RuntimeValue index) throws NonArrayIndexed;

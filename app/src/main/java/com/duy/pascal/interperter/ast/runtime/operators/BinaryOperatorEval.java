@@ -38,7 +38,7 @@ import com.duy.pascal.interperter.debugable.DebuggableReturnValue;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.JavaClassBasedType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
-import com.duy.pascal.interperter.declaration.lang.types.StringLimitType;
+import com.duy.pascal.interperter.declaration.lang.types.string.StringLimitType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.converter.AnyToStringType;
 import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter;

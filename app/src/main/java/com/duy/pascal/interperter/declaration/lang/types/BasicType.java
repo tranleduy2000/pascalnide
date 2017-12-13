@@ -14,6 +14,7 @@ import com.duy.pascal.interperter.declaration.Modifier;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.converter.StringBuilderLimitBoxer;
 import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter;
+import com.duy.pascal.interperter.declaration.lang.types.string.StringLimitType;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.SubrangeType;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
 import com.duy.pascal.interperter.linenumber.LineInfo;
@@ -58,7 +59,7 @@ public enum BasicType implements Type {
         }
 
         @Override
-        public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws Exception {
+        public RuntimeValue convert(RuntimeValue other, ExpressionContext context) throws Exception {
             if (other instanceof ConstantAccess) {
                 Name name = ((ConstantAccess) other).getName();
                 if (name != null && name.equals("null")) {
@@ -66,10 +67,7 @@ public enum BasicType implements Type {
                 }
             }
 
-            RuntimeType otherType = other.getRuntimeType(f);
-            if (otherType == null){
-                return null;
-            }
+            RuntimeType otherType = other.getRuntimeType(context);
             if (otherType.declType instanceof BasicType) {
                 if (this.equals(otherType.declType)) {
                     return new StringBuilderBoxer(other);
@@ -100,8 +98,8 @@ public enum BasicType implements Type {
         }
 
         @Override
-        public boolean equals(@NonNull Type obj) {
-            return super.equals(obj) || obj instanceof StringLimitType;
+        public boolean equals(@NonNull Type otherType) {
+            return super.equals(otherType) || otherType instanceof StringLimitType;
         }
 
         @NonNull
@@ -241,15 +239,15 @@ public enum BasicType implements Type {
     abstract Object getDefaultValue();
 
     @Override
-    public boolean equals(@NonNull Type obj) {
-        if (this == obj) {
+    public boolean equals(@NonNull Type otherType) {
+        if (this == otherType) {
             return true;
         }
-        if (obj instanceof JavaClassBasedType) {
-            Class other = ((JavaClassBasedType) obj).getStorageClass();
+        if (otherType instanceof JavaClassBasedType) {
+            Class other = ((JavaClassBasedType) otherType).getStorageClass();
             return clazz == other || clazz == Object.class || other == Object.class;
-        } else if (obj instanceof SubrangeType) {
-            return obj.getStorageClass() == this.clazz;
+        } else if (otherType instanceof SubrangeType) {
+            return otherType.getStorageClass() == this.clazz;
         }
         return false;
     }
@@ -282,9 +280,9 @@ public enum BasicType implements Type {
     public abstract String toString();
 
     @Override
-    public RuntimeValue convert(RuntimeValue other, ExpressionContext f)
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext context)
             throws Exception {
-        RuntimeType otherType = other.getRuntimeType(f);
+        RuntimeType otherType = other.getRuntimeType(context);
         if (otherType.declType instanceof BasicType) {
             if (this.equals(otherType.declType)) {
                 return cloneValue(other);
@@ -299,8 +297,8 @@ public enum BasicType implements Type {
     }
 
     @Override
-    public RuntimeValue cloneValue(final RuntimeValue r) {
-        return r;
+    public RuntimeValue cloneValue(final RuntimeValue value) {
+        return value;
     }
 
     @NonNull

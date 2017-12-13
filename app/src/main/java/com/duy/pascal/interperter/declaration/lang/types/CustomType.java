@@ -63,8 +63,8 @@ public class CustomType extends ObjectType {
     }
 
     @Override
-    public boolean equals(Type obj) {
-        return equals((Object) obj);
+    public boolean equals(Type otherType) {
+        return equals((Object) otherType);
     }
 
     @NonNull
@@ -79,9 +79,9 @@ public class CustomType extends ObjectType {
 
 
     @Override
-    public RuntimeValue convert(RuntimeValue other, ExpressionContext f)
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext context)
             throws Exception {
-        RuntimeType other_type = other.getRuntimeType(f);
+        RuntimeType other_type = other.getRuntimeType(context);
         if (this.equals(other_type.declType)) {
             return cloneValue(other);
         }
@@ -106,8 +106,8 @@ public class CustomType extends ObjectType {
     }
 
     @Override
-    public RuntimeValue cloneValue(RuntimeValue r) {
-        return new CloneableObjectCloner(r);
+    public RuntimeValue cloneValue(RuntimeValue value) {
+        return new CloneableObjectCloner(value);
     }
 
     @NonNull

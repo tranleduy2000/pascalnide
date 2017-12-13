@@ -17,9 +17,9 @@ public class PointerType extends TypeInfo {
     }
 
     @Override
-    public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f)
+    public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext context)
             throws Exception {
-        RuntimeType other = runtimeValue.getRuntimeType(f);
+        RuntimeType other = runtimeValue.getRuntimeType(context);
         if (this.equals(other.declType)) {
             return runtimeValue;
         }
@@ -40,17 +40,17 @@ public class PointerType extends TypeInfo {
     }
 
     @Override
-    public boolean equals(Type obj) {
-        if (obj instanceof PointerType) {
-            return this.pointedToType.equals(((PointerType) obj).pointedToType);
+    public boolean equals(Type otherType) {
+        if (otherType instanceof PointerType) {
+            return this.pointedToType.equals(((PointerType) otherType).pointedToType);
         }
         return false;
     }
 
     // The pointer itself contains no mutable information.
     @Override
-    public RuntimeValue cloneValue(final RuntimeValue r) {
-        return r;
+    public RuntimeValue cloneValue(final RuntimeValue value) {
+        return value;
     }
 
     @NonNull

@@ -144,8 +144,8 @@ public class PascalClassType extends ObjectType {
 
     @Nullable
     @Override
-    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws Exception {
-        RuntimeType otherType = other.getRuntimeType(f);
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext context) throws Exception {
+        RuntimeType otherType = other.getRuntimeType(context);
         if (this.equals(otherType.declType)) {
             return other;
         }
@@ -153,10 +153,10 @@ public class PascalClassType extends ObjectType {
     }
 
     @Override
-    public boolean equals(Type other) {
-        if (this == other) return true;
-        if (other instanceof PascalClassType) {
-            PascalClassType otherClassType = (PascalClassType) other;
+    public boolean equals(Type otherType) {
+        if (this == otherType) return true;
+        if (otherType instanceof PascalClassType) {
+            PascalClassType otherClassType = (PascalClassType) otherType;
             return otherClassType.getDeclaration().equals(mPascalClassDeclaration);
         }
         return false;
@@ -164,8 +164,8 @@ public class PascalClassType extends ObjectType {
 
     @Nullable
     @Override
-    public RuntimeValue cloneValue(RuntimeValue r) {
-        return r;
+    public RuntimeValue cloneValue(RuntimeValue value) {
+        return value;
     }
 
     @Nullable

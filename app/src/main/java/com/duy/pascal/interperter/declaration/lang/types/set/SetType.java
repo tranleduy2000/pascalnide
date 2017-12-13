@@ -229,8 +229,8 @@ public class SetType<T extends Type> extends BaseSetType {
     }
 
     @Override
-    public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f) throws Exception {
-        RuntimeType other = runtimeValue.getRuntimeType(f);
+    public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext context) throws Exception {
+        RuntimeType other = runtimeValue.getRuntimeType(context);
         if (other.declType instanceof SetType) {
             Type otherType = ((SetType) other.declType).getElementType();
             if (otherType == null) { //empty set
@@ -254,14 +254,14 @@ public class SetType<T extends Type> extends BaseSetType {
     }
 
     @Override
-    public boolean equals(Type other) {
-        if (this == other) {
+    public boolean equals(Type otherType) {
+        if (this == otherType) {
             return true;
         }
-        if (other instanceof SetType) {
-            SetType other1 = (SetType) other;
+        if (otherType instanceof SetType) {
+            SetType other1 = (SetType) otherType;
             if (other1.elementType.equals(elementType)
-                    && list.equals(((SetType) other).list)) {
+                    && list.equals(((SetType) otherType).list)) {
                 return true;
             }
         }
@@ -269,8 +269,8 @@ public class SetType<T extends Type> extends BaseSetType {
     }
 
     @Override
-    public RuntimeValue cloneValue(RuntimeValue r) {
-        return new SetCloner<>(r);
+    public RuntimeValue cloneValue(RuntimeValue value) {
+        return new SetCloner<>(value);
     }
 
     @NonNull

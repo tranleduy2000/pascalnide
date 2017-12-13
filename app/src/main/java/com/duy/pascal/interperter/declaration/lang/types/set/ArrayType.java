@@ -137,12 +137,12 @@ public class ArrayType<ELEMENT extends Type> extends BaseSetType {
     }
 
     @Override
-    public boolean equals(Type obj) {
-        if (this == obj) {
+    public boolean equals(Type otherType) {
+        if (this == otherType) {
             return true;
         }
-        if (obj instanceof ArrayType) {
-            ArrayType<?> o = (ArrayType<?>) obj;
+        if (otherType instanceof ArrayType) {
+            ArrayType<?> o = (ArrayType<?>) otherType;
             if (o.elementType.equals(elementType)) {
                 if (this.bound == null) return true;
                 if (this.bound.equals(o.bound)) return true;
@@ -205,9 +205,9 @@ public class ArrayType<ELEMENT extends Type> extends BaseSetType {
      * except variable length arrays, but they are checked in the
      */
     @Override
-    public RuntimeValue convert(RuntimeValue value, ExpressionContext f)
+    public RuntimeValue convert(RuntimeValue value, ExpressionContext context)
             throws Exception {
-        RuntimeType other = value.getRuntimeType(f);
+        RuntimeType other = value.getRuntimeType(context);
         if (other.declType instanceof ArrayType) {
             return this.superset(other.declType) ? cloneValue(value) : null;
         } else if (other.declType instanceof SetType && this.isDynamic()) {
@@ -220,8 +220,8 @@ public class ArrayType<ELEMENT extends Type> extends BaseSetType {
     }
 
     @Override
-    public RuntimeValue cloneValue(final RuntimeValue r) {
-        return new ArrayCloner<ELEMENT>(r);
+    public RuntimeValue cloneValue(final RuntimeValue value) {
+        return new ArrayCloner<ELEMENT>(value);
     }
 
     @NonNull

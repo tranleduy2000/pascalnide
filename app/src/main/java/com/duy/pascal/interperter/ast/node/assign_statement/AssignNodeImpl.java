@@ -53,9 +53,9 @@ public abstract class AssignNodeImpl<T extends OperatorTypes> extends Debuggable
                           @NonNull T operator,
                           @NonNull RuntimeValue value,
                           @NonNull LineInfo line) throws Exception {
-        this.mLeftNode = left;
-        this.mLine = line;
-        this.mOperator = BinaryOperatorEval.generateOp(f, left, value, operator, line);
+        mLeftNode = left;
+        mLine = line;
+        mOperator = BinaryOperatorEval.generateOp(f, left, value, operator, line);
     }
 
 
@@ -64,7 +64,7 @@ public abstract class AssignNodeImpl<T extends OperatorTypes> extends Debuggable
                                        RuntimeExecutableCodeUnit main) throws RuntimePascalException {
 
         Reference ref = mLeftNode.getReference(context, main);
-        Object v = this.mOperator.getValue(context, main);
+        Object v = mOperator.getValue(context, main);
         ref.set(v);
 
         if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(context));
@@ -79,6 +79,6 @@ public abstract class AssignNodeImpl<T extends OperatorTypes> extends Debuggable
 
     @Override
     public LineInfo getLineNumber() {
-        return this.mLine;
+        return mLine;
     }
 }

@@ -47,8 +47,8 @@ public class JavaClassBasedType extends TypeInfo {
     }
 
     @Override
-    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws Exception {
-        RuntimeType otherType = other.getRuntimeType(f);
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext context) throws Exception {
+        RuntimeType otherType = other.getRuntimeType(context);
         if (otherType.declType instanceof BasicType) {
             if (this.equals(otherType.declType)) {
                 return cloneValue(other);
@@ -72,14 +72,14 @@ public class JavaClassBasedType extends TypeInfo {
     }
 
     @Override
-    public boolean equals(Type other) {
-        return (other.getStorageClass() == clazz) || (clazz == Object.class);
+    public boolean equals(Type otherType) {
+        return (otherType.getStorageClass() == clazz) || (clazz == Object.class);
     }
 
 
     @Override
-    public RuntimeValue cloneValue(RuntimeValue r) {
-        return new CloneableObjectCloner(r);
+    public RuntimeValue cloneValue(RuntimeValue value) {
+        return new CloneableObjectCloner(value);
     }
 
     @NonNull
