@@ -30,7 +30,8 @@ public class PascalCompleteConfident {
     private static final String TAG = "PascalCompleteConfident";
 
     public static boolean shouldDisplayPopup(PascalStatement statement, int line, int column) {
-        return isInComment(statement, line, column);
+     /*   return isInComment(statement, line, column);*/
+        return true;
     }
 
     /**

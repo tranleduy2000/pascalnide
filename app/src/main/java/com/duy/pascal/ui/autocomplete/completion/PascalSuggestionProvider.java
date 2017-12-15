@@ -99,7 +99,7 @@ public class PascalSuggestionProvider {
     public static void completeEmpty(FileScriptSource mScriptSource, ArrayList<Description> toAdd) {
         String name = mScriptSource.getName();
         String[] data = new String[]{
-                String.format("program %s;\nbegin\n%s%s\nend.", name, TAB_STR, TAB_STR),
+                String.format("program %s;\nbegin\n%s%s\nend.", name, TAB_STR, CURSOR),
                 "uses", "const", "var",
                 String.format("begin\n%s%s\nend.", TAB_STR, CURSOR),
                 String.format("procedure %s;\nbegin\n%s%s\nend;", name, TAB_STR, CURSOR)};

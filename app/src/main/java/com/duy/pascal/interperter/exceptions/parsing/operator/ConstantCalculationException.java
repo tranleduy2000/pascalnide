@@ -16,10 +16,16 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.operator;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatLine;
 
 public class ConstantCalculationException extends ParsingException {
     @NonNull
@@ -35,4 +41,18 @@ public class ConstantCalculationException extends ParsingException {
         return this.target;
     }
 
+    @Override
+    public Spanned getLocalizedMessage(@NonNull Context context) {
+        ConstantCalculationException e = this;
+        String line = formatLine(context, e.getLineInfo());
+        String message = String.format(context.getString(R.string.ConstantCalculationException),
+                e.getException().getLocalizedMessage());
+
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.append(line);
+        builder.append("\n\n");
+        builder.append(message);
+        return builder;
+
+    }
 }

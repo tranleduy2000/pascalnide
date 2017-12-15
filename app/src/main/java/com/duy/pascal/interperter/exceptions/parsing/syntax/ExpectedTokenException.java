@@ -16,13 +16,21 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.syntax;
 
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.tokens.Token;
-
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+
+import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.tokens.Token;
+import com.duy.pascal.interperter.utils.ArrayUtil;
+import com.duy.pascal.ui.R;
 
 import java.util.Arrays;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatLine;
+import static com.duy.pascal.ui.code.ExceptionManager.highlight;
 
 
 public class ExpectedTokenException extends ParsingException {
@@ -77,5 +85,18 @@ public class ExpectedTokenException extends ParsingException {
 
     public boolean canQuickFix() {
         return true;
+    }
+
+    @Override
+    public Spanned getLocalizedMessage(@NonNull Context context) {
+        ExpectedTokenException e = this;
+
+        String message = String.format(context.getString(R.string.ExpectedTokenException_3),
+                ArrayUtil.expectToString(e.getExpected(), context), e.getCurrent());
+        String line = formatLine(context, e.getLineInfo());
+
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.append(line).append("\n\n").append(message);
+        return highlight(context, builder);
     }
 }

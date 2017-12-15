@@ -16,12 +16,21 @@
 
 package com.duy.pascal.interperter.exceptions.parsing;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 
 import com.duy.pascal.interperter.tokens.Token;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatLine;
 
 
-public  class UnrecognizedTokenException extends ParsingException {
+public class UnrecognizedTokenException extends ParsingException {
     @NonNull
     private Token token;
 
@@ -37,5 +46,21 @@ public  class UnrecognizedTokenException extends ParsingException {
 
     public final void setToken(@NonNull Token var1) {
         this.token = var1;
+    }
+
+    @Override
+    public Spanned getLocalizedMessage(@NonNull Context context) {
+        UnrecognizedTokenException e = this;
+        String message = context.getString(R.string.token_not_belong) + " " + e.getToken();
+
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.append(formatLine(context, e.getLineInfo())).append("\n\n");
+        builder.append(message);
+
+        ForegroundColorSpan span = new ForegroundColorSpan(Color.YELLOW);
+        builder.setSpan(span, message.length(), message.length() + e.getToken().toString().length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return builder;
     }
 }

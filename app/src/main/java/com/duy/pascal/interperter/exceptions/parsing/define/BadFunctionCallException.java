@@ -16,15 +16,23 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.define;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.R;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatLine;
+import static com.duy.pascal.ui.code.ExceptionManager.highlight;
 
 
 public class BadFunctionCallException extends ParsingException {
@@ -71,7 +79,7 @@ public class BadFunctionCallException extends ParsingException {
     }
 
     @NonNull
-    public final ArrayList getFunctions() {
+    public final ArrayList<String> getFunctions() {
         return this.functions;
     }
 
@@ -80,4 +88,34 @@ public class BadFunctionCallException extends ParsingException {
         return this.scope;
     }
 
+    @Override
+    public Spanned getLocalizedMessage(@NonNull Context context) {
+        BadFunctionCallException e = this;
+        boolean functionExists = e.getFunctionExists();
+        boolean argsMatch = e.isArgMatched();
+
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.append(formatLine(context, e.getLineInfo())).append("\n\n");
+        if (functionExists) { //function is exist, but wrong argument
+
+            if (argsMatch) { //wrong type
+                String msg = String.format(context.getString(R.string.BadFunctionCallException_1), e.getFunctionName());
+                builder.append(msg);
+            } else { //wrong size of args
+                String msg = String.format(context.getString(R.string.BadFunctionCallException_2), e.getFunctionName());
+                builder.append(msg);
+            }
+
+            //add list function
+            List<String> functions = e.getFunctions();
+            builder.append("\n\n");
+            builder.append("Accept functions: ").append("\n");
+            for (String function : functions) builder.append(function).append("\n");
+            return highlight(context, builder);
+        } else {
+            String msg = String.format(context.getString(R.string.BadFunctionCallException_3), e.getFunctionName());
+            builder.append(msg);
+            return highlight(context, builder);
+        }
+    }
 }

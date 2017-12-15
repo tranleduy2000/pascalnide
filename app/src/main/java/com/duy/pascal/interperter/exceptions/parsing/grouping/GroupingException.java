@@ -16,12 +16,17 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.grouping;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.Token;
+import com.duy.pascal.ui.R;
+import com.duy.pascal.ui.code.ExceptionManager;
 
 public class GroupingException extends ParsingException {
     private Type exceptionTypes;
@@ -99,6 +104,58 @@ public class GroupingException extends ParsingException {
         return this.exceptionTypes == Type.UNFINISHED_BEGIN_END;
     }
 
+    @Override
+    public Spanned getLocalizedMessage(@NonNull Context context) {
+        GroupingException e = this;
+        ExceptionManager exceptionManager = new ExceptionManager(context);
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.append(ExceptionManager.formatLine(context, e.getLineInfo())).append("\n\n");
+
+        if (e.getExceptionTypes().equals(GroupingException.Type.EXTRA_END)) {
+            Token openToken = e.getOpenToken();
+            Spanned message = exceptionManager.getMessageFromResource(e, R.string.unbalance_end,
+                    openToken.toString(),
+                    openToken.getLineNumber().getLine(),
+                    openToken.getLineNumber().getColumn(),
+                    e.getCloseToken().toString(),
+                    e.getLineInfo().getLine(),
+                    e.getLineInfo().getColumn());
+            builder.append(message);
+        } else {
+            String message = getEnumeratedGroupingException(context, e);
+            builder.append(message);
+        }
+        return builder;
+    }
+
+    private String getEnumeratedGroupingException(Context context, GroupingException e) {
+        GroupingException.Type exceptionTypes = e.getExceptionTypes();
+        if (exceptionTypes == GroupingException.Type.IO_EXCEPTION) {
+            return (context.getString(R.string.IO_EXCEPTION));
+        } else if (exceptionTypes == GroupingException.Type.EXTRA_END) {
+            return (context.getString(R.string.unbalance_end));
+        } else if (exceptionTypes == GroupingException.Type.INCOMPLETE_CHAR) {
+            return (context.getString(R.string.INCOMPLETE_CHAR));
+        } else if (exceptionTypes == GroupingException.Type.MISMATCHED_BEGIN_END) {
+            return (context.getString(R.string.MISMATCHED_BEGIN_END));
+        } else if (exceptionTypes == GroupingException.Type.MISMATCHED_BRACKETS) {
+            return (context.getString(R.string.MISMATCHED_BRACKETS));
+        } else if (exceptionTypes == GroupingException.Type.MISMATCHED_PARENTHESES) {
+            return (context.getString(R.string.MISMATCHED_PARENTHESES));
+        } else if (exceptionTypes == GroupingException.Type.UNFINISHED_BEGIN_END) {
+            return (context.getString(R.string.UNFINISHED_BEGIN_END));
+        } else if (exceptionTypes == GroupingException.Type.UNFINISHED_PARENTHESES) {
+            return (context.getString(R.string.UNFINISHED_PARENTHESES));
+        } else if (exceptionTypes == GroupingException.Type.UNFINISHED_BRACKETS) {
+            return (context.getString(R.string.UNFINISHED_BRACKETS));
+        } else if (exceptionTypes == GroupingException.Type.MISSING_INCLUDE) {
+            return (context.getString(R.string.MISSING_INCLUDE));
+        } else if (exceptionTypes == GroupingException.Type.NEWLINE_IN_QUOTES) {
+            return (context.getString(R.string.NEWLINE_IN_QUOTES));
+        }
+        return (e.getLocalizedMessage());
+    }
+
     public enum Type {
         MISMATCHED_PARENTHESES("Mismatched parentheses"),
         MISMATCHED_BRACKETS("Mismatched brackets"),
@@ -119,5 +176,4 @@ public class GroupingException extends ParsingException {
             this.message = message;
         }
     }
-
 }

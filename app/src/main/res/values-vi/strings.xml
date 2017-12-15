@@ -234,5 +234,6 @@
     <string name="keyboard_problem">Vấn đề về bàn phím</string>
     <string name="editor_create_unknown_exception">Occurs unknown exception when create editor</string>
     <string name="lower_than_zero">%1$s nhỏ hơn 0.</string>
+    <string name="line_column">Dòng:cột %1$o:%2$o</string>
 
 </resources>

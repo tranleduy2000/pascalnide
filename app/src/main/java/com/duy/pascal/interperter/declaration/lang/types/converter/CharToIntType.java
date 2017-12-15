@@ -31,8 +31,8 @@ public class CharToIntType implements RuntimeValue {
     @Override
     public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        Character i = (Character) other.getValue(context, main);
-        return (int) i;
+        Object character = other.getValue(context, main);
+        return Integer.valueOf(String.valueOf(character));
     }
 
     @NonNull
@@ -56,9 +56,9 @@ public class CharToIntType implements RuntimeValue {
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws Exception {
-        Object o = other.compileTimeValue(context);
-        if (o != null) {
-            return (int) (Character) o;
+        Object object = other.compileTimeValue(context);
+        if (object != null) {
+            return Integer.valueOf(String.valueOf(object));
         } else {
             return null;
         }

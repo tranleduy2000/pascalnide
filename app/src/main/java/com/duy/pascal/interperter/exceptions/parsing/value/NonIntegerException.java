@@ -16,15 +16,20 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.value;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.ui.R;
 
-import android.support.annotation.Nullable;
+import static com.duy.pascal.ui.code.ExceptionManager.formatLine;
 
 
-public  class NonIntegerException extends ParsingException {
+public class NonIntegerException extends ParsingException {
     @NonNull
     private RuntimeValue value;
 
@@ -45,5 +50,18 @@ public  class NonIntegerException extends ParsingException {
 
     public final void setValue(@NonNull RuntimeValue var1) {
         this.value = var1;
+    }
+
+    @Override
+    public Spanned getLocalizedMessage(@NonNull Context context) {
+        NonIntegerException exception = this;
+        String message = String.format(context.getString(R.string.NonIntegerException), exception.getValue().toString());
+        String line = formatLine(context, exception.getLineInfo());
+
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.append(line);
+        builder.append("\n\n");
+        builder.append(message);
+        return builder;
     }
 }

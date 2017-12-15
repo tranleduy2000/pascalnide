@@ -16,14 +16,21 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.operator;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatLine;
+import static com.duy.pascal.ui.code.ExceptionManager.highlight;
 
 public class BadOperationTypeException extends ParsingException {
     @Nullable
@@ -101,5 +108,25 @@ public class BadOperationTypeException extends ParsingException {
 
     public final void setOperatorTypes(@Nullable OperatorTypes var1) {
         this.operatorTypes = var1;
+    }
+
+    @Override
+    public Spanned getLocalizedMessage(@NonNull Context context) {
+        BadOperationTypeException e = this;
+        String message;
+        if (e.getValue1() == null) {
+            message = String.format(context.getString(R.string.BadOperationTypeException2),
+                    e.getOperatorTypes());
+        } else {
+            message = String.format(context.getString(R.string.BadOperationTypeException),
+                    e.getOperatorTypes(), e.getValue1(), e.getValue2(), e.getDeclaredType(), e.getDeclaredType1());
+        }
+        String line = formatLine(context, e.getLineInfo());
+
+        SpannableStringBuilder builder = new SpannableStringBuilder(line);
+        builder.append(line);
+        builder.append("\n\n");
+        builder.append(message);
+        return highlight(context, builder);
     }
 }

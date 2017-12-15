@@ -25,5 +25,9 @@ import android.text.Spanned;
  */
 
 public interface Localized {
+    /**
+     * @param context - android context for get resource
+     * @return the formatted string, include line number
+     */
     public Spanned getLocalizedMessage(@NonNull Context context);
 }

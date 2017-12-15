@@ -1,10 +1,17 @@
 package com.duy.pascal.interperter.exceptions.parsing.index;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatLine;
+import static com.duy.pascal.ui.code.ExceptionManager.highlight;
 
 /*
  *  Copyright (c) 2017 Tran Le Duy
@@ -42,5 +49,17 @@ public class NonIntegerIndexException extends ParsingException {
 
     public final void setValue(@NonNull RuntimeValue var1) {
         this.value = var1;
+    }
+
+    @Override
+    public Spanned getLocalizedMessage(@NonNull Context context) {
+        NonIntegerIndexException exception = this;
+        String line = formatLine(context, exception.getLineInfo());
+        String message = String.format(context.getString(R.string.NonIntegerIndexException), exception.getValue().toString());
+
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.append(line).append("\n\n");
+        builder.append(message);
+        return highlight(context, builder);
     }
 }

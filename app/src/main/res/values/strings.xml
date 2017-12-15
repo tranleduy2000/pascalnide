@@ -267,5 +267,6 @@
     <string name="enable_permission">Enable permission</string>
     <string name="lower_than_zero">%1$s lower than zero.</string>
     <string name="duplicate">Duplicate</string>
+    <string name="line_column">Line:column %1$o:%2$o</string>
 </resources>
 

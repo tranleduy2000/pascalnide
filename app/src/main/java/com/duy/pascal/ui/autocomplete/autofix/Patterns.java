@@ -29,7 +29,7 @@ public class Patterns {
     public static final Pattern USES = Pattern.compile("(\\s(uses)|^(uses))[\\s](.*?);", Pattern.CASE_INSENSITIVE);
     public static final Pattern CONST = Pattern.compile("(\\s(const)|^(const))\\s", Pattern.CASE_INSENSITIVE);
 
-    public static final Pattern REPLACE_HIGHLIGHT = Pattern.compile("\"(.*?)\"");
+    public static final Pattern REPLACE_HIGHLIGHT_PATTERN = Pattern.compile("\"(.*?)\"");
     public static final Pattern REPLACE_CURSOR = Pattern.compile("%\\w");
 
 }
