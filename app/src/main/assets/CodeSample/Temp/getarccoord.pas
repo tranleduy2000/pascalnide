@@ -1,4 +1,0 @@
-uses graph;
-
-begin
-end.

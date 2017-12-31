@@ -1,3 +1,0 @@
-begin
-  writeln('NO');
-end.
