@@ -1,0 +1,7 @@
+Winthin the program exlocal
+value of a = 100 b =  200 and c = 300
+Winthin the procedure display
+ Displaying the global variables a, b, and c
+value of a = 10 b =  20 and c = 30
+Displaying the local variables a, b, and c
+value of a = 10 b =  20 and c = 30
