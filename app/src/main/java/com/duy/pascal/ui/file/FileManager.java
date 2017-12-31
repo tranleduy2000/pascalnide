@@ -1,0 +1,412 @@
+/*
+ *  Copyright (c) 2017 Tran Le Duy
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.duy.pascal.ui.file;
+
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+
+import com.duy.pascal.ui.R;
+import com.duy.pascal.ui.activities.SplashScreenActivity;
+import com.duy.pascal.ui.autocomplete.completion.util.Patterns;
+import com.duy.pascal.ui.code.CompileManager;
+import com.duy.pascal.ui.file.localdata.Database;
+import com.duy.pascal.ui.setting.PascalPreferences;
+import com.duy.pascal.ui.utils.DLog;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+
+/**
+ * File Manager
+ * Created by Duy on 10-Feb-17.
+ */
+
+public class FileManager {
+    /*storage path for save code*/
+    private static final String FILE_TEMP_NAME = "tmp.pas";
+    private static final String SRC_DIR = "PascalCompiler";
+    private static final String TAG = "FileManager";
+    private Context mContext;
+    private Database mDatabase;
+    private PascalPreferences mPascalPreferences;
+
+
+    public FileManager(Context context) {
+        mContext = context;
+        mDatabase = new Database(context);
+        mPascalPreferences = new PascalPreferences(context);
+    }
+
+    /**
+     * Read input stream
+     */
+    public static StringBuilder streamToString(InputStream inputStream) {
+        StringBuilder result = new StringBuilder();
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+            String mLine;
+            while ((mLine = reader.readLine()) != null) {
+                result.append(mLine).append("\n");
+            }
+        } catch (IOException e) {
+            //log the exception
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    //log the exception
+                }
+            }
+        }
+        return result;
+    }
+
+    @Nullable
+    public static File getSrcPath(Context context) {
+        final String dirName = "PascalCompiler";
+        int i = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            i = ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
+            if (i == PackageManager.PERMISSION_GRANTED) {
+                File file = new File(Environment.getExternalStorageDirectory(), dirName);
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+                return file;
+            }
+        } else {
+            return new File(context.getFilesDir(), dirName);
+        }
+        return null;
+    }
+
+    /**
+     * get path from uri
+     */
+    @Nullable
+    public static String getPathFromUri(Context context, Uri uri) throws URISyntaxException {
+        if ("content".equalsIgnoreCase(uri.getScheme())) {
+            String[] projection = {"_data"};
+            Cursor cursor;
+            try {
+                cursor = context.getContentResolver().query(uri, projection, null, null, null);
+                if (cursor == null) {
+                    return null;
+                }
+                int index = cursor.getColumnIndexOrThrow("_data");
+                if (cursor.moveToFirst()) {
+                    String path = cursor.getString(index);
+                    cursor.close();
+                    return path;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+        return null;
+    }
+
+    public static boolean acceptPasFile(@Nullable String fileName) {
+        DLog.d(TAG, "isPasFile() called with: fileName = [" + fileName + "]");
+        if (fileName == null) return false;
+        fileName = fileName.trim();
+        Matcher matcher = Patterns.KEYWORDS.matcher(fileName);
+        if (matcher.find()) {
+            if (matcher.group().equalsIgnoreCase(fileName)) {
+                DLog.d(TAG, "isPasFile() returned: " + true);
+                return false;
+            }
+        }
+        boolean matches = fileName.replace(".", "").matches(Patterns.IDENTIFIER.toString());
+        DLog.d(TAG, "isPasFile() returned: " + matches);
+        return matches;
+    }
+
+    @NonNull
+    public static String fileToString(String path) {
+        return fileToString(new File(path));
+    }
+
+    @NonNull
+    public static String fileToString(File file) {
+        if (file.canRead()) {
+            try {
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                StringBuilder result = new StringBuilder();
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    result.append(line).append("\n");
+                }
+                try {
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return result.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            return "";
+        }
+        return "";
+    }
+
+    /**
+     * get all file in folder
+     *
+     * @param path - folder path
+     * @return list file
+     */
+    public ArrayList<File> getListFile(String path) {
+        ArrayList<File> list = new ArrayList<>();
+        File directory = new File(path);
+        File[] files = directory.listFiles();
+        try {
+            if (files == null) return list;
+            for (File file : files) {
+                if (file.isFile()) list.add(file);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ArrayList<File> listFile = mDatabase.getListFile();
+        list.addAll(listFile);
+        return list;
+    }
+
+    /**
+     * get all file with filter
+     *
+     * @param path      - folder path
+     * @param extension - extension of file
+     * @return - list file
+     */
+    public ArrayList<File> getListFile(String path, String extension) {
+        ArrayList<File> list = new ArrayList<>();
+        File f = new File(path);
+        File[] files = f.listFiles();
+        for (File file : files) {
+            int ind = file.getPath().lastIndexOf('.');
+            if (ind > 0) {
+                String tmp = file.getPath().substring(ind + 1);// this is the extension
+                if (tmp.equals(extension)) {
+                    list.add(file);
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
+     * save current project
+     *
+     * @param file
+     */
+    public boolean saveFile(File file, String text) {
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            if (text.length() > 0) out.write(text.getBytes());
+            out.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Save file
+     *
+     * @param filePath - name of file
+     * @param text     - content of file
+     */
+    public boolean saveFile(@NonNull String filePath, String text) {
+        return saveFile(new File(filePath), text);
+    }
+
+    /**
+     * create new file in dir of application
+     *
+     * @param fileName - name of file to create
+     * @return - path of file
+     */
+    @Nullable
+    public File createNewFileInMode(String fileName) {
+        File file = new File(getSrcDir(), fileName);
+        return createNewFile(file.getPath());
+    }
+
+    /**
+     * Create new file
+     *
+     * @param path path to file
+     * @return file path
+     */
+    @Nullable
+    public File createNewFile(@NonNull String path) {
+        File file = new File(path);
+        try {
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                if (!file.createNewFile()) {
+                    return null;
+                }
+            }
+            return file;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * set content of file pas for generate, put it in internal storage
+     *
+     * @param content - Content of file, string
+     */
+    @Nullable
+    public String setContentFileTemp(String content) {
+        try {
+            File file = getTempFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(content.getBytes());
+            fos.close();
+            return file.getPath();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * return file pas for run program
+     *
+     * @return - pascal file
+     */
+    public File getTempFile() {
+        File file = new File(mContext.getFilesDir(), FILE_TEMP_NAME);
+        if (!file.exists()) createNewFile(file.getPath());
+        return file;
+    }
+
+    private File getSrcDir() {
+        if (!permissionGranted()) {
+            return new File(mContext.getFilesDir().getPath(), SRC_DIR);
+        } else {
+            return new File(Environment.getExternalStorageDirectory().getPath(), SRC_DIR);
+        }
+    }
+
+    private boolean permissionGranted() {
+        return ActivityCompat.checkSelfPermission(mContext,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public void addNewPath(String path) {
+        mDatabase.addNewFile(new File(path));
+    }
+
+    /**
+     * set working file path
+     */
+    public void setWorkingFilePath(String path) {
+        mPascalPreferences.put(PascalPreferences.FILE_PATH, path);
+    }
+
+    public void removeTabFile(String path) {
+        mDatabase.removeFile(path);
+    }
+
+    public File createRandomFile(Context context) {
+        File f = new File(getSrcPath(context), Integer.toHexString((int) System.currentTimeMillis()) + ".pas");
+        return createNewFile(f.getPath());
+    }
+
+    /**
+     * copy data from in to inType
+     */
+    public void copy(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while ((read = in.read(buffer)) != -1) {
+            out.write(buffer, 0, read);
+        }
+        in.close();
+
+        out.flush();
+        out.close();
+
+    }
+
+    /**
+     * copy data from file in to file inType
+     */
+    public void copy(String pathIn, String pathOut) throws IOException {
+        InputStream in = new FileInputStream(new File(pathIn));
+        OutputStream out = new FileOutputStream(new File(pathOut));
+        byte[] buffer = new byte[1024];
+        int read;
+        while ((read = in.read(buffer)) != -1) {
+            out.write(buffer, 0, read);
+        }
+        in.close();
+
+        out.flush();
+        out.close();
+
+    }
+
+    public Intent createShortcutIntent(Context context, File file) {
+        // create shortcut if requested
+        Intent.ShortcutIconResource icon =
+                Intent.ShortcutIconResource.fromContext(context, R.mipmap.ic_launcher);
+
+        Intent intent = new Intent();
+
+        Intent launchIntent = new Intent(context, SplashScreenActivity.class);
+        launchIntent.putExtra(CompileManager.EXTRA_FILE, file);
+        launchIntent.setAction("run_from_shortcut");
+
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent);
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, file.getName());
+        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
+        return intent;
+    }
+}

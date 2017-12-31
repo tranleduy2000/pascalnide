@@ -1,0 +1,271 @@
+/*
+ *  Copyright (c) 2017 Tran Le Duy
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.duy.pascal.interperter.declaration.lang.types.set;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
+import com.duy.pascal.interperter.ast.runtime.value.access.ArrayIndexAccess;
+import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
+import com.duy.pascal.interperter.ast.runtime.value.cloning.ArrayCloner;
+import com.duy.pascal.interperter.ast.runtime.value.cloning.SetToDynamicArrayCloner;
+import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.interperter.declaration.lang.types.subrange.IntegerRange;
+import com.duy.pascal.interperter.declaration.lang.types.subrange.IntegerSubrangeType;
+import com.duy.pascal.interperter.declaration.lang.types.util.TypeUtils;
+import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
+import com.duy.pascal.interperter.exceptions.runtime.OutOfMemoryException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.tokens.Token;
+import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
+import com.duy.pascal.interperter.tokens.grouping.ParenthesizedToken;
+
+import java.lang.reflect.Array;
+
+
+public class ArrayType<ELEMENT extends Type> extends BaseSetType {
+    public final ELEMENT elementType;
+    @Nullable
+    private IntegerRange bound;
+    private boolean dynamic;
+
+    /**
+     * @param elementType
+     * @param bound       - {@link com.duy.pascal.interperter.declaration.lang.types.subrange.IntegerSubrangeType} or
+     *                    {@link com.duy.pascal.interperter.declaration.lang.types.subrange.EnumSubrangeType}
+     */
+    public ArrayType(ELEMENT elementType, @Nullable IntegerRange bound) {
+        this.elementType = elementType;
+        this.bound = bound;
+        this.dynamic = bound == null;
+    }
+
+    /**
+     * parse array constant
+     *
+     * @param group - parentheses token: the container of array. Example (1, 2, 3)
+     * @param type  - element type of array
+     * @return - the {@link ConstantAccess} include array object and lineInfo number
+     * @throws Exception - some token is not expect
+     */
+    public static ConstantAccess<Object[]> getArrayConstant(ExpressionContext context,
+                                                            Token group, ArrayType type) throws Exception {
+
+
+        if (!(group instanceof ParenthesizedToken)) {
+            throw new ExpectedTokenException("(", group);
+        }
+
+        Type elementType = type.elementType;
+        ParenthesizedToken container = (ParenthesizedToken) group;
+
+        //size of array
+        int size = type.getBound().getSize();
+        //create new array
+//        Object[] objects = new Object[size];
+        Class<?> elementClass = elementType.getStorageClass();
+        Object[] objects = (Object[]) Array.newInstance(elementClass, size);
+        for (int i = 0; i < size; i++) {
+            if (!container.hasNext()) {
+                throw new ExpectedTokenException(",", container.peek());
+            }
+            objects[i] = GrouperToken.getConstantElement(context, container, elementType).getValue();
+        }
+        return new ConstantAccess<>(objects, type, container.getLineNumber());
+    }
+
+    public boolean isDynamic() {
+        return dynamic;
+    }
+
+    @Override
+    public ELEMENT getElementType() {
+        return elementType;
+    }
+
+    @Override
+    public int getSize() {
+        return bound != null ? bound.getSize() : -1;
+    }
+
+    @Nullable
+    public IntegerRange getBound() {
+        return bound;
+    }
+
+    public void setBound(@Nullable IntegerSubrangeType bound) {
+        this.bound = bound;
+    }
+
+    /**
+     * This basically tells if the types are assignable from each other
+     * according to Pascal.
+     */
+    public boolean superset(Type obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof ArrayType) {
+            ArrayType<?> o = (ArrayType<?>) obj;
+            if (o.elementType.equals(elementType)) {
+                if (bound == null) return true;
+                if (o.getBound() == null) return true;
+                if (this.bound.getFirst() == o.bound.getFirst()
+                        && this.bound.getSize() >= o.bound.getSize()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean equals(Type otherType) {
+        if (this == otherType) {
+            return true;
+        }
+        if (otherType instanceof ArrayType) {
+            ArrayType<?> o = (ArrayType<?>) otherType;
+            if (o.elementType.equals(elementType)) {
+                if (this.bound == null) return true;
+                if (this.bound.equals(o.bound)) return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        if (bound != null) {
+            return (elementType.hashCode() * 31 + bound.hashCode());
+        } else {
+            return (elementType.hashCode() * 31);
+        }
+    }
+
+    /**
+     * TODO: Must make this actually fill in array with default values
+     */
+    @NonNull
+    @Override
+    public Object initialize() throws RuntimePascalException {
+        try {
+            Object result = Array.newInstance(elementType.getTransferClass(), bound == null ? 0 : bound.getSize());
+            if (bound != null) {
+                for (int i = 0; i < bound.getSize(); i++)
+                    Array.set(result, i, elementType.initialize());
+            }
+            return result;
+        } catch (OutOfMemoryError e) {
+            throw new OutOfMemoryException(e);
+        }
+    }
+
+    @NonNull
+    @Override
+    public Class<?> getTransferClass() {
+        String s = elementType.getTransferClass().getName();
+        StringBuilder b = new StringBuilder();
+        b.append('[');
+        b.append('L');
+        b.append(s);
+        b.append(';');
+        try {
+            return Class.forName(b.toString());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "array" + (bound != null ? "[" + bound + "]" : "") + " of " + elementType;
+    }
+
+    /**
+     * This basically won't do any conversions, as array types have to be exact,
+     * except variable length arrays, but they are checked in the
+     */
+    @Override
+    public RuntimeValue convert(RuntimeValue value, ExpressionContext context)
+            throws Exception {
+        RuntimeType other = value.getRuntimeType(context);
+        if (other.declType instanceof ArrayType) {
+            return this.superset(other.declType) ? cloneValue(value) : null;
+        } else if (other.declType instanceof SetType && this.isDynamic()) {
+            if (((SetType) other.declType).getElementType().equals(this.getElementType())) {
+                return new SetToDynamicArrayCloner(value);
+            }
+        }
+        return null;
+
+    }
+
+    @Override
+    public RuntimeValue cloneValue(final RuntimeValue value) {
+        return new ArrayCloner<ELEMENT>(value);
+    }
+
+    @NonNull
+    @Override
+    public RuntimeValue generateArrayAccess(RuntimeValue array,
+                                            RuntimeValue index) {
+        if (bound != null) {
+            return new ArrayIndexAccess(array, index, bound.getFirst());
+        } else {
+            return new ArrayIndexAccess(array, index, 0);
+        }
+    }
+
+    @NonNull
+    @Override
+    public Class<?> getStorageClass() {
+        Class c = elementType.getStorageClass();
+        if (c.isArray()) {
+            try {
+                return Class.forName("[" + c.getName());
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else if (c.isPrimitive()) {
+            c = TypeUtils.getClassForType(c);
+        }
+        StringBuilder b = new StringBuilder();
+        b.append('[');
+        b.append('L');
+        b.append(c.getName());
+        b.append(';');
+        try {
+            return Class.forName(b.toString());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @NonNull
+    @Override
+    public String getEntityType() {
+        return "array type";
+    }
+
+}

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~  Copyright (c) 2017 Tran Le Duy
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <string name="default_">System</string>
+    <string name="language">Language</string>
+    <string name="navigation_drawer_open">Open navigation</string>
+    <string name="navigation_drawer_close">CLose navigation</string>
+    <string name="rate">Rate app</string>
+    <string name="more_app">More app</string>
+    <string name="compile_error">Compile error</string>
+    <string name="setting">Setting</string>
+    <string name="document">See document</string>
+    <string name="code_sample">Code sample</string>
+    <string name="enter_new_file_name">Enter new file name</string>
+    <string name="path">"Path: "</string>
+    <string name="remove_file_msg">"Do you want to delete file "</string>
+    <string name="delete_file">Delete file</string>
+    <string name="deleted">Deleted</string>
+    <string name="failed">Failed</string>
+    <string name="compile_ok">Compile success</string>
+    <string name="code_editor">Code editor</string>
+    <string name="word_wrap">Wrap content</string>
+    <string name="font_z">Font size</string>
+    <string name="user_interface">User interface</string>
+    <string name="show_line">Show line number</string>
+    <string name="tool">Tool</string>
+    <string name="find_what">Find what?</string>
+    <string name="replace_with">Replace with</string>
+    <string name="match_case">Match case</string>
+    <string name="word_only">Word only</string>
+    <string name="format_code">Format code</string>
+    <string name="information">Information</string>
+    <string name="report_bug">Report bug</string>
+    <string name="word_wrap_desc">Automatic screen down the line when overflow</string>
+    <string name="show_line_desc">Display the line numbers to the left of the code editor</string>
+
+
+    <string name="hide_status_bar">Hide status bar</string>
+    <string name="hide_status_bar_desc">Hide the status bar in every screen of the app, include console. Restart app if need change.</string>
+    <string name="show_suggest_popup">Hint popup</string>
+    <string name="show_hint_desc">Show suggestions while typing</string>
+    <string name="compile">Compile</string>
+    <string name="data">Data</string>
+    <string name="show_key_board">Show key board</string>
+    <string name="copy_all">Copy all</string>
+    <string name="pascal_for_android">Pascal for Android</string>
+    <string name="exit_mgs">Do you want to exit application?</string>
+    <string name="cloud_database">Cloud database</string>
+    <string name="program_file">Program file (*.pas)</string>
+    <string name="inp_file">Inp file (*.inp)</string>
+    <string name="theme">Code style</string>
+    <string name="select">Select</string>
+    <string name="folder">Folder</string>
+    <string name="home">home</string>
+
+    <string name="new_folder">Create new folder</string>
+    <string name="enter_new_folder_name">Enter name of folder</string>
+    <string name="change_key_board">Change keyboard</string>
+    <string name="cant_undo">Can not undo</string>
+    <string name="cant_redo">Can not redo</string>
+    <string name="back_to_undo">Press back to undo</string>
+    <string name="more_feature">Open drawer</string>
+    <string name="closed">Closed</string>
+    <string name="complete">Complete</string>
+    <string name="view_console">View console</string>
+    <string name="help_me_translate">Help me translate app</string>
+    <string name="rerun">Rerun current program</string>
+
+    <string name="translate">Translate</string>
+    <string name="license">License</string>
+
+    <string name="console_screen">Console</string>
+
+    <string name="write_code_here">Write code here…</string>
+    <string name="can_not_save_file">Can not save file!</string>
+    <string name="logo">Logo</string>
+    <string name="program_structure">Show program structure</string>
+    <string name="show_symbol">List symbols</string>
+    <string name="show_symbol_decs">Show list symbol below the editor.</string>
+    <string name="debug">Debug program</string>
+    <string name="add_watch">Add watch</string>
+    <string name="program_stopped">Program is stopped</string>
+    <string name="no_document">No document</string>
+    <string name="max_page_desc">Number of maximum page display on the screen</string>
+    <string name="max_page">Max page editor</string>
+    <string name="enter_key_word">Enter your keyword…</string>
+    <string name="blog">Blog of Pascal N-IDE</string>
+    <string name="title_activity_zxing">ZxingActivity</string>
+    <string name="turn_on_flashlight">Turn on flashlight</string>
+    <string name="turn_off_flashlight">Turn off flashlight</string>
+    <string name="insert_url_media">Insert url media</string>
+    <string name="max_history_edit">Max history edit</string>
+    <string name="max_history_edit_desc">The maximum number of steps can be undo redo</string>
+    <string name="see_in_github">This project is open source, see project in GitHub https://github.com/tranleduy2000/pascalnide</string>
+    <string name="stack_size_desc">Maximum stack size when running the program. On some devices, this parameter has no effect. The default is 40000. Minimum is 5000</string>
+    <string name="stack_size">Stack size</string>
+    <string name="copied">Copied</string>
+    <string name="theme_font">Code theme and font</string>
+    <string name="create_shortcut">Create shortcut</string>
+    <string name="create_shortcut_msg">Select file to create shortcut</string>
+    <string name="shortcut_created">Shortcut created</string>
+    <string name="sort_date">Sort by date…</string>
+    <string name="sort_name">Sort by name…</string>
+    <string name="sort_size">Sort by size…</string>
+    <string name="permission_denied_storage">Permission denied to read your External storage</string>
+    <string name="inserted_color">Inserted color</string>
+    <string name="unit_file">Unit pascal (*.pas)</string>
+    <string name="auto_fix">Auto fix</string>
+    <string name="declare_variable">Declare variable</string>
+    <string name="declare_function">Declare function</string>
+    <string name="declare_constant">Declare constant</string>
+    <string name="can_not_exec_unit">Can not executing unit</string>
+    <string name="enable_ime_keyboard">Enable IME keyboard</string>
+    <string name="frames">Frames</string>
+    <string name="variables">Variables</string>
+    <string name="step_info">Step info</string>
+    <string name="step_over">Step over</string>
+
+    <string name="notifications">Notifications</string>
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+    <string name="keyboard">Keyboard</string>
+    <string name="text_color">Text Color</string>
+    <string name="default_text_color">Default text color</string>
+    <string name="def_bg_color">Default background color</string>
+    <string name="bg_color">Background Color</string>
+    <string name="draw_screen_faster">Draw screen faster</string>
+    <string name="ctrl_key">Ctrl Key</string>
+    <string name="compiler">Compiler</string>
+    <string name="ime_desc">Allows your keyboard to show hints.</string>
+    <string name="tab_width">Tab width (space)</string>
+    <string name="anti_alias_summary">Smooths out jagged graphics</string>
+    <string name="anti_alias">Anti-alias</string>
+    <string name="hardware_acceleration">Hardware acceleration</string>
+    <string name="console_font_size">Console font size</string>
+
+
+    <!--DONATE-->
+    <string name="donate">Donate</string>
+
+    <string name="editor_font">Editor font</string>
+    <string name="console_font">Console font</string>
+    <string name="custom_theme">Custom theme</string>
+    <string name="save_and_apply">Save and apply</string>
+    <string name="auto_insert_bracket_summary">Insert ) when type (, ] when type […</string>
+    <string name="auto_insert_bracket">Auto insert bracket</string>
+    <string name="runtime_error">Runtime error</string>
+    <string name="file_explorer">File Explorer</string>
+    <string name="can_not_create_file">Can not create file</string>
+    <string name="getting_started_with_editor">
+        1. Swipe left to right to open file view\n
+        2. Swipe right to left to open drawer
+    </string>
+    <string name="file_not_found">File not found</string>
+
+
+    <!--Donate-->
+    <string name="donate_for_project">Project Donation</string>
+    <string name="thank_you_for_your_support_for_open_source_software">Thank you for supporting open source software.</string>
+    <string name="some_suggestion">Some suggestion</string>
+
+    <!--Quick fix-->
+    <string name="add_begin_end">Add \"begin end.\"</string>
+    <string name="add_end_at_the_end_of_program">Add \"end\" keyword to the end of program</string>
+    <string name="declare_constant_2">Declare constant \"%1$s\"</string>
+    <string name="declare_variable_2">Declare variable \"%1$s\" with type is \"%2$s\"</string>
+    <string name="declare_variable_3">Declare variable \"%1$s\"</string>
+    <string name="change_const_to_var">Change constant \"%1$s\" to variable with type is \"%2$s\", init value is \"%3$s\"</string>
+    <string name="declare_type">Declare type \"%1$s\"</string>
+    <string name="insert_token">Insert token \"%1$s\"</string>
+    <string name="insert_token_2">Insert token \"%1$s\" before token \"%2$s\"</string>
+    <string name="replace_token">Replace token \"%1$s\" by token \"%2$s\"</string>
+    <string name="change_var_type">Change type of variable \"%1$s\" to type \"%2$s\"</string>
+    <string name="change_const_type">Change type of constant \"%1$s\" to type \"%2$s\"</string>
+    <string name="change_function_type">Change type of function \"%1$s\" to type \"%2$s\"</string>
+
+
+    <string name="code">Code</string>
+    <string name="enter_data">Enter data</string>
+    <string name="invalid_file_name">Invalid file name</string>
+    <string name="can_not_be_empty">Can not be empty</string>
+    <string name="no_data">No Data</string>
+    <string name="selected_x_items">Selected %d Items</string>
+    <string name="filename">File Name:</string>
+    <string name="file_encoding">Encoding:</string>
+    <string name="file_save">Save</string>
+    <string name="root_path">Root</string>
+    <string name="auto_detection_encoding">Auto detection encoding</string>
+    <string name="illegal_filename">illegal filename</string>
+    <string name="unknown_path">unknown path</string>
+    <string name="open_file">Open File</string>
+    <string name="save_file">Save File</string>
+    <string name="override_file_prompt">%s exists，do you override it？</string>
+    <string name="filter_by_name">Filter by Name</string>
+    <string name="can_not_create_folder">Can not create folder</string>
+    <string name="cancel_select_all">Deselect All</string>
+    <string name="copy">Copy</string>
+    <string name="create_folder">Create folder</string>
+    <string name="cut">Cut</string>
+    <string name="delete">Delete</string>
+    <string name="paste">Paste</string>
+    <string name="rename">Rename</string>
+    <string name="rename_fail">Rename failure</string>
+    <string name="select_all">Select all</string>
+    <string name="share">Share</string>
+    <string name="show_hidden_files">Show hidden files</string>
+    <string name="sort_by_datetime">Sort by Date</string>
+    <string name="sort_by_name">Sort by Name</string>
+    <string name="sort_by_size">Sort by Size</string>
+    <string name="sort_by_type">Sort by Type</string>
+    <string name="replace">Replace</string>
+    <string name="find">Find</string>
+    <string name="new_file">New</string>
+    <string name="save">Save</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
+    <string name="save_as">Save as</string>
+    <string name="goto_line">Goto line</string>
+    <string name="insert_color">Insert color</string>
+    <string name="run">Run</string>
+    <string name="file">File</string>
+    <string name="other">Other</string>
+    <string name="edit">Edit</string>
+    <string name="ok">OK</string>
+    <string name="close">Close</string>
+    <string name="cancel">Cancel</string>
+    <string name="regex">Regular expression</string>
+    <string name="auto_save">Auto save file</string>
+    <string name="find_replace">Find/Replace</string>
+    <string name="editor_create_unknown_exception">Occurs unknown exception when create editor</string>
+    <string name="content">Content</string>
+    <string name="exit">Exit</string>
+    <string name="untitled_file_name">untitled.txt</string>
+    <string name="x_items_completed">%d items Completed</string>
+    <string name="x_items_completed_and_error_x">%1$d items Completed, but has some items occur error: \"%2$s\"</string>
+
+    <string name="select_type">Select data type</string>
+    <string name="declare_procedure">Declare procedure %1$s</string>
+    <string name="enter_value_of_constant">Enter value of constant %1$s</string>
+    <string name="premium_version">Premium version</string>
+
+    <string name="msg_premium">
+        1. More fonts\n
+        2. More code theme\n
+        3. Create custom theme
+    </string>
+    <string name="upgrade">Upgrade</string>
+    <string name="upgrade_msg">Thanks for using Pascal NIDE.  If you have found the IDE useful, please consider upgrade to PREMIUM version to support future development.</string>
+    <string name="open_or_create_new_file">Open or create new file</string>
+    <string name="open_drawer">Open drawer</string>
+    <string name="keyboard_problem">Keyboard problem</string>
+    <string name="keyboard_problem_msg">If you cannot enter data via keyboard, please change keyboard (Gboard is recommended)</string>
+    <string name="get_more_app">Get more app</string>
+    <string name="enable_permission">Enable permission</string>
+    <string name="lower_than_zero">%1$s lower than zero.</string>
+    <string name="duplicate">Duplicate</string>
+    <string name="line_column">Line:column %1$o:%2$o</string>
+</resources>
+

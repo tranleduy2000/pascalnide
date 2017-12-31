@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.duy.pascal.ui">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BATTERY_STATS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+
+    <!-- aLocation library -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:name="com.duy.pascal.PascalApplication"
+        android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="false"
+        android:theme="@style/AppThemeDark">
+        <activity
+            android:name="com.duy.pascal.ui.activities.CreateShortcutActivity"
+            android:label="@string/create_shortcut">
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.duy.pascal.ui.activities.SplashScreenActivity"
+            android:configChanges="orientation"
+          >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+
+            <!-- Filter open file *.pas -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="*"
+                    android:mimeType="*/*"
+                    android:pathPattern=".*\\.pas"
+                    android:scheme="file" />
+            </intent-filter>
+
+            <!-- Filter open file *.PAS -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="*"
+                    android:mimeType="*/*"
+                    android:pathPattern=".*\\.PAS"
+                    android:scheme="file" />
+            </intent-filter>
+
+            <!-- Clip board filter -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+
+            <intent-filter android:scheme="http">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/*" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.duy.pascal.ui.editor.EditorActivity"
+            android:launchMode="singleTask" />
+
+        <activity
+            android:name="com.duy.pascal.ui.runnable.ExecuteActivity"
+            android:configChanges="screenSize|orientation"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity android:name="com.duy.pascal.ui.code.sample.activities.DocumentActivity" />
+        <activity android:name="com.duy.pascal.ui.code.sample.activities.CodeSampleActivity" />
+        <activity android:name="com.duy.pascal.ui.themefont.activities.ThemeFontActivity" />
+        <activity android:name="com.duy.pascal.ui.info.InfoActivity" />
+        <activity android:name="com.duy.pascal.ui.setting.SettingsActivity" />
+        <activity
+            android:name="com.duy.pascal.ui.debug.activities.DebugActivity"
+            android:configChanges="screenSize"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name="com.duy.pascal.interperter.libraries.android.activity.PascalActivity" />
+        <activity android:name="com.duy.pascal.ui.code.sample.activities.SearchResultSampleActivity" />
+        <activity android:name="com.duy.pascal.ui.themefont.activities.CustomThemeActivity" />
+
+        <!-- Scan bar code activity -->
+        <activity
+            android:name="com.duy.pascal.interperter.libraries.android.barcode.ZxingActivity"
+            android:label="@string/title_activity_zxing" />
+        <activity
+            android:name="com.duy.pascal.interperter.libraries.android.barcode.ScannerActivity"
+            android:screenOrientation="fullSensor"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity android:name="com.duy.pascal.ui.activities.DonateActivity" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+    </application>
+</manifest>
