@@ -21,7 +21,6 @@ import android.text.Spanned;
 import android.widget.EditText;
 
 import com.duy.pascal.ui.editor.highlight.spans.BracketSpan;
-import com.duy.pascal.ui.themefont.model.CodeTheme;
 
 /**
  * Created by Duy on 21-Jul-17.
@@ -30,14 +29,14 @@ import com.duy.pascal.ui.themefont.model.CodeTheme;
 public class BracketHighlighter {
     private static final String TAG = "BracketHighlighter";
     private EditText editText;
-    private CodeTheme codeTheme;
+    private IEditorColorScheme codeTheme;
 
-    public BracketHighlighter(EditText editText, CodeTheme codeTheme) {
+    public BracketHighlighter(EditText editText, IEditorColorScheme codeTheme) {
         this.editText = editText;
         this.codeTheme = codeTheme;
     }
 
-    public void setCodeTheme(CodeTheme codeTheme) {
+    public void setCodeTheme(IEditorColorScheme codeTheme) {
         this.codeTheme = codeTheme;
     }
 

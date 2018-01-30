@@ -18,6 +18,7 @@ package com.duy.pascal.ui.themefont.model;
 
 import android.graphics.Color;
 
+import com.duy.pascal.ui.editor.highlight.IEditorColorScheme;
 import com.duy.pascal.ui.utils.DLog;
 
 import java.io.Serializable;
@@ -34,7 +35,7 @@ import static com.duy.pascal.ui.themefont.themes.database.CodeThemeContract.Code
 import static com.duy.pascal.ui.themefont.themes.database.CodeThemeContract.CodeThemeEntry.OPERATOR;
 import static com.duy.pascal.ui.themefont.themes.database.CodeThemeContract.CodeThemeEntry.STRING;
 
-public class CodeTheme implements Serializable {
+public class CodeTheme implements Serializable, IEditorColorScheme {
 
     private static final String TAG = "CodeTheme";
     private final boolean builtin;
@@ -81,7 +82,7 @@ public class CodeTheme implements Serializable {
         return colors;
     }
 
-    public int getBackground() {
+    public int getBackgroundColor() {
         return getColor(BACKGROUND);
     }
 
@@ -159,7 +160,7 @@ public class CodeTheme implements Serializable {
     }
 
     public int getDebugColor() {
-        int background = getBackground();
+        int background = getBackgroundColor();
         float[] hsv = new float[3];
         Color.colorToHSV(background, hsv);
         hsv[2] = Math.min(1, Math.max(0.1f, hsv[2]) * 1.25f);//brightness color

@@ -22,8 +22,6 @@ import android.text.Editable;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 
-import com.duy.pascal.ui.themefont.model.CodeTheme;
-
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,9 +46,9 @@ public class StringHighlighter implements IHighlighter {
                     "|((')(.+))", Pattern.DOTALL); // no end string 'asdasdasd
 
     private ArrayList<Pair<Integer, Integer>> mStringRegion = new ArrayList<>();
-    private CodeTheme codeTheme;
+    private IEditorColorScheme codeTheme;
 
-    public StringHighlighter(CodeTheme codeTheme) {
+    public StringHighlighter(IEditorColorScheme codeTheme) {
         this.codeTheme = codeTheme;
     }
 
@@ -67,7 +65,7 @@ public class StringHighlighter implements IHighlighter {
     }
 
     @Override
-    public void setCodeTheme(CodeTheme codeTheme) {
+    public void setCodeTheme(IEditorColorScheme codeTheme) {
         this.codeTheme = codeTheme;
     }
 

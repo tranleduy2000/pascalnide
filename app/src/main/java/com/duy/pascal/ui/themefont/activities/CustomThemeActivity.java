@@ -154,7 +154,7 @@ public class CustomThemeActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.color_error).setOnClickListener(this);
         findViewById(R.id.color_opt).setOnClickListener(this);
 
-        findViewById(R.id.color_background).setBackgroundColor(codeTheme.getBackground());
+        findViewById(R.id.color_background).setBackgroundColor(codeTheme.getBackgroundColor());
         findViewById(R.id.color_normal).setBackgroundColor(codeTheme.getTextColor());
         findViewById(R.id.color_keyword).setBackgroundColor(codeTheme.getKeywordColor());
         findViewById(R.id.color_number).setBackgroundColor(codeTheme.getNumberColor());

@@ -22,8 +22,6 @@ import android.text.Editable;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 
-import com.duy.pascal.ui.themefont.model.CodeTheme;
-
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,9 +40,9 @@ public class CommentHighlighter implements IHighlighter {
                     "|((\\(\\*)(?:.|[\\n\\r])*?(\\*\\)))"// (* *) comment
     );
     private ArrayList<Pair<Integer, Integer>> mCommentRegion = new ArrayList<>();
-    private CodeTheme codeTheme;
+    private IEditorColorScheme codeTheme;
 
-    public CommentHighlighter(CodeTheme codeTheme) {
+    public CommentHighlighter(IEditorColorScheme codeTheme) {
         this.codeTheme = codeTheme;
     }
 
@@ -73,7 +71,7 @@ public class CommentHighlighter implements IHighlighter {
     }
 
     @Override
-    public void setCodeTheme(CodeTheme codeTheme) {
+    public void setCodeTheme(IEditorColorScheme codeTheme) {
         this.codeTheme = codeTheme;
     }
 

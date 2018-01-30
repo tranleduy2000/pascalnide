@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2017 Tran Le Duy
+ *  Copyright (c) 2018 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,27 @@
 
 package com.duy.pascal.ui.editor.highlight;
 
-import android.support.annotation.NonNull;
-import android.text.Editable;
-
 /**
- * Created by Duy on 18-Jun-17.
+ * Created by Duy on 1/30/2018.
  */
+public interface IEditorColorScheme {
+    int getDebugColor();
 
-public interface IHighlighter {
-    void highlight(@NonNull Editable allText, @NonNull CharSequence textToHighlight, int start);
+    int getErrorColor();
 
-    void setCodeTheme(IEditorColorScheme codeTheme);
+    int getKeywordColor();
+
+    int getNumberColor();
+
+    int getStringColor();
+
+    int getTextColor();
+
+    int getBracketColor();
+
+    int getCommentColor();
+
+    int getOptColor();
+
+    int getBackgroundColor();
 }

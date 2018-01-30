@@ -53,6 +53,7 @@ import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.editor.highlight.BracketHighlighter;
 import com.duy.pascal.ui.editor.highlight.CodeHighlighter;
+import com.duy.pascal.ui.editor.highlight.IEditorColorScheme;
 import com.duy.pascal.ui.editor.highlight.spans.ErrorSpan;
 import com.duy.pascal.ui.themefont.model.CodeTheme;
 import com.duy.pascal.ui.themefont.themes.ThemeManager;
@@ -91,8 +92,7 @@ public class HighlightEditor extends CodeSuggestsEditText implements View.OnKeyL
      * the Max size of the view
      */
     protected Point mMaxSize;
-    private CodeTheme mCodeTheme = new CodeTheme(true);
-    private Context mContext;
+    private IEditorColorScheme mCodeTheme = new CodeTheme(true);
     private boolean mCanEdit = true;
     @Nullable
     private ScrollView mVerticalScroll;
@@ -135,8 +135,6 @@ public class HighlightEditor extends CodeSuggestsEditText implements View.OnKeyL
     @CallSuper
     protected void setup(Context context) {
         super.setup(context);
-        this.mContext = context;
-
         mLineUtils = new LineUtils();
         mPaintNumbers = new Paint();
         mPaintNumbers.setColor(getResources().getColor(R.color.color_number_color));
@@ -158,16 +156,16 @@ public class HighlightEditor extends CodeSuggestsEditText implements View.OnKeyL
         enableTextChangedListener();
     }
 
-    public CodeTheme getCodeTheme() {
+    public IEditorColorScheme getCodeTheme() {
         return mCodeTheme;
     }
 
-    public void setCodeTheme(CodeTheme codeTheme) {
+    public void setCodeTheme(IEditorColorScheme codeTheme) {
         this.mCodeTheme = codeTheme;
         this.mCodeHighlighter.setCodeTheme(codeTheme);
         mBracketHighlighter.setCodeTheme(codeTheme);
         setTextColor(codeTheme.getTextColor());
-        setBackgroundColor(codeTheme.getBackground());
+        setBackgroundColor(codeTheme.getBackgroundColor());
         mPaintNumbers.setColor(codeTheme.getNumberColor());
         refresh();
     }
@@ -307,8 +305,8 @@ public class HighlightEditor extends CodeSuggestsEditText implements View.OnKeyL
     }
 
     public void updateFromSettings() {
-        String name = mEditorSetting.getString(mContext.getString(R.string.key_code_theme));
-        CodeTheme theme = ThemeManager.getTheme(name, getContext());
+        String name = mEditorSetting.getString(getContext().getString(R.string.key_code_theme));
+        IEditorColorScheme theme = ThemeManager.getTheme(name, getContext());
         setCodeTheme(theme);
 
         Typeface editorFont = mEditorSetting.getEditorFont();

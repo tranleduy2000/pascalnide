@@ -25,7 +25,6 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 
 import com.duy.pascal.ui.editor.view.HighlightEditor;
-import com.duy.pascal.ui.themefont.model.CodeTheme;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +43,7 @@ import static com.duy.pascal.ui.autocomplete.completion.util.Patterns.SYMBOLS;
  */
 public class CodeHighlighter implements IHighlighter {
     private static final String TAG = "CodeHighlighter";
-    private CodeTheme codeTheme;
+    private IEditorColorScheme codeTheme;
     private StringHighlighter stringHighlighter;
     private CommentHighlighter commentHighlighter;
 
@@ -100,7 +99,7 @@ public class CodeHighlighter implements IHighlighter {
 
 
     @Override
-    public void setCodeTheme(CodeTheme codeTheme) {
+    public void setCodeTheme(IEditorColorScheme codeTheme) {
         this.codeTheme = codeTheme;
         commentHighlighter.setCodeTheme(codeTheme);
         stringHighlighter.setCodeTheme(codeTheme);
