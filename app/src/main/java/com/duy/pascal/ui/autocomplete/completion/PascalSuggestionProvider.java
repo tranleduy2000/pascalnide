@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import static com.duy.pascal.ui.editor.view.AutoIndentEditText.CURSOR;
-import static com.duy.pascal.ui.editor.view.AutoIndentEditText.TAB_STR;
+import static com.duy.pascal.ui.autocomplete.completion.util.CodeTemplate.CURSOR;
+import static com.duy.pascal.ui.autocomplete.completion.util.CodeTemplate.TAB_STR;
 
 /**
  * Created by Duy on 11/11/2017.

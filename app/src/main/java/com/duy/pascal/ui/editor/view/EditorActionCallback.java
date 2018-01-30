@@ -23,18 +23,17 @@ import android.view.MenuItem;
 
 import com.duy.pascal.ui.EditorControl;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.editor.indention.PascalCodeFormatter;
 import com.duy.pascal.ui.utils.DLog;
 
 /**
  * Created by Duy on 12-Dec-17.
  */
-public class EditorActionCallback implements ActionMode.Callback {
+class EditorActionCallback implements ActionMode.Callback {
 
     private static final String TAG = "EditorActionCallback";
     private EditorView editorView;
 
-    public EditorActionCallback(EditorView editText) {
+    EditorActionCallback(EditorView editText) {
         this.editorView = editText;
     }
 

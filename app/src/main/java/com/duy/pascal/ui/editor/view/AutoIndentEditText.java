@@ -29,16 +29,17 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 
 import com.duy.pascal.ui.EditorSetting;
+import com.duy.pascal.ui.autocomplete.completion.util.CodeTemplate;
 import com.duy.pascal.ui.utils.DLog;
+
+import static com.duy.pascal.ui.autocomplete.completion.util.CodeTemplate.CURSOR;
 
 /**
  * Created by Duy on 12-May-17.
  */
 
-public class AutoIndentEditText extends AppCompatEditText {
-    public static final String CURSOR = "\u2622";
+class AutoIndentEditText extends AppCompatEditText {
     private static final String TAG = "AutoIndentEditText";
-    public static String TAB_STR = "  ";
     protected EditorSetting mEditorSetting;
     private TextWatcher mBracketWatcher = new TextWatcher() {
         private int start;
@@ -107,7 +108,7 @@ public class AutoIndentEditText extends AppCompatEditText {
     @CallSuper
     protected void setup(Context context) {
         mEditorSetting = new EditorSetting(context);
-        TAB_STR = mEditorSetting.getTabCharacter();
+        CodeTemplate.TAB_STR = mEditorSetting.getTabCharacter();
         setFilters(new InputFilter[]{mInputFilter});
         addTextChangedListener(mBracketWatcher);
     }
@@ -237,7 +238,7 @@ public class AutoIndentEditText extends AppCompatEditText {
             indent += dest.subSequence(indexStart, indexEnd);
         }
         if (parenthesesCount < 0) {
-            indent += TAB_STR;
+            indent += CodeTemplate.TAB_STR;
         }
         DLog.d(TAG, "indentLine: " + dest.charAt(dend) + " " + dest.charAt(dstart));
 
@@ -263,7 +264,7 @@ public class AutoIndentEditText extends AppCompatEditText {
     }
 
     public String getTabCharacter() {
-        return TAB_STR;
+        return CodeTemplate.TAB_STR;
     }
 
     @Override

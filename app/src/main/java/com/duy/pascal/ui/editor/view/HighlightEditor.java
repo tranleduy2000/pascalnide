@@ -60,9 +60,9 @@ import com.duy.pascal.ui.themefont.themes.ThemeManager;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HighlightEditor extends CodeSuggestsEditText
-        implements View.OnKeyListener, GestureDetector.OnGestureListener {
+public class HighlightEditor extends CodeSuggestsEditText implements View.OnKeyListener, GestureDetector.OnGestureListener {
     public static final String TAG = HighlightEditor.class.getSimpleName();
+
     public static final int SYNTAX_DELAY_MILLIS_SHORT = 100;
     public static final int SYNTAX_DELAY_MILLIS_LONG = 700;
     public static final int CHARS_TO_COLOR = 2500;

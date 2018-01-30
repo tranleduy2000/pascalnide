@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
  * Created by Duy on 18-Jun-17.
  */
 
-public class CommentHighlighter implements Highlighter {
+public class CommentHighlighter implements IHighlighter {
     /**
      * match comment, include // { } (* *) comment
      */

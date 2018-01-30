@@ -42,7 +42,7 @@ import static com.duy.pascal.ui.autocomplete.completion.util.Patterns.SYMBOLS;
 /**
  * Created by Duy on 18-Jun-17.
  */
-public class CodeHighlighter implements Highlighter {
+public class CodeHighlighter implements IHighlighter {
     private static final String TAG = "CodeHighlighter";
     private CodeTheme codeTheme;
     private StringHighlighter stringHighlighter;

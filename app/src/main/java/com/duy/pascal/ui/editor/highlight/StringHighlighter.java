@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
  * Created by Duy on 18-Jun-17.
  */
 
-public class StringHighlighter implements Highlighter {
+public class StringHighlighter implements IHighlighter {
     /**
      * match string pascal
      * include

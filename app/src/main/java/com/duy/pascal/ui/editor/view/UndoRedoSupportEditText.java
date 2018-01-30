@@ -25,6 +25,7 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 
 import com.duy.pascal.ui.EditorControl;
+import com.duy.pascal.ui.autocomplete.completion.util.CodeTemplate;
 import com.duy.pascal.ui.keyboard.KeyListener;
 import com.duy.pascal.ui.keyboard.KeySettings;
 import com.duy.pascal.ui.utils.DLog;
@@ -51,17 +52,26 @@ public class UndoRedoSupportEditText extends HighlightEditor {
 
     public UndoRedoSupportEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
     }
 
     public UndoRedoSupportEditText(Context context) {
         super(context);
-        init();
     }
 
     public UndoRedoSupportEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+    }
+
+    @Override
+    protected void setup(Context context) {
+        super.setup(context);
+        mUndoRedoHelper = new UndoRedoHelper(this);
+        mUndoRedoHelper.setMaxHistorySize(mEditorSetting.getMaxHistoryEdit());
+
+        SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        mSettings = new KeySettings(mPrefs, context);
+        mKeyListener = new KeyListener();
+        mClipboardManager = ClipboardManagerCompatFactory.newInstance(context);
     }
 
     @Nullable
@@ -73,15 +83,6 @@ public class UndoRedoSupportEditText extends HighlightEditor {
         this.mEditorControl = editorControl;
     }
 
-    private void init() {
-        mUndoRedoHelper = new UndoRedoHelper(this);
-        mUndoRedoHelper.setMaxHistorySize(mEditorSetting.getMaxHistoryEdit());
-
-        SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        mSettings = new KeySettings(mPrefs, getContext());
-        mKeyListener = new KeyListener();
-        mClipboardManager = ClipboardManagerCompatFactory.newInstance(getContext());
-    }
 
     /**
      * undo text
@@ -241,7 +242,7 @@ public class UndoRedoSupportEditText extends HighlightEditor {
                     int start, end;
                     start = Math.max(getSelectionStart(), 0);
                     end = Math.max(getSelectionEnd(), 0);
-                    getText().replace(Math.min(start, end), Math.max(start, end), TAB_STR, 0, TAB_STR.length());
+                    getText().replace(Math.min(start, end), Math.max(start, end), CodeTemplate.TAB_STR, 0, CodeTemplate.TAB_STR.length());
                     return true;
                 default:
                     try {

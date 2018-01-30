@@ -24,8 +24,8 @@ import com.duy.pascal.interperter.exceptions.parsing.define.TypeIdentifierExpect
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.Patterns;
 import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
+import com.duy.pascal.ui.autocomplete.completion.util.CodeTemplate;
 import com.duy.pascal.ui.autocomplete.completion.util.KeyWord;
-import com.duy.pascal.ui.editor.view.AutoIndentEditText;
 import com.duy.pascal.ui.editor.view.EditorView;
 
 import java.util.regex.Matcher;
@@ -60,7 +60,7 @@ public class DeclareType implements AutoFixCommand {
 
         if (matcher.find()) {
             insertPosition = matcher.end();
-            textToInsert = editable.getTabCharacter() + type + " = " + AutoIndentEditText.CURSOR + ";\n";
+            textToInsert = editable.getTabCharacter() + type + " = " + CodeTemplate.CURSOR + ";\n";
         } else {
             /*
             if not found "type" keyword, insert new type keyword
@@ -78,7 +78,7 @@ public class DeclareType implements AutoFixCommand {
             } else if ((matcher = Patterns.USES.matcher(scope.getText())).find()) {
                 insertPosition = matcher.end();
             }
-            textToInsert = "\ntype\n" + editable.getTabCharacter() + type + " = " + AutoIndentEditText.CURSOR + ";\n";
+            textToInsert = "\ntype\n" + editable.getTabCharacter() + type + " = " + CodeTemplate.CURSOR + ";\n";
         }
 
         insertPosition += scope.getOffset();

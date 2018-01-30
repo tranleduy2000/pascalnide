@@ -22,7 +22,7 @@ import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.VarargsType;
 
-import static com.duy.pascal.ui.editor.view.AutoIndentEditText.CURSOR;
+import static com.duy.pascal.ui.autocomplete.completion.util.CodeTemplate.CURSOR;
 
 /**
  * Created by Duy on 17-Aug-17.

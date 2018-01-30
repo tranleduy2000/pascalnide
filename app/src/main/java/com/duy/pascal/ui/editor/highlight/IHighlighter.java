@@ -25,9 +25,8 @@ import com.duy.pascal.ui.themefont.model.CodeTheme;
  * Created by Duy on 18-Jun-17.
  */
 
-public interface Highlighter {
-    void highlight(@NonNull Editable allText,
-                   @NonNull CharSequence textToHighlight, int start);
+public interface IHighlighter {
+    void highlight(@NonNull Editable allText, @NonNull CharSequence textToHighlight, int start);
 
     void setCodeTheme(CodeTheme codeTheme);
 }

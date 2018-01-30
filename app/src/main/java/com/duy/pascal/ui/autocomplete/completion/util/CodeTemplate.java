@@ -16,18 +16,18 @@
 
 package com.duy.pascal.ui.autocomplete.completion.util;
 
-import com.duy.pascal.ui.editor.view.AutoIndentEditText;
-
 /**
  * Created by Duy on 22-May-17.
  */
 
 public class CodeTemplate {
+    public static final String CURSOR = "\u2622";
+
     public static final String PROGRAM_TEMPLATE =
             "program %1$s;\n" +
                     "uses crt;\n" +
                     "begin\n" +
-                    "  " + AutoIndentEditText.CURSOR + "\n" +
+                    "  " + CodeTemplate.CURSOR + "\n" +
                     "  readln;\n" +
                     "end.";
 
@@ -52,6 +52,7 @@ public class CodeTemplate {
                     "begin\n" +
                     "  \n" +
                     "end;\n";
+    public static String TAB_STR = "  ";
 
     public static String createProgramTemplate(String name) {
         return String.format(PROGRAM_TEMPLATE, name);

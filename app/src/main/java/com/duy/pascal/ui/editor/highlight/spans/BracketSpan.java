@@ -29,10 +29,11 @@ import android.text.style.ReplacementSpan;
  */
 
 public class BracketSpan extends ReplacementSpan {
+    private static final String TAG = "BracketSpan";
     private int backgroundColor;
     private int textColor;
-    private static final String TAG = "BracketSpan";
     private Paint mBackgroundPaint = new Paint();
+
     public BracketSpan(int backgroundColor, int textColor) {
         this.backgroundColor = backgroundColor;
         this.textColor = textColor;
