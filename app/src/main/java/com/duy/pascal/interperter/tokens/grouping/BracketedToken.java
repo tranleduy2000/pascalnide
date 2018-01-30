@@ -1,6 +1,8 @@
 package com.duy.pascal.interperter.tokens.grouping;
 
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 
@@ -15,6 +17,8 @@ public class BracketedToken extends GrouperToken {
         return "[";
     }
 
+    @NonNull
+    @Override
     public String toCode() {
         StringBuilder tmp = new StringBuilder("[");
         if (next != null) {

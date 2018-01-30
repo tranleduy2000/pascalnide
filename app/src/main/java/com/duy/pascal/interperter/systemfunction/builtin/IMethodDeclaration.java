@@ -48,7 +48,7 @@ public interface IMethodDeclaration {
     Type returnType();
 
     /**
-     * short getDescription of method, it can be null
+     * short description of method, it can be null
      */
     @Nullable
     String description();

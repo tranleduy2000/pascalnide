@@ -205,10 +205,10 @@ public final class MethodDescriptor {
     }
 
     /**
-     * Extracts the parameter getDescription from its annotations.
+     * Extracts the parameter description from its annotations.
      *
      * @param annotations the annotations of the parameter
-     * @return the getDescription of the parameter
+     * @return the description of the parameter
      */
     private static String getDescription(Annotation[] annotations) {
         for (Annotation a : annotations) {

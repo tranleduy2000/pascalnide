@@ -37,7 +37,7 @@ import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.libraries.IPascalLibrary;
 import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.source.ScriptSource;
-import com.duy.pascal.interperter.tokens.EOFToken;
+import com.duy.pascal.interperter.tokens.other.EOFToken;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.WordToken;
 import com.duy.pascal.interperter.tokens.basic.FinalizationToken;

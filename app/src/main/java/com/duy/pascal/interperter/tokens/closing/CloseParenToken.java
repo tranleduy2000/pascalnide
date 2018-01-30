@@ -1,5 +1,7 @@
 package com.duy.pascal.interperter.tokens.closing;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException.Type;
 import com.duy.pascal.interperter.linenumber.LineNumber;
@@ -19,6 +21,7 @@ public class CloseParenToken extends ClosingToken {
                 : new GroupingException(getLineNumber(), Type.MISMATCHED_PARENTHESES);
     }
 
+    @NonNull
     public String toCode() {
         return ")";
     }

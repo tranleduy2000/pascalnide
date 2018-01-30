@@ -17,13 +17,10 @@ public class WordToken extends Token implements NamedEntity {
 
     public Name name;
 
-    private String originalName;
-
     public WordToken(LineNumber line, String s) {
         super(line);
         this.name = Name.create(s);
-        this.originalName = s;
-        this.line.setLength(name.getLength());
+        this.lineNumber.setLength(name.getLength());
     }
 
     @NonNull
@@ -44,11 +41,7 @@ public class WordToken extends Token implements NamedEntity {
     }
 
     public String getOriginalName() {
-        return originalName;
-    }
-
-    public void setOriginalName(String originalName) {
-        this.originalName = originalName;
+        return name.getOriginName();
     }
 
     @Override
@@ -57,7 +50,7 @@ public class WordToken extends Token implements NamedEntity {
     }
 
     public String getCode() {
-        return originalName;
+        return name.getOriginName();
     }
 
     @NonNull
@@ -126,7 +119,7 @@ public class WordToken extends Token implements NamedEntity {
                 returnType = type;
             } else {
                 try {
-                    String clone = originalName.replace("_", ".");
+                    String clone = name.getOriginName().replace("_", ".");
                     Class clazz = Class.forName(clone);
                     returnType = new JavaClassBasedType(clazz);
                 } catch (ClassNotFoundException e) {
@@ -135,7 +128,7 @@ public class WordToken extends Token implements NamedEntity {
                 if (returnType == null) {
                     Object constVal = context.getConstantDefinition(this.name);
                     if (constVal == null) {
-                        throw new TypeIdentifierExpectException(line, name, context);
+                        throw new TypeIdentifierExpectException(lineNumber, name, context);
                     }
                     returnType = BasicType.create(constVal.getClass());
                 }

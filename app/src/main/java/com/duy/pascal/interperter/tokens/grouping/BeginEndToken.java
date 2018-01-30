@@ -1,5 +1,7 @@
 package com.duy.pascal.interperter.tokens.grouping;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 
@@ -9,6 +11,7 @@ public class BeginEndToken extends GrouperToken {
         super(line);
     }
 
+    @NonNull
     @Override
     public String toCode() {
         StringBuilder builder = new StringBuilder("begin ");

@@ -16,7 +16,7 @@
 
 package com.duy.pascal.interperter.tokens;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.linenumber.LineNumber;
 
@@ -25,16 +25,15 @@ import com.duy.pascal.interperter.linenumber.LineNumber;
  */
 
 public class SpaceToken extends Token {
+    private final String text;
 
-    private String text;
-
-    public SpaceToken(@Nullable LineNumber lineNumber, String text) {
+    public SpaceToken(@NonNull LineNumber lineNumber, String text) {
         super(lineNumber);
         this.text = text;
     }
 
     @Override
     public String toString() {
-        return "";
+        return text;
     }
 }

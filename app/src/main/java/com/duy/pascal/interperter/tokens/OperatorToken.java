@@ -1,12 +1,15 @@
 package com.duy.pascal.interperter.tokens;
 
-import com.duy.pascal.interperter.linenumber.LineNumber;
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class OperatorToken extends Token {
-    public OperatorTypes type;
+    @NonNull
+    public final OperatorTypes type;
 
-    public OperatorToken(LineNumber line, OperatorTypes t) {
+    public OperatorToken(@NonNull LineNumber line, @NonNull OperatorTypes t) {
         super(line);
         this.type = t;
     }

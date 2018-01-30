@@ -19,11 +19,9 @@ package com.duy.pascal.interperter.declaration;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.linenumber.LineNumber;
+import com.duy.pascal.interperter.linenumber.ISourcePosition;
 
-public interface NamedEntity {
-    @Nullable
-    LineNumber getLineNumber();
+public interface NamedEntity extends ISourcePosition {
 
     @NonNull
     String getEntityType();

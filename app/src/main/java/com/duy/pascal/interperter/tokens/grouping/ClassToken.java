@@ -1,6 +1,8 @@
 package com.duy.pascal.interperter.tokens.grouping;
 
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.classunit.ClassConstructor;
@@ -30,6 +32,7 @@ public class ClassToken extends GrouperToken {
         super(line);
     }
 
+    @NonNull
     @Override
     public String toCode() {
         StringBuilder result = new StringBuilder("class ");

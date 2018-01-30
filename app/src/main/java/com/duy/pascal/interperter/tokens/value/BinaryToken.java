@@ -16,6 +16,8 @@
 
 package com.duy.pascal.interperter.tokens.value;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
@@ -29,8 +31,8 @@ public class BinaryToken extends ValueToken {
     public BinaryToken(LineNumber line, String value) {
         super(line);
         this.value = value;
-        if (this.line != null) {
-            this.line.setLength(value.length());
+        if (this.lineNumber != null) {
+            this.lineNumber.setLength(value.length());
         }
     }
 
@@ -46,6 +48,7 @@ public class BinaryToken extends ValueToken {
         return value;
     }
 
+    @NonNull
     @Override
     public String toCode() {
         return value;

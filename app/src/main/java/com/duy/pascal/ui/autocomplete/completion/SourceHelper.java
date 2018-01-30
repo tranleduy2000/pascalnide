@@ -17,7 +17,7 @@
 package com.duy.pascal.ui.autocomplete.completion;
 
 import com.duy.pascal.interperter.linenumber.LineNumber;
-import com.duy.pascal.interperter.tokens.EOFToken;
+import com.duy.pascal.interperter.tokens.other.EOFToken;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.WordToken;
 import com.duy.pascal.interperter.tokens.basic.AssignmentToken;

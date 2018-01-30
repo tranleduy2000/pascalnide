@@ -53,7 +53,6 @@ public class WriteFileFunction implements IMethodDeclaration {
     @Override
     public Name getName() {
         return Name.create("Write");
-
     }
 
     @Override

@@ -26,12 +26,12 @@ import com.duy.pascal.interperter.linenumber.LineNumber;
  * Created by Duy on 24-May-17.
  */
 
-public abstract class Token {
+public abstract class Token implements IToken {
     @NonNull
-    protected LineNumber line;
+    protected final LineNumber lineNumber;
 
     public Token(@NonNull LineNumber lineNumber) {
-        this.line = lineNumber;
+        this.lineNumber = lineNumber;
     }
 
     @NonNull
@@ -51,13 +51,10 @@ public abstract class Token {
 
     @NonNull
     public LineNumber getLineNumber() {
-        return this.line;
+        return this.lineNumber;
     }
-
-    public final void setLineNumber(@NonNull LineNumber var1) {
-        this.line = var1;
-    }
-
+@NonNull
+@Override
     public String toCode() {
         return toString();
     }

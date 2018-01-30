@@ -1,17 +1,17 @@
 package com.duy.pascal.interperter.tokens.basic;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 
-public abstract class BasicToken extends Token {
+import java.io.Serializable;
 
-    public BasicToken(@Nullable LineNumber line) {
+public abstract class BasicToken extends Token implements Serializable, Cloneable {
+
+    public BasicToken(@NonNull LineNumber line) {
         super(line);
-        if (this.line != null) {
-            this.line.setLength(toString().length());
-        }
+        this.lineNumber.setLength(toString().length());
     }
 
     public abstract String toString();

@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.tokenizer.Lexer;
-import com.duy.pascal.interperter.tokens.EOFToken;
+import com.duy.pascal.interperter.tokens.other.EOFToken;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.ui.common.utils.IOUtils;
 

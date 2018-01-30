@@ -47,11 +47,11 @@ import com.duy.pascal.interperter.declaration.lang.types.PascalClassType;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
 import com.duy.pascal.interperter.declaration.lang.types.RecordType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
-import com.duy.pascal.interperter.declaration.lang.types.string.StringLimitType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
 import com.duy.pascal.interperter.declaration.lang.types.set.SetType;
+import com.duy.pascal.interperter.declaration.lang.types.string.StringLimitType;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.EnumSubrangeType;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.IntegerRange;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.SubrangeType;
@@ -78,7 +78,7 @@ import com.duy.pascal.interperter.exceptions.parsing.value.NonConstantExpression
 import com.duy.pascal.interperter.exceptions.parsing.value.NonIntegerException;
 import com.duy.pascal.interperter.exceptions.parsing.value.UnAssignableTypeException;
 import com.duy.pascal.interperter.linenumber.LineNumber;
-import com.duy.pascal.interperter.tokens.EOFToken;
+import com.duy.pascal.interperter.tokens.other.EOFToken;
 import com.duy.pascal.interperter.tokens.OperatorToken;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.TokenUtil;
@@ -176,7 +176,7 @@ public abstract class GrouperToken extends Token {
 
                 assertNextCommaForNextConstant(context, groupConstant, elementType);
 
-                return new ConstantAccess<>(array, elementType, child.line);
+                return new ConstantAccess<>(array, elementType, child.lineNumber);
 
             } else if (elementType instanceof EnumGroupType) {
                 Token next = groupConstant.take();
@@ -305,6 +305,7 @@ public abstract class GrouperToken extends Token {
         }
     }
 
+    @NonNull
     public abstract String toCode();
 
     public Token take() throws ExpectedAnotherTokenException, GroupingException {

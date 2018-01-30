@@ -15,7 +15,7 @@ import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenExcepti
 import com.duy.pascal.interperter.exceptions.parsing.value.NonConstantExpressionException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.linenumber.LineNumber;
-import com.duy.pascal.interperter.tokens.EOFToken;
+import com.duy.pascal.interperter.tokens.other.EOFToken;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.ColonToken;
 import com.duy.pascal.interperter.tokens.basic.CommaToken;

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2017 Tran Le Duy
+ *  Copyright (c) 2018 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,28 +14,17 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interperter.tokens.basic;
+package com.duy.pascal.interperter.tokens;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.interperter.linenumber.LineNumber;
+import com.duy.pascal.interperter.linenumber.ISourcePosition;
 
 /**
- * Created by Duy on 13-Jun-17.
+ * Created by Duy on 1/30/2018.
  */
-public class MinusAssignToken extends AssignmentToken {
-    public MinusAssignToken(LineNumber line) {
-        super(line);
-    }
 
-    @Override
-    public String toString() {
-        return "-=";
-    }
-
+public interface IToken extends ISourcePosition {
     @NonNull
-    @Override
-    public String toCode() {
-        return toString();
-    }
+    String toCode();
 }

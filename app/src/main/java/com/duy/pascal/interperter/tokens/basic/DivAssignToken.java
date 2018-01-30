@@ -16,6 +16,8 @@
 
 package com.duy.pascal.interperter.tokens.basic;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
@@ -32,6 +34,7 @@ public class DivAssignToken extends AssignmentToken {
         return "/=";
     }
 
+    @NonNull
     @Override
     public String toCode() {
         return toString();

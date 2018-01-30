@@ -16,6 +16,8 @@
 
 package com.duy.pascal.interperter.tokens.value;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
@@ -29,7 +31,7 @@ public class HexToken extends ValueToken {
     public HexToken(LineNumber line, String value) {
         super(line);
         this.value = value;
-        this.line.setLength(value.length());
+        this.lineNumber.setLength(value.length());
     }
 
     @Override
@@ -44,6 +46,7 @@ public class HexToken extends ValueToken {
         return value;
     }
 
+    @NonNull
     @Override
     public String toCode() {
         return value;

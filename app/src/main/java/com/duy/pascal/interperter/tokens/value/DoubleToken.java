@@ -1,6 +1,8 @@
 package com.duy.pascal.interperter.tokens.value;
 
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class DoubleToken extends ValueToken {
@@ -24,6 +26,7 @@ public class DoubleToken extends ValueToken {
         return value;
     }
 
+    @NonNull
     @Override
     public String toCode() {
         return value;

@@ -1,5 +1,7 @@
 package com.duy.pascal.interperter.tokens.basic;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class ThenToken extends BasicToken {
@@ -12,6 +14,7 @@ public class ThenToken extends BasicToken {
         return "then";
     }
 
+    @NonNull
     public String toCode() {
         return toString();
     }

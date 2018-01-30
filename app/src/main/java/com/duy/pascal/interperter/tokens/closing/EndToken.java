@@ -1,5 +1,6 @@
 package com.duy.pascal.interperter.tokens.closing;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
@@ -32,6 +33,7 @@ public class EndToken extends ClosingToken {
         }
     }
 
+    @NonNull
     public String toCode() {
         return toString();
     }

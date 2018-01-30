@@ -1,5 +1,7 @@
 package com.duy.pascal.interperter.tokens.grouping;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.value.OutputValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
@@ -24,6 +26,7 @@ public class ParenthesizedToken extends GrouperToken {
         return "(";
     }
 
+    @NonNull
     @Override
     public String toCode() {
         StringBuilder builder = new StringBuilder("(");

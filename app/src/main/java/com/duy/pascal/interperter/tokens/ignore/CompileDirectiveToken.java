@@ -16,6 +16,8 @@
 
 package com.duy.pascal.interperter.tokens.ignore;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 
@@ -33,6 +35,7 @@ public class CompileDirectiveToken extends Token {
         return message;
     }
 
+    @NonNull
     @Override
     public String toCode() {
         return message;
