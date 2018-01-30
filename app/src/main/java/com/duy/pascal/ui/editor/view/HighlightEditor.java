@@ -23,6 +23,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Handler;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -121,17 +122,40 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setup(context);
     }
 
     public HighlightEditor(Context context) {
         super(context);
-        setup(context);
     }
 
     public HighlightEditor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setup(context);
+    }
+
+    @CallSuper
+    protected void setup(Context context) {
+        super.setup(context);
+        this.mContext = context;
+
+        mLineUtils = new LineUtils();
+        mPaintNumbers = new Paint();
+        mPaintNumbers.setColor(getResources().getColor(R.color.color_number_color));
+        mPaintNumbers.setAntiAlias(true);
+
+        mPaintHighlight = new Paint();
+
+        mScale = context.getResources().getDisplayMetrics().density;
+        mPadding = (int) (mPaddingDP * mScale);
+        mHighlightedLine = mHighlightStart = -1;
+        mDrawingRect = new Rect();
+        mLineBounds = new Rect();
+        mGestureDetector = new GestureDetector(getContext(), HighlightEditor.this);
+        mChangeListener = new EditTextChangeListener();
+        mCodeHighlighter = new CodeHighlighter(this);
+        mBracketHighlighter = new BracketHighlighter(this, mCodeTheme);
+
+        updateFromSettings();
+        enableTextChangedListener();
     }
 
     public CodeTheme getCodeTheme() {
@@ -154,30 +178,6 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     public void setCanEdit(boolean canEdit) {
         this.mCanEdit = canEdit;
-    }
-
-    private void setup(Context context) {
-        this.mContext = context;
-
-        mLineUtils = new LineUtils();
-        mPaintNumbers = new Paint();
-        mPaintNumbers.setColor(getResources().getColor(R.color.color_number_color));
-        mPaintNumbers.setAntiAlias(true);
-
-        mPaintHighlight = new Paint();
-
-        mScale = context.getResources().getDisplayMetrics().density;
-        mPadding = (int) (mPaddingDP * mScale);
-        mHighlightedLine = mHighlightStart = -1;
-        mDrawingRect = new Rect();
-        mLineBounds = new Rect();
-        mGestureDetector = new GestureDetector(getContext(), HighlightEditor.this);
-        mChangeListener = new EditTextChangeListener();
-        mCodeHighlighter = new CodeHighlighter(this);
-        mBracketHighlighter = new BracketHighlighter(this, mCodeTheme);
-
-        updateFromSettings();
-        enableTextChangedListener();
     }
 
 
@@ -581,7 +581,7 @@ public class HighlightEditor extends CodeSuggestsEditText
 
                 int tmp = offsetVertical + getDropDownHeight() + mCharHeight * 2;
                 if (tmp < heightVisible) {
-                    tmp = offsetVertical + mCharHeight ;
+                    tmp = offsetVertical + mCharHeight;
                     setDropDownVerticalOffset(tmp);
                 } else {
                     tmp = offsetVertical - getDropDownHeight() - mCharHeight;

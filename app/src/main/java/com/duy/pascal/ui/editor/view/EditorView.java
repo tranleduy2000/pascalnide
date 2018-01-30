@@ -28,19 +28,21 @@ public class EditorView extends UndoRedoSupportEditText {
 
     public EditorView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setCustomSelectionActionModeCallback(new EditorActionCallback(this));
     }
+
     public EditorView(Context context) {
         super(context);
-        setCustomSelectionActionModeCallback(new EditorActionCallback(this));
     }
 
     public EditorView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setCustomSelectionActionModeCallback(new EditorActionCallback(this));
-
     }
 
+    @Override
+    protected void setup(Context context) {
+        super.setup(context);
+        setCustomSelectionActionModeCallback(new EditorActionCallback(this));
+    }
 
     public void toast(int resId, Object... arg) {
         Toast.makeText(getContext(), getContext().getString(resId, arg), Toast.LENGTH_SHORT).show();

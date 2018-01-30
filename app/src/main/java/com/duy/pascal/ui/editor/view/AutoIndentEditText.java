@@ -18,6 +18,7 @@ package com.duy.pascal.ui.editor.view;
 
 import android.content.Context;
 import android.os.Parcelable;
+import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
@@ -90,17 +91,25 @@ public class AutoIndentEditText extends AppCompatEditText {
 
     public AutoIndentEditText(Context context) {
         super(context);
-        init(context);
+        setup(context);
     }
 
     public AutoIndentEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        setup(context);
     }
 
     public AutoIndentEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        setup(context);
+    }
+
+    @CallSuper
+    protected void setup(Context context) {
+        mEditorSetting = new EditorSetting(context);
+        TAB_STR = mEditorSetting.getTabCharacter();
+        setFilters(new InputFilter[]{mInputFilter});
+        addTextChangedListener(mBracketWatcher);
     }
 
     protected void enableUndoRedoHelper() {
@@ -128,12 +137,6 @@ public class AutoIndentEditText extends AppCompatEditText {
         applyTabWidth(getText(), 0, getText().length());
     }
 
-    private void init(Context context) {
-        mEditorSetting = new EditorSetting(context);
-        TAB_STR = mEditorSetting.getTabCharacter();
-        setFilters(new InputFilter[]{mInputFilter});
-        addTextChangedListener(mBracketWatcher);
-    }
 
     private CharSequence addBracket(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
         if (!mEditorSetting.useAutoInsert()) {

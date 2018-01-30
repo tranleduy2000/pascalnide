@@ -20,6 +20,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.AsyncTask;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
@@ -87,24 +88,23 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
 
     public CodeSuggestsEditText(Context context) {
         super(context);
-        init(context);
     }
 
     public CodeSuggestsEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
     }
 
     public CodeSuggestsEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
     }
 
     public void setDropDownAnchorId(int mDropDownAnchorId) {
         this.mDropDownAnchorId = mDropDownAnchorId;
     }
 
-    private void init(Context context) {
+    @CallSuper
+    protected void setup(Context context) {
+        super.setup(context);
         mTokenizer = new SymbolsTokenizer();
         setTokenizer(mTokenizer);
         // setThreshold(1);
