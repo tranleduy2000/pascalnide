@@ -21,8 +21,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 
-import com.duy.pascal.ui.view.exec_screen.ScreenObject;
-
 
 /**
  * Text renderer interface

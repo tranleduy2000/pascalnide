@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2017 Tran Le Duy
+ *  Copyright (c) 2018 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.view.exec_screen;
+package com.duy.pascal.ui.editor.interfaces;
 
-import android.graphics.Canvas;
+import android.support.annotation.NonNull;
 
 /**
- * Created by Duy on 26-Mar-17.
+ * Created by Duy on 1/30/2018.
  */
 
+public interface ICodeEditor extends IEditorController {
+    void formatCode();
 
-public interface ScreenObject {
-    void draw(Canvas canvas);
+    @NonNull
+    String getCode();
+
+    void saveFile();
+
+    void saveAs();
 }

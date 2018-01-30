@@ -33,6 +33,7 @@ import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.editor.indention.PascalCodeFormatter;
+import com.duy.pascal.ui.editor.interfaces.ICodeEditor;
 import com.duy.pascal.ui.editor.view.EditorView;
 import com.duy.pascal.ui.editor.view.LineUtils;
 import com.duy.pascal.ui.file.FileManager;
@@ -47,7 +48,7 @@ import java.io.StringReader;
  * Created by Duy on 15-Mar-17.
  * Editor fragment
  */
-public class EditorFragment extends Fragment implements EditorController {
+public class EditorFragment extends Fragment implements ICodeEditor {
     private static final String TAG = "EditorFragment";
     private final Handler mHandler = new Handler();
 
@@ -139,12 +140,12 @@ public class EditorFragment extends Fragment implements EditorController {
     }
 
     @Override
-    public void doFindAndReplace(@NonNull String from, @NonNull String to, boolean regex, boolean matchCase) {
+    public void findAndReplace(@NonNull String from, @NonNull String to, boolean regex, boolean matchCase) {
         mCodeEditor.replaceAll(from, to, regex, matchCase);
     }
 
     @Override
-    public void doFind(@NonNull String find, boolean regex, boolean wordOnly, boolean matchCase) {
+    public void find(@NonNull String find, boolean regex, boolean wordOnly, boolean matchCase) {
         mCodeEditor.find(find, regex, wordOnly, matchCase);
     }
 

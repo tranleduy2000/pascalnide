@@ -55,6 +55,7 @@ import com.duy.pascal.ui.EditorControl;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.code.sample.activities.CodeSampleActivity;
+import com.duy.pascal.ui.editor.interfaces.EditorContext;
 import com.duy.pascal.ui.file.FileActionListener;
 import com.duy.pascal.ui.file.FileClipboard;
 import com.duy.pascal.ui.file.FileExplorerView;

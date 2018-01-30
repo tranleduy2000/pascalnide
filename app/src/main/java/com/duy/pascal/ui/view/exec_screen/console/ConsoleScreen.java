@@ -22,7 +22,6 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.ui.setting.PascalPreferences;
-import com.duy.pascal.ui.view.exec_screen.ScreenObject;
 
 /**
  * Created by Duy on 26-Mar-17.

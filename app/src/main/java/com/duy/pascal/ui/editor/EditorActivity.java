@@ -175,7 +175,7 @@ public class EditorActivity extends BaseEditorActivity implements DrawerLayout.D
             public void onClick(View v) {
                 EditorFragment editorFragment = mPagerAdapter.getCurrentFragment();
                 if (editorFragment != null) {
-                    editorFragment.doFindAndReplace(
+                    editorFragment.findAndReplace(
                             editFind.getText().toString(),
                             editReplace.getText().toString(),
                             ckbRegex.isChecked(),
@@ -216,7 +216,7 @@ public class EditorActivity extends BaseEditorActivity implements DrawerLayout.D
             public void onClick(View v) {
                 EditorFragment editorFragment = mPagerAdapter.getCurrentFragment();
                 if (editorFragment != null) {
-                    editorFragment.doFind(editFind.getText().toString(),
+                    editorFragment.find(editFind.getText().toString(),
                             ckbRegex.isChecked(),
                             ckbWordOnly.isChecked(),
                             ckbMatch.isChecked());

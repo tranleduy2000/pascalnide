@@ -19,8 +19,6 @@ package com.duy.pascal.ui.view.exec_screen.console;
 import android.graphics.Canvas;
 import android.graphics.Color;
 
-import com.duy.pascal.ui.view.exec_screen.ScreenObject;
-
 /**
  * Created by Duy on 04-Apr-17.
  */
