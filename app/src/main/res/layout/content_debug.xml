@@ -38,7 +38,7 @@
             android:layout_height="match_parent"
             android:fillViewport="true">
 
-            <com.duy.pascal.ui.editor.view.HighlightEditor
+            <com.duy.pascal.ui.editor.view.EditorView
                 android:id="@+id/code_editor"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -50,7 +50,7 @@
                 android:scrollbarStyle="insideInset"
                 android:scrollbars="vertical">
 
-            </com.duy.pascal.ui.editor.view.HighlightEditor>
+            </com.duy.pascal.ui.editor.view.EditorView>
         </HorizontalScrollView>
 
     </com.duy.pascal.ui.view.LockableScrollView>

@@ -41,7 +41,7 @@ import com.duy.pascal.ui.utils.clipboard.ClipboardManagerCompatFactory;
  * Created by Duy on 15-Mar-17.
  */
 
-public class UndoRedoSupportEditText extends HighlightEditor {
+class UndoRedoSupportEditText extends HighlightEditor {
 
     private UndoRedoHelper mUndoRedoHelper;
     private KeySettings mSettings;

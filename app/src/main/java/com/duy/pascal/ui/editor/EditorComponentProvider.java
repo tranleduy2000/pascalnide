@@ -16,6 +16,8 @@
 
 package com.duy.pascal.ui.editor;
 
+import com.duy.pascal.ui.editor.interfaces.IEditorCompomentProvider;
+
 /**
  * Created by Duy on 1/30/2018.
  */

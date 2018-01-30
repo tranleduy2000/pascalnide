@@ -55,7 +55,7 @@ import com.duy.pascal.ui.EditorControl;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.code.sample.activities.CodeSampleActivity;
-import com.duy.pascal.ui.editor.interfaces.EditorContext;
+import com.duy.pascal.ui.editor.interfaces.IEditorContext;
 import com.duy.pascal.ui.file.FileActionListener;
 import com.duy.pascal.ui.file.FileClipboard;
 import com.duy.pascal.ui.file.FileExplorerView;
@@ -83,7 +83,7 @@ import java.util.ArrayList;
 
 public abstract class BaseEditorActivity extends BaseActivity implements SymbolListView.OnKeyListener,
         EditorControl, FileActionListener,
-        EditorContext, View.OnClickListener, PopupMenu.OnMenuItemClickListener, DrawerLayout.DrawerListener {
+        IEditorContext, View.OnClickListener, PopupMenu.OnMenuItemClickListener, DrawerLayout.DrawerListener {
     private static final String TAG = "BaseEditorActivity";
 
     protected FileManager mFileManager;

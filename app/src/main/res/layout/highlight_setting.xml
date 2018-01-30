@@ -38,7 +38,7 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.duy.pascal.ui.editor.view.HighlightEditor
+        <com.duy.pascal.ui.editor.view.EditorView
             android:id="@+id/editor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

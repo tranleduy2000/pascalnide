@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.editor;
+package com.duy.pascal.ui.editor.interfaces;
 
 /**
  * Created by Duy on 1/30/2018.

@@ -24,7 +24,7 @@ import java.io.File;
  * Created by Duy on 9/24/2017.
  */
 
-public interface EditorContext {
+public interface IEditorContext {
     @Nullable
     File getCurrentFile();
 }

@@ -63,7 +63,7 @@ import com.duy.pascal.ui.common.utils.IOUtils;
 import com.duy.pascal.ui.debug.CallStack;
 import com.duy.pascal.ui.debug.fragments.FragmentFrame;
 import com.duy.pascal.ui.dialog.DialogHelper;
-import com.duy.pascal.ui.editor.view.HighlightEditor;
+import com.duy.pascal.ui.editor.view.EditorView;
 import com.duy.pascal.ui.editor.view.LineUtils;
 import com.duy.pascal.ui.runnable.AbstractExecActivity;
 import com.duy.pascal.ui.runnable.IProgramHandler;
@@ -83,7 +83,7 @@ public class DebugActivity extends AbstractExecActivity implements IDebugListene
 
     private final Handler mHandler = new Handler();
     private ConsoleView mConsoleView;
-    private HighlightEditor mCodeView;
+    private EditorView mCodeView;
     private Toolbar toolbar;
     private LockableScrollView mScrollView;
     private AlertDialog mAlertDialog;

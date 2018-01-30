@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2017 Tran Le Duy
+ *  Copyright (c) 2018 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.editor.view;
+package com.duy.pascal.ui.editor.view.menu;
 
 import android.view.ActionMode;
 import android.view.Menu;
@@ -23,17 +23,18 @@ import android.view.MenuItem;
 
 import com.duy.pascal.ui.EditorControl;
 import com.duy.pascal.ui.R;
+import com.duy.pascal.ui.editor.view.EditorView;
 import com.duy.pascal.ui.utils.DLog;
 
 /**
  * Created by Duy on 12-Dec-17.
  */
-class EditorActionCallback implements ActionMode.Callback {
+public class EditorActionCallback implements ActionMode.Callback {
 
     private static final String TAG = "EditorActionCallback";
     private EditorView editorView;
 
-    EditorActionCallback(EditorView editText) {
+    public EditorActionCallback(EditorView editText) {
         this.editorView = editText;
     }
 

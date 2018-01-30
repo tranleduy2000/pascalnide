@@ -51,12 +51,6 @@ import com.duy.pascal.ui.utils.DLog;
 
 import java.util.ArrayList;
 
-/**
- * AutoSuggestsEditText
- * show hint when typing
- * Created by Duy on 28-Feb-17.
- */
-
 public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     private static final String TAG = "CodeSuggestsEditText";
 
