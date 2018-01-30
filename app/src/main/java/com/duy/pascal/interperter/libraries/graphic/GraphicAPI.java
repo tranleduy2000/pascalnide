@@ -24,7 +24,7 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.ui.utils.DLog;
-import com.duy.pascal.ui.runnable.ConsoleHandler;
+import com.duy.pascal.ui.runnable.IConsoleHandler;
 import com.duy.pascal.ui.view.exec_screen.console.ConsoleCursor;
 import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
@@ -76,14 +76,14 @@ public class GraphicAPI extends PascalLibrary {
     public static final String NAME = "graph";
     private static final String TAG = "GraphLib";
     @NonNull
-    private ConsoleHandler handler;
+    private IConsoleHandler handler;
     private GraphScreen mGraphScreen;
 
     public GraphicAPI() {
 
     }
 
-    public GraphicAPI(@NonNull ConsoleHandler handler) {
+    public GraphicAPI(@NonNull IConsoleHandler handler) {
         this.handler = handler;
         if (handler.getConsoleView() != null) {
             this.mGraphScreen = handler.getConsoleView().getGraphScreen();

@@ -26,7 +26,7 @@ import com.duy.pascal.interperter.libraries.PascalLibrary;
 import com.duy.pascal.interperter.libraries.android.activity.PascalFutureResult;
 import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.libraries.annotations.PascalParameter;
-import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.runnable.IProgramHandler;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -78,7 +78,7 @@ public class EventFacade extends PascalLibrary {
     private final Context mContext;
     private EventServer mEventServer = null;
 
-    public EventFacade(ProgramHandler manager) {
+    public EventFacade(IProgramHandler manager) {
         mContext = manager.getApplicationContext();
     }
 

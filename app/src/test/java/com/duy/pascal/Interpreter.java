@@ -20,7 +20,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.interperter.core.PascalCompiler;
+import com.duy.pascal.interperter.core.PascalCompilerFactory;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.Diagnostic;
 import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
@@ -28,7 +28,7 @@ import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.libraries.io.IOLib;
 import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.source.ScriptSource;
-import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.runnable.IProgramHandler;
 import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 
@@ -65,9 +65,9 @@ public class Interpreter {
 
         DiagnosticCollector diagnosticCollector = new DiagnosticCollector();
 
-        PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(
+        PascalProgramDeclaration pascalProgram = PascalCompilerFactory.makePascalProgram(
                 new TestSource(programFile), include,
-                new ProgramHandler() {
+                new IProgramHandler() {
                     @Override
                     public String getCurrentDirectory() {
                         return programFile.getParent();
@@ -188,9 +188,9 @@ public class Interpreter {
         ArrayList<ScriptSource> searchPath = new ArrayList<>();
         searchPath.add(new FileScriptSource(new File(programPath)));
         try {
-            PascalCompiler.loadPascal(
+            PascalCompilerFactory.makePascalProgram(
                     new TestSource(programFile), searchPath,
-                    new ProgramHandler() {
+                    new IProgramHandler() {
                         @Override
                         public String getCurrentDirectory() {
                             return programFile.getParent();

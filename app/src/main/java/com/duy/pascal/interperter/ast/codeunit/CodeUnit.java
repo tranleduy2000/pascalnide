@@ -15,7 +15,7 @@ import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokenizer.GroupParser;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
-import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.runnable.IProgramHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +30,12 @@ public abstract class CodeUnit {
     public CodeUnit() {
     }
 
-    public CodeUnit(@Nullable ProgramHandler handler) {
+    public CodeUnit(@Nullable IProgramHandler handler) {
         this.mContext = createExpressionContext(handler);
     }
 
     public CodeUnit(@NonNull ScriptSource source, @Nullable List<ScriptSource> include,
-                    @Nullable ProgramHandler handler)
+                    @Nullable IProgramHandler handler)
             throws Exception {
         this.mSource = source;
         this.mContext = createExpressionContext(handler);
@@ -80,7 +80,7 @@ public abstract class CodeUnit {
         return mContext;
     }
 
-    protected abstract ExpressionContextMixin createExpressionContext(ProgramHandler handler);
+    protected abstract ExpressionContextMixin createExpressionContext(IProgramHandler handler);
 
     private void parseTree(GrouperToken tokens) throws Exception {
         try {
@@ -104,7 +104,7 @@ public abstract class CodeUnit {
     }
 
     protected static abstract class CodeUnitExpressionContext extends ExpressionContextMixin {
-        public CodeUnitExpressionContext(@NonNull CodeUnit root, @NonNull ProgramHandler handler) {
+        public CodeUnitExpressionContext(@NonNull CodeUnit root, @NonNull IProgramHandler handler) {
             super(root, null, handler);
         }
 

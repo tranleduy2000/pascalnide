@@ -71,7 +71,7 @@ import com.duy.pascal.interperter.tokens.grouping.BeginEndToken;
 import com.duy.pascal.interperter.tokens.grouping.BracketedToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.interperter.tokens.ignore.CompileDirectiveToken;
-import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.runnable.IProgramHandler;
 import com.duy.pascal.ui.utils.DLog;
 
 import java.io.Reader;
@@ -96,7 +96,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
      * activity value, uses for input and output
      */
     @Nullable
-    private ProgramHandler mHandler;
+    private IProgramHandler mHandler;
     /**
      * list function and procedure pascal, support overload function
      */
@@ -138,7 +138,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     }
 
     public ExpressionContextMixin(CodeUnit root, ExpressionContext parent,
-                                  @NonNull ProgramHandler handler) {
+                                  @NonNull IProgramHandler handler) {
         super(root, parent);
 
         this.mHandler = handler;

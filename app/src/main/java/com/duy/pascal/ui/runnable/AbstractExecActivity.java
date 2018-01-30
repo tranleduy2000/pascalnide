@@ -25,7 +25,7 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.config.DebugMode;
-import com.duy.pascal.interperter.core.PascalCompiler;
+import com.duy.pascal.interperter.core.PascalCompilerFactory;
 import com.duy.pascal.interperter.debugable.IDebugListener;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
@@ -48,7 +48,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.duy.pascal.ui.runnable.model.InputData.MAX_INPUT;
 
-public abstract class AbstractExecActivity extends BaseActivity implements ProgramHandler {
+public abstract class AbstractExecActivity extends BaseActivity implements IProgramHandler {
     public static final boolean DEBUG = DLog.DEBUG;
     protected static final String TAG = AbstractExecActivity.class.getSimpleName();
     protected static final int COMPLETE = 4;
@@ -141,7 +141,7 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
                     ArrayList<ScriptSource> include = new ArrayList<>();
                     FileScriptSource source = new FileScriptSource(new File(mFilePath));
                     include.add(source);
-                    PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(source, include,
+                    PascalProgramDeclaration pascalProgram = PascalCompilerFactory.makePascalProgram(source, include,
                             AbstractExecActivity.this);
 
                     mProgram = pascalProgram.generate();

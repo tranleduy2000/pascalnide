@@ -21,7 +21,7 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.libraries.PascalLibrary;
 import com.duy.pascal.interperter.libraries.android.temp.AndroidUtilsLib;
-import com.duy.pascal.ui.runnable.ActivityHandler;
+import com.duy.pascal.ui.runnable.IActivityHandler;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
 
 import java.lang.reflect.Method;
@@ -31,7 +31,7 @@ public class AndroidLibraryManager extends RpcReceiverManager {
     private Context mContext;
     private int mSdkLevel;
 
-    public AndroidLibraryManager(int sdkLevel, ActivityHandler context) {
+    public AndroidLibraryManager(int sdkLevel, IActivityHandler context) {
         mSdkLevel = sdkLevel;
         if (context != null) {
             mContext = context.getApplicationContext();

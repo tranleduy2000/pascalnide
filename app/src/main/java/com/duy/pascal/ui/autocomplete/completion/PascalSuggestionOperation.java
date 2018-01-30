@@ -23,7 +23,7 @@ import com.duy.pascal.interperter.ast.CodeUnitParsingException;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime.value.NullValue;
-import com.duy.pascal.interperter.core.PascalCompiler;
+import com.duy.pascal.interperter.core.PascalCompilerFactory;
 import com.duy.pascal.interperter.datastructure.ArrayListMultimap;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
@@ -119,7 +119,7 @@ public class PascalSuggestionOperation {
 
             if (source.length() <= LIMIT_CHAR) {
                 try {
-                    CodeUnit codeUnit = PascalCompiler.loadPascal(scriptSource, null, null);
+                    CodeUnit codeUnit = PascalCompilerFactory.makePascalProgram(scriptSource, null, null);
                     //the result
                     addSuggestFromContext(suggestItems, codeUnit.getContext());
                     mParsingException = null;

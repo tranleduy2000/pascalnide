@@ -21,7 +21,7 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime.references.PascalReference;
-import com.duy.pascal.interperter.core.PascalCompiler;
+import com.duy.pascal.interperter.core.PascalCompilerFactory;
 import com.duy.pascal.interperter.exceptions.parsing.io.InputStreamNotFoundException;
 import com.duy.pascal.interperter.exceptions.runtime.InvalidNumericFormatException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
@@ -42,7 +42,7 @@ public class IOLib extends PascalLibrary {
 
     private PrintStream stdout;
     private Scanner stdin;
-    private InOutListener listener;
+    private IInOutListener listener;
     private RuntimeExecutableCodeUnit.ControlMode state = RuntimeExecutableCodeUnit.ControlMode.PAUSED;
     @NonNull
     private String inputBuffer = "";
@@ -51,7 +51,7 @@ public class IOLib extends PascalLibrary {
      * default constructor
      */
     public IOLib() {
-        if (!PascalCompiler.android) {
+        if (!PascalCompilerFactory.android) {
             this.stdout = System.out;
             this.stdin = new Scanner(System.in);
         }
@@ -59,11 +59,11 @@ public class IOLib extends PascalLibrary {
 
 
     /**
-     * constructor call by {@link ClassLoader} in {@link PascalCompiler}
+     * constructor call by {@link ClassLoader} in {@link PascalCompilerFactory}
      */
-    public IOLib(InOutListener listener) {
+    public IOLib(IInOutListener listener) {
         this.listener = listener;
-        if (!PascalCompiler.android) {
+        if (!PascalCompilerFactory.android) {
             this.stdout = System.out;
             this.stdin = new Scanner(System.in);
         }

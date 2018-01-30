@@ -18,7 +18,8 @@ package com.duy.pascal.interperter.libraries.crt;
 
 import android.graphics.Color;
 
-import com.duy.pascal.ui.runnable.ConsoleHandler;
+import com.duy.pascal.interperter.core.PascalCompilerFactory;
+import com.duy.pascal.ui.runnable.IConsoleHandler;
 import com.duy.pascal.ui.view.exec_screen.console.ConsoleCursor;
 import com.duy.pascal.ui.view.exec_screen.console.ConsoleScreen;
 import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
@@ -46,7 +47,7 @@ public class CrtLib extends PascalLibrary {
     public static final String NAME = "crt";
 
 
-    private ConsoleHandler handler;
+    private IConsoleHandler handler;
     private AtomicBoolean canPlaySound = new AtomicBoolean(false);
     private long finalFrequency;
     private Runnable soundRunnable = new Runnable() {
@@ -65,9 +66,9 @@ public class CrtLib extends PascalLibrary {
     private Thread soundThread;
 
     /**
-     * constructor call by {@link ClassLoader} in {@link com.duy.pascal.interperter.core.PascalCompiler}
+     * constructor call by {@link ClassLoader} in {@link PascalCompilerFactory}
      */
-    public CrtLib(ConsoleHandler handler) {
+    public CrtLib(IConsoleHandler handler) {
         this.handler = handler;
     }
 

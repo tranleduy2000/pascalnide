@@ -66,7 +66,7 @@ import com.duy.pascal.ui.dialog.DialogHelper;
 import com.duy.pascal.ui.editor.view.HighlightEditor;
 import com.duy.pascal.ui.editor.view.LineUtils;
 import com.duy.pascal.ui.runnable.AbstractExecActivity;
-import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.runnable.IProgramHandler;
 import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.view.LockableScrollView;
 import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
@@ -79,7 +79,7 @@ import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
-public class DebugActivity extends AbstractExecActivity implements IDebugListener, ProgramHandler {
+public class DebugActivity extends AbstractExecActivity implements IDebugListener, IProgramHandler {
 
     private final Handler mHandler = new Handler();
     private ConsoleView mConsoleView;

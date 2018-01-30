@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.declaration.classunit;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.runnable.IProgramHandler;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.ExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
@@ -33,12 +33,12 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 public class PascalClassDeclaration extends CodeUnit implements Cloneable {
 
     private CodeUnit root;
-    private ProgramHandler handler;
+    private IProgramHandler handler;
     @NonNull
     private ExpressionContext parent;
 
     public PascalClassDeclaration(CodeUnit root, @NonNull ExpressionContext parent,
-                                  ProgramHandler handler) throws Exception {
+                                  IProgramHandler handler) throws Exception {
         this.root = root;
         this.parent = parent;
         this.handler = handler;
@@ -46,7 +46,7 @@ public class PascalClassDeclaration extends CodeUnit implements Cloneable {
     }
 
     @Override
-    protected ExpressionContextMixin createExpressionContext(@Nullable ProgramHandler handler) {
+    protected ExpressionContextMixin createExpressionContext(@Nullable IProgramHandler handler) {
         return new ClassExpressionContext(root, parent);
     }
 

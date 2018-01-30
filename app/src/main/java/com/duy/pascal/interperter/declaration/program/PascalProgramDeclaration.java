@@ -32,7 +32,7 @@ import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.PeriodToken;
 import com.duy.pascal.interperter.tokens.basic.ProgramToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
-import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.runnable.IProgramHandler;
 
 import java.util.List;
 
@@ -40,13 +40,13 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
     public Node root;
 
     public PascalProgramDeclaration(ScriptSource source, List<ScriptSource> include,
-                                    ProgramHandler handler, DiagnosticCollector collector)
+                                    IProgramHandler handler, DiagnosticCollector collector)
             throws Exception {
         super(source, include, handler, collector);
     }
 
     @Override
-    protected PascalProgramExpressionContext createExpressionContext(ProgramHandler handler) {
+    protected PascalProgramExpressionContext createExpressionContext(IProgramHandler handler) {
         return new PascalProgramExpressionContext(this, handler);
     }
 
@@ -56,7 +56,7 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
     }
 
     protected class PascalProgramExpressionContext extends CodeUnitExpressionContext {
-        PascalProgramExpressionContext(PascalProgramDeclaration root, @NonNull ProgramHandler handler) {
+        PascalProgramExpressionContext(PascalProgramDeclaration root, @NonNull IProgramHandler handler) {
             super(root, handler);
             root.getConfig().setLibrary(false);
         }

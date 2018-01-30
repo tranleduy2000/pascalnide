@@ -22,7 +22,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
-import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.runnable.IProgramHandler;
 import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.libraries.PascalLibrary;
@@ -51,9 +51,9 @@ public class GestureAPI extends PascalLibrary implements View.OnTouchListener {
     private ShoveGestureDetector mShoveDetector;
 
     @Nullable
-    private ProgramHandler handler;
+    private IProgramHandler handler;
 
-    public GestureAPI(@Nullable ProgramHandler handler) {
+    public GestureAPI(@Nullable IProgramHandler handler) {
         this.handler = handler;
         if (handler != null && handler.getConsoleView() != null) {
             setup(handler.getConsoleView());

@@ -42,7 +42,7 @@ import android.widget.Toast;
 import com.duy.pascal.interperter.ast.CodeUnitParsingException;
 import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.core.PascalCompiler;
+import com.duy.pascal.interperter.core.PascalCompilerFactory;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.define.MainProgramNotFoundException;
@@ -59,6 +59,7 @@ import com.duy.pascal.ui.common.utils.UIUtils;
 import com.duy.pascal.ui.editor.view.EditorView;
 import com.duy.pascal.ui.file.FileManager;
 import com.duy.pascal.ui.file.util.FileUtils;
+import com.duy.pascal.ui.runnable.IProgramHandler;
 import com.duy.pascal.ui.setting.PascalPreferences;
 import com.duy.pascal.ui.structure.DialogProgramStructure;
 import com.duy.pascal.ui.structure.viewholder.StructureItem;
@@ -279,11 +280,11 @@ public class EditorActivity extends BaseEditorActivity implements DrawerLayout.D
             ArrayList<ScriptSource> searchPath = new ArrayList<>();
             searchPath.add(new FileScriptSource(new File(filePath)));
             if (getCode().trim().toLowerCase().startsWith("unit ")) {
-                PascalCompiler.loadLibrary(new FileScriptSource(new File(filePath)),
+                PascalCompilerFactory.makePascalLibrary(new FileScriptSource(new File(filePath)),
                         searchPath,
                         new ProgramHandler(filePath));
             } else {
-                codeUnit = PascalCompiler.loadPascal(new FileScriptSource(new File(filePath)),
+                codeUnit = PascalCompilerFactory.makePascalProgram(new FileScriptSource(new File(filePath)),
                         searchPath, new ProgramHandler(filePath));
                 if (((PascalProgramDeclaration) codeUnit).root == null) {
                     showErrorDialog(new MainProgramNotFoundException());
@@ -582,8 +583,8 @@ public class EditorActivity extends BaseEditorActivity implements DrawerLayout.D
     public void showProgramStructure() {
         try {
             String filePath = getCurrentFilePath();
-            PascalProgramDeclaration pascalProgram = PascalCompiler
-                    .loadPascal(new FileScriptSource(new File(filePath)),
+            PascalProgramDeclaration pascalProgram = PascalCompilerFactory
+                    .makePascalProgram(new FileScriptSource(new File(filePath)),
                             new ArrayList<ScriptSource>(), null);
 
             if (pascalProgram.root == null) {
@@ -635,7 +636,7 @@ public class EditorActivity extends BaseEditorActivity implements DrawerLayout.D
     }
 
 
-    private class ProgramHandler implements com.duy.pascal.ui.runnable.ProgramHandler {
+    private class ProgramHandler implements IProgramHandler {
 
         private String programPath;
 

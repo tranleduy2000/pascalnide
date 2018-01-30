@@ -51,7 +51,7 @@ import com.duy.pascal.interperter.tokens.basic.ProcedureToken;
 import com.duy.pascal.interperter.tokens.closing.EndToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.interperter.tokens.grouping.UnitToken;
-import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.runnable.IProgramHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,17 +59,17 @@ import java.util.List;
 import java.util.Map;
 
 public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascalLibrary {
-    private ProgramHandler handler;
+    private IProgramHandler handler;
 
     public PascalUnitDeclaration(@NonNull ScriptSource source,
                                  @Nullable List<ScriptSource> include,
-                                 @Nullable ProgramHandler handler) throws Exception {
+                                 @Nullable IProgramHandler handler) throws Exception {
         super(source, include, handler, null);
         this.handler = handler;
     }
 
     @Override
-    protected UnitExpressionContext createExpressionContext(ProgramHandler handler) {
+    protected UnitExpressionContext createExpressionContext(IProgramHandler handler) {
         return new UnitExpressionContext(this, handler);
     }
 
@@ -145,7 +145,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
         @Nullable
         private LineNumber startLine;
 
-        UnitExpressionContext(@NonNull PascalUnitDeclaration root, @NonNull ProgramHandler handler) {
+        UnitExpressionContext(@NonNull PascalUnitDeclaration root, @NonNull IProgramHandler handler) {
             super(root, handler);
             root.config.setLibrary(true);
         }

@@ -1,11 +1,11 @@
 package com.duy.pascal.interperter.libraries.crt;
 
-import com.duy.pascal.ui.runnable.ConsoleHandler;
+import com.duy.pascal.ui.runnable.IConsoleHandler;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.libraries.PascalLibrary;
 import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.libraries.io.IOLib;
-import com.duy.pascal.interperter.libraries.io.InOutListener;
+import com.duy.pascal.interperter.libraries.io.IInOutListener;
 import com.duy.pascal.interperter.exceptions.runtime.WrongArgsException;
 
 /**
@@ -23,7 +23,7 @@ import com.duy.pascal.interperter.exceptions.runtime.WrongArgsException;
 @SuppressWarnings("unused")
 public class WinCrt extends PascalLibrary {
     public static final String NAME = "wincrt";
-    private ConsoleHandler mHandler;
+    private IConsoleHandler mHandler;
     private CrtLib crtLib;
     private IOLib ioLib;
 
@@ -31,10 +31,10 @@ public class WinCrt extends PascalLibrary {
 
     }
 
-    public WinCrt(ConsoleHandler handler) {
+    public WinCrt(IConsoleHandler handler) {
         this.mHandler = handler;
         this.crtLib = new CrtLib(handler);
-        ioLib = new IOLib((InOutListener) handler);
+        ioLib = new IOLib((IInOutListener) handler);
     }
 
 

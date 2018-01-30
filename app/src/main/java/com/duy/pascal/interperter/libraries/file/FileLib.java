@@ -29,7 +29,7 @@ import com.duy.pascal.interperter.libraries.exceptions.CanNotReadVariableExcepti
 import com.duy.pascal.interperter.libraries.file.exceptions.FileNotAssignException;
 import com.duy.pascal.interperter.libraries.file.exceptions.FileNotOpenException;
 import com.duy.pascal.interperter.libraries.file.exceptions.FileNotOpenForInputException;
-import com.duy.pascal.interperter.libraries.io.InOutListener;
+import com.duy.pascal.interperter.libraries.io.IInOutListener;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
@@ -48,13 +48,13 @@ public class FileLib extends PascalLibrary {
      * key is the path of file
      */
     private HashMap<String, FileEntry> mFilesMap = new HashMap<>();
-    private InOutListener inOutListener;
+    private IInOutListener inOutListener;
 
     public FileLib() {
 
     }
 
-    public FileLib(InOutListener handler) {
+    public FileLib(IInOutListener handler) {
         this.inOutListener = handler;
     }
 

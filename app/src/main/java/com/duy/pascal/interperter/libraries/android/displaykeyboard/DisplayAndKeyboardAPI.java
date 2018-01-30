@@ -18,7 +18,7 @@ package com.duy.pascal.interperter.libraries.android.displaykeyboard;
 
 import android.content.pm.ActivityInfo;
 
-import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.runnable.IProgramHandler;
 import com.duy.pascal.interperter.libraries.PascalLibrary;
 
 /**
@@ -28,14 +28,14 @@ import com.duy.pascal.interperter.libraries.PascalLibrary;
 @SuppressWarnings("unused")
 public class DisplayAndKeyboardAPI extends PascalLibrary {
     public static final String NAME = "aKeyboard".toLowerCase();
-    private ProgramHandler handler;
+    private IProgramHandler handler;
     private int orientation = Orientation.LANDSCAPE;
 
     public DisplayAndKeyboardAPI() {
 
     }
 
-    public DisplayAndKeyboardAPI(ProgramHandler handler) {
+    public DisplayAndKeyboardAPI(IProgramHandler handler) {
         this.handler = handler;
     }
 

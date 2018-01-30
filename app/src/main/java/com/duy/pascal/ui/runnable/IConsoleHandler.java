@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 Tran Le Duy
+ *  Copyright (c) 2017 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,14 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interperter.libraries.io;
+package com.duy.pascal.ui.runnable;
 
-/**
- * Created by Duy on 21-Apr-17.
- */
+import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
 
-public interface InOutListener {
-    void startInput(IOLib lock);
 
-    void print(CharSequence charSequence);
+public interface IConsoleHandler {
 
-    void println(CharSequence charSequence);
+    ConsoleView getConsoleView();
 
-    char getKeyBuffer();
-
-    boolean keyPressed();
-
-    String getCurrentDirectory();
+    void clearConsole();
 }

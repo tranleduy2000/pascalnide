@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2017 Tran Le Duy
+ *  Copyright 2017 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,22 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.runnable;
-
-import com.duy.pascal.interperter.libraries.io.InOutListener;
+package com.duy.pascal.interperter.libraries.io;
 
 /**
- * Created by Duy on 29-May-17.
+ * Created by Duy on 21-Apr-17.
  */
 
-public interface ProgramHandler extends
-        ConsoleHandler,
-        InOutListener,
-        ActivityHandler {
+public interface IInOutListener {
+    void startInput(IOLib lock);
 
+    void print(CharSequence charSequence);
+
+    void println(CharSequence charSequence);
+
+    char getKeyBuffer();
+
+    boolean keyPressed();
+
+    String getCurrentDirectory();
 }

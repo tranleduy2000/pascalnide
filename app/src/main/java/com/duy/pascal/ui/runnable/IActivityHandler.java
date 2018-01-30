@@ -16,12 +16,21 @@
 
 package com.duy.pascal.ui.runnable;
 
-import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
+import android.app.Activity;
+import android.content.Context;
 
+/**
+ * Created by Duy on 29-May-17.
+ */
 
-public interface ConsoleHandler {
+public interface IActivityHandler {
+    /**
+     * @return current android context
+     */
+    Context getApplicationContext();
 
-    ConsoleView getConsoleView();
-
-    void clearConsole();
+    /**
+     * @return current activity
+     */
+    Activity getActivity();
 }

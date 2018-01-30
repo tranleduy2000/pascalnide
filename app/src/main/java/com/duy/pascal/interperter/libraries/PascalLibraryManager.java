@@ -58,7 +58,7 @@ import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.libraries.crt.CrtLib;
 import com.duy.pascal.interperter.libraries.crt.WinCrt;
 import com.duy.pascal.interperter.libraries.graphic.GraphicAPI;
-import com.duy.pascal.interperter.libraries.io.InOutListener;
+import com.duy.pascal.interperter.libraries.io.IInOutListener;
 import com.duy.pascal.interperter.libraries.java.data.JavaCollectionsAPI;
 import com.duy.pascal.interperter.libraries.math.MathLib;
 import com.duy.pascal.interperter.linenumber.LineNumber;
@@ -87,8 +87,8 @@ import com.duy.pascal.interperter.function.io.WriteFunction;
 import com.duy.pascal.interperter.function.io.WriteLineFunction;
 import com.duy.pascal.interperter.function.io.WritelnFileFunction;
 import com.duy.pascal.ui.autocomplete.completion.model.DescriptionImpl;
-import com.duy.pascal.ui.runnable.ConsoleHandler;
-import com.duy.pascal.ui.runnable.ProgramHandler;
+import com.duy.pascal.ui.runnable.IConsoleHandler;
+import com.duy.pascal.ui.runnable.IProgramHandler;
 import com.duy.pascal.ui.structure.viewholder.StructureType;
 import com.duy.pascal.ui.utils.DLog;
 
@@ -146,11 +146,11 @@ public class PascalLibraryManager {
     @NonNull
     private ExpressionContextMixin mProgram;
     @Nullable
-    private ProgramHandler mHandler;
+    private IProgramHandler mHandler;
     private AndroidLibraryManager mFacadeManager;
 
     public PascalLibraryManager(@NonNull ExpressionContextMixin program,
-                                @NonNull ProgramHandler handler) {
+                                @NonNull IProgramHandler handler) {
         this.mProgram = program;
         this.mHandler = handler;
         this.mFacadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkVersion(), handler);
@@ -195,13 +195,13 @@ public class PascalLibraryManager {
         Object parent = null;
         Constructor constructor;
         try {
-            constructor = clazz.getConstructor(InOutListener.class);
+            constructor = clazz.getConstructor(IInOutListener.class);
             parent = constructor.newInstance(mHandler);
         } catch (Exception ignored) {
         }
         if (parent == null) {
             try {
-                constructor = clazz.getConstructor(ConsoleHandler.class);
+                constructor = clazz.getConstructor(IConsoleHandler.class);
                 parent = constructor.newInstance(mHandler);
             } catch (Exception ignored) {
             }

@@ -16,21 +16,15 @@
 
 package com.duy.pascal.ui.runnable;
 
-import android.app.Activity;
-import android.content.Context;
+import com.duy.pascal.interperter.libraries.io.IInOutListener;
 
 /**
  * Created by Duy on 29-May-17.
  */
 
-public interface ActivityHandler {
-    /**
-     * @return current android context
-     */
-    Context getApplicationContext();
+public interface IProgramHandler extends
+        IConsoleHandler,
+        IInOutListener,
+        IActivityHandler {
 
-    /**
-     * @return current activity
-     */
-    Activity getActivity();
 }
