@@ -21,7 +21,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
-import com.duy.pascal.ui.view.exec_screen.console.TextConsole;
+import com.duy.pascal.ui.view.console.TextConsole;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;

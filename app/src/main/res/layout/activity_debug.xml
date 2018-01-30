@@ -46,7 +46,7 @@
 
         <include layout="@layout/content_debug" />
 
-        <com.duy.pascal.ui.view.exec_screen.console.ConsoleView
+        <com.duy.pascal.ui.view.console.ConsoleView
             android:id="@+id/console_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

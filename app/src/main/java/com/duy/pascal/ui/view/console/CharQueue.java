@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.view.exec_screen.console;
+package com.duy.pascal.ui.view.console;
 
 /**
  * Created by Duy on 10-Feb-17.

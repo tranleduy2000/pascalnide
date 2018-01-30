@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.ui.view.exec_screen.console;
+package com.duy.pascal.ui.view.console;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

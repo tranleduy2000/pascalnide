@@ -20,10 +20,10 @@ import android.graphics.Color;
 
 import com.duy.pascal.interperter.core.PascalCompilerFactory;
 import com.duy.pascal.ui.runnable.IConsoleHandler;
-import com.duy.pascal.ui.view.exec_screen.console.ConsoleCursor;
-import com.duy.pascal.ui.view.exec_screen.console.ConsoleScreen;
-import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
-import com.duy.pascal.ui.view.exec_screen.console.TextRenderer;
+import com.duy.pascal.ui.view.console.ConsoleCursor;
+import com.duy.pascal.ui.view.console.ConsoleScreen;
+import com.duy.pascal.ui.view.console.ConsoleView;
+import com.duy.pascal.ui.view.console.TextRenderer;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.libraries.PascalLibrary;
 import com.duy.pascal.interperter.libraries.android.media.AndroidToneGeneratorLib;

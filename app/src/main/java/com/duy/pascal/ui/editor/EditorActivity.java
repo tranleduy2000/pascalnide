@@ -66,7 +66,7 @@ import com.duy.pascal.ui.structure.viewholder.StructureItem;
 import com.duy.pascal.ui.themefont.activities.ThemeFontActivity;
 import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.utils.StoreUtil;
-import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
+import com.duy.pascal.ui.view.console.ConsoleView;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 

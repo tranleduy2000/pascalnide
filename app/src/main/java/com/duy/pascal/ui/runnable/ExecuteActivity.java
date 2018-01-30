@@ -31,7 +31,7 @@ import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.code.ExceptionManager;
 import com.duy.pascal.ui.dialog.DialogHelper;
 import com.duy.pascal.ui.utils.DLog;
-import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
+import com.duy.pascal.ui.view.console.ConsoleView;
 
 import java.io.File;
 

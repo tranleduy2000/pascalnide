@@ -16,7 +16,7 @@
 
 package com.duy.pascal.ui.runnable;
 
-import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
+import com.duy.pascal.ui.view.console.ConsoleView;
 
 
 public interface IConsoleHandler {

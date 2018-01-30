@@ -25,8 +25,8 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.runnable.IConsoleHandler;
-import com.duy.pascal.ui.view.exec_screen.console.ConsoleCursor;
-import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
+import com.duy.pascal.ui.view.console.ConsoleCursor;
+import com.duy.pascal.ui.view.console.ConsoleView;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.interperter.ast.runtime.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime.value.RecordValue;

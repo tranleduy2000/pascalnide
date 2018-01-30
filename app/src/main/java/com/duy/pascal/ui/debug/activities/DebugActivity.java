@@ -69,7 +69,7 @@ import com.duy.pascal.ui.runnable.AbstractExecActivity;
 import com.duy.pascal.ui.runnable.IProgramHandler;
 import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.view.LockableScrollView;
-import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
+import com.duy.pascal.ui.view.console.ConsoleView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;

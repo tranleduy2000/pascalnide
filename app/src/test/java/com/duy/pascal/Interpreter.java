@@ -30,7 +30,7 @@ import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.ui.runnable.IProgramHandler;
 import com.duy.pascal.ui.utils.DLog;
-import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
+import com.duy.pascal.ui.view.console.ConsoleView;
 
 import java.io.File;
 import java.io.FileInputStream;

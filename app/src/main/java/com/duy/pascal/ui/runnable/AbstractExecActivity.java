@@ -40,7 +40,7 @@ import com.duy.pascal.ui.file.FileManager;
 import com.duy.pascal.ui.runnable.model.InputData;
 import com.duy.pascal.ui.utils.DLog;
 import com.duy.pascal.ui.utils.StringCompare;
-import com.duy.pascal.ui.view.exec_screen.console.ConsoleView;
+import com.duy.pascal.ui.view.console.ConsoleView;
 
 import java.io.File;
 import java.util.ArrayList;
