@@ -1,9 +1,9 @@
 package com.duy.pascal.interperter.tokens.basic;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class ColonToken extends BasicToken {
-    public ColonToken(LineInfo line) {
+    public ColonToken(LineNumber line) {
         super(line);
     }
 

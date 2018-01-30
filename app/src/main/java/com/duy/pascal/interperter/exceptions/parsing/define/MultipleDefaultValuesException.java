@@ -21,13 +21,13 @@ import android.support.annotation.NonNull;
 import android.text.Spanned;
 
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 
 import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 public class MultipleDefaultValuesException extends ParsingException {
-    public MultipleDefaultValuesException(@NonNull LineInfo line) {
+    public MultipleDefaultValuesException(@NonNull LineNumber line) {
         super(line);
     }
 

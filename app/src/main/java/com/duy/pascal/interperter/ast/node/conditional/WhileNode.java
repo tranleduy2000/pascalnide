@@ -18,7 +18,7 @@ import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectDoTokenExcepti
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.WrongStatementException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.BasicToken;
 import com.duy.pascal.interperter.tokens.basic.DoToken;
@@ -30,7 +30,7 @@ public class WhileNode extends DebuggableNode {
     @NonNull
     private Node mCommand;
     @NonNull
-    private LineInfo mLine;
+    private LineNumber mLine;
 
     /**
      * constructor
@@ -39,7 +39,7 @@ public class WhileNode extends DebuggableNode {
      * while <condition> do <command>
      * <p>
      */
-    public WhileNode(ExpressionContext context, GrouperToken grouperToken, @NonNull LineInfo line)
+    public WhileNode(ExpressionContext context, GrouperToken grouperToken, @NonNull LineNumber line)
             throws Exception {
 
         //check condition return boolean type
@@ -69,7 +69,7 @@ public class WhileNode extends DebuggableNode {
         this.mLine = line;
     }
 
-    public WhileNode(@NonNull RuntimeValue condition, @NonNull Node command, @NonNull LineInfo line) {
+    public WhileNode(@NonNull RuntimeValue condition, @NonNull Node command, @NonNull LineNumber line) {
         this.mCondition = condition;
         this.mCommand = command;
         this.mLine = line;
@@ -98,7 +98,7 @@ public class WhileNode extends DebuggableNode {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return mLine;
     }
 

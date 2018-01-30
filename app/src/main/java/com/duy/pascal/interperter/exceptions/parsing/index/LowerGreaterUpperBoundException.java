@@ -21,7 +21,7 @@ import android.support.annotation.NonNull;
 import android.text.Spanned;
 
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 
 import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
@@ -39,8 +39,8 @@ public class LowerGreaterUpperBoundException extends ParsingException {
     private final Comparable high;
 
     public LowerGreaterUpperBoundException(@NonNull Comparable low, @NonNull Comparable high,
-                                           @NonNull LineInfo lineInfo) {
-        super(lineInfo);
+                                           @NonNull LineNumber lineNumber) {
+        super(lineNumber);
         this.low = low;
         this.high = high;
     }

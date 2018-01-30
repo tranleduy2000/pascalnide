@@ -8,7 +8,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.debugable.DebuggableReturnValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
@@ -20,10 +20,10 @@ import java.util.Arrays;
 public class ArrayBoxer extends DebuggableReturnValue {
     public RuntimeValue[] values;
     public ArgumentType type;
-    public LineInfo line;
+    public LineNumber line;
 
     public ArrayBoxer(RuntimeValue[] array, ArgumentType elementType,
-                      LineInfo line) {
+                      LineNumber line) {
         this.values = array;
         this.type = elementType;
         this.line = line;
@@ -36,12 +36,12 @@ public class ArrayBoxer extends DebuggableReturnValue {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
 
     }
 

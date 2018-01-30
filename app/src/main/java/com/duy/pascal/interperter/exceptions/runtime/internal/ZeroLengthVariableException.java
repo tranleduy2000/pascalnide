@@ -1,9 +1,9 @@
 package com.duy.pascal.interperter.exceptions.runtime.internal;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class ZeroLengthVariableException extends InternalInterpreterException {
-    public ZeroLengthVariableException(LineInfo line) {
+    public ZeroLengthVariableException(LineNumber line) {
         super(line);
     }
 

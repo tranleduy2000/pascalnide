@@ -18,7 +18,7 @@ package com.duy.pascal.interperter.declaration;
 
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
  * Created by Duy on 16-Jun-17.
@@ -26,15 +26,15 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public abstract class NameEntityImpl implements NamedEntity, Member {
     protected int modifier = Modifier.PUBLIC;
-    protected LineInfo lineNumber;
+    protected LineNumber lineNumber;
 
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
         this.lineNumber = lineNumber;
     }
 
     @Nullable
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return lineNumber;
     }
 

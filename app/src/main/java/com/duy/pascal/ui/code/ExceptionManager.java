@@ -31,7 +31,7 @@ import android.util.TypedValue;
 
 import com.duy.pascal.interperter.exceptions.IRichFormatException;
 import com.duy.pascal.interperter.linenumber.ISourcePosition;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.Patterns;
 
@@ -88,9 +88,9 @@ public class ExceptionManager {
     }
 
     @NonNull
-    public static String formatLine(Context context, @Nullable LineInfo lineInfo) {
-        if (lineInfo != null) {
-            return context.getString(R.string.line_column, lineInfo.getLine(), lineInfo.getColumn());
+    public static String formatLine(Context context, @Nullable LineNumber lineNumber) {
+        if (lineNumber != null) {
+            return context.getString(R.string.line_column, lineNumber.getLine(), lineNumber.getColumn());
         }
         return "";
     }

@@ -9,7 +9,7 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime.value.NullValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
@@ -44,12 +44,12 @@ public class StringBuilderCloner implements RuntimeValue {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return value.getLineNumber();
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
 
     }
 

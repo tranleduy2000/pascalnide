@@ -55,7 +55,7 @@ import com.duy.pascal.interperter.config.DebugMode;
 import com.duy.pascal.interperter.debugable.IDebugListener;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
 import com.duy.pascal.interperter.libraries.io.IOLib;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.CompileManager;
 import com.duy.pascal.ui.code.ExceptionManager;
@@ -233,21 +233,21 @@ public class DebugActivity extends AbstractExecActivity implements IDebugListene
     }
 
     @Override
-    public void onLine(Node node, @Nullable final LineInfo lineInfo) {
-        DLog.d(TAG, "onLine() called with: runtimeValue = [" + node + "], line = [" + lineInfo + "]");
-        if (lineInfo == null) {
+    public void onLine(Node node, @Nullable final LineNumber lineNumber) {
+        DLog.d(TAG, "onLine() called with: runtimeValue = [" + node + "], line = [" + lineNumber + "]");
+        if (lineNumber == null) {
             return;
         }
-        scrollTo(lineInfo);
+        scrollTo(lineNumber);
     }
 
-    private void scrollTo(@NonNull final LineInfo lineInfo) {
+    private void scrollTo(@NonNull final LineNumber lineNumber) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                mCodeView.pinLine(lineInfo);
+                mCodeView.pinLine(lineNumber);
                 int yCoordinate = LineUtils.getYAtLine(mScrollView,
-                        mCodeView.getLineCount(), lineInfo.getLine());
+                        mCodeView.getLineCount(), lineNumber.getLine());
                 int heightVisible = mCodeView.getHeightVisible();
                 if (!(mScrollView.getScrollY() < yCoordinate
                         && mScrollView.getScrollY() + heightVisible > yCoordinate)) {
@@ -258,16 +258,16 @@ public class DebugActivity extends AbstractExecActivity implements IDebugListene
     }
 
     @Override
-    public void onLine(RuntimeValue executable, final LineInfo lineInfo) {
+    public void onLine(RuntimeValue executable, final LineNumber lineNumber) {
         DLog.d(TAG, "onLine() called with: executable = [" + executable.getClass() +
-                "], line = [" + lineInfo + "]");
-        if (lineInfo == null) return;
-        scrollTo(lineInfo);
+                "], line = [" + lineNumber + "]");
+        if (lineNumber == null) return;
+        scrollTo(lineNumber);
     }
 
     @Override
-    public void onEvaluatingExpr(LineInfo lineInfo, String expression) {
-        DLog.d(TAG, "onEvaluatingExpr() called with: line = [" + lineInfo + "], " +
+    public void onEvaluatingExpr(LineNumber lineNumber, String expression) {
+        DLog.d(TAG, "onEvaluatingExpr() called with: line = [" + lineNumber + "], " +
                 "expression = [" + expression + "]");
 
     }
@@ -275,25 +275,25 @@ public class DebugActivity extends AbstractExecActivity implements IDebugListene
     /**
      * This method will be show a small popup window for show result of expression
      *
-     * @param lineInfo - the line of expression
+     * @param lineNumber - the line of expression
      * @param expr     - input
      * @param result   - result value of expr
      */
     @Override
-    public void onEvaluatedExpr(final LineInfo lineInfo, final String expr, final String result) {
-        DLog.d(TAG, "onEvaluatedExpr() called with: line = [" + lineInfo + "], expr = [" +
+    public void onEvaluatedExpr(final LineNumber lineNumber, final String expr, final String result) {
+        DLog.d(TAG, "onEvaluatedExpr() called with: line = [" + lineNumber + "], expr = [" +
                 expr + "], result = [" + result + "]");
-        showPopupAt(lineInfo, expr + " = " + result);
+        showPopupAt(lineNumber, expr + " = " + result);
     }
 
     @WorkerThread
-    private void showPopupAt(final LineInfo lineInfo, final String msg) {
+    private void showPopupAt(final LineNumber lineNumber, final String msg) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (isFinishing()) return;
                 //get relative position of expression at edittext
-                Point position = mCodeView.getDebugPosition(lineInfo.getLine(), lineInfo.getColumn(),
+                Point position = mCodeView.getDebugPosition(lineNumber.getLine(), lineNumber.getColumn(),
                         Gravity.TOP);
                 DLog.d(TAG, "generate: " + position);
                 dismissPopup();
@@ -336,7 +336,7 @@ public class DebugActivity extends AbstractExecActivity implements IDebugListene
     }
 
     @Override
-    public void onAssignValue(LineInfo lineNumber, final AssignableValue left,
+    public void onAssignValue(LineNumber lineNumber, final AssignableValue left,
                               @NonNull final Object oldValue, final Object newValue,
                               @NonNull VariableContext context) {
         DLog.d(TAG, "onAssignValue() called with: lineNumber = [" + lineNumber + "], left = [" +
@@ -358,9 +358,9 @@ public class DebugActivity extends AbstractExecActivity implements IDebugListene
     }
 
     @Override
-    public void onEvalParameterFunction(LineInfo lineInfo, String name, @Nullable Object value) {
+    public void onEvalParameterFunction(LineNumber lineNumber, String name, @Nullable Object value) {
         if (value != null) {
-            showPopupAt(lineInfo, name + " = " + value.toString());
+            showPopupAt(lineNumber, name + " = " + value.toString());
         }
     }
 
@@ -377,7 +377,7 @@ public class DebugActivity extends AbstractExecActivity implements IDebugListene
     }
 
     @Override
-    public void showMessage(LineInfo pos, String msg) {
+    public void showMessage(LineNumber pos, String msg) {
         showPopupAt(pos, msg);
     }
 

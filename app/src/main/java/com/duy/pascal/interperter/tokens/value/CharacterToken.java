@@ -16,7 +16,7 @@
 
 package com.duy.pascal.interperter.tokens.value;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,7 +27,7 @@ public  class CharacterToken extends ValueToken {
     private String origin;
     private boolean isRaw;
 
-    public CharacterToken(@Nullable LineInfo line, char character) {
+    public CharacterToken(@Nullable LineNumber line, char character) {
         super(line);
         this.aChar = 32;
         this.aChar = character;
@@ -38,7 +38,7 @@ public  class CharacterToken extends ValueToken {
 
     }
 
-    public CharacterToken(@NonNull LineInfo line, @NonNull String nonParse) {
+    public CharacterToken(@NonNull LineNumber line, @NonNull String nonParse) {
         super(line);
         this.aChar = 32;
         try {

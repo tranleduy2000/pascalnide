@@ -25,7 +25,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
  * Created by Duy on 13-Jun-17.
@@ -64,12 +64,12 @@ public class NullValue implements RuntimeValue {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return null;
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
 
     }
 

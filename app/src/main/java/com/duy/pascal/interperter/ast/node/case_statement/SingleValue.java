@@ -2,14 +2,14 @@ package com.duy.pascal.interperter.ast.node.case_statement;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 class SingleValue implements CaseCondition {
     private Object mValue;
-    private LineInfo line;
+    private LineNumber line;
 
-    SingleValue(Object value, LineInfo line) {
+    SingleValue(Object value, LineNumber line) {
         this.mValue = value;
         this.line = line;
     }
@@ -35,7 +35,7 @@ class SingleValue implements CaseCondition {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 }

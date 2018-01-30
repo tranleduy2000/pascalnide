@@ -21,11 +21,11 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class AssignStatement extends AssignNodeImpl {
 
-    public AssignStatement(@NonNull AssignableValue left, RuntimeValue value, LineInfo line) throws Exception {
+    public AssignStatement(@NonNull AssignableValue left, RuntimeValue value, LineNumber line) throws Exception {
         super(left, value, line);
     }
 

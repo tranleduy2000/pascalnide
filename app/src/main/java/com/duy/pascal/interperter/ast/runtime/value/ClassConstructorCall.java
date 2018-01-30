@@ -30,7 +30,7 @@ import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.MethodReflectionException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.utils.ArrayUtil;
 
 /**
@@ -40,10 +40,10 @@ import com.duy.pascal.interperter.utils.ArrayUtil;
 public class ClassConstructorCall extends FunctionCall {
     private ClassConstructor constructor;
     private Name idName;
-    private LineInfo line;
+    private LineNumber line;
 
     public ClassConstructorCall(ClassConstructor constructor,
-                                RuntimeValue[] arguments, LineInfo line) {
+                                RuntimeValue[] arguments, LineNumber line) {
         this.constructor = constructor;
         if (constructor == null) {
             System.err.println("Warning: Null constructor call");
@@ -107,12 +107,12 @@ public class ClassConstructorCall extends FunctionCall {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
 
     }
 

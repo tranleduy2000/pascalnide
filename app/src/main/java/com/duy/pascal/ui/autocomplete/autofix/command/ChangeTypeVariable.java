@@ -22,7 +22,7 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.ast.runtime.value.access.VariableAccess;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.WordToken;
@@ -75,13 +75,13 @@ public class ChangeTypeVariable implements AutoFixCommand {
             DLog.d(TAG, "execute: content has been modified");
             return;
         }
-        LineInfo start = exception.getScope().getStartPosition();
-        LineInfo end;
+        LineNumber start = exception.getScope().getStartPosition();
+        LineNumber end;
 
         try {
             LinkedList<Token> list = source.toTokens();
             Token token = list.peekFirst();
-            LineInfo line = token.getLineNumber();
+            LineNumber line = token.getLineNumber();
             //find scope
             while (!list.isEmpty() && line.compareTo(start) < 0) {
                 list.removeFirst();

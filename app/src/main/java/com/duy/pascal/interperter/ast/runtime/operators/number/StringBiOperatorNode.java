@@ -13,12 +13,12 @@ import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class StringBiOperatorNode extends BinaryOperatorNode {
 
     public StringBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
-                                OperatorTypes operator, LineInfo line) {
+                                OperatorTypes operator, LineNumber line) {
         super(operon1, operon2, operator, line);
     }
 

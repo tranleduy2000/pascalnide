@@ -1,7 +1,7 @@
 package com.duy.pascal.interperter.exceptions.runtime;
 
 import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 
 /**
@@ -10,12 +10,12 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 
 public class TypeMismatchException extends RuntimePascalException {
 
-    private final LineInfo line;
+    private final LineNumber line;
     private final Name functionName;
     private final Type[] acceptTypes;
     private final Type current;
 
-    public TypeMismatchException(LineInfo line, Name functionName, Type[] acceptTypes,
+    public TypeMismatchException(LineNumber line, Name functionName, Type[] acceptTypes,
                                  Type current) {
         super(line);
         this.line = line;

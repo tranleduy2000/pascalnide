@@ -27,7 +27,7 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.systemfunction.io.OutputFormatter;
 import com.duy.pascal.interperter.utils.NullSafety;
 
@@ -85,12 +85,12 @@ public class OutputValue implements RuntimeValue {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return target.getLineNumber();
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
 
     }
 

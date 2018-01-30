@@ -33,7 +33,7 @@ import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.WordToken;
@@ -440,7 +440,7 @@ public class PascalSuggestionOperation {
 
     }
 
-    private boolean beforeCursor(LineInfo line) {
+    private boolean beforeCursor(LineNumber line) {
         return line != null && line.getLine() <= mCursorLine && line.getColumn() <= mCursorCol;
     }
 

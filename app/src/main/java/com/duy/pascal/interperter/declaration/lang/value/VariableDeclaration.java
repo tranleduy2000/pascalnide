@@ -24,7 +24,7 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.NameEntityImpl;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import java.util.Map;
 
@@ -35,22 +35,22 @@ public class VariableDeclaration extends NameEntityImpl implements Cloneable {
     public Type type;
     private Object initialValue;
     @Nullable
-    private LineInfo line;
+    private LineNumber line;
     @Nullable
     private ExpressionContext context;
 
     public VariableDeclaration(@NonNull Name name, @NonNull Type type, @Nullable Object initialValue,
-                               @Nullable LineInfo line) {
+                               @Nullable LineNumber line) {
         this(name, type, initialValue, line, null);
     }
 
     public VariableDeclaration(@NonNull String name, @NonNull Type type, @Nullable Object initialValue,
-                               @Nullable LineInfo line) {
+                               @Nullable LineNumber line) {
         this(Name.create(name), type, initialValue, line, null);
     }
 
     public VariableDeclaration(@NonNull Name name, @NonNull Type type, @Nullable Object initialValue,
-                               @Nullable LineInfo line, @Nullable ExpressionContext f) {
+                               @Nullable LineNumber line, @Nullable ExpressionContext f) {
         this.name = name;
         this.type = type;
         this.line = line;
@@ -58,7 +58,7 @@ public class VariableDeclaration extends NameEntityImpl implements Cloneable {
         this.context = f;
     }
 
-    public VariableDeclaration(@NonNull Name name, @NonNull Type type, @Nullable LineInfo line) {
+    public VariableDeclaration(@NonNull Name name, @NonNull Type type, @Nullable LineNumber line) {
         this(name, type, null, line, null);
     }
 
@@ -94,7 +94,7 @@ public class VariableDeclaration extends NameEntityImpl implements Cloneable {
         this.initialValue = initialValue;
     }
 
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 

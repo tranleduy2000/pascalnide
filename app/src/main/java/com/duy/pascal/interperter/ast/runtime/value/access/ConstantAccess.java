@@ -29,21 +29,21 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class ConstantAccess<T> extends DebuggableReturnValue {
     private T mValue;
     private Type type;
-    private LineInfo mLineNumber;
+    private LineNumber mLineNumber;
     @Nullable
     private Name name = null;
 
-    public ConstantAccess(@Nullable T value, @Nullable LineInfo mLineNumber) {
+    public ConstantAccess(@Nullable T value, @Nullable LineNumber mLineNumber) {
         this.mValue = value;
         this.mLineNumber = mLineNumber;
     }
 
-    public ConstantAccess(@Nullable T o, @Nullable Type type, @Nullable LineInfo mLineNumber) {
+    public ConstantAccess(@Nullable T o, @Nullable Type type, @Nullable LineNumber mLineNumber) {
         this.mValue = o;
         this.type = type;
         this.mLineNumber = mLineNumber;
@@ -62,12 +62,12 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return mLineNumber;
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
 
     }
 

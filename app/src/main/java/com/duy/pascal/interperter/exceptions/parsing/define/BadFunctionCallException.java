@@ -25,7 +25,7 @@ import android.text.Spanned;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class BadFunctionCallException extends ParsingException {
     private final boolean functionExists;
     private final boolean argsMatch;
 
-    public BadFunctionCallException(@NonNull LineInfo line, @NonNull Name functionName,
+    public BadFunctionCallException(@NonNull LineNumber line, @NonNull Name functionName,
                                     boolean functionExists, boolean numargsMatch,
                                     @NonNull ArrayList<String> args,
                                     @NonNull ArrayList<String> functions, @NonNull ExpressionContext scope) {

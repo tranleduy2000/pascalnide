@@ -17,7 +17,7 @@
 package com.duy.pascal.interperter.exceptions.parsing.syntax;
 
 import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,8 +28,8 @@ import android.support.annotation.Nullable;
 
 public class ExpectToTokenException extends MissingTokenException {
 
-    public ExpectToTokenException(@Nullable LineInfo lineInfo) {
-        super(lineInfo);
+    public ExpectToTokenException(@Nullable LineNumber lineNumber) {
+        super(lineNumber);
     }
 
     @NonNull

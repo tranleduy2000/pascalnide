@@ -17,10 +17,10 @@
 package com.duy.pascal.interperter.tokens.basic;
 
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class DestructorToken extends BasicToken {
-    public DestructorToken(LineInfo lineinfo) {
+    public DestructorToken(LineNumber lineinfo) {
         super(lineinfo);
     }
 

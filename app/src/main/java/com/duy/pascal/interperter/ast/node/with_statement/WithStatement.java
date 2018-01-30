@@ -31,7 +31,7 @@ import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.define.TypeIdentifierExpectException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.WordToken;
 import com.duy.pascal.interperter.tokens.basic.DoToken;
@@ -43,7 +43,7 @@ import java.util.List;
 public class WithStatement {
     private static final String TAG = "WithDeclaration";
     public Node instructions;
-    public LineInfo line;
+    public LineNumber line;
 
     public List<RuntimeValue> references;
     private ExpressionContextMixin withContext;
@@ -105,7 +105,7 @@ public class WithStatement {
     }
 
 
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 
@@ -123,7 +123,7 @@ public class WithStatement {
 
         @NonNull
         @Override
-        public LineInfo getStartPosition() {
+        public LineNumber getStartPosition() {
             return line;
         }
 

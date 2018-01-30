@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.exceptions.parsing.missing;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public  class MissingDotTokenException extends MissingTokenException {
    @NonNull
@@ -30,7 +30,7 @@ public  class MissingDotTokenException extends MissingTokenException {
    public boolean canQuickFix() {
       return true;
    }
-   public MissingDotTokenException(@Nullable LineInfo line) {
+   public MissingDotTokenException(@Nullable LineNumber line) {
       super(line);
    }
 }

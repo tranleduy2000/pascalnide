@@ -17,16 +17,16 @@
 package com.duy.pascal.interperter.exceptions.runtime;
 
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class StackOverflowException extends RuntimePascalException {
 
-    public StackOverflowException(LineInfo lineInfo, String s) {
-        super(lineInfo, "Stack overflow error: " + s);
+    public StackOverflowException(LineNumber lineNumber, String s) {
+        super(lineNumber, "Stack overflow error: " + s);
     }
 
-    public StackOverflowException(LineInfo lineInfo) {
-        super(lineInfo, "Stack overflow error");
+    public StackOverflowException(LineNumber lineNumber) {
+        super(lineNumber, "Stack overflow error");
     }
 
 }

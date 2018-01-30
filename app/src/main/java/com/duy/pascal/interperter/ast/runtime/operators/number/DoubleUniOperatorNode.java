@@ -12,11 +12,11 @@ import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class DoubleUniOperatorNode extends UnaryOperatorNode {
 
-    public DoubleUniOperatorNode(RuntimeValue operon, OperatorTypes operator, LineInfo line) {
+    public DoubleUniOperatorNode(RuntimeValue operon, OperatorTypes operator, LineNumber line) {
         super(operon, operator, line);
     }
 

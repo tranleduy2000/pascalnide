@@ -34,7 +34,7 @@ import com.duy.pascal.interperter.declaration.lang.types.PointerType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
  * Casts an object to the class or the interface represented
@@ -52,7 +52,7 @@ public class CastObjectFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
+    public FunctionCall generateCall(LineNumber line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws Exception {
         RuntimeValue pointer = arguments[0];
         RuntimeValue value = arguments[1];
@@ -62,7 +62,7 @@ public class CastObjectFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
+    public FunctionCall generatePerfectFitCall(LineNumber line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         return generateCall(line, values, f);
     }
 
@@ -84,10 +84,10 @@ public class CastObjectFunction implements IMethodDeclaration {
     private class InstanceObjectCall extends BuiltinFunctionCall {
         private RuntimeValue value;
         private Class<?> storageClass;
-        private LineInfo line;
+        private LineNumber line;
         private RuntimeValue pointer;
 
-        InstanceObjectCall(RuntimeValue pointer, RuntimeValue value, Class<?> storageClass, LineInfo line) {
+        InstanceObjectCall(RuntimeValue pointer, RuntimeValue value, Class<?> storageClass, LineNumber line) {
             this.value = value;
             this.pointer = pointer;
             this.storageClass = storageClass;

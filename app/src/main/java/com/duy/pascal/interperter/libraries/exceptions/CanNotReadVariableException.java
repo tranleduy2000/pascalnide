@@ -22,7 +22,7 @@ import android.support.annotation.Nullable;
 import android.text.Spanned;
 
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 
 import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
@@ -35,7 +35,7 @@ public class CanNotReadVariableException extends RuntimePascalException {
     @Nullable
     private Object object;
 
-    public CanNotReadVariableException(LineInfo line) {
+    public CanNotReadVariableException(LineNumber line) {
         super(line);
     }
 

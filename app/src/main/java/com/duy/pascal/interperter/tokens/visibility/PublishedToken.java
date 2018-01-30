@@ -17,10 +17,10 @@
 package com.duy.pascal.interperter.tokens.visibility;
 
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class PublishedToken extends BaseVisibilityToken {
-    public PublishedToken(LineInfo lineinfo) {
+    public PublishedToken(LineNumber lineinfo) {
         super(lineinfo);
     }
 

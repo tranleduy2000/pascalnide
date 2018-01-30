@@ -17,7 +17,7 @@ import com.duy.pascal.interperter.declaration.lang.types.converter.TypeConverter
 import com.duy.pascal.interperter.declaration.lang.types.string.StringLimitType;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.SubrangeType;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import java.io.File;
 
@@ -204,7 +204,7 @@ public enum BasicType implements Type {
     },;
 
     public Class clazz;
-    private LineInfo lineInfo;
+    private LineNumber lineNumber;
     private Name name;
 
     BasicType(Class name) {
@@ -316,16 +316,16 @@ public enum BasicType implements Type {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
-        if (lineInfo == null) {
-            return new LineInfo(-1, "");
+    public LineNumber getLineNumber() {
+        if (lineNumber == null) {
+            return new LineNumber(-1, "");
         }
-        return lineInfo;
+        return lineNumber;
     }
 
     @Override
-    public void setLineNumber(@NonNull LineInfo lineNumber) {
-        this.lineInfo = lineNumber;
+    public void setLineNumber(@NonNull LineNumber lineNumber) {
+        this.lineNumber = lineNumber;
     }
 
     @NonNull

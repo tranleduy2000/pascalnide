@@ -24,11 +24,11 @@ import android.text.Spanned;
 
 import com.duy.pascal.interperter.exceptions.IRichFormatException;
 import com.duy.pascal.interperter.linenumber.ISourcePosition;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class RuntimePascalException extends RuntimeException implements IRichFormatException, ISourcePosition {
     @Nullable
-    public LineInfo line;
+    public LineNumber line;
 
     /**
      * Uses for get localized message
@@ -47,11 +47,11 @@ public class RuntimePascalException extends RuntimeException implements IRichFor
     public RuntimePascalException() {
     }
 
-    public RuntimePascalException(@Nullable LineInfo line) {
+    public RuntimePascalException(@Nullable LineNumber line) {
         this.line = line;
     }
 
-    public RuntimePascalException(@Nullable LineInfo line, String message) {
+    public RuntimePascalException(@Nullable LineNumber line, String message) {
         super(message);
         this.line = line;
     }
@@ -71,7 +71,7 @@ public class RuntimePascalException extends RuntimeException implements IRichFor
     }
 
     @Nullable
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 

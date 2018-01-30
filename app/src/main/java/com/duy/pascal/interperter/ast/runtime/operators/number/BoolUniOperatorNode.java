@@ -7,7 +7,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.operators.UnaryOperatorNode;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
@@ -16,7 +16,7 @@ import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
 public class BoolUniOperatorNode extends UnaryOperatorNode {
 
-    public BoolUniOperatorNode(RuntimeValue operon, OperatorTypes operator, LineInfo line) {
+    public BoolUniOperatorNode(RuntimeValue operon, OperatorTypes operator, LineNumber line) {
         super(operon, operator, line);
     }
 

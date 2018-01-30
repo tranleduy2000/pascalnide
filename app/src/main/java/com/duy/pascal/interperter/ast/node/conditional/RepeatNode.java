@@ -16,23 +16,23 @@ import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.UntilToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 
 public class RepeatNode extends DebuggableNode {
     @NonNull
-    private LineInfo mLine;
+    private LineNumber mLine;
     @NonNull
     private Node mCommand;
     @NonNull
     private RuntimeValue mCondition;
 
-    public RepeatNode(ExpressionContext f, GrouperToken grouperToken, @NonNull LineInfo lineInfo)
+    public RepeatNode(ExpressionContext f, GrouperToken grouperToken, @NonNull LineNumber lineNumber)
             throws Exception {
         Token next = null;
-        CompoundNode command = new CompoundNode(lineInfo);
+        CompoundNode command = new CompoundNode(lineNumber);
 
         while (!(grouperToken.peekNoEOF() instanceof UntilToken)) {
             command.addCommand(grouperToken.getNextCommand(f));
@@ -54,17 +54,17 @@ public class RepeatNode extends DebuggableNode {
 
         this.mCommand = command;
         this.mCondition = condition;
-        this.mLine = lineInfo;
+        this.mLine = lineNumber;
     }
 
-    public RepeatNode(@NonNull Node command, @NonNull RuntimeValue condition, @NonNull LineInfo line) {
+    public RepeatNode(@NonNull Node command, @NonNull RuntimeValue condition, @NonNull LineNumber line) {
         this.mCommand = command;
         this.mCondition = condition;
         this.mLine = line;
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return mLine;
     }
 

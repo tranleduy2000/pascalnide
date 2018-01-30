@@ -24,7 +24,7 @@ import android.text.Spanned;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 
 import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
@@ -36,7 +36,7 @@ public class TypeIdentifierExpectException extends ParsingException {
     @NonNull
     private final ExpressionContext scope;
 
-    public TypeIdentifierExpectException(@Nullable LineInfo line, @NonNull Name missingType, @NonNull ExpressionContext scope) {
+    public TypeIdentifierExpectException(@Nullable LineNumber line, @NonNull Name missingType, @NonNull ExpressionContext scope) {
         super(line, "Type " + missingType + " is not define");
         this.missingType = missingType;
         this.scope = scope;

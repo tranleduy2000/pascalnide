@@ -22,9 +22,9 @@ import android.support.annotation.Nullable;
 import java.io.Serializable;
 
 
-public class LineInfo implements Serializable, Cloneable, Comparable<LineInfo> {
-    public static final LineInfo SYSTEM_LINE = new LineInfo(-1, "system");
-    public static final LineInfo ANONYMOUS = new LineInfo(-1, "anonymous");
+public class LineNumber implements Serializable, Cloneable, Comparable<LineNumber> {
+    public static final LineNumber SYSTEM_LINE = new LineNumber(-1, "system");
+    public static final LineNumber ANONYMOUS = new LineNumber(-1, "anonymous");
 
     private int line;
     private int column;
@@ -32,20 +32,20 @@ public class LineInfo implements Serializable, Cloneable, Comparable<LineInfo> {
     @Nullable
     private String sourceFile;
 
-    public LineInfo(int line, @NonNull String sourceFile) {
+    public LineNumber(int line, @NonNull String sourceFile) {
         this.length = -1;
         this.line = line;
         this.sourceFile = sourceFile;
     }
 
-    public LineInfo(int line, int column, @NonNull String sourceFile) {
+    public LineNumber(int line, int column, @NonNull String sourceFile) {
         this.length = -1;
         this.line = line;
         this.column = column;
         this.sourceFile = sourceFile;
     }
 
-    public LineInfo(int line, int column, int length, @NonNull String sourceFile) {
+    public LineNumber(int line, int column, int length, @NonNull String sourceFile) {
         this.length = -1;
         this.line = line;
         this.column = column;
@@ -82,17 +82,13 @@ public class LineInfo implements Serializable, Cloneable, Comparable<LineInfo> {
         return this.sourceFile;
     }
 
-    private void setSourceFile(String var1) {
-        this.sourceFile = var1;
-    }
-
     @NonNull
     public String toString() {
         return "Line " + this.line + (this.column >= 0 ? ":" + this.column : "") + " " + this.sourceFile;
     }
 
     @Override
-    public int compareTo(@NonNull LineInfo o) {
+    public int compareTo(@NonNull LineNumber o) {
         if (this.getLine() < o.getLine()) {
             return -1; //less than
         }

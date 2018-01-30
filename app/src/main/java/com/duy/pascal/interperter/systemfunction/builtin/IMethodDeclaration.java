@@ -22,7 +22,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 
@@ -33,10 +33,10 @@ public interface IMethodDeclaration {
      */
     Name getName();
 
-    FunctionCall generateCall(LineInfo line, RuntimeValue[] values,
+    FunctionCall generateCall(LineNumber line, RuntimeValue[] values,
                               ExpressionContext f) throws Exception;
 
-    FunctionCall generatePerfectFitCall(LineInfo line,
+    FunctionCall generatePerfectFitCall(LineNumber line,
                                         RuntimeValue[] values, ExpressionContext f)
             throws Exception;
 

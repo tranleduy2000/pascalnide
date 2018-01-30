@@ -27,7 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.EditorControl;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
@@ -232,15 +232,15 @@ public class EditorFragment extends Fragment implements EditorController {
         return mCodeEditor;
     }
 
-    public void setLineError(@NonNull final LineInfo lineInfo) {
-        mCodeEditor.setLineError(lineInfo);
+    public void setLineError(@NonNull final LineNumber lineNumber) {
+        mCodeEditor.setLineError(lineNumber);
         mCodeEditor.refresh();
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (mScrollView != null) {
                     mScrollView.smoothScrollTo(0, LineUtils.getYAtLine(mScrollView,
-                            mCodeEditor.getLineCount(), lineInfo.getLine()));
+                            mCodeEditor.getLineCount(), lineNumber.getLine()));
                 }
             }
         }, 100);

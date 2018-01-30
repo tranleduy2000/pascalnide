@@ -25,7 +25,7 @@ import com.duy.pascal.interperter.declaration.NameEntityImpl;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.VarargsType;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.utils.ArrayUtil;
 import com.duy.pascal.interperter.utils.NullSafety;
 
@@ -108,11 +108,11 @@ public abstract class AbstractFunction extends NameEntityImpl {
     }
 
     @Nullable
-    public abstract FunctionCall generatePerfectFitCall(LineInfo line, List<RuntimeValue> values,
+    public abstract FunctionCall generatePerfectFitCall(LineNumber line, List<RuntimeValue> values,
                                                         ExpressionContext f) throws Exception;
 
     @Nullable
-    public abstract FunctionCall generateCall(LineInfo line, List<RuntimeValue> values,
+    public abstract FunctionCall generateCall(LineNumber line, List<RuntimeValue> values,
                                               ExpressionContext f) throws Exception;
 
     @Override

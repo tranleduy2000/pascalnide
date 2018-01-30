@@ -16,10 +16,10 @@
 
 package com.duy.pascal.interperter.tokens.basic;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class GotoToken extends BasicToken {
-    public GotoToken(LineInfo line) {
+    public GotoToken(LineNumber line) {
         super(line);
     }
 

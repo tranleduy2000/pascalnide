@@ -1,11 +1,11 @@
 package com.duy.pascal.interperter.exceptions.runtime;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class IndexOutOfBoundsException extends RuntimePascalException {
     String message;
 
-    public IndexOutOfBoundsException(LineInfo line, int index, int min,
+    public IndexOutOfBoundsException(LineNumber line, int index, int min,
                                      int max) {
         super(line);
         this.message = "Index out of bounds: " + getcause(index, min, max);

@@ -1,10 +1,10 @@
 package com.duy.pascal.interperter.tokens.basic;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class ProgramToken extends BasicToken {
 
-    public ProgramToken(LineInfo line) {
+    public ProgramToken(LineNumber line) {
         super(line);
     }
 

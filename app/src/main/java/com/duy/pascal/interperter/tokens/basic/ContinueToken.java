@@ -1,6 +1,6 @@
 package com.duy.pascal.interperter.tokens.basic;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
  * Created by Duy on 08-May-17.
@@ -8,7 +8,7 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class ContinueToken extends BasicToken {
 
-    public ContinueToken(LineInfo line) {
+    public ContinueToken(LineNumber line) {
         super(line);
     }
 

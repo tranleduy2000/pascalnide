@@ -30,14 +30,14 @@ import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
 import com.duy.pascal.interperter.exceptions.runtime.CompileException;
 import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.utils.NullSafety;
 
 
 public class EnumBiOperatorNode extends BinaryOperatorNode {
 
     public EnumBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
-                              OperatorTypes operator, LineInfo line) {
+                              OperatorTypes operator, LineNumber line) {
         super(operon1, operon2, operator, line);
     }
 
@@ -112,7 +112,7 @@ public class EnumBiOperatorNode extends BinaryOperatorNode {
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
 
     }
 

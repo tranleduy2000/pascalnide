@@ -5,7 +5,7 @@ package com.duy.pascal.interperter.tokenizer;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
 import com.duy.pascal.interperter.exceptions.parsing.grouping.StrayCharacterException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokens.EOFToken;
 import com.duy.pascal.interperter.tokens.OperatorToken;
@@ -989,8 +989,8 @@ public class Lexer {
         yyline = yycolumn = 0;
     }
 
-    LineInfo getLine() {
-        return new LineInfo(yyline, yycolumn, sourcenames.peek());
+    LineNumber getLine() {
+        return new LineNumber(yyline, yycolumn, sourcenames.peek());
     }
 
     /**
@@ -1408,13 +1408,13 @@ public class Lexer {
                     yypushback(1);
                     yybegin(YYINITIAL);
                     if (literal.length() == 1) {
-                        LineInfo lineInfo = getLine();
-                        lineInfo.setColumn(lineInfo.getColumn() - 3);
-                        return new CharacterToken(lineInfo, literal.toString().charAt(0));
+                        LineNumber lineNumber = getLine();
+                        lineNumber.setColumn(lineNumber.getColumn() - 3);
+                        return new CharacterToken(lineNumber, literal.toString().charAt(0));
                     } else {
-                        LineInfo lineInfo = getLine();
-                        lineInfo.setColumn(lineInfo.getColumn() - literal.length() - 2);  //-2 by two quote
-                        return new StringToken(lineInfo, literal.toString());
+                        LineNumber lineNumber = getLine();
+                        lineNumber.setColumn(lineNumber.getColumn() - literal.length() - 2);  //-2 by two quote
+                        return new StringToken(lineNumber, literal.toString());
                     }
                 }
                 case 133:
@@ -1456,10 +1456,10 @@ public class Lexer {
                 case 140:
                     break;
                 case 43: {
-                    LineInfo lineInfo = getLine();
+                    LineNumber lineNumber = getLine();
                     String text = yytext();
-                    lineInfo.setColumn(lineInfo.getColumn() - text.length() - 1);
-                    return new CharacterToken(lineInfo, text);
+                    lineNumber.setColumn(lineNumber.getColumn() - text.length() - 1);
+                    return new CharacterToken(lineNumber, text);
                 }
                 case 141:
                     break;

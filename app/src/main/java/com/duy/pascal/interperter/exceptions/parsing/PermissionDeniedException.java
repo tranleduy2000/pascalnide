@@ -18,7 +18,7 @@ package com.duy.pascal.interperter.exceptions.parsing;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 
 public class PermissionDeniedException extends ParsingException {
@@ -27,9 +27,9 @@ public class PermissionDeniedException extends ParsingException {
     @NonNull
     private String permission;
     @NonNull
-    private LineInfo line;
+    private LineNumber line;
 
-    public PermissionDeniedException(@NonNull String libName, @NonNull String permission, @NonNull LineInfo line) {
+    public PermissionDeniedException(@NonNull String libName, @NonNull String permission, @NonNull LineNumber line) {
         super(line, "Permission " + permission + " denied");
         this.libName = libName;
         this.permission = permission;
@@ -55,11 +55,11 @@ public class PermissionDeniedException extends ParsingException {
     }
 
     @NonNull
-    public final LineInfo getLine() {
+    public final LineNumber getLine() {
         return this.line;
     }
 
-    public final void setLine(@NonNull LineInfo var1) {
+    public final void setLine(@NonNull LineNumber var1) {
         this.line = var1;
     }
 }

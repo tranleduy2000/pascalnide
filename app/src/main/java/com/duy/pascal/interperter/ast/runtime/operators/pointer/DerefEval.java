@@ -26,7 +26,7 @@ import com.duy.pascal.interperter.ast.runtime.references.Reference;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.debugable.DebuggableAssignableNode;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.parsing.operator.ConstantCalculationException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
@@ -34,9 +34,9 @@ import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
 public class DerefEval extends DebuggableAssignableNode {
     RuntimeValue pointer;
-    LineInfo line;
+    LineNumber line;
 
-    public DerefEval(RuntimeValue pointer, LineInfo line) {
+    public DerefEval(RuntimeValue pointer, LineNumber line) {
         this.pointer = pointer;
         this.line = line;
     }
@@ -67,12 +67,12 @@ public class DerefEval extends DebuggableAssignableNode {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
 
     }
 

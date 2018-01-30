@@ -5,8 +5,7 @@ import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.classunit.ClassConstructor;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.WordToken;
 import com.duy.pascal.interperter.tokens.basic.ConstToken;
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClassToken extends GrouperToken {
-    public ClassToken(LineInfo line) {
+    public ClassToken(LineNumber line) {
         super(line);
     }
 

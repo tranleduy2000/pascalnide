@@ -27,7 +27,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.CodeSample;
 import com.duy.pascal.ui.editor.view.EditorView;
@@ -111,7 +111,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.CodeThemeHol
                 }
             });
         }
-        holder.editorView.setLineError(new LineInfo(3, 0, ""));
+        holder.editorView.setLineError(new LineNumber(3, 0, ""));
         holder.editorView.setCodeTheme(entry);
         holder.editorView.setTextHighlighted(CodeSample.DEMO_THEME);
         holder.txtTitle.setText(entry.getName());

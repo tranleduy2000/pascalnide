@@ -22,7 +22,7 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.SimpleFunctionCall;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 import java.lang.reflect.InvocationTargetException;
@@ -41,7 +41,7 @@ public abstract class AbstractCallableFunction extends AbstractFunction {
             IllegalAccessException, InvocationTargetException;
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line,
+    public FunctionCall generatePerfectFitCall(LineNumber line,
                                                List<RuntimeValue> values, ExpressionContext f)
             throws Exception {
         RuntimeValue[] args = perfectMatch(values, f);
@@ -52,7 +52,7 @@ public abstract class AbstractCallableFunction extends AbstractFunction {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, List<RuntimeValue> values,
+    public FunctionCall generateCall(LineNumber line, List<RuntimeValue> values,
                                      ExpressionContext f) throws Exception {
         RuntimeValue[] args = formatArgs(values, f);
         if (args == null) {

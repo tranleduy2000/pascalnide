@@ -26,7 +26,7 @@ import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.ScriptTerminatedException;
 import com.duy.pascal.interperter.exceptions.runtime.StackOverflowException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import java.util.HashMap;
 import java.util.List;
@@ -121,7 +121,7 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
         }
     }
 
-    public void scriptControlCheck(LineInfo line) throws ScriptTerminatedException {
+    public void scriptControlCheck(LineNumber line) throws ScriptTerminatedException {
         scriptControlCheck(line, mIsDebug);
     }
 
@@ -131,7 +131,7 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
      * @param debug - is DEBUG enable
      * @throws ScriptTerminatedException - stop program
      */
-    public void scriptControlCheck(LineInfo line, boolean debug) throws ScriptTerminatedException {
+    public void scriptControlCheck(LineNumber line, boolean debug) throws ScriptTerminatedException {
         do {
             if (mStatus == ControlMode.PAUSED || debug) {
                 synchronized (this) {
@@ -173,10 +173,10 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
         return mIsFinished;
     }
 
-    public void incStack(LineInfo lineInfo) throws StackOverflowException {
+    public void incStack(LineNumber lineNumber) throws StackOverflowException {
         mStackSize.getAndIncrement();
         if (mStackSize.get() > MAX_STACK) {
-            throw new StackOverflowException(lineInfo);
+            throw new StackOverflowException(lineNumber);
         }
     }
 

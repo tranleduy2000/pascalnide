@@ -28,7 +28,7 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
@@ -54,14 +54,14 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
+    public FunctionCall generateCall(LineNumber line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws Exception {
         RuntimeValue pointer = arguments[0];
         return new InstanceObjectCall(pointer, pointer.getRuntimeType(f), arguments[1], line);
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
+    public FunctionCall generatePerfectFitCall(LineNumber line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         return generateCall(line, values, f);
     }
 
@@ -85,9 +85,9 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
         private RuntimeValue pointer;
         private RuntimeType runtimeType;
         private RuntimeValue listArg;
-        private LineInfo line;
+        private LineNumber line;
 
-        InstanceObjectCall(RuntimeValue pointer, RuntimeType runtimeType, RuntimeValue listArg, LineInfo line) {
+        InstanceObjectCall(RuntimeValue pointer, RuntimeType runtimeType, RuntimeValue listArg, LineNumber line) {
             this.pointer = pointer;
             this.runtimeType = runtimeType;
             this.listArg = listArg;
@@ -103,12 +103,12 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
 
         @NonNull
         @Override
-        public LineInfo getLineNumber() {
+        public LineNumber getLineNumber() {
             return line;
         }
 
         @Override
-        public void setLineNumber(LineInfo lineNumber) {
+        public void setLineNumber(LineNumber lineNumber) {
 
         }
 

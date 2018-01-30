@@ -26,7 +26,7 @@ import com.duy.pascal.interperter.exceptions.DiagnosticCollector;
 import com.duy.pascal.interperter.exceptions.parsing.define.MultipleDefinitionsMainException;
 import com.duy.pascal.interperter.exceptions.parsing.missing.MissingDotTokenException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.PeriodToken;
@@ -63,8 +63,8 @@ public class PascalProgramDeclaration extends ExecutableCodeUnit {
 
         @NonNull
         @Override
-        public LineInfo getStartPosition() {
-            return new LineInfo(0, getSourceName());
+        public LineNumber getStartPosition() {
+            return new LineNumber(0, getSourceName());
         }
 
         @Override

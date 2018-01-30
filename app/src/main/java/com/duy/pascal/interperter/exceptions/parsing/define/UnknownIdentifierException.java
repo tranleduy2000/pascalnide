@@ -24,7 +24,7 @@ import android.text.Spanned;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 
 import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
@@ -38,13 +38,13 @@ public class UnknownIdentifierException extends ParsingException {
     @NonNull
     private final ExpressionContext scope;
 
-    public UnknownIdentifierException(@Nullable LineInfo line, @NonNull Name name, @NonNull ExpressionContext scope) {
+    public UnknownIdentifierException(@Nullable LineNumber line, @NonNull Name name, @NonNull ExpressionContext scope) {
         super(line, "Unknown identifier " + name);
         this.name = name;
         this.scope = scope;
-        LineInfo lineInfo = this.getLineNumber();
-        if (lineInfo != null) {
-            lineInfo.setLength(this.name.getLength());
+        LineNumber lineNumber = this.getLineNumber();
+        if (lineNumber != null) {
+            lineNumber.setLength(this.name.getLength());
         }
         this.fitType = DefineType.DECLARE_VAR;
     }

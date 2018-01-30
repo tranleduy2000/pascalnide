@@ -16,14 +16,14 @@
 
 package com.duy.pascal.interperter.tokens.basic;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
  * Created by Duy on 21-May-17.
  */
 
 public class InitializationToken extends BasicToken {
-    public InitializationToken(LineInfo line) {
+    public InitializationToken(LineNumber line) {
         super(line);
     }
 

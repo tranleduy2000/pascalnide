@@ -12,12 +12,12 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.config.DebugMode;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.UnhandledPascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.utils.NullSafety;
 
 public abstract class DebuggableNodeReturnValue implements Node, RuntimeValue {
 
-    private LineInfo lineNumber;
+    private LineNumber lineNumber;
 
     @NonNull
     @Override
@@ -40,12 +40,12 @@ public abstract class DebuggableNodeReturnValue implements Node, RuntimeValue {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return lineNumber;
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
 
         this.lineNumber = lineNumber;
     }

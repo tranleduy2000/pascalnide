@@ -14,7 +14,7 @@ import com.duy.pascal.interperter.exceptions.parsing.define.AmbiguousFunctionCal
 import com.duy.pascal.interperter.exceptions.parsing.define.BadFunctionCallException;
 import com.duy.pascal.interperter.exceptions.parsing.define.UnknownFunctionException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.WordToken;
 import com.duy.pascal.interperter.utils.ArrayUtil;
 
@@ -24,7 +24,7 @@ import java.util.List;
 public abstract class FunctionCall extends DebuggableNodeReturnValue {
     protected static final String TAG = FunctionCall.class.getSimpleName();
     public RuntimeValue[] arguments;
-    private LineInfo lineInfo;
+    private LineNumber lineNumber;
 
     public static FunctionCall generateFunctionCall(WordToken name, List<RuntimeValue> arguments,
                                                     ExpressionContext expressionContext)
@@ -117,13 +117,13 @@ public abstract class FunctionCall extends DebuggableNodeReturnValue {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
-        return lineInfo;
+    public LineNumber getLineNumber() {
+        return lineNumber;
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
-        this.lineInfo = lineNumber;
+    public void setLineNumber(LineNumber lineNumber) {
+        this.lineNumber = lineNumber;
     }
 
     protected RuntimeValue[] compileTimeExpressionFoldArguments(CompileTimeContext context)

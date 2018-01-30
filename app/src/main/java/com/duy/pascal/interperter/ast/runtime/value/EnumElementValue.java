@@ -24,7 +24,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
@@ -39,14 +39,14 @@ public class EnumElementValue implements RuntimeValue, Comparable<EnumElementVal
     private Integer value;
 
     private Integer index;
-    private LineInfo lineInfo;
+    private LineNumber lineNumber;
 
     public EnumElementValue(Name name, @NonNull EnumGroupType type,
-                            @NonNull Integer index, @NonNull LineInfo lineInfo) {
+                            @NonNull Integer index, @NonNull LineNumber lineNumber) {
         this.name = name;
         this.type = type;
         this.index = index;
-        this.lineInfo = lineInfo;
+        this.lineNumber = lineNumber;
     }
 
     public EnumGroupType getEnumGroupType() {
@@ -68,12 +68,12 @@ public class EnumElementValue implements RuntimeValue, Comparable<EnumElementVal
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
-        return lineInfo;
+    public LineNumber getLineNumber() {
+        return lineNumber;
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
 
     }
 

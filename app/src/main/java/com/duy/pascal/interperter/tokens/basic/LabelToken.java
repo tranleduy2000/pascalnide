@@ -16,10 +16,10 @@
 
 package com.duy.pascal.interperter.tokens.basic;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class LabelToken extends BasicToken {
-    public LabelToken(LineInfo line) {
+    public LabelToken(LineNumber line) {
         super(line);
     }
 

@@ -18,17 +18,17 @@ package com.duy.pascal.interperter.exceptions.parsing.operator;
 
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import android.support.annotation.NonNull;
 
 
 public class InvalidAddressOperation extends ParsingException {
-    public InvalidAddressOperation(@NonNull LineInfo line, @NonNull RuntimeValue v) {
+    public InvalidAddressOperation(@NonNull LineNumber line, @NonNull RuntimeValue v) {
         super(line, "The expression " + v + " cannot have its address taken.");
     }
 
-    public InvalidAddressOperation(@NonNull LineInfo line) {
+    public InvalidAddressOperation(@NonNull LineNumber line) {
         super(line);
     }
 }

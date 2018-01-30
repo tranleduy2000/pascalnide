@@ -32,7 +32,7 @@ import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class FillBooleanFunction implements IMethodDeclaration {
 
@@ -47,13 +47,13 @@ public class FillBooleanFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
+    public FunctionCall generateCall(LineNumber line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws Exception {
         return new FillCharCall(arguments, line);
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
+    public FunctionCall generatePerfectFitCall(LineNumber line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         return generateCall(line, values, f);
     }
 
@@ -75,9 +75,9 @@ public class FillBooleanFunction implements IMethodDeclaration {
     private static class FillCharCall extends BuiltinFunctionCall {
 
         private final RuntimeValue[] arguments;
-        private LineInfo line;
+        private LineNumber line;
 
-        public FillCharCall(RuntimeValue[] arguments, LineInfo line) {
+        public FillCharCall(RuntimeValue[] arguments, LineNumber line) {
             this.arguments = arguments;
             this.line = line;
         }
@@ -90,12 +90,12 @@ public class FillBooleanFunction implements IMethodDeclaration {
 
         @NonNull
         @Override
-        public LineInfo getLineNumber() {
+        public LineNumber getLineNumber() {
             return line;
         }
 
         @Override
-        public void setLineNumber(LineInfo lineNumber) {
+        public void setLineNumber(LineNumber lineNumber) {
 
         }
 

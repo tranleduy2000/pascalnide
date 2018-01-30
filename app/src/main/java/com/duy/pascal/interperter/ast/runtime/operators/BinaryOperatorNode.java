@@ -50,7 +50,7 @@ import com.duy.pascal.interperter.exceptions.runtime.CompileException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 
 public abstract class BinaryOperatorNode extends DebuggableReturnValue {
@@ -60,10 +60,10 @@ public abstract class BinaryOperatorNode extends DebuggableReturnValue {
     protected final RuntimeValue rightNode;
     @NonNull
     protected final OperatorTypes operatorType;
-    protected LineInfo line;
+    protected LineNumber line;
 
     public BinaryOperatorNode(@NonNull RuntimeValue leftNode, @NonNull RuntimeValue rightNode,
-                              @NonNull OperatorTypes operator, LineInfo line) {
+                              @NonNull OperatorTypes operator, LineNumber line) {
         this.operatorType = operator;
         this.leftNode = leftNode;
         this.rightNode = rightNode;
@@ -73,7 +73,7 @@ public abstract class BinaryOperatorNode extends DebuggableReturnValue {
     public static BinaryOperatorNode generateOp(@NonNull ExpressionContext context,
                                                 @NonNull RuntimeValue v1, @NonNull RuntimeValue v2,
                                                 @NonNull OperatorTypes operatorTypes,
-                                                @NonNull LineInfo line) throws Exception {
+                                                @NonNull LineNumber line) throws Exception {
         Type t1 = v1.getRuntimeType(context).declType;
         Type t2 = v2.getRuntimeType(context).declType;
         if (t1 instanceof JavaClassBasedType
@@ -181,12 +181,12 @@ public abstract class BinaryOperatorNode extends DebuggableReturnValue {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
         this.line = lineNumber;
     }
 

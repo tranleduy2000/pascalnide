@@ -18,17 +18,17 @@ package com.duy.pascal.interperter.exceptions.parsing.syntax;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import android.support.annotation.NonNull;
 
 
 public  class MisplacedDeclarationException extends ParsingException {
-    public MisplacedDeclarationException(@NonNull LineInfo line, @NonNull String declarationType, @NonNull ExpressionContext loc) {
+    public MisplacedDeclarationException(@NonNull LineNumber line, @NonNull String declarationType, @NonNull ExpressionContext loc) {
         super(line, "Definition of " + declarationType + " is not appropriate here: " + loc);
     }
 
-    public MisplacedDeclarationException(@NonNull LineInfo line, @NonNull String declarationType, @NonNull String loc) {
+    public MisplacedDeclarationException(@NonNull LineNumber line, @NonNull String declarationType, @NonNull String loc) {
         super(line, "Definition of " + declarationType + " is not appropriate here: " + loc);
     }
 }

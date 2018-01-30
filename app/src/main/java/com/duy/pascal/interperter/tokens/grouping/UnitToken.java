@@ -16,7 +16,7 @@
 
 package com.duy.pascal.interperter.tokens.grouping;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 
 /**
@@ -24,7 +24,7 @@ import com.duy.pascal.interperter.tokens.Token;
  */
 
 public class UnitToken extends GrouperToken {
-    public UnitToken(LineInfo line) {
+    public UnitToken(LineNumber line) {
         super(line);
     }
 

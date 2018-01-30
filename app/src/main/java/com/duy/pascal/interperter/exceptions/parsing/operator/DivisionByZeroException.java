@@ -23,11 +23,11 @@ import android.text.SpannableString;
 import android.text.Spanned;
 
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 
 public class DivisionByZeroException extends RuntimePascalException {
-    public DivisionByZeroException(@NonNull LineInfo line) {
+    public DivisionByZeroException(@NonNull LineNumber line) {
         super(line);
     }
 

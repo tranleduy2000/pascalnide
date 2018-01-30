@@ -77,7 +77,7 @@ import com.duy.pascal.interperter.exceptions.parsing.value.ChangeValueConstantEx
 import com.duy.pascal.interperter.exceptions.parsing.value.NonConstantExpressionException;
 import com.duy.pascal.interperter.exceptions.parsing.value.NonIntegerException;
 import com.duy.pascal.interperter.exceptions.parsing.value.UnAssignableTypeException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.EOFToken;
 import com.duy.pascal.interperter.tokens.OperatorToken;
 import com.duy.pascal.interperter.tokens.Token;
@@ -123,9 +123,9 @@ public abstract class GrouperToken extends Token {
     private static final String TAG = GrouperToken.class.getSimpleName();
     public Token next = null;
     protected LinkedBlockingQueue<Token> queue;
-    protected LineInfo endLine;
+    protected LineNumber endLine;
 
-    public GrouperToken(LineInfo line) {
+    public GrouperToken(LineNumber line) {
         super(line);
         queue = new LinkedBlockingQueue<>();
     }
@@ -257,11 +257,11 @@ public abstract class GrouperToken extends Token {
         }
     }
 
-    public LineInfo getEndLine() {
+    public LineNumber getEndLine() {
         return endLine;
     }
 
-    public void setEndLine(LineInfo endLine) {
+    public void setEndLine(LineNumber endLine) {
         this.endLine = endLine;
     }
 
@@ -434,7 +434,7 @@ public abstract class GrouperToken extends Token {
         return declaredType;
     }
 
-    private Type getSetType(ExpressionContext context, LineInfo lineInfo)
+    private Type getSetType(ExpressionContext context, LineNumber lineNumber)
             throws Exception {
         Token n = peekNoEOF();
         if (!(n instanceof OfToken)) {
@@ -443,7 +443,7 @@ public abstract class GrouperToken extends Token {
         take(); //of token
         Type elementType = getNextPascalType(context);
 
-        return new SetType<>(elementType, lineInfo);
+        return new SetType<>(elementType, lineNumber);
     }
 
     private Type getArrayType(ExpressionContext context) throws Exception {
@@ -905,7 +905,7 @@ public abstract class GrouperToken extends Token {
 
     public Node getNextCommand(ExpressionContext context) throws Exception {
         Token next = take();
-        LineInfo lineNumber = next.getLineNumber();
+        LineNumber lineNumber = next.getLineNumber();
         if (next instanceof IfToken) {
             return new IfNode(context, this, lineNumber);
 

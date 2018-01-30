@@ -23,7 +23,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.RecordType;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 
 public class UnknownFieldException extends ParsingException {
@@ -34,7 +34,7 @@ public class UnknownFieldException extends ParsingException {
     @NonNull
     private ExpressionContext scope;
 
-    public UnknownFieldException(@Nullable LineInfo line, @NonNull RecordType container, @NonNull Name name, @NonNull ExpressionContext scope) {
+    public UnknownFieldException(@Nullable LineNumber line, @NonNull RecordType container, @NonNull Name name, @NonNull ExpressionContext scope) {
         super(line);
         this.container = container;
         this.name = name;

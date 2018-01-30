@@ -1,10 +1,10 @@
 package com.duy.pascal.interperter.tokens.grouping;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 
 public class RecordToken extends GrouperToken {
-    public RecordToken(LineInfo line) {
+    public RecordToken(LineNumber line) {
         super(line);
     }
 

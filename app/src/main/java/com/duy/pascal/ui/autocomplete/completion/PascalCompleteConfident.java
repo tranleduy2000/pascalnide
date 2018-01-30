@@ -16,7 +16,7 @@
 
 package com.duy.pascal.ui.autocomplete.completion;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.ignore.CommentToken;
 import com.duy.pascal.ui.autocomplete.completion.ast.PascalStatement;
@@ -42,7 +42,7 @@ public class PascalCompleteConfident {
     public static boolean isInComment(PascalStatement statement, int line, int column) {
         for (Token token : statement.getStatement()) {
             if (token instanceof CommentToken) {
-                LineInfo lineNumber = token.getLineNumber();
+                LineNumber lineNumber = token.getLineNumber();
                 if (lineNumber.getLine() != line) {
                     return false;
                 }

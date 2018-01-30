@@ -16,7 +16,7 @@ import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.exceptions.runtime.MethodCallException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.MethodReflectionException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.systemfunction.builtin.IMethodDeclaration;
 import com.duy.pascal.interperter.utils.ArrayUtil;
 
@@ -25,10 +25,10 @@ import java.lang.reflect.InvocationTargetException;
 public class SimpleFunctionCall extends FunctionCall {
     private AbstractCallableFunction function;
 
-    private LineInfo line;
+    private LineNumber line;
 
     public SimpleFunctionCall(AbstractCallableFunction function,
-                              RuntimeValue[] arguments, LineInfo line) {
+                              RuntimeValue[] arguments, LineNumber line) {
         this.function = function;
         if (function == null) {
             System.err.println("Warning: Null function call");
@@ -91,12 +91,12 @@ public class SimpleFunctionCall extends FunctionCall {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
 
     }
 

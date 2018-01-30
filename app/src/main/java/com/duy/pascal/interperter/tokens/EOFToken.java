@@ -16,7 +16,7 @@
 
 package com.duy.pascal.interperter.tokens;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException.Type;
 import com.duy.pascal.interperter.tokens.closing.ClosingToken;
@@ -26,7 +26,7 @@ import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.interperter.tokens.grouping.ParenthesizedToken;
 
 public class EOFToken extends ClosingToken {
-    public EOFToken(LineInfo line) {
+    public EOFToken(LineNumber line) {
         super(line);
     }
 

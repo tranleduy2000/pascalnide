@@ -1,11 +1,11 @@
 package com.duy.pascal.interperter.tokens.grouping;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 
 public class BeginEndToken extends GrouperToken {
 
-    public BeginEndToken(LineInfo line) {
+    public BeginEndToken(LineNumber line) {
         super(line);
     }
 

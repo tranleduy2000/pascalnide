@@ -21,7 +21,7 @@ import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
  * Created by Duy on 24-Mar-17.
@@ -29,7 +29,7 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class DebugManager {
 
-    public static void debugAssign(LineInfo lineNumber, AssignableValue left, Object old,
+    public static void debugAssign(LineNumber lineNumber, AssignableValue left, Object old,
                                    Object value, VariableContext context, RuntimeExecutableCodeUnit<?> main) {
         if (main.isDebug()) {
             main.getDebugListener().onAssignValue(lineNumber, left, old, value, context);
@@ -62,14 +62,14 @@ public class DebugManager {
         }
     }
 
-    public static void onEvalParameterFunction(LineInfo lineInfo, String argName, Object value,
+    public static void onEvalParameterFunction(LineNumber lineNumber, String argName, Object value,
                                                RuntimeExecutableCodeUnit main) {
         if (main.isDebug()) {
-            main.getDebugListener().onEvalParameterFunction(lineInfo, argName, value);
+            main.getDebugListener().onEvalParameterFunction(lineNumber, argName, value);
         }
     }
 
-    public static void showMessage(LineInfo pos,String msg, RuntimeExecutableCodeUnit main) {
+    public static void showMessage(LineNumber pos, String msg, RuntimeExecutableCodeUnit main) {
         if (main.isDebug()) {
             main.getDebugListener().showMessage(pos, msg);
         }

@@ -3,7 +3,7 @@ package com.duy.pascal.interperter.declaration.lang.types;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.boxing.ArrayBoxer;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,7 +21,7 @@ public class VarargsType implements ArgumentType {
     public RuntimeValue convertArgType(Iterator<RuntimeValue> args,
                                        ExpressionContext f) throws Exception {
         List<RuntimeValue> convertedArgs = new ArrayList<>();
-        LineInfo line = null;
+        LineNumber line = null;
         while (args.hasNext()) {
             RuntimeValue tmp = elementType.convert(args.next(), f);
             if (tmp == null) {
@@ -47,7 +47,7 @@ public class VarargsType implements ArgumentType {
     @Override
     public RuntimeValue perfectFit(Iterator<RuntimeValue> types,
                                    ExpressionContext e) throws Exception {
-        LineInfo line = null;
+        LineNumber line = null;
         List<RuntimeValue> converted = new ArrayList<>();
         while (types.hasNext()) {
             RuntimeValue fit = elementType.perfectFit(types, e);

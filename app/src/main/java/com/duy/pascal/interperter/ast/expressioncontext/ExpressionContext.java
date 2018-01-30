@@ -13,7 +13,7 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.define.DuplicateIdentifierException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.WordToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
@@ -24,7 +24,7 @@ import java.util.List;
 public interface ExpressionContext extends CompileTimeContext {
 
     @NonNull
-    LineInfo getStartPosition();
+    LineNumber getStartPosition();
 
     RuntimeValue getIdentifierValue(WordToken name)
             throws Exception;

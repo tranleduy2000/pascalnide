@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.node.Node;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class LabelDeclaration implements NamedEntity, Cloneable{
 
@@ -28,10 +28,10 @@ public class LabelDeclaration implements NamedEntity, Cloneable{
      * name of variable, always first case
      */
     public Name name;
-    private LineInfo line;
+    private LineNumber line;
     private Node command;
 
-    public LabelDeclaration(@NonNull Name name, @Nullable LineInfo line) {
+    public LabelDeclaration(@NonNull Name name, @Nullable LineNumber line) {
         this.name = name;
         this.line = line;
     }
@@ -41,7 +41,7 @@ public class LabelDeclaration implements NamedEntity, Cloneable{
         return name;
     }
 
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 

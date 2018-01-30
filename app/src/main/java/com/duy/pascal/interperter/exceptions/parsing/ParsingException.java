@@ -29,7 +29,7 @@ import com.duy.pascal.interperter.exceptions.IRichFormatException;
 import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
 import com.duy.pascal.interperter.exceptions.parsing.define.VariableExpectedException;
 import com.duy.pascal.interperter.linenumber.ISourcePosition;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.OperatorToken;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.AssignmentToken;
@@ -40,14 +40,14 @@ import static com.duy.pascal.ui.code.ExceptionManager.formatLine;
 
 public class ParsingException extends Exception implements IRichFormatException, ISourcePosition {
     @Nullable
-    private final LineInfo lineNumber;
+    private final LineNumber lineNumber;
 
-    public ParsingException(@Nullable LineInfo lineNumber, @NonNull String message) {
+    public ParsingException(@Nullable LineNumber lineNumber, @NonNull String message) {
         super(message);
         this.lineNumber = lineNumber;
     }
 
-    public ParsingException(@Nullable LineInfo lineNumber) {
+    public ParsingException(@Nullable LineNumber lineNumber) {
         this.lineNumber = lineNumber;
     }
 
@@ -68,7 +68,7 @@ public class ParsingException extends Exception implements IRichFormatException,
     }
 
     @Nullable
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return this.lineNumber;
     }
 

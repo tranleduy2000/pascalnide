@@ -32,7 +32,7 @@ import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.interperter.declaration.lang.types.PascalClassType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public class ClassConstructor extends FunctionDeclaration {
     }
 
     public ClassConstructor(PascalClassType classType, Name name, ExpressionContext parent,
-                            GrouperToken grouperToken, boolean isProcedure, LineInfo startLine)
+                            GrouperToken grouperToken, boolean isProcedure, LineNumber startLine)
             throws Exception {
         super(name, parent, grouperToken, isProcedure, startLine);
         this.classType = classType;
@@ -63,7 +63,7 @@ public class ClassConstructor extends FunctionDeclaration {
         super(parent);
         this.classType = classType;
         this.name = Name.create("create");
-        this.instructions = new CompoundNode(new LineInfo(0, "system"));
+        this.instructions = new CompoundNode(new LineNumber(0, "system"));
     }
 
 
@@ -89,7 +89,7 @@ public class ClassConstructor extends FunctionDeclaration {
     }
 
     @Override
-    public ClassConstructorCall generateCall(LineInfo line, List<RuntimeValue> values, ExpressionContext f) throws Exception {
+    public ClassConstructorCall generateCall(LineNumber line, List<RuntimeValue> values, ExpressionContext f) throws Exception {
         RuntimeValue[] args = formatArgs(values, f);
         if (args == null) {
             return null;
@@ -98,7 +98,7 @@ public class ClassConstructor extends FunctionDeclaration {
     }
 
     @Override
-    public ClassConstructorCall generatePerfectFitCall(LineInfo line, List<RuntimeValue> values, ExpressionContext f) throws Exception {
+    public ClassConstructorCall generatePerfectFitCall(LineNumber line, List<RuntimeValue> values, ExpressionContext f) throws Exception {
         RuntimeValue[] args = perfectMatch(values, f);
         if (args == null) {
             return null;

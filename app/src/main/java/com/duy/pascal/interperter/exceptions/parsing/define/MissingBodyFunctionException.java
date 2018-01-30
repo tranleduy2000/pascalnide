@@ -21,13 +21,13 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class MissingBodyFunctionException extends ParsingException {
     @NonNull
     private final Name funName;
 
-    public MissingBodyFunctionException(@NonNull Name funName, @Nullable LineInfo line) {
+    public MissingBodyFunctionException(@NonNull Name funName, @Nullable LineNumber line) {
         super(line);
         this.funName = funName;
     }

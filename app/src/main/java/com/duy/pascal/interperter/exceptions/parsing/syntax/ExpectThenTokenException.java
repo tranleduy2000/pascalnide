@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
  * Created by Duy on 31-May-17.
@@ -28,8 +28,8 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class ExpectThenTokenException extends MissingTokenException {
 
-    public ExpectThenTokenException(@Nullable LineInfo lineInfo) {
-        super(lineInfo);
+    public ExpectThenTokenException(@Nullable LineNumber lineNumber) {
+        super(lineNumber);
     }
 
     @NonNull

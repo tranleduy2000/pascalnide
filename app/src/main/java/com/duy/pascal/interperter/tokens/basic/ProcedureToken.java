@@ -1,9 +1,9 @@
 package com.duy.pascal.interperter.tokens.basic;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class ProcedureToken extends BasicToken {
-    public ProcedureToken(LineInfo line) {
+    public ProcedureToken(LineNumber line) {
         super(line);
     }
 

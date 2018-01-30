@@ -26,7 +26,7 @@ import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
  * a /= b
@@ -35,13 +35,13 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 public class DivAssignStatement extends AssignNodeImpl {
 
     public DivAssignStatement(@NonNull AssignableValue left, @NonNull RuntimeValue operator,
-                              LineInfo line) throws Exception {
+                              LineNumber line) throws Exception {
         super(left, operator, line);
     }
 
     public DivAssignStatement(@NonNull ExpressionContext f,
                               @NonNull AssignableValue left, RuntimeValue value,
-                              LineInfo line) throws Exception {
+                              LineNumber line) throws Exception {
         super(f, left, OperatorTypes.DIVIDE, value, line);
         Type leftType = left.getRuntimeType(f).getRawType();
         if (!(leftType.equals(BasicType.Double) || leftType.equals(BasicType.Float))) {

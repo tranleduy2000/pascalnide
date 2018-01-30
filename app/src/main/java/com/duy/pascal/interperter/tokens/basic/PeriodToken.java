@@ -1,9 +1,9 @@
 package com.duy.pascal.interperter.tokens.basic;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class PeriodToken extends BasicToken {
-    public PeriodToken(LineInfo line) {
+    public PeriodToken(LineNumber line) {
         super(line);
     }
 

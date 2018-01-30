@@ -11,13 +11,13 @@ import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 
 public class CharBiOperatorNode extends BinaryOperatorNode {
 
-    public CharBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2, OperatorTypes operator, LineInfo line) {
+    public CharBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2, OperatorTypes operator, LineNumber line) {
         super(operon1, operon2, operator, line);
     }
 

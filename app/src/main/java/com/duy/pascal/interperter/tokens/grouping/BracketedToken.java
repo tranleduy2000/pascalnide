@@ -1,12 +1,12 @@
 package com.duy.pascal.interperter.tokens.grouping;
 
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 
 public class BracketedToken extends GrouperToken {
 
-    public BracketedToken(LineInfo line) {
+    public BracketedToken(LineNumber line) {
         super(line);
     }
 

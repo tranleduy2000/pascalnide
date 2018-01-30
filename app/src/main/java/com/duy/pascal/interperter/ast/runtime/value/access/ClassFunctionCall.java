@@ -30,7 +30,7 @@ import com.duy.pascal.interperter.ast.runtime.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.debugable.DebuggableNodeReturnValue;
 import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
@@ -40,15 +40,15 @@ import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 public class ClassFunctionCall extends DebuggableNodeReturnValue {
     private Name container;
     private FunctionCall function;
-    private LineInfo lineInfo;
+    private LineNumber lineNumber;
     private ClassExpressionContext declaration;
     private VariableContext classVarContext;
 
     public ClassFunctionCall(Name container, FunctionCall function,
-                             LineInfo lineInfo, ClassExpressionContext declaration) {
+                             LineNumber lineNumber, ClassExpressionContext declaration) {
         this.container = container;
         this.function = function;
-        this.lineInfo = lineInfo;
+        this.lineNumber = lineNumber;
         this.declaration = declaration;
     }
 
@@ -86,8 +86,8 @@ public class ClassFunctionCall extends DebuggableNodeReturnValue {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
-        return lineInfo;
+    public LineNumber getLineNumber() {
+        return lineNumber;
     }
 
     @Override

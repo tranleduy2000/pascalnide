@@ -1,11 +1,11 @@
 package com.duy.pascal.interperter.tokens.basic;
 
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class ArrayToken extends BasicToken {
 
-    public ArrayToken(LineInfo line) {
+    public ArrayToken(LineNumber line) {
         super(line);
     }
 

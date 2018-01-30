@@ -23,7 +23,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
  * a -= b
@@ -32,13 +32,13 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 public class MinusAssignStatement extends AssignNodeImpl {
 
     public MinusAssignStatement(@NonNull AssignableValue left, @NonNull RuntimeValue minusOp,
-                                LineInfo line) throws Exception {
+                                LineNumber line) throws Exception {
         super(left, minusOp, line);
     }
 
     public MinusAssignStatement(@NonNull ExpressionContext f,
                                 @NonNull AssignableValue left, RuntimeValue value,
-                                LineInfo line) throws Exception {
+                                LineNumber line) throws Exception {
         super(f, left, OperatorTypes.MINUS, value, line);
     }
 

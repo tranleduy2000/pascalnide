@@ -23,7 +23,7 @@ import android.text.Spanned;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 
 import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
@@ -33,7 +33,7 @@ public class OverridingFunctionBodyException extends ParsingException {
     private final AbstractFunction functionDeclaration;
     private boolean isMethod;
 
-    public OverridingFunctionBodyException(@NonNull FunctionDeclaration old, @NonNull LineInfo line) {
+    public OverridingFunctionBodyException(@NonNull FunctionDeclaration old, @NonNull LineNumber line) {
         super(line, String.format("Redefining function body for %s, which was previous define at %s",
                 old, old.getLineNumber()));
         this.functionDeclaration = old;

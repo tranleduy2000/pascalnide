@@ -22,7 +22,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 
 import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.Patterns;
 import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
@@ -58,16 +58,16 @@ public class DeclareVariable implements AutoFixCommand {
     @Nullable
     private final String initValue;
     @NonNull
-    private final LineInfo start;
+    private final LineNumber start;
     @NonNull
-    private final LineInfo end;
+    private final LineNumber end;
 
     /**
      * @param name      - name of variable
      * @param type      - type of variable
      * @param initValue - init value, it can be null
      */
-    public DeclareVariable(@NonNull LineInfo start, @NonNull LineInfo end, @NonNull Name name,
+    public DeclareVariable(@NonNull LineNumber start, @NonNull LineNumber end, @NonNull Name name,
                            @Nullable String type, @Nullable String initValue) {
         this.start = start;
         this.end = end;

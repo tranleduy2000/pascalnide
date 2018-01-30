@@ -9,7 +9,7 @@ import com.duy.pascal.interperter.ast.runtime.value.boxing.StringBoxer;
 import com.duy.pascal.interperter.ast.runtime.value.cloning.CloneableObjectCloner;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class JavaClassBasedType extends TypeInfo {
 
@@ -97,12 +97,12 @@ public class JavaClassBasedType extends TypeInfo {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return null;
     }
 
     @Override
-    public void setLineNumber(@NonNull LineInfo lineNumber) {
+    public void setLineNumber(@NonNull LineNumber lineNumber) {
     }
 
     @NonNull

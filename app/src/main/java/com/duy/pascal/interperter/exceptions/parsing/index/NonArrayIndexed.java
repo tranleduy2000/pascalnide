@@ -23,7 +23,7 @@ import android.text.Spanned;
 
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 
 import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
@@ -32,7 +32,7 @@ public class NonArrayIndexed extends ParsingException {
     @NonNull
     private final Type type;
 
-    public NonArrayIndexed(@NonNull LineInfo line, @NonNull Type type) {
+    public NonArrayIndexed(@NonNull LineNumber line, @NonNull Type type) {
         super(line);
         this.type = type;
     }

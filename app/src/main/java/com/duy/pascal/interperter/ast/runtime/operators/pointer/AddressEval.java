@@ -25,16 +25,16 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.debugable.DebuggableReturnValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
 public class AddressEval extends DebuggableReturnValue {
     final AssignableValue target;
-    final LineInfo line;
+    final LineNumber line;
 
-    public AddressEval(AssignableValue target, LineInfo line) {
+    public AddressEval(AssignableValue target, LineNumber line) {
         this.target = target;
         this.line = line;
     }
@@ -58,12 +58,12 @@ public class AddressEval extends DebuggableReturnValue {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
     }
 
     @Override

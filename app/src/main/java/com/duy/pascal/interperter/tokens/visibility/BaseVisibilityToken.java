@@ -18,7 +18,7 @@ package com.duy.pascal.interperter.tokens.visibility;
 
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.basic.BasicToken;
 
 /**
@@ -26,7 +26,7 @@ import com.duy.pascal.interperter.tokens.basic.BasicToken;
  */
 
 public abstract class BaseVisibilityToken extends BasicToken {
-    public BaseVisibilityToken(@Nullable LineInfo line) {
+    public BaseVisibilityToken(@Nullable LineNumber line) {
         super(line);
     }
 }

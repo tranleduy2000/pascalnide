@@ -16,7 +16,7 @@
 
 package com.duy.pascal.interperter.tokens.ignore;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
 import com.duy.pascal.interperter.tokens.Token;
 
@@ -28,7 +28,7 @@ public class GroupingExceptionToken extends Token {
         this.exception = g;
     }
 
-    public GroupingExceptionToken(LineInfo line, GroupingException.Type type) {
+    public GroupingExceptionToken(LineNumber line, GroupingException.Type type) {
         super(line);
         this.exception = new GroupingException(line, type);
     }

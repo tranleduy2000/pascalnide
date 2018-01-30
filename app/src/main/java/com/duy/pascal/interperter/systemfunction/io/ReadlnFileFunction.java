@@ -30,7 +30,7 @@ import com.duy.pascal.interperter.ast.runtime.references.PascalReference;
 import com.duy.pascal.interperter.ast.runtime.value.FunctionCall;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.libraries.file.FileLib;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
@@ -56,13 +56,13 @@ public class ReadlnFileFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
+    public FunctionCall generateCall(LineNumber line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws Exception {
         return new ReadLineFileCall(arguments[0], arguments[1], line);
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
+    public FunctionCall generatePerfectFitCall(LineNumber line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         return generateCall(line, values, f);
     }
 
@@ -83,10 +83,10 @@ public class ReadlnFileFunction implements IMethodDeclaration {
 
     private class ReadLineFileCall extends FunctionCall {
         private RuntimeValue args;
-        private LineInfo line;
+        private LineNumber line;
         private RuntimeValue filePreference;
 
-        ReadLineFileCall(RuntimeValue filePreferences, RuntimeValue args, LineInfo line) {
+        ReadLineFileCall(RuntimeValue filePreferences, RuntimeValue args, LineNumber line) {
             this.filePreference = filePreferences;
             this.args = args;
             this.line = line;
@@ -100,12 +100,12 @@ public class ReadlnFileFunction implements IMethodDeclaration {
 
         @NonNull
         @Override
-        public LineInfo getLineNumber() {
+        public LineNumber getLineNumber() {
             return line;
         }
 
         @Override
-        public void setLineNumber(LineInfo lineNumber) {
+        public void setLineNumber(LineNumber lineNumber) {
 
         }
 

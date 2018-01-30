@@ -1,18 +1,18 @@
 package com.duy.pascal.interperter.exceptions.runtime;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.utils.DLog;
 
 public class UnhandledPascalException extends RuntimePascalException {
     private Exception cause;
 
-    public UnhandledPascalException(LineInfo line, Exception cause) {
+    public UnhandledPascalException(LineNumber line, Exception cause) {
         super(line);
         this.cause = cause;
         DLog.reportException(cause);
     }
 
-    public UnhandledPascalException(LineInfo lineNumber, Throwable e) {
+    public UnhandledPascalException(LineNumber lineNumber, Throwable e) {
         super(lineNumber);
         DLog.reportException(e);
         this.cause = new RuntimeException(e);

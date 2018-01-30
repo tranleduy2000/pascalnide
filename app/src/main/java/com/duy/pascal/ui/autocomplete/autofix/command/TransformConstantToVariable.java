@@ -21,7 +21,7 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.exceptions.parsing.value.ChangeValueConstantException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.AutoFixFactory;
 import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
@@ -52,8 +52,8 @@ public class TransformConstantToVariable implements AutoFixCommand {
     public void execute(EditorView editable) {
         DLog.d(TAG, "execute() called with: editable = [" + editable + "]");
 
-        LineInfo lineStart = e.getScope().getStartPosition();
-        LineInfo lineEnd = e.getLineNumber();
+        LineNumber lineStart = e.getScope().getStartPosition();
+        LineNumber lineEnd = e.getLineNumber();
         TextData region = getText(editable, lineStart, lineEnd);
         ConstantAccess constant = e.getConst();
 

@@ -36,7 +36,7 @@ import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.VarargsType;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.systemfunction.builtin.IMethodDeclaration;
 
 import java.io.File;
@@ -57,13 +57,13 @@ public class WriteFileFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
+    public FunctionCall generateCall(LineNumber line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws Exception {
         return new WriteFileCall(arguments[0], arguments[1], line);
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
+    public FunctionCall generatePerfectFitCall(LineNumber line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         return generateCall(line, values, f);
     }
 
@@ -84,10 +84,10 @@ public class WriteFileFunction implements IMethodDeclaration {
 
     private class WriteFileCall extends FunctionCall {
         private RuntimeValue args;
-        private LineInfo line;
+        private LineNumber line;
         private RuntimeValue filePreference;
 
-        WriteFileCall(RuntimeValue filePreferences, RuntimeValue args, LineInfo line) {
+        WriteFileCall(RuntimeValue filePreferences, RuntimeValue args, LineNumber line) {
             this.filePreference = filePreferences;
             this.args = args;
             this.line = line;
@@ -101,12 +101,12 @@ public class WriteFileFunction implements IMethodDeclaration {
 
         @NonNull
         @Override
-        public LineInfo getLineNumber() {
+        public LineNumber getLineNumber() {
             return line;
         }
 
         @Override
-        public void setLineNumber(LineInfo lineNumber) {
+        public void setLineNumber(LineNumber lineNumber) {
 
         }
 

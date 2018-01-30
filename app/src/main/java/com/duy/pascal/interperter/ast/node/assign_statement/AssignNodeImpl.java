@@ -29,7 +29,7 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.debug.CallStack;
 
 /**
@@ -39,10 +39,10 @@ import com.duy.pascal.ui.debug.CallStack;
 public abstract class AssignNodeImpl<T extends OperatorTypes> extends DebuggableNode implements AssignNode {
     protected AssignableValue mLeftNode;
     protected RuntimeValue mOperator;
-    protected LineInfo mLine;
+    protected LineNumber mLine;
 
     public AssignNodeImpl(@NonNull AssignableValue left, @NonNull RuntimeValue operator,
-                          LineInfo line) throws Exception {
+                          LineNumber line) throws Exception {
         this.mLeftNode = left;
         this.mOperator = operator;
         this.mLine = line;
@@ -52,7 +52,7 @@ public abstract class AssignNodeImpl<T extends OperatorTypes> extends Debuggable
                           @NonNull AssignableValue left,
                           @NonNull T operator,
                           @NonNull RuntimeValue value,
-                          @NonNull LineInfo line) throws Exception {
+                          @NonNull LineNumber line) throws Exception {
         mLeftNode = left;
         mLine = line;
         mOperator = BinaryOperatorNode.generateOp(f, left, value, operator, line);
@@ -78,7 +78,7 @@ public abstract class AssignNodeImpl<T extends OperatorTypes> extends Debuggable
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return mLine;
     }
 }

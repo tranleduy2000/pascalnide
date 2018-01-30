@@ -171,7 +171,7 @@ public class PascalClassType extends ObjectType {
     @Nullable
     @Override
     public RuntimeValue generateArrayAccess(RuntimeValue array, RuntimeValue index) throws NonArrayIndexed {
-        throw new NonArrayIndexed(lineInfo, this);
+        throw new NonArrayIndexed(lineNumber, this);
     }
 
     @NonNull

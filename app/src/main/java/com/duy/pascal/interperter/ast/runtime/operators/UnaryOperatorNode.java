@@ -42,17 +42,17 @@ import com.duy.pascal.interperter.exceptions.parsing.operator.ConstantCalculatio
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public abstract class UnaryOperatorNode extends DebuggableReturnValue {
     @NonNull
     protected final RuntimeValue childNode;
     @NonNull
     protected final OperatorTypes operator;
-    public LineInfo lineNumber;
+    public LineNumber lineNumber;
 
     protected UnaryOperatorNode(@NonNull RuntimeValue childNode, @NonNull OperatorTypes operator,
-                                LineInfo lineNumber) {
+                                LineNumber lineNumber) {
         this.operator = operator;
         this.lineNumber = lineNumber;
         this.childNode = childNode;
@@ -60,7 +60,7 @@ public abstract class UnaryOperatorNode extends DebuggableReturnValue {
 
     public static RuntimeValue generateOp(ExpressionContext f,
                                           RuntimeValue v1, OperatorTypes opType,
-                                          LineInfo line) throws Exception {
+                                          LineNumber line) throws Exception {
         Type t1 = v1.getRuntimeType(f).declType;
 
         if (!opType.canBeUnary) {
@@ -94,12 +94,12 @@ public abstract class UnaryOperatorNode extends DebuggableReturnValue {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return lineNumber;
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
         this.lineNumber = lineNumber;
     }
 

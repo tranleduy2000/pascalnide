@@ -1,10 +1,10 @@
 package com.duy.pascal.interperter.exceptions.runtime;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class ScriptTerminatedException extends RuntimePascalException {
 
-    public ScriptTerminatedException(LineInfo line) {
+    public ScriptTerminatedException(LineNumber line) {
         super(line);
     }
 

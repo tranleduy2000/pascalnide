@@ -19,22 +19,22 @@ package com.duy.pascal.interperter.exceptions.parsing.operator;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 
 public class OperationNotSupportedException extends RuntimePascalException {
     public OperationNotSupportedException() {
     }
 
-    public OperationNotSupportedException(@NonNull LineInfo line) {
+    public OperationNotSupportedException(@NonNull LineNumber line) {
         super(line);
     }
 
-    public OperationNotSupportedException(@NonNull LineInfo line, @NonNull String mes) {
+    public OperationNotSupportedException(@NonNull LineNumber line, @NonNull String mes) {
         super(line, mes);
     }
 
     public OperationNotSupportedException(@NonNull String mes) {
-        super((LineInfo) null, mes);
+        super((LineNumber) null, mes);
     }
 }

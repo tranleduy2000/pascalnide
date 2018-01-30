@@ -10,7 +10,7 @@ import com.duy.pascal.interperter.declaration.lang.types.JavaClassBasedType;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.define.TypeIdentifierExpectException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 
 public class WordToken extends Token implements NamedEntity {
@@ -19,7 +19,7 @@ public class WordToken extends Token implements NamedEntity {
 
     private String originalName;
 
-    public WordToken(LineInfo line, String s) {
+    public WordToken(LineNumber line, String s) {
         super(line);
         this.name = Name.create(s);
         this.originalName = s;

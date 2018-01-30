@@ -35,7 +35,7 @@ import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.IntegerRange;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class FillByteFunction implements IMethodDeclaration {
 
@@ -51,7 +51,7 @@ public class FillByteFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
+    public FunctionCall generateCall(LineNumber line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws Exception {
         RuntimeValue value = arguments[0];
         RuntimeType type = value.getRuntimeType(f);
@@ -59,7 +59,7 @@ public class FillByteFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
+    public FunctionCall generatePerfectFitCall(LineNumber line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         return generateCall(line, values, f);
     }
 
@@ -81,10 +81,10 @@ public class FillByteFunction implements IMethodDeclaration {
     private static class FillCharCall extends BuiltinFunctionCall {
 
         private RuntimeValue value;
-        private LineInfo line;
+        private LineNumber line;
         private RuntimeType type;
 
-        FillCharCall(RuntimeType type, RuntimeValue value, LineInfo line) {
+        FillCharCall(RuntimeType type, RuntimeValue value, LineNumber line) {
             this.type = type;
             this.value = value;
             this.line = line;
@@ -98,12 +98,12 @@ public class FillByteFunction implements IMethodDeclaration {
 
         @NonNull
         @Override
-        public LineInfo getLineNumber() {
+        public LineNumber getLineNumber() {
             return line;
         }
 
         @Override
-        public void setLineNumber(LineInfo lineNumber) {
+        public void setLineNumber(LineNumber lineNumber) {
 
         }
 

@@ -21,7 +21,7 @@ import android.text.Editable;
 import android.text.Layout;
 import android.widget.EditText;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.autocomplete.autofix.model.TextData;
 import com.duy.pascal.ui.editor.view.EditorView;
 
@@ -49,7 +49,7 @@ public class EditorUtil {
     }
 
     @NonNull
-    public static TextData getText(EditText editable, LineInfo startLine, LineInfo endLine) {
+    public static TextData getText(EditText editable, LineNumber startLine, LineNumber endLine) {
         int start = editable.getLayout().getLineStart(startLine.getLine());
         int end = editable.getLayout().getLineEnd(endLine.getLine());
 

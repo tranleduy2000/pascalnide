@@ -16,7 +16,7 @@
 
 package com.duy.pascal.interperter.libraries.file.exceptions;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 /**
@@ -24,11 +24,11 @@ import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
  */
 
 public class PascalIOException extends RuntimePascalException {
-    public PascalIOException(LineInfo line, Exception e) {
+    public PascalIOException(LineNumber line, Exception e) {
         super(line);
     }
 
-    public PascalIOException(LineInfo line, String msg) {
+    public PascalIOException(LineNumber line, String msg) {
         super(line);
     }
 

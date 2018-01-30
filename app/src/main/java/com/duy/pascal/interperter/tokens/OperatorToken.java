@@ -1,12 +1,12 @@
 package com.duy.pascal.interperter.tokens;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 
 public class OperatorToken extends Token {
     public OperatorTypes type;
 
-    public OperatorToken(LineInfo line, OperatorTypes t) {
+    public OperatorToken(LineNumber line, OperatorTypes t) {
         super(line);
         this.type = t;
     }

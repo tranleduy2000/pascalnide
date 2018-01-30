@@ -20,7 +20,7 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 /**
@@ -33,5 +33,5 @@ public interface Containable<T extends Comparable> {
     /**
      * the line of code
      */
-    LineInfo getLineNumber();
+    LineNumber getLineNumber();
 }

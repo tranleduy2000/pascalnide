@@ -35,7 +35,7 @@ import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.value.NonConstantExpressionException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.DotDotToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
@@ -115,12 +115,12 @@ public abstract class SubrangeType<T extends Comparable> extends TypeInfo implem
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
-        return lineInfo;
+    public LineNumber getLineNumber() {
+        return lineNumber;
     }
 
-    public void setLineNumber(@NonNull LineInfo lineInfo) {
-        this.lineInfo = lineInfo;
+    public void setLineNumber(@NonNull LineNumber lineNumber) {
+        this.lineNumber = lineNumber;
     }
 
     public abstract String toString();

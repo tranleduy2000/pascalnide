@@ -48,7 +48,7 @@ import android.widget.ScrollView;
 import android.widget.Scroller;
 import android.widget.Toast;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.editor.highlight.BracketHighlighter;
 import com.duy.pascal.ui.editor.highlight.CodeHighlighter;
@@ -447,21 +447,21 @@ public class HighlightEditor extends CodeSuggestsEditText
         try {
             removeSpan(e, ErrorSpan.class, 0, length());
             //high light error lineInfo
-            for (LineInfo lineInfo : mLineErrors) {
+            for (LineNumber lineNumber : mLineErrors) {
                 Layout layout = getLayout();
-                int line = lineInfo.getLine();
+                int line = lineNumber.getLine();
                 int temp = line;
                 while (mRealLines[temp] < line) temp++;
                 line = temp;
                 if (layout != null && line < getLineCount()) {
                     int lineStart = getLayout().getLineStart(line);
                     int lineEnd = getLayout().getLineEnd(line);
-                    lineStart += lineInfo.getColumn();
+                    lineStart += lineNumber.getColumn();
 
                     //check if it contains offset from start index error to
                     //(start + offset) index
-                    if (lineInfo.getLength() > -1) {
-                        lineEnd = lineStart + lineInfo.getLength();
+                    if (lineNumber.getLength() > -1) {
+                        lineEnd = lineStart + lineNumber.getLength();
                     }
 
                     //normalize
@@ -639,7 +639,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         mIsFinding = true;
     }
 
-    public void pinLine(@Nullable LineInfo lineInfo) {
+    public void pinLine(@Nullable LineNumber lineNumber) {
         Layout layout = getLayout();
         Editable e = getEditableText();
 
@@ -652,12 +652,12 @@ public class HighlightEditor extends CodeSuggestsEditText
                 e.removeSpan(colorSpan);
             }
         }
-        if (lineInfo == null) return;
-        if (layout != null && lineInfo.getLine() < getLineCount()) {
+        if (lineNumber == null) return;
+        if (layout != null && lineNumber.getLine() < getLineCount()) {
             try {
-                int lineStart = getLayout().getLineStart(lineInfo.getLine());
-                int lineEnd = getLayout().getLineEnd(lineInfo.getLine());
-                lineStart += lineInfo.getColumn();
+                int lineStart = getLayout().getLineStart(lineNumber.getLine());
+                int lineEnd = getLayout().getLineEnd(lineNumber.getLine());
+                lineStart += lineNumber.getColumn();
 
                 //normalize
                 lineStart = Math.max(0, lineStart);
@@ -669,7 +669,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                             lineEnd,
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
-                lastPinLine = lineInfo.getLine();
+                lastPinLine = lineNumber.getLine();
             } catch (Exception ignored) {
             }
         }

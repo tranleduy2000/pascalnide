@@ -6,19 +6,19 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorNode;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 
 public class RangeValue implements CaseCondition {
 
-    private LineInfo line;
+    private LineNumber line;
 
     private BinaryOperatorNode greaterThanLower;
     private BinaryOperatorNode lessThanHigher;
 
     RangeValue(ExpressionContext context, RuntimeValue value, Object lower, Object higher,
-               LineInfo line) throws Exception {
+               LineNumber line) throws Exception {
         ConstantAccess<Object> low = new ConstantAccess<>(lower, line);
         ConstantAccess<Object> high = new ConstantAccess<>(higher, line);
         greaterThanLower = BinaryOperatorNode.generateOp(context, value, low, OperatorTypes.GREATEREQ, line);
@@ -35,7 +35,7 @@ public class RangeValue implements CaseCondition {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 

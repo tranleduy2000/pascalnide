@@ -1,10 +1,10 @@
 package com.duy.pascal.interperter.tokens.basic;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class ForwardToken extends BasicToken {
 
-    public ForwardToken(LineInfo line) {
+    public ForwardToken(LineNumber line) {
         super(line);
     }
 

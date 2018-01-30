@@ -26,7 +26,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.debugable.DebuggableReturnValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
@@ -38,12 +38,12 @@ public class LibraryIdentifierAccess extends DebuggableReturnValue {
 
     private final RuntimeUnitPascal container;
     private final RuntimeValue value;
-    private final LineInfo lineInfo;
+    private final LineNumber lineNumber;
 
-    public LibraryIdentifierAccess(RuntimeUnitPascal container, RuntimeValue value, LineInfo lineInfo) {
+    public LibraryIdentifierAccess(RuntimeUnitPascal container, RuntimeValue value, LineNumber lineNumber) {
         this.container = container;
         this.value = value;
-        this.lineInfo = lineInfo;
+        this.lineNumber = lineNumber;
     }
 
     @Override
@@ -64,8 +64,8 @@ public class LibraryIdentifierAccess extends DebuggableReturnValue {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
-        return lineInfo;
+    public LineNumber getLineNumber() {
+        return lineNumber;
     }
 
     @Nullable

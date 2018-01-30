@@ -33,7 +33,7 @@ import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class SizeOfObjectFunction implements IMethodDeclaration {
 
@@ -46,7 +46,7 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
+    public FunctionCall generateCall(LineNumber line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws Exception {
         RuntimeValue array = arguments[0];
         DLog.d(TAG, "generateCall: ");
@@ -54,7 +54,7 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
+    public FunctionCall generatePerfectFitCall(LineNumber line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         DLog.d(TAG, "generatePerfectFitCall: ");
         return generateCall(line, values, f);
     }
@@ -76,10 +76,10 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
 
     private class SizeOfObjectCall extends BuiltinFunctionCall {
 
-        private LineInfo line;
+        private LineNumber line;
         private RuntimeValue array;
 
-        SizeOfObjectCall(RuntimeValue array, LineInfo line) {
+        SizeOfObjectCall(RuntimeValue array, LineNumber line) {
             this.array = array;
             this.line = line;
         }
@@ -92,12 +92,12 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
 
         @NonNull
         @Override
-        public LineInfo getLineNumber() {
+        public LineNumber getLineNumber() {
             return line;
         }
 
         @Override
-        public void setLineNumber(LineInfo lineNumber) {
+        public void setLineNumber(LineNumber lineNumber) {
             this.line = lineNumber;
         }
 

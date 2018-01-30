@@ -27,18 +27,18 @@ import com.duy.pascal.interperter.ast.runtime.references.Reference;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.debugable.DebuggableAssignableNode;
 import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
 public class ClassVariableAccess extends DebuggableAssignableNode {
     private Name container;
     private Name name;
-    private LineInfo line;
+    private LineNumber line;
     @NonNull
     private ExpressionContext declaration;
 
-    public ClassVariableAccess(Name container, Name name, LineInfo line, @NonNull ExpressionContext f) {
+    public ClassVariableAccess(Name container, Name name, LineNumber line, @NonNull ExpressionContext f) {
         this.container = container;
         this.name = name;
         this.line = line;
@@ -62,12 +62,12 @@ public class ClassVariableAccess extends DebuggableAssignableNode {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
 
     }
 

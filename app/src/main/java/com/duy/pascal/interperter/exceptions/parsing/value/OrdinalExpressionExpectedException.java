@@ -19,17 +19,17 @@ package com.duy.pascal.interperter.exceptions.parsing.value;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class OrdinalExpressionExpectedException extends RuntimePascalException {
-    public OrdinalExpressionExpectedException(@NonNull LineInfo line) {
+    public OrdinalExpressionExpectedException(@NonNull LineNumber line) {
         super(line);
     }
 
     public OrdinalExpressionExpectedException() {
     }
 
-    public OrdinalExpressionExpectedException(@NonNull LineInfo line, @NonNull String mes) {
+    public OrdinalExpressionExpectedException(@NonNull LineNumber line, @NonNull String mes) {
         super(line, mes);
     }
 }

@@ -26,7 +26,7 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.declaration.lang.types.ArgumentType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import java.util.List;
 
@@ -39,8 +39,8 @@ public class AbstractMethodDeclaration extends AbstractFunction {
     }
 
     @Override
-    public LineInfo getLineNumber() {
-        return new LineInfo(-1, t.getClass().getCanonicalName());
+    public LineNumber getLineNumber() {
+        return new LineNumber(-1, t.getClass().getCanonicalName());
     }
 
     @NonNull
@@ -71,7 +71,7 @@ public class AbstractMethodDeclaration extends AbstractFunction {
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line,
+    public FunctionCall generatePerfectFitCall(LineNumber line,
                                                List<RuntimeValue> values, ExpressionContext f)
             throws Exception {
         RuntimeValue[] args = this.perfectMatch(values, f);
@@ -82,7 +82,7 @@ public class AbstractMethodDeclaration extends AbstractFunction {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, List<RuntimeValue> values,
+    public FunctionCall generateCall(LineNumber line, List<RuntimeValue> values,
                                      ExpressionContext f) throws Exception {
         RuntimeValue[] args = this.formatArgs(values, f);
         if (args == null) {

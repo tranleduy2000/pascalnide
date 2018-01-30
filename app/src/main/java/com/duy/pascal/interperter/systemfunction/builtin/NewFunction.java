@@ -35,7 +35,7 @@ import com.duy.pascal.interperter.declaration.lang.types.PointerType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class NewFunction implements IMethodDeclaration {
 
@@ -48,7 +48,7 @@ public class NewFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
+    public FunctionCall generateCall(LineNumber line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws Exception {
         RuntimeValue pointer = arguments[0];
         RuntimeType type = pointer.getRuntimeType(f);
@@ -56,7 +56,7 @@ public class NewFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
+    public FunctionCall generatePerfectFitCall(LineNumber line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         return generateCall(line, values, f);
     }
 
@@ -79,9 +79,9 @@ public class NewFunction implements IMethodDeclaration {
 
         private RuntimeValue value;
         private RuntimeType type;
-        private LineInfo line;
+        private LineNumber line;
 
-        NewCall(RuntimeValue value, RuntimeType type, LineInfo line) {
+        NewCall(RuntimeValue value, RuntimeType type, LineNumber line) {
             this.value = value;
             this.type = type;
             this.line = line;
@@ -95,12 +95,12 @@ public class NewFunction implements IMethodDeclaration {
 
         @NonNull
         @Override
-        public LineInfo getLineNumber() {
+        public LineNumber getLineNumber() {
             return line;
         }
 
         @Override
-        public void setLineNumber(LineInfo lineNumber) {
+        public void setLineNumber(LineNumber lineNumber) {
 
         }
 

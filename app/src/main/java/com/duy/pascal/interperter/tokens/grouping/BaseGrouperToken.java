@@ -17,12 +17,12 @@
 package com.duy.pascal.interperter.tokens.grouping;
 
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 
 public class BaseGrouperToken extends GrouperToken {
 
-    public BaseGrouperToken(LineInfo line) {
+    public BaseGrouperToken(LineNumber line) {
         super(line);
     }
 

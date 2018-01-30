@@ -31,7 +31,7 @@ import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.debug.CallStack;
 
 /**
@@ -49,14 +49,14 @@ public class ForNumberNode extends DebuggableNode {
     @NonNull
     private RuntimeValue mLast;
     @NonNull
-    private LineInfo mLine;
+    private LineNumber mLine;
     private boolean downto = false;
     @NonNull
     private Type mNumberType = null;
 
     public ForNumberNode(ExpressionContext f, @NonNull AssignableValue tempVar,
                          @NonNull RuntimeValue first, @NonNull RuntimeValue last, @NonNull Node command,
-                         @NonNull LineInfo line, boolean downto) throws Exception {
+                         @NonNull LineNumber line, boolean downto) throws Exception {
         this.downto = downto;
         this.mTempVar = tempVar;
         this.mNumberType = tempVar.getRuntimeType(f).getRawType();
@@ -217,7 +217,7 @@ public class ForNumberNode extends DebuggableNode {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return mLine;
     }
 

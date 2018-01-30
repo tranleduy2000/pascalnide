@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.exceptions.parsing.syntax;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
  * Created by Duy on 9/28/2017.
@@ -28,8 +28,8 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 public class WrongForStatementException extends ParsingException {
     private Type type;
 
-    public WrongForStatementException(@NonNull LineInfo lineInfo, Type type) {
-        super(lineInfo);
+    public WrongForStatementException(@NonNull LineNumber lineNumber, Type type) {
+        super(lineNumber);
         this.type = type;
     }
 

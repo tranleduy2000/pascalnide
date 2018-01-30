@@ -16,7 +16,7 @@
 
 package com.duy.pascal.interperter.tokens.ignore;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 
 /**
@@ -27,7 +27,7 @@ public class CommentToken extends Token {
     public String comment;
 
 
-    public CommentToken(LineInfo line, String cmt) {
+    public CommentToken(LineNumber line, String cmt) {
         super(line);
         this.comment = cmt;
     }

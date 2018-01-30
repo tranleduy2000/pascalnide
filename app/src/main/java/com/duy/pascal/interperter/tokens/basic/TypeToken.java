@@ -1,9 +1,9 @@
 package com.duy.pascal.interperter.tokens.basic;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class TypeToken extends BasicToken {
-    public TypeToken(LineInfo line) {
+    public TypeToken(LineNumber line) {
         super(line);
     }
 

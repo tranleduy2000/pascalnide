@@ -19,7 +19,7 @@ package com.duy.pascal.interperter.declaration.lang.types;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import java.io.Serializable;
 import java.lang.reflect.Modifier;
@@ -30,7 +30,7 @@ public abstract class TypeInfo implements Type, Serializable {
      */
     protected Name name = null; //anonymous
     protected int modifier = Modifier.STATIC | Modifier.PUBLIC;
-    protected LineInfo lineInfo;
+    protected LineNumber lineNumber;
 
     public void setModifier(int modifier) {
         this.modifier = modifier;
@@ -43,13 +43,13 @@ public abstract class TypeInfo implements Type, Serializable {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
-        return lineInfo;
+    public LineNumber getLineNumber() {
+        return lineNumber;
     }
 
     @Override
-    public void setLineNumber(@NonNull LineInfo lineNumber) {
-        this.lineInfo = lineNumber;
+    public void setLineNumber(@NonNull LineNumber lineNumber) {
+        this.lineNumber = lineNumber;
     }
 
     @NonNull

@@ -23,7 +23,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.ExceptionManager;
@@ -39,18 +39,18 @@ public class GroupingException extends ParsingException {
     @Nullable
     private Exception caused;
 
-    public GroupingException(@Nullable LineInfo line, @NonNull String message) {
+    public GroupingException(@Nullable LineNumber line, @NonNull String message) {
         super(line, message);
     }
 
-    public GroupingException(@Nullable LineInfo line, @NonNull Type exceptionTypes, @NonNull Token openToken, @NonNull Token closeToken) {
+    public GroupingException(@Nullable LineNumber line, @NonNull Type exceptionTypes, @NonNull Token openToken, @NonNull Token closeToken) {
         super(line);
         this.exceptionTypes = exceptionTypes;
         this.openToken = openToken;
         this.closeToken = closeToken;
     }
 
-    public GroupingException(@Nullable LineInfo line, @NonNull Type exceptionTypes) {
+    public GroupingException(@Nullable LineNumber line, @NonNull Type exceptionTypes) {
         super(line);
         this.exceptionTypes = exceptionTypes;
     }

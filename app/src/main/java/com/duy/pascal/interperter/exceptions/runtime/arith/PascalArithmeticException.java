@@ -21,7 +21,7 @@ import android.support.annotation.NonNull;
 import android.text.Spanned;
 
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 
 import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
@@ -29,7 +29,7 @@ import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 public class PascalArithmeticException extends RuntimePascalException {
     public final ArithmeticException error;
 
-    public PascalArithmeticException(LineInfo line, ArithmeticException e) {
+    public PascalArithmeticException(LineNumber line, ArithmeticException e) {
         super(line);
         this.error = e;
     }

@@ -14,7 +14,7 @@ import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeEx
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.value.NonConstantExpressionException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.EOFToken;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.ColonToken;
@@ -32,7 +32,7 @@ public class CaseOfNode extends DebuggableNode {
     private RuntimeValue mSwitchValue;
     private CasePossibility[] mPossibilities;
     private CompoundNode mOtherwise;
-    private LineInfo mLine;
+    private LineNumber mLine;
 
     public CaseOfNode(CaseToken token, ExpressionContext context)
             throws Exception {
@@ -130,7 +130,7 @@ public class CaseOfNode extends DebuggableNode {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return mLine;
     }
 

@@ -17,7 +17,7 @@
 package com.duy.pascal.interperter.exceptions.parsing.define;
 
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import android.support.annotation.NonNull;
 
@@ -26,7 +26,7 @@ public  class ConstantExpectedException extends ParsingException {
     @NonNull
     private String name;
 
-    public ConstantExpectedException(@NonNull LineInfo line, @NonNull String name) {
+    public ConstantExpectedException(@NonNull LineNumber line, @NonNull String name) {
         super(line);
         this.name = name;
     }

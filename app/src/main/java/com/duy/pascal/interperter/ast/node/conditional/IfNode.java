@@ -17,7 +17,7 @@ import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeEx
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectThenTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.BasicToken;
 import com.duy.pascal.interperter.tokens.basic.ElseToken;
@@ -32,10 +32,10 @@ public class IfNode extends DebuggableNode {
     @Nullable
     private Node mElseStatement;
     @NonNull
-    private LineInfo mLine;
+    private LineNumber mLine;
 
     public IfNode(@NonNull RuntimeValue condition, @NonNull Node statement,
-                  @Nullable Node elseStatement, @NonNull LineInfo line) {
+                  @Nullable Node elseStatement, @NonNull LineNumber line) {
 
 
         this.mCondition = condition;
@@ -55,7 +55,7 @@ public class IfNode extends DebuggableNode {
      */
     public IfNode(@NonNull ExpressionContext context,
                   @NonNull GrouperToken grouperToken,
-                  @NonNull LineInfo line) throws Exception {
+                  @NonNull LineNumber line) throws Exception {
 
         //check condition is boolean value
         RuntimeValue condition = grouperToken.getNextExpression(context);
@@ -93,7 +93,7 @@ public class IfNode extends DebuggableNode {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return mLine;
     }
 

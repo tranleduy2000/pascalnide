@@ -34,7 +34,7 @@ import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class LowFunction implements IMethodDeclaration {
 
@@ -46,7 +46,7 @@ public class LowFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
+    public FunctionCall generateCall(LineNumber line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws Exception {
         RuntimeValue object = arguments[0];
         RuntimeType type = object.getRuntimeType(f);
@@ -54,7 +54,7 @@ public class LowFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
+    public FunctionCall generatePerfectFitCall(LineNumber line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         return generateCall(line, values, f);
     }
 
@@ -75,10 +75,10 @@ public class LowFunction implements IMethodDeclaration {
 
     private class LowCall extends BuiltinFunctionCall {
 
-        private LineInfo line;
+        private LineNumber line;
         private RuntimeType type;
 
-        LowCall(RuntimeType type, LineInfo line) {
+        LowCall(RuntimeType type, LineNumber line) {
             this.type = type;
             this.line = line;
         }
@@ -91,12 +91,12 @@ public class LowFunction implements IMethodDeclaration {
 
         @NonNull
         @Override
-        public LineInfo getLineNumber() {
+        public LineNumber getLineNumber() {
             return line;
         }
 
         @Override
-        public void setLineNumber(LineInfo lineNumber) {
+        public void setLineNumber(LineNumber lineNumber) {
 
         }
 

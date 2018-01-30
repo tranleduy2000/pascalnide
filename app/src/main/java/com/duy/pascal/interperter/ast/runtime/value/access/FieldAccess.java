@@ -28,7 +28,7 @@ import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.ContainsVariables;
 import com.duy.pascal.interperter.debugable.DebuggableAssignableNode;
 import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.parsing.operator.ConstantCalculationException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.tokens.WordToken;
@@ -42,9 +42,9 @@ public class FieldAccess extends DebuggableAssignableNode {
     private static final String TAG = "FieldAccess";
     private RuntimeValue container;
     private Name name;
-    private LineInfo line;
+    private LineNumber line;
 
-    public FieldAccess(RuntimeValue container, Name name, LineInfo line) {
+    public FieldAccess(RuntimeValue container, Name name, LineNumber line) {
         this.container = container;
         this.name = name;
         this.line = line;
@@ -77,12 +77,12 @@ public class FieldAccess extends DebuggableAssignableNode {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
 
     }
 

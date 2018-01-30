@@ -33,7 +33,7 @@ import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import java.lang.reflect.Array;
 
@@ -55,7 +55,7 @@ public class CopyFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
+    public FunctionCall generateCall(LineNumber line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws Exception {
         RuntimeValue array = arguments[0];
         RuntimeType type = array.getRuntimeType(f);
@@ -64,7 +64,7 @@ public class CopyFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
+    public FunctionCall generatePerfectFitCall(LineNumber line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         return generateCall(line, values, f);
     }
 
@@ -88,11 +88,11 @@ public class CopyFunction implements IMethodDeclaration {
         private final RuntimeValue index;
         private final RuntimeValue count;
         private final ArrayType type;
-        private final LineInfo line;
+        private final LineNumber line;
         private final RuntimeValue array;
 
         public LengthCall(RuntimeValue array, Type type, RuntimeValue index,
-                          RuntimeValue count, LineInfo line) {
+                          RuntimeValue count, LineNumber line) {
             this.array = array;
             this.type = (ArrayType) type;
             this.index = index;
@@ -108,12 +108,12 @@ public class CopyFunction implements IMethodDeclaration {
 
         @NonNull
         @Override
-        public LineInfo getLineNumber() {
+        public LineNumber getLineNumber() {
             return line;
         }
 
         @Override
-        public void setLineNumber(LineInfo lineNumber) {
+        public void setLineNumber(LineNumber lineNumber) {
 
         }
 

@@ -1,9 +1,9 @@
 package com.duy.pascal.interperter.tokens.basic;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class WhileToken extends BasicToken {
-    public WhileToken(LineInfo line) {
+    public WhileToken(LineNumber line) {
         super(line);
     }
 

@@ -16,14 +16,14 @@
 
 package com.duy.pascal.interperter.tokens.basic;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
  * Created by Duy on 13-Jun-17.
  */
 
 public class DivAssignToken extends AssignmentToken {
-    public DivAssignToken(LineInfo line) {
+    public DivAssignToken(LineNumber line) {
         super(line);
     }
 

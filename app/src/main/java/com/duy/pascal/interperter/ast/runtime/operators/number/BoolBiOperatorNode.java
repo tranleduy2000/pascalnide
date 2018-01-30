@@ -10,7 +10,7 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorNode;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
@@ -21,7 +21,7 @@ import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 public class BoolBiOperatorNode extends BinaryOperatorNode {
 
     public BoolBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
-                              OperatorTypes operator, LineInfo line) {
+                              OperatorTypes operator, LineNumber line) {
         super(operon1, operon2, operator, line);
     }
 

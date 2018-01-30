@@ -9,7 +9,7 @@ import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.debug.CallStack;
 
 /**
@@ -17,22 +17,22 @@ import com.duy.pascal.ui.debug.CallStack;
  */
 public interface IDebugListener {
     @WorkerThread
-    void onLine(Node node, LineInfo lineInfo);
+    void onLine(Node node, LineNumber lineNumber);
 
     @WorkerThread
-    void onLine(RuntimeValue executable, LineInfo lineInfo);
+    void onLine(RuntimeValue executable, LineNumber lineNumber);
 
     @WorkerThread
     void onNewMessage(String msg);
 
     @WorkerThread
-    void onEvaluatingExpr(LineInfo lineInfo, String expression);
+    void onEvaluatingExpr(LineNumber lineNumber, String expression);
 
     @WorkerThread
-    void onEvaluatedExpr(LineInfo lineInfo, String expr, String result);
+    void onEvaluatedExpr(LineNumber lineNumber, String expr, String result);
 
     @WorkerThread
-    void onAssignValue(LineInfo lineNumber, AssignableValue left, @NonNull Object oldValue,
+    void onAssignValue(LineNumber lineNumber, AssignableValue left, @NonNull Object oldValue,
                        @Nullable Object newValue, @NonNull VariableContext context);
 
     @WorkerThread
@@ -42,13 +42,13 @@ public interface IDebugListener {
     void onFunctionCalled(AbstractCallableFunction function, @Nullable RuntimeValue[] arguments, @Nullable Object result);
 
     @WorkerThread
-    void onEvalParameterFunction(LineInfo lineInfo, @Nullable String name, @Nullable Object value);
+    void onEvalParameterFunction(LineNumber lineNumber, @Nullable String name, @Nullable Object value);
 
     @WorkerThread
     void onFinish();
 
     @WorkerThread
-    void showMessage(LineInfo pos, String msg);
+    void showMessage(LineNumber pos, String msg);
 
     @WorkerThread
     void onValueVariableChanged(CallStack currentFrame);

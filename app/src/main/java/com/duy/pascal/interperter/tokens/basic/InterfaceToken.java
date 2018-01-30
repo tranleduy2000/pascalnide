@@ -16,7 +16,7 @@
 
 package com.duy.pascal.interperter.tokens.basic;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
  * Created by Duy on 21-May-17.
@@ -24,7 +24,7 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class InterfaceToken extends BasicToken {
 
-    public InterfaceToken(LineInfo line) {
+    public InterfaceToken(LineNumber line) {
         super(line);
     }
 

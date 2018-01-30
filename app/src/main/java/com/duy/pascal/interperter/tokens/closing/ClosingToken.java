@@ -3,13 +3,13 @@ package com.duy.pascal.interperter.tokens.closing;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 
 public abstract class ClosingToken extends Token {
 
-    public ClosingToken(LineInfo line) {
+    public ClosingToken(LineNumber line) {
         super(line);
     }
 

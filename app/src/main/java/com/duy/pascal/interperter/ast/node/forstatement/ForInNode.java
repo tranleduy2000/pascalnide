@@ -28,7 +28,7 @@ import com.duy.pascal.interperter.debugable.DebuggableNode;
 import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
 import com.duy.pascal.interperter.exceptions.runtime.CompileException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import java.util.LinkedList;
 
@@ -58,7 +58,7 @@ public class ForInNode extends DebuggableNode {
     /**
      * the lineInfo in code
      */
-    private LineInfo line;
+    private LineNumber line;
 
     /**
      * @param item     - variable identifier
@@ -68,7 +68,7 @@ public class ForInNode extends DebuggableNode {
     public ForInNode(AssignableValue item,
                      RuntimeValue enumList, //enum
                      Node command,
-                     LineInfo line) {
+                     LineNumber line) {
         this.item = item;
         this.list = enumList;
         this.line = line;
@@ -133,7 +133,7 @@ public class ForInNode extends DebuggableNode {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 

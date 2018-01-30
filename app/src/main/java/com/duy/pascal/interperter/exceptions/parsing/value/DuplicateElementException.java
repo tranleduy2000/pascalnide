@@ -17,7 +17,7 @@
 package com.duy.pascal.interperter.exceptions.parsing.value;
 
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,7 +26,7 @@ public class DuplicateElementException extends ParsingException {
     private Object element;
     private Object container;
 
-    public DuplicateElementException(@NonNull Object element, @NonNull Object container, @Nullable LineInfo line) {
+    public DuplicateElementException(@NonNull Object element, @NonNull Object container, @Nullable LineNumber line) {
         super(line);
         this.element = element;
         this.container = container;

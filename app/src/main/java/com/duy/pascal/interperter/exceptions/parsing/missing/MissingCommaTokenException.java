@@ -20,14 +20,14 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.Spanned;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 
 import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 
 public class MissingCommaTokenException extends MissingTokenException {
-    public MissingCommaTokenException(@NonNull LineInfo line) {
+    public MissingCommaTokenException(@NonNull LineNumber line) {
         super(line);
     }
 

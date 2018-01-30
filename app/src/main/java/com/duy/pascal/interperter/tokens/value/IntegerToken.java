@@ -1,13 +1,13 @@
 package com.duy.pascal.interperter.tokens.value;
 
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class IntegerToken extends ValueToken {
     private Integer cacheValue = null;
     private String value;
 
-    public IntegerToken(LineInfo line, String value) {
+    public IntegerToken(LineNumber line, String value) {
         super(line);
         this.value = value;
         this.line.setLength(value.length());

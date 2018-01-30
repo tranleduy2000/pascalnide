@@ -48,7 +48,7 @@ import com.duy.pascal.interperter.libraries.IPascalLibrary;
 import com.duy.pascal.interperter.libraries.PascalLibraryManager;
 import com.duy.pascal.interperter.libraries.file.FileLib;
 import com.duy.pascal.interperter.libraries.io.IOLib;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.source.FileScriptSource;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokens.OperatorToken;
@@ -148,8 +148,8 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         try {
             //load system function
             mLibraryManager.loadSystemLibrary();
-            mLibraryManager.addMethodFromLibrary(FileLib.class, mFileHandler, LineInfo.SYSTEM_LINE);
-            mLibraryManager.addMethodFromLibrary(IOLib.class, mIOHandler, LineInfo.SYSTEM_LINE);
+            mLibraryManager.addMethodFromLibrary(FileLib.class, mFileHandler, LineNumber.SYSTEM_LINE);
+            mLibraryManager.addMethodFromLibrary(IOLib.class, mIOHandler, LineNumber.SYSTEM_LINE);
         } catch (PermissionDeniedException | LibraryNotFoundException e) {
             e.printStackTrace();
         }
@@ -338,7 +338,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 }
             } else if (next instanceof DestructorToken) {
                 Token destructorToken = group.take();
-                LineInfo startLine = destructorToken.getLineNumber();
+                LineNumber startLine = destructorToken.getLineNumber();
                 Name name = group.nextWordValue();
                 if (group.peek() instanceof PeriodToken) {
                     Type typedefType = getTypeDef(name);

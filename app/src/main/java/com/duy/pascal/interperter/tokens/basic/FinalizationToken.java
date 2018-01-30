@@ -16,7 +16,7 @@
 
 package com.duy.pascal.interperter.tokens.basic;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
  * Created by Duy on 21-May-17.
@@ -24,7 +24,7 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public class FinalizationToken extends BasicToken {
 
-    public FinalizationToken(LineInfo line) {
+    public FinalizationToken(LineNumber line) {
         super(line);
     }
 

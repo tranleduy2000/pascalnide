@@ -3,7 +3,7 @@ package com.duy.pascal.interperter.tokens.grouping;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.value.OutputValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.ColonToken;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ParenthesizedToken extends GrouperToken {
 
-    public ParenthesizedToken(LineInfo line) {
+    public ParenthesizedToken(LineNumber line) {
         super(line);
     }
 

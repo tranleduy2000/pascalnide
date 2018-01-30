@@ -35,7 +35,7 @@ import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenExcepti
 import com.duy.pascal.interperter.exceptions.parsing.syntax.MisplacedDeclarationException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.libraries.IPascalLibrary;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokens.EOFToken;
 import com.duy.pascal.interperter.tokens.Token;
@@ -143,7 +143,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
         private ArrayList<Name> forwardFunctions = new ArrayList<>();
 
         @Nullable
-        private LineInfo startLine;
+        private LineNumber startLine;
 
         UnitExpressionContext(@NonNull PascalUnitDeclaration root, @NonNull ProgramHandler handler) {
             super(root, handler);
@@ -152,7 +152,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
 
         @NonNull
         @Override
-        public LineInfo getStartPosition() {
+        public LineNumber getStartPosition() {
             return startLine;
         }
 

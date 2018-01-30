@@ -22,7 +22,7 @@ import com.duy.pascal.interperter.ast.codeunit.CodeUnit;
 import com.duy.pascal.interperter.ast.node.Node;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.MisplacedDeclarationException;
 import com.duy.pascal.interperter.tokens.Token;
@@ -39,8 +39,8 @@ public class ClassExpressionContext extends ExpressionContextMixin {
 
     @NonNull
     @Override
-    public LineInfo getStartPosition() {
-        return new LineInfo(0, mContextName == null ? "class?" : mContextName);
+    public LineNumber getStartPosition() {
+        return new LineNumber(0, mContextName == null ? "class?" : mContextName);
     }
 
     @Override

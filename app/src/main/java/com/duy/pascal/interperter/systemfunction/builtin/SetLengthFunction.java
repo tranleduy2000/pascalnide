@@ -39,7 +39,7 @@ import com.duy.pascal.interperter.declaration.lang.types.VarargsType;
 import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.interperter.declaration.lang.types.subrange.IntegerSubrangeType;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -56,7 +56,7 @@ public class SetLengthFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
+    public FunctionCall generateCall(LineNumber line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws Exception {
         RuntimeValue array = arguments[0];
         RuntimeType type = array.getRuntimeType(f);
@@ -65,7 +65,7 @@ public class SetLengthFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws Exception {
+    public FunctionCall generatePerfectFitCall(LineNumber line, RuntimeValue[] values, ExpressionContext f) throws Exception {
         return generateCall(line, values, f);
     }
 
@@ -89,9 +89,9 @@ public class SetLengthFunction implements IMethodDeclaration {
         private RuntimeValue array;
         private RuntimeType runtimeType;
         private RuntimeValue size;
-        private LineInfo line;
+        private LineNumber line;
 
-        SetLengthCall(RuntimeValue array, RuntimeType type, RuntimeValue size, LineInfo line) {
+        SetLengthCall(RuntimeValue array, RuntimeType type, RuntimeValue size, LineNumber line) {
             this.array = array;
             this.runtimeType = type;
             this.size = size;
@@ -107,12 +107,12 @@ public class SetLengthFunction implements IMethodDeclaration {
 
         @NonNull
         @Override
-        public LineInfo getLineNumber() {
+        public LineNumber getLineNumber() {
             return line;
         }
 
         @Override
-        public void setLineNumber(LineInfo lineNumber) {
+        public void setLineNumber(LineNumber lineNumber) {
 
         }
 

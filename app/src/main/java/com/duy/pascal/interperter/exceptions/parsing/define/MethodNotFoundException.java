@@ -18,7 +18,7 @@ package com.duy.pascal.interperter.exceptions.parsing.define;
 
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,7 +29,7 @@ public  class MethodNotFoundException extends ParsingException {
     @NonNull
     private final String className;
 
-    public MethodNotFoundException(@NonNull LineInfo lineNumber, @NonNull Name name, @NonNull String className) {
+    public MethodNotFoundException(@NonNull LineNumber lineNumber, @NonNull Name name, @NonNull String className) {
         super(lineNumber);
         this.name = name;
         this.className = className;

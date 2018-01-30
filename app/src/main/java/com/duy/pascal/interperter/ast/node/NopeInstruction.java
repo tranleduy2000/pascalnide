@@ -4,13 +4,13 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.debugable.DebuggableNode;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 public class NopeInstruction extends DebuggableNode {
-    LineInfo line;
+    LineNumber line;
 
-    public NopeInstruction(LineInfo line) {
+    public NopeInstruction(LineNumber line) {
         this.line = line;
     }
 
@@ -21,7 +21,7 @@ public class NopeInstruction extends DebuggableNode {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 

@@ -22,13 +22,13 @@ import android.support.annotation.Nullable;
 import android.text.Spanned;
 
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 
 import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 public abstract class MissingTokenException extends ParsingException {
-    public MissingTokenException(@Nullable LineInfo line) {
+    public MissingTokenException(@Nullable LineNumber line) {
         super(line);
     }
 

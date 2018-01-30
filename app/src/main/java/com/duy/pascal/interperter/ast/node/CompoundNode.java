@@ -4,26 +4,26 @@ import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.debugable.DebuggableNode;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 import java.util.LinkedList;
 
 public class CompoundNode extends DebuggableNode {
     private LinkedList<Node> instructions;
-    private LineInfo startLine, endLine;
+    private LineNumber startLine, endLine;
 
-    public CompoundNode(LineInfo startLine) {
+    public CompoundNode(LineNumber startLine) {
         this.startLine = startLine;
         instructions = new LinkedList<>();
     }
 
-    public void setEndLine(LineInfo endLine) {
+    public void setEndLine(LineNumber endLine) {
         this.endLine = endLine;
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return startLine;
     }
 

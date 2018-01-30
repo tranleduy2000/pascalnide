@@ -37,7 +37,7 @@ import com.duy.pascal.interperter.declaration.lang.types.util.TypeUtils;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.libraries.annotations.ArrayBoundsInfo;
 import com.duy.pascal.interperter.libraries.annotations.MethodTypeData;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.utils.DLog;
 
 import java.lang.reflect.GenericArrayType;
@@ -235,11 +235,11 @@ public class MethodDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         if (mInstance != null) {
-            return new LineInfo(-1, mInstance.getClass().getName());
+            return new LineNumber(-1, mInstance.getClass().getName());
         } else {
-            return LineInfo.ANONYMOUS;
+            return LineNumber.ANONYMOUS;
         }
     }
 

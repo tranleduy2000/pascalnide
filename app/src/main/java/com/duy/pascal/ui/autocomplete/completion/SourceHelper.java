@@ -16,7 +16,7 @@
 
 package com.duy.pascal.ui.autocomplete.completion;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.EOFToken;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.WordToken;
@@ -48,7 +48,7 @@ public class SourceHelper {
     public static PascalStatement getStatement(LinkedList<Token> source, int line, int column) {
         DLog.d(TAG, "getStatement() called with: line = [" + line + "], column = [" + column + "]");
 
-        LineInfo cursor = new LineInfo(line, column, "");
+        LineNumber cursor = new LineNumber(line, column, "");
         int last = -1;
         for (int i = 0; i < source.size(); i++) {
             if (source.get(i).getLineNumber().compareTo(cursor) < 0) {

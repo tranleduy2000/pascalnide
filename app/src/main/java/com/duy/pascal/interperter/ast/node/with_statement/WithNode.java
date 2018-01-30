@@ -27,7 +27,7 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.FieldAccess;
 import com.duy.pascal.interperter.debugable.DebuggableNodeReturnValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
@@ -37,9 +37,9 @@ public class WithNode extends DebuggableNodeReturnValue {
 
     public ArrayList<FieldAccess> arguments;
     private WithStatement withStatement;
-    private LineInfo line;
+    private LineNumber line;
 
-    public WithNode(WithStatement withStatement, ArrayList<FieldAccess> arguments, LineInfo line) {
+    public WithNode(WithStatement withStatement, ArrayList<FieldAccess> arguments, LineNumber line) {
         this.withStatement = withStatement;
         this.line = line;
         this.arguments = arguments;
@@ -89,12 +89,12 @@ public class WithNode extends DebuggableNodeReturnValue {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
 
     }
 

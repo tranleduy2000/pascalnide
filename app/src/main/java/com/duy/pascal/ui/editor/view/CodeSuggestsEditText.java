@@ -39,7 +39,7 @@ import android.widget.ListPopupWindow;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.completion.PascalSuggestionOperation;
 import com.duy.pascal.ui.autocomplete.completion.model.Description;
@@ -65,7 +65,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     protected MultiAutoCompleteTextView.Tokenizer mTokenizer;
     protected boolean mEnableSyntaxParser = true;
     @NonNull
-    protected ArrayList<LineInfo> mLineErrors = new ArrayList<>();
+    protected ArrayList<LineNumber> mLineErrors = new ArrayList<>();
     private CodeSuggestAdapter mAdapter;
     private PascalSuggestionOperation pascalParserHelper;
     private ParseDataTask mParseTask;
@@ -277,7 +277,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         mPopup.setAdapter(mAdapter);
     }
 
-    public void setLineError(@Nullable LineInfo lineError) {
+    public void setLineError(@Nullable LineNumber lineError) {
         this.mLineErrors.clear();
         if (lineError != null) {
             this.mLineErrors.add(lineError);

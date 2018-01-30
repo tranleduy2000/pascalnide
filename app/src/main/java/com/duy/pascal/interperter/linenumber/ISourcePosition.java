@@ -24,5 +24,5 @@ public interface ISourcePosition {
     /**
      * @return current line of source code or token
      */
-    LineInfo getLineNumber();
+    LineNumber getLineNumber();
 }

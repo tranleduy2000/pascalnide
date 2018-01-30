@@ -33,7 +33,7 @@ import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.value.DuplicateElementException;
 import com.duy.pascal.interperter.exceptions.parsing.value.NonConstantExpressionException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.DotDotToken;
 import com.duy.pascal.interperter.tokens.grouping.BracketedToken;
@@ -54,15 +54,15 @@ public class SetType<T extends Type> extends BaseSetType {
      */
     private LinkedList list = new LinkedList<>();
 
-    public SetType(T elementType, LinkedList linkedList, LineInfo lineInfo) {
+    public SetType(T elementType, LinkedList linkedList, LineNumber lineNumber) {
         this.elementType = elementType;
         this.list = linkedList;
-        this.lineInfo = lineInfo;
+        this.lineNumber = lineNumber;
     }
 
-    public SetType(T elementType, LineInfo lineInfo) {
+    public SetType(T elementType, LineNumber lineNumber) {
         this.elementType = elementType;
-        this.lineInfo = lineInfo;
+        this.lineNumber = lineNumber;
      }
 
     /**

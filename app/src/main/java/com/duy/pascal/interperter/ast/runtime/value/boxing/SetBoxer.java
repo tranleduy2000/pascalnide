@@ -29,7 +29,7 @@ import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.declaration.lang.types.set.SetType;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.utils.NullSafety;
 
 import java.util.LinkedList;
@@ -37,10 +37,10 @@ import java.util.LinkedList;
 public class SetBoxer extends DebuggableReturnValue {
     private LinkedList<RuntimeValue> values;
     private Type elementType;
-    private LineInfo line;
+    private LineNumber line;
 
     public SetBoxer(LinkedList<RuntimeValue> array,
-                    Type elementType, LineInfo line) {
+                    Type elementType, LineNumber line) {
         this.values = array;
         this.elementType = elementType;
         this.line = line;
@@ -53,12 +53,12 @@ public class SetBoxer extends DebuggableReturnValue {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
         this.line = lineNumber;
     }
 

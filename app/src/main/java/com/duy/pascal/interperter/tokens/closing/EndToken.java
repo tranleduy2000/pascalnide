@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException.Type;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.grouping.BeginEndToken;
 import com.duy.pascal.interperter.tokens.grouping.CaseToken;
 import com.duy.pascal.interperter.tokens.grouping.ClassToken;
@@ -14,7 +14,7 @@ import com.duy.pascal.interperter.tokens.grouping.UnitToken;
 
 public class EndToken extends ClosingToken {
 
-    public EndToken(LineInfo line) {
+    public EndToken(LineNumber line) {
         super(line);
     }
 

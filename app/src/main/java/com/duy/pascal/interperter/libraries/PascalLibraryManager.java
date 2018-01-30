@@ -61,7 +61,7 @@ import com.duy.pascal.interperter.libraries.graphic.GraphicAPI;
 import com.duy.pascal.interperter.libraries.io.InOutListener;
 import com.duy.pascal.interperter.libraries.java.data.JavaCollectionsAPI;
 import com.duy.pascal.interperter.libraries.math.MathLib;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.systemfunction.builtin.AbstractMethodDeclaration;
 import com.duy.pascal.interperter.systemfunction.builtin.AddressFunction;
 import com.duy.pascal.interperter.systemfunction.builtin.AssignedPointerFunction;
@@ -191,7 +191,7 @@ public class PascalLibraryManager {
      * load method from a class
      */
 
-    public void addMethodFromClass(Class<? extends IPascalLibrary> clazz, LineInfo lineNumber) throws PermissionDeniedException, LibraryNotFoundException {
+    public void addMethodFromClass(Class<? extends IPascalLibrary> clazz, LineNumber lineNumber) throws PermissionDeniedException, LibraryNotFoundException {
         Object parent = null;
         Constructor constructor;
         try {
@@ -265,11 +265,11 @@ public class PascalLibraryManager {
 
         mProgram.declareConst(new ConstantDefinition("pi", BasicType.Double, Math.PI, null));
 
-        addMethodFromClass(SystemLibrary.class, new LineInfo(-1, "system"));
+        addMethodFromClass(SystemLibrary.class, new LineNumber(-1, "system"));
     }
 
     public void addMethodFromLibrary(Class<? extends IPascalLibrary> clazz,
-                                     @Nullable Object instance, @Nullable LineInfo line) throws PermissionDeniedException {
+                                     @Nullable Object instance, @Nullable LineNumber line) throws PermissionDeniedException {
 
         if (instance instanceof IAndroidLibrary && mHandler != null && mHandler.getApplicationContext() != null) {
             String[] permissions = ((IAndroidLibrary) instance).needPermission();

@@ -33,7 +33,7 @@ import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
 import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.value.ChangeValueConstantException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.autocomplete.autofix.command.ChangeTypeConstant;
@@ -204,7 +204,7 @@ public class AutoFixFactory {
     }
 
     @NonNull
-    public static AutoFixCommand declareVar(final LineInfo start, final LineInfo end, final Name name,
+    public static AutoFixCommand declareVar(final LineNumber start, final LineNumber end, final Name name,
                                             final String type, final String initValue) {
         return new DeclareVariable(start, end, name, type, initValue);
     }
@@ -317,7 +317,7 @@ public class AutoFixFactory {
      */
     @NonNull
     private static AutoFixCommand fixExpectToken(final String current, final String expect,
-                                                 final boolean insert, final LineInfo line) {
+                                                 final boolean insert, final LineNumber line) {
         return new AutoFixCommand() {
             @Override
             public void execute(EditorView editable) {

@@ -6,7 +6,7 @@ import com.duy.pascal.interperter.ast.node.Node;
 import com.duy.pascal.interperter.ast.node.ExecutionResult;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.debugable.DebuggableNode;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 class CasePossibility extends DebuggableNode {
@@ -33,7 +33,7 @@ class CasePossibility extends DebuggableNode {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return conditions[0].getLineNumber();
     }
 

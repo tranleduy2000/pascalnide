@@ -17,13 +17,13 @@
 package com.duy.pascal.interperter.exceptions.parsing.operator;
 
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 public  class DivisionOperatorIntegerException extends InternalInterpreterException {
-    public DivisionOperatorIntegerException(@NonNull LineInfo line) {
+    public DivisionOperatorIntegerException(@NonNull LineNumber line) {
         super(line);
     }
 

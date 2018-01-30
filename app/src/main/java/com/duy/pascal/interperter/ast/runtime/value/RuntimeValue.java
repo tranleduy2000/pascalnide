@@ -9,7 +9,7 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public interface RuntimeValue {
 
@@ -29,9 +29,9 @@ public interface RuntimeValue {
     /**
      * @return line of code
      */
-    LineInfo getLineNumber();
+    LineNumber getLineNumber();
 
-    void setLineNumber(LineInfo lineNumber);
+    void setLineNumber(LineNumber lineNumber);
 
     /*
      * return null if not a compile-time constant.

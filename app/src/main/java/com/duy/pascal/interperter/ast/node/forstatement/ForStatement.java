@@ -33,7 +33,7 @@ import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectDoTokenExcepti
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.WrongStatementException;
 import com.duy.pascal.interperter.exceptions.parsing.value.UnAssignableTypeException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.OperatorToken;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.AssignmentToken;
@@ -52,7 +52,7 @@ public class ForStatement {
      * create executable for statement
      */
     public static Node generateForNode(GrouperToken group, ExpressionContext context,
-                                       LineInfo lineNumber) throws Exception {
+                                       LineNumber lineNumber) throws Exception {
         RuntimeValue identifier = null;
         try {
             identifier = group.getNextTerm(context);

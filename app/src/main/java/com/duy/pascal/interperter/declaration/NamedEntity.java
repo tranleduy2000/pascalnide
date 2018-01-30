@@ -19,11 +19,11 @@ package com.duy.pascal.interperter.declaration;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public interface NamedEntity {
     @Nullable
-    LineInfo getLineNumber();
+    LineNumber getLineNumber();
 
     @NonNull
     String getEntityType();

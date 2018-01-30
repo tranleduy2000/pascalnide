@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
  * Created by Duy on 24-May-17.
@@ -28,10 +28,10 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public abstract class Token {
     @NonNull
-    protected LineInfo line;
+    protected LineNumber line;
 
-    public Token(@NonNull LineInfo lineInfo) {
-        this.line = lineInfo;
+    public Token(@NonNull LineNumber lineNumber) {
+        this.line = lineNumber;
     }
 
     @NonNull
@@ -50,11 +50,11 @@ public abstract class Token {
     }
 
     @NonNull
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return this.line;
     }
 
-    public final void setLineNumber(@NonNull LineInfo var1) {
+    public final void setLineNumber(@NonNull LineNumber var1) {
         this.line = var1;
     }
 

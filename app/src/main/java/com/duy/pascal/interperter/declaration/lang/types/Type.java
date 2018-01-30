@@ -10,7 +10,7 @@ import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.NamedEntity;
 import com.duy.pascal.interperter.exceptions.parsing.index.NonArrayIndexed;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public interface Type extends NamedEntity, Member {
 
@@ -46,9 +46,9 @@ public interface Type extends NamedEntity, Member {
 
     @Override
     @NonNull
-    LineInfo getLineNumber();
+    LineNumber getLineNumber();
 
-    void setLineNumber(@NonNull LineInfo lineNumber);
+    void setLineNumber(@NonNull LineNumber lineNumber);
 
     @NonNull
     @Override

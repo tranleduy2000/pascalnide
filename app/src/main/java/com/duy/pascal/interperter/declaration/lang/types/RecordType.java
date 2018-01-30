@@ -138,7 +138,7 @@ public class RecordType extends CustomType implements Cloneable {
         for (VariableDeclaration var : variableDeclarations) {
             recordType.addVariableDeclaration(var.clone());
         }
-        recordType.setLineNumber(lineInfo);
+        recordType.setLineNumber(lineNumber);
         recordType.setName(name);
         return recordType;
     }

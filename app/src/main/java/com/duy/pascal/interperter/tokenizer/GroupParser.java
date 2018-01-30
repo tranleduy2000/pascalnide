@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.source.ScriptSource;
 import com.duy.pascal.interperter.tokens.EOFToken;
 import com.duy.pascal.interperter.tokens.Token;
@@ -27,7 +27,7 @@ public class GroupParser {
     public GroupParser(@NonNull ScriptSource source, @Nullable List<ScriptSource> include) throws GroupingException {
         this.mLexer = new Lexer(source.stream(), source.getName(), include);
         this.mGroupers = new Stack<>();
-        this.mTokenQueue = new BaseGrouperToken(new LineInfo(0, source.getName()));
+        this.mTokenQueue = new BaseGrouperToken(new LineNumber(0, source.getName()));
         this.mGroupers.push(mTokenQueue);
     }
 
@@ -42,7 +42,7 @@ public class GroupParser {
         }
     }
 
-    private void TossException(LineInfo line, GroupingException.Type t) {
+    private void TossException(LineNumber line, GroupingException.Type t) {
         GroupingExceptionToken gt = new GroupingExceptionToken(line, t);
         for (GrouperToken g : mGroupers) {
             g.put(gt);

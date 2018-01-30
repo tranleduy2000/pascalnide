@@ -9,7 +9,7 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.debugable.DebuggableReturnValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.exceptions.parsing.value.UnAssignableTypeException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
@@ -17,7 +17,7 @@ import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
 public class GetAddress extends DebuggableReturnValue {
     private final AssignableValue target;
-    private LineInfo line;
+    private LineNumber line;
 
     public GetAddress(AssignableValue target) throws UnAssignableTypeException {
         this.line = target.getLineNumber();
@@ -39,12 +39,12 @@ public class GetAddress extends DebuggableReturnValue {
 
     @NonNull
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return target.getLineNumber();
     }
 
     @Override
-    public void setLineNumber(LineInfo lineNumber) {
+    public void setLineNumber(LineNumber lineNumber) {
 
     }
 

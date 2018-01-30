@@ -38,7 +38,7 @@ import com.duy.pascal.interperter.exceptions.parsing.define.DuplicateIdentifierE
 import com.duy.pascal.interperter.exceptions.parsing.define.OverridingFunctionBodyException;
 import com.duy.pascal.interperter.exceptions.parsing.syntax.ExpectedTokenException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.WordToken;
 import com.duy.pascal.interperter.tokens.basic.ColonToken;
@@ -64,8 +64,8 @@ public class FunctionDeclaration extends AbstractCallableFunction {
      */
     public Name name;
     public Node instructions;
-    public LineInfo startPosition;
-    public LineInfo endPosition;
+    public LineNumber startPosition;
+    public LineNumber endPosition;
     public Name[] argumentNames;
     public RuntimeType[] argumentTypes;
     /*field store value of function*/
@@ -80,9 +80,9 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     }
 
     public FunctionDeclaration(Name name, ExpressionContext parent, GrouperToken grouperToken,
-                               boolean isProcedure, LineInfo lineInfo) throws Exception {
+                               boolean isProcedure, LineNumber lineNumber) throws Exception {
         parseHeader(name, parent, grouperToken, isProcedure);
-        this.startPosition = lineInfo;
+        this.startPosition = lineNumber;
     }
 
     public FunctionDeclaration(ExpressionContext parent, GrouperToken grouperToken,
@@ -293,7 +293,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return startPosition;
     }
 
@@ -311,7 +311,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
         @NonNull
         @Override
-        public LineInfo getStartPosition() {
+        public LineNumber getStartPosition() {
             return startPosition;
         }
 

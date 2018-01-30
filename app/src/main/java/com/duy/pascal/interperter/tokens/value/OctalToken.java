@@ -16,7 +16,7 @@
 
 package com.duy.pascal.interperter.tokens.value;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
  * Created by Duy on 28-May-17.
@@ -26,7 +26,7 @@ public class OctalToken extends ValueToken {
     private Long cacheValue = null;
     private String value;
 
-    public OctalToken(LineInfo line, String value) {
+    public OctalToken(LineNumber line, String value) {
         super(line);
         this.value = value;
         this.line.setLength(value.length());

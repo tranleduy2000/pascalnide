@@ -23,19 +23,19 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.NamedEntity;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class ConstantDefinition implements NamedEntity {
     public Type type;
     private Name name;
     private Object value;
-    private LineInfo line;
+    private LineNumber line;
 
-    public ConstantDefinition(@NonNull Name name, @NonNull Object value, LineInfo line) {
+    public ConstantDefinition(@NonNull Name name, @NonNull Object value, LineNumber line) {
         this(name, null, value, line);
     }
 
-    public ConstantDefinition(@NonNull String name, @NonNull Object value, LineInfo line) {
+    public ConstantDefinition(@NonNull String name, @NonNull Object value, LineNumber line) {
         this(Name.create(name), null, value, line);
     }
 
@@ -54,7 +54,7 @@ public class ConstantDefinition implements NamedEntity {
     }
 
     public ConstantDefinition(@NonNull Name name, @Nullable Type type,
-                              @NonNull Object init, LineInfo line) {
+                              @NonNull Object init, LineNumber line) {
         this.name = name;
         this.type = type;
         this.value = init;
@@ -62,12 +62,12 @@ public class ConstantDefinition implements NamedEntity {
     }
 
     public ConstantDefinition(@NonNull String name, @Nullable Type type, @NonNull Object initValue,
-                            LineInfo line) {
+                            LineNumber line) {
         this(Name.create(name), type, initValue, line);
     }
 
     /*enum*/
-    public ConstantDefinition(@NonNull Name name, @Nullable Type type, LineInfo line) {
+    public ConstantDefinition(@NonNull Name name, @Nullable Type type, LineNumber line) {
         this(name, type, null, line);
     }
 
@@ -83,7 +83,7 @@ public class ConstantDefinition implements NamedEntity {
         this.value = value;
     }
 
-    public LineInfo getLineNumber() {
+    public LineNumber getLineNumber() {
         return line;
     }
 

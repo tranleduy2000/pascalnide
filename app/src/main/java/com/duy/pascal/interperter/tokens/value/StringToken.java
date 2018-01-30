@@ -1,12 +1,12 @@
 package com.duy.pascal.interperter.tokens.value;
 
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class StringToken extends ValueToken {
     public String value;
 
-    public StringToken(LineInfo line, String s) {
+    public StringToken(LineNumber line, String s) {
         super(line);
         this.value = s;
         this.line.setLength(toCode().length());

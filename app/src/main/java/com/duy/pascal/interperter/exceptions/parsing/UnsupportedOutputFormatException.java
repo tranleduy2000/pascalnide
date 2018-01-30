@@ -16,19 +16,19 @@
 
 package com.duy.pascal.interperter.exceptions.parsing;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 
 public  class UnsupportedOutputFormatException extends ParsingException {
-    public UnsupportedOutputFormatException(@NonNull LineInfo lineInfo) {
-        super(lineInfo);
+    public UnsupportedOutputFormatException(@NonNull LineNumber lineNumber) {
+        super(lineNumber);
     }
 
     public UnsupportedOutputFormatException() {
-        super((LineInfo) null);
+        super((LineNumber) null);
     }
 
     @Nullable

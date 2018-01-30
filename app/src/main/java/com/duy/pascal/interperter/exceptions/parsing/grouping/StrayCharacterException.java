@@ -20,7 +20,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.Spanned;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.ui.R;
 
 import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
@@ -28,7 +28,7 @@ import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 public class StrayCharacterException extends GroupingException {
     private final char charCode;
 
-    public StrayCharacterException(@NonNull LineInfo line, char charCode) {
+    public StrayCharacterException(@NonNull LineNumber line, char charCode) {
         super(line, "Stray character in program: " + charCode + "\nChar code " + charCode);
         this.charCode = charCode;
     }

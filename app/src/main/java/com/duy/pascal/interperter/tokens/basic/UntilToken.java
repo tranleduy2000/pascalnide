@@ -16,11 +16,11 @@
 
 package com.duy.pascal.interperter.tokens.basic;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class UntilToken extends BasicToken {
 
-    public UntilToken(LineInfo line) {
+    public UntilToken(LineNumber line) {
         super(line);
     }
 

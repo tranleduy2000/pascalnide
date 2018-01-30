@@ -18,7 +18,7 @@ package com.duy.pascal.interperter.tokens;
 
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 /**
  * Created by Duy on 13-Jun-17.
@@ -28,8 +28,8 @@ public class SpaceToken extends Token {
 
     private String text;
 
-    public SpaceToken(@Nullable LineInfo lineInfo, String text) {
-        super(lineInfo);
+    public SpaceToken(@Nullable LineNumber lineNumber, String text) {
+        super(lineNumber);
         this.text = text;
     }
 

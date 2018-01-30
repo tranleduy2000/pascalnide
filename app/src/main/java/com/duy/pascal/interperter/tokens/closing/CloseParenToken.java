@@ -2,13 +2,13 @@ package com.duy.pascal.interperter.tokens.closing;
 
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException;
 import com.duy.pascal.interperter.exceptions.parsing.grouping.GroupingException.Type;
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 import com.duy.pascal.interperter.tokens.grouping.ParenthesizedToken;
 
 public class CloseParenToken extends ClosingToken {
 
-    public CloseParenToken(LineInfo line) {
+    public CloseParenToken(LineNumber line) {
         super(line);
     }
 
