@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorEval;
+import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorNode;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
@@ -15,9 +15,9 @@ import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticExcep
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-public class StringBiOperatorEval extends BinaryOperatorEval {
+public class StringBiOperatorNode extends BinaryOperatorNode {
 
-    public StringBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
+    public StringBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
                                 OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
@@ -26,7 +26,7 @@ public class StringBiOperatorEval extends BinaryOperatorEval {
     @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
-        switch (operator_type) {
+        switch (operatorType) {
             case EQUALS:
             case NOTEQUAL:
             case LESSEQ:
@@ -44,7 +44,7 @@ public class StringBiOperatorEval extends BinaryOperatorEval {
             throws PascalArithmeticException, InternalInterpreterException {
         String left = value1.toString();
         String right = value2.toString();
-        switch (operator_type) {
+        switch (operatorType) {
             case EQUALS:
                 return left.equals(right); //left == right
             case NOTEQUAL:
@@ -71,10 +71,10 @@ public class StringBiOperatorEval extends BinaryOperatorEval {
         if (val != null) {
             return new ConstantAccess<>(val, line);
         } else {
-            return new StringBiOperatorEval(
-                    operon1.compileTimeExpressionFold(context),
-                    operon2.compileTimeExpressionFold(context),
-                    operator_type,
+            return new StringBiOperatorNode(
+                    leftNode.compileTimeExpressionFold(context),
+                    rightNode.compileTimeExpressionFold(context),
+                    operatorType,
                     line);
         }
     }

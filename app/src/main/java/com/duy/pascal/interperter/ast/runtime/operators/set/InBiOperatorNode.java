@@ -21,7 +21,7 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorEval;
+import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorNode;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
@@ -37,9 +37,9 @@ import java.util.LinkedList;
 /**
  * The IN operator checks to see whether an element is in an array
  */
-public class InBiOperatorEval extends BinaryOperatorEval {
+public class InBiOperatorNode extends BinaryOperatorNode {
 
-    public InBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
+    public InBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
                             OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
@@ -47,7 +47,7 @@ public class InBiOperatorEval extends BinaryOperatorEval {
     @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
-        switch (operator_type) {
+        switch (operatorType) {
             case IN:
                 return new RuntimeType(BasicType.Boolean, false);
         }
@@ -94,9 +94,9 @@ public class InBiOperatorEval extends BinaryOperatorEval {
         if (val != null) {
             return new ConstantAccess<>(val, line);
         } else {
-            return new InBiOperatorEval(
-                    operon1.compileTimeExpressionFold(context),
-                    operon2.compileTimeExpressionFold(context), operator_type,
+            return new InBiOperatorNode(
+                    leftNode.compileTimeExpressionFold(context),
+                    rightNode.compileTimeExpressionFold(context), operatorType,
                     line);
         }
     }

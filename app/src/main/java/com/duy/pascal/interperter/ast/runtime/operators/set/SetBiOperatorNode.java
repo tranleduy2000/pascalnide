@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorEval;
+import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorNode;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
@@ -34,10 +34,10 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 import java.util.LinkedList;
 
 
-public class SetBiOperatorEval extends BinaryOperatorEval {
+public class SetBiOperatorNode extends BinaryOperatorNode {
 
 
-    public SetBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
+    public SetBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
                              OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
@@ -45,12 +45,12 @@ public class SetBiOperatorEval extends BinaryOperatorEval {
     @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
-        switch (operator_type) {
+        switch (operatorType) {
             case PLUS:
             case MULTIPLY:
             case MINUS:
             case DIFFERENT:
-                SetType type = (SetType) operon1.getRuntimeType(context).declType;
+                SetType type = (SetType) leftNode.getRuntimeType(context).declType;
                 return new RuntimeType(type, false);
 
             case EQUALS:
@@ -75,7 +75,7 @@ public class SetBiOperatorEval extends BinaryOperatorEval {
 
         LinkedList result = new LinkedList<>();
 
-        switch (operator_type) {
+        switch (operatorType) {
             case PLUS:
                 result.clear();
                 for (Object element : v2) if (!v1.contains(element)) result.add(element);
@@ -147,9 +147,9 @@ public class SetBiOperatorEval extends BinaryOperatorEval {
         if (val != null) {
             return new ConstantAccess<>(val, line);
         } else {
-            return new SetBiOperatorEval(
-                    operon1.compileTimeExpressionFold(context),
-                    operon2.compileTimeExpressionFold(context), operator_type,
+            return new SetBiOperatorNode(
+                    leftNode.compileTimeExpressionFold(context),
+                    rightNode.compileTimeExpressionFold(context), operatorType,
                     line);
         }
     }

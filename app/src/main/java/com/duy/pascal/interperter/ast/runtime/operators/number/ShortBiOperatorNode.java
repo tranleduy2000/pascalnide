@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorEval;
+import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorNode;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.linenumber.LineInfo;
@@ -31,9 +31,9 @@ import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
-public class ShortBiOperatorEval extends BinaryOperatorEval {
+public class ShortBiOperatorNode extends BinaryOperatorNode {
 
-    public ShortBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
+    public ShortBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
                                OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
@@ -41,7 +41,7 @@ public class ShortBiOperatorEval extends BinaryOperatorEval {
     @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
-        switch (operator_type) {
+        switch (operatorType) {
             case EQUALS:
             case GREATEREQ:
             case GREATERTHAN:
@@ -61,7 +61,7 @@ public class ShortBiOperatorEval extends BinaryOperatorEval {
             throws PascalArithmeticException, InternalInterpreterException {
         int v1 = Integer.parseInt(String.valueOf(value1));
         int v2 = Integer.parseInt(String.valueOf(value2));
-        switch (operator_type) {
+        switch (operatorType) {
             case AND:
                 return v1 & v2;
             case DIV:
@@ -113,9 +113,9 @@ public class ShortBiOperatorEval extends BinaryOperatorEval {
         if (val != null) {
             return new ConstantAccess<>(val, line);
         } else {
-            return new ShortBiOperatorEval(
-                    operon1.compileTimeExpressionFold(context),
-                    operon2.compileTimeExpressionFold(context), operator_type,
+            return new ShortBiOperatorNode(
+                    leftNode.compileTimeExpressionFold(context),
+                    rightNode.compileTimeExpressionFold(context), operatorType,
                     line);
         }
     }

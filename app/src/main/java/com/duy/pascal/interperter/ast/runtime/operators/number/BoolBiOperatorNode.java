@@ -1,61 +1,69 @@
-/*
- *  Copyright (c) 2017 Tran Le Duy
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.duy.pascal.interperter.ast.runtime.operators.number;
+
 
 import android.support.annotation.NonNull;
 
+import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorEval;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorNode;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
-public class JavaBiOperatorEval extends BinaryOperatorEval {
+public class BoolBiOperatorNode extends BinaryOperatorNode {
 
-    public JavaBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
+    public BoolBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
                               OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
 
+    @Override
+    public boolean canDebug() {
+        return true;
+    }
+
+    @Override
+    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+            throws RuntimePascalException {
+        boolean value1 = (boolean) leftNode.getValue(f, main);
+        if ((operatorType == OperatorTypes.AND && !value1) || (operatorType == OperatorTypes.OR && value1)) {
+            return value1;
+        }
+        boolean value2 = (boolean) rightNode.getValue(f, main);
+        return operate(value1, value2);
+    }
+
+
     @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
-        switch (operator_type) {
-            case EQUALS:
-            case NOTEQUAL:
-                return new RuntimeType(BasicType.Boolean, false);
-        }
-        return null;
+        return new RuntimeType(BasicType.Boolean, false);
     }
 
     @Override
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException, InternalInterpreterException {
-        switch (operator_type) {
+        boolean v1 = (boolean) value1;
+        boolean v2 = (boolean) value2;
+        switch (operatorType) {
+            case AND:
+                return v1 & v2;
             case EQUALS:
-                return value1.equals(value2);
+                return v1 == v2;
             case NOTEQUAL:
-                return !value1.equals(value2);
+                return v1 != v2;
+            case OR:
+                return v1 | v2;
+            case XOR:
+                return v1 ^ v2;
             default:
                 throw new InternalInterpreterException(line);
         }
@@ -67,9 +75,9 @@ public class JavaBiOperatorEval extends BinaryOperatorEval {
         if (val != null) {
             return new ConstantAccess<>(val, line);
         } else {
-            return new JavaBiOperatorEval(
-                    operon1.compileTimeExpressionFold(context),
-                    operon2.compileTimeExpressionFold(context), operator_type,
+            return new BoolBiOperatorNode(
+                    leftNode.compileTimeExpressionFold(context),
+                    rightNode.compileTimeExpressionFold(context), operatorType,
                     line);
         }
     }

@@ -22,10 +22,10 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime.operators.number.BoolUniOperatorEval;
-import com.duy.pascal.interperter.ast.runtime.operators.number.DoubleUniOperatorEval;
-import com.duy.pascal.interperter.ast.runtime.operators.number.IntegerUniOperatorEval;
-import com.duy.pascal.interperter.ast.runtime.operators.number.LongUniOperatorEval;
+import com.duy.pascal.interperter.ast.runtime.operators.number.BoolUniOperatorNode;
+import com.duy.pascal.interperter.ast.runtime.operators.number.DoubleUniOperatorNode;
+import com.duy.pascal.interperter.ast.runtime.operators.number.IntegerUniOperatorNode;
+import com.duy.pascal.interperter.ast.runtime.operators.number.LongUniOperatorNode;
 import com.duy.pascal.interperter.ast.runtime.operators.pointer.AddressEval;
 import com.duy.pascal.interperter.ast.runtime.operators.pointer.DerefEval;
 import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
@@ -44,13 +44,13 @@ import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-public abstract class UnaryOperatorEval extends DebuggableReturnValue {
+public abstract class UnaryOperatorNode extends DebuggableReturnValue {
     public OperatorTypes operator;
     public RuntimeType type;
     public RuntimeValue operon;
     public LineInfo line;
 
-    protected UnaryOperatorEval(RuntimeValue operon, OperatorTypes operator,
+    protected UnaryOperatorNode(RuntimeValue operon, OperatorTypes operator,
                                 LineInfo line) {
         this.operator = operator;
         this.line = line;
@@ -77,16 +77,16 @@ public abstract class UnaryOperatorEval extends DebuggableReturnValue {
             }
         }
         if (opType == OperatorTypes.NOT && t1.equals(BasicType.Boolean)) {
-            return new BoolUniOperatorEval(v1, opType, line);
+            return new BoolUniOperatorNode(v1, opType, line);
         }
         if (t1 == BasicType.Double) {
-            return new DoubleUniOperatorEval(v1, opType, line);
+            return new DoubleUniOperatorNode(v1, opType, line);
         }
         if (t1.equals(BasicType.Long)) {
-            return new LongUniOperatorEval(v1, opType, line);
+            return new LongUniOperatorNode(v1, opType, line);
         }
         if (t1.equals(BasicType.Integer)) {
-            return new IntegerUniOperatorEval(v1, opType, line);
+            return new IntegerUniOperatorNode(v1, opType, line);
         }
         throw new BadOperationTypeException(line, t1, v1, opType);
     }

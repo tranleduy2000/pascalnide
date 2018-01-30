@@ -1,39 +1,38 @@
 package com.duy.pascal.interperter.ast.runtime.operators.number;
 
-
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime.operators.UnaryOperatorEval;
+import com.duy.pascal.interperter.ast.runtime.operators.UnaryOperatorNode;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
-import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
+import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
-public class LongUniOperatorEval extends UnaryOperatorEval {
+public class DoubleUniOperatorNode extends UnaryOperatorNode {
 
-    public LongUniOperatorEval(RuntimeValue operon, OperatorTypes operator, LineInfo line) {
+    public DoubleUniOperatorNode(RuntimeValue operon, OperatorTypes operator, LineInfo line) {
         super(operon, operator, line);
     }
 
     @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
-        return new RuntimeType(BasicType.Long, false);
+        return new RuntimeType(BasicType.Double, false);
     }
 
     @Override
     public Object operate(Object value) throws PascalArithmeticException, InternalInterpreterException {
         switch (operator) {
             case PLUS:
-                return +(long) value;
+                return +(double) value;
             case MINUS:
-                return -(long) value;
+                return -(double) value;
             default:
                 throw new InternalInterpreterException(line);
         }
@@ -44,11 +43,10 @@ public class LongUniOperatorEval extends UnaryOperatorEval {
         Object val = this.compileTimeValue(context);
         if (val != null) {
             return new ConstantAccess<>(val, line);
+
         } else {
-            return new LongUniOperatorEval(operon.compileTimeExpressionFold(context), operator,
-                    line);
+            return new DoubleUniOperatorNode(operon.compileTimeExpressionFold(context), operator, line);
         }
     }
-
 
 }

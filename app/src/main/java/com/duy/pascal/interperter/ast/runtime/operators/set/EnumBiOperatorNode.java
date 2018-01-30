@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorEval;
+import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorNode;
 import com.duy.pascal.interperter.ast.runtime.value.EnumElementValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
@@ -34,9 +34,9 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.utils.NullSafety;
 
 
-public class EnumBiOperatorEval extends BinaryOperatorEval {
+public class EnumBiOperatorNode extends BinaryOperatorNode {
 
-    public EnumBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
+    public EnumBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
                               OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
@@ -45,7 +45,7 @@ public class EnumBiOperatorEval extends BinaryOperatorEval {
     @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
-        switch (operator_type) {
+        switch (operatorType) {
             case EQUALS:
             case GREATEREQ:
             case GREATERTHAN:
@@ -55,7 +55,7 @@ public class EnumBiOperatorEval extends BinaryOperatorEval {
                 return new RuntimeType(BasicType.Boolean, false);
             case PLUS:
             case MINUS:
-                EnumGroupType type = (EnumGroupType) operon1;
+                EnumGroupType type = (EnumGroupType) leftNode;
                 return new RuntimeType(type, false);
             default:
                 throw new CompileException();
@@ -68,7 +68,7 @@ public class EnumBiOperatorEval extends BinaryOperatorEval {
             throws PascalArithmeticException, CompileException {
         EnumElementValue v1 = (EnumElementValue) value1;
         EnumElementValue v2 = (EnumElementValue) value2;
-        switch (operator_type) {
+        switch (operatorType) {
             case EQUALS:
                 return v1.equals(v2);
 
@@ -104,9 +104,9 @@ public class EnumBiOperatorEval extends BinaryOperatorEval {
             return new ConstantAccess<>(val, line);
 
         } else {
-            return new EnumBiOperatorEval(
-                    operon1.compileTimeExpressionFold(context),
-                    operon2.compileTimeExpressionFold(context), operator_type,
+            return new EnumBiOperatorNode(
+                    leftNode.compileTimeExpressionFold(context),
+                    rightNode.compileTimeExpressionFold(context), operatorType,
                     line);
         }
     }

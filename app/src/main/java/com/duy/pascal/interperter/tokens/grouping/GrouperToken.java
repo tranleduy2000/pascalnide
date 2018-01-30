@@ -24,8 +24,8 @@ import com.duy.pascal.interperter.ast.node.conditional.RepeatNode;
 import com.duy.pascal.interperter.ast.node.conditional.WhileNode;
 import com.duy.pascal.interperter.ast.node.forstatement.ForStatement;
 import com.duy.pascal.interperter.ast.node.with_statement.WithStatement;
-import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorEval;
-import com.duy.pascal.interperter.ast.runtime.operators.UnaryOperatorEval;
+import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorNode;
+import com.duy.pascal.interperter.ast.runtime.operators.UnaryOperatorNode;
 import com.duy.pascal.interperter.ast.runtime.operators.pointer.DerefEval;
 import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime.value.ClassConstructorCall;
@@ -499,7 +499,7 @@ public abstract class GrouperToken extends Token {
             if (!nextOperator.canBeUnary() || nextOperator.postfix()) {
                 throw new BadOperationTypeException(next.getLineNumber(), nextOperator.type);
             }
-            term = UnaryOperatorEval.generateOp(context, getNextExpression(context,
+            term = UnaryOperatorNode.generateOp(context, getNextExpression(context,
                     nextOperator.type.getPrecedence()), nextOperator.type, nextOperator.getLineNumber());
         } else {
             term = getNextTerm(context, next);
@@ -513,7 +513,7 @@ public abstract class GrouperToken extends Token {
                 }
                 take();
                 if (nextOperator.postfix()) {
-                    return UnaryOperatorEval.generateOp(context, term, nextOperator.type,
+                    return UnaryOperatorNode.generateOp(context, term, nextOperator.type,
                             nextOperator.getLineNumber());
                 }
                 RuntimeValue nextValue = getNextExpression(context, nextOperator.type.getPrecedence());
@@ -526,7 +526,7 @@ public abstract class GrouperToken extends Token {
                     throw new BadOperationTypeException(next.getLineNumber(), type1,
                             type2, term, nextValue, operationType);
                 }
-                term = BinaryOperatorEval.generateOp(context,
+                term = BinaryOperatorNode.generateOp(context,
                         term, nextValue, operationType, nextOperator.getLineNumber());
             } else if (next instanceof PeriodToken) {
                 take();

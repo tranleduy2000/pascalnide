@@ -29,4 +29,12 @@ public class AstTest extends BaseTestCase {
     public void testCConstruct() {
         run("c_construct.pas");
     }
+
+    public void testDivZero() {
+        try {
+            run("test_div_zero.pas");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

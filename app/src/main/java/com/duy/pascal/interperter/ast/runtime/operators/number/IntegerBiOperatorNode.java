@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorEval;
+import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorNode;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.linenumber.LineInfo;
@@ -15,9 +15,9 @@ import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
-public class IntegerBiOperatorEval extends BinaryOperatorEval {
+public class IntegerBiOperatorNode extends BinaryOperatorNode {
 
-    public IntegerBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
+    public IntegerBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
                                  OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
@@ -25,7 +25,7 @@ public class IntegerBiOperatorEval extends BinaryOperatorEval {
     @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
-        switch (operator_type) {
+        switch (operatorType) {
             case EQUALS:
             case GREATEREQ:
             case GREATERTHAN:
@@ -45,7 +45,7 @@ public class IntegerBiOperatorEval extends BinaryOperatorEval {
             throws PascalArithmeticException, InternalInterpreterException {
         int left = Integer.parseInt(String.valueOf(value1));
         int right = Integer.parseInt(String.valueOf(value2));
-        switch (operator_type) {
+        switch (operatorType) {
             case AND:
                 return left & right;
             case DIV:
@@ -55,6 +55,7 @@ public class IntegerBiOperatorEval extends BinaryOperatorEval {
                 return left / right;
             case DIVIDE:
                 if (right == 0) {
+
                     throw new DivisionByZeroException(line);
                 }
                 return (double) left / (double) right;
@@ -97,9 +98,9 @@ public class IntegerBiOperatorEval extends BinaryOperatorEval {
         if (val != null) {
             return new ConstantAccess<>(val, line);
         } else {
-            return new IntegerBiOperatorEval(
-                    operon1.compileTimeExpressionFold(context),
-                    operon2.compileTimeExpressionFold(context), operator_type,
+            return new IntegerBiOperatorNode(
+                    leftNode.compileTimeExpressionFold(context),
+                    rightNode.compileTimeExpressionFold(context), operatorType,
                     line);
         }
     }

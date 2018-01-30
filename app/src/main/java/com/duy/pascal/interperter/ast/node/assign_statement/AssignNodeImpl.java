@@ -21,7 +21,7 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.node.ExecutionResult;
-import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorEval;
+import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorNode;
 import com.duy.pascal.interperter.ast.runtime.references.Reference;
 import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
@@ -55,7 +55,7 @@ public abstract class AssignNodeImpl<T extends OperatorTypes> extends Debuggable
                           @NonNull LineInfo line) throws Exception {
         mLeftNode = left;
         mLine = line;
-        mOperator = BinaryOperatorEval.generateOp(f, left, value, operator, line);
+        mOperator = BinaryOperatorNode.generateOp(f, left, value, operator, line);
     }
 
 
