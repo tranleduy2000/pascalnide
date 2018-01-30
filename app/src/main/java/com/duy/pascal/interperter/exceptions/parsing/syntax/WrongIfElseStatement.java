@@ -16,11 +16,16 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.syntax;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.tokens.Token;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 public class WrongIfElseStatement extends ParsingException {
     public WrongIfElseStatement(@NonNull Token next) {
@@ -29,6 +34,12 @@ public class WrongIfElseStatement extends ParsingException {
 
     @Nullable
     public String getMessage() {
-        return "if condition then S1 else S2;\nWhere, S1 and S2 are different statements. Please note that the statement S1 is not followed by a semicolon.";
+        return "if condition then S1 else S2;\n" +
+                "Where, S1 and S2 are different statements. Please note that the statement S1 is not followed by a semicolon.";
+    }
+
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(this, context, R.string.WrongIfElseStatement);
     }
 }

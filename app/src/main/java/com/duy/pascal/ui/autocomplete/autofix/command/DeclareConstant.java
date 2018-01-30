@@ -59,7 +59,7 @@ public class DeclareConstant implements AutoFixCommand {
     @Override
     public void execute(EditorView editable) {
         //sub string from 0 to position error
-        TextData text = getText(editable, exception.getScope().getStartPosition(), exception.getLineInfo());
+        TextData text = getText(editable, exception.getScope().getStartPosition(), exception.getLineNumber());
 
         String textToInsert;
         int insertPosition = 0;

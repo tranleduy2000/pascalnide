@@ -16,12 +16,17 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.grouping;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
-
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.Spanned;
+
+import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 public class StrayCharacterException extends GroupingException {
-    private char charCode;
+    private final char charCode;
 
     public StrayCharacterException(@NonNull LineInfo line, char charCode) {
         super(line, "Stray character in program: " + charCode + "\nChar code " + charCode);
@@ -32,7 +37,12 @@ public class StrayCharacterException extends GroupingException {
         return this.charCode;
     }
 
-    public void setCharCode(char var1) {
-        this.charCode = var1;
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(
+                this,
+                context,
+                R.string.StrayCharacterException,
+                getCharCode());
     }
 }

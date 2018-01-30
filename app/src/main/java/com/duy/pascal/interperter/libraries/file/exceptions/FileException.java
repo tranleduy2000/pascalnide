@@ -46,7 +46,7 @@ public abstract class FileException extends RuntimePascalException {
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
+    public Spanned getFormattedMessage(@NonNull Context context) {
         FileException e = this;
         SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append(formatLine(context, e.getLineNumber()));

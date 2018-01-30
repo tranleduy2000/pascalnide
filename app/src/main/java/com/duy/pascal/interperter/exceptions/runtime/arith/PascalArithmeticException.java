@@ -18,27 +18,20 @@ package com.duy.pascal.interperter.exceptions.runtime.arith;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 import android.text.Spanned;
 
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 public class PascalArithmeticException extends RuntimePascalException {
-    public ArithmeticException error;
+    public final ArithmeticException error;
 
     public PascalArithmeticException(LineInfo line, ArithmeticException e) {
         super(line);
         this.error = e;
-    }
-
-    /**
-     * Eg. Sqrt(-2) return NaN, throw exception number lower zero
-     *
-     * @param resId - localized message
-     */
-    public PascalArithmeticException(@StringRes int resId, Object... args) {
-        super(resId, args);
     }
 
     @Override
@@ -47,7 +40,10 @@ public class PascalArithmeticException extends RuntimePascalException {
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
-        return super.getLocalizedMessage(context);
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(this, context,
+                R.string.PascalArithmeticException,
+                error.getLocalizedMessage());
+
     }
 }

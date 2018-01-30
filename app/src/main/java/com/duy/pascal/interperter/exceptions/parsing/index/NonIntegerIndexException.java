@@ -52,9 +52,9 @@ public class NonIntegerIndexException extends ParsingException {
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
+    public Spanned getFormattedMessage(@NonNull Context context) {
         NonIntegerIndexException exception = this;
-        String line = formatLine(context, exception.getLineInfo());
+        String line = formatLine(context, exception.getLineNumber());
         String message = String.format(context.getString(R.string.NonIntegerIndexException), exception.getValue().toString());
 
         SpannableStringBuilder builder = new SpannableStringBuilder();

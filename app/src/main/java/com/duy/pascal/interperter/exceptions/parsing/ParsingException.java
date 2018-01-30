@@ -19,33 +19,36 @@ package com.duy.pascal.interperter.exceptions.parsing;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
-import com.duy.pascal.interperter.exceptions.Localized;
+import com.duy.pascal.interperter.exceptions.IRichFormatException;
 import com.duy.pascal.interperter.exceptions.parsing.define.UnknownIdentifierException;
 import com.duy.pascal.interperter.exceptions.parsing.define.VariableExpectedException;
+import com.duy.pascal.interperter.linenumber.ISourcePosition;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.OperatorToken;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.basic.AssignmentToken;
 import com.duy.pascal.interperter.tokens.grouping.GrouperToken;
 
+import static com.duy.pascal.ui.code.ExceptionManager.formatLine;
 
-public class ParsingException extends Exception implements Localized {
+
+public class ParsingException extends Exception implements IRichFormatException, ISourcePosition {
     @Nullable
-    private LineInfo lineInfo;
+    private final LineInfo lineNumber;
 
-    public ParsingException(@Nullable LineInfo lineInfo, @NonNull String message) {
+    public ParsingException(@Nullable LineInfo lineNumber, @NonNull String message) {
         super(message);
-        this.lineInfo = lineInfo;
+        this.lineNumber = lineNumber;
     }
 
-    public ParsingException(@Nullable LineInfo lineInfo) {
-        this.lineInfo = lineInfo;
+    public ParsingException(@Nullable LineInfo lineNumber) {
+        this.lineNumber = lineNumber;
     }
 
     public static VariableExpectedException makeVariableIdentifierExpectException(@NonNull UnknownIdentifierException e, GrouperToken group,
@@ -65,17 +68,13 @@ public class ParsingException extends Exception implements Localized {
     }
 
     @Nullable
-    public LineInfo getLineInfo() {
-        return this.lineInfo;
-    }
-
-    public void setLineInfo(@Nullable LineInfo var1) {
-        this.lineInfo = var1;
+    public LineInfo getLineNumber() {
+        return this.lineNumber;
     }
 
     @NonNull
     public String toString() {
-        return this.lineInfo + ":" + this.getMessage();
+        return this.lineNumber + ":" + this.getMessage();
     }
 
     public boolean canQuickFix() {
@@ -83,8 +82,12 @@ public class ParsingException extends Exception implements Localized {
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
-        return new SpannableString(super.getMessage());
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        String line = formatLine(context, getLineNumber());
+        String message = getLocalizedMessage();
+        return new SpannableStringBuilder(line)
+                .append("\n\n")
+                .append(message);
     }
 
 }

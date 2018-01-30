@@ -22,10 +22,11 @@ import android.support.annotation.Nullable;
 import android.text.SpannableString;
 import android.text.Spanned;
 
-import com.duy.pascal.interperter.exceptions.Localized;
+import com.duy.pascal.interperter.exceptions.IRichFormatException;
+import com.duy.pascal.interperter.linenumber.ISourcePosition;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-public class RuntimePascalException extends RuntimeException implements Localized {
+public class RuntimePascalException extends RuntimeException implements IRichFormatException, ISourcePosition {
     @Nullable
     public LineInfo line;
 
@@ -75,7 +76,7 @@ public class RuntimePascalException extends RuntimeException implements Localize
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
+    public Spanned getFormattedMessage(@NonNull Context context) {
         if (resourceId != null) {
             String string = context.getString(resourceId, args);
             return new SpannableString(string);

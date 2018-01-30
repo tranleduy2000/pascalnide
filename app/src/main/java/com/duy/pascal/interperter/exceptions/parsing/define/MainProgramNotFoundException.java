@@ -16,9 +16,15 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.define;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 public class MainProgramNotFoundException extends ParsingException {
     public MainProgramNotFoundException() {
@@ -27,11 +33,16 @@ public class MainProgramNotFoundException extends ParsingException {
 
     @Nullable
     public String getMessage() {
-        return "main program not found";
+        return "Main program not found.";
     }
 
     @Override
     public boolean canQuickFix() {
         return true;
+    }
+
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(this, context, (R.string.main_program_not_define));
     }
 }

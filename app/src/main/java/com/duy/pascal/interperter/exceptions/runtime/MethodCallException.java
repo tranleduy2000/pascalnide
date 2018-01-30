@@ -31,7 +31,7 @@ public class MethodCallException extends RuntimePascalException {
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
+    public Spanned getFormattedMessage(@NonNull Context context) {
         MethodCallException exception = this;
         String format = String.format(
                 context.getString(R.string.PluginCallException),

@@ -22,7 +22,6 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.exceptions.parsing.missing.MissingTokenException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.ui.R;
-import com.duy.pascal.ui.autocomplete.autofix.command.AutoFixCommand;
 import com.duy.pascal.ui.editor.view.EditorView;
 import com.duy.pascal.ui.editor.view.LineUtils;
 
@@ -40,7 +39,7 @@ public class InsertToken implements AutoFixCommand {
 
     @Override
     public void execute(EditorView editable) {
-        LineInfo line = e.getLineInfo();
+        LineInfo line = e.getLineNumber();
         int start = LineUtils.getStartIndexAtLine(editable, line.getLine()) + line.getColumn();
         String insertText = " " + e.getMissingToken() + " ";
         editable.getText().insert(start, insertText);

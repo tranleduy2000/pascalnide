@@ -30,7 +30,7 @@ import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.utils.NullSafety;
 import com.duy.pascal.ui.R;
 
-import static com.duy.pascal.ui.code.ExceptionManager.getMessageFromResource;
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 
 public class UnConvertibleTypeException extends ParsingException {
@@ -108,11 +108,11 @@ public class UnConvertibleTypeException extends ParsingException {
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
+    public Spanned getFormattedMessage(@NonNull Context context) {
         UnConvertibleTypeException e = this;
         if (NullSafety.isNullPointer(e.getIdentifier())) {
             int id = R.string.UnConvertibleTypeException;
-            return getMessageFromResource(e, context, id, e.getValue(), e.getValueType(), e.getTargetType());
+            return formatMessageFromResource(e, context, id, e.getValue(), e.getValueType(), e.getTargetType());
         } else {
             int id;
             if (e.getIdentifier() instanceof VariableAccess) {
@@ -122,7 +122,7 @@ public class UnConvertibleTypeException extends ParsingException {
             } else {
                 id = R.string.UnConvertibleTypeException2;
             }
-            return getMessageFromResource(e, context, id, e.getValue(), e.getValueType(), e.getTargetType(), e.getIdentifier());
+            return formatMessageFromResource(e, context, id, e.getValue(), e.getValueType(), e.getTargetType(), e.getIdentifier());
         }
     }
 }

@@ -35,7 +35,7 @@ public class WrongForStatementException extends ParsingException {
 
     @Override
     public String getMessage() {
-        return getLineInfo() + "\n" +
+        return getLineNumber() + "\n" +
                 "Syntax error: wrong for statement";
     }
 

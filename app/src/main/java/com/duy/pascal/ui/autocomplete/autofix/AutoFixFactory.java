@@ -187,7 +187,7 @@ public class AutoFixFactory {
     @NonNull
     private static AutoFixCommand declareVar(@NonNull VariableExpectedException e) {
         String type = e.getExpectedType() != null ? e.getExpectedType().toString() : "";
-        return declareVar(e.getScope().getStartPosition(), e.getLineInfo(), e.getName(), type, null);
+        return declareVar(e.getScope().getStartPosition(), e.getLineNumber(), e.getName(), type, null);
     }
 
     /**
@@ -198,7 +198,7 @@ public class AutoFixFactory {
      */
     @NonNull
     public static AutoFixCommand declareVar(UnknownIdentifierException e) {
-        return declareVar(e.getScope().getStartPosition(), e.getLineInfo(), e.getName(),
+        return declareVar(e.getScope().getStartPosition(), e.getLineNumber(), e.getName(),
                 "",//unknown type
                 null); //non init value
     }
@@ -300,10 +300,10 @@ public class AutoFixFactory {
         String[] expected = e.getExpected();
         String current = e.getCurrent();
         for (String s : expected) {
-            commands.add(fixExpectToken(current, s, true, e.getLineInfo()));
+            commands.add(fixExpectToken(current, s, true, e.getLineNumber()));
         }
         for (String s : expected) {
-            commands.add(fixExpectToken(current, s, false, e.getLineInfo()));
+            commands.add(fixExpectToken(current, s, false, e.getLineNumber()));
         }
     }
 

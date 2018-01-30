@@ -16,14 +16,23 @@
 
 package com.duy.pascal.interperter.libraries.exceptions;
 
-import com.duy.pascal.interperter.linenumber.LineInfo;
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.text.Spanned;
+
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 /**
  * Created by Duy on 08-Apr-17.
  */
 
 public class CanNotReadVariableException extends RuntimePascalException {
+    @Nullable
     private Object object;
 
     public CanNotReadVariableException(LineInfo line) {
@@ -33,7 +42,12 @@ public class CanNotReadVariableException extends RuntimePascalException {
     public CanNotReadVariableException() {
     }
 
-    public CanNotReadVariableException(Object o) {
-        this.object = o;
+    public CanNotReadVariableException(@Nullable Object obj) {
+        this.object = obj;
+    }
+
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(this, context, R.string.CanNotReadVariableException);
     }
 }

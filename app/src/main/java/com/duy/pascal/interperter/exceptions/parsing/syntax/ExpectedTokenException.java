@@ -88,12 +88,12 @@ public class ExpectedTokenException extends ParsingException {
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
+    public Spanned getFormattedMessage(@NonNull Context context) {
         ExpectedTokenException e = this;
 
         String message = String.format(context.getString(R.string.ExpectedTokenException_3),
                 ArrayUtil.expectToString(e.getExpected(), context), e.getCurrent());
-        String line = formatLine(context, e.getLineInfo());
+        String line = formatLine(context, e.getLineNumber());
 
         SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append(line).append("\n\n").append(message);

@@ -24,10 +24,11 @@ import android.text.Spanned;
  * Created by Duy on 07-Dec-17.
  */
 
-public interface Localized {
+public interface IRichFormatException {
     /**
      * @param context - android context for get resource
      * @return the formatted string, include line number
      */
-    public Spanned getLocalizedMessage(@NonNull Context context);
+    Spanned getFormattedMessage(@NonNull Context context);
+
 }

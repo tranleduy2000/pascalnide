@@ -16,30 +16,33 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.define;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 
 public class UnknownIdentifierException extends ParsingException {
     @Nullable
-    private String token;
-    @Nullable
-    private DefineType fitType;
+    private final DefineType fitType;
     @NonNull
-    private Name name;
+    private final Name name;
     @NonNull
-    private ExpressionContext scope;
+    private final ExpressionContext scope;
 
     public UnknownIdentifierException(@Nullable LineInfo line, @NonNull Name name, @NonNull ExpressionContext scope) {
         super(line, "Unknown identifier " + name);
         this.name = name;
         this.scope = scope;
-        LineInfo lineInfo = this.getLineInfo();
+        LineInfo lineInfo = this.getLineNumber();
         if (lineInfo != null) {
             lineInfo.setLength(this.name.getLength());
         }
@@ -47,21 +50,8 @@ public class UnknownIdentifierException extends ParsingException {
     }
 
     @Nullable
-    public String getToken() {
-        return this.token;
-    }
-
-    public void setToken(@Nullable String var1) {
-        this.token = var1;
-    }
-
-    @Nullable
     public DefineType getFitType() {
         return this.fitType;
-    }
-
-    public void setFitType(@Nullable DefineType var1) {
-        this.fitType = var1;
     }
 
     public boolean canQuickFix() {
@@ -73,17 +63,18 @@ public class UnknownIdentifierException extends ParsingException {
         return this.name;
     }
 
-    public void setName(@NonNull Name name) {
-        this.name = name;
-    }
-
     @NonNull
     public ExpressionContext getScope() {
         return this.scope;
     }
 
-    public void setScope(@NonNull ExpressionContext var1) {
-        this.scope = var1;
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(
+                this,
+                context,
+                R.string.NoSuchFunctionOrVariableException,
+                getName());
     }
 
     /**

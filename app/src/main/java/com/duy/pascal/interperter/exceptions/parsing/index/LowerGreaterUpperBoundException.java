@@ -16,10 +16,15 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.index;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.text.Spanned;
+
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.R;
 
-import android.support.annotation.NonNull;
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 /**
  * This exception will be throw if the first > the upper of array
@@ -28,11 +33,12 @@ import android.support.annotation.NonNull;
  * Created by Duy on 14-Apr-17.
  */
 public class LowerGreaterUpperBoundException extends ParsingException {
-    private Comparable low;
-    private Comparable high;
-    private int size;
+    @NonNull
+    private final Comparable low;
+    @NonNull
+    private final Comparable high;
 
-    public LowerGreaterUpperBoundException(Comparable low, Comparable high,
+    public LowerGreaterUpperBoundException(@NonNull Comparable low, @NonNull Comparable high,
                                            @NonNull LineInfo lineInfo) {
         super(lineInfo);
         this.low = low;
@@ -41,30 +47,24 @@ public class LowerGreaterUpperBoundException extends ParsingException {
 
     @Override
     public String getMessage() {
-        return getLineInfo() + "Lower greater than upper bound " + low + " > " + high;
+        return getLineNumber() + "Lower greater than upper bound " + low + " > " + high;
     }
 
+    @NonNull
     public Comparable getLow() {
         return this.low;
     }
 
-    public void setLow(int var1) {
-        this.low = var1;
-    }
 
+    @NonNull
     public Comparable getHigh() {
         return this.high;
     }
 
-    public void setHigh(int var1) {
-        this.high = var1;
-    }
 
-    public int getSize() {
-        return this.size;
-    }
-
-    public void setSize(int var1) {
-        this.size = var1;
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(this, context,
+                R.string.SubRangeException, getHigh(), getLow());
     }
 }

@@ -51,7 +51,7 @@ public class DeclareType implements AutoFixCommand {
     public void execute(EditorView editable) {
         //don't work if has selection
         //sub string from 0 to postion error
-        TextData scope = getText(editable, exception.getScope().getStartPosition(), exception.getLineInfo());
+        TextData scope = getText(editable, exception.getScope().getStartPosition(), exception.getLineNumber());
 
         Name type = exception.getMissingType();
         String textToInsert;

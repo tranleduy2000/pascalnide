@@ -25,6 +25,7 @@ import java.io.Serializable;
 public class LineInfo implements Serializable, Cloneable, Comparable<LineInfo> {
     public static final LineInfo SYSTEM_LINE = new LineInfo(-1, "system");
     public static final LineInfo ANONYMOUS = new LineInfo(-1, "anonymous");
+
     private int line;
     private int column;
     private int length;

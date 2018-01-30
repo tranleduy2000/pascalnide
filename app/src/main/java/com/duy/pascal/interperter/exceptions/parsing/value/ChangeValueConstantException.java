@@ -16,36 +16,29 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.value;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 
 public class ChangeValueConstantException extends ParsingException {
     @NonNull
-    private String name;
+    private final ConstantAccess constant;
     @NonNull
-    private ConstantAccess constant;
-    @NonNull
-    private ExpressionContext scope;
+    private final ExpressionContext scope;
 
     public ChangeValueConstantException(@NonNull ConstantAccess c, @NonNull ExpressionContext scope) {
         super(c.getLineNumber());
         this.constant = c;
         this.scope = scope;
-        this.name = "";
-    }
-
-    @NonNull
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(@NonNull String var1) {
-        this.name = var1;
     }
 
     @Nullable
@@ -62,16 +55,14 @@ public class ChangeValueConstantException extends ParsingException {
         return this.constant;
     }
 
-    public void setConst(@NonNull ConstantAccess var1) {
-        this.constant = var1;
-    }
-
     @NonNull
     public ExpressionContext getScope() {
         return this.scope;
     }
 
-    public void setScope(@NonNull ExpressionContext var1) {
-        this.scope = var1;
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        String name = getConst().getName().getOriginName();
+        return formatMessageFromResource(this, context, R.string.ChangeValueConstantException2, name);
     }
 }

@@ -42,9 +42,9 @@ public class ConstantCalculationException extends ParsingException {
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
+    public Spanned getFormattedMessage(@NonNull Context context) {
         ConstantCalculationException e = this;
-        String line = formatLine(context, e.getLineInfo());
+        String line = formatLine(context, e.getLineNumber());
         String message = String.format(context.getString(R.string.ConstantCalculationException),
                 e.getException().getLocalizedMessage());
 

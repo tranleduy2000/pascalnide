@@ -248,10 +248,10 @@ public class EditorActivity extends BaseEditorActivity implements DrawerLayout.D
 
     private void showLineError(final ParsingException e) {
         if (e != null) {
-            if (e.getLineInfo() != null) {
+            if (e.getLineNumber() != null) {
                 EditorFragment editorFragment = mPagerAdapter.getCurrentFragment();
                 if (editorFragment != null) {
-                    editorFragment.setLineError(e.getLineInfo());
+                    editorFragment.setLineError(e.getLineNumber());
                 }
             }
         }

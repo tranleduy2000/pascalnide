@@ -62,7 +62,7 @@ public class ChangeTypeConstant implements AutoFixCommand {
     @Override
     public void execute(EditorView editable) {
         DLog.d(TAG, "fixUnConvertType: constant " + constant);
-        TextData scope = getText(editable, exception.getScope().getStartPosition(), exception.getLineInfo());
+        TextData scope = getText(editable, exception.getScope().getStartPosition(), exception.getLineNumber());
         if (constant.getName() == null) { //can not replace because it is not a identifier
             DLog.d(TAG, "changeTypeConst: this is not identifier");
             return;

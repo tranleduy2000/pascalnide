@@ -16,13 +16,23 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.value;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.text.Spanned;
+
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.ui.R;
 
-import android.support.annotation.NonNull;
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
-public  class NonConstantExpressionException extends ParsingException {
+public class NonConstantExpressionException extends ParsingException {
     public NonConstantExpressionException(@NonNull RuntimeValue value) {
         super(value.getLineNumber(), "The expression \"" + value + "\" is not constant.");
+    }
+
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(this, context, R.string.NonConstantExpressionException);
     }
 }

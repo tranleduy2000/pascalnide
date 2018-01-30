@@ -111,7 +111,7 @@ public class BadOperationTypeException extends ParsingException {
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
+    public Spanned getFormattedMessage(@NonNull Context context) {
         BadOperationTypeException e = this;
         String message;
         if (e.getValue1() == null) {
@@ -121,7 +121,7 @@ public class BadOperationTypeException extends ParsingException {
             message = String.format(context.getString(R.string.BadOperationTypeException),
                     e.getOperatorTypes(), e.getValue1(), e.getValue2(), e.getDeclaredType(), e.getDeclaredType1());
         }
-        String line = formatLine(context, e.getLineInfo());
+        String line = formatLine(context, e.getLineNumber());
 
         SpannableStringBuilder builder = new SpannableStringBuilder(line);
         builder.append(line);

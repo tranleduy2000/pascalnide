@@ -16,18 +16,24 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.value;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 
 public class UnAssignableTypeException extends ParsingException {
     @NonNull
-    private RuntimeValue runtimeValue;
+    private final RuntimeValue runtimeValue;
 
     public UnAssignableTypeException(@NonNull RuntimeValue runtimeValue) {
-        super(runtimeValue.getLineNumber(), "The expression " + runtimeValue + " cannot have a value assigned to it.");
+        super(runtimeValue.getLineNumber(),
+                String.format("The expression %s cannot have a value assigned to it.", runtimeValue));
         this.runtimeValue = runtimeValue;
     }
 
@@ -40,7 +46,11 @@ public class UnAssignableTypeException extends ParsingException {
         return this.runtimeValue;
     }
 
-    public void setRuntimeValue(@NonNull RuntimeValue var1) {
-        this.runtimeValue = var1;
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(this, context,
+                R.string.UnAssignableTypeException,
+                getRuntimeValue().toString());
     }
+
 }

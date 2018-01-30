@@ -61,7 +61,7 @@ public class ChangeTypeFunction implements AutoFixCommand {
     @Override
     public void execute(EditorView editable) {
         //get a part of text
-        TextData scope = getText(editable, exception.getScope().getStartPosition(), exception.getLineInfo());
+        TextData scope = getText(editable, exception.getScope().getStartPosition(), exception.getLineNumber());
         Pattern pattern = Pattern.compile(
                 "(^function\\s+|\\s+function\\s+)" + //function token //1
                         "(" + Pattern.quote(functionName.getOriginName()) + ")" + //name of function         //2

@@ -16,28 +16,35 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.syntax;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 public class NotAStatementException extends ParsingException {
     @NonNull
-    private RuntimeValue runtimeValue;
+    private final RuntimeValue runtimeValue;
 
     public NotAStatementException(@NonNull RuntimeValue runtimeValue) {
-        super(runtimeValue.getLineNumber(), runtimeValue.toString() + " is not an instruction by itself.");
+        super(runtimeValue.getLineNumber(), runtimeValue + " is not an instruction by itself.");
         this.runtimeValue = runtimeValue;
     }
 
     @NonNull
-    public final RuntimeValue getRuntimeValue() {
+    public RuntimeValue getRuntimeValue() {
         return this.runtimeValue;
     }
 
-    public final void setRuntimeValue(@NonNull RuntimeValue var1) {
-        this.runtimeValue = var1;
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(
+                this, context,
+                R.string.NotAStatementException2,
+                getRuntimeValue().toString());
     }
-
-
 }

@@ -24,7 +24,7 @@ public class GroupingExceptionToken extends Token {
     public GroupingException exception;
 
     public GroupingExceptionToken(GroupingException g) {
-        super(g.getLineInfo());
+        super(g.getLineNumber());
         this.exception = g;
     }
 

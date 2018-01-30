@@ -89,13 +89,13 @@ public class BadFunctionCallException extends ParsingException {
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
+    public Spanned getFormattedMessage(@NonNull Context context) {
         BadFunctionCallException e = this;
         boolean functionExists = e.getFunctionExists();
         boolean argsMatch = e.isArgMatched();
 
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        builder.append(formatLine(context, e.getLineInfo())).append("\n\n");
+        builder.append(formatLine(context, e.getLineNumber())).append("\n\n");
         if (functionExists) { //function is exist, but wrong argument
 
             if (argsMatch) { //wrong type

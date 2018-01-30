@@ -16,25 +16,31 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.define;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 public class OverridingFunctionBodyException extends ParsingException {
     @NonNull
-    private AbstractFunction functionDeclaration;
+    private final AbstractFunction functionDeclaration;
     private boolean isMethod;
 
     public OverridingFunctionBodyException(@NonNull FunctionDeclaration old, @NonNull LineInfo line) {
-        super(line, "Redefining function body for " + old + ", which was previous define at " + old.getLineNumber());
-        this.functionDeclaration = (AbstractFunction) old;
+        super(line, String.format("Redefining function body for %s, which was previous define at %s",
+                old, old.getLineNumber()));
+        this.functionDeclaration = old;
     }
 
     public OverridingFunctionBodyException(@NonNull AbstractFunction old, @NonNull FunctionDeclaration news) {
-        super(news.getLineNumber(), "Attempting to override plugin definition" + old);
+        super(news.getLineNumber(), String.format("Attempting to override plugin definition %s", old));
         this.functionDeclaration = old;
         this.isMethod = true;
     }
@@ -44,15 +50,18 @@ public class OverridingFunctionBodyException extends ParsingException {
         return this.functionDeclaration;
     }
 
-    public void setFunctionDeclaration(@NonNull AbstractFunction var1) {
-        this.functionDeclaration = var1;
-    }
-
     public boolean isMethod() {
         return this.isMethod;
     }
 
-    public void setMethod(boolean var1) {
-        this.isMethod = var1;
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        if (isMethod()) {
+            return formatMessageFromResource(this, context, R.string.OverridingFunctionException);
+        } else {
+            return formatMessageFromResource(this, context, R.string.OverridingFunctionException,
+                    getFunctionDeclaration().getName(),
+                    getFunctionDeclaration().getLineNumber());
+        }
     }
 }

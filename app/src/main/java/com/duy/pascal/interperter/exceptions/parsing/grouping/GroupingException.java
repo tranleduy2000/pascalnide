@@ -58,26 +58,14 @@ public class GroupingException extends ParsingException {
         return this.exceptionTypes;
     }
 
-    public void setExceptionTypes(@Nullable Type var1) {
-        this.exceptionTypes = var1;
-    }
-
     @Nullable
     public Token getOpenToken() {
         return this.openToken;
     }
 
-    public void setOpenToken(@Nullable Token var1) {
-        this.openToken = var1;
-    }
-
     @Nullable
     public Token getCloseToken() {
         return this.closeToken;
-    }
-
-    public void setCloseToken(@Nullable Token var1) {
-        this.closeToken = var1;
     }
 
     @Nullable
@@ -105,21 +93,21 @@ public class GroupingException extends ParsingException {
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
+    public Spanned getFormattedMessage(@NonNull Context context) {
         GroupingException e = this;
         ExceptionManager exceptionManager = new ExceptionManager(context);
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        builder.append(ExceptionManager.formatLine(context, e.getLineInfo())).append("\n\n");
+        builder.append(ExceptionManager.formatLine(context, e.getLineNumber())).append("\n\n");
 
         if (e.getExceptionTypes().equals(GroupingException.Type.EXTRA_END)) {
             Token openToken = e.getOpenToken();
-            Spanned message = exceptionManager.getMessageFromResource(e, R.string.unbalance_end,
+            Spanned message = exceptionManager.formatMessageFromResource(e, R.string.unbalance_end,
                     openToken.toString(),
                     openToken.getLineNumber().getLine(),
                     openToken.getLineNumber().getColumn(),
                     e.getCloseToken().toString(),
-                    e.getLineInfo().getLine(),
-                    e.getLineInfo().getColumn());
+                    e.getLineNumber().getLine(),
+                    e.getLineNumber().getColumn());
             builder.append(message);
         } else {
             String message = getEnumeratedGroupingException(context, e);

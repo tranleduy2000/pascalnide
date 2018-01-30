@@ -16,13 +16,18 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.define;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 
 public class VariableExpectedException extends ParsingException {
@@ -34,7 +39,7 @@ public class VariableExpectedException extends ParsingException {
     private Type expectedType;
 
     public VariableExpectedException(UnknownIdentifierException e) {
-        super(e.getLineInfo());
+        super(e.getLineNumber());
         this.name = e.getName();
         this.scope = e.getScope();
     }
@@ -66,5 +71,11 @@ public class VariableExpectedException extends ParsingException {
 
     public void setExpectedType(@Nullable Type declType) {
         this.expectedType = declType;
+    }
+
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(this, context,
+                R.string.VariableIdentifierExpectException, this.getName().getOriginName());
     }
 }

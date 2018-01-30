@@ -16,17 +16,21 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.index;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.R;
 
-import android.support.annotation.Nullable;
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 public class NonArrayIndexed extends ParsingException {
     @NonNull
-    private Type type;
+    private final Type type;
 
     public NonArrayIndexed(@NonNull LineInfo line, @NonNull Type type) {
         super(line);
@@ -43,7 +47,9 @@ public class NonArrayIndexed extends ParsingException {
         return this.type;
     }
 
-    public final void setType(@NonNull Type var1) {
-        this.type = var1;
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(this, context, R.string.NonArrayIndexed, this.getType().toString());
+
     }
 }

@@ -53,7 +53,7 @@ public class TransformConstantToVariable implements AutoFixCommand {
         DLog.d(TAG, "execute() called with: editable = [" + editable + "]");
 
         LineInfo lineStart = e.getScope().getStartPosition();
-        LineInfo lineEnd = e.getLineInfo();
+        LineInfo lineEnd = e.getLineNumber();
         TextData region = getText(editable, lineStart, lineEnd);
         ConstantAccess constant = e.getConst();
 

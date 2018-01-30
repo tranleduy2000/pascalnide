@@ -558,7 +558,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
             }
             if (pascalParserHelper.getParsingException() != null) {
                 ParsingException parsingException = pascalParserHelper.getParsingException();
-                setLineError(parsingException.getLineInfo());
+                setLineError(parsingException.getLineNumber());
             }
         }
     }

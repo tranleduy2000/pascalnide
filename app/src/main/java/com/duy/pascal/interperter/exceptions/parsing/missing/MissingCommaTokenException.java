@@ -16,9 +16,14 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.missing;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 
 public class MissingCommaTokenException extends MissingTokenException {
@@ -34,5 +39,14 @@ public class MissingCommaTokenException extends MissingTokenException {
     @NonNull
     public String getMissingToken() {
         return ",";
+    }
+
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(
+                this,
+                context,
+                R.string.MissingCommaTokenException,
+                getLineNumber().getLine());
     }
 }

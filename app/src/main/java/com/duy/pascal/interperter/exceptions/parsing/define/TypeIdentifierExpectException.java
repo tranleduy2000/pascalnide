@@ -16,20 +16,25 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.define;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 
 public class TypeIdentifierExpectException extends ParsingException {
     @NonNull
-    private Name missingType;
+    private final Name missingType;
     @NonNull
-    private ExpressionContext scope;
+    private final ExpressionContext scope;
 
     public TypeIdentifierExpectException(@Nullable LineInfo line, @NonNull Name missingType, @NonNull ExpressionContext scope) {
         super(line, "Type " + missingType + " is not define");
@@ -46,16 +51,15 @@ public class TypeIdentifierExpectException extends ParsingException {
         return this.missingType;
     }
 
-    public void setMissingType(@NonNull Name var1) {
-        this.missingType = var1;
-    }
-
     @NonNull
     public ExpressionContext getScope() {
         return this.scope;
     }
 
-    public void setScope(@NonNull ExpressionContext var1) {
-        this.scope = var1;
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(this, context,
+                R.string.UnrecognizedTypeException,
+                getMissingType());
     }
 }

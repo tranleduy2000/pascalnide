@@ -53,10 +53,10 @@ public class NonIntegerException extends ParsingException {
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
+    public Spanned getFormattedMessage(@NonNull Context context) {
         NonIntegerException exception = this;
         String message = String.format(context.getString(R.string.NonIntegerException), exception.getValue().toString());
-        String line = formatLine(context, exception.getLineInfo());
+        String line = formatLine(context, exception.getLineNumber());
 
         SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append(line);

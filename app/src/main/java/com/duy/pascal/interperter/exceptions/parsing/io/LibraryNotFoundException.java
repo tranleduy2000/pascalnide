@@ -16,15 +16,20 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.io;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 public class LibraryNotFoundException extends ParsingException {
     @NonNull
-    private Name name;
+    private final Name name;
 
     public LibraryNotFoundException(@NonNull LineInfo lineInfo, @NonNull Name name) {
         super(lineInfo);
@@ -36,7 +41,9 @@ public class LibraryNotFoundException extends ParsingException {
         return this.name;
     }
 
-    public void setName(@NonNull Name var1) {
-        this.name = var1;
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(this, context, R.string.LibraryNotFoundException,
+                this.getName());
     }
 }

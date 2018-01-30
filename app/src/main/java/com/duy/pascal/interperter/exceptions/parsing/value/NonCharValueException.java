@@ -16,11 +16,11 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.value;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.tokens.value.CharacterToken;
-
-import android.support.annotation.NonNull;
 
 
 public class NonCharValueException extends ParsingException {
@@ -30,7 +30,6 @@ public class NonCharValueException extends ParsingException {
     public NonCharValueException(@NonNull LineInfo line, @NonNull CharacterToken characterToken) {
         super(line);
         this.characterToken = characterToken;
-        this.setLineInfo(line);
     }
 
     @NonNull

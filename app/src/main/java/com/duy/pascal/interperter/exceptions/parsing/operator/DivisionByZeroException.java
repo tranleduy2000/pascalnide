@@ -37,7 +37,7 @@ public class DivisionByZeroException extends RuntimePascalException {
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
+    public Spanned getFormattedMessage(@NonNull Context context) {
         return new SpannableString(context.getString(R.string.division_by_zero));
     }
 }

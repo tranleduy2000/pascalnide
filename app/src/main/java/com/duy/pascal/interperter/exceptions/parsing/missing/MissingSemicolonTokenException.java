@@ -16,9 +16,14 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.missing;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.Spanned;
 
 import com.duy.pascal.interperter.linenumber.LineInfo;
+import com.duy.pascal.ui.R;
+
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 public class MissingSemicolonTokenException extends MissingTokenException {
     public MissingSemicolonTokenException(@NonNull LineInfo line) {
@@ -33,5 +38,13 @@ public class MissingSemicolonTokenException extends MissingTokenException {
     @Override
     public boolean canQuickFix() {
         return true;
+    }
+
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(this,
+                context,
+                R.string.MissingSemicolonTokenException,
+                getLineNumber().getLine());
     }
 }

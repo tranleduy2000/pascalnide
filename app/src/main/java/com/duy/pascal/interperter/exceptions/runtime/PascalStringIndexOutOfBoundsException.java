@@ -42,7 +42,7 @@ public class PascalStringIndexOutOfBoundsException extends RuntimePascalExceptio
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
+    public Spanned getFormattedMessage(@NonNull Context context) {
         return new SpannableString(context.getString(R.string.string_index_out_of_range) + index);
     }
 }

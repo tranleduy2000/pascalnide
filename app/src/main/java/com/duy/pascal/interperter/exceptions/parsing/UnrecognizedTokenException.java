@@ -49,12 +49,12 @@ public class UnrecognizedTokenException extends ParsingException {
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
+    public Spanned getFormattedMessage(@NonNull Context context) {
         UnrecognizedTokenException e = this;
         String message = context.getString(R.string.token_not_belong) + " " + e.getToken();
 
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        builder.append(formatLine(context, e.getLineInfo())).append("\n\n");
+        builder.append(formatLine(context, e.getLineNumber())).append("\n\n");
         builder.append(message);
 
         ForegroundColorSpan span = new ForegroundColorSpan(Color.YELLOW);

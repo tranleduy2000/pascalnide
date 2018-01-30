@@ -16,65 +16,68 @@
 
 package com.duy.pascal.interperter.exceptions.parsing.define;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.text.Spanned;
+
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.NamedEntity;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
+import com.duy.pascal.ui.R;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
 
 
 public class DuplicateIdentifierException extends ParsingException {
     @NonNull
-    private String type;
+    private final String currentType;
     @Nullable
-    private Name name;
+    private final Name currentName;
     @NonNull
-    private String preType;
+    private final String previousType;
     @NonNull
-    private String preLine;
+    private final String previousLine;
 
     public DuplicateIdentifierException(@NonNull NamedEntity previous, @NonNull NamedEntity current) {
-        super(current.getLineNumber(), "" + current.getEntityType() + ' ' + current.getName() + " conflicts with previously defined " + "" + previous.getEntityType() + " with the same name defined at " + previous.getLineNumber());
-        this.type = current.getEntityType();
-        this.name = current.getName();
-        this.preType = previous.getEntityType();
-        this.preLine = String.valueOf(previous.getLineNumber());
+        super(current.getLineNumber(),
+                String.format("%s %s conflicts with previously defined %s with the same name defined at %s",
+                        current.getEntityType(), current.getName(), previous.getEntityType(), previous.getLineNumber()));
+        this.currentType = current.getEntityType();
+        this.currentName = current.getName();
+        this.previousType = previous.getEntityType();
+        this.previousLine = String.valueOf(previous.getLineNumber());
     }
 
     @NonNull
-    public final String getType() {
-        return this.type;
-    }
-
-    public final void setType(@NonNull String var1) {
-        this.type = var1;
+    public String getCurrentType() {
+        return this.currentType;
     }
 
     @Nullable
-    public final Name getName() {
-        return this.name;
-    }
-
-    public final void setName(@Nullable Name var1) {
-        this.name = var1;
+    public Name getCurrentName() {
+        return this.currentName;
     }
 
     @NonNull
-    public final String getPreType() {
-        return this.preType;
-    }
-
-    public final void setPreType(@NonNull String var1) {
-        this.preType = var1;
+    public String getPreviousType() {
+        return this.previousType;
     }
 
     @NonNull
-    public final String getPreLine() {
-        return this.preLine;
+    public String getPreviousLine() {
+        return this.previousLine;
     }
 
-    public final void setPreLine(@NonNull String var1) {
-        this.preLine = var1;
+    @Override
+    public Spanned getFormattedMessage(@NonNull Context context) {
+        return formatMessageFromResource(
+                this,
+                context,
+                R.string.SameNameException,
+                getCurrentType(),
+                getCurrentName(),
+                getPreviousType(),
+                getPreviousLine());
     }
 }

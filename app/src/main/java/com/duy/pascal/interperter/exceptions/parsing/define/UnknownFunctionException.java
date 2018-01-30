@@ -53,7 +53,7 @@ public class UnknownFunctionException extends ParsingException {
     }
 
     @Override
-    public Spanned getLocalizedMessage(@NonNull Context context) {
+    public Spanned getFormattedMessage(@NonNull Context context) {
         String params = ArrayUtil.argToString(argsType.toArray(), false);
         String str = context.getString(R.string.UnknownFunctionException, name.toString(), params);
         return ExceptionManager.highlight(context, new SpannableString(str));
