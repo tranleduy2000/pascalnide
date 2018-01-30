@@ -28,7 +28,7 @@ import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.linenumber.LineNumber;
-import com.duy.pascal.interperter.systemfunction.io.OutputFormatter;
+import com.duy.pascal.interperter.function.io.OutputFormatter;
 import com.duy.pascal.interperter.utils.NullSafety;
 
 import static com.duy.pascal.interperter.utils.NullSafety.zReturn;

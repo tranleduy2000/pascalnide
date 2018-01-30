@@ -17,7 +17,7 @@ import com.duy.pascal.interperter.exceptions.runtime.MethodCallException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.MethodReflectionException;
 import com.duy.pascal.interperter.linenumber.LineNumber;
-import com.duy.pascal.interperter.systemfunction.builtin.IMethodDeclaration;
+import com.duy.pascal.interperter.function.builtin.IMethodDeclaration;
 import com.duy.pascal.interperter.utils.ArrayUtil;
 
 import java.lang.reflect.InvocationTargetException;
