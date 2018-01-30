@@ -90,13 +90,8 @@ public class CrtLib extends PascalLibrary {
     }
 
     @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return true;
-    }
-
-    @Override
     @PascalMethod(description = "stop")
-    public void shutdown() {
+    public void onFinalize() {
         noSound();
         try {
             Thread.sleep(100);
@@ -111,8 +106,8 @@ public class CrtLib extends PascalLibrary {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin parentContext) {
-        Map<Name, ConstantDefinition> constants = parentContext.getConstants();
+    public void declareConstants(ExpressionContextMixin context) {
+        Map<Name, ConstantDefinition> constants = context.getConstants();
         ConstantDefinition colorConst;
         colorConst = new ConstantDefinition("Black", 0, new LineInfo(-1, "black = 0"));
         constants.put(colorConst.getName(), colorConst);
@@ -157,17 +152,17 @@ public class CrtLib extends PascalLibrary {
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin parentContext) {
+    public void declareTypes(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin parentContext) {
+    public void declareVariables(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin parentContext) {
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 

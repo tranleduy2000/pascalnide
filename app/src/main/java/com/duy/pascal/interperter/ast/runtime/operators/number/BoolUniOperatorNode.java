@@ -32,7 +32,7 @@ public class BoolUniOperatorNode extends UnaryOperatorNode {
             case NOT:
                 return !(boolean) value;
             default:
-                throw new InternalInterpreterException(line);
+                throw new InternalInterpreterException(lineNumber);
         }
     }
 
@@ -40,10 +40,10 @@ public class BoolUniOperatorNode extends UnaryOperatorNode {
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess<>(val, line);
+            return new ConstantAccess<>(val, lineNumber);
         } else {
-            return new BoolUniOperatorNode(operon.compileTimeExpressionFold(context), operator,
-                    line);
+            return new BoolUniOperatorNode(childNode.compileTimeExpressionFold(context), operator,
+                    lineNumber);
         }
     }
 

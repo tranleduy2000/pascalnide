@@ -29,7 +29,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -53,7 +52,7 @@ import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.config.DebugMode;
-import com.duy.pascal.interperter.debugable.DebugListener;
+import com.duy.pascal.interperter.debugable.IDebugListener;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
 import com.duy.pascal.interperter.libraries.io.IOLib;
 import com.duy.pascal.interperter.linenumber.LineInfo;
@@ -80,7 +79,7 @@ import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
-public class DebugActivity extends AbstractExecActivity implements DebugListener, ProgramHandler {
+public class DebugActivity extends AbstractExecActivity implements IDebugListener, ProgramHandler {
 
     private final Handler mHandler = new Handler();
     private ConsoleView mConsoleView;
@@ -338,10 +337,10 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onAssignValue(LineInfo lineNumber, final AssignableValue left,
-                              @NonNull final Object old, final Object value,
+                              @NonNull final Object oldValue, final Object newValue,
                               @NonNull VariableContext context) {
         DLog.d(TAG, "onAssignValue() called with: lineNumber = [" + lineNumber + "], left = [" +
-                left + "], value = [" + value + "]");
+                left + "], value = [" + newValue + "]");
     }
 
     @Override
@@ -366,7 +365,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     @Override
-    public void onEndProgram() {
+    public void onFinish() {
         dismissPopup();
         this.mEnded.set(true);
         mHandler.post(new Runnable() {
@@ -383,18 +382,13 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     @Override
-    public void onVariableChange(final CallStack currentFrame) {
+    public void onValueVariableChanged(final CallStack currentFrame) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 mFameFragment.update(currentFrame);
             }
         });
-    }
-
-    @Override
-    public void onVariableChange(CallStack currentFrame, Pair<String, Object> value) {
-
     }
 
     @Override
@@ -455,18 +449,6 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     @Override
     public void onNewMessage(String msg) {
         DLog.d(TAG, "onNewMessage() called with: msg = [" + msg + "]");
-
-    }
-
-    @Override
-    public void onClearDebug() {
-        DLog.d(TAG, "onClearDebug() called");
-
-    }
-
-    @Override
-    public void onFunctionCall(String name) {
-        DLog.d(TAG, "onFunctionCall() called with: name = [" + name + "]");
 
     }
 

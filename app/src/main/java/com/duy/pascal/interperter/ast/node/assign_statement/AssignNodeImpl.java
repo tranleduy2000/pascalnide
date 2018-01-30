@@ -67,7 +67,7 @@ public abstract class AssignNodeImpl<T extends OperatorTypes> extends Debuggable
         Object v = mOperator.getValue(context, main);
         ref.set(v);
 
-        if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(context));
+        if (main.isDebug()) main.getDebugListener().onValueVariableChanged(new CallStack(context));
 
         return ExecutionResult.NOPE;
     }

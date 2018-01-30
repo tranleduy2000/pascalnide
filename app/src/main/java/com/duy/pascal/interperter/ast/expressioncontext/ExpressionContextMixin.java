@@ -30,7 +30,7 @@ import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.interperter.exceptions.Diagnostic;
-import com.duy.pascal.interperter.exceptions.DiagnosticsListener;
+import com.duy.pascal.interperter.exceptions.IDiagnosticsListener;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.parsing.PermissionDeniedException;
 import com.duy.pascal.interperter.exceptions.parsing.UnSupportTokenException;
@@ -369,9 +369,9 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 handleUnrecognizedDeclaration(token, group);
             }
         } catch (ParsingException e) {
-            DiagnosticsListener listener = getListener(DiagnosticsListener.class);
+            IDiagnosticsListener listener = getListener(IDiagnosticsListener.class);
             if (listener != null) {
-                listener.add(new Diagnostic(e));
+                listener.addDiagnostic(new Diagnostic(e));
             } else {
                 throw e;
             }

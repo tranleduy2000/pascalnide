@@ -91,14 +91,9 @@ public class GraphicAPI extends PascalLibrary {
     }
 
     @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return true;
-    }
-
-    @Override
     @PascalMethod(description = "stop")
 
-    public void shutdown() {
+    public void onFinalize() {
 
     }
 
@@ -108,8 +103,8 @@ public class GraphicAPI extends PascalLibrary {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin parentContext) {
-        Map<Name, ConstantDefinition> constants = parentContext.getConstants();
+    public void declareConstants(ExpressionContextMixin context) {
+        Map<Name, ConstantDefinition> constants = context.getConstants();
         ConstantDefinition constant;
         constant = new ConstantDefinition("grok".toLowerCase(), 1, new LineInfo(-1, "grok = 1;".toLowerCase()));
         constants.put(constant.getName(), constant);
@@ -256,14 +251,14 @@ public class GraphicAPI extends PascalLibrary {
                 new LineInfo(-1, ""));
         constants.put(constant.getName(), constant);
 
-        new CrtLib(handler).declareConstants(parentContext);
+        new CrtLib(handler).declareConstants(context);
 
         constant = new ConstantDefinition("NormalPut".toLowerCase(), 0, new LineInfo(-1, ""));
         constants.put(constant.getName(), constant);
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin parentContext) {
+    public void declareTypes(ExpressionContextMixin context) {
         RecordType arcType = new RecordType();
         ArrayList<VariableDeclaration> vars = new ArrayList<>();
         vars.add(new VariableDeclaration("x", BasicType.Integer));
@@ -273,24 +268,24 @@ public class GraphicAPI extends PascalLibrary {
         vars.add(new VariableDeclaration("xend", BasicType.Integer));
         vars.add(new VariableDeclaration("yend", BasicType.Integer));
         arcType.setVariableDeclarations(vars);
-        parentContext.declareTypedef("ArcCoordsType", arcType);
+        context.declareTypedef("ArcCoordsType", arcType);
 
         RecordType point = new RecordType();
         vars = new ArrayList<>();
         vars.add(new VariableDeclaration("x", BasicType.Integer));
         vars.add(new VariableDeclaration("y", BasicType.Integer));
         point.setVariableDeclarations(vars);
-        parentContext.declareTypedef("pointtype", point);
+        context.declareTypedef("pointtype", point);
 
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin parentContext) {
+    public void declareVariables(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin parentContext) {
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 

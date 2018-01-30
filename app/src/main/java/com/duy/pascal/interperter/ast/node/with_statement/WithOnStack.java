@@ -69,7 +69,7 @@ public class WithOnStack extends VariableContext {
     }
 
     public void execute() throws RuntimePascalException {
-        if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(this));
+        if (main.isDebug()) main.getDebugListener().onValueVariableChanged(new CallStack(this));
         declaration.instructions.visit(this, main);
     }
 

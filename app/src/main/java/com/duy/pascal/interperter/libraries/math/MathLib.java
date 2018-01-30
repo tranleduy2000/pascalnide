@@ -28,7 +28,6 @@ import com.duy.pascal.interperter.exceptions.runtime.WrongArgsException;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.util.FastMath;
 
-import java.util.Map;
 import java.util.Random;
 
 @SuppressWarnings("unused")
@@ -510,15 +509,10 @@ public class MathLib extends PascalLibrary {
     }
 
 
-    @PascalMethod(description = "")
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return true;
-    }
-
     @Override
     @PascalMethod(description = "stop")
 
-    public void shutdown() {
+    public void onFinalize() {
 
     }
 
@@ -528,24 +522,24 @@ public class MathLib extends PascalLibrary {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin parentContext) {
+    public void declareConstants(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin parentContext) {
-        parentContext.declareTypedef("float", BasicType.Double);
-        parentContext.declareTypedef("pfloat", new PointerType(BasicType.Double));
-        parentContext.declareTypedef("pinteger", new PointerType(BasicType.Integer));
+    public void declareTypes(ExpressionContextMixin context) {
+        context.declareTypedef("float", BasicType.Double);
+        context.declareTypedef("pfloat", new PointerType(BasicType.Double));
+        context.declareTypedef("pinteger", new PointerType(BasicType.Integer));
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin parentContext) {
+    public void declareVariables(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin parentContext) {
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 }

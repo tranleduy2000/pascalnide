@@ -16,39 +16,18 @@
 
 package com.duy.pascal.ui.debug;
 
-import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
-import com.duy.pascal.interperter.debugable.DebugListener;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.declaration.lang.function.AbstractCallableFunction;
 import com.duy.pascal.interperter.linenumber.LineInfo;
-
-import java.lang.reflect.Method;
 
 /**
  * Created by Duy on 24-Mar-17.
  */
 
 public class DebugManager {
-
-    public static void outputMethod(DebugListener debugListener, Method method) {
-        if (debugListener != null) {
-            debugListener.onFunctionCall(method.getName());
-        }
-    }
-
-    public static void outputConditionWhile(DebugListener debugListener, boolean b) {
-        if (debugListener != null) {
-            debugListener.onNewMessage("Kiem tra dieu kien vong while la " + b);
-        }
-    }
-
-    public static void outputConditionFor(DebugListener debugListener, boolean b) {
-        if (debugListener != null) {
-            debugListener.onNewMessage("Kiem tra dieu kien vong for la " + b);
-        }
-    }
 
     public static void debugAssign(LineInfo lineNumber, AssignableValue left, Object old,
                                    Object value, VariableContext context, RuntimeExecutableCodeUnit<?> main) {

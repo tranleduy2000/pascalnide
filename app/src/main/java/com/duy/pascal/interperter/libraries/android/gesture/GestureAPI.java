@@ -35,7 +35,6 @@ import com.duy.pascal.interperter.libraries.android.gesture.listener.ScaleListen
 import com.duy.pascal.interperter.libraries.android.gesture.listener.ShoveListener;
 import com.duy.pascal.interperter.libraries.android.gesture.model.BaseGestureEvent;
 
-import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -80,12 +79,7 @@ public class GestureAPI extends PascalLibrary implements View.OnTouchListener {
     }
 
     @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return false;
-    }
-
-    @Override
-    public void shutdown() {
+    public void onFinalize() {
 
     }
 
@@ -95,22 +89,22 @@ public class GestureAPI extends PascalLibrary implements View.OnTouchListener {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin parentContext) {
+    public void declareConstants(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin parentContext) {
+    public void declareTypes(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin parentContext) {
+    public void declareVariables(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin parentContext) {
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 

@@ -22,11 +22,11 @@ import java.util.ArrayList;
  * Created by Duy on 17-Aug-17.
  */
 
-public class DiagnosticCollector implements DiagnosticsListener {
+public class DiagnosticCollector implements IDiagnosticsListener {
     private ArrayList<Diagnostic> diagnostics = new ArrayList<>();
 
     @Override
-    public void add(Diagnostic diagnostic) {
+    public void addDiagnostic(Diagnostic diagnostic) {
         this.diagnostics.add(diagnostic);
     }
 

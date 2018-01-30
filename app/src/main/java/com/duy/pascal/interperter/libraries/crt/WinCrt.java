@@ -8,8 +8,6 @@ import com.duy.pascal.interperter.libraries.io.IOLib;
 import com.duy.pascal.interperter.libraries.io.InOutListener;
 import com.duy.pascal.interperter.exceptions.runtime.WrongArgsException;
 
-import java.util.Map;
-
 /**
  * Created by Duy on 24-May-17.
  */
@@ -41,12 +39,7 @@ public class WinCrt extends PascalLibrary {
 
 
     @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return false;
-    }
-
-    @Override
-    public void shutdown() {
+    public void onFinalize() {
 
     }
 
@@ -88,22 +81,22 @@ public class WinCrt extends PascalLibrary {
 
 
     @Override
-    public void declareConstants(ExpressionContextMixin parentContext) {
-        crtLib.declareConstants(parentContext);
+    public void declareConstants(ExpressionContextMixin context) {
+        crtLib.declareConstants(context);
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin parentContext) {
-
-    }
-
-    @Override
-    public void declareVariables(ExpressionContextMixin parentContext) {
+    public void declareTypes(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin parentContext) {
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 }

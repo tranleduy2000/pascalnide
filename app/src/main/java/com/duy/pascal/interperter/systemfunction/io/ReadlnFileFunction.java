@@ -141,7 +141,7 @@ public class ReadlnFileFunction implements IMethodDeclaration {
             PascalReference[] values = (PascalReference[]) args.getValue(f, main);
             PascalReference<File> file = (PascalReference<File>) filePreference.getValue(f, main);
             fileLib.readlnz(file.get(), values);
-            if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
+            if (main.isDebug()) main.getDebugListener().onValueVariableChanged(new CallStack(f));
 
             return null;
         }

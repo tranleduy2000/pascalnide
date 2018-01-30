@@ -80,7 +80,7 @@ public class ForEnumNode extends DebuggableNode {
             forLoop:
             for (int i = end; i >= start; i--) {
                 reference.set(list.get(i));
-                if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
+                if (main.isDebug()) main.getDebugListener().onValueVariableChanged(new CallStack(f));
 
                 ExecutionResult result = mCommand.visit(f, main);
                 switch (result) {
@@ -95,7 +95,7 @@ public class ForEnumNode extends DebuggableNode {
             forLoop:
             for (int i = start; i <= end; i++) {
                 reference.set(list.get(i));
-                if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
+                if (main.isDebug()) main.getDebugListener().onValueVariableChanged(new CallStack(f));
 
                 ExecutionResult result = mCommand.visit(f, main);
                 switch (result) {

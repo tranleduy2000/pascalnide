@@ -54,13 +54,16 @@ import com.duy.pascal.interperter.linenumber.LineInfo;
 
 
 public abstract class BinaryOperatorNode extends DebuggableReturnValue {
+    @NonNull
     protected final RuntimeValue leftNode;
+    @NonNull
     protected final RuntimeValue rightNode;
+    @NonNull
     protected final OperatorTypes operatorType;
     protected LineInfo line;
 
-    public BinaryOperatorNode(RuntimeValue leftNode, RuntimeValue rightNode,
-                              OperatorTypes operator, LineInfo line) {
+    public BinaryOperatorNode(@NonNull RuntimeValue leftNode, @NonNull RuntimeValue rightNode,
+                              @NonNull OperatorTypes operator, LineInfo line) {
         this.operatorType = operator;
         this.leftNode = leftNode;
         this.rightNode = rightNode;

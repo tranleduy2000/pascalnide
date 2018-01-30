@@ -33,7 +33,6 @@ import com.duy.pascal.ui.utils.DLog;
 import java.io.PrintStream;
 import java.util.InputMismatchException;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Scanner;
 
 @SuppressWarnings("unused")
@@ -71,22 +70,7 @@ public class IOLib extends PascalLibrary {
     }
 
     @Override
-    public boolean instantiate(Map<String, Object> arguments) {
-        if (!PascalCompiler.android) {
-            this.stdout = (PrintStream) arguments.get("stdout");
-            this.stdin = (Scanner) arguments.get("stdin");
-            if (stdout == null) {
-                stdout = System.out;
-            }
-            if (stdin == null) {
-                stdin = new Scanner(System.in);
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public void shutdown() {
+    public void onFinalize() {
 
     }
 
@@ -96,22 +80,22 @@ public class IOLib extends PascalLibrary {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin parentContext) {
+    public void declareConstants(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin parentContext) {
+    public void declareTypes(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin parentContext) {
+    public void declareVariables(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin parentContext) {
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 

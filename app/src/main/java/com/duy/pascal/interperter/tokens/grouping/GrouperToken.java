@@ -58,7 +58,7 @@ import com.duy.pascal.interperter.declaration.lang.types.subrange.SubrangeType;
 import com.duy.pascal.interperter.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.interperter.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.interperter.exceptions.Diagnostic;
-import com.duy.pascal.interperter.exceptions.DiagnosticsListener;
+import com.duy.pascal.interperter.exceptions.IDiagnosticsListener;
 import com.duy.pascal.interperter.exceptions.parsing.UnSupportTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.UnrecognizedTokenException;
 import com.duy.pascal.interperter.exceptions.parsing.convert.UnConvertibleTypeException;
@@ -808,9 +808,9 @@ public abstract class GrouperToken extends Token {
                     result.add(v);
                 }
             } catch (Exception e) { //not found variable
-                DiagnosticsListener listener = context.getListener(DiagnosticsListener.class);
+                IDiagnosticsListener listener = context.getListener(IDiagnosticsListener.class);
                 if (listener != null) {
-                    listener.add(new Diagnostic(e));
+                    listener.addDiagnostic(new Diagnostic(e));
                     nextStatement();
                 } else {
                     throw e;

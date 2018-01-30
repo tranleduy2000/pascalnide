@@ -39,22 +39,23 @@ import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
 import com.duy.pascal.interperter.exceptions.parsing.operator.BadOperationTypeException;
 import com.duy.pascal.interperter.exceptions.parsing.operator.ConstantCalculationException;
-import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
 public abstract class UnaryOperatorNode extends DebuggableReturnValue {
-    public OperatorTypes operator;
-    public RuntimeType type;
-    public RuntimeValue operon;
-    public LineInfo line;
+    @NonNull
+    protected final RuntimeValue childNode;
+    @NonNull
+    protected final OperatorTypes operator;
+    public LineInfo lineNumber;
 
-    protected UnaryOperatorNode(RuntimeValue operon, OperatorTypes operator,
-                                LineInfo line) {
+    protected UnaryOperatorNode(@NonNull RuntimeValue childNode, @NonNull OperatorTypes operator,
+                                LineInfo lineNumber) {
         this.operator = operator;
-        this.line = line;
-        this.operon = operon;
+        this.lineNumber = lineNumber;
+        this.childNode = childNode;
     }
 
     public static RuntimeValue generateOp(ExpressionContext f,
@@ -94,12 +95,12 @@ public abstract class UnaryOperatorNode extends DebuggableReturnValue {
     @NonNull
     @Override
     public LineInfo getLineNumber() {
-        return line;
+        return lineNumber;
     }
 
     @Override
     public void setLineNumber(LineInfo lineNumber) {
-        this.line = lineNumber;
+        this.lineNumber = lineNumber;
     }
 
     @Override
@@ -107,17 +108,17 @@ public abstract class UnaryOperatorNode extends DebuggableReturnValue {
             throws RuntimePascalException {
         boolean debug = main.isDebug();
         if (debug) {
-            main.getDebugListener().onEvaluatingExpr(line, toString());
+            main.getDebugListener().onEvaluatingExpr(lineNumber, toString());
             main.setDebug(false);
         }
 
-        Object value = operon.getValue(f, main);
+        Object value = childNode.getValue(f, main);
         Object result = operate(value);
 
         //restore mode
         main.setDebug(debug);
         if (main.isDebug()) {
-            main.getDebugListener().onEvaluatedExpr(line, toString(), result.toString());
+            main.getDebugListener().onEvaluatedExpr(lineNumber, toString(), result.toString());
         }
         return result;
     }
@@ -126,19 +127,19 @@ public abstract class UnaryOperatorNode extends DebuggableReturnValue {
 
     @Override
     public String toString() {
-        return operator + "" + operon;
+        return operator + "" + childNode;
     }
 
     @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
-        return operon.getRuntimeType(context);
+        return childNode.getRuntimeType(context);
     }
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws Exception {
-        Object value = operon.compileTimeValue(context);
+        Object value = childNode.compileTimeValue(context);
         if (value == null) {
             return null;
         }

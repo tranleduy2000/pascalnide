@@ -198,11 +198,11 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         }
         FunctionOnStack functionOnStack = new FunctionOnStack(f, main, this, arguments);
         if (main.isDebug()) {
-            main.getDebugListener().onVariableChange(new CallStack(functionOnStack));
+            main.getDebugListener().onValueVariableChanged(new CallStack(functionOnStack));
         }
         Object execute = functionOnStack.visit();
         if (main.isDebug()) {
-            main.getDebugListener().onVariableChange(new CallStack(f));
+            main.getDebugListener().onValueVariableChanged(new CallStack(f));
         }
         return execute;
     }

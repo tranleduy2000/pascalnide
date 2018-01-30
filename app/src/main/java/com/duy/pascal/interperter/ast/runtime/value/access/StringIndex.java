@@ -26,14 +26,14 @@ import com.duy.pascal.interperter.ast.runtime.references.Reference;
 import com.duy.pascal.interperter.ast.runtime.references.StringIndexReference;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
-import com.duy.pascal.interperter.debugable.DebuggableAssignableValue;
+import com.duy.pascal.interperter.debugable.DebuggableAssignableNode;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.exceptions.runtime.PascalStringIndexOutOfBoundsException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 
-public class StringIndex extends DebuggableAssignableValue {
+public class StringIndex extends DebuggableAssignableNode {
     private RuntimeValue string;
     private RuntimeValue index;
 

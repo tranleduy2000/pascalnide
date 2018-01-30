@@ -44,7 +44,7 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
             entry.getValue().runInit();
         }
 
-        if (isDebug()) getDebugListener().onVariableChange(new CallStack(this));
+        if (isDebug()) getDebugListener().onValueVariableChanged(new CallStack(this));
         getDeclaration().root.visit(this, this);
 
         //generate final code library
@@ -53,8 +53,8 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
         }
 
         if (isDebug()) {
-            getDebugListener().onVariableChange(new CallStack(this));
-            getDebugListener().onEndProgram();
+            getDebugListener().onValueVariableChanged(new CallStack(this));
+            getDebugListener().onFinish();
         }
     }
 

@@ -75,7 +75,7 @@ public abstract class RpcReceiverManager {
     public void shutdown() {
         for (PascalLibrary receiver : mReceivers.values()) {
             if (receiver != null) {
-                receiver.shutdown();
+                receiver.onFinalize();
             }
         }
     }

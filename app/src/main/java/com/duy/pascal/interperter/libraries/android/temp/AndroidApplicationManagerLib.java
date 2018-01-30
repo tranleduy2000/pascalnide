@@ -101,14 +101,9 @@ public class AndroidApplicationManagerLib extends PascalLibrary {
     }
 
     @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return false;
-    }
-
-    @Override
     @PascalMethod(description = "stop")
 
-    public void shutdown() {
+    public void onFinalize() {
 
     }
 
@@ -118,22 +113,22 @@ public class AndroidApplicationManagerLib extends PascalLibrary {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin parentContext) {
+    public void declareConstants(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin parentContext) {
+    public void declareTypes(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin parentContext) {
+    public void declareVariables(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin parentContext) {
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 }

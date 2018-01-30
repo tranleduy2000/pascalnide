@@ -140,7 +140,7 @@ public class ReadFileFunction implements IMethodDeclaration {
             PascalReference[] values = (PascalReference[]) args.getValue(f, main);
             PascalReference<File> file = (PascalReference<File>) mFileReference.getValue(f, main);
             fileLib.readz(file.get(), values);
-            if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
+            if (main.isDebug()) main.getDebugListener().onValueVariableChanged(new CallStack(f));
 
             return null;
         }

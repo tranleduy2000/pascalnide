@@ -26,7 +26,7 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.config.DebugMode;
 import com.duy.pascal.interperter.core.PascalCompiler;
-import com.duy.pascal.interperter.debugable.DebugListener;
+import com.duy.pascal.interperter.debugable.IDebugListener;
 import com.duy.pascal.interperter.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.interperter.exceptions.parsing.ParsingException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
@@ -153,7 +153,7 @@ public abstract class AbstractExecActivity extends BaseActivity implements Progr
                     if (isEnableDebug()) {
                         mProgram.enableDebug();
                         mProgram.setDebugMode(DebugMode.STEP_INFO);
-                        mProgram.setDebugListener((DebugListener) AbstractExecActivity.this);
+                        mProgram.setDebugListener((IDebugListener) AbstractExecActivity.this);
                     }
 
                     mProgram.run();

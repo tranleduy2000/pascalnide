@@ -21,24 +21,24 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.references.ArrayIndexReference;
 import com.duy.pascal.interperter.ast.runtime.references.Reference;
 import com.duy.pascal.interperter.ast.runtime.value.EnumElementValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
-import com.duy.pascal.interperter.debugable.DebuggableAssignableValue;
-import com.duy.pascal.interperter.linenumber.LineInfo;
-import com.duy.pascal.interperter.exceptions.runtime.IndexOutOfBoundsException;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
+import com.duy.pascal.interperter.debugable.DebuggableAssignableNode;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.declaration.lang.types.set.ArrayType;
+import com.duy.pascal.interperter.exceptions.runtime.IndexOutOfBoundsException;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineInfo;
 
 import java.lang.reflect.Array;
 
-public class ArrayIndexAccess extends DebuggableAssignableValue {
-    private RuntimeValue container;
-    private RuntimeValue index;
-    private int offset;
+public class ArrayIndexAccess extends DebuggableAssignableNode {
+    private final RuntimeValue container;
+    private final RuntimeValue index;
+    private final int offset;
 
     public ArrayIndexAccess(RuntimeValue container, RuntimeValue index, int offset) {
         this.container = container;
@@ -55,8 +55,7 @@ public class ArrayIndexAccess extends DebuggableAssignableValue {
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         RuntimeType r = (container.getRuntimeType(context));
-        return new RuntimeType(((ArrayType<?>) r.declType).elementType,
-                r.writable);
+        return new RuntimeType(((ArrayType<?>) r.declType).elementType, r.writable);
     }
 
     @NonNull

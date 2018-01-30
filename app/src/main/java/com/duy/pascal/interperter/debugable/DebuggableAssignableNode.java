@@ -12,7 +12,7 @@ import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.exceptions.runtime.UnhandledPascalException;
 import com.duy.pascal.interperter.utils.NullSafety;
 
-public abstract class DebuggableAssignableValue implements AssignableValue {
+public abstract class DebuggableAssignableNode implements AssignableValue {
 
     public abstract boolean canDebug();
 

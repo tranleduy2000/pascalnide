@@ -172,7 +172,7 @@ public class SetLengthFunction implements IMethodDeclaration {
                     r.set(newV);
                 }
             }
-            if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
+            if (main.isDebug()) main.getDebugListener().onValueVariableChanged(new CallStack(f));
             return null;
         }
 

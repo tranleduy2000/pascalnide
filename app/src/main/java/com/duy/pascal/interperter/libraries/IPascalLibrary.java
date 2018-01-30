@@ -18,8 +18,6 @@ package com.duy.pascal.interperter.libraries;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 
-import java.util.Map;
-
 /**
  * Created by Duy on 9/26/2017.
  */
@@ -27,15 +25,13 @@ import java.util.Map;
 public interface IPascalLibrary {
     String getName();
 
-    boolean instantiate(Map<String, Object> pluginargs);
+    void onFinalize();
 
-    void shutdown();
+    void declareConstants(ExpressionContextMixin context);
 
-    void declareConstants(ExpressionContextMixin parentContext);
+    void declareTypes(ExpressionContextMixin context);
 
-    void declareTypes(ExpressionContextMixin parentContext);
+    void declareVariables(ExpressionContextMixin context);
 
-    void declareVariables(ExpressionContextMixin parentContext);
-
-    void declareFunctions(ExpressionContextMixin parentContext);
+    void declareFunctions(ExpressionContextMixin context);
 }

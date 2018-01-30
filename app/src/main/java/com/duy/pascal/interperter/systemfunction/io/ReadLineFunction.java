@@ -133,7 +133,7 @@ public class ReadLineFunction implements IMethodDeclaration {
             IOLib ioHandler = main.getDeclaration().getContext().getIOHandler();
             PascalReference[] values = (PascalReference[]) args.getValue(f, main);
             ioHandler.readlnz(values);
-            if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
+            if (main.isDebug()) main.getDebugListener().onValueVariableChanged(new CallStack(f));
 
             return null;
         }

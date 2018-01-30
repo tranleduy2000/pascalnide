@@ -28,7 +28,6 @@ import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
 import com.duy.pascal.interperter.libraries.annotations.PascalParameter;
 
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -53,14 +52,9 @@ public class AndroidTextToSpeechLib extends PascalLibrary {
     }
 
     @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return false;
-    }
-
-    @Override
     @PascalMethod(description = "stop")
 
-    public void shutdown() {
+    public void onFinalize() {
         while (mTextToSpeech.isSpeaking()) {
             SystemClock.sleep(100);
         }
@@ -74,22 +68,22 @@ public class AndroidTextToSpeechLib extends PascalLibrary {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin parentContext) {
+    public void declareConstants(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin parentContext) {
+    public void declareTypes(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin parentContext) {
+    public void declareVariables(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin parentContext) {
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 

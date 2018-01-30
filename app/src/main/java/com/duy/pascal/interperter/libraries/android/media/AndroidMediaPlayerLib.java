@@ -185,13 +185,8 @@ public class AndroidMediaPlayerLib extends PascalLibrary {
     }
 
     @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return false;
-    }
-
-    @Override
     @PascalMethod(description = "Stop all media before exit program")
-    public void shutdown() {
+    public void onFinalize() {
         Set<Entry<String, MediaPlayer>> entries = mPlayers.entrySet();
         for (Entry<String, MediaPlayer> entry : entries) {
             MediaPlayer player = entry.getValue();
@@ -210,22 +205,22 @@ public class AndroidMediaPlayerLib extends PascalLibrary {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin parentContext) {
+    public void declareConstants(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin parentContext) {
+    public void declareTypes(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin parentContext) {
+    public void declareVariables(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin parentContext) {
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 }

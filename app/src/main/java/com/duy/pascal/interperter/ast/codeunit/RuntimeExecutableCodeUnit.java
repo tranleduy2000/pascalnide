@@ -18,7 +18,7 @@ package com.duy.pascal.interperter.ast.codeunit;
 
 import com.duy.pascal.interperter.ast.runtime.ScriptControl;
 import com.duy.pascal.interperter.config.DebugMode;
-import com.duy.pascal.interperter.debugable.DebugListener;
+import com.duy.pascal.interperter.debugable.IDebugListener;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.interperter.declaration.lang.function.MethodDeclaration;
@@ -44,7 +44,7 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
 
 
     private DebugMode debugMode;
-    private DebugListener debugListener;
+    private IDebugListener debugListener;
 
     public RuntimeExecutableCodeUnit(parent definition) throws RuntimePascalException {
         super(definition);
@@ -160,11 +160,11 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
         } while (true);
     }
 
-    public DebugListener getDebugListener() {
+    public IDebugListener getDebugListener() {
         return debugListener;
     }
 
-    public void setDebugListener(DebugListener debugListener) {
+    public void setDebugListener(IDebugListener debugListener) {
         this.debugListener = debugListener;
     }
 

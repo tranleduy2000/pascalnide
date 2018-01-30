@@ -26,7 +26,7 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.references.Reference;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.ContainsVariables;
-import com.duy.pascal.interperter.debugable.DebuggableAssignableValue;
+import com.duy.pascal.interperter.debugable.DebuggableAssignableNode;
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.operator.ConstantCalculationException;
@@ -38,7 +38,7 @@ import com.duy.pascal.interperter.declaration.lang.types.ObjectType;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
-public class FieldAccess extends DebuggableAssignableValue {
+public class FieldAccess extends DebuggableAssignableNode {
     private static final String TAG = "FieldAccess";
     private RuntimeValue container;
     private Name name;

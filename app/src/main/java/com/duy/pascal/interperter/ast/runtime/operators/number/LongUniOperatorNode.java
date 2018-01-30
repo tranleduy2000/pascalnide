@@ -35,7 +35,7 @@ public class LongUniOperatorNode extends UnaryOperatorNode {
             case MINUS:
                 return -(long) value;
             default:
-                throw new InternalInterpreterException(line);
+                throw new InternalInterpreterException(lineNumber);
         }
     }
 
@@ -43,10 +43,10 @@ public class LongUniOperatorNode extends UnaryOperatorNode {
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess<>(val, line);
+            return new ConstantAccess<>(val, lineNumber);
         } else {
-            return new LongUniOperatorNode(operon.compileTimeExpressionFold(context), operator,
-                    line);
+            return new LongUniOperatorNode(childNode.compileTimeExpressionFold(context), operator,
+                    lineNumber);
         }
     }
 

@@ -79,12 +79,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
     }
 
     @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return false;
-    }
-
-    @Override
-    public void shutdown() {
+    public void onFinalize() {
 
     }
 
@@ -98,14 +93,14 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
      * it can be duplicate with constants of user
      */
     @Override
-    public void declareConstants(ExpressionContextMixin parentContext) {
+    public void declareConstants(ExpressionContextMixin context) {
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin parentContext) {
+    public void declareTypes(ExpressionContextMixin context) {
         HashMap<Name, Type> typedefs = mContext.getTypedefs();
         for (Map.Entry<Name, Type> type : typedefs.entrySet()) {
-            parentContext.declareTypedef(type.getKey(), type.getValue());
+            context.declareTypedef(type.getKey(), type.getValue());
         }
     }
 
@@ -114,7 +109,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
      * value of variable can change in unit
      */
     @Override
-    public void declareVariables(ExpressionContextMixin parentContext) {
+    public void declareVariables(ExpressionContextMixin context) {
         /*ArrayList<VariableDeclaration> variables = context.getVariables();
         for (VariableDeclaration variable : variables) {
             parentContext.declareVariable(variable);
@@ -122,7 +117,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin parentContext) {
+    public void declareFunctions(ExpressionContextMixin context) {
         // get list name interface instead of get map function
         // because I don't want to add built in function twice,
         //this is bad performance when match argument and leak memory
@@ -132,7 +127,7 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascal
         for (Name name : forwardFunctions) {
             List<AbstractFunction> abstractFunctions = callableFunctions.get(name);
             for (AbstractFunction function : abstractFunctions) {
-                parentContext.declareFunction(function);
+                context.declareFunction(function);
             }
         }
 

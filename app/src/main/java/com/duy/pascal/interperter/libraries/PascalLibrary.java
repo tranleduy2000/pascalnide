@@ -19,8 +19,6 @@ package com.duy.pascal.interperter.libraries;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContextMixin;
 
-import java.util.Map;
-
 public abstract class PascalLibrary implements IPascalLibrary {
 
     /**
@@ -35,32 +33,29 @@ public abstract class PascalLibrary implements IPascalLibrary {
      * Invoked when the receiver is shut down.
      */
     @Override
-    public void shutdown() {
+    public void onFinalize() {
 
     }
 
 
     @Override
-    public void declareConstants(ExpressionContextMixin parentContext) {
+    public void declareConstants(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin parentContext) {
+    public void declareTypes(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin parentContext) {
+    public void declareVariables(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin parentContext) {
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return false;
-    }
 }

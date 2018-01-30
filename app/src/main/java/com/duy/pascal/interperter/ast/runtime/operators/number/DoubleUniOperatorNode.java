@@ -34,7 +34,7 @@ public class DoubleUniOperatorNode extends UnaryOperatorNode {
             case MINUS:
                 return -(double) value;
             default:
-                throw new InternalInterpreterException(line);
+                throw new InternalInterpreterException(lineNumber);
         }
     }
 
@@ -42,10 +42,10 @@ public class DoubleUniOperatorNode extends UnaryOperatorNode {
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess<>(val, line);
+            return new ConstantAccess<>(val, lineNumber);
 
         } else {
-            return new DoubleUniOperatorNode(operon.compileTimeExpressionFold(context), operator, line);
+            return new DoubleUniOperatorNode(childNode.compileTimeExpressionFold(context), operator, lineNumber);
         }
     }
 

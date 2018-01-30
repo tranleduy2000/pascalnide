@@ -27,7 +27,6 @@ import com.duy.pascal.interperter.libraries.annotations.PascalParameter;
 import com.googlecode.sl4a.Constants;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * Allows you to return results to a startActivityForResult call.
@@ -349,13 +348,8 @@ public class ActivityResultFacade extends PascalLibrary {
     }
 
     @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return false;
-    }
-
-    @Override
     @PascalMethod(description = "stop")
-    public void shutdown() {
+    public void onFinalize() {
     }
 
     @Override
@@ -364,22 +358,22 @@ public class ActivityResultFacade extends PascalLibrary {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin parentContext) {
+    public void declareConstants(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin parentContext) {
+    public void declareTypes(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin parentContext) {
+    public void declareVariables(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin parentContext) {
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 }

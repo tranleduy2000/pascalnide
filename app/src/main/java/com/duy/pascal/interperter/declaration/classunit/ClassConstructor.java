@@ -78,7 +78,7 @@ public class ClassConstructor extends FunctionDeclaration {
         main.addPascalClassContext(idName, classVarContext);
         FunctionOnStack functionOnStack = new FunctionOnStack(classVarContext, main, this, arguments);
         if (main.isDebug()) {
-            main.getDebugListener().onVariableChange(new CallStack(functionOnStack));
+            main.getDebugListener().onValueVariableChanged(new CallStack(functionOnStack));
         }
         return functionOnStack.visit();
     }

@@ -78,7 +78,7 @@ public class DosLib extends PascalLibrary {
     @Override
     @PascalMethod(description = "stop")
 
-    public void shutdown() {
+    public void onFinalize() {
 
     }
 
@@ -88,12 +88,12 @@ public class DosLib extends PascalLibrary {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin parentContext) {
+    public void declareConstants(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin parentContext) {
+    public void declareTypes(ExpressionContextMixin context) {
         //build datetime type
         ArrayList<VariableDeclaration> listVar = new ArrayList<>();
         listVar.add(new VariableDeclaration("year", BasicType.Integer));
@@ -103,16 +103,16 @@ public class DosLib extends PascalLibrary {
         listVar.add(new VariableDeclaration("min", BasicType.Integer));
         listVar.add(new VariableDeclaration("sec", BasicType.Integer));
         RecordType recordType = new RecordType(listVar);
-        parentContext.declareTypedef("DateTime", recordType);
+        context.declareTypedef("DateTime", recordType);
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin parentContext) {
+    public void declareVariables(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin parentContext) {
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 

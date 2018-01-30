@@ -43,7 +43,7 @@ public class SysUtilsLibrary extends PascalLibrary {
 
     @Override
     @PascalMethod(description = "stop")
-    public void shutdown() {
+    public void onFinalize() {
 
     }
 
@@ -53,22 +53,22 @@ public class SysUtilsLibrary extends PascalLibrary {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin parentContext) {
+    public void declareConstants(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin parentContext) {
-        parentContext.declareTypedef("TDateTime", BasicType.Long);
+    public void declareTypes(ExpressionContextMixin context) {
+        context.declareTypedef("TDateTime", BasicType.Long);
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin parentContext) {
+    public void declareVariables(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin parentContext) {
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 

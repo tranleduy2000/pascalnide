@@ -62,43 +62,43 @@ public class JavaCollectionsAPI extends PascalLibrary {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin parentContext) {
-        super.declareConstants(parentContext);
+    public void declareConstants(ExpressionContextMixin context) {
+        super.declareConstants(context);
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin parentContext) {
-        super.declareTypes(parentContext);
-        parentContext.declareTypedef("JArrayList", new JavaClassBasedType(ArrayList.class));
-        parentContext.declareTypedef("JArrayDeque", new JavaClassBasedType(ArrayDeque.class));
-        parentContext.declareTypedef("JHashMap", new JavaClassBasedType(HashMap.class));
-        parentContext.declareTypedef("JHashSet", new JavaClassBasedType(HashSet.class));
-        parentContext.declareTypedef("JHashtable", new JavaClassBasedType(Hashtable.class));
-        parentContext.declareTypedef("JLinkedHashMap", new JavaClassBasedType(LinkedHashMap.class));
-        parentContext.declareTypedef("JLinkedHashSet", new JavaClassBasedType(LinkedHashSet.class));
-        parentContext.declareTypedef("JLinkedList", new JavaClassBasedType(LinkedList.class));
-        parentContext.declareTypedef("JPriorityQueue", new JavaClassBasedType(PriorityQueue.class));
-        parentContext.declareTypedef("JStack", new JavaClassBasedType(Stack.class));
-        parentContext.declareTypedef("JTreeMap", new JavaClassBasedType(TreeMap.class));
-        parentContext.declareTypedef("JTreeSet", new JavaClassBasedType(TreeSet.class));
-        parentContext.declareTypedef("JVector", new JavaClassBasedType(Vector.class));
-        parentContext.declareTypedef("JWeakHashMap", new JavaClassBasedType(WeakHashMap.class));
-        parentContext.declareTypedef("JBitSet", new JavaClassBasedType(BitSet.class));
-        parentContext.declareTypedef("JArrayBlockingQueue", new JavaClassBasedType(ArrayBlockingQueue.class));
-        parentContext.declareTypedef("JLinkedBlockingDeque", new JavaClassBasedType(LinkedBlockingDeque.class));
-        parentContext.declareTypedef("JLinkedBlockingQueue", new JavaClassBasedType(LinkedBlockingQueue.class));
-        parentContext.declareTypedef("JConcurrentHashMap", new JavaClassBasedType(ConcurrentHashMap.class));
-        parentContext.declareTypedef("JConcurrentLinkedQueue", new JavaClassBasedType(ConcurrentLinkedQueue.class));
-        parentContext.declareTypedef("JPriorityBlockingQueue", new JavaClassBasedType(PriorityBlockingQueue.class));
-        parentContext.declareTypedef("JDelayQueue", new JavaClassBasedType(DelayQueue.class));
-        parentContext.declareTypedef("JIdentityHashMap", new JavaClassBasedType(IdentityHashMap.class));
-        parentContext.declareTypedef("JEnumeration", new JavaClassBasedType(Enumeration.class));
-        parentContext.declareTypedef("JProperties", new JavaClassBasedType(Properties.class));
-        parentContext.declareTypedef("JDictionary", new JavaClassBasedType(Dictionary.class));
-        parentContext.declareTypedef("JSet", new JavaClassBasedType(Set.class));
-        parentContext.declareTypedef("JIterator", new JavaClassBasedType(Iterator.class));
-        parentContext.declareTypedef("JEntry", new JavaClassBasedType(Map.Entry.class));
-        parentContext.declareTypedef("JEntrySet", new JavaClassBasedType(Set.class));
+    public void declareTypes(ExpressionContextMixin context) {
+        super.declareTypes(context);
+        context.declareTypedef("JArrayList", new JavaClassBasedType(ArrayList.class));
+        context.declareTypedef("JArrayDeque", new JavaClassBasedType(ArrayDeque.class));
+        context.declareTypedef("JHashMap", new JavaClassBasedType(HashMap.class));
+        context.declareTypedef("JHashSet", new JavaClassBasedType(HashSet.class));
+        context.declareTypedef("JHashtable", new JavaClassBasedType(Hashtable.class));
+        context.declareTypedef("JLinkedHashMap", new JavaClassBasedType(LinkedHashMap.class));
+        context.declareTypedef("JLinkedHashSet", new JavaClassBasedType(LinkedHashSet.class));
+        context.declareTypedef("JLinkedList", new JavaClassBasedType(LinkedList.class));
+        context.declareTypedef("JPriorityQueue", new JavaClassBasedType(PriorityQueue.class));
+        context.declareTypedef("JStack", new JavaClassBasedType(Stack.class));
+        context.declareTypedef("JTreeMap", new JavaClassBasedType(TreeMap.class));
+        context.declareTypedef("JTreeSet", new JavaClassBasedType(TreeSet.class));
+        context.declareTypedef("JVector", new JavaClassBasedType(Vector.class));
+        context.declareTypedef("JWeakHashMap", new JavaClassBasedType(WeakHashMap.class));
+        context.declareTypedef("JBitSet", new JavaClassBasedType(BitSet.class));
+        context.declareTypedef("JArrayBlockingQueue", new JavaClassBasedType(ArrayBlockingQueue.class));
+        context.declareTypedef("JLinkedBlockingDeque", new JavaClassBasedType(LinkedBlockingDeque.class));
+        context.declareTypedef("JLinkedBlockingQueue", new JavaClassBasedType(LinkedBlockingQueue.class));
+        context.declareTypedef("JConcurrentHashMap", new JavaClassBasedType(ConcurrentHashMap.class));
+        context.declareTypedef("JConcurrentLinkedQueue", new JavaClassBasedType(ConcurrentLinkedQueue.class));
+        context.declareTypedef("JPriorityBlockingQueue", new JavaClassBasedType(PriorityBlockingQueue.class));
+        context.declareTypedef("JDelayQueue", new JavaClassBasedType(DelayQueue.class));
+        context.declareTypedef("JIdentityHashMap", new JavaClassBasedType(IdentityHashMap.class));
+        context.declareTypedef("JEnumeration", new JavaClassBasedType(Enumeration.class));
+        context.declareTypedef("JProperties", new JavaClassBasedType(Properties.class));
+        context.declareTypedef("JDictionary", new JavaClassBasedType(Dictionary.class));
+        context.declareTypedef("JSet", new JavaClassBasedType(Set.class));
+        context.declareTypedef("JIterator", new JavaClassBasedType(Iterator.class));
+        context.declareTypedef("JEntry", new JavaClassBasedType(Map.Entry.class));
+        context.declareTypedef("JEntrySet", new JavaClassBasedType(Set.class));
     }
 
     @Override

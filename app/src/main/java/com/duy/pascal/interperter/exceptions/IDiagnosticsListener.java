@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interperter.javaunderpascal;
+package com.duy.pascal.interperter.exceptions;
 
 /**
- * Created by Duy on 28-May-17.
+ * Created by Duy on 17-Aug-17.
  */
 
-public class ClassUtils {
-    public static boolean instanceOf(Class target, Class<?>... classes) {
-        for (Class<?> aClass : classes) {
-            if (target == aClass) {
-                return true;
-            }
-        }
-        return false;
-    }
+public interface IDiagnosticsListener {
+    void addDiagnostic(Diagnostic diagnostic);
 }

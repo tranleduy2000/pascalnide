@@ -22,7 +22,6 @@ import com.duy.pascal.interperter.libraries.annotations.PascalMethod;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Map;
 
 /**
  * Created by Duy on 10-May-17.
@@ -33,12 +32,7 @@ public class SocketIOLib extends PascalLibrary {
     public static final String NAME = "SocketIO".toLowerCase();
 
     @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return false;
-    }
-
-    @Override
-    public void shutdown() {
+    public void onFinalize() {
 
     }
 
@@ -48,22 +42,22 @@ public class SocketIOLib extends PascalLibrary {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin parentContext) {
+    public void declareConstants(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin parentContext) {
+    public void declareTypes(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin parentContext) {
+    public void declareVariables(ExpressionContextMixin context) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin parentContext) {
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 

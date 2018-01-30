@@ -25,14 +25,14 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.references.Reference;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
-import com.duy.pascal.interperter.debugable.DebuggableAssignableValue;
+import com.duy.pascal.interperter.debugable.DebuggableAssignableNode;
 import com.duy.pascal.interperter.linenumber.LineInfo;
 import com.duy.pascal.interperter.exceptions.parsing.operator.ConstantCalculationException;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 import com.duy.pascal.interperter.declaration.lang.types.PointerType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
-public class DerefEval extends DebuggableAssignableValue {
+public class DerefEval extends DebuggableAssignableNode {
     RuntimeValue pointer;
     LineInfo line;
 
