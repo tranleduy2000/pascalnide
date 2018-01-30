@@ -28,6 +28,8 @@ import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.ui.R;
 import com.duy.pascal.ui.code.ExceptionManager;
 
+import static com.duy.pascal.ui.code.ExceptionManager.formatMessageFromResource;
+
 public class GroupingException extends ParsingException {
     private Type exceptionTypes;
     @Nullable
@@ -94,23 +96,21 @@ public class GroupingException extends ParsingException {
 
     @Override
     public Spanned getFormattedMessage(@NonNull Context context) {
-        GroupingException e = this;
-        ExceptionManager exceptionManager = new ExceptionManager(context);
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        builder.append(ExceptionManager.formatLine(context, e.getLineNumber())).append("\n\n");
+        builder.append(ExceptionManager.formatLine(context, this.getLineNumber())).append("\n\n");
 
-        if (e.getExceptionTypes().equals(GroupingException.Type.EXTRA_END)) {
-            Token openToken = e.getOpenToken();
-            Spanned message = exceptionManager.formatMessageFromResource(e, R.string.unbalance_end,
+        if (getExceptionTypes().equals(GroupingException.Type.EXTRA_END)) {
+            Token openToken = this.getOpenToken();
+            Spanned message = formatMessageFromResource(this, context, R.string.unbalance_end,
                     openToken.toString(),
                     openToken.getLineNumber().getLine(),
                     openToken.getLineNumber().getColumn(),
-                    e.getCloseToken().toString(),
-                    e.getLineNumber().getLine(),
-                    e.getLineNumber().getColumn());
+                    getCloseToken().toString(),
+                    getLineNumber().getLine(),
+                    getLineNumber().getColumn());
             builder.append(message);
         } else {
-            String message = getEnumeratedGroupingException(context, e);
+            String message = getEnumeratedGroupingException(context, this);
             builder.append(message);
         }
         return builder;

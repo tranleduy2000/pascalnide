@@ -95,23 +95,19 @@ public class ExceptionManager {
         return "";
     }
 
-    public Spanned getMessage(@Nullable Throwable e) {
+    public Spanned getMessage(@Nullable Throwable error) {
         try {
-            if (e == null) {
+            if (error == null) {
                 return new SpannableString("Unknown error");
+            } else if (this instanceof IRichFormatException) {
+                return ((IRichFormatException) error).getFormattedMessage(mContext);
+            } else {
+                return new SpannableString(error.getMessage());
             }
-            if (this instanceof IRichFormatException) {
-                return ((IRichFormatException) e).getFormattedMessage(mContext);
-            }
-            return new SpannableString(e.getMessage());
         } catch (Exception err) {
             err.printStackTrace();
             return new SpannableString(err.toString());
         }
-    }
-
-    public Spanned formatMessageFromResource(Throwable e, int resourceID, Object... arg) {
-        return formatMessageFromResource(e, mContext, resourceID, arg);
     }
 
 }
