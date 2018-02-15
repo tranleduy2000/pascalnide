@@ -67,11 +67,8 @@ public abstract class HighlightEditor extends CodeSuggestsEditText implements Vi
     public static final int SYNTAX_DELAY_MILLIS_SHORT = 100;
     public static final int SYNTAX_DELAY_MILLIS_LONG = 700;
     public static final int CHARS_TO_COLOR = 2500;
-    private final Handler mHandler = new Handler();
-
     public boolean mShowLines = true;
     public boolean mWordWrap = true;
-
     protected Paint mPaintNumbers;
     protected Paint mPaintHighlight;
     protected int mPaddingDP = 4;
@@ -92,7 +89,9 @@ public abstract class HighlightEditor extends CodeSuggestsEditText implements Vi
      * the Max size of the view
      */
     protected Point mMaxSize;
-    private IEditorColorScheme mCodeTheme = new CodeTheme(true);
+    private Handler mHandler;
+    private Runnable mPostHighlight;
+    private IEditorColorScheme mCodeTheme;
     private boolean mCanEdit = true;
     @Nullable
     private ScrollView mVerticalScroll;
@@ -112,29 +111,36 @@ public abstract class HighlightEditor extends CodeSuggestsEditText implements Vi
      */
     private EditTextChangeListener mChangeListener;
     private CodeHighlighter mCodeHighlighter;
-    private final Runnable mPostHighlight = new Runnable() {
-        @Override
-        public void run() {
-            highlightText();
-        }
-    };
     private BracketHighlighter mBracketHighlighter;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
+
     }
 
     public HighlightEditor(Context context) {
         super(context);
+
     }
 
     public HighlightEditor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
     }
 
     @CallSuper
     protected void setup(Context context) {
         super.setup(context);
+        mHandler = new Handler();
+        mPostHighlight = new Runnable() {
+            @Override
+            public void run() {
+                highlightText();
+            }
+        };
+        mHandler = new Handler();
+        mCodeTheme = new CodeTheme(true);
+
         mLineUtils = new LineUtils();
         mPaintNumbers = new Paint();
         mPaintNumbers.setColor(getResources().getColor(R.color.color_number_color));

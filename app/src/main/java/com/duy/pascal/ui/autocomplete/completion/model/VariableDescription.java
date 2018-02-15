@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
-import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
+import com.duy.pascal.ui.autocomplete.completion.util.CodeTemplate;
 
 /**
  * Created by Duy on 9/24/2017.
@@ -38,6 +38,6 @@ public class VariableDescription extends DescriptionImpl {
 
     @Override
     public String getInsertText() {
-        return String.format("%s%s", name.getOriginName(), CodeSuggestsEditText.CURSOR);
+        return String.format("%s%s", name.getOriginName(), CodeTemplate.CURSOR);
     }
 }

@@ -22,6 +22,7 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.declaration.lang.types.Type;
+import com.duy.pascal.ui.autocomplete.completion.util.CodeTemplate;
 import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
 
 /**
@@ -62,7 +63,7 @@ public class DescriptionImpl implements Comparable<Name>, Description {
 
     @Override
     public String getHeader() {
-        return name.getOriginName().replace(CodeSuggestsEditText.CURSOR, "");
+        return name.getOriginName().replace(CodeTemplate.CURSOR, "");
     }
 
     @ItemKind

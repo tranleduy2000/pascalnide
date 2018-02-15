@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.declaration.Name;
-import com.duy.pascal.ui.editor.view.CodeSuggestsEditText;
+import com.duy.pascal.ui.autocomplete.completion.util.CodeTemplate;
 
 /**
  * Created by Duy on 11/1/2017.
@@ -33,8 +33,8 @@ public class KeyWordDescription extends DescriptionImpl {
 
     @Override
     public String getInsertText() {
-        if (!name.getOriginName().contains(CodeSuggestsEditText.CURSOR)) {
-            return name.getOriginName() + " " + CodeSuggestsEditText.CURSOR;
+        if (!name.getOriginName().contains(CodeTemplate.CURSOR)) {
+            return name.getOriginName() + " " + CodeTemplate.CURSOR;
         } else {
             return name.getOriginName();
         }
