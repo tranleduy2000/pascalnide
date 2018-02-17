@@ -37,9 +37,10 @@
         android:layout_height="wrap_content"
         android:dropDownAnchor="@+id/app_bar"
         android:gravity="top|start"
+        android:layerType="software"
         android:hint="@string/write_code_here"
         android:imeOptions="flagNoExtractUi"
-        android:inputType="textMultiLine|textNoSuggestions" />
+        android:inputType="textMultiLine|textNoSuggestions"/>
     <!-- </LinearLayout>
 
  </com.duy.pascal.frontend.view.LockableHorizontalScrollView>
