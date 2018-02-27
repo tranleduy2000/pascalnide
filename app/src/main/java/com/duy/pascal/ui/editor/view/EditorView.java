@@ -30,19 +30,22 @@ public class EditorView extends UndoRedoSupportEditText {
 
     public EditorView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setupEditorView(context);
+
     }
 
     public EditorView(Context context) {
         super(context);
+        setupEditorView(context);
+
     }
 
     public EditorView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setupEditorView(context);
     }
 
-    @Override
-    protected void setup(Context context) {
-        super.setup(context);
+    protected void setupEditorView(Context context) {
         setCustomSelectionActionModeCallback(new EditorActionCallback(this));
     }
 

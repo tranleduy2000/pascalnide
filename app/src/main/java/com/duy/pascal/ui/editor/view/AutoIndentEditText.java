@@ -18,7 +18,6 @@ package com.duy.pascal.ui.editor.view;
 
 import android.content.Context;
 import android.os.Parcelable;
-import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
@@ -92,21 +91,20 @@ class AutoIndentEditText extends AppCompatEditText {
 
     public AutoIndentEditText(Context context) {
         super(context);
-        setup(context);
+        setupAutoIndentEditText(context);
     }
 
     public AutoIndentEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setup(context);
+        setupAutoIndentEditText(context);
     }
 
     public AutoIndentEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setup(context);
+        setupAutoIndentEditText(context);
     }
 
-    @CallSuper
-    protected void setup(Context context) {
+    private void setupAutoIndentEditText(Context context) {
         mEditorSetting = new EditorSetting(context);
         CodeTemplate.TAB_STR = mEditorSetting.getTabCharacter();
         setFilters(new InputFilter[]{mInputFilter});

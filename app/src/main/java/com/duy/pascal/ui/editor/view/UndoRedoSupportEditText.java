@@ -51,19 +51,20 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
 
     public UndoRedoSupportEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setupUndoRedoSupportEditText(context);
     }
 
     public UndoRedoSupportEditText(Context context) {
         super(context);
+        setupUndoRedoSupportEditText(context);
     }
 
     public UndoRedoSupportEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setupUndoRedoSupportEditText(context);
     }
 
-    @Override
-    protected void setup(Context context) {
-        super.setup(context);
+    private void setupUndoRedoSupportEditText(Context context) {
         mUndoRedoHelper = new UndoRedoHelper(this);
         mUndoRedoHelper.setMaxHistorySize(mEditorSetting.getMaxHistoryEdit());
 

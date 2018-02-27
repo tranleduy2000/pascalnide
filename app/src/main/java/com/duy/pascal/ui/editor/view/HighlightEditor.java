@@ -23,7 +23,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Handler;
-import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -115,22 +114,22 @@ public abstract class HighlightEditor extends CodeSuggestsEditText implements Vi
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setupHighlightEditor(context);
 
     }
 
     public HighlightEditor(Context context) {
         super(context);
+        setupHighlightEditor(context);
 
     }
 
     public HighlightEditor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
+        setupHighlightEditor(context);
     }
 
-    @CallSuper
-    protected void setup(Context context) {
-        super.setup(context);
+    private void setupHighlightEditor(Context context) {
         mHandler = new Handler();
         mPostHighlight = new Runnable() {
             @Override
