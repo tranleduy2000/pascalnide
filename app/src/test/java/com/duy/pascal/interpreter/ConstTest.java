@@ -23,7 +23,7 @@ package com.duy.pascal.interpreter;
 public class ConstTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "C:\\github\\pascalnide\\test_pascal\\test_const";
+        return "test_const";
     }
 
     public void testtest_declare() {

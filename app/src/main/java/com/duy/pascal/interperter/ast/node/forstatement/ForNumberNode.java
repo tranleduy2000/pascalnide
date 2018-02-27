@@ -52,7 +52,7 @@ public class ForNumberNode extends DebuggableNode {
     private LineNumber mLine;
     private boolean downto = false;
     @NonNull
-    private Type mNumberType = null;
+    private Type mNumberType ;
 
     public ForNumberNode(ExpressionContext f, @NonNull AssignableValue tempVar,
                          @NonNull RuntimeValue first, @NonNull RuntimeValue last, @NonNull Node command,
@@ -77,7 +77,8 @@ public class ForNumberNode extends DebuggableNode {
                 forLoop:
                 for (Integer index = start; index >= end; index--) {
                     reference.set(index);
-                    if (main.isDebug()) main.getDebugListener().onValueVariableChanged(new CallStack(f));
+                    if (main.isDebug())
+                        main.getDebugListener().onValueVariableChanged(new CallStack(f));
                     ExecutionResult result = mCommand.visit(f, main);
                     switch (result) {
                         case EXIT:
@@ -94,7 +95,8 @@ public class ForNumberNode extends DebuggableNode {
                 forLoop:
                 for (Long index = start; index >= end; index--) {
                     reference.set(index);
-                    if (main.isDebug()) main.getDebugListener().onValueVariableChanged(new CallStack(f));
+                    if (main.isDebug())
+                        main.getDebugListener().onValueVariableChanged(new CallStack(f));
                     ExecutionResult result = mCommand.visit(f, main);
                     switch (result) {
                         case EXIT:
@@ -111,7 +113,8 @@ public class ForNumberNode extends DebuggableNode {
                 forLoop:
                 for (Byte index = start; index >= end; index--) {
                     reference.set(index);
-                    if (main.isDebug()) main.getDebugListener().onValueVariableChanged(new CallStack(f));
+                    if (main.isDebug())
+                        main.getDebugListener().onValueVariableChanged(new CallStack(f));
                     ExecutionResult result = mCommand.visit(f, main);
                     switch (result) {
                         case EXIT:
@@ -128,7 +131,9 @@ public class ForNumberNode extends DebuggableNode {
                 forLoop:
                 for (Character index = start; index >= end; index--) {
                     reference.set(index);
-                    if (main.isDebug()) main.getDebugListener().onValueVariableChanged(new CallStack(f));
+                    if (main.isDebug()) {
+                        main.getDebugListener().onValueVariableChanged(new CallStack(f));
+                    }
                     ExecutionResult result = mCommand.visit(f, main);
                     switch (result) {
                         case EXIT:
@@ -148,7 +153,9 @@ public class ForNumberNode extends DebuggableNode {
                 forLoop:
                 for (Integer index = start; index <= end; index++) {
                     reference.set(index);
-                    if (main.isDebug()) main.getDebugListener().onValueVariableChanged(new CallStack(f));
+                    if (main.isDebug()) {
+                        main.getDebugListener().onValueVariableChanged(new CallStack(f));
+                    }
                     ExecutionResult result = mCommand.visit(f, main);
                     switch (result) {
                         case EXIT:
@@ -165,7 +172,9 @@ public class ForNumberNode extends DebuggableNode {
                 forLoop:
                 for (Long index = start; index <= end; index++) {
                     reference.set(index);
-                    if (main.isDebug()) main.getDebugListener().onValueVariableChanged(new CallStack(f));
+                    if (main.isDebug()) {
+                        main.getDebugListener().onValueVariableChanged(new CallStack(f));
+                    }
                     ExecutionResult result = mCommand.visit(f, main);
                     switch (result) {
                         case EXIT:
@@ -182,7 +191,9 @@ public class ForNumberNode extends DebuggableNode {
                 forLoop:
                 for (Byte index = start; index <= end; index++) {
                     reference.set(index);
-                    if (main.isDebug()) main.getDebugListener().onValueVariableChanged(new CallStack(f));
+                    if (main.isDebug()) {
+                        main.getDebugListener().onValueVariableChanged(new CallStack(f));
+                    }
                     ExecutionResult result = mCommand.visit(f, main);
                     switch (result) {
                         case EXIT:
@@ -199,7 +210,8 @@ public class ForNumberNode extends DebuggableNode {
                 forLoop:
                 for (Character index = start; index <= end; index++) {
                     reference.set(index);
-                    if (main.isDebug()) main.getDebugListener().onValueVariableChanged(new CallStack(f));
+                    if (main.isDebug())
+                        main.getDebugListener().onValueVariableChanged(new CallStack(f));
                     ExecutionResult result = mCommand.visit(f, main);
                     switch (result) {
                         case EXIT:

@@ -22,7 +22,6 @@ package com.duy.pascal.interpreter;
 
 public class StringTest extends BaseTestCase {
 
-
     @Override
     public String getDirTest() {
         return "test_string";
@@ -41,10 +40,18 @@ public class StringTest extends BaseTestCase {
     }
 
     public void testStringIndex() {
-        run("test_string_index.pas");
+        try {
+            run("test_string_index.pas", false);
+            fail();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void testStringIndex2() {
+    }
 
+    public void testUpcase(){
+        run("upcase.pas");
     }
 }

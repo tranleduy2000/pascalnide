@@ -33,13 +33,16 @@ public class TypeConverter {
         PRECEDENCE.put(long.class, 1);
         //end region
 
-        //region real
+        //real
         PRECEDENCE.put(Float.class, 2);
         PRECEDENCE.put(float.class, 2);
 
         PRECEDENCE.put(Double.class, 2);
         PRECEDENCE.put(double.class, 2);
-        //end region
+
+        //string
+        PRECEDENCE.put(String.class, 3);
+        PRECEDENCE.put(StringBuilder.class, 3);
     }
 
     public static RuntimeValue autoConvert(Type outType, @Nullable RuntimeValue target, Type inType) {
@@ -97,7 +100,7 @@ public class TypeConverter {
         return result;
     }
 
-    public static RuntimeValue forceConvert(@NonNull Type outType, @Nullable RuntimeValue target,@NonNull Type inType) {
+    public static RuntimeValue forceConvert(@NonNull Type outType, @Nullable RuntimeValue target, @NonNull Type inType) {
         if (outType.equals(inType)) {
             return target;
         }

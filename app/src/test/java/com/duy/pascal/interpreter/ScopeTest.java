@@ -23,7 +23,7 @@ package com.duy.pascal.interpreter;
 public class ScopeTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "C:\\github\\pascalnide\\test_pascal\\test_scope";
+        return "test_scope";
     }
 
     public void testtest_gobal() {

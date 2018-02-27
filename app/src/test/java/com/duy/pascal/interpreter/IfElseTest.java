@@ -23,7 +23,7 @@ package com.duy.pascal.interpreter;
 public class IfElseTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "C:\\github\\pascalnide\\test_pascal\\test_if";
+        return "test_if";
     }
 
     public void testtest_ifelse() {

@@ -984,10 +984,7 @@ public abstract class GrouperToken extends Token {
                 RuntimeValue converted = leftType.convert(value, context);
                 if (converted == null) {
                     RuntimeType runtimeType = value.getRuntimeType(context);
-                    Type valueType = null;
-                    if (runtimeType != null) {
-                        valueType = runtimeType.declType;
-                    }
+                    Type valueType = runtimeType.declType;
                     throw new UnConvertibleTypeException(value, leftType, valueType, identifier, context);
                 }
                 if (assign instanceof PlusAssignToken) {

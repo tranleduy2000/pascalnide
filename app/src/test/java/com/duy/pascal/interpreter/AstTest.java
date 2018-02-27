@@ -32,7 +32,8 @@ public class AstTest extends BaseTestCase {
 
     public void testDivZero() {
         try {
-            run("test_div_zero.pas");
+            run("test_div_zero.pas", false);
+            fail();
         } catch (Exception e) {
             e.printStackTrace();
         }

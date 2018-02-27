@@ -53,16 +53,28 @@ public abstract class BaseTestCase extends TestCase {
      *
      * @param fileName - name of file
      */
-    protected void run(String fileName) {
+    protected void run(String fileName)  {
+        try {
+            run(fileName, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void run(String fileName, boolean checkExpcetion) throws Exception {
         long time = System.currentTimeMillis();
         try {
             runProgram(userDir + fileName);
             assertTrue(true);
             System.out.printf("Time execution: %dms%n", System.currentTimeMillis() - time);
         } catch (Throwable e) {
-            System.out.printf("Time execution: %dms%n", System.currentTimeMillis() - time);
-            e.printStackTrace();
-            assertTrue(e.getMessage(), false);
+            if (checkExpcetion) {
+                System.out.printf("Time execution: %dms%n", System.currentTimeMillis() - time);
+                e.printStackTrace();
+                fail(e.getMessage());
+            } else {
+                throw e;
+            }
         }
     }
 

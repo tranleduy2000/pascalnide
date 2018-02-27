@@ -383,7 +383,7 @@ public class SystemLibrary extends PascalLibrary {
 
 
     @PascalMethod(description = "Convert a char to uppercase.")
-    public char UpCase(char s) {
+    public char UpCase(Character s) {
         return Character.toUpperCase(s);
     }
 
@@ -427,8 +427,7 @@ public class SystemLibrary extends PascalLibrary {
     }
 
     @PascalMethod(description = "Insert one string in another.")
-    public void Insert(StringBuilder s, PascalReference<StringBuilder> s1, int pos)
-            {
+    public void Insert(StringBuilder s, PascalReference<StringBuilder> s1, int pos) {
         s1.set(new StringBuilder(s1.get()).insert(pos - 1, s));
     }
 

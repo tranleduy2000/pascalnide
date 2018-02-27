@@ -23,7 +23,7 @@ package com.duy.pascal.interpreter;
 public class BooleanTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "C:\\github\\pascalnide\\test_pascal\\test_boolean";
+        return "test_boolean";
     }
 
     public void testtest1() {

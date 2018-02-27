@@ -325,6 +325,7 @@ public class PascalLibraryManager {
                             if (t1Class.equals(t2Class)) {
                                 continue;
                             }
+
                             if (TypeConverter.isPrimitive(t1Class) && TypeConverter.isPrimitive(t2Class)) {
                                 if (!types1[i].equals(types2[i])) {
                                     if (TypeConverter.isLowerThanPrecedence(t1Class, t2Class)) {

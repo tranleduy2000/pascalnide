@@ -177,4 +177,6 @@ public class SystemFunctionTest extends BaseTestCase {
         run("Str2.pas");
         run("Str2.pas");
     }
+
+
 }
