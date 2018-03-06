@@ -16,10 +16,10 @@
 
 package com.duy.pascal.interperter.libraries.file;
 
+import com.duy.pascal.interperter.exceptions.runtime.InvalidNumericFormatException;
 import com.duy.pascal.interperter.libraries.file.exceptions.DiskReadErrorException;
 import com.duy.pascal.interperter.libraries.file.exceptions.FileNotOpenException;
 import com.duy.pascal.interperter.libraries.file.exceptions.PascalIOException;
-import com.duy.pascal.interperter.exceptions.runtime.InvalidNumericFormatException;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -28,6 +28,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.io.Writer;
 import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
@@ -39,7 +40,7 @@ class FileEntry {
     private static Pattern WHITESPACE_PATTERN = Pattern.compile(
             "\\p{javaWhitespace}+");
     private String mFilePath = "";
-    private BufferedWriter mWriter;
+    private Writer mWriter;
     private Scanner fileScanner;
     private Scanner lineScanner;
     private boolean opened = false;
@@ -85,9 +86,10 @@ class FileEntry {
     public synchronized void append() throws IOException {
         File f = new File(mFilePath);
         if (!f.exists()) {
+            f.getParentFile().mkdirs();
             f.createNewFile();
         }
-        mWriter = new BufferedWriter(new FileWriter(f));
+        mWriter = (new BufferedWriter(new FileWriter(f, true)));
         setOpened(true);
     }
 
@@ -105,7 +107,7 @@ class FileEntry {
         RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
         randomAccessFile.setLength(0);
         randomAccessFile.close();
-        mWriter = new BufferedWriter(new FileWriter(file));
+        mWriter = (new BufferedWriter(new FileWriter(file)));
         setOpened(true);
     }
 

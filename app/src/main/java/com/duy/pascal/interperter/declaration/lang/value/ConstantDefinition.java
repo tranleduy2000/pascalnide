@@ -83,6 +83,7 @@ public class ConstantDefinition implements NamedEntity {
         this.value = value;
     }
 
+    @Nullable
     public LineNumber getLineNumber() {
         return line;
     }

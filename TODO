@@ -1,0 +1,2 @@
+The app is good, but there are downsides. Such as append () function does not work correctly. It should not erase the file before adding a new line. But I found in the examples section of an example of system files, which you can read rows from the .txt file and add. But even there, before adding, all erased what was in the file ((
+

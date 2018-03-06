@@ -234,6 +234,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
         return returnType() != null ? "function" : "procedure";
     }
 
+    @Nullable
     @Override
     public LineNumber getLineNumber() {
         if (mInstance != null) {

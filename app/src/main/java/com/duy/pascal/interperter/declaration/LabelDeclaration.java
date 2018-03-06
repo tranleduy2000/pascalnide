@@ -41,6 +41,7 @@ public class LabelDeclaration implements NamedEntity, Cloneable{
         return name;
     }
 
+    @Nullable
     public LineNumber getLineNumber() {
         return line;
     }

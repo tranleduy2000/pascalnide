@@ -292,6 +292,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         return isProcedure ? "procedure" : "function";
     }
 
+    @Nullable
     @Override
     public LineNumber getLineNumber() {
         return startPosition;

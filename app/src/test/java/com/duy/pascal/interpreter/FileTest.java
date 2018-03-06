@@ -57,4 +57,5 @@ public class FileTest extends BaseTestCase {
     public void testEndOfLine() {
         run("test_eoln.pas");
     }
+
 }

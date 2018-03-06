@@ -44,8 +44,8 @@ public interface Type extends NamedEntity, Member {
     @Nullable
     RuntimeValue generateArrayAccess(RuntimeValue array, RuntimeValue index) throws NonArrayIndexed;
 
+    @Nullable
     @Override
-    @NonNull
     LineNumber getLineNumber();
 
     void setLineNumber(@NonNull LineNumber lineNumber);

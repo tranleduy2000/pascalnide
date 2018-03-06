@@ -113,7 +113,7 @@ public abstract class SubrangeType<T extends Comparable> extends TypeInfo implem
 
     public abstract boolean contains(SubrangeType other);
 
-    @NonNull
+    @Nullable
     @Override
     public LineNumber getLineNumber() {
         return lineNumber;

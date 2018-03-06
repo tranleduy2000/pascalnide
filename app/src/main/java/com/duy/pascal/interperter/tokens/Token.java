@@ -27,10 +27,10 @@ import com.duy.pascal.interperter.linenumber.LineNumber;
  */
 
 public abstract class Token implements IToken {
-    @NonNull
+    @Nullable
     protected final LineNumber lineNumber;
 
-    public Token(@NonNull LineNumber lineNumber) {
+    public Token(@Nullable LineNumber lineNumber) {
         this.lineNumber = lineNumber;
     }
 
@@ -49,12 +49,13 @@ public abstract class Token implements IToken {
         return false;
     }
 
-    @NonNull
+    @Nullable
     public LineNumber getLineNumber() {
         return this.lineNumber;
     }
-@NonNull
-@Override
+
+    @NonNull
+    @Override
     public String toCode() {
         return toString();
     }

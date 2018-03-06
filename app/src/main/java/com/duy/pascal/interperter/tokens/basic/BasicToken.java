@@ -11,7 +11,9 @@ public abstract class BasicToken extends Token implements Serializable, Cloneabl
 
     public BasicToken(@NonNull LineNumber line) {
         super(line);
-        this.lineNumber.setLength(toString().length());
+        if (lineNumber != null) {
+            this.lineNumber.setLength(toString().length());
+        }
     }
 
     public abstract String toString();

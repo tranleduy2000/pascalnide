@@ -16,6 +16,8 @@
 
 package com.duy.pascal.interperter.linenumber;
 
+import android.support.annotation.Nullable;
+
 /**
  * Created by Duy on 1/30/2018.
  */
@@ -24,5 +26,6 @@ public interface ISourcePosition {
     /**
      * @return current line of source code or token
      */
+    @Nullable
     LineNumber getLineNumber();
 }

@@ -17,6 +17,7 @@
 package com.duy.pascal.interperter.declaration.lang.types;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.declaration.Name;
 import com.duy.pascal.interperter.linenumber.LineNumber;
@@ -41,7 +42,7 @@ public abstract class TypeInfo implements Type, Serializable {
         return modifier;
     }
 
-    @NonNull
+    @Nullable
     @Override
     public LineNumber getLineNumber() {
         return lineNumber;

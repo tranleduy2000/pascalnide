@@ -1,6 +1,7 @@
 package com.duy.pascal.interperter.declaration.lang.types;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
@@ -314,7 +315,7 @@ public enum BasicType implements Type {
         return clazz;
     }
 
-    @NonNull
+    @Nullable
     @Override
     public LineNumber getLineNumber() {
         if (lineNumber == null) {

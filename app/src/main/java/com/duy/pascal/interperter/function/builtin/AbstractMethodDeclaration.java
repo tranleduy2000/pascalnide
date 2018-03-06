@@ -18,6 +18,7 @@ package com.duy.pascal.interperter.function.builtin;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.value.FunctionCall;
@@ -38,6 +39,7 @@ public class AbstractMethodDeclaration extends AbstractFunction {
         this.t = t;
     }
 
+    @Nullable
     @Override
     public LineNumber getLineNumber() {
         return new LineNumber(-1, t.getClass().getCanonicalName());

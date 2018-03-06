@@ -94,6 +94,7 @@ public class VariableDeclaration extends NameEntityImpl implements Cloneable {
         this.initialValue = initialValue;
     }
 
+    @Nullable
     public LineNumber getLineNumber() {
         return line;
     }
