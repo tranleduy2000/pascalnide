@@ -298,6 +298,10 @@ public class EditorActivity extends BaseEditorActivity implements DrawerLayout.D
             showErrorDialog(e.getParseException());
             showLineError(e.getParseException());
             return false;
+        } catch (ParsingException e) {
+            showErrorDialog(e);
+            showLineError(e);
+            return false;
         } catch (Exception e) {
             showErrorDialog(e);
             return false;
