@@ -86,6 +86,14 @@ public abstract class SubrangeType<T extends Comparable> extends TypeInfo implem
             }
             size = size - i1 + 1; //size of range
             return new IntegerSubrangeType(i1, size);
+        } else if (TypeUtils.isCharType(firstType.getRawType().getStorageClass())) {
+            Integer i1 = (int) (char) v1; //first value
+            Integer size = (int) (char) v2; //last value
+            if (i1 > size) {
+                throw new LowerGreaterUpperBoundException(i1, size, first.getLineNumber());
+            }
+            size = size - i1 + 1; //size of range
+            return new IntegerSubrangeType(i1, size);
         } else if (TypeUtils.isRealType(firstType.getRawType().getStorageClass())) {
             Double d1 = Double.valueOf(v1.toString());
             Double d2 = Double.valueOf(v2.toString());

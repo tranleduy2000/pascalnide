@@ -78,7 +78,6 @@ import com.duy.pascal.interperter.exceptions.parsing.value.NonConstantExpression
 import com.duy.pascal.interperter.exceptions.parsing.value.NonIntegerException;
 import com.duy.pascal.interperter.exceptions.parsing.value.UnAssignableTypeException;
 import com.duy.pascal.interperter.linenumber.LineNumber;
-import com.duy.pascal.interperter.tokens.other.EOFToken;
 import com.duy.pascal.interperter.tokens.OperatorToken;
 import com.duy.pascal.interperter.tokens.Token;
 import com.duy.pascal.interperter.tokens.TokenUtil;
@@ -107,6 +106,7 @@ import com.duy.pascal.interperter.tokens.basic.WhileToken;
 import com.duy.pascal.interperter.tokens.basic.WithToken;
 import com.duy.pascal.interperter.tokens.ignore.CommentToken;
 import com.duy.pascal.interperter.tokens.ignore.GroupingExceptionToken;
+import com.duy.pascal.interperter.tokens.other.EOFToken;
 import com.duy.pascal.interperter.tokens.value.ValueToken;
 
 import java.lang.reflect.Method;
@@ -468,6 +468,7 @@ public abstract class GrouperToken extends Token {
             pascalType = new EnumSubrangeType((EnumGroupType) pascalType);
         }
         if (!(pascalType instanceof IntegerRange)) {
+            System.err.println("Can not handle " + pascalType);
             throw new RuntimeException();
             //// TODO: 14-Jun-17  check exception
         }

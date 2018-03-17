@@ -149,6 +149,10 @@ public class TypeUtils {
         return integerTypes.get(type) != null;
     }
 
+    public static boolean isCharType(Class type) {
+        return type.equals(Character.class) || type.equals(char.class);
+    }
+
     public static boolean isRealType(Class type) {
         return realTypes.get(type) != null;
     }

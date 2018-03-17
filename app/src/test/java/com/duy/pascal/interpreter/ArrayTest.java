@@ -49,4 +49,11 @@ public class ArrayTest extends BaseTestCase {
     public void testParseArrayInFun() {
         run("test_parse_array_in_function.pas");
     }
+
+    public void testCharArray(){
+        run("test_char_array.pas");
+    }
+    public void testCharArrayAccess(){
+        run("test_char_array_access.pas");
+    }
 }
