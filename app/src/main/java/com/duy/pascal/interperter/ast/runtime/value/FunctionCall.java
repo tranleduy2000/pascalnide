@@ -26,6 +26,12 @@ public abstract class FunctionCall extends DebuggableNodeReturnValue {
     public RuntimeValue[] arguments;
     private LineNumber lineNumber;
 
+    /**
+     * @param name              - function name
+     * @param arguments         - arguments of function
+     * @param expressionContext - current context
+     * @throws Exception - if function not found or arguments can not fit
+     */
     public static FunctionCall generateFunctionCall(WordToken name, List<RuntimeValue> arguments,
                                                     ExpressionContext expressionContext)
             throws Exception {
@@ -99,10 +105,9 @@ public abstract class FunctionCall extends DebuggableNodeReturnValue {
     protected abstract Name getFunctionName();
 
     @Override
-    public ExecutionResult executeImpl(VariableContext f,
-                                       RuntimeExecutableCodeUnit<?> main)
+    public ExecutionResult visitImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        Object valueImpl = getValueImpl(f, main);
+        Object valueImpl = getValueImpl(context, main);
         if (valueImpl == ExecutionResult.EXIT) {
             return ExecutionResult.EXIT;
         }

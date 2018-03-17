@@ -66,7 +66,7 @@ public class ClassFunctionCall extends DebuggableNodeReturnValue {
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public ExecutionResult visitImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         if (classVarContext == null) {
             classVarContext = main.getRuntimePascalClassContext(container);

@@ -16,7 +16,6 @@
 
 package com.duy.pascal.interperter.ast.runtime.value;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
@@ -54,7 +53,7 @@ public class NullValue implements RuntimeValue {
     @Nullable
     @Override
     public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        return null;
+        return NULL;
     }
 
     @Nullable

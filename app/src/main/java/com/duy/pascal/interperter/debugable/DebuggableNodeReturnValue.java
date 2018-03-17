@@ -62,7 +62,7 @@ public abstract class DebuggableNodeReturnValue implements Node, RuntimeValue {
             boolean last = main.isDebug();
             onPreExecute(main);
 
-            ExecutionResult result = executeImpl(context, main);
+            ExecutionResult result = visitImpl(context, main);
 
             onPostExecute(main, last);
             return result;
@@ -94,7 +94,9 @@ public abstract class DebuggableNodeReturnValue implements Node, RuntimeValue {
         }
     }
 
-    public abstract ExecutionResult executeImpl(VariableContext f,
-                                                RuntimeExecutableCodeUnit<?> main)
+    /**
+     * Implement visit method
+     */
+    public abstract ExecutionResult visitImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException;
 }

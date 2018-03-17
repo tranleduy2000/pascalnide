@@ -27,14 +27,16 @@ import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
-import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.function.io.OutputFormatter;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 import com.duy.pascal.interperter.utils.NullSafety;
 
 import static com.duy.pascal.interperter.utils.NullSafety.zReturn;
 
 /**
  * Created by Duy on 13-Jun-17.
+ * <p>
+ * Support print to console with special format
  */
 
 public class OutputValue implements RuntimeValue {
@@ -72,8 +74,7 @@ public class OutputValue implements RuntimeValue {
             }
             return out;
         } else {
-            StringBuilder out = new StringBuilder(OutputFormatter.getValueOutput(value));
-            return out;
+            return new StringBuilder(OutputFormatter.getValueOutput(value));
         }
     }
 

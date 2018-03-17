@@ -52,9 +52,9 @@ public class WithNode extends DebuggableNodeReturnValue {
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext f,
-                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        Object valueImpl = getValueImpl(f, main);
+    public ExecutionResult visitImpl(VariableContext context,
+                                     RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+        Object valueImpl = getValueImpl(context, main);
         if (valueImpl == ExecutionResult.EXIT) {
             return ExecutionResult.EXIT;
         }

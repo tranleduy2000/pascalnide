@@ -40,18 +40,13 @@ public class StringTest extends BaseTestCase {
     }
 
     public void testStringIndex() {
-        try {
-            run("test_string_index.pas", false);
-            fail();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        run("test_string_index.pas");
     }
 
     public void testStringIndex2() {
     }
 
-    public void testUpcase(){
+    public void testUpcase() {
         run("upcase.pas");
     }
 }
