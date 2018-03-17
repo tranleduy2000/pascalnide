@@ -6,13 +6,13 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.ast.runtime.value.AssignableValue;
 import com.duy.pascal.interperter.ast.runtime.value.NullValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
-import com.duy.pascal.interperter.linenumber.LineNumber;
-import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
 public class StringBuilderCloner implements RuntimeValue {
     private RuntimeValue value;
@@ -32,7 +32,7 @@ public class StringBuilderCloner implements RuntimeValue {
     public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         Object result = value.getValue(context, main);
-        if (result instanceof NullValue) {
+        if (result instanceof NullValue || result == null) {
             return result;
         }
         return new StringBuilder(result.toString());
@@ -51,12 +51,10 @@ public class StringBuilderCloner implements RuntimeValue {
 
     @Override
     public void setLineNumber(LineNumber lineNumber) {
-
     }
 
     @Override
-    public Object compileTimeValue(CompileTimeContext context)
-            throws Exception {
+    public Object compileTimeValue(CompileTimeContext context) throws Exception {
         Object val = value.compileTimeValue(context);
         if (val != null) {
             return new StringBuilder((StringBuilder) val);
@@ -65,8 +63,7 @@ public class StringBuilderCloner implements RuntimeValue {
     }
 
     @Override
-    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws Exception {
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
         return new StringBuilderCloner(value);
     }
 
