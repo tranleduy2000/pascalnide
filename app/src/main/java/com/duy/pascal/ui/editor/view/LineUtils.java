@@ -30,6 +30,18 @@ public class LineUtils {
     private boolean[] toCountLinesArray;
     private int[] realLines;
 
+    /**
+     * @param editable - edit text
+     * @param line   - current line
+     * @param col    - column index at current line
+     * @return the index at (line:col)
+     */
+    public static int getIndexFromLineCol(Layout editable, int line, int col) {
+        int index = editable.getLineStart(line);
+        index += col;
+        return Math.min(index, editable.getText().length());
+    }
+
     public static int getYAtLine(ScrollView scrollView, int lineCount, int line) {
         if (lineCount == 0) return 0;
         return scrollView.getChildAt(0).getHeight() / lineCount * line;

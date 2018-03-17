@@ -784,12 +784,16 @@ public abstract class HighlightEditor extends CodeSuggestsEditText implements Vi
         mEnableSyntaxParser = true;
     }
 
+    public void moveCursorTo(int index) {
+        index = Math.max(0, index);
+        index = Math.min(index, length());
+        setSelection(index);
+    }
 
     /**
      * Class that listens to changes in the text.
      */
-    private final class EditTextChangeListener
-            implements TextWatcher {
+    private final class EditTextChangeListener implements TextWatcher {
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }

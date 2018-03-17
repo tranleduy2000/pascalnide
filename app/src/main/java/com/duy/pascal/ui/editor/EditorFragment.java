@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -233,8 +234,12 @@ public class EditorFragment extends Fragment implements ICodeEditor {
         return mCodeEditor;
     }
 
+    @UiThread
     public void setLineError(@NonNull final LineNumber lineNumber) {
         mCodeEditor.setLineError(lineNumber);
+        mCodeEditor.requestFocus();
+        mCodeEditor.moveCursorTo(LineUtils.getIndexFromLineCol(mCodeEditor.getLayout(),
+                lineNumber.getLine(), lineNumber.getColumn()));
         mCodeEditor.refresh();
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -244,7 +249,7 @@ public class EditorFragment extends Fragment implements ICodeEditor {
                             mCodeEditor.getLineCount(), lineNumber.getLine()));
                 }
             }
-        }, 100);
+        }, 200);
     }
 
     public void refreshCodeEditor() {
