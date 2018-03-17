@@ -49,10 +49,7 @@ public class ArrayBoxer extends DebuggableReturnValue {
     @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
-        throw new ParsingException(
-                line,
-                "Attempted to get type of varargs boxer. This should not happen as" +
-                        " we are only supposed to pass varargs to plugins");
+        throw new ParsingException(line, "Attempted to get type of varargs boxer.");
     }
 
     @Override
@@ -61,12 +58,12 @@ public class ArrayBoxer extends DebuggableReturnValue {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValueImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         Object[] result = (Object[]) Array.newInstance(type.getRuntimeClass(),
                 values.length);
         for (int i = 0; i < values.length; i++) {
-            result[i] = values[i].getValue(f, main);
+            result[i] = values[i].getValue(context, main);
         }
         return result;
     }

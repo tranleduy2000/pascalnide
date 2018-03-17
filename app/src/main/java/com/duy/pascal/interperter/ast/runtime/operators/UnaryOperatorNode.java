@@ -105,7 +105,7 @@ public abstract class UnaryOperatorNode extends DebuggableReturnValue {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValueImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         boolean debug = main.isDebug();
         if (debug) {
@@ -113,7 +113,7 @@ public abstract class UnaryOperatorNode extends DebuggableReturnValue {
             main.setDebug(false);
         }
 
-        Object value = childNode.getValue(f, main);
+        Object value = childNode.getValue(context, main);
         Object result = operate(value);
 
         //restore mode

@@ -33,7 +33,7 @@ public class StringIndexReference implements Reference {
         try {
             container.setCharAt(index - 1, (char) value);
         } catch (StringIndexOutOfBoundsException e) {
-            throw new PascalStringIndexOutOfBoundsException(index);
+            //throw new PascalStringIndexOutOfBoundsException(index);
         }
     }
 

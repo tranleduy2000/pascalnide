@@ -48,7 +48,7 @@ public abstract class DebuggableReturnValue implements RuntimeValue {
         return lineNumber;
     }
 
-    public abstract Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public abstract Object getValueImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException;
 
 }

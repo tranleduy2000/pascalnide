@@ -76,11 +76,11 @@ public class SetBoxer extends DebuggableReturnValue {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValueImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         LinkedList<Object> result = new LinkedList<>();
         for (RuntimeValue value : values) {
-            result.add(value.getValue(f, main));
+            result.add(value.getValue(context, main));
         }
         return result;
     }

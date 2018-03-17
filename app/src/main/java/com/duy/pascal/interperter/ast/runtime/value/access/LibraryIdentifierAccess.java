@@ -52,7 +52,7 @@ public class LibraryIdentifierAccess extends DebuggableReturnValue {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+    public Object getValueImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         return value.getValue(container, main);
     }
 

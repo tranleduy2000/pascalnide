@@ -60,9 +60,9 @@ public class StringBuilderBoxer extends DebuggableReturnValue {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValueImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        Object other = value.getValue(f, main);
+        Object other = value.getValue(context, main);
         if (other instanceof NullValue) {
             return other;
         }

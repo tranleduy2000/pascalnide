@@ -51,9 +51,9 @@ public class RangeRuntimeValue extends DebuggableReturnValue {
 
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        Object value = first.getValue(f, main);
-        Object value1 = last.getValue(f, main);
+    public Object getValueImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+        Object value = first.getValue(context, main);
+        Object value1 = last.getValue(context, main);
         return new Pair<>(value, value1);
     }
 

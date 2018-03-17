@@ -191,11 +191,11 @@ public abstract class BinaryOperatorNode extends DebuggableReturnValue {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValueImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
 
-        Object leftNode = this.leftNode.getValue(f, main); //get left value
-        Object rightNode = this.rightNode.getValue(f, main); //get right value
+        Object leftNode = this.leftNode.getValue(context, main); //get left value
+        Object rightNode = this.rightNode.getValue(context, main); //get right value
         Object result = operate(leftNode, rightNode); //operate
 
         if (main.isDebug()) {

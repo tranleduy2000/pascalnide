@@ -51,9 +51,9 @@ public class CharacterBoxer extends DebuggableReturnValue {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValueImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        return new StringBuilder(charValue.getValue(f, main).toString());
+        return new StringBuilder(charValue.getValue(context, main).toString());
     }
 
     @Override

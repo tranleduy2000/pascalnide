@@ -52,9 +52,9 @@ public class ClassIdentifierAccess extends DebuggableReturnValue {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        f = main.getRuntimePascalClassContext(container);
-        return value.getValue(f, main);
+    public Object getValueImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+        context = main.getRuntimePascalClassContext(container);
+        return value.getValue(context, main);
     }
 
     @Nullable
