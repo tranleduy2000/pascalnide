@@ -28,7 +28,6 @@ import com.duy.pascal.interperter.utils.NullSafety;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableContext {
@@ -75,11 +74,6 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
             varNames.add(variable.getName());
         }
         return varNames;
-    }
-
-    @Override
-    public List<String> getAllVariableNames() {
-        return null;
     }
 
     @Override

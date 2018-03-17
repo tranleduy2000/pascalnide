@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interperter.ast.runtime.operators.number;
+package com.duy.pascal.interperter.ast.runtime.operators.set;
+
 
 import android.support.annotation.NonNull;
 
@@ -23,17 +24,23 @@ import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorNode;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
-import com.duy.pascal.interperter.linenumber.LineNumber;
-import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
-import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.exceptions.runtime.CompileException;
+import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
+import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
+import com.duy.pascal.interperter.linenumber.LineNumber;
 
-public class JavaBiOperatorNode extends BinaryOperatorNode {
+import java.util.LinkedList;
 
-    public JavaBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
-                              OperatorTypes operator, LineNumber line) {
+/**
+ * The IN operator checks to see whether an element is in an array
+ */
+public class InBinaryOperatorNode extends BinaryOperatorNode {
+
+    public InBinaryOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
+                                OperatorTypes operator, LineNumber line) {
         super(operon1, operon2, operator, line);
     }
 
@@ -41,8 +48,7 @@ public class JavaBiOperatorNode extends BinaryOperatorNode {
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         switch (operatorType) {
-            case EQUALS:
-            case NOTEQUAL:
+            case IN:
                 return new RuntimeType(BasicType.Boolean, false);
         }
         return null;
@@ -50,15 +56,36 @@ public class JavaBiOperatorNode extends BinaryOperatorNode {
 
     @Override
     public Object operate(Object value1, Object value2)
-            throws PascalArithmeticException, InternalInterpreterException {
-        switch (operatorType) {
-            case EQUALS:
-                return value1.equals(value2);
-            case NOTEQUAL:
-                return !value1.equals(value2);
-            default:
-                throw new InternalInterpreterException(line);
+            throws PascalArithmeticException, InternalInterpreterException, CompileException {
+        //if the type of value2 is enum or set
+        if (value2 instanceof LinkedList) {
+            LinkedList v2 = (LinkedList) value2;
+            for (Object o : v2) {
+                if (o instanceof Number) {
+                    if (value1 instanceof Number) {
+                        if (((Number) o).longValue() == ((Number) value1).longValue()){
+                            return true;
+                        }
+                    }
+                } else {
+                    if (o.equals(value1)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+
         }
+        //array type
+        else if (value2 instanceof Object[]) {
+            Object[] objects = (Object[]) value2;
+            for (Object object : objects) {
+                if (value1.equals(object)) return true;
+            }
+        } else {
+            throw new CompileException();
+        }
+        return false;
     }
 
     @Override
@@ -67,11 +94,20 @@ public class JavaBiOperatorNode extends BinaryOperatorNode {
         if (val != null) {
             return new ConstantAccess<>(val, line);
         } else {
-            return new JavaBiOperatorNode(
+            return new InBinaryOperatorNode(
                     leftNode.compileTimeExpressionFold(context),
                     rightNode.compileTimeExpressionFold(context), operatorType,
                     line);
         }
     }
 
+    @Override
+    public void setLineNumber(LineNumber lineNumber) {
+
+    }
+
+    @Override
+    public boolean canDebug() {
+        return true;
+    }
 }

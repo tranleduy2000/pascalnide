@@ -22,16 +22,16 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.interperter.ast.runtime.operators.number.BoolBiOperatorNode;
-import com.duy.pascal.interperter.ast.runtime.operators.number.CharBiOperatorNode;
-import com.duy.pascal.interperter.ast.runtime.operators.number.DoubleBiOperatorNode;
-import com.duy.pascal.interperter.ast.runtime.operators.number.IntegerBiOperatorNode;
-import com.duy.pascal.interperter.ast.runtime.operators.number.JavaBiOperatorNode;
-import com.duy.pascal.interperter.ast.runtime.operators.number.LongBiOperatorNode;
-import com.duy.pascal.interperter.ast.runtime.operators.number.StringBiOperatorNode;
-import com.duy.pascal.interperter.ast.runtime.operators.set.EnumBiOperatorNode;
-import com.duy.pascal.interperter.ast.runtime.operators.set.InBiOperatorNode;
-import com.duy.pascal.interperter.ast.runtime.operators.set.SetBiOperatorNode;
+import com.duy.pascal.interperter.ast.runtime.operators.number.BoolBinaryOperatorNode;
+import com.duy.pascal.interperter.ast.runtime.operators.number.CharBinaryOperatorNode;
+import com.duy.pascal.interperter.ast.runtime.operators.number.DoubleBinaryOperatorNode;
+import com.duy.pascal.interperter.ast.runtime.operators.number.IntegerBinaryOperatorNode;
+import com.duy.pascal.interperter.ast.runtime.operators.number.JavaBinaryOperatorNode;
+import com.duy.pascal.interperter.ast.runtime.operators.number.LongBinaryOperatorNode;
+import com.duy.pascal.interperter.ast.runtime.operators.number.StringBinaryOperatorNode;
+import com.duy.pascal.interperter.ast.runtime.operators.set.EnumBinaryOperatorNode;
+import com.duy.pascal.interperter.ast.runtime.operators.set.InBinaryOperatorNode;
+import com.duy.pascal.interperter.ast.runtime.operators.set.SetBinaryOperatorNode;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.variablecontext.VariableContext;
 import com.duy.pascal.interperter.debugable.DebuggableReturnValue;
@@ -80,7 +80,7 @@ public abstract class BinaryOperatorNode extends DebuggableReturnValue {
                 || t2 instanceof JavaClassBasedType) {
             if (operatorTypes == OperatorTypes.EQUALS
                     || operatorTypes == OperatorTypes.NOTEQUAL) {
-                return new JavaBiOperatorNode(v1, v2, operatorTypes, line);
+                return new JavaBinaryOperatorNode(v1, v2, operatorTypes, line);
             }
         }
         if (t1 instanceof EnumGroupType
@@ -88,34 +88,34 @@ public abstract class BinaryOperatorNode extends DebuggableReturnValue {
             RuntimeValue converted = ((SetType) t2).getElementType().convert(v1, context);
             if (converted != null) {
                 if (operatorTypes == OperatorTypes.IN) {
-                    return new InBiOperatorNode(converted, v2, operatorTypes, line);
+                    return new InBinaryOperatorNode(converted, v2, operatorTypes, line);
                 }
             }
         }
         if (t1 instanceof EnumGroupType && t2 instanceof EnumGroupType) {
             if (t1.equals(t2)) {
-                return new EnumBiOperatorNode(v1, v2, operatorTypes, line);
+                return new EnumBinaryOperatorNode(v1, v2, operatorTypes, line);
             }
         }
         if (t1 instanceof EnumGroupType && t2.equals(BasicType.Integer)) {
-            return new EnumBiOperatorNode(v1, v2, operatorTypes, line);
+            return new EnumBinaryOperatorNode(v1, v2, operatorTypes, line);
         }
         if (t1 instanceof SetType && t2 instanceof SetType) {
             if (((SetType) t1).getElementType().equals(((SetType) t2).getElementType())) {
-                return new SetBiOperatorNode(v1, v2, operatorTypes, line);
+                return new SetBinaryOperatorNode(v1, v2, operatorTypes, line);
             }
 
         }
         if (t2 instanceof SetType) {
             if (operatorTypes == OperatorTypes.IN) {
                 if (t1.equals(((SetType) t2).getElementType())) {
-                    return new InBiOperatorNode(v1, v2, operatorTypes, line);
+                    return new InBinaryOperatorNode(v1, v2, operatorTypes, line);
                 } else {
                     Class<?> left = t1.getStorageClass();
                     Class<?> right = ((SetType) t2).getElementType().getStorageClass();
                     if (TypeConverter.isPrimitive(left) && TypeConverter.isPrimitive(right)
                             && TypeConverter.isLowerThanPrecedence(left, right)) {
-                        return new InBiOperatorNode(v1, v2, operatorTypes, line);
+                        return new InBinaryOperatorNode(v1, v2, operatorTypes, line);
                     }
                 }
             }
@@ -125,12 +125,12 @@ public abstract class BinaryOperatorNode extends DebuggableReturnValue {
             if (operatorTypes == OperatorTypes.PLUS) {
                 v1 = new AnyToStringType(v1);
                 v2 = new AnyToStringType(v2);
-                return new StringBiOperatorNode(v1, v2, operatorTypes, line);
+                return new StringBinaryOperatorNode(v1, v2, operatorTypes, line);
             } else {
                 v1 = BasicType.StringBuilder.convert(v1, context);
                 v2 = BasicType.StringBuilder.convert(v2, context);
                 if (v1 != null && v2 != null) {
-                    return new StringBiOperatorNode(v1, v2, operatorTypes, line);
+                    return new StringBinaryOperatorNode(v1, v2, operatorTypes, line);
                 } else {
                     throw new BadOperationTypeException(line, t1, t2, v1, v2,
                             operatorTypes);
@@ -142,21 +142,21 @@ public abstract class BinaryOperatorNode extends DebuggableReturnValue {
 
             v1 = TypeConverter.forceConvertRequired(BasicType.Double, v1, t1, context);
             v2 = TypeConverter.forceConvertRequired(BasicType.Double, v2, t2, context);
-            return new DoubleBiOperatorNode(v1, v2, operatorTypes, line);
+            return new DoubleBinaryOperatorNode(v1, v2, operatorTypes, line);
 
         }
         if (t1.equals(BasicType.Long) || t2.equals(BasicType.Long)) {
 
             v1 = TypeConverter.forceConvertRequired(BasicType.Long, v1, t1, context);
             v2 = TypeConverter.forceConvertRequired(BasicType.Long, v2, t2, context);
-            return new LongBiOperatorNode(v1, v2, operatorTypes, line);
+            return new LongBinaryOperatorNode(v1, v2, operatorTypes, line);
 
         }
         if (t1.equals(BasicType.Integer) || t2.equals(BasicType.Integer)) {
 
             v1 = TypeConverter.forceConvertRequired(BasicType.Integer, v1, t1, context);
             v2 = TypeConverter.forceConvertRequired(BasicType.Integer, v2, t2, context);
-            return new IntegerBiOperatorNode(v1, v2, operatorTypes, line);
+            return new IntegerBinaryOperatorNode(v1, v2, operatorTypes, line);
 
         }
         if (t1.equals(BasicType.Character) || t2.equals(BasicType.Character)) {
@@ -164,7 +164,7 @@ public abstract class BinaryOperatorNode extends DebuggableReturnValue {
             v1 = TypeConverter.forceConvertRequired(BasicType.Character, v1, t1, context);
             v2 = TypeConverter.forceConvertRequired(BasicType.Character, v2, t2, context);
 
-            return new CharBiOperatorNode(v1, v2, operatorTypes, line);
+            return new CharBinaryOperatorNode(v1, v2, operatorTypes, line);
 
         }
 
@@ -173,7 +173,7 @@ public abstract class BinaryOperatorNode extends DebuggableReturnValue {
             v1 = TypeConverter.forceConvertRequired(BasicType.Boolean, v1, t1, context);
             v2 = TypeConverter.forceConvertRequired(BasicType.Boolean, v2, t2, context);
 
-            return new BoolBiOperatorNode(v1, v2, operatorTypes, line);
+            return new BoolBinaryOperatorNode(v1, v2, operatorTypes, line);
 
         }
         throw new BadOperationTypeException(line, t1, t2, v1, v2, operatorTypes);

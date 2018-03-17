@@ -31,10 +31,10 @@ import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
 
-public class ShortBiOperatorNode extends BinaryOperatorNode {
+public class ByteBinaryOperatorNode extends BinaryOperatorNode {
 
-    public ShortBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
-                               OperatorTypes operator, LineNumber line) {
+    public ByteBinaryOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
+                                  OperatorTypes operator, LineNumber line) {
         super(operon1, operon2, operator, line);
     }
 
@@ -112,13 +112,13 @@ public class ShortBiOperatorNode extends BinaryOperatorNode {
         Object val = this.compileTimeValue(context);
         if (val != null) {
             return new ConstantAccess<>(val, line);
+
         } else {
-            return new ShortBiOperatorNode(
+            return new ByteBinaryOperatorNode(
                     leftNode.compileTimeExpressionFold(context),
                     rightNode.compileTimeExpressionFold(context), operatorType,
                     line);
         }
     }
-
 
 }

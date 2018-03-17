@@ -34,11 +34,11 @@ import com.duy.pascal.interperter.linenumber.LineNumber;
 import java.util.LinkedList;
 
 
-public class SetBiOperatorNode extends BinaryOperatorNode {
+public class SetBinaryOperatorNode extends BinaryOperatorNode {
 
 
-    public SetBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
-                             OperatorTypes operator, LineNumber line) {
+    public SetBinaryOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
+                                 OperatorTypes operator, LineNumber line) {
         super(operon1, operon2, operator, line);
     }
 
@@ -147,7 +147,7 @@ public class SetBiOperatorNode extends BinaryOperatorNode {
         if (val != null) {
             return new ConstantAccess<>(val, line);
         } else {
-            return new SetBiOperatorNode(
+            return new SetBinaryOperatorNode(
                     leftNode.compileTimeExpressionFold(context),
                     rightNode.compileTimeExpressionFold(context), operatorType,
                     line);

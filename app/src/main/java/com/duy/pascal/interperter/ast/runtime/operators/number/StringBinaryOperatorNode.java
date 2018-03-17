@@ -15,10 +15,10 @@ import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticExcep
 import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 import com.duy.pascal.interperter.linenumber.LineNumber;
 
-public class StringBiOperatorNode extends BinaryOperatorNode {
+public class StringBinaryOperatorNode extends BinaryOperatorNode {
 
-    public StringBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
-                                OperatorTypes operator, LineNumber line) {
+    public StringBinaryOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
+                                    OperatorTypes operator, LineNumber line) {
         super(operon1, operon2, operator, line);
     }
 
@@ -71,7 +71,7 @@ public class StringBiOperatorNode extends BinaryOperatorNode {
         if (val != null) {
             return new ConstantAccess<>(val, line);
         } else {
-            return new StringBiOperatorNode(
+            return new StringBinaryOperatorNode(
                     leftNode.compileTimeExpressionFold(context),
                     rightNode.compileTimeExpressionFold(context),
                     operatorType,

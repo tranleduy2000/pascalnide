@@ -29,7 +29,6 @@ import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import static com.duy.pascal.interperter.declaration.lang.function.FunctionDeclaration.RESULT_VAR;
 
@@ -125,11 +124,6 @@ public class FunctionOnStack extends VariableContext {
         ArrayList<Name> vars = new ArrayList<>(paramsName);
         vars.addAll(localVarsName);
         return vars;
-    }
-
-    @Override
-    public List<String> getAllVariableNames() {
-        return null;
     }
 
     @Override

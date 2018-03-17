@@ -147,6 +147,7 @@
     <string name="permission_denied_storage">Quyền đọc bộ nhớ ngoài bị từ chối.</string>
     <string name="declare_variable">Khai báo biến</string>
     <string name="declare_function">Khai báo hàm</string>
+    <string name="declare_function_2">Khai báo hàm \"%1$s\"</string>
     <string name="declare_constant">Khai báo hằng</string>
     <string name="auto_fix">Tự động sửa</string>
     <string name="can_not_exec_unit">Không thể chạy một unit</string>

@@ -25,7 +25,6 @@ import com.duy.pascal.interperter.exceptions.runtime.RuntimePascalException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import static com.duy.pascal.interperter.utils.NullSafety.isNullValue;
 
@@ -39,8 +38,6 @@ public abstract class VariableContext implements ContainsVariables {
     public abstract boolean setLocalVar(Name name, Object val);
 
     public abstract ArrayList<Name> getUserDefineVariableNames();
-
-    public abstract List<String> getAllVariableNames();
 
     public abstract HashMap<Name, ?> getMapVars();
 

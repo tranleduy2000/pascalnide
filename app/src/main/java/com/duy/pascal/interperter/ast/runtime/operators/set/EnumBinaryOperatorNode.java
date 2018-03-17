@@ -16,85 +16,95 @@
 
 package com.duy.pascal.interperter.ast.runtime.operators.set;
 
-
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.interperter.ast.runtime.operators.BinaryOperatorNode;
+import com.duy.pascal.interperter.ast.runtime.value.EnumElementValue;
 import com.duy.pascal.interperter.ast.runtime.value.RuntimeValue;
 import com.duy.pascal.interperter.ast.runtime.value.access.ConstantAccess;
 import com.duy.pascal.interperter.declaration.lang.types.BasicType;
 import com.duy.pascal.interperter.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.interperter.declaration.lang.types.RuntimeType;
+import com.duy.pascal.interperter.declaration.lang.types.set.EnumGroupType;
 import com.duy.pascal.interperter.exceptions.runtime.CompileException;
 import com.duy.pascal.interperter.exceptions.runtime.arith.PascalArithmeticException;
-import com.duy.pascal.interperter.exceptions.runtime.internal.InternalInterpreterException;
 import com.duy.pascal.interperter.linenumber.LineNumber;
+import com.duy.pascal.interperter.utils.NullSafety;
 
-import java.util.LinkedList;
 
-/**
- * The IN operator checks to see whether an element is in an array
- */
-public class InBiOperatorNode extends BinaryOperatorNode {
+public class EnumBinaryOperatorNode extends BinaryOperatorNode {
 
-    public InBiOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
-                            OperatorTypes operator, LineNumber line) {
+    public EnumBinaryOperatorNode(RuntimeValue operon1, RuntimeValue operon2,
+                                  OperatorTypes operator, LineNumber line) {
         super(operon1, operon2, operator, line);
     }
+
 
     @NonNull
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         switch (operatorType) {
-            case IN:
+            case EQUALS:
+            case GREATEREQ:
+            case GREATERTHAN:
+            case LESSEQ:
+            case LESSTHAN:
+            case NOTEQUAL:
                 return new RuntimeType(BasicType.Boolean, false);
+            case PLUS:
+            case MINUS:
+                EnumGroupType type = (EnumGroupType) leftNode;
+                return new RuntimeType(type, false);
+            default:
+                throw new CompileException();
+
         }
-        return null;
     }
 
     @Override
     public Object operate(Object value1, Object value2)
-            throws PascalArithmeticException, InternalInterpreterException, CompileException {
-        //if the type of value2 is enum or set
-        if (value2 instanceof LinkedList) {
-            LinkedList v2 = (LinkedList) value2;
-            for (Object o : v2) {
-                if (o instanceof Number) {
-                    if (value1 instanceof Number) {
-                        if (((Number) o).longValue() == ((Number) value1).longValue()){
-                            return true;
-                        }
-                    }
-                } else {
-                    if (o.equals(value1)) {
-                        return true;
-                    }
-                }
-            }
-            return false;
+            throws PascalArithmeticException, CompileException {
+        EnumElementValue v1 = (EnumElementValue) value1;
+        EnumElementValue v2 = (EnumElementValue) value2;
+        switch (operatorType) {
+            case EQUALS:
+                return v1.equals(v2);
 
+            case NOTEQUAL:
+                return !v1.equals(v2);
+
+            case GREATEREQ:
+                if (NullSafety.isNullValue(v1)) return true;
+                if (NullSafety.isNullValue(v2)) return false;
+                return v1.getIndex() >= v2.getIndex();
+
+            case GREATERTHAN:
+                return v1.getIndex() > v2.getIndex();
+
+            case LESSEQ:
+                if (NullSafety.isNullValue(v1)) return false;
+                if (NullSafety.isNullValue(v2)) return true;
+                return v1.getIndex() <= v2.getIndex();
+
+            case LESSTHAN:
+                return v1.getIndex() < v2.getIndex();
+
+            default:
+                throw new CompileException();
         }
-        //array type
-        else if (value2 instanceof Object[]) {
-            Object[] objects = (Object[]) value2;
-            for (Object object : objects) {
-                if (value1.equals(object)) return true;
-            }
-        } else {
-            throw new CompileException();
-        }
-        return false;
     }
 
     @Override
-    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws Exception {
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
+            throws Exception {
         Object val = this.compileTimeValue(context);
         if (val != null) {
             return new ConstantAccess<>(val, line);
+
         } else {
-            return new InBiOperatorNode(
+            return new EnumBinaryOperatorNode(
                     leftNode.compileTimeExpressionFold(context),
                     rightNode.compileTimeExpressionFold(context), operatorType,
                     line);

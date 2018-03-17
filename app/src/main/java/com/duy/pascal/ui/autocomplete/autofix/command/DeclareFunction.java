@@ -27,7 +27,6 @@ import com.duy.pascal.ui.editor.view.EditorView;
 /**
  * Created by Duy on 11/2/2017.
  */
-// TODO: 11/2/2017
 public class DeclareFunction implements AutoFixCommand {
     private UnknownIdentifierException exception;
 
@@ -39,7 +38,8 @@ public class DeclareFunction implements AutoFixCommand {
     public void execute(EditorView editable) {
         int length = 0;
         StringBuilder code = new StringBuilder();
-        code.append("function ").append(exception.getName())
+        code.append("function ")
+                .append(exception.getName())
                 .append("(): ");
         length = code.length();
         code.append(";\n")
@@ -56,7 +56,7 @@ public class DeclareFunction implements AutoFixCommand {
     @NonNull
     @Override
     public CharSequence getTitle(Context context) {
-        return context.getString(R.string.declare_function);
+        return context.getString(R.string.declare_function_2, exception.getName());
     }
 
 }

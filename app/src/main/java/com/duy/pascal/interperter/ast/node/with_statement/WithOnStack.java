@@ -30,7 +30,6 @@ import com.duy.pascal.ui.debug.CallStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 public class WithOnStack extends VariableContext {
@@ -108,11 +107,6 @@ public class WithOnStack extends VariableContext {
     public ArrayList<Name> getUserDefineVariableNames() {
         Set<Name> names = fieldsMap.keySet();
         return new ArrayList<>(names);
-    }
-
-    @Override
-    public List<String> getAllVariableNames() {
-        return null;
     }
 
     @Override
