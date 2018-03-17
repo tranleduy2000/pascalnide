@@ -64,6 +64,7 @@
         <item>日本語</item>
         <item>Bahasa Indonesia</item>
         <item>Portuguese (Portugal)</item>
+        <item>Dutch</item>
     </string-array>
 
     <string-array name="language_code" translatable="false">
@@ -79,6 +80,7 @@
         <item>ja</item>
         <item>in</item>
         <item>zh_rPT</item>
+        <item>nl</item>
     </string-array>
 
 </resources>
