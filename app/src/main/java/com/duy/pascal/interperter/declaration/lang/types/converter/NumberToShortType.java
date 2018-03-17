@@ -17,6 +17,7 @@
 package com.duy.pascal.interperter.declaration.lang.types.converter;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
@@ -43,7 +44,7 @@ public class NumberToShortType implements RuntimeValue {
     }
 
 
-    @NonNull
+    @Nullable
     @Override
     public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
@@ -51,7 +52,7 @@ public class NumberToShortType implements RuntimeValue {
         return i.shortValue();
     }
 
-    @NonNull
+    @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context)
             throws Exception {

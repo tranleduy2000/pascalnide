@@ -17,6 +17,7 @@
 package com.duy.pascal.interperter.ast.runtime.value.access;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
@@ -87,7 +88,7 @@ public class VariableAccess extends DebuggableAssignableNode {
         return name.toString();
     }
 
-    @NonNull
+    @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         return new RuntimeType(declaration.getVariableDefinition(name).type, true);

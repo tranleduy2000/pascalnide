@@ -90,7 +90,7 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
         }
     }
 
-    @NonNull
+    @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) {
         if (type != null) {

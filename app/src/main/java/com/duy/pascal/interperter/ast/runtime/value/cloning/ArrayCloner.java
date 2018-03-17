@@ -1,6 +1,7 @@
 package com.duy.pascal.interperter.ast.runtime.value.cloning;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
@@ -22,14 +23,14 @@ public class ArrayCloner<T> implements RuntimeValue {
         this.r = r2;
     }
 
-    @NonNull
+    @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         return r.getRuntimeType(context);
     }
 
 
-    @NonNull
+    @Nullable
     @Override
     public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {

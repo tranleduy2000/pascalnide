@@ -78,7 +78,7 @@ public class ClassFunctionCall extends DebuggableNodeReturnValue {
         return ExecutionResult.NOPE;
     }
 
-    @NonNull
+    @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         return function.getRuntimeType(context);

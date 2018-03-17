@@ -53,7 +53,7 @@ public class OutputValue implements RuntimeValue {
     }
 
 
-    @NonNull
+    @Nullable
     @Override
     public StringBuilder getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Object value = target.getValue(context, main);
@@ -77,7 +77,7 @@ public class OutputValue implements RuntimeValue {
         }
     }
 
-    @NonNull
+    @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         return new RuntimeType(BasicType.StringBuilder, false);

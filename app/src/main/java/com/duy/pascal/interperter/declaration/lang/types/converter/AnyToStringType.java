@@ -1,6 +1,7 @@
 package com.duy.pascal.interperter.declaration.lang.types.converter;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
@@ -20,7 +21,7 @@ public class AnyToStringType implements RuntimeValue {
         this.value = value;
     }
 
-    @NonNull
+    @Nullable
     @Override
     public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
@@ -33,7 +34,7 @@ public class AnyToStringType implements RuntimeValue {
         return value.toString();
     }
 
-    @NonNull
+    @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context)
             throws Exception {

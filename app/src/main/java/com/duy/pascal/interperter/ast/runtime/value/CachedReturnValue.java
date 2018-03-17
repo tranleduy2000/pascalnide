@@ -1,6 +1,7 @@
 package com.duy.pascal.interperter.ast.runtime.value;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
@@ -18,7 +19,7 @@ public class CachedReturnValue implements RuntimeValue {
         this.other = other;
     }
 
-    @NonNull
+    @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         return other.getRuntimeType(context);
@@ -53,7 +54,7 @@ public class CachedReturnValue implements RuntimeValue {
         return null;
     }
 
-    @NonNull
+    @Nullable
     @Override
     public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {

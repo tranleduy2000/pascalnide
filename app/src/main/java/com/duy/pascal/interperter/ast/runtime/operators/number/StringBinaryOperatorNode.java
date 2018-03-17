@@ -2,6 +2,7 @@ package com.duy.pascal.interperter.ast.runtime.operators.number;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
@@ -23,7 +24,7 @@ public class StringBinaryOperatorNode extends BinaryOperatorNode {
     }
 
 
-    @NonNull
+    @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         switch (operatorType) {

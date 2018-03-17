@@ -51,13 +51,13 @@ public class NullValue implements RuntimeValue {
         return obj == null || obj instanceof NullValue;
     }
 
-    @NonNull
+    @Nullable
     @Override
     public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         return null;
     }
 
-    @NonNull
+    @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         return null;

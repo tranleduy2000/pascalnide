@@ -1,6 +1,7 @@
 package com.duy.pascal.interperter.debugable;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.ExpressionContext;
@@ -17,7 +18,7 @@ public abstract class DebuggableAssignableNode implements AssignableValue {
     public abstract boolean canDebug();
 
 
-    @NonNull
+    @Nullable
     @Override
     public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {

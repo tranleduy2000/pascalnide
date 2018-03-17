@@ -56,7 +56,7 @@ public class LibraryIdentifierAccess extends DebuggableReturnValue {
         return value.getValue(container, main);
     }
 
-    @NonNull
+    @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         return value.getRuntimeType(context);

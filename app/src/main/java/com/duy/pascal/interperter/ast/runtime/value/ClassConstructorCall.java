@@ -17,6 +17,7 @@
 package com.duy.pascal.interperter.ast.runtime.value;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.ui.debug.DebugManager;
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
@@ -99,7 +100,7 @@ public class ClassConstructorCall extends FunctionCall {
         return result;
     }
 
-    @NonNull
+    @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) {
         return new RuntimeType(constructor.returnType(), false);

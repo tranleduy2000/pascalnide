@@ -57,7 +57,7 @@ public class RangeRuntimeValue extends DebuggableReturnValue {
         return new Pair<>(value, value1);
     }
 
-    @NonNull
+    @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         return null;

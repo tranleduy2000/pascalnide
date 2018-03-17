@@ -1,6 +1,5 @@
 package com.duy.pascal.interperter.ast.runtime.value;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
@@ -16,14 +15,14 @@ public interface RuntimeValue {
     /**
      * @return value of variable or function, or constant
      */
-    @NonNull
+    @Nullable
     Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException;
 
     /**
      * @return type of variable, function, or constant
      */
-    @NonNull
+    @Nullable
     RuntimeType getRuntimeType(ExpressionContext context) throws Exception;
 
     /**

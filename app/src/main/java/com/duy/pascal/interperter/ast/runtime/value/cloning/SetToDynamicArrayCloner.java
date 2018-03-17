@@ -17,6 +17,7 @@
 package com.duy.pascal.interperter.ast.runtime.value.cloning;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
@@ -45,7 +46,7 @@ public class SetToDynamicArrayCloner implements RuntimeValue {
         this.array = array;
     }
 
-    @NonNull
+    @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         RuntimeType type = array.getRuntimeType(context);
@@ -55,7 +56,7 @@ public class SetToDynamicArrayCloner implements RuntimeValue {
     }
 
 
-    @NonNull
+    @Nullable
     @Override
     public Object getValue(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {

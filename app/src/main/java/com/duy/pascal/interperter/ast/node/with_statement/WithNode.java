@@ -17,6 +17,7 @@
 package com.duy.pascal.interperter.ast.node.with_statement;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
@@ -81,7 +82,7 @@ public class WithNode extends DebuggableNodeReturnValue {
         return ExecutionResult.NOPE;
     }
 
-    @NonNull
+    @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) {
         return null;

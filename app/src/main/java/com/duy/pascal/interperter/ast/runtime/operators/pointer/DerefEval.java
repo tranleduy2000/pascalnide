@@ -17,6 +17,7 @@
 package com.duy.pascal.interperter.ast.runtime.operators.pointer;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.interperter.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.interperter.ast.expressioncontext.CompileTimeContext;
@@ -58,7 +59,7 @@ public class DerefEval extends DebuggableAssignableNode {
         return (Reference) pointer.getValue(f, main);
     }
 
-    @NonNull
+    @Nullable
     @Override
     public RuntimeType getRuntimeType(ExpressionContext context) throws Exception {
         RuntimeType pointertype = pointer.getRuntimeType(context);
