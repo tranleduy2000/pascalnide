@@ -15,7 +15,7 @@
 ~ limitations under the License.
 -->
 <resources>
-    <string name="ExpectedTokenException_3">Syntax error, \"%1$s\" expected but \"%2$s\" found</string>
+    <string name="ExpectedTokenException_3">"Error de sintanxis, se esperaba \"%1$s\" pero fue encontrado \"%2$s\" "</string>
     <string name="BadFunctionCallException_1">Uno o mas argumentos tienen un tipo incorrecto cuando se llama a la función \"%1$s\"</string>
     <string name="BadFunctionCallException_2">Muy pocos ó muchos argumentos están siendo pasados a función \"%1$s\"</string>
     <string name="BadFunctionCallException_3">No se puede llamar a la funcón \"%1$s\" , no esta definido.</string>
@@ -25,7 +25,7 @@
     <string name="UNFINISHED_BEGIN_END">Estructura begin - end sin terminar</string>
     <string name="UNFINISHED_PARENTHESES">Se te olvido cerrar uno o más parentesis</string>
     <string name="UNFINISHED_BRACKETS">Se te olvido cerrar un o más corchetes</string>
-    <string name="unbalance_end">Open and close are unbalanced, one token \"%1$s\" in position (%2$s:%3$s) and one token \"%4$s\" in position (%5$s:%6$s)</string>
+    <string name="unbalance_end">Apertura y cerrado desbalanceado, un token \"%1$s\" en posicion (%2$s:%3$s) y un token \"%4$s\" en posicion (%5$s:%6$s)</string>
     <string name="IO_EXCEPTION">Ocurrio un problema IOException mientras se leía la entrada</string>
     <string name="INCOMPLETE_CHAR">Carácter literal incompleto</string>
     <string name="MISSING_INCLUDE">Archivo a incluir inexistente</string>
@@ -42,22 +42,25 @@
     <string name="NonConstantExpressionException">La expresión \"%1$s\" no es una constante.</string>
     <string name="NonIntegerIndexException">Los valores indexados de array deben ser enteros: \"%1$s\"</string>
     <string name="NoSuchFunctionOrVariableException">\"%1$s\" no es una variable o nombre de una función</string>
+    <string name="VariableIdentifierExpectException">\"%1$s\" no es una variable</string>
     <string name="NotAStatementException">\"%1$s\" no es una instrucción por si misma.</string>
+    <string name="NotAStatementException2">\"%1$s\" no es una sentencia.</string>
     <string name="OverridingFunctionException">Reedifiniendo función a \"%1$s\", que previamente estaba definida a \"%1$s\"</string>
     <string name="SameNameException">\"%1$s\" \"%2$s\" conflictos con \"%3$s\" previamente definida con el mismo nombre que %4$s</string>
     <string name="UnAssignableTypeException">La expreción \"%1$s\" no puede tener un valor asignada.</string>
     <string name="UnrecognizedTypeException">El tipo \"%1$s\" no esta definido.</string>
-    <string name="PascalArithmeticException">Expreción aritmetica: \"%1$s\"</string>
+    <string name="PascalArithmeticException">Excepción aritmetica: \"%1$s\"</string>
     <string name="PluginCallException">Cuando se llama a la funcion o procedimiento \"%1$s\", ocurre la siguiente excepción de Java: \"%2$s\"</string>
     <string name="DiskReadErrorException">Ocurrio un error mientras se leeía desde el disco. Normalmente sucede cuando intentas leer pasado el final del archivo.</string>
-    <string name="FileNotAssignException">Esto se informa por Reset, Rewritten, Append, Rename startY Erase, si los llamas con un archivo sin asignación como parametro.</string>
+    <string name="FileNotAssignException">Esto se reporta por Reset, Rewrite, Append, Rename y Erase, si los llamas con un archivo sin asignar como parametro</string>
     <string name="FileNotFoundException">Se informa cuando se intenta Erase, Rename o Open con un archivo inexistente.</string>
     <string name="FileNotOpenException">Informado por las siguientes funciones : Close, Read, Write, Seek, EOf, FilePos, FileSize, Flush, BlockRead startY BlockWrite si el archivo no esta abierto.</string>
     <string name="FileNotOpenForInputException">Informado por Read, BlockRead, Eof, Eoln, SeekEof o SeekEoln si el archivo no esta abierto con Reset.</string>
     <string name="DivisionByZeroException">La aplicación intento dividir un numero por cero.</string>
     <string name="CanNotReadVariableException">No se pueden leer variables de este tipo</string>
-    <string name="InvalidNumericFormatException">Informado cuando un valor no-numerico se intenta leer desde un archivo de texto, startY se esperaba un valor numerico.</string>
+    <string name="InvalidNumericFormatException">Ocurre cuando un valor no-numerico se intenta leer desde un archivo de texto, y se esperaba un valor numerico.</string>
     <string name="NonIntegerException">El valor debe ser integer: \"%1$s\"</string>
+    <string name="ChangeValueConstantException2">El valor almacenado en la constante \"%1$s\" no puede ser cambiado.</string>
     <string name="token_not_belong">"El siguiente simbolo no pertenece aquí: "</string>
     <string name="SubRangeException">El limite superior del rango es menor que el limite inferior del mismo.\n
         Actualmente el inferior es \"%1$s\" y el superior es \"%2$s\"</string>
@@ -65,11 +68,19 @@
     <string name="MissingCommaTokenException">Falta coma (,) cerca de la linea \"%1$s\"</string>
     <string name="StrayCharacterException">Caracter extraviado en el programa: \"%1$s\"</string>
     <string name="StackOverflowException">Error por desbordamiento de pila.</string>
-    <string name="UnConvertibleTypeException">The expression or variable \"%1$s\" is of type \"%2$s\" which cannot be convert to the type \"%3$s\"</string>
-    <string name="WrongIfElseStatement">WRONG IF ELSE STATEMENT\n\n
-        Syntax: \"if condition then S1 else S2;\" \n\n
-        Where, S1 and S2 are different statements. Please note that the statement S1 is not followed by a \"semicolon\" (;).</string>
-    <string name="UnConvertibleTypeException2">The expression or variable \"%1$s\" is of type \"%2$s\" which cannot be convert to the type \"%3$s\" of expression or variable \"%4$s\"</string>
+    <string name="UnConvertibleTypeException">La expresion o variable \"%1$s\" es de tipo \"%2$s\", la cual no puede ser convertida al tipo  \"%3$s\"</string>
+    <string name="WrongIfElseStatement">SENTENCIA IF ELSE ERRONEA
+
+
+SIntaxIS: \"if condicion then S1 else S2;\" 
+
+
+Donde, S1y S2 son diferentes sentencias. Por favor note que la sentencia S1 no esta seguida por un punto y coma (;)</string>
+    <string name="UnConvertibleTypeException2">La expresion o variable \"%1$s\" es de tipo \"%2$s\" la cual no puede ser convertida a \"%3$s\" de la expresion o variable \"%4$s\"</string>
+    <string name="UnConvertibleTypeVariable">El valor de la expresion \"%1$s\" es \"%2$s\", el cual no puede ser convertido al tipo \"%3$s\" de la variable \"%4$s\"</string>
+    <string name="UnConvertibleTypeConstant">El tipo de expresion \"%1$s\" es \"%2$s\", el cual no puede ser convertido al tipo \"%3$s\" de la constante \"%3$s\"</string>
+    <string name="MissingTokenException">Falta token \"%1$s\"</string>
+    <string name="UnknownFunctionException">No se puede encontrar la funcion o procedimiento \"%1$s(%2$s)\"</string>
     <string name="ChangeValueConstantException">El valor guardado en una constante no puede ser cambiado.</string>
     <string name="missing_token_exception">Missing token \"%1$s\"</string>
 </resources>
