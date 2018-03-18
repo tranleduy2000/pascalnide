@@ -41,8 +41,8 @@ public class TypeConverter {
         PRECEDENCE.put(double.class, 2);
 
         //string
-        PRECEDENCE.put(String.class, 3);
-        PRECEDENCE.put(StringBuilder.class, 3);
+//        PRECEDENCE.put(String.class, 3);
+//        PRECEDENCE.put(StringBuilder.class, 3);
     }
 
     public static RuntimeValue autoConvert(Type outType, @Nullable RuntimeValue target, Type inType) {
