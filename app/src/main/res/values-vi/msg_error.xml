@@ -81,5 +81,6 @@
     <string name="UnConvertibleTypeVariable">Kiểu dữ liệu trả vê của biểu thức \"%1$s\" là \"%2$s\", không thể chuyển sang kiểu dữ liệu %3$s của biến %4$s</string>
     <string name="UnConvertibleTypeConstant">Kiểu dữ liệu trả vê của biểu thức \"%1$s\" là \"%2$s\", không thể chuyển sang kiểu dữ liệu  %3$s của hằng %4$s</string>
     <string name="NotAStatementException2">%1$s không phải là một lệnh.</string>
+    <string name="UnknownFunctionException">Không thể tìm thấy hàm \"%1$s(%2$s)\"</string>
 
 </resources>

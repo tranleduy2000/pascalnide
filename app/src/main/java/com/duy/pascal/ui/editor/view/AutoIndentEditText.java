@@ -197,6 +197,7 @@ class AutoIndentEditText extends AppCompatEditText {
         boolean dataBefore = false;
         int parenthesesCount = 0;
 
+
         for (; indexStart > -1; --indexStart) {
             char c = dest.charAt(indexStart);
             if (c == '\n')

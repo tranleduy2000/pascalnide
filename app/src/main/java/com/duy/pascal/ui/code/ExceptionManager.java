@@ -99,7 +99,7 @@ public class ExceptionManager {
         try {
             if (error == null) {
                 return new SpannableString("Unknown error");
-            } else if (this instanceof IRichFormatException) {
+            } else if (error instanceof IRichFormatException) {
                 return ((IRichFormatException) error).getFormattedMessage(mContext);
             } else {
                 return new SpannableString(error.getMessage());
